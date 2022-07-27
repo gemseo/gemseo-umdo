@@ -1,0 +1,22 @@
+{
+    "name": "UDOEScenario_input",
+    "required": ["algo"],
+    "properties": {
+        "eval_jac":{
+            "type": "boolean"
+        },
+        "algo": {
+            "type": "string"
+        },
+		"algo_options": {
+			"type": "object"
+		},
+		"n_samples": {
+        	"type" : "integer",
+        	"minimum":1
+        }
+    },
+    "$schema": "http://json-schema.org/draft-04/schema",
+    "type": "object",
+    "id": "#UDOEScenario_input"
+}

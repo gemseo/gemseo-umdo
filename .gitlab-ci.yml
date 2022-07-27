@@ -1,0 +1,87 @@
+default:
+  image: registry.gitlab.com/gemseo/dev/gemseo/multi-python
+
+# Stages executed sequentially until a job fails.
+stages:
+  - check
+  - tests
+
+workflow:
+  # Prevent duplicated pipelines,
+  # see https://docs.gitlab.com/14.3/ee/ci/yaml/index.html#switch-between-branch-pipelines-and-merge-request-pipelines.
+  rules:
+    - if: '$CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS && $CI_PIPELINE_SOURCE == "push"'
+      when: never
+    - when: always
+
+# Base job template.
+.base:
+  interruptible: true
+  script:
+    # Run a tox env named after a job name.
+    - tox -e $TOX_ENV_NAME
+
+check:
+  extends:
+    - .base
+  stage: check
+  tags:
+    - gemseo-docker
+  variables:
+    # Caches on the CI runner host.
+    PIP_CACHE_DIR: "/opt/gitlab-runner-cache/pip"
+    PRE_COMMIT_HOME: "$CI_PROJECT_DIR/.cache/pre-commit"
+    # Pass the cache locations through the tox env.
+    TOX_TESTENV_PASSENV: PIP_CACHE_DIR PRE_COMMIT_HOME
+    TOX_ENV_NAME: check
+
+tests:
+  extends: .base
+  stage: tests
+  variables:
+    COVERAGE_FILE: coverage.xml
+    # The junitxml is for showing the number of tests if gitlab UI.
+    # The term report is for providing data to the gitlab coverage keyword below.
+    PYTEST_ADDOPTS: --junitxml=report.xml --cov-report=term:skip-covered
+    TOX_TESTENV_PASSENV: PYTEST_ADDOPTS
+  artifacts:
+    # Send the artifacts even on job failure.
+    when: always
+    reports:
+      junit: report.xml
+      coverage_report:
+        coverage_format: cobertura
+        path: $COVERAGE_FILE
+  # To get the total coverage shown in gitlab UI.
+  coverage: '/(?i)total.*? (100(?:\.0+)?\%|[1-9]?\d(?:\.\d+)?\%)$/'
+  rules:
+    - if: '$TAG_SUFFIX == "docker"'
+      variables:
+        # Caches on the CI runner host.
+        PIP_CACHE_DIR: "/opt/gitlab-runner-cache/pip"
+    - if: '$TAG_SUFFIX == "windows-server-2012"'
+      variables:
+        # Caches on the CI runner host.
+        PIP_CACHE_DIR: "C:\\pip"
+    # Only run a test job when the following files have changed.
+    - changes:
+      - src/**/*.*
+      - tests/**/*.*
+      - requirements/test-python*.txt
+      - setup.cfg
+      - tox.ini
+      - .gitlab-ci.yml
+  parallel:
+    matrix:
+      - TAG_SUFFIX:
+          - docker
+          - windows-server-2012
+        TOX_ENV_NAME:
+          - py37-coverage
+          - py38-coverage
+          - py39-coverage
+          - py310-coverage
+  tags:
+    - gemseo-$TAG_SUFFIX
+  after_script:
+    - codecov -t $CODECOV_TOKEN -f $COVERAGE_FILE --required
