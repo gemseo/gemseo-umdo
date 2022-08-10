@@ -135,7 +135,7 @@ class Sampling(UMDOFormulation):
         Args:
             problem: The problem.
         """
-        with LoggingContext(LOGGER, logging.WARNING):
+        with LoggingContext(logging.getLogger(), logging.WARNING):
             self.__doe_algo.seed = self.__seed
             self.__doe_algo.execute(
                 problem, seed=self.__seed, **self.__doe_algo_options
