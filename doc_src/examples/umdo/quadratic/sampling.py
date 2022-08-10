@@ -70,7 +70,7 @@ scenario = UMDOScenario(
     uncertain_space,
     "Mean",
     statistic_estimation="Sampling",
-    statistic_estimation_options={"n_samples": 50},
+    statistic_estimation_parameters={"n_samples": 50},
 )
 
 # %%

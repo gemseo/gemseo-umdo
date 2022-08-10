@@ -91,7 +91,7 @@ def test_scenario(disciplines, design_space, uncertain_space, tmp_path):
         uncertain_space,
         "Mean",
         statistic_estimation="Sampling",
-        statistic_estimation_options={
+        statistic_estimation_parameters={
             "algo": "CustomDOE",
             "n_samples": None,
             "algo_options": {"samples": array([[0.0] * 3, [1.0] * 3])},

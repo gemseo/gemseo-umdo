@@ -31,6 +31,7 @@ Develop
 Changed
 -------
 
+- API change: the argument ``statistic_estimation_options`` of :class:`.UMDOFormulation` has been renamed to ``statistic_estimation_parameters``.
 - API change: :attr:`.UMDOFormulation._processed_functions` replaces :attr:`.Sampling.processed_functions`.
 
 Version 1.0.0 (July 2022)
