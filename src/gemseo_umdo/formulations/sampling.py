@@ -100,7 +100,6 @@ class Sampling(UMDOFormulation):
         self.__doe_algo = DOEFactory().create(algo)
         self.__doe_algo_options = algo_options or {}
         self.__doe_algo_options["n_samples"] = n_samples
-        self.__n_samples = n_samples
         self.processed_functions = []
         self.__seed = seed
         super().__init__(
@@ -122,7 +121,11 @@ class Sampling(UMDOFormulation):
     @property
     def _n_samples(self) -> int:
         """The number of samples."""
-        return self.__n_samples
+        return self.__doe_algo_options["n_samples"]
+
+    @_n_samples.setter
+    def _n_samples(self, value: int) -> None:
+        self.__doe_algo_options["n_samples"] = value
 
     @property
     def _algo(self) -> str:
