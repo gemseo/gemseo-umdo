@@ -203,9 +203,9 @@ def test_umdo_formulation_observable(umdo_formulation, mdo_samples):
 
 def test_clear_inner_database(umdo_formulation):
     """Check that the inner database is cleared before sampling."""
-    assert "f" not in umdo_formulation.processed_functions
+    assert "f" not in umdo_formulation._processed_functions
     obj_value = umdo_formulation.opt_problem.objective(array([0.0] * 3))
-    assert "f" in umdo_formulation.processed_functions
+    assert "f" in umdo_formulation._processed_functions
     # The inner problem depending on the uncertain variables is reset
     # when the outer problem changes the values of the design variables
     # to avoid recovering the data stored in the inner database

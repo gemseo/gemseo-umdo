@@ -58,6 +58,9 @@ LOGGER = logging.getLogger(__name__)
 class UMDOFormulation(BaseFormulation):
     """Base formulation of a multidisciplinary design problem under uncertainty."""
 
+    _processed_functions: list[str]
+    """The names of the functions whose statistics have been estimated."""
+
     _STATISTIC_FACTORY: ClassVar = BaseStatisticEstimatorFactory()
 
     def __init__(
@@ -118,8 +121,8 @@ class UMDOFormulation(BaseFormulation):
 
         self.opt_problem.objective.name = objective_name
         self.opt_problem.objective.special_repr = objective_expression
-
         self.name = f"{self.__class__.__name__}[{mdo_formulation.__class__.__name__}]"
+        self._processed_functions = []
 
     @property
     def mdo_formulation(self) -> MDOFormulation:

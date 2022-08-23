@@ -25,6 +25,13 @@ The format is based on
 and this project adheres to
 `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`_.
 
+Develop
+*******
+
+Changed
+-------
+
+- API change: :attr:`.UMDOFormulation._processed_functions` replaces :attr:`.Sampling.processed_functions`.
 
 Version 1.0.0 (July 2022)
 *************************
