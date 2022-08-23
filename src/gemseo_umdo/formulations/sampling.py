@@ -69,9 +69,6 @@ LOGGER = logging.getLogger(__name__)
 class Sampling(UMDOFormulation):
     """Sampling-based robust MDO formulation."""
 
-    processed_functions: list[str]
-    """The names of the functions whose statistics have been estimated."""
-
     _STATISTIC_FACTORY: ClassVar = SamplingEstimatorFactory()
 
     def __init__(
@@ -100,6 +97,7 @@ class Sampling(UMDOFormulation):
         self.__doe_algo = DOEFactory().create(algo)
         self.__doe_algo_options = algo_options or {}
         self.__doe_algo_options["n_samples"] = n_samples
+        self.__n_samples = n_samples
         self.processed_functions = []
         self.__seed = seed
         super().__init__(
@@ -148,8 +146,8 @@ class Sampling(UMDOFormulation):
         def _func(self, input_data: ndarray) -> ndarray:
             formulation = self._formulation
             problem = formulation.mdo_formulation.opt_problem
-            if self._function_name in formulation.processed_functions:
-                formulation.processed_functions = []
+            if self._function_name in formulation._processed_functions:
+                formulation._processed_functions = []
                 problem.reset()
 
             database = problem.database
@@ -157,7 +155,7 @@ class Sampling(UMDOFormulation):
                 formulation.update_top_level_disciplines(input_data)
                 formulation.compute_samples(problem)
 
-            formulation.processed_functions.append(self._function_name)
+            formulation._processed_functions.append(self._function_name)
             samples, _, _ = database.get_history_array(
                 [self._function_name], add_dv=False
             )
