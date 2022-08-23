@@ -211,3 +211,17 @@ def test_clear_inner_database(umdo_formulation):
     # to avoid recovering the data stored in the inner database
     # and force new evaluations of the functions attached to the inner problem.
     assert umdo_formulation.opt_problem.objective(array([1.0, 0.0, 0.0])) != obj_value
+
+
+def test_read_write_n_samples(umdo_formulation):
+    """Check the property and setter _n_samples."""
+    doe_algo_options = umdo_formulation._Sampling__doe_algo_options
+
+    # Sampling has been instantiated with `n_samples=None`.
+    assert umdo_formulation._n_samples is None
+    assert doe_algo_options["n_samples"] is None
+
+    # In the options of the DOE,
+    # the number of samples is set to 3 with the property _n_samples.
+    umdo_formulation._n_samples = 3
+    assert umdo_formulation._n_samples == doe_algo_options["n_samples"] == 3
