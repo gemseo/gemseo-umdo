@@ -66,7 +66,7 @@ class _UScenario(Scenario):
         objective_statistic_name: str,
         objective_statistic_parameters: Mapping[str, Any] | None = None,
         statistic_estimation: str = "Sampling",
-        statistic_estimation_options: Mapping[str, Any] | None = None,
+        statistic_estimation_parameters: Mapping[str, Any] | None = None,
         uncertain_design_variables: Mapping[str, str] | None = None,
         name: str | None = None,
         grammar_type: str = MDODiscipline.JSON_GRAMMAR_TYPE,
@@ -82,7 +82,7 @@ class _UScenario(Scenario):
                 to be applied to the objective,
                 e.g. ``{"factor": 2.}`` when ``objective_statistic="margin"``.
             statistic_estimation: The name of the method to estimate the statistic.
-            statistic_estimation_options: The options of ``statistic_estimation``.
+            statistic_estimation_parameters: The options of ``statistic_estimation``.
             uncertain_design_variables: The expressions of the uncertainties
                 applied to the design variables,
                 e.g. ``{"x": "{} + u"}``
@@ -96,12 +96,14 @@ class _UScenario(Scenario):
                 do not consider other variable relations
                 than those defined by ``disciplines``.
         """
-        if statistic_estimation_options is None:
-            statistic_estimation_options = {}
+        if statistic_estimation_parameters is None:
+            statistic_estimation_parameters = {}
 
         maximize_objective = formulation_options.get(self.__MAXIMIZE_OBJECTIVE)
         if maximize_objective is not None:
-            statistic_estimation_options[self.__MAXIMIZE_OBJECTIVE] = maximize_objective
+            statistic_estimation_parameters[
+                self.__MAXIMIZE_OBJECTIVE
+            ] = maximize_objective
 
         formulations_factory = MDOFormulationsFactory()
 
@@ -141,7 +143,7 @@ class _UScenario(Scenario):
             objective_statistic_name=objective_statistic_name,
             objective_statistic_parameters=objective_statistic_parameters,
             uncertain_space=uncertain_space,
-            **statistic_estimation_options,
+            **statistic_estimation_parameters,
         )
 
         self.formulation_name = self.formulation.name

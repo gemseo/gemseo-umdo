@@ -99,7 +99,7 @@ for i in range(10):
         uncertain_space,
         "Mean",
         statistic_estimation="Sampling",
-        statistic_estimation_options={
+        statistic_estimation_parameters={
             "algo": "OT_LHS",
             "n_samples": 100,
             "seed": i + 1,

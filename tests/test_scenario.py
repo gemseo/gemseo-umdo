@@ -82,7 +82,7 @@ def scenario(disciplines, design_space, uncertain_space) -> UMDOScenario:
         uncertain_space,
         "Mean",
         statistic_estimation="Sampling",
-        statistic_estimation_options={"algo": "OT_OPT_LHS", "n_samples": 3},
+        statistic_estimation_parameters={"algo": "OT_OPT_LHS", "n_samples": 3},
         inner_mda_name="MDAGaussSeidel",
     )
     scn.add_constraint("c", "Margin", factor=3.0)
@@ -146,7 +146,7 @@ def test_constraint_wrong_type(disciplines, design_space, uncertain_space):
         uncertain_space,
         "Mean",
         statistic_estimation="Sampling",
-        statistic_estimation_options={"algo": "OT_OPT_LHS", "n_samples": 3},
+        statistic_estimation_parameters={"algo": "OT_OPT_LHS", "n_samples": 3},
     )
     with pytest.raises(
         ValueError,
@@ -168,7 +168,7 @@ def test_maximize_objective(disciplines, design_space, uncertain_space):
         "Mean",
         maximize_objective=True,
         statistic_estimation="Sampling",
-        statistic_estimation_options={"algo": "OT_OPT_LHS", "n_samples": 3},
+        statistic_estimation_parameters={"algo": "OT_OPT_LHS", "n_samples": 3},
     )
     assert scn.formulation.opt_problem.minimize_objective is False
     assert scn.formulation.opt_problem.objective.name == "-E[f]"
@@ -185,7 +185,7 @@ def test_uncertain_design_variables(disciplines, design_space, uncertain_space):
         "Mean",
         uncertain_design_variables={"x0": "{}+v"},
         statistic_estimation="Sampling",
-        statistic_estimation_options={"algo": "OT_OPT_LHS", "n_samples": 3},
+        statistic_estimation_parameters={"algo": "OT_OPT_LHS", "n_samples": 3},
     )
     design_space = scn.design_space
     assert "x0" not in design_space
