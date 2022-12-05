@@ -39,6 +39,7 @@ from typing import Sequence
 
 from gemseo.algos.design_space import DesignSpace
 from gemseo.algos.doe.doe_factory import DOEFactory
+from gemseo.algos.doe.doe_lib import DOELibrary
 from gemseo.algos.opt_problem import OptimizationProblem
 from gemseo.algos.parameter_space import ParameterSpace
 from gemseo.core.discipline import MDODiscipline
@@ -112,8 +113,8 @@ class Sampling(UMDOFormulation):
         self.__doe_algo_options["n_samples"] = value
 
     @property
-    def _algo(self) -> str:
-        """The name of the DOE algorithm."""
+    def _algo(self) -> DOELibrary:
+        """The DOE algorithm."""
         return self.__doe_algo
 
     def compute_samples(self, problem: OptimizationProblem) -> None:
@@ -122,7 +123,7 @@ class Sampling(UMDOFormulation):
         Args:
             problem: The problem.
         """
-        with LoggingContext(logging.getLogger(), logging.WARNING):
+        with LoggingContext():
             self.__doe_algo.seed = self.__seed
             self.__doe_algo.execute(
                 problem, seed=self.__seed, **self.__doe_algo_options
