@@ -12,20 +12,6 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-# Copyright 2022 IRT Saint Exupéry, https://www.irt-saintexupery.com
-#
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU Lesser General Public
-# License version 3 as published by the Free Software Foundation.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-# Lesser General Public License for more details.
-#
-# You should have received a copy of the GNU Lesser General Public License
-# along with this program; if not, write to the Free Software Foundation,
-# Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 r"""Sampling for multidisciplinary design problems under uncertainty.
 
 :class:`~gemseo_umdo.formulations.sampling.Sampling` is an
@@ -53,6 +39,7 @@ from typing import Sequence
 
 from gemseo.algos.design_space import DesignSpace
 from gemseo.algos.doe.doe_factory import DOEFactory
+from gemseo.algos.doe.doe_lib import DOELibrary
 from gemseo.algos.opt_problem import OptimizationProblem
 from gemseo.algos.parameter_space import ParameterSpace
 from gemseo.core.discipline import MDODiscipline
@@ -68,9 +55,6 @@ LOGGER = logging.getLogger(__name__)
 
 class Sampling(UMDOFormulation):
     """Sampling-based robust MDO formulation."""
-
-    processed_functions: list[str]
-    """The names of the functions whose statistics have been estimated."""
 
     _STATISTIC_FACTORY: ClassVar = SamplingEstimatorFactory()
 
@@ -122,11 +106,15 @@ class Sampling(UMDOFormulation):
     @property
     def _n_samples(self) -> int:
         """The number of samples."""
-        return self.__n_samples
+        return self.__doe_algo_options["n_samples"]
+
+    @_n_samples.setter
+    def _n_samples(self, value: int) -> None:
+        self.__doe_algo_options["n_samples"] = value
 
     @property
-    def _algo(self) -> str:
-        """The name of the DOE algorithm."""
+    def _algo(self) -> DOELibrary:
+        """The DOE algorithm."""
         return self.__doe_algo
 
     def compute_samples(self, problem: OptimizationProblem) -> None:
@@ -135,7 +123,7 @@ class Sampling(UMDOFormulation):
         Args:
             problem: The problem.
         """
-        with LoggingContext(LOGGER, logging.WARNING):
+        with LoggingContext():
             self.__doe_algo.seed = self.__seed
             self.__doe_algo.execute(
                 problem, seed=self.__seed, **self.__doe_algo_options
@@ -145,8 +133,8 @@ class Sampling(UMDOFormulation):
         def _func(self, input_data: ndarray) -> ndarray:
             formulation = self._formulation
             problem = formulation.mdo_formulation.opt_problem
-            if self._function_name in formulation.processed_functions:
-                formulation.processed_functions = []
+            if self._function_name in formulation._processed_functions:
+                formulation._processed_functions = []
                 problem.reset()
 
             database = problem.database
@@ -154,7 +142,7 @@ class Sampling(UMDOFormulation):
                 formulation.update_top_level_disciplines(input_data)
                 formulation.compute_samples(problem)
 
-            formulation.processed_functions.append(self._function_name)
+            formulation._processed_functions.append(self._function_name)
             samples, _, _ = database.get_history_array(
                 [self._function_name], add_dv=False
             )

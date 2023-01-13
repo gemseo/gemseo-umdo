@@ -20,7 +20,7 @@ fastjsonschema==2.16.1
     # via gemseo
 fonttools==4.34.4
     # via matplotlib
-gemseo[all]==4.0.0
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@develop
     # via gemseo-umdo (setup.py)
 genson==1.2.2
     # via gemseo

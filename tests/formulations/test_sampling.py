@@ -12,20 +12,6 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-# Copyright 2022 IRT Saint Exupéry, https://www.irt-saintexupery.com
-#
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU Lesser General Public
-# License version 3 as published by the Free Software Foundation.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-# Lesser General Public License for more details.
-#
-# You should have received a copy of the GNU Lesser General Public License
-# along with this program; if not, write to the Free Software Foundation,
-# Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 from __future__ import annotations
 
 from typing import Sequence
@@ -91,7 +77,7 @@ def test_scenario(disciplines, design_space, uncertain_space, tmp_path):
         uncertain_space,
         "Mean",
         statistic_estimation="Sampling",
-        statistic_estimation_options={
+        statistic_estimation_parameters={
             "algo": "CustomDOE",
             "n_samples": None,
             "algo_options": {"samples": array([[0.0] * 3, [1.0] * 3])},
@@ -203,11 +189,25 @@ def test_umdo_formulation_observable(umdo_formulation, mdo_samples):
 
 def test_clear_inner_database(umdo_formulation):
     """Check that the inner database is cleared before sampling."""
-    assert "f" not in umdo_formulation.processed_functions
+    assert "f" not in umdo_formulation._processed_functions
     obj_value = umdo_formulation.opt_problem.objective(array([0.0] * 3))
-    assert "f" in umdo_formulation.processed_functions
+    assert "f" in umdo_formulation._processed_functions
     # The inner problem depending on the uncertain variables is reset
     # when the outer problem changes the values of the design variables
     # to avoid recovering the data stored in the inner database
     # and force new evaluations of the functions attached to the inner problem.
     assert umdo_formulation.opt_problem.objective(array([1.0, 0.0, 0.0])) != obj_value
+
+
+def test_read_write_n_samples(umdo_formulation):
+    """Check the property and setter _n_samples."""
+    doe_algo_options = umdo_formulation._Sampling__doe_algo_options
+
+    # Sampling has been instantiated with `n_samples=None`.
+    assert umdo_formulation._n_samples is None
+    assert doe_algo_options["n_samples"] is None
+
+    # In the options of the DOE,
+    # the number of samples is set to 3 with the property _n_samples.
+    umdo_formulation._n_samples = 3
+    assert umdo_formulation._n_samples == doe_algo_options["n_samples"] == 3

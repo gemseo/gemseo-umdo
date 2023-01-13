@@ -12,20 +12,6 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-# Copyright 2022 IRT Saint Exupéry, https://www.irt-saintexupery.com
-#
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU Lesser General Public
-# License version 3 as published by the Free Software Foundation.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-# Lesser General Public License for more details.
-#
-# You should have received a copy of the GNU Lesser General Public License
-# along with this program; if not, write to the Free Software Foundation,
-# Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 """Formulate a multidisciplinary design problem under uncertainty."""
 from __future__ import annotations
 
@@ -57,6 +43,9 @@ LOGGER = logging.getLogger(__name__)
 
 class UMDOFormulation(BaseFormulation):
     """Base formulation of a multidisciplinary design problem under uncertainty."""
+
+    _processed_functions: list[str]
+    """The names of the functions whose statistics have been estimated."""
 
     _STATISTIC_FACTORY: ClassVar = BaseStatisticEstimatorFactory()
 
@@ -118,8 +107,8 @@ class UMDOFormulation(BaseFormulation):
 
         self.opt_problem.objective.name = objective_name
         self.opt_problem.objective.special_repr = objective_expression
-
         self.name = f"{self.__class__.__name__}[{mdo_formulation.__class__.__name__}]"
+        self._processed_functions = []
 
     @property
     def mdo_formulation(self) -> MDOFormulation:
@@ -208,11 +197,9 @@ class UMDOFormulation(BaseFormulation):
 
     def _post_add_constraint(self):
         """Apply actions after adding a constraint."""
-        pass
 
     def _post_add_observable(self):
         """Apply actions after adding an observable."""
-        pass
 
     def __compute_name(
         self,
