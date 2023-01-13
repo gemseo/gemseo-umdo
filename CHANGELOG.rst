@@ -25,6 +25,14 @@ The format is based on
 and this project adheres to
 `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`_.
 
+Version 1.0.1 (January 2023)
+****************************
+
+Changed
+-------
+
+- API change: the argument ``statistic_estimation_options`` of :class:`.UMDOFormulation` has been renamed to ``statistic_estimation_parameters``.
+- API change: :attr:`.UMDOFormulation._processed_functions` replaces :attr:`.Sampling.processed_functions`.
 
 Version 1.0.0 (July 2022)
 *************************

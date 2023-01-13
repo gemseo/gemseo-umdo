@@ -12,20 +12,6 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-# Copyright 2022 IRT Saint Exupéry, https://www.irt-saintexupery.com
-#
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU Lesser General Public
-# License version 3 as published by the Free Software Foundation.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-# Lesser General Public License for more details.
-#
-# You should have received a copy of the GNU Lesser General Public License
-# along with this program; if not, write to the Free Software Foundation,
-# Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 from __future__ import annotations
 
 import re
@@ -82,7 +68,7 @@ def scenario(disciplines, design_space, uncertain_space) -> UMDOScenario:
         uncertain_space,
         "Mean",
         statistic_estimation="Sampling",
-        statistic_estimation_options={"algo": "OT_OPT_LHS", "n_samples": 3},
+        statistic_estimation_parameters={"algo": "OT_OPT_LHS", "n_samples": 3},
         inner_mda_name="MDAGaussSeidel",
     )
     scn.add_constraint("c", "Margin", factor=3.0)
@@ -146,7 +132,7 @@ def test_constraint_wrong_type(disciplines, design_space, uncertain_space):
         uncertain_space,
         "Mean",
         statistic_estimation="Sampling",
-        statistic_estimation_options={"algo": "OT_OPT_LHS", "n_samples": 3},
+        statistic_estimation_parameters={"algo": "OT_OPT_LHS", "n_samples": 3},
     )
     with pytest.raises(
         ValueError,
@@ -168,7 +154,7 @@ def test_maximize_objective(disciplines, design_space, uncertain_space):
         "Mean",
         maximize_objective=True,
         statistic_estimation="Sampling",
-        statistic_estimation_options={"algo": "OT_OPT_LHS", "n_samples": 3},
+        statistic_estimation_parameters={"algo": "OT_OPT_LHS", "n_samples": 3},
     )
     assert scn.formulation.opt_problem.minimize_objective is False
     assert scn.formulation.opt_problem.objective.name == "-E[f]"
@@ -185,7 +171,7 @@ def test_uncertain_design_variables(disciplines, design_space, uncertain_space):
         "Mean",
         uncertain_design_variables={"x0": "{}+v"},
         statistic_estimation="Sampling",
-        statistic_estimation_options={"algo": "OT_OPT_LHS", "n_samples": 3},
+        statistic_estimation_parameters={"algo": "OT_OPT_LHS", "n_samples": 3},
     )
     design_space = scn.design_space
     assert "x0" not in design_space
