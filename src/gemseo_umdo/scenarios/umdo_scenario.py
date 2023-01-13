@@ -29,5 +29,3 @@ class UMDOScenario(_UScenario, MDOScenario):
     """An optimizer-based scenario for multidisciplinary design under uncertainty."""
 
     GRAMMAR_DIRECTORY = Path(__file__) / "umdo"
-
-    pass

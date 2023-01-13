@@ -80,8 +80,6 @@ class _StatisticFunction(MDOFunction):
 class MyUMDOFormulation(UMDOFormulation):
     """A dummy UMDOFormulation."""
 
-    pass
-
 
 MyUMDOFormulation._StatisticFunction = _StatisticFunction
 MyUMDOFormulation._STATISTIC_FACTORY = SamplingEstimatorFactory()

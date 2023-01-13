@@ -29,5 +29,3 @@ class UDOEScenario(_UScenario, DOEScenario):
     """A DOE-based scenario for multidisciplinary design under uncertainty."""
 
     GRAMMAR_DIRECTORY = Path(__file__) / "udoe"
-
-    pass
