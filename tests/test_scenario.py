@@ -76,6 +76,11 @@ def scenario(disciplines, design_space, uncertain_space) -> UMDOScenario:
     return scn
 
 
+def test_disciplines_copy(scenario, disciplines):
+    """Check that the _UScenario works on a copy of the sequence of disciplines."""
+    assert id(scenario.disciplines) != id(disciplines)
+
+
 def test_available_statistics(scenario):
     """Check the property returning the names of the available statistics."""
     expected = set(scenario.formulation.available_statistics)
@@ -179,3 +184,28 @@ def test_uncertain_design_variables(disciplines, design_space, uncertain_space):
     discipline = scn.mdo_formulation.disciplines[-1]
     assert discipline.name == "Design Uncertainties"
     assert discipline.expressions == {"x0": "dv_x0+v"}
+    assert len(scn.disciplines) == len(disciplines) + 1
+    for index, discipline in enumerate(disciplines):
+        assert id(scn.disciplines[index]) == id(discipline)
+
+
+def test_statistic_no_estimation_parameters(disciplines, design_space, uncertain_space):
+    """Check that a TypeError is raised when estimation parameters are missing.
+
+    The default UMDOFormulation is "Sampling" whose "n_samples" argument is mandatory.
+    """
+    with pytest.raises(
+        TypeError,
+        match=re.escape(
+            "__init__() missing 1 required positional argument: 'n_samples'"
+        ),
+    ):
+        UMDOScenario(
+            disciplines,
+            "MDF",
+            "f",
+            design_space,
+            uncertain_space,
+            "Mean",
+            maximize_objective=True,
+        )

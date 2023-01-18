@@ -33,6 +33,11 @@ Added
 
 - :class:`.SpringMassModel`, :class:`.SpringMassDiscipline` and :class:`.SpringMassUncertainSpace` is a use case based on a spring-mass system.
 
+Fixed
+-----
+
+- The :class:`._UScenario` no longer changes the list of disciplines passed by the user.
+
 Version 1.1.0 (January 2023)
 ****************************
 

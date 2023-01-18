@@ -82,6 +82,8 @@ class _UScenario(Scenario):
                 do not consider other variable relations
                 than those defined by ``disciplines``.
         """
+        all_disciplines = [discipline for discipline in disciplines]
+
         if statistic_estimation_parameters is None:
             statistic_estimation_parameters = {}
 
@@ -100,11 +102,13 @@ class _UScenario(Scenario):
                 design_space.rename_variable(dv_name, new_dv_name)
                 expressions[dv_name] = expression.replace(self.__DV_TAG, new_dv_name)
 
-            disciplines.append(AnalyticDiscipline(expressions, "Design Uncertainties"))
+            all_disciplines.append(
+                AnalyticDiscipline(expressions, "Design Uncertainties")
+            )
 
         mdo_formulation = formulations_factory.create(
             formulation,
-            disciplines,
+            all_disciplines,
             objective_name,
             uncertain_space,
             grammar_type=grammar_type,
@@ -113,14 +117,14 @@ class _UScenario(Scenario):
 
         filtered_design_space = formulations_factory.create(
             formulation,
-            disciplines,
+            all_disciplines,
             objective_name,
             design_space,
             **formulation_options,
         ).design_space
 
         super().__init__(
-            disciplines,
+            all_disciplines,
             statistic_estimation,
             objective_name,
             filtered_design_space,
