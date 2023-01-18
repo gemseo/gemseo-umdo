@@ -28,6 +28,14 @@ and this project adheres to
 Develop
 *******
 
+Added
+-----
+
+- :class:`.SpringMassModel`, :class:`.SpringMassDiscipline` and :class:`.SpringMassUncertainSpace` is a use case based on a spring-mass system.
+
+Version 1.1.0 (January 2023)
+****************************
+
 Changed
 -------
 
