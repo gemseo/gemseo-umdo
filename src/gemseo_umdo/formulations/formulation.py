@@ -197,11 +197,9 @@ class UMDOFormulation(BaseFormulation):
 
     def _post_add_constraint(self):
         """Apply actions after adding a constraint."""
-        pass
 
     def _post_add_observable(self):
         """Apply actions after adding an observable."""
-        pass
 
     def __compute_name(
         self,

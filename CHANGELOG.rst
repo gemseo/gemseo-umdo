@@ -25,8 +25,8 @@ The format is based on
 and this project adheres to
 `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`_.
 
-Develop
-*******
+Version 1.0.2 (February 2023)
+*****************************
 
 Added
 -----
@@ -38,7 +38,7 @@ Fixed
 
 - The :class:`._UScenario` no longer changes the list of disciplines passed by the user.
 
-Version 1.1.0 (January 2023)
+Version 1.0.1 (January 2023)
 ****************************
 
 Changed
