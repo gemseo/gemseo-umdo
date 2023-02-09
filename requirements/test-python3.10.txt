@@ -14,7 +14,7 @@ contourpy==1.0.7
     # via matplotlib
 covdefaults==2.2.2
     # via gemseo-umdo (setup.py)
-coverage[toml]==7.0.5
+coverage[toml]==7.1.0
     # via
     #   covdefaults
     #   pytest-cov
@@ -34,7 +34,7 @@ fastjsonschema==2.16.2
     # via gemseo
 fonttools==4.38.0
     # via matplotlib
-gemseo[all]==4.2.0
+gemseo[all]==4.3.0
     # via gemseo-umdo (setup.py)
 genson==1.2.2
     # via gemseo
@@ -52,7 +52,7 @@ joblib==1.2.0
     # via scikit-learn
 kiwisolver==1.4.4
     # via matplotlib
-markupsafe==2.1.1
+markupsafe==2.1.2
     # via jinja2
 matplotlib==3.6.2
     # via
@@ -109,20 +109,20 @@ pyside6-addons==6.3.1
     # via pyside6
 pyside6-essentials==6.3.1
     # via pyside6
-pytest==7.2.0
+pytest==7.2.1
     # via
     #   gemseo-umdo (setup.py)
     #   pytest-cov
     #   pytest-xdist
 pytest-cov==4.0.0
     # via gemseo-umdo (setup.py)
-pytest-xdist==3.1.0
+pytest-xdist==3.2.0
     # via gemseo-umdo (setup.py)
 python-dateutil==2.8.2
     # via
     #   matplotlib
     #   pandas
-pytz==2022.7
+pytz==2022.7.1
     # via pandas
 pyxdsm==2.2.2
     # via gemseo

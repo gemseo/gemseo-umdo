@@ -25,6 +25,19 @@ The format is based on
 and this project adheres to
 `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`_.
 
+Version 1.0.2 (February 2023)
+*****************************
+
+Added
+-----
+
+- :class:`.SpringMassModel`, :class:`.SpringMassDiscipline` and :class:`.SpringMassUncertainSpace` is a use case based on a spring-mass system.
+
+Fixed
+-----
+
+- The :class:`._UScenario` no longer changes the list of disciplines passed by the user.
+
 Version 1.0.1 (January 2023)
 ****************************
 
