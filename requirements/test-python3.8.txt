@@ -108,7 +108,9 @@ pyside6==6.3.1
 pyside6-addons==6.3.1
     # via pyside6
 pyside6-essentials==6.3.1
-    # via pyside6
+    # via
+    #   pyside6
+    #   pyside6-addons
 pytest==7.2.1
     # via
     #   gemseo-umdo (setup.py)
@@ -136,7 +138,10 @@ scipy==1.9.1
     #   pydoe2
     #   scikit-learn
 shiboken6==6.3.1
-    # via pyside6
+    # via
+    #   pyside6
+    #   pyside6-addons
+    #   pyside6-essentials
 six==1.16.0
     # via python-dateutil
 sympy==1.11.1
@@ -149,7 +154,7 @@ tomli==2.0.1
     #   pytest
 tqdm==4.64.1
     # via gemseo
-typing-extensions==4.4.0
+typing-extensions==4.5.0
     # via gemseo
 urllib3==1.26.14
     # via requests
