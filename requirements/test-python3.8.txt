@@ -12,9 +12,9 @@ charset-normalizer==3.0.1
     # via requests
 contourpy==1.0.7
     # via matplotlib
-covdefaults==2.2.2
+covdefaults==2.3.0
     # via gemseo-umdo (setup.py)
-coverage[toml]==7.2.0
+coverage[toml]==7.2.1
     # via
     #   covdefaults
     #   pytest-cov
@@ -111,7 +111,7 @@ pyside6-essentials==6.3.1
     # via
     #   pyside6
     #   pyside6-addons
-pytest==7.2.1
+pytest==7.2.2
     # via
     #   gemseo-umdo (setup.py)
     #   pytest-cov
