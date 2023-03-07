@@ -8,7 +8,7 @@ attrs==22.2.0
     # via pytest
 certifi==2022.12.7
     # via requests
-charset-normalizer==3.0.1
+charset-normalizer==3.1.0
     # via requests
 covdefaults==2.3.0
     # via gemseo-umdo (setup.py)
