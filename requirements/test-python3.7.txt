@@ -61,7 +61,7 @@ matplotlib==3.5.3
     # via
     #   gemseo
     #   gemseo-umdo (setup.py)
-mpmath==1.2.1
+mpmath==1.3.0
     # via sympy
 networkx==2.6.3
     # via gemseo
