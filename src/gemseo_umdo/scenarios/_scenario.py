@@ -28,7 +28,7 @@ from gemseo.core.mdofunctions.mdo_function import MDOFunction
 from gemseo.core.scenario import Scenario
 from gemseo.disciplines.analytic import AnalyticDiscipline
 from gemseo.formulations.formulations_factory import MDOFormulationsFactory
-from gemseo.utils.python_compatibility import Final
+from gemseo.utils.compatibility.python import Final
 
 from gemseo_umdo.formulations.factory import UMDOFormulationsFactory
 
