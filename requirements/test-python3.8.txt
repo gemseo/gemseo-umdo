@@ -103,14 +103,6 @@ pyparsing==3.0.9
     # via
     #   matplotlib
     #   packaging
-pyside6==6.3.1
-    # via gemseo
-pyside6-addons==6.3.1
-    # via pyside6
-pyside6-essentials==6.3.1
-    # via
-    #   pyside6
-    #   pyside6-addons
 pytest==7.2.2
     # via
     #   gemseo-umdo (setup.py)
@@ -137,11 +129,6 @@ scipy==1.10.1
     #   gemseo
     #   pydoe2
     #   scikit-learn
-shiboken6==6.3.1
-    # via
-    #   pyside6
-    #   pyside6-addons
-    #   pyside6-essentials
 six==1.16.0
     # via python-dateutil
 sympy==1.11.1
@@ -156,7 +143,7 @@ tqdm==4.64.1
     # via gemseo
 typing-extensions==4.5.0
     # via gemseo
-urllib3==1.26.14
+urllib3==1.26.15
     # via requests
 xdsmjs==1.0.1
     # via gemseo
