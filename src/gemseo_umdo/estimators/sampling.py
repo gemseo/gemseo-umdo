@@ -59,7 +59,7 @@ class Mean(SamplingEstimator):
 class Variance(SamplingEstimator):
     """Estimator of the variance."""
 
-    def __call__(self, samples: ndarray, **kwargs) -> float | ndarray:
+    def __call__(self, samples: ndarray, **kwargs: Any) -> float | ndarray:
         """# noqa: D205 D212 D415
         Args:
             samples: The output evaluations arranged in rows.
@@ -92,7 +92,7 @@ class Probability(SamplingEstimator):
 class StandardDeviation(Variance):
     """Estimator of the standard deviation."""
 
-    def __call__(self, samples: ndarray, **kwargs) -> float | ndarray:
+    def __call__(self, samples: ndarray, **kwargs: Any) -> float | ndarray:
         """# noqa: D205 D212 D415
         Args:
             samples: The output evaluations arranged in rows.
@@ -112,7 +112,7 @@ class Margin(SamplingEstimator):
         self,
         samples: ndarray,
         factor: float = 2.0,
-        **kwargs,
+        **kwargs: Any,
     ) -> float | ndarray:
         """# noqa: D205 D212 D415
         Args:

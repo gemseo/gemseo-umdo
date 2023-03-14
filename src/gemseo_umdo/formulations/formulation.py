@@ -165,7 +165,7 @@ class UMDOFormulation(BaseFormulation):
         constraint_name: str | None = None,
         value: float | None = None,
         positive: bool = False,
-        **statistic_parameters,
+        **statistic_parameters: Any,
     ) -> None:
         """# noqa: D205 D212 D415
         Args:
@@ -195,10 +195,10 @@ class UMDOFormulation(BaseFormulation):
         )
         self._post_add_constraint()
 
-    def _post_add_constraint(self):
+    def _post_add_constraint(self) -> None:
         """Apply actions after adding a constraint."""
 
-    def _post_add_observable(self):
+    def _post_add_observable(self) -> None:
         """Apply actions after adding an observable."""
 
     def __compute_name(
