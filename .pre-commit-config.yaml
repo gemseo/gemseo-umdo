@@ -23,7 +23,7 @@ repos:
     - id: rst-inline-touching-normal
 
 - repo: https://github.com/PyCQA/autoflake
-  rev: v2.0.1
+  rev: v2.0.2
   hooks:
     - id: autoflake
       args: [
@@ -40,21 +40,17 @@ repos:
       args: [
         --application-directories,
         src,
-        --py37-plus,
+        --py38-plus,
         --add-import,
         "from __future__ import annotations",
-        --replace-import,
-        "typing=gemseo.utils.python_compatibility:Final"
       ]
     - id: reorder-python-imports
       name: reorder python imports out of src
       exclude: ^src
       args: [
-        --py37-plus,
+        --py38-plus,
         --add-import,
         "from __future__ import annotations",
-        --replace-import,
-        "typing=gemseo.utils.python_compatibility:Final"
       ]
 
 - repo: https://github.com/myint/docformatter
@@ -73,7 +69,7 @@ repos:
   rev: v3.3.1
   hooks:
     - id: pyupgrade
-      args: [--py37-plus]
+      args: [--py38-plus]
 
 - repo: https://github.com/psf/black
   rev: 23.1.0
@@ -85,7 +81,8 @@ repos:
   hooks:
     - id: flake8
       additional_dependencies:
-        - flake8-bugbear==23.2.13
+        - flake8-annotations==3.0.0
+        - flake8-bugbear==23.3.12
         - flake8-docstrings==1.7.0
         - flake8-logging-format==0.9.0
         - flake8-print==5.0.0
@@ -96,6 +93,19 @@ repos:
   hooks:
     - id: commitizen
       stages: [commit-msg]
+
+- repo: https://github.com/kynan/nbstripout
+  rev: 0.6.1
+  hooks:
+    - id: nbstripout
+
+- repo: https://github.com/nbQA-dev/nbQA
+  rev: 1.6.3
+  hooks:
+    - id: nbqa-black
+    - id: nbqa-pyupgrade
+      args: [ "--py38-plus" ]
+    - id: nbqa-autopep8
 
 - repo: https://github.com/Lucas-C/pre-commit-hooks
   rev: v1.4.2
