@@ -15,8 +15,9 @@
 """The spring-mass model use case."""
 from __future__ import annotations
 
+from typing import Final
+
 from gemseo.core.discipline import MDODiscipline
-from gemseo.utils.compatibility.python import Final
 from numpy import array
 
 from gemseo_umdo.use_cases.spring_mass_model.model import SpringMassModel

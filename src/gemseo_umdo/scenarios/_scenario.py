@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import logging
 from typing import Any
+from typing import Final
 from typing import Mapping
 from typing import Sequence
 
@@ -28,7 +29,6 @@ from gemseo.core.mdofunctions.mdo_function import MDOFunction
 from gemseo.core.scenario import Scenario
 from gemseo.disciplines.analytic import AnalyticDiscipline
 from gemseo.formulations.formulations_factory import MDOFormulationsFactory
-from gemseo.utils.compatibility.python import Final
 
 from gemseo_umdo.formulations.factory import UMDOFormulationsFactory
 
