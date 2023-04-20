@@ -15,28 +15,29 @@
 """Base estimator of statistic associated with a U-MDO formulation."""
 from __future__ import annotations
 
+from abc import ABC
 from abc import abstractmethod
 from typing import Any
 from typing import TYPE_CHECKING
 
-from gemseo.core.factory import Factory
+from gemseo.core.base_factory import BaseFactory
 from numpy import ndarray
 
 if TYPE_CHECKING:
     from gemseo_umdo.formulations.formulation import UMDOFormulation
 
 
-class BaseStatisticEstimator:
+class BaseStatisticEstimator(ABC):
     """The base estimator of statistics associated with a U-MDO formulation."""
 
     _formulation: UMDOFormulation
     """The U-MDO formulation."""
 
     def __init__(self, formulation: UMDOFormulation) -> None:
-        """# noqa: D205 D212 D415
+        """
         Args:
             formulation: The U-MDO formulation.
-        """
+        """  # noqa: D205 D212 D415
         self._formulation = formulation
 
     @abstractmethod
@@ -44,15 +45,11 @@ class BaseStatisticEstimator:
         ...
 
 
-class BaseStatisticEstimatorFactory(Factory):
+class BaseStatisticEstimatorFactory(BaseFactory):
     """The factory of :class:`.BaseStatisticEstimator`."""
 
-    def __init__(self, cls: type = BaseStatisticEstimator) -> None:
-        """# noqa: D205 D212 D415
-        Args:
-            cls: The class of statistic estimators.
-        """
-        super().__init__(cls, ("gemseo_umdo.estimators",))
+    _CLASS = BaseStatisticEstimator
+    _MODULE_NAMES = ("gemseo_umdo.estimators",)
 
     def create(
         self,
@@ -67,4 +64,4 @@ class BaseStatisticEstimatorFactory(Factory):
             formulation: The U-MDO formulation.
             **options: The options of the statistic estimator.
         """
-        return self.factory.create(name, formulation=formulation, **options)
+        return self.create(name, formulation=formulation, **options)

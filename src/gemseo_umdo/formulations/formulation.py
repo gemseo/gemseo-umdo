@@ -26,6 +26,7 @@ from typing import Sequence
 
 from gemseo.algos.design_space import DesignSpace
 from gemseo.algos.parameter_space import ParameterSpace
+from gemseo.core.base_factory import BaseFactory
 from gemseo.core.base_formulation import BaseFormulation
 from gemseo.core.discipline import MDODiscipline
 from gemseo.core.execution_sequence import ExecutionSequence
@@ -47,7 +48,7 @@ class UMDOFormulation(BaseFormulation):
     _processed_functions: list[str]
     """The names of the functions whose statistics have been estimated."""
 
-    _STATISTIC_FACTORY: ClassVar = BaseStatisticEstimatorFactory()
+    _STATISTIC_FACTORY: ClassVar[BaseFactory] = BaseStatisticEstimatorFactory()
 
     def __init__(
         self,
@@ -59,10 +60,10 @@ class UMDOFormulation(BaseFormulation):
         objective_statistic_name: str,
         objective_statistic_parameters: Mapping[str, Any] | None = None,
         maximize_objective: bool = False,
-        grammar_type: str = MDODiscipline.JSON_GRAMMAR_TYPE,
+        grammar_type: MDODiscipline.GrammarType = MDODiscipline.GrammarType.JSON,
         **options: Any,
     ) -> None:
-        """# noqa: D205 D212 D415
+        """
         Args:
             mdo_formulation: The class name of the MDO formulation, e.g. "MDF".
             uncertain_space: The uncertain variables
@@ -71,9 +72,9 @@ class UMDOFormulation(BaseFormulation):
                 to be applied to the objective.
             objective_statistic_parameters: The values of the parameters
                 of the statistic to be applied to the objective, if any.
-        """
-        design_variables = ", ".join(design_space.variables_names)
-        uncertain_variables = ", ".join(uncertain_space.variables_names)
+        """  # noqa: D205 D212 D415
+        design_variables = ", ".join(design_space.variable_names)
+        uncertain_variables = ", ".join(uncertain_space.variable_names)
         self.__signature = f"({design_variables}; {uncertain_variables})"
         if objective_statistic_parameters is None:
             objective_statistic_parameters = {}
@@ -93,11 +94,11 @@ class UMDOFormulation(BaseFormulation):
             grammar_type=grammar_type,
             **options,
         )
-        self.__available_statistics = self._STATISTIC_FACTORY.classes
+        self.__available_statistics = self._STATISTIC_FACTORY.class_names
         self.opt_problem.objective = self._StatisticFunction(
             self,
             self._mdo_formulation.opt_problem.objective,
-            MDOFunction.TYPE_OBJ,
+            MDOFunction.FunctionType.OBJ,
             objective_statistic_name,
             **objective_statistic_parameters,
         )
@@ -133,12 +134,12 @@ class UMDOFormulation(BaseFormulation):
         discipline: MDODiscipline | None = None,
         **statistic_parameters: Any,
     ) -> None:
-        """# noqa: D205 D212 D415
+        """
         Args:
             statistic_name: The name of the statistic to be applied to the observable.
             statistic_parameters: The values of the parameters
                 of the statistic to be applied to the observable, if any.
-        """
+        """  # noqa: D205 D212 D415
         self._mdo_formulation.add_observable(
             output_names,
             observable_name=observable_name,
@@ -161,18 +162,18 @@ class UMDOFormulation(BaseFormulation):
         self,
         output_name: str | Sequence[str],
         statistic_name: str,
-        constraint_type: str = MDOFunction.TYPE_INEQ,
+        constraint_type: str = MDOFunction.ConstraintType.INEQ,
         constraint_name: str | None = None,
         value: float | None = None,
         positive: bool = False,
         **statistic_parameters: Any,
     ) -> None:
-        """# noqa: D205 D212 D415
+        """
         Args:
             statistic_name: The name of the statistic to be applied to the constraint.
             statistic_parameters: The values of the parameters of the statistic
                 to be applied to the constraint, if any.
-        """
+        """  # noqa: D205 D212 D415
         self._mdo_formulation.add_constraint(
             output_name,
             constraint_name=constraint_name,
@@ -241,8 +242,8 @@ class UMDOFormulation(BaseFormulation):
         """
         design_values = split_array_to_dict_of_arrays(
             design_values,
-            self.design_space.variables_sizes,
-            self.design_space.variables_names,
+            self.design_space.variable_sizes,
+            self.design_space.variable_names,
         )
         for discipline in self._mdo_formulation.get_top_level_disc():
             discipline.default_inputs.update(design_values)
@@ -283,14 +284,14 @@ class UMDOFormulation(BaseFormulation):
             name: str,
             **parameters: Any,
         ) -> None:
-            """# noqa: D205 D212 D415
+            """
             Args:
                 formulation: The U-MDO formulation.
                 func: The function for which to calculate the statistic.
                 function_type: The type of function.
                 name: The name of the statistic.
                 **parameters: The parameters of the statistic.
-            """
+            """  # noqa: D205 D212 D415
             self._estimate_statistic = formulation._STATISTIC_FACTORY.create(
                 name, formulation=formulation
             )

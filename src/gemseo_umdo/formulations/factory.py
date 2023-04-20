@@ -15,7 +15,6 @@
 """Formulate a multidisciplinary design problem under uncertainty."""
 from __future__ import annotations
 
-from gemseo.core.factory import Factory
 from gemseo.formulations.formulations_factory import MDOFormulationsFactory
 
 from gemseo_umdo.formulations.formulation import UMDOFormulation
@@ -24,6 +23,5 @@ from gemseo_umdo.formulations.formulation import UMDOFormulation
 class UMDOFormulationsFactory(MDOFormulationsFactory):
     """The factory of :class:`.UMDOFormulation`."""
 
-    def __init__(self) -> None:  # noqa: D107
-        super().__init__()
-        self.factory = Factory(UMDOFormulation, ("gemseo_umdo.formulations",))
+    _CLASS = UMDOFormulation
+    _MODULE_NAMES = ("gemseo_umdo.formulations",)

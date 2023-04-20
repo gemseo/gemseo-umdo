@@ -86,10 +86,10 @@ def test_scenario(disciplines, design_space, uncertain_space, tmp_path):
     scn.add_constraint("c", "Margin", factor=3.0)
     scn.add_observable("o", "Variance")
     file_path = tmp_path / "scenario.h5"
-    scn.serialize(file_path)
+    scn.to_pickle(file_path)
     algo_data = {"algo": "CustomDOE", "algo_options": {"samples": array([[0.0] * 3])}}
     scn.execute(algo_data)
-    saved_scn = UDOEScenario.deserialize(file_path)
+    saved_scn = UDOEScenario.from_pickle(file_path)
     saved_scn.execute(algo_data)
     assert_equal(scn.optimization_result.x_opt, array([0.0] * 3))
     assert scn.optimization_result.f_opt == -2.0
