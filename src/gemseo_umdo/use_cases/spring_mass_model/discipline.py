@@ -55,8 +55,10 @@ class SpringMassDiscipline(MDODiscipline):
             gravity: The gravity acceleration.
         """  # noqa: D205 D212 D415
         super().__init__(name=f"{self.__class__.__name__}({time_step})")
-        self.input_grammar.update([self.__STIFFNESS])
-        self.output_grammar.update([self.__MAX_DISPLACEMENT, self.__DISPLACEMENT])
+        self.input_grammar.update_from_names([self.__STIFFNESS])
+        self.output_grammar.update_from_names(
+            [self.__MAX_DISPLACEMENT, self.__DISPLACEMENT]
+        )
         self.__model = SpringMassModel(
             mass=mass,
             initial_state=initial_state,

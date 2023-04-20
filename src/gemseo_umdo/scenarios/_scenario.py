@@ -55,10 +55,10 @@ class _UScenario(Scenario):
         statistic_estimation_parameters: Mapping[str, Any] | None = None,
         uncertain_design_variables: Mapping[str, str] | None = None,
         name: str | None = None,
-        grammar_type: str = MDODiscipline.JSON_GRAMMAR_TYPE,
+        grammar_type: MDODiscipline.GrammarType = MDODiscipline.GrammarType.JSON,
         **formulation_options: Any,
     ) -> None:
-        """# noqa: D205 D212 D415
+        """
         Args:
             uncertain_space: The uncertain variables
                 with their probability distributions.
@@ -81,7 +81,7 @@ class _UScenario(Scenario):
                 If ``None``,
                 do not consider other variable relations
                 than those defined by ``disciplines``.
-        """
+        """  # noqa: D205 D212 D415
         all_disciplines = [discipline for discipline in disciplines]
 
         if statistic_estimation_parameters is None:
@@ -146,24 +146,27 @@ class _UScenario(Scenario):
         self,
         output_name: str | Sequence[str],
         statistic_name: str,
-        constraint_type: str = MDOFunction.TYPE_INEQ,
+        constraint_type: MDOFunction.ConstraintType = MDOFunction.ConstraintType.INEQ,
         constraint_name: str | None = None,
         value: float | None = None,
         positive: bool = False,
         **statistic_parameters: Any,
     ) -> None:
-        """# noqa: D205 D212 D415
+        """
         Args:
             statistic_name: The name of the statistic
                 to be applied to the constraint, e.g. "margin".
             statistic_parameters: The parameters of the statistics
                 to be applied to the constraint,
                 ``{"factor": 2.}`` when ``objective_statistic="margin"``.
-        """
-        if constraint_type not in [MDOFunction.TYPE_EQ, MDOFunction.TYPE_INEQ]:
+        """  # noqa: D205 D212 D415
+        if constraint_type not in [
+            MDOFunction.ConstraintType.EQ,
+            MDOFunction.ConstraintType.INEQ,
+        ]:
             raise ValueError(
-                f"Constraint type must be either '{MDOFunction.TYPE_EQ}' "
-                f"or '{MDOFunction.TYPE_INEQ}'; "
+                f"Constraint type must be either '{MDOFunction.ConstraintType.EQ}' "
+                f"or '{MDOFunction.ConstraintType.INEQ}'; "
                 f"got '{constraint_type}' instead."
             )
         self.formulation.add_constraint(
@@ -184,14 +187,14 @@ class _UScenario(Scenario):
         discipline: MDODiscipline | None = None,
         **statistic_parameters: Any,
     ) -> None:
-        """# noqa: D205 D212 D415
+        """
         Args:
             statistic_name: The name of the statistic
                 to be applied to the constraint, e.g. "margin".
             statistic_parameters: The parameters of the statistics
                 to be applied to the constraint,
                 ``{"factor": 2.}`` when ``objective_statistic="margin"``.
-        """
+        """  # noqa: D205 D212 D415
         self.formulation.add_observable(
             output_names,
             statistic_name,

@@ -74,7 +74,7 @@ class _StatisticFunction(MDOFunction):
     ) -> None:
         super().__init__(lambda u: array([1.0]), name="func")
         self.mock = f"{func.name}_statistics"
-        self.f_type = func.TYPE_INEQ
+        self.f_type = func.ConstraintType.INEQ
 
 
 class MyUMDOFormulation(UMDOFormulation):
@@ -103,7 +103,7 @@ def formulation(disciplines, design_space, mdf, uncertain_space):
 
 def test_uncertain_space(formulation):
     """Check that the uncertain space contains the uncertain variable."""
-    assert formulation.uncertain_space.variables_names == ["u"]
+    assert formulation.uncertain_space.variable_names == ["u"]
 
 
 def test_name(formulation):
@@ -174,7 +174,7 @@ def test_init_sub_formulation(formulation):
     assert sub_form.opt_problem.objective.name == "f"
     assert sub_form.opt_problem.constraints[0].name == "c"
     assert sub_form.opt_problem.observables[0].name == "o"
-    assert sub_form.design_space.variables_names == ["u"]
+    assert sub_form.design_space.variable_names == ["u"]
 
 
 def test_get_expected_workflow(formulation):

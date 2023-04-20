@@ -25,7 +25,7 @@ In the context of deterministic MDO,
 the :class:`~gemseo.algos.opt_problem.OptimizationProblem`
 is handled by a driver (see :class:`~gemseo.algos.driver_lib.DriverLib`),
 typically an optimizer (see :class:`~gemseo.algos.opt.opt_lib.OptimizationLibrary`),
-or a design of experiments (DOE, see :class:`~gemseo.algos.doe.doe_lib.DOELibrary`).
+or a design of experiments (DOE, see :class:`~gemseo.algos.doe.doe_library.DOELibrary`).
 
 In the frame of robust MDO,
 the :class:`~gemseo_umdo.formulations.formulation.UMDOFormulation`
