@@ -144,6 +144,6 @@ class Sampling(UMDOFormulation):
 
             formulation._processed_functions.append(self._function_name)
             samples, _, _ = database.get_history_array(
-                [self._function_name], add_dv=False
+                [self._function_name], with_x_vect=False
             )
             return self._estimate_statistic(samples, **self._statistic_parameters)

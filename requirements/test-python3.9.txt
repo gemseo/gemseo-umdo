@@ -30,7 +30,7 @@ execnet==1.9.0
     # via pytest-xdist
 fastjsonschema==2.16.3
     # via gemseo
-fonttools==4.39.3
+fonttools==4.39.4
     # via matplotlib
 gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@develop
     # via gemseo-umdo (setup.py)
@@ -105,7 +105,7 @@ pytest==7.3.1
     #   pytest-xdist
 pytest-cov==4.0.0
     # via gemseo-umdo (setup.py)
-pytest-xdist==3.2.1
+pytest-xdist==3.3.0
     # via gemseo-umdo (setup.py)
 python-dateutil==2.8.2
     # via
