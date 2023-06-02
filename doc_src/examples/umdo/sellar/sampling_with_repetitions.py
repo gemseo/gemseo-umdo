@@ -19,9 +19,9 @@ Robust OPT - Sampling with repetitions - Sellar problem
 """
 from __future__ import annotations
 
+from gemseo import configure_logger
 from gemseo.algos.design_space import DesignSpace
 from gemseo.algos.parameter_space import ParameterSpace
-from gemseo.api import configure_logger
 from gemseo.disciplines.analytic import AnalyticDiscipline
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 from matplotlib import pyplot as plt
@@ -93,7 +93,9 @@ for i in range(10):
     scenario.add_constraint("c1", "Margin", factor=3.0)
     scenario.add_constraint("c2", "Margin", factor=3.0)
     scenario.execute({"algo": "NLOPT_COBYLA", "max_iter": 100})
-    x_hist.append(vstack(scenario.formulation.opt_problem.database.get_x_history()))
+    x_hist.append(
+        vstack(scenario.formulation.opt_problem.database.get_x_vect_history())
+    )
 
 # %%
 # Lastly,

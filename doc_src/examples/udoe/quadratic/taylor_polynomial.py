@@ -14,8 +14,8 @@
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 """
-Robust OPT - Sampling - Rosenbrock function
-===========================================
+Robust OPT - Taylor polynomial - Quadratic function
+===================================================
 """
 from __future__ import annotations
 
@@ -30,47 +30,41 @@ configure_logger()
 # %%
 # Firstly,
 # we define an :class:`.AnalyticDiscipline`
-# implementing a random version of the Rosenbrock function
-# :math:`f(x,y,U)=(U-x)^2+100(y-x^2)^2`:
-discipline = AnalyticDiscipline({"z": "(u-x)**2+100*(y-x**2)**2"}, name="Rosenbrock")
+# implementing the random function :math:`f(x,U)=(x+U)^2`:
+discipline = AnalyticDiscipline({"y": "(x+u)**2"}, name="quadratic_function")
 
 # %%
-# where :math:`x,y` belongs to the interval :math:`\[-2,2\]`:
+# where :math:`x` belongs to the interval :math:`\[-1,1\]`:
 design_space = DesignSpace()
-design_space.add_variable("x", l_b=-2, u_b=2.0, value=-2.0)
-design_space.add_variable("y", l_b=-2, u_b=2.0, value=-2.0)
+design_space.add_variable("x", l_b=-1, u_b=1.0, value=0.5)
 
 # %%
-# and :math:`U` is a Gaussian variable with unit mean
-# and standard deviation equal to 0.05:
+# and :math:`U` is a standard Gaussian variable:
 uncertain_space = ParameterSpace()
-uncertain_space.add_random_variable("u", "OTNormalDistribution", mu=1.0, sigma=0.05)
+uncertain_space.add_random_variable("u", "OTNormalDistribution")
 
 # %%
 # Then,
-# we build a :class:`UMDOScenario` to minimize a sampling-based estimation
-# of the expectation :math:`\mathbb{E}[Y]` where :math:`Y=f(x,y,U)`:
+# we build a :class:`.UMDOScenario` to minimize a linearization-based estimation
+# of the expectation :math:`\mathbb{E}[Y]` where :math:`Y=f(x,U)`:
 scenario = UMDOScenario(
     [discipline],
     "DisciplinaryOpt",
-    "z",
+    "y",
     design_space,
     uncertain_space,
     "Mean",
-    statistic_estimation="Sampling",
-    statistic_estimation_parameters={"n_samples": 10},
+    statistic_estimation="TaylorPolynomial",
 )
 
 # %%
-# and execute it with a gradient-based optimizer:
-scenario.set_differentiation_method("finite_differences")
-# %%
-# .. note::
-#    The statistics do not allow for the moment to use analytical derivatives.
-#    Please use finite differences or complex step to approximate the gradients.
-scenario.execute({"algo": "NLOPT_SLSQP", "max_iter": 100})
+# We execute it with a gradient-free optimizer:
+scenario.execute({"algo": "NLOPT_COBYLA", "max_iter": 100})
 
 # %%
-# Lastly,
-# we can plot the optimization history view:
-scenario.post_process("OptHistoryView", save=True, show=True)
+# and plot the history:
+scenario.post_process("OptHistoryView", save=False, show=True)
+
+# %%
+# Notice that the numerical solution is close to :math:`(x^*,f^*)=(0,1)` as expected
+# from the expression of the statistic: :math:`\mathbb{E}[Y]=\mathbb{E}[(x+U)^2]=x^2+1`.

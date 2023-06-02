@@ -25,13 +25,19 @@ The format is based on
 and this project adheres to
 `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`_.
 
-Version 1.0.2 (February 2023)
-*****************************
+
+Version 1.1.0 (June 2023)
+*************************
 
 Added
 -----
 
-- :class:`.SpringMassModel`, :class:`.SpringMassDiscipline` and :class:`.SpringMassUncertainSpace` is a use case based on a spring-mass system.
+- The beam problem (:class:`.Beam`, :class:`.BeamConstraints`, :class:`BeamUncertainSpace` and :class:`.BeamDesignSpace` to benchmark robust optimization algorithms.
+- :class:`.TaylorPolynomial`, a new :class:`.UMDOFormulation` estimating the statistics with Taylor polynomials.
+- :class:`.SequentialSampling`, a new :class:`.UMDOFormulation` estimating the statistics with sequential sampling.
+- :class:`.UncertainCouplingGraph` to visualize the dispersion of the coupling variables.
+- :class:`.SobolGraph` to visualize the first-, second- and total-order Sobol' indices.
+- The set of :class:`.SpringMassModel`, :class:`.SpringMassDiscipline` and :class:`.SpringMassUncertainSpace` is a use case based on a spring-mass system.
 
 Fixed
 -----
