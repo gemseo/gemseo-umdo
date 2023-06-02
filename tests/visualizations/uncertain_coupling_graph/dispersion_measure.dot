@@ -1,0 +1,16 @@
+digraph {
+	SobieskiAerodynamics [color=black fillcolor=white fontcolor=black penwidth=1.0 style=filled]
+	SobieskiStructure [color=black fillcolor=white fontcolor=black penwidth=1.0 style=filled]
+	SobieskiPropulsion [color=black fillcolor=white fontcolor=black penwidth=1.0 style=filled]
+	SobieskiMission [color=black fillcolor=white fontcolor=black penwidth=1.0 style=filled]
+	SobieskiAerodynamics -> SobieskiStructure [label=y_21 color=black dir=forward fontcolor=black penwidth=1.46]
+	SobieskiAerodynamics -> SobieskiPropulsion [label=y_23 color=black dir=forward fontcolor=black penwidth=3.63]
+	SobieskiAerodynamics -> SobieskiMission [label=y_24 color=black dir=forward fontcolor=black penwidth=2.92]
+	SobieskiStructure -> SobieskiAerodynamics [label="y_12[0]" color=black dir=forward fontcolor=black penwidth=2.91]
+	SobieskiStructure -> SobieskiAerodynamics [label="y_12[1]" color=black dir=forward fontcolor=black penwidth=0.0]
+	SobieskiStructure -> SobieskiMission [label="y_14[0]" color=black dir=forward fontcolor=black penwidth=2.05]
+	SobieskiStructure -> SobieskiMission [label="y_14[1]" color=black dir=forward fontcolor=black penwidth=0.91]
+	SobieskiPropulsion -> SobieskiAerodynamics [label=y_32 color=black dir=forward fontcolor=black penwidth=3.63]
+	SobieskiPropulsion -> SobieskiStructure [label=y_31 color=black dir=forward fontcolor=black penwidth=3.8]
+	SobieskiPropulsion -> SobieskiMission [label=y_34 color=black dir=forward fontcolor=black penwidth=1.68]
+}

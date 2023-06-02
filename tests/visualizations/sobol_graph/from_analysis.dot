@@ -1,0 +1,17 @@
+digraph {
+	"x1
+(63, 0)" [color=black fillcolor=white fontcolor=black penwidth=6.347010046398605 style=filled]
+	"x2
+(49, 0)" [color=black fillcolor=white fontcolor=black penwidth=4.894079459907271 style=filled]
+	"x3
+(38, 0)" [color=black fillcolor=white fontcolor=black penwidth=3.8132806189589257 style=filled]
+	"x1
+(63, 0)" -> "x2
+(49, 0)" [color=black dir=none fontcolor=black penwidth=7.968419990775672]
+	"x1
+(63, 0)" -> "x3
+(38, 0)" [color=black dir=none fontcolor=black penwidth=14.550817585578175]
+	"x2
+(49, 0)" -> "x3
+(38, 0)" [color=black dir=none fontcolor=black penwidth=9.76753917681917]
+}

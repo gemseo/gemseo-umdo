@@ -13,9 +13,11 @@
 # FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+# Copyright 2022 IRT Saint Exupéry, https://www.irt-saintexupery.com
+# All rights reserved.
 """
-Robust MDO - Sampling - Sobieski
-================================
+Robust MDO - Second-order Taylor polynomial - Sobieski
+======================================================
 """
 from __future__ import annotations
 
@@ -62,7 +64,7 @@ uncertain_space.add_random_variable(
 # %
 # Then,
 # we build an :class:`.UMDOScenario`
-# to maximize a sampling-based estimation
+# to maximize a second-order approximation-based estimation
 # of the expectation :math:`\mathbb{E}[y_4]`:
 scenario = UMDOScenario(
     [mission, structure, propulsion, aerodynamics],
@@ -71,8 +73,8 @@ scenario = UMDOScenario(
     design_space,
     uncertain_space,
     "Mean",
-    statistic_estimation="Sampling",
-    statistic_estimation_parameters={"n_samples": 10},
+    statistic_estimation="TaylorPolynomial",
+    statistic_estimation_parameters={"second_order": True},
     maximize_objective=True,
     uncertain_design_variables={"x_2": "{}+u_x_2"},
 )
