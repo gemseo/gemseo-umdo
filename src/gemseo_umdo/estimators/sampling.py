@@ -18,7 +18,7 @@ from __future__ import annotations
 from typing import Any
 from typing import TYPE_CHECKING
 
-from gemseo.core.factory import Factory
+from gemseo.core.base_factory import BaseFactory
 
 if TYPE_CHECKING:
     from gemseo_umdo.formulations.sampling import Sampling
@@ -35,11 +35,11 @@ class SamplingEstimator(BaseStatisticEstimator):
         super().__init__(formulation)
 
 
-class SamplingEstimatorFactory(Factory):
+class SamplingEstimatorFactory(BaseFactory):
     """The factory of :class:`.SamplingEstimator`."""
 
-    def __init__(self) -> None:  # noqa: D107
-        super().__init__(SamplingEstimator)
+    _CLASS = SamplingEstimator
+    _MODULE_NAMES = ()
 
 
 class Mean(SamplingEstimator):
@@ -49,21 +49,21 @@ class Mean(SamplingEstimator):
     """
 
     def __call__(self, samples: ndarray, **kwargs: Any) -> float | ndarray:
-        """# noqa: D205 D212 D415
+        """
         Args:
             samples: The output evaluations arranged in rows.
-        """
+        """  # noqa: D205 D212 D415
         return samples.mean(0)
 
 
 class Variance(SamplingEstimator):
     """Estimator of the variance."""
 
-    def __call__(self, samples: ndarray, **kwargs) -> float | ndarray:
-        """# noqa: D205 D212 D415
+    def __call__(self, samples: ndarray, **kwargs: Any) -> float | ndarray:
+        """
         Args:
             samples: The output evaluations arranged in rows.
-        """
+        """  # noqa: D205 D212 D415
         return samples.var(0)
 
 
@@ -77,12 +77,12 @@ class Probability(SamplingEstimator):
         greater: bool = True,
         **kwargs: Any,
     ) -> float | ndarray:
-        """# noqa: D205 D212 D415
+        """
         Args:
             samples: The output evaluations arranged in rows.
             threshold: The threshold against which the probability is estimated.
             greater: Whether to compute the probability of exceeding the threshold.
-        """
+        """  # noqa: D205 D212 D415
         if greater:
             return (samples >= threshold).mean(0)
         else:
@@ -92,11 +92,11 @@ class Probability(SamplingEstimator):
 class StandardDeviation(Variance):
     """Estimator of the standard deviation."""
 
-    def __call__(self, samples: ndarray, **kwargs) -> float | ndarray:
-        """# noqa: D205 D212 D415
+    def __call__(self, samples: ndarray, **kwargs: Any) -> float | ndarray:
+        """
         Args:
             samples: The output evaluations arranged in rows.
-        """
+        """  # noqa: D205 D212 D415
         return super().__call__(samples, **kwargs) ** 0.5
 
 
@@ -112,13 +112,13 @@ class Margin(SamplingEstimator):
         self,
         samples: ndarray,
         factor: float = 2.0,
-        **kwargs,
+        **kwargs: Any,
     ) -> float | ndarray:
-        """# noqa: D205 D212 D415
+        """
         Args:
             samples: The output evaluations arranged in rows.
             factor: The factor related to the standard deviation.
-        """
+        """  # noqa: D205 D212 D415
         return self.__mean(samples, **kwargs) + factor * self.__standard_deviation(
             samples, **kwargs
         )

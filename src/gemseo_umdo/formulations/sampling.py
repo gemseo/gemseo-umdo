@@ -39,7 +39,7 @@ from typing import Sequence
 
 from gemseo.algos.design_space import DesignSpace
 from gemseo.algos.doe.doe_factory import DOEFactory
-from gemseo.algos.doe.doe_lib import DOELibrary
+from gemseo.algos.doe.doe_library import DOELibrary
 from gemseo.algos.opt_problem import OptimizationProblem
 from gemseo.algos.parameter_space import ParameterSpace
 from gemseo.core.discipline import MDODiscipline
@@ -69,18 +69,18 @@ class Sampling(UMDOFormulation):
         n_samples: int,
         objective_statistic_parameters: Mapping[str, Any] | None = None,
         maximize_objective: bool = False,
-        grammar_type: str = MDODiscipline.JSON_GRAMMAR_TYPE,
+        grammar_type: MDODiscipline.GrammarType = MDODiscipline.GrammarType.JSON,
         algo: str = "OT_OPT_LHS",
         algo_options: Mapping[str, Any] | None = None,
         seed: int = 1,
         **options: Any,
     ) -> None:
-        """# noqa: D205 D212 D415
+        """
         Args:
             n_samples: The number of samples, i.e. the size of the DOE.
             algo: The name of the DOE algorithm.
             algo_options: The options of the DOE algorithm.
-        """
+        """  # noqa: D205 D212 D415
         self.__doe_algo = DOEFactory().create(algo)
         self.__doe_algo_options = algo_options or {}
         self.__doe_algo_options["n_samples"] = n_samples
@@ -144,6 +144,6 @@ class Sampling(UMDOFormulation):
 
             formulation._processed_functions.append(self._function_name)
             samples, _, _ = database.get_history_array(
-                [self._function_name], add_dv=False
+                [self._function_name], with_x_vect=False
             )
             return self._estimate_statistic(samples, **self._statistic_parameters)

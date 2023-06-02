@@ -19,9 +19,9 @@ Robust OPT - Sampling - Rosenbrock function
 """
 from __future__ import annotations
 
+from gemseo import configure_logger
 from gemseo.algos.design_space import DesignSpace
 from gemseo.algos.parameter_space import ParameterSpace
-from gemseo.api import configure_logger
 from gemseo.disciplines.analytic import AnalyticDiscipline
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 

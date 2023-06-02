@@ -1,0 +1,11 @@
+digraph {
+	"X1
+(56, 31)" [color=black fillcolor=white fontcolor=black penwidth=5.575888552099592 style=filled]
+	"X2
+(44, 44)" [color=black fillcolor=white fontcolor=black penwidth=4.424111447900409 style=filled]
+	"X3
+(24, 0)" [color=black fillcolor=white fontcolor=black penwidth=2.436836640621477 style=filled]
+	"X1
+(56, 31)" -> "X3
+(24, 0)" [color=black dir=none fontcolor=black penwidth=2.436836640621477]
+}

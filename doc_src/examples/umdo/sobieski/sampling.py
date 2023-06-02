@@ -19,8 +19,8 @@ Robust MDO - Sampling - Sobieski
 """
 from __future__ import annotations
 
+from gemseo import configure_logger
 from gemseo.algos.parameter_space import ParameterSpace
-from gemseo.api import configure_logger
 from gemseo.problems.sobieski.core.problem import SobieskiProblem
 from gemseo.problems.sobieski.disciplines import SobieskiAerodynamics
 from gemseo.problems.sobieski.disciplines import SobieskiMission

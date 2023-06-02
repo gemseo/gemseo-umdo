@@ -102,12 +102,12 @@ def test_formulation(scenario):
 
 def test_design_space(scenario):
     """Check that the design space contains the design variables."""
-    assert set(scenario.design_space.variables_names) == {"x0", "x1", "x2"}
+    assert set(scenario.design_space.variable_names) == {"x0", "x1", "x2"}
 
 
 def test_uncertain_space(scenario):
     """Check that the uncertain space contains the uncertain variables."""
-    assert set(scenario.uncertain_space.variables_names) == {"u"}
+    assert set(scenario.uncertain_space.variable_names) == {"u"}
 
 
 def test_repr(scenario):
@@ -124,7 +124,7 @@ def test_mdo_formulation(scenario):
     assert scenario.mdo_formulation.opt_problem.objective.name == "f"
     assert scenario.mdo_formulation.opt_problem.observables[0].name == "o"
     assert scenario.mdo_formulation.opt_problem.constraints[0].name == "c"
-    assert scenario.mdo_formulation.design_space.variables_names == ["u"]
+    assert scenario.mdo_formulation.design_space.variable_names == ["u"]
 
 
 def test_constraint_wrong_type(disciplines, design_space, uncertain_space):

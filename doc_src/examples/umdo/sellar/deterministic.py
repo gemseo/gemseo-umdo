@@ -19,8 +19,8 @@ OPT - Deterministic - Sellar problem
 """
 from __future__ import annotations
 
+from gemseo import configure_logger
 from gemseo.algos.design_space import DesignSpace
-from gemseo.api import configure_logger
 from gemseo.core.mdo_scenario import MDOScenario
 from gemseo.disciplines.analytic import AnalyticDiscipline
 
