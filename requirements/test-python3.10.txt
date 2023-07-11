@@ -6,7 +6,7 @@
 #
 certifi==2023.5.7
     # via requests
-charset-normalizer==3.1.0
+charset-normalizer==3.2.0
     # via requests
 contourpy==1.1.0
     # via matplotlib
@@ -24,9 +24,9 @@ docstring-inheritance==2.0.0
     # via gemseo
 et-xmlfile==1.1.0
     # via openpyxl
-exceptiongroup==1.1.1
+exceptiongroup==1.1.2
     # via pytest
-execnet==1.9.0
+execnet==2.0.2
     # via pytest-xdist
 fastjsonschema==2.16.3
     # via gemseo
@@ -141,7 +141,7 @@ tomli==2.0.1
     #   pytest
 tqdm==4.65.0
     # via gemseo
-typing-extensions==4.7.0
+typing-extensions==4.7.1
     # via
     #   gemseo
     #   pydantic
