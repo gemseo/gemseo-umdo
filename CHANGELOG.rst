@@ -25,6 +25,15 @@ The format is based on
 and this project adheres to
 `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`_.
 
+Develop
+*******
+
+Added
+-----
+
+- The heat equation problem (:class:`.HeatEquationConfiguration`, :class:`.HeatEquation`, :class:`.HeatEquationModel` and :class:`.HeatEquationUncertainSpace`) to illustrate the algorithms :class:`.MLMC` and :class:`.MLMCMLCV`.
+- The :class:`.MLMC` and the :class:`.MLMCMLCV` algorithms to estimate a statistic of the output of a function whose input is random.
+- The :class:`.MonteCarloSampler` to sample vectorized functions.
 
 Version 1.1.0 (June 2023)
 *************************

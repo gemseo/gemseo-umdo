@@ -1,0 +1,152 @@
+Algorithm MLMC
+   Number of levels: 2
+   Pilot statistic: Mean
+   Budget
+      Minimum: 20.0
+      Maximum: 1000.0
+   Numbers of initial samples
+      n_0 = 10
+      n_1 = 10
+   Evaluation costs of the models
+      C_0 = 0.5
+      C_1 = 1.0
+   Evaluation costs of the levels
+      C_0 = 0.5
+      C_1 + C_0 = 1.5
+   Sampling ratios:
+      r_0 = 2.0
+      r_1 = 2.0
+Start sampling with a total budget of 1000.0
+   Iteration #1
+      Sampling
+         delta_n_0 = 10
+         delta_n_1 = 10
+         Cost = 20.0
+         Remaining budget = 980.0
+      Find the next level to sample
+         l_star = 0
+         d_n_l_star = 10
+         n_l_star = 20
+   Iteration #2
+      Sampling
+         delta_n_0 = 10
+         delta_n_1 = 0
+         Cost = 5.0
+         Remaining budget = 975.0
+      Find the next level to sample
+         l_star = 0
+         d_n_l_star = 20
+         n_l_star = 40
+   Iteration #3
+      Sampling
+         delta_n_0 = 20
+         delta_n_1 = 0
+         Cost = 10.0
+         Remaining budget = 965.0
+      Find the next level to sample
+         l_star = 0
+         d_n_l_star = 40
+         n_l_star = 80
+   Iteration #4
+      Sampling
+         delta_n_0 = 40
+         delta_n_1 = 0
+         Cost = 20.0
+         Remaining budget = 945.0
+      Find the next level to sample
+         l_star = 0
+         d_n_l_star = 80
+         n_l_star = 160
+   Iteration #5
+      Sampling
+         delta_n_0 = 80
+         delta_n_1 = 0
+         Cost = 40.0
+         Remaining budget = 905.0
+      Find the next level to sample
+         l_star = 0
+         d_n_l_star = 160
+         n_l_star = 320
+   Iteration #6
+      Sampling
+         delta_n_0 = 160
+         delta_n_1 = 0
+         Cost = 80.0
+         Remaining budget = 825.0
+      Find the next level to sample
+         l_star = 1
+         d_n_l_star = 10
+         n_l_star = 20
+   Iteration #7
+      Sampling
+         delta_n_0 = 0
+         delta_n_1 = 10
+         Cost = 15.0
+         Remaining budget = 810.0
+      Find the next level to sample
+         l_star = 0
+         d_n_l_star = 320
+         n_l_star = 640
+   Iteration #8
+      Sampling
+         delta_n_0 = 320
+         delta_n_1 = 0
+         Cost = 160.0
+         Remaining budget = 650.0
+      Find the next level to sample
+         l_star = 1
+         d_n_l_star = 20
+         n_l_star = 40
+   Iteration #9
+      Sampling
+         delta_n_0 = 0
+         delta_n_1 = 20
+         Cost = 30.0
+         Remaining budget = 620.0
+      Find the next level to sample
+         l_star = 0
+         d_n_l_star = 640
+         n_l_star = 1280
+   Iteration #10
+      Sampling
+         delta_n_0 = 640
+         delta_n_1 = 0
+         Cost = 320.0
+         Remaining budget = 300.0
+      Find the next level to sample
+         l_star = 1
+         d_n_l_star = 40
+         n_l_star = 80
+   Iteration #11
+      Sampling
+         delta_n_0 = 0
+         delta_n_1 = 40
+         Cost = 60.0
+         Remaining budget = 240.0
+      Find the next level to sample
+         l_star = 0
+         d_n_l_star = 1280
+         n_l_star = 2560
+         Maximum budget exceeded by 400.0
+         Decrease d_n_l_star to respect the maximum budget
+         d_n_l_star = 480
+         n_l_star = 1760
+   Iteration #12 (last iteration)
+      Sampling
+         delta_n_0 = 480
+         delta_n_1 = 0
+         Cost = 240.0
+         Remaining budget = 0.0
+Sampling completed
+Results
+   Pilot statistic = 0.8982755271917956
+   Total cost = 1000.0
+   Cost allocation
+      Level 0: 88.0%
+      Level 1: 12.0%
+   n_l
+       n_0 = 1760
+       n_1 = 80
+   V_l
+       V_0 = 3.35e-01
+       V_1 = 3.29e-03
