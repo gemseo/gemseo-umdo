@@ -1,6 +1,5 @@
 site_name: gemseo-umdo
 site_url: https://gemseo.gitlab.io/gemseo-umdo
-site_dir: public
 
 theme:
   name: material

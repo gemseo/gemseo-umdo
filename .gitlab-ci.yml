@@ -21,6 +21,7 @@ pages:
     - $TOX_EXE -e doc
   artifacts:
     paths:
-      - public
-  # rules:
-  #   - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+      - site
+  publish: site
+  rules:
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
