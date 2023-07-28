@@ -53,7 +53,8 @@ class MLMC:
     with many evaluations for the coarsest model
     and a few evaluations for the finest one.
 
-    This adaptive sampling is guided by a :class:`.Pilot`.
+    This adaptive sampling is guided
+    by a [Pilot][gemseo_umdo.statistics.multilevel.pilot.Pilot].
 
     This algorithm depends on the execution cost ratio between two consecutive levels,
     that can be estimated from the models,
@@ -62,23 +63,18 @@ class MLMC:
     At a given iteration,
     the algorithm
 
-    1. considers a level :math:`\ell^*` and a sample size :math:`n_{\ell^*}`
-    2. samples the models involved in the statistic :math:`T_{\ell^*}`
-       of the telescoping sum (TS)
-
-       .. math::
-
-          \theta_L = \sum \limits_{\ell = 0}^{L} T_\ell,
-
-    3. computes the new level :math:`\ell^*` to sample
-       and the corresponding sample size :math:`n_{\ell^*}`
+    1. considers a level $\ell^*$ and a sample size $n_{\ell^*}$
+    2. samples the models involved in the statistic $T_{\ell^*}$
+       of the telescoping sum (TS) $\theta_L = \sum_{\ell=0}^L T_\ell$,
+    3. computes the new level $\ell^*$ to sample
+       and the corresponding sample size $n_{\ell^*}$.
     """
 
     _algorithm_name: str
     """The name of the algorithm."""
 
     _n_levels: int
-    r"""The number of levels :math:`L+1` of the telescopic sum."""
+    r"""The number of levels $L+1$ of the telescopic sum."""
 
     _PILOT_FACTORY: ClassVar[type[BaseFactory]] = MLMCPilotFactory
     """The factory of pilot statistics."""
@@ -96,8 +92,8 @@ class MLMC:
     r"""The unit sampling costs of each level of the telescopic sum.
 
     Namely,
-    :math:`(\mathcal{C}_{\ell-1}+\mathcal{C}_\ell)_{\ell\in\{0,\ldots,L\}}`
-    with :math:`\mathcal{C}_{-1}=0`.
+    $(\mathcal{C}_{\ell-1}+\mathcal{C}_\ell)_{\ell\in\{0,\ldots,L\}}$
+    with $\mathcal{C}_{-1}=0$.
     """
 
     __current_budget: float
@@ -107,13 +103,13 @@ class MLMC:
     """The current additional numbers of samples of each level."""
 
     __f_l: list[MDOFunction]
-    r"""The models :math:`f_0,f_1,\ldots,f_L`."""
+    r"""The models $f_0,f_1,\ldots,f_L$."""
 
     __minimum_budget: float
     """The minimum cost of the algorithm given the initial sample sizes per level."""
 
     __n_l: NDArray[int]
-    """The total number of samples per level, from l=0 to l=L."""
+    r"""The total number of samples per level, from $\ell=0$ to $\ell=L$."""
 
     __n_samples_history: list[list[int]]
     """The history of the additional numbers of samples of each level."""
@@ -130,7 +126,7 @@ class MLMC:
     __r_l: NDArray[float]
     r"""The sampling ratios of each level of the telescopic sum.
 
-    Namely, :math:`r_0,r_1,\ldots,r_L`.
+    Namely, $r_0,r_1,\ldots,r_L$.
     """
 
     __seed: int
@@ -147,7 +143,7 @@ class MLMC:
     """The total execution times of the different models."""
 
     __use_empirical_C_l: bool  # noqa: N815
-    r"""Whether the allocation criterion uses empirical :math:`C_\ell`."""
+    r"""Whether the allocation criterion uses empirical $C_\ell$."""
 
     def __init__(
         self,
@@ -167,9 +163,9 @@ class MLMC:
                 equivalent to evaluations of the finest model.
                 This number is not necessarily an integer;
                 for instance,
-                if :math:`f_L` is twice as expensive as :math:`f_{L-1}`,
+                if $f_L$ is twice as expensive as $f_{L-1}$,
                 then ``n_samples=1.5`` can correspond to
-                1 evaluation of :math:`f_L` and 1 evaluation of :math:`f_{L-1}`.
+                1 evaluation of $f_L$ and 1 evaluation of $f_{L-1}$.
             pilot_statistic_name: The name of the statistic used to drive the algorithm.
             seed: The initial random seed for reproducibility.
                 Then,
@@ -345,7 +341,7 @@ class MLMC:
 
         Args:
             x: The input value,
-               shaped as ``(n_features,)`` or ``(n_samples, n_features)``.
+                shaped as ``(n_features,)`` or ``(n_samples, n_features)``.
 
         Returns:
             The output value,

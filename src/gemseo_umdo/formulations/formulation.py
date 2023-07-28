@@ -15,7 +15,6 @@
 """Formulate a multidisciplinary design problem under uncertainty."""
 from __future__ import annotations
 
-import logging
 from abc import abstractmethod
 from typing import Any
 from typing import Callable
@@ -38,8 +37,6 @@ from gemseo.utils.file_path_manager import FilePathManager
 from numpy import ndarray
 
 from gemseo_umdo.estimators.estimator import BaseStatisticEstimatorFactory
-
-LOGGER = logging.getLogger(__name__)
 
 
 class UMDOFormulation(BaseFormulation):
@@ -213,7 +210,7 @@ class UMDOFormulation(BaseFormulation):
         Args:
             output_name: Either the names of the output variables
                 for which to estimate the statistic or a unique name to define them.
-            statistic: The name of the statistic to be applied to the variables.
+            statistic_name: The name of the statistic to be applied to the variables.
             statistic_parameters: The values of the parameters of the statistic
                 to be applied to the variable, if any.
 

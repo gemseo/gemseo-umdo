@@ -25,19 +25,19 @@ from gemseo_umdo.use_cases.beam_model.core.variables import sigma_all
 class BeamUncertainSpace(ParameterSpace):
     r"""The advanced uncertain space for the beam use case.
 
-    math:`F`, :math:`E` and :math:`\sigma_{\text{all}}` are random variables
+    $F$, $E$ and $\sigma_{\text{all}}$ are random variables
     with nominal values -200000, 73500 and 300
-    and deviation values 10\%, 5\% and 5\%.
+    and deviation values 10%, 5% and 5%.
 
     Their probability distribution are centered in these values
-    denoted :math:`\mu_F`, :math:`\mu_E` and :math:`\mu_{\sigma_{\text{all}}}`.
+    denoted $\mu_F$, $\mu_E$ and $\mu_{\sigma_{\text{all}}}$.
 
     Precisely,
     a uniform distribution is defined
-    by the minimum :math:`\mu (1 - \delta)` and the maximum :math:`\mu (1 + \delta)`
+    by the minimum $\mu (1 - \delta)$ and the maximum $\mu (1 + \delta)$
     and a Gaussian distribution is defined
-    by the mean :math:`\mu` and the standard deviation :math:`|\mu|\delta/3`,
-    where :math:`\delta` is an aforementioned deviation value.
+    by the mean $\mu$ and the standard deviation $|\mu|\delta/3$,
+    where $\delta$ is an aforementioned deviation value.
     """
 
     __DEFAULT_DELTA = {
@@ -51,7 +51,7 @@ class BeamUncertainSpace(ParameterSpace):
         Args:
             uniform: If ``True``, use uniform distributions;
                 otherwise, use Gaussian ones.
-            **deltas: The percentage variations :math:`\delta` around the nominal values
+            **deltas: The percentage variations $\delta$ around the nominal values
                 of the random variables.
         """  # noqa: D205 D212 D415
         super().__init__()

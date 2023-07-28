@@ -14,7 +14,9 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 r"""A configuration for the heat equation model.
 
-:class:`.HeatEquationConfiguration` is used by :class:`.HeatEquationModel`;
+[HeatEquationConfiguration][gemseo_umdo.use_cases.heat_equation.configuration.HeatEquationConfiguration]
+is used by
+[HeatEquationModel][gemseo_umdo.use_cases.heat_equation.model.HeatEquationModel];
 read its docstring for more details.
 """
 from __future__ import annotations
@@ -31,7 +33,7 @@ from numpy.typing import NDArray
 
 @dataclass
 class HeatEquationConfiguration:
-    """A configuration for the :class:`.HeatEquationModel`."""
+    """A configuration for the heat equation model."""
 
     mesh_size: int = 100
     """The number of equispaced spatial nodes."""
@@ -40,7 +42,7 @@ class HeatEquationConfiguration:
     """The number of modes of the truncated Fourier expansion."""
 
     final_time: float = 0.5
-    """The time of interest, denoted :math:`t_f`."""
+    """The time of interest, denoted $t_f$."""
 
     nu_bounds: tuple[float, float] = (0.001, 0.009)
     """The bounds of the thermal diffusivity."""
@@ -52,10 +54,12 @@ class HeatEquationConfiguration:
     """The theoretical expectation of the integral of the temperature along the rod."""
 
     cost: int = field(init=False)
-    """The evaluation cost of the :class:`.HeatEquationModel`."""
+    """The evaluation cost of the
+    [HeatEquationModel][gemseo_umdo.use_cases.heat_equation.model.HeatEquationModel]."""
 
     mesh: NDArray[float] = field(init=False)
-    """The mesh for the :class:`.HeatEquationModel`."""
+    """The mesh for the
+    [HeatEquationModel][gemseo_umdo.use_cases.heat_equation.model.HeatEquationModel]."""
 
     def __post_init__(self) -> None:
         self.expectation = self.__compute_expectation()

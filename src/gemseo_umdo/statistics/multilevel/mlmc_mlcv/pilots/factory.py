@@ -12,7 +12,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-"""A factory of pilots for the :class:`.MLMCMLCV`."""
+"""A factory of pilots for the MLMC-MLCV algorithm."""
 from __future__ import annotations
 
 from gemseo.core.base_factory import BaseFactory
@@ -23,7 +23,7 @@ from gemseo_umdo.statistics.multilevel.mlmc_mlcv.pilots.pilot import (
 
 
 class MLMCMLCVPilotFactory(BaseFactory):
-    """A factory of pilots for the :class:`.MLMCMLCV`."""
+    """A factory of pilots for the MLMC-MLCV algorithm."""
 
     _CLASS = MLMCMLCVPilot
     _MODULE_NAMES = ("gemseo_umdo.statistics.multilevel.mlmc_mlcv.pilots",)

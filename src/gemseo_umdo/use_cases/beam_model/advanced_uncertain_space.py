@@ -85,15 +85,15 @@ class AdvancedBeamUncertainSpace(ParameterSpace):
     def __add_truncated_normal(self, name: str, **dispersions: float) -> None:
         r"""Add a truncated normal distribution to the parameter space.
 
-        Use the :attr:`.__nominal_values[name]` as mean.
+        Use the ``.__nominal_values[name]`` as mean.
 
         Args:
             name: The name of the random variable.
-            **dispersions: The dispersion :math:`\delta` around the mean :math:`\mu`
-                to define the standard deviation :math:`\sigma=\delta/3`;
+            **dispersions: The dispersion $\delta$ around the mean $\mu$
+                to define the standard deviation $\sigma=\delta/3$;
                 the distribution is truncated
-                to the interval :math:`[\mu-3\sigma,\mu+3\sigma]`;
-                if the dispersion is missing, use :attr:`.__DEFAULT_DISPERSION`.
+                to the interval $[\mu-3\sigma,\mu+3\sigma]$;
+                if the dispersion is missing, use ``.__DEFAULT_DISPERSION``.
         """
         nominal_value = self.__nominal_values[name]
         sigma = dispersions.get(name, self.__DEFAULT_DISPERSION / 3.0)

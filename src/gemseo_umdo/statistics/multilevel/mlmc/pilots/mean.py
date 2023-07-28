@@ -12,7 +12,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-"""The mean-based :class:`.Pilot` for the :class:`.MLMC`."""
+"""The mean-based pilot for the MLMC algorithm."""
 from __future__ import annotations
 
 from typing import Any
@@ -29,13 +29,13 @@ from gemseo_umdo.statistics.multilevel.mlmc.pilots.pilot import MLMCPilot
 
 
 class Mean(MLMCPilot):
-    """The mean-based :class:`.Pilot` for the :class:`.MLMC`."""
+    """The mean-based pilot for the MLMC algorithm."""
 
     __delta: list[NDArray[float]]
-    r"""The samples of :math:`Y_0-Y_{-1},Y_2-Y_1,\ldots,Y_L-Y_{L-1}`.
+    r"""The samples of $Y_0-Y_{-1},Y_2-Y_1,\ldots,Y_L-Y_{L-1}$.
 
     Namely,
-    :math:`(Y_\ell^{(\ell,n_\ell)}-Y_{\ell-1}^{(\ell,n_\ell)})_{0\leq \ell \leq L}`
+    $(Y_\ell^{(\ell,n_\ell)}-Y_{\ell-1}^{(\ell,n_\ell)})_{0\leq \ell \leq L}$
     """
 
     def __init__(  # noqa: D107

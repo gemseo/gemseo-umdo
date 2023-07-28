@@ -1,0 +1,6 @@
+# MD024/no-duplicate-heading/no-duplicate-header - Multiple headings with the same content
+MD024:
+  allow_different_nesting: true
+
+# MD052/reference-links-images - Reference links and images should use a label that is defined
+MD052: false

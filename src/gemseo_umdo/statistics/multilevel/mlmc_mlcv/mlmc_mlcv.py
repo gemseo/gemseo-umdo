@@ -43,15 +43,15 @@ class MLMCMLCV(MLMC):
     _PILOT_FACTORY = MLMCMLCVPilotFactory
 
     __g_l: tuple[MDOFunction]
-    r"""The control variates :math:`g_0`, :math:`g_1`, ..., :math:`g_L`
+    r"""The control variates $g_0$, $g_1$, ..., $g_L$.
 
-    :math:`g_\ell` is an approximation of :math:`f_\ell`.
+    $g_\ell$ is an approximation of $f_\ell$.
     """
 
     __h_l: tuple[MDOFunction]
-    r"""The control variates :math:`h_1`, ..., :math:`h_L`.
+    r"""The control variates $h_1$, ..., $h_L$.
 
-    :math:`h_\ell` is an approximation of f_\ell-f_{\ell-1}`.
+    $h_\ell$ is an approximation of $f_\ell-f_{\ell-1}$.
     """
 
     __variant: Variant
@@ -117,11 +117,11 @@ class MLMCMLCV(MLMC):
 
         These are their positions in a sequence starting to count at 0.
         So,
-        the position of :math:`g_\ell` is :math:`\ell`
-        for :math:`\ell\in\{0,\ldots,L\}`
+        the position of $g_\ell$ is $\ell$
+        for $\ell\in\{0,\ldots,L\}$
         while
-        the position of :math:`h_\ell` is :math:`\ell-1`
-        for :math:`\ell\in\{1,\ldots,L\}`.
+        the position of $h_\ell$ is $\ell-1$
+        for $\ell\in\{1,\ldots,L\}$.
 
         Args:
             level: The level of the telescopic sum.

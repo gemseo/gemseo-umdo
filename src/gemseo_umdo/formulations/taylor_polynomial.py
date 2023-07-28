@@ -14,23 +14,22 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 r"""Taylor polynomials for multidisciplinary design problems under uncertainty.
 
-:class:`.TaylorPolynomial` is an
-:class:`~gemseo_umdo.formulations.formulation.UMDOFormulation`
+[TaylorPolynomial][gemseo_umdo.formulations.taylor_polynomial.TaylorPolynomial] is an
+[UMDOFormulation][gemseo_umdo.formulations.formulation.UMDOFormulation]
 estimating the statistics with first- or second-order Taylor polynomials
 around the expectation of the uncertain variables:
-:math:`f(x,U)\approx f(x,\mu) + (U-\mu)f'(x,\mu) \pm 0.5(U-\mu)^2f''(x,\mu)`.
+$f(x,U)\approx f(x,\mu) + (U-\mu)f'(x,\mu) \pm 0.5(U-\mu)^2f''(x,\mu)$.
 
 E.g.
-:math:`\mathbb{E}[f(x,U)]\approx
-\frac{1}{N}\sum_{i=1}^N f\left(x,U^{(i)}\right)`
+$\mathbb{E}[f(x,U)]\approx
+\frac{1}{N}\sum_{i=1}^N f\left(x,U^{(i)}\right)$
 or
-:math:`\mathbb{V}[f(x,U)]\approx \sigma^2f'(x,\mu)`
-where :math:`U` is normally distributed
-with mean :math:`\mu` and unit variance :math:`\sigma`.
+$\mathbb{V}[f(x,U)]\approx \sigma^2f'(x,\mu)$
+where $U$ is normally distributed
+with mean $\mu$ and unit variance $\sigma$.
 """
 from __future__ import annotations
 
-import logging
 from typing import Any
 from typing import ClassVar
 from typing import Mapping
@@ -55,13 +54,13 @@ from gemseo_umdo.estimators.taylor_polynomial import (
 )
 from gemseo_umdo.formulations.formulation import UMDOFormulation
 
-LOGGER = logging.getLogger(__name__)
-
 
 class TaylorPolynomial(UMDOFormulation):
     """Robust MDO formulation based on Taylor polynomials."""
 
-    _STATISTIC_FACTORY: ClassVar = TaylorPolynomialEstimatorFactory()
+    _STATISTIC_FACTORY: ClassVar[
+        TaylorPolynomialEstimatorFactory
+    ] = TaylorPolynomialEstimatorFactory()
 
     def __init__(  # noqa: D107
         self,

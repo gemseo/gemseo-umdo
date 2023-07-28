@@ -42,7 +42,9 @@ from gemseo_umdo.use_cases.beam_model.core.variables import t
 class Beam(MDODiscipline):
     """The beam discipline.
 
-    .. seealso:: :class:`.BeamModel` for more information about the beam model.
+    See Also:
+        [BeamModel][gemseo_umdo.use_cases.beam_model.core.model.BeamModel]
+        for more information about the beam model.
     """
 
     def __init__(self, n_y: int = 3, n_z: int = 3) -> None:

@@ -19,6 +19,7 @@ from pathlib import Path
 import pytest
 from gemseo.algos.design_space import DesignSpace
 from gemseo.disciplines.analytic import AnalyticDiscipline
+from gemseo.post._graph_view import GraphView
 from gemseo.problems.sobieski.core.problem import SobieskiProblem
 from gemseo.problems.sobieski.disciplines import SobieskiAerodynamics
 from gemseo.problems.sobieski.disciplines import SobieskiDiscipline
@@ -158,3 +159,11 @@ def test_self_coupled(tmp_wd):
         show=False, clean_up=False, file_path=file_name, maximum_thickness=0.1
     )
     check_dot_file(file_name)
+
+
+@pytest.mark.parametrize("save", [False, True])
+def test_visualize_save(uncertain_coupling_graph, save, tmp_wd):
+    """Check visualize() with save option."""
+    graph_view = uncertain_coupling_graph.visualize(show=False, save=save)
+    assert isinstance(graph_view, GraphView)
+    assert Path("graph_view.png").exists() is save

@@ -12,8 +12,10 @@
 /.vscode
 /tags
 
-/doc_src/build
-/doc
+/docs/generated/examples
+/docs/examples/**/*.png
+/docs/changelog.md
+/site
 
 /htmlcov
 

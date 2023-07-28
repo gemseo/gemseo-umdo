@@ -23,18 +23,16 @@ from scipy.integrate import odeint
 
 
 class SpringMassModel:
-    r"""The |g|-free spring-mass model :math:`m\frac{d^2z(t)}{dt^2} = -kz(t) + mg`.
+    r"""The |g|-free spring-mass model $m\frac{d^2z(t)}{dt^2} = -kz(t) + mg$.
 
-    This model computes the time displacement of an object attached to a spring
-    in function of the stiffness of the spring.
+    This model computes the time displacement of an object attached to a spring in
+    function of the stiffness of the spring.
 
     It computes also its maximum displacement.
 
     The equations are
 
-    .. math::
-
-       m\frac{d^2z}{dt^2} = -kz + mg
+    $$m\frac{d^2z}{dt^2} = -kz + mg.$$
     """
 
     def __init__(

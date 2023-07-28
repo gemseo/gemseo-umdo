@@ -47,16 +47,16 @@ F = Variable("F", -200000.0)
 """The load applied to a point at the tip of the beam."""
 
 alpha = Variable("alpha", 0.0)
-r"""The angle between :math:`-\vec{e}_z` and :math:`\vec{F}` in :math:`xy`-plane."""
+r"""The angle between $-\vec{e}_z$ and $\vec{F}$ in $xy$-plane."""
 
 beta = Variable("beta", 0.0)
-r"""The angle between :math:`-\vec{e}_z` and :math:`\vec{F}` in :math:`yz`-plane."""
+r"""The angle between $-\vec{e}_z$ and $\vec{F}$ in $yz$-plane."""
 
 dy = Variable("dy", 0.0)
-r"""The :math:`y`-coordinate of the point where the force is applied."""
+r"""The $y$-coordinate of the point where the force is applied."""
 
 dz = Variable("dz", 0.0)
-r"""The :math:`z`-coordinate of the point where the force is applied."""
+r"""The $z$-coordinate of the point where the force is applied."""
 
 rho = Variable("rho", 2.8e-6)
 """The density of the material."""

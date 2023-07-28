@@ -40,7 +40,7 @@ class TaylorPolynomialEstimator(BaseStatisticEstimator):
 
 
 class TaylorPolynomialEstimatorFactory(BaseFactory):
-    """The factory of :class:`.TaylorPolynomialEstimator`."""
+    """The factory of statistic estimators based on Taylor polynomials."""
 
     _CLASS = TaylorPolynomialEstimator
     _MODULE_NAMES = ()

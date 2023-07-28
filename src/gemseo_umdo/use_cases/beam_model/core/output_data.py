@@ -25,13 +25,13 @@ class BeamModelOutputData:
     """Output data of the beam model."""
 
     Ux: NDArray[float]
-    r"""The strain energy along the :math:`x`-axis."""
+    r"""The strain energy along the $x$-axis."""
 
     Uy: NDArray[float]
-    r"""The strain energy along the :math:`y`-axis."""
+    r"""The strain energy along the $y$-axis."""
 
     Uz: NDArray[float]
-    r"""The strain energy along the :math:`z`-axis."""
+    r"""The strain energy along the $z$-axis."""
 
     sigma: NDArray[float]
     """The normal stress at the root section points."""
@@ -49,4 +49,4 @@ class BeamModelOutputData:
     """The weight of the beam."""
 
     yz_grid: NDArray[float]
-    r"""The :math:`yz`-grid coordinates."""
+    r"""The $yz$-grid coordinates."""

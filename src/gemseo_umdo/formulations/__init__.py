@@ -14,32 +14,36 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 """Formulations for multidisciplinary design problems under uncertainty.
 
-A :class:`~gemseo.core.formulation.MDOFormulation`
-defines an :class:`~gemseo.algos.opt_problem.OptimizationProblem`
-from one or several :class:`~gemseo.core.discipline.MDODiscipline`s,
-a :class:`~gemseo.algos.design_space.DesignSpace`,
+An [MDOFormulation][gemseo.core.formulation.MDOFormulation]
+defines an [OptimizationProblem][gemseo.algos.opt_problem.OptimizationProblem]
+from one or several [MDODiscipline][gemseo.core.discipline.MDODiscipline]s,
+a [DesignSpace][gemseo.algos.design_space.DesignSpace],
 an objective and constraints.
 The objective can be either minimized (default) or maximized.
 
 In the context of deterministic MDO,
-the :class:`~gemseo.algos.opt_problem.OptimizationProblem`
-is handled by a driver (see :class:`~gemseo.algos.driver_lib.DriverLib`),
-typically an optimizer (see :class:`~gemseo.algos.opt.opt_lib.OptimizationLibrary`),
-or a design of experiments (DOE, see :class:`~gemseo.algos.doe.doe_library.DOELibrary`).
+the [OptimizationProblem][gemseo.algos.opt_problem.OptimizationProblem]
+is handled by a driver
+(see [DriverLibrary][gemseo.algos.driver_library.DriverLibrary]),
+typically an optimizer
+(see [OptimizationLibrary][gemseo.algos.opt.optimization_library.OptimizationLibrary]),
+or a design of experiments
+(DOE, see [DOELibrary][gemseo.algos.doe.doe_library.DOELibrary]).
 
 In the frame of robust MDO,
-the :class:`~gemseo_umdo.formulations.formulation.UMDOFormulation`
-uses a :class:`~gemseo.core.formulation.MDOFormulation`
-with a :class:`~gemseo.algos.parameter_space.ParameterSpace`
+the [UMDOFormulation][gemseo_umdo.formulations.formulation.UMDOFormulation]
+uses a [MDOFormulation][gemseo.core.formulation.MDOFormulation]
+with a [ParameterSpace][gemseo.algos.parameter_space.ParameterSpace]
 defining the uncertain variables
-and executes the corresponding :class:`~gemseo.algos.opt_problem.OptimizationProblem`
+and executes the corresponding
+[OptimizationProblem][gemseo.algos.opt_problem.OptimizationProblem]
 with a particular DOE.
 Then,
-it post-processed the associated :class:`~gemseo.algos.database.Database`
+it post-processed the associated [Database][gemseo.algos.database.Database]
 to estimate the statistics applied to the objective and constraints.
 
-The most common :class:`~gemseo_umdo.formulations.formulation.UMDOFormulation`
-is :class:`~gemseo_umdo.formulations.sampling.Sampling`,
+The most common [UMDOFormulation][gemseo_umdo.formulations.formulation.UMDOFormulation]
+is [Sampling][gemseo_umdo.formulations.sampling.Sampling],
 consisting in estimating the statistics with (quasi) Monte Carlo techniques.
 """
 from __future__ import annotations

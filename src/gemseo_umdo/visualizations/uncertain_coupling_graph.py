@@ -55,16 +55,19 @@ class UncertainCouplingGraph:
     A coupling graph whose disciplines are represented by nodes
     and coupling variables by edges whose thickness is proportional to its dispersion.
 
-    The dispersion is computed using a :class:`.DispersionMeasure`
+    The dispersion is computed using a
+    [DispersionMeasure][gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph.DispersionMeasure]
     such as the coefficient of variation (CV)
     or the quartile coefficient of dispersion (QCD).
 
     To be used as:
 
-    1. Instantiate an :class:`.UncertainCouplingGraph`.
-    2. Sample the multidisciplinary system using :meth:`.sample`.
-    3. Generate the coupling graph for a given dispersion measure,
-       using :meth:`.visualize`.
+    1. Instantiate an
+       [UncertainCouplingGraph][gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph].
+    2. Sample the multidisciplinary system, using
+       [sample()][gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph.sample].
+    3. Generate the coupling graph for a given dispersion measure, using
+       [visualize()][gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph.visualize].
 
     If you want to change the dispersion measure or filter the variables,
     repeat Step 3 with another dispersion measure or a list of variable names.
@@ -128,6 +131,7 @@ class UncertainCouplingGraph:
         dispersion_measure: DispersionMeasure = DispersionMeasure.QCD,
         variable_names: Iterable[str] | None = None,
         show: bool = True,
+        save: bool = True,
         file_path: str | Path = "",
         clean_up: bool = True,
     ) -> GraphView:
@@ -141,6 +145,7 @@ class UncertainCouplingGraph:
                 use all the coupling variables of interest defined at instantiation.
             show: Whether to display the graph
                 with the default application associated to the file extension.
+            save: Whether to save the graph on the disk.
             file_path: The file path with extension to save the graph.
                 If ``""``, use the class name with PNG format.
             clean_up: Whether to remove the source files.
@@ -195,5 +200,7 @@ class UncertainCouplingGraph:
                         penwidth=str(round(abs(disp_meas[i] * maximum_thickness), 2)),
                     )
 
-        graph_view.visualize(show=show, file_path=file_path, clean_up=clean_up)
+        if save:
+            graph_view.visualize(show=show, file_path=file_path, clean_up=clean_up)
+
         return graph_view

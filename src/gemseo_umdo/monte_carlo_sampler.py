@@ -77,7 +77,7 @@ class MonteCarloSampler:
             n_samples: The number of samples.
             seed: The seed value.
                 If ``None``,
-                use :attr:`.OpenTURNS.seed`.
+                use the [OpenTURNS.seed][gemseo.algos.doe.lib_openturns.OpenTURNS.seed].
 
         Returns:
             The input and output samples.

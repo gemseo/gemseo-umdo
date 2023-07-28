@@ -46,7 +46,7 @@ class BaseStatisticEstimator(ABC):
 
 
 class BaseStatisticEstimatorFactory(BaseFactory):
-    """The factory of :class:`.BaseStatisticEstimator`."""
+    """The factory of statistic estimators."""
 
     _CLASS = BaseStatisticEstimator
     _MODULE_NAMES = ("gemseo_umdo.estimators",)
