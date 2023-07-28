@@ -12,7 +12,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-r"""A level :math:`\ell` for the :class:`.MLMCMLCV` algorithm."""
+r"""A level $\ell$ for the MLMC-MLCV algorithm."""
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -22,20 +22,22 @@ from gemseo.core.mdofunctions.mdo_function import MDOFunction
 
 @dataclass
 class Level:
-    r"""A level :math:`\ell` for the :class:`.MLMCMLCV` algorithm."""
+    r"""A level $\ell$ for the MLMC-MLCV algorithm."""
 
     model: MDOFunction
-    r"""The model :math:`f_\ell` to sample.
+    r"""The model $f_\ell$ to sample.
 
     This model can be set from any callable taking a NumPy array of float numbers as
     input and outputting either a float number or a NumPy array of float numbers.
     """
 
     surrogate_model: tuple[MDOFunction, float]
-    r"""The surrogate model :math:`g_\ell` approximating :math:`f_\ell`.
+    r"""The surrogate model $g_\ell$ approximating $f_\ell$.
 
     More precisely,
-    :math:`g_\ell` and its statistic for the :class:`.MLMCMLCV` algorithm.
+    $g_\ell$ and its statistic for the
+    [MLMCMLCV][gemseo_umdo.statistics.multilevel.mlmc_mlcv.mlmc_mlcv.MLMCMLCV]
+    algorithm.
 
     The surrogate model can be set from any callable
     taking a NumPy array of float numbers as input
@@ -43,12 +45,14 @@ class Level:
     """
 
     difference_surrogate_model: tuple[MDOFunction, float] = ()
-    r"""The surrogate model :math:`h_\ell` approximating :math:`f_\ell-f_{\ell-1}`.
+    r"""The surrogate model $h_\ell$ approximating $f_\ell-f_{\ell-1}$.
 
     More precisely,
-    :math:`h_\ell` and its statistic for the :class:`.MLMCMLCV` algorithm.
+    $h_\ell$ and its statistic for the
+    [MLMCMLCV][gemseo_umdo.statistics.multilevel.mlmc_mlcv.mlmc_mlcv.MLMCMLCV]
+    algorithm.
 
-    Empty at level ``\ell=0``.
+    Empty at level $\ell=0$.
 
     The surrogate model can be set from any callable
     taking a NumPy array of float numbers as input
@@ -56,19 +60,19 @@ class Level:
     """
 
     cost: float | None = None
-    r"""The cost :math:`\mathcal{C}_\ell` to evaluate :math:`f_\ell`, if known."""
+    r"""The cost $\mathcal{C}_\ell$ to evaluate $f_\ell$, if known."""
 
     n_cost_estimation_samples: int = 1
-    r"""The number of :math:`f_\ell` calls to estimate :math:`\mathcal{C}_\ell`.
+    r"""The number of $f_\ell$ calls to estimate $\mathcal{C}_\ell$.
 
     It will be used only if ``cost`` is ``None``.
     """
 
     n_initial_samples: int = 10
-    r"""The number of samples :math:`n_\ell` at the first iteration of the algorithm."""
+    r"""The number of samples $n_\ell$ at the first iteration of the algorithm."""
 
     sampling_ratio: float = 2.0
-    r"""The factor :math:`r_\ell` by which :math:`n_\ell` is increased."""
+    r"""The factor $r_\ell$ by which $n_\ell$ is increased."""
 
     def __post_init__(self) -> None:
         if self.difference_surrogate_model:

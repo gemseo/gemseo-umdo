@@ -15,7 +15,6 @@
 """Scenarios to address multidisciplinary design problems under uncertainty."""
 from __future__ import annotations
 
-import logging
 from typing import Any
 from typing import Final
 from typing import Mapping
@@ -31,8 +30,6 @@ from gemseo.disciplines.analytic import AnalyticDiscipline
 from gemseo.formulations.formulations_factory import MDOFormulationsFactory
 
 from gemseo_umdo.formulations.factory import UMDOFormulationsFactory
-
-LOGGER = logging.getLogger(__name__)
 
 
 class _UScenario(Scenario):

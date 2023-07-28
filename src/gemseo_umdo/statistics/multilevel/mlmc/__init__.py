@@ -14,48 +14,43 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 r"""Multi-level Monte Carlo (MLMC) algorithm.
 
-The goal of the MLMC algorithm is to estimate a statistic :math:`theta`
+The goal of the MLMC algorithm is to estimate a statistic $\theta$
 (ex: mean, variance)
-of the output of a simulator :math:`f` whose input :math:`\mathbf{X}` is random:
-that is, a statistic :math:`theta` of :math:`Y=f(\mathbf{X})`.
+of the output of a simulator $f$ whose input $\mathbf{X}$ is random:
+that is, a statistic $\theta$ of $Y=f(\mathbf{X})$.
 
-Let :math:`(f_\ell)_{\ell = 0}^L` be a sequence of model levels
+Let $(f_\ell)_{\ell = 0}^L$ be a sequence of model levels
 with increasing accuracy and computational cost,
-such that :math:`f_\ell = f`.
+such that $f_L = f$.
 The MLMC algorithm uses all these models
-to estimate the statistic :math:`\theta_L` (a.k.a. :math:`theta`)
-of the random output variable :math:`f_L(\mathbf{X})`
-where :math:`\mathbf{X}` is a random input vector.
+to estimate the statistic $\theta_L$ (a.k.a. $\theta$)
+of the random output variable $f_L(\mathbf{X})$
+where $\mathbf{X}$ is a random input vector.
 
-We denote by :math:`Y_\ell=f_\ell(\mathbf{X})` the random output variable
-associated with the model level :math:`f_\ell`
-and by :math:`(\theta_\ell)_{\ell = 0}^L` the sequence of statistics
-increasingly *close* to :math:`\theta_L`
-where :math:`\theta_\ell` is the statistic of :math:`Y_\ell`.
+We denote by $Y_\ell=f_\ell(\mathbf{X})$ the random output variable
+associated with the model level $f_\ell$
+and by $(\theta_\ell)_{\ell = 0}^L$ the sequence of statistics
+increasingly *close* to $\theta_L$
+where $\theta_\ell$ is the statistic of $Y_\ell$.
 
-The statistical measure :math:`\theta_L` can be expressed as a telescoping sum:
+The statistical measure $\theta_L$ can be expressed as a telescoping sum
+$\theta_L = \sum \limits_{\ell = 0}^{L} T_\ell$,
+where $T_\ell = \theta_\ell - \theta_{\ell-1}$,
+and by convention $\theta_{-1} = 0$.
 
-.. math::
-
-   \theta_L = \sum \limits_{\ell = 0}^{L} T_\ell,
-
-where :math:`T_\ell = \theta_\ell - \theta_{\ell-1}`,
-and by convention :math:`\theta_{-1} = 0`.
-
-Let :math:`\hat{\theta}_{\ell,n_\ell}^{\mathrm{MC},(\ell)}`
-and :math:`\hat{\theta}_{\ell-1,n_\ell}^{\mathrm{MC},(\ell)}` be respectively
-the Monte Carlo (MC) estimators of :math:`\theta_\ell` and :math:`\theta_{\ell-1}`
-using the same :math:`n_{\ell}`-sample.
+Let $\hat{\theta}_{\ell,n_\ell}^{\mathrm{MC},(\ell)}$
+and $\hat{\theta}_{\ell-1,n_\ell}^{\mathrm{MC},(\ell)}$ be respectively
+the Monte Carlo (MC) estimators of $\theta_\ell$ and $\theta_{\ell-1}$
+using the same $n_{\ell}$-sample.
 
 Then,
-the MLMC estimator :math:`\hat{\theta}_L^{\mathrm{ML}}` of :math:`\theta_L`
+the MLMC estimator $\hat{\theta}_L^{\mathrm{ML}}$ of $\theta_L$
 may be expressed as:
 
-.. math::
-
-   \hat{\theta}_L^{\mathrm{ML}}
-   = \sum \limits_{\ell = 0}^{L} \hat{T}_{\ell,n_\ell}^{\mathrm{MC}}
-   = \sum \limits_{\ell = 0}^{L} \hat{\theta}_{\ell,n_\ell}^{\mathrm{MC},(\ell)}
-   - \hat{\theta}_{\ell-1,n_\ell}^{\mathrm{MC},(\ell)}.
+$$\hat{\theta}_L^{\mathrm{MLMC}}
+= \sum \limits_{\ell = 0}^{L} \hat{T}_{\ell,n_\ell}^{\mathrm{MC}}
+= \sum \limits_{\ell = 0}^{L} \hat{\theta}_{\ell,n_\ell}^{\mathrm{MC},(\ell)}
+- \hat{\theta}_{\ell-1,n_\ell}^{\mathrm{MC},(\ell)}.
+$$
 """
 from __future__ import annotations

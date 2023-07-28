@@ -15,66 +15,63 @@
 r"""The heat equation model.
 
 This model solves the 1D transient equation, a.k.a. heat equation.
-It describes the temperature evolution :math:`u` in a :math:`L`-length rod
-from the initial time 0 to the final time :math:`T`
-with a thermal diffusivity :math:`\nu(\mathbf{X})`
-depending on a random vector :math:`\mathbf{X}`.
+It describes the temperature evolution $u$ in a $L$-length rod
+from the initial time 0 to the final time $T$
+with a thermal diffusivity $\nu(\mathbf{X})$
+depending on a random vector $\mathbf{X}$.
 The heat equation is
 
-.. math::
+$$\frac{\partial u(x,t;\mathbf{X})}{\partial t}
+   - \nu(\mathbf{X})\frac{\partial^2 u(x,t;\mathbf{X})}{\partial x^2} = 0$$
 
-   \frac{\partial u(x,t;\mathbf{X})}{\partial t}
-   - \nu(\mathbf{X})\frac{\partial^2 u(x,t;\mathbf{X})}{\partial x^2} = 0
-
-with the boundary condition :math:`u(0,t;\mathbf{X})=u(L,t;\mathbf{X})=0`
-where :math:`x\in\mathcal{D}=[0,L]` and :math:`t\in[0,T]`.
+with the boundary condition $u(0,t;\mathbf{X})=u(L,t;\mathbf{X})=0$
+where $x\in\mathcal{D}=[0,L]$ and $t\in[0,T]$.
 
 To obtain an analytical solution,
-Geraci et al. (2015) chose :math:`L=1` and the uncertain initial condition:
+Geraci et al. (2015) chose $L=1$ and the uncertain initial condition:
 
-.. math::
-
-   u(x,0;\mathbf{X}) =
+$$u(x,0;\mathbf{X}) =
    \mathcal{G}(\mathbf{X})\mathcal{F}_1(x)
    +\mathcal{I}(\mathbf{X})\mathcal{F}_2(x)
+$$
 
 where
 
-- :math:`\mathcal{F}_1(x)=\sin(\pi x)`,
-- :math:`\mathcal{F}_2(x)=\sin(2\pi x)+\sin(3\pi x)
-          +50\left(\sin(9\pi x)+\sin(21\pi x)\right)`,
-- :math:`\mathcal{I}(\mathbf{X})=3.5
-         \left(\sin(X_1)+7\sin^2(X_2)+0.1X_3^4\sin(X_1)\right)`,
-- :math:`\mathcal{G}(\mathbf{X})=50\prod_{i=5}^7(4|X_i|-1)`
+- $\mathcal{F}_1(x)=\sin(\pi x)$,
+- $\mathcal{F}_2(x)=\sin(2\pi x)+\sin(3\pi x)
+          +50\left(\sin(9\pi x)+\sin(21\pi x)\right)$,
+- $\mathcal{I}(\mathbf{X})=3.5
+         \left(\sin(X_1)+7\sin^2(X_2)+0.1X_3^4\sin(X_1)\right)$,
+- $\mathcal{G}(\mathbf{X})=50\prod_{i=5}^7(4|X_i|-1)$.
 
 This uncertainty on the initial condition is modelled
-by the random variables :math:`X_1,\ldots X_7` that are independent and distributed as:
+by the random variables $X_1,\ldots X_7$ that are independent and distributed as:
 
-- :math:`X_i\sim\mathcal{U}(-\pi,\pi)`, for :math:`i\in\{1,2,3\}`,
-- :math:`\nu(\mathbf{X})=X_4\sim\mathcal{U}(\nu_{\min},\nu_{\max})`,
-- :math:`X_i\sim\mathcal{U}(-1,1)`, for :math:`i\in\{5,6,7\}`.
+- $X_i\sim\mathcal{U}(-\pi,\pi)$, for $i\in\{1,2,3\}$,
+- $\nu(\mathbf{X})=X_4\sim\mathcal{U}(\nu_{\min},\nu_{\max})$,
+- $X_i\sim\mathcal{U}(-1,1)$, for $i\in\{5,6,7\}$.
 
 Then,
 Geraci et al. (2015) consider the integral of the temperature along the rod
 
-.. math::
-
-   \mathcal{M}(\mathbf{X}) = \int_{\mathcal{D}}u(x,T;\mathbf{X})dx
+$$\mathcal{M}(\mathbf{X}) = \int_{\mathcal{D}}u(x,T;\mathbf{X})dx$$
 
 and are interested in the estimation
-of its :attr:`~.HeatEquationConfiguration.expectation`:
+of its
+[HeatEquationConfiguration][gemseo_umdo.use_cases.heat_equation.configuration.HeatEquationConfiguration.expectation]:
 
-.. math::
-
-   \mathbb{E}[\mathcal{M}(\mathbf{X})] = 50H_1+\frac{49}{4}(H_3+50H_9+50H_{21})
+$$\mathbb{E}[\mathcal{M}(\mathbf{X})] = 50H_1+\frac{49}{4}(H_3+50H_9+50H_{21})$$
 
 where
-:math:`H_k=\frac{2}{k^3\pi^3T}
-\frac{\exp(-\nu_{\min}k^2\pi^2T)-\exp(-\nu_{\max}k^2\pi^2T)}{\nu_{\max}-\nu_{\min}}`.
+$H_k=\frac{2}{k^3\pi^3T}
+\frac{\exp(-\nu_{\min}k^2\pi^2T)-\exp(-\nu_{\max}k^2\pi^2T)}{\nu_{\max}-\nu_{\min}}$.
 
-The model :class:`.HeatEquationModel` computes the temperature at final time
+The [HeatEquationModel][gemseo_umdo.use_cases.heat_equation.model.HeatEquationModel]
+computes the temperature at final time
 from instances of the random variables ``"X_1"``, ..., ``"X_7"``
-defined over the :class:`.HeatEquationUncertainSpace`.
+defined over the
+[HeatEquationUncertainSpace]
+[gemseo_umdo.use_cases.heat_equation.uncertain_space.HeatEquationUncertainSpace].
 The temperature ``"u_mesh"`` is computed at each mesh node
 while the temperature ``"u"`` is an integral over the rod.
 
@@ -183,9 +180,9 @@ class HeatEquationModel:
             batch_size: The maximum number of samples per batch.
 
         Returns:
-            The integrated temperature shaped as ``(sample_size, )`` or ``()``,
-            the temperature at the different nodes shaped as ``(sample_size, n_nodes)``
-            or ``(n_nodes, )``.
+            - The integrated temperature shaped as ``(sample_size, )`` or ``()``.
+            - The temperature at the different nodes
+                shaped as ``(sample_size, n_nodes)`` or ``(n_nodes, )``.
         """
         if input_samples is None:
             input_samples = self.__default_input_value

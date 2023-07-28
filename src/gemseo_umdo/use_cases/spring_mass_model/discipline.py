@@ -24,7 +24,7 @@ from gemseo_umdo.use_cases.spring_mass_model.model import SpringMassModel
 
 
 class SpringMassDiscipline(MDODiscipline):
-    r"""The |g|-based spring-mass model :math:`m\frac{d^2z(t)}{dt^2} = -kz(t) + mg`.
+    r"""The |g|-based spring-mass model $m\frac{d^2z(t)}{dt^2} = -kz(t) + mg$.
 
     This model computes the time displacement of an object attached to a spring in
     function of the stiffness of the spring.

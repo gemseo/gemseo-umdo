@@ -31,59 +31,60 @@ class Pilot(metaclass=ABCGoogleDocstringInheritanceMeta):
     r"""The base pilot for multi-level algorithms.
 
     A pilot is associated with a statistic, e.g. mean.
-    The method :meth:`.compute_next_level_and_statistic` returns
-    a multi-level estimation of the statistic based on the current samples
-    and the next level :math:`\ell^*` of the telescopic sum to sample
+    The method
+    [compute_next_level_and_statistic()][gemseo_umdo.statistics.multilevel.pilot.Pilot.compute_next_level_and_statistic]
+    returns a multi-level estimation of the statistic based on the current samples
+    and the next level $\ell^*$ of the telescopic sum to sample
     in order to improve this estimation.
 
-    This level :math:`\ell^*` maximizes the criterion
+    This level $\ell^*$ maximizes the criterion
 
-    :math:`\frac{\mathcal{V}_\ell}
-    {r_\ell n_\ell^2(\mathcal{C}_\ell+\mathcal{C}_{\ell-1}}`
+    $$\frac{\mathcal{V}_\ell}
+    {r_\ell n_\ell^2(\mathcal{C}_\ell+\mathcal{C}_{\ell-1}}$$
 
-    where :math:`\mathcal{C}_{\ell}` is the unit evaluation cost
-    of the model :math:`f_\ell` (with :math:`\mathcal{C}_{-1}=0`),
-    :math:`n_\ell` is the current number of evaluations of :math:`f_\ell`
-    and :math:`r_\ell` is the factor by which :math:`n_\ell` would be increased
-    by choosing the level :math:`\ell`.
-    Regarding :math:`\mathcal{V}_\ell`,
-    it represents the variance of the :math:`\ell`-th term of the telescopic sum
+    where $\mathcal{C}_{\ell}$ is the unit evaluation cost
+    of the model $f_\ell$ (with $\mathcal{C}_{-1}=0$),
+    $n_\ell$ is the current number of evaluations of $f_\ell$
+    and $r_\ell$ is the factor by which $n_\ell$ would be increased
+    by choosing the level $\ell$.
+    Regarding $\mathcal{V}_\ell$,
+    it represents the variance of the $\ell$-th term of the telescopic sum
     characteristic of the MLMC techniques.
     For instance,
-    :math:`\mathcal{V}_\ell=\mathbb{E}[Y_\ell-Y_{\ell}]` in the case of the expectation.
+    $\mathcal{V}_\ell=\mathbb{E}[Y_\ell-Y_{\ell}]$ in the case of the expectation.
 
     See Also:
         El Amri et al., Algo. 1, Multilevel Surrogate-based Control Variates, 2023.
     """
 
     V_l: NDArray[float]
-    r"""The terms variances :math:`\mathcal{V}_0,\ldots,\mathcal{V}_L`."""
+    r"""The terms variances $\mathcal{V}_0,\ldots,\mathcal{V}_L$."""
 
     __costs: NDArray[float]
     r"""The unit sampling costs of each level of the telescopic sum.
 
     Namely,
-    :math:`(\mathcal{C}_{\ell-1}+\mathcal{C}_\ell)_{\ell\in\{0,\ldots,L\}}`
-    with :math:`\mathcal{C}_{-1}=0`.
+    $(\mathcal{C}_{\ell-1}+\mathcal{C}_\ell)_{\ell\in\{0,\ldots,L\}}$
+    with $\mathcal{C}_{-1}=0$.
     """
 
     __r_l: NDArray[float]
     r"""The sampling ratios of each level of the telescopic sum.
 
-    Namely, :math:`r_0,r_1,\ldots,r_L`.
+    Namely, $r_0,r_1,\ldots,r_L$.
     """
 
     def __init__(self, sampling_ratios: NDArray[float], costs: NDArray[float]) -> None:
         r"""
         Args:
-            sampling_ratios: The sampling ratios :math:`r_0,\ldots,r_L`;
-                the sampling ratio :math:`r_\ell` is
-                the factor by which :math:`n_\ell` is increased
-                between two sampling steps on the level :math:`ell`.
+            sampling_ratios: The sampling ratios $r_0,\ldots,r_L$;
+                the sampling ratio $r_\ell$ is
+                the factor by which $n_\ell$ is increased
+                between two sampling steps on the level $ell$.
             costs: The unit sampling costs of each level of the telescopic sum.
                 Namely,
-                :math:`(\mathcal{C}_{\ell-1}+\mathcal{C}_\ell)_{\ell\in\{0,\ldots,L\}}`
-                with :math:`\mathcal{C}_{-1}=0`.
+                $(\mathcal{C}_{\ell-1}+\mathcal{C}_\ell)_{\ell\in\{0,\ldots,L\}}$
+                with $\mathcal{C}_{-1}=0$.
         """  # noqa: D205 D212 D415
         self.__costs = costs
         self.__r_l = sampling_ratios
@@ -96,7 +97,7 @@ class Pilot(metaclass=ABCGoogleDocstringInheritanceMeta):
         samples: Sequence[NDArray[float]],
         *pilot_parameters: Any,
     ) -> tuple[int, NDArray[float]]:
-        r"""Compute the next level :math:`\ell^*` to sample and estimate the statistic.
+        r"""Compute the next level $\ell^*$ to sample and estimate the statistic.
 
         Args:
             levels: The levels that have just been sampled.
@@ -105,7 +106,7 @@ class Pilot(metaclass=ABCGoogleDocstringInheritanceMeta):
             *pilot_parameters: The parameters of the pilot.
 
         Returns:
-            The next level :math:`\ell^*` to sample and an estimation of the statistic.
+            The next level $\ell^*$ to sample and an estimation of the statistic.
         """
         self.V_l = self._compute_V_l(levels, samples, *pilot_parameters)
         # WARNING: do not replace "/ total_n_samples / total_n_samples"
@@ -129,7 +130,7 @@ class Pilot(metaclass=ABCGoogleDocstringInheritanceMeta):
         samples: Sequence[NDArray[float]],
         *pilot_parameters: Any,
     ) -> NDArray[float]:
-        r"""Compute the terms variances :math:`\mathcal{V}_0,\ldots,\mathcal{V}_L`.
+        r"""Compute the terms variances $\mathcal{V}_0,\ldots,\mathcal{V}_L$.
 
         Args:
             levels: The previous sampled levels.
@@ -137,5 +138,5 @@ class Pilot(metaclass=ABCGoogleDocstringInheritanceMeta):
             *pilot_parameters: The parameters of the pilot.
 
         Returns:
-            The terms variances :math:`\mathcal{V}_0,\ldots,\mathcal{V}_L`.
+            The terms variances $\mathcal{V}_0,\ldots,\mathcal{V}_L$.
         """

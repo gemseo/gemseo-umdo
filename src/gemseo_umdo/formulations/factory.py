@@ -21,7 +21,7 @@ from gemseo_umdo.formulations.formulation import UMDOFormulation
 
 
 class UMDOFormulationsFactory(MDOFormulationsFactory):
-    """The factory of :class:`.UMDOFormulation`."""
+    """The factory of UMDO formulations."""
 
     _CLASS = UMDOFormulation
     _MODULE_NAMES = ("gemseo_umdo.formulations",)

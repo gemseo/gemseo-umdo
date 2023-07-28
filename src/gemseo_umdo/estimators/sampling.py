@@ -36,7 +36,7 @@ class SamplingEstimator(BaseStatisticEstimator):
 
 
 class SamplingEstimatorFactory(BaseFactory):
-    """The factory of :class:`.SamplingEstimator`."""
+    """The factory of sampling-based statistic estimators."""
 
     _CLASS = SamplingEstimator
     _MODULE_NAMES = ()

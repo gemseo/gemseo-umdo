@@ -14,24 +14,23 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 r"""Sampling for multidisciplinary design problems under uncertainty.
 
-:class:`~gemseo_umdo.formulations.sampling.Sampling` is an
-:class:`~gemseo_umdo.formulations.formulation.UMDOFormulation`
+[Sampling][gemseo_umdo.formulations.sampling.Sampling] is an
+[UMDOFormulation][gemseo_umdo.formulations.formulation.UMDOFormulation]
 estimating the statistics with (quasi) Monte Carlo techniques.
 
 E.g.
-:math:`\mathbb{E}[f(x,U)] \approx \frac{1}{N}\sum_{i=1}^N f\left(x,U^{(i)}\right)`
+$\mathbb{E}[f(x,U)] \approx \frac{1}{N}\sum_{i=1}^N f\left(x,U^{(i)}\right)$
 or
-:math:`\mathbb{V}[f(x,U)] \approx
+$\mathbb{V}[f(x,U)] \approx
 \frac{1}{N}\sum_{i=1}^N \left(f\left(x,U^{(i)}\right)-
-\frac{1}{N}\sum_{j=1}^N f\left(x,U^{(j)}\right)\right)^2`
-where :math:`U` is normally distributed
-with mean :math:`\mu` and unit variance :math:`\sigma`
-and :math:`U^{(1)},\ldots,U^{(1)}` are :math:`N` realizations of :math:`U`
+\frac{1}{N}\sum_{j=1}^N f\left(x,U^{(j)}\right)\right)^2$
+where $U$ is normally distributed
+with mean $\muv and unit variance $\sigma$
+and $U^{(1)},\ldots,U^{(1)}$ are $N$ realizations of $U$
 obtained with an optimized Latin hypercube sampling technique.
 """
 from __future__ import annotations
 
-import logging
 from typing import Any
 from typing import ClassVar
 from typing import Mapping
@@ -50,13 +49,11 @@ from numpy import ndarray
 from gemseo_umdo.estimators.sampling import SamplingEstimatorFactory
 from gemseo_umdo.formulations.formulation import UMDOFormulation
 
-LOGGER = logging.getLogger(__name__)
-
 
 class Sampling(UMDOFormulation):
     """Sampling-based robust MDO formulation."""
 
-    _STATISTIC_FACTORY: ClassVar = SamplingEstimatorFactory()
+    _STATISTIC_FACTORY: ClassVar[SamplingEstimatorFactory] = SamplingEstimatorFactory()
 
     def __init__(
         self,

@@ -1,0 +1,84 @@
+site_name: gemseo-umdo
+site_url: https://gemseo.gitlab.io/gemseo-umdo
+site_dir: public
+
+theme:
+  name: material
+  custom_dir: docs/overrides
+  favicon: images/favicon.ico
+  logo: images/logo.png
+  features:
+    - navigation.tabs
+    - navigation.instant
+  palette:
+    primary: custom
+
+plugins:
+- search
+- gen-files:
+    scripts:
+    - docs/gen_ref_pages.py
+- literate-nav:
+    nav_file: SUMMARY.md
+- section-index
+- mkdocstrings:
+    handlers:
+      python:
+        paths: [src]
+        import:
+        - https://docs.python.org/3/objects.inv
+        - https://gemseo.readthedocs.io/en/stable/objects.inv
+        - https://matplotlib.org/stable/objects.inv
+        - https://numpy.org/doc/stable/objects.inv
+        - https://docs.scipy.org/doc/scipy/objects.inv
+        - https://openturns.github.io/openturns/latest/objects.inv
+        options:
+          extensions:
+          - docs/docstring_inheritance.py:DocstringInheritance
+          filters:
+          - "!^_"
+          # docstring_options:
+          #   ignore_init_summary: true
+          docstring_section_style: list
+          heading_level: 1
+          inherited_members: true
+#          preload_modules:
+#          - gemseo
+          merge_init_into_class: true
+          separate_signature: true
+          show_root_heading: true
+          show_root_full_path: false
+          show_signature_annotations: true
+          # show_symbol_type_heading: true
+          show_symbol_type_toc: true
+          # signature_crossrefs: true
+- gallery:
+    conf_script: docs/gallery_conf.py
+    default_thumb_file: docs/images/monogram.png
+- include-markdown
+
+nav:
+- Home: index.md
+- User guide: user_guide/
+- Examples: generated/examples/
+- Code: reference/gemseo_umdo/
+- More:
+  - Changelog: changelog.md
+  - Getting started: getting_started.md
+  - Modules: reference/SUMMARY.md
+
+markdown_extensions:
+- pymdownx.arithmatex:
+    generic: true
+
+extra_javascript:
+- javascripts/mathjax.js
+- https://polyfill.io/v3/polyfill.min.js?features=es6
+- https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+# extra_css:
+#   - css/extra.css
+
+watch:
+  # mkdoc serve will rebuild the pages when changes in the docstrings.
+  - src/gemseo_umdo

@@ -14,24 +14,24 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 r"""Sequential sampling for multidisciplinary design problems under uncertainty.
 
-:class:`.SequentialSampling` is an :class:`.UMDOFormulation`
+[SequentialSampling][gemseo_umdo.formulations.sequential_sampling.SequentialSampling]
+is an [UMDOFormulation][gemseo_umdo.formulations.formulation.UMDOFormulation]
 estimating the statistics with sequential (quasi) Monte Carlo techniques.
 
 E.g.
-:math:`\mathbb{E}[f(x,U)] \approx \frac{1}{N}\sum_{i=1}^N f\left(x,U^{(i)}\right)`
+$\mathbb{E}[f(x,U)] \approx \frac{1}{N}\sum_{i=1}^N f\left(x,U^{(i)}\right)$
 or
-:math:`\mathbb{V}[f(x,U)] \approx
+$\mathbb{V}[f(x,U)] \approx
 \frac{1}{N}\sum_{i=1}^N \left(f\left(x,U^{(i)}\right)-
-\frac{1}{N}\sum_{j=1}^N f\left(x,U^{(j)}\right)\right)^2`
-where :math:`U` is normally distributed
-with mean :math:`\mu` and unit variance :math:`\sigma`
-and :math:`U^{(k,1)},\ldots,U^{(k,N_k)}` are :math:`N_k` realizations of :math:`U`
+\frac{1}{N}\sum_{j=1}^N f\left(x,U^{(j)}\right)\right)^2$
+where $U$ is normally distributed
+with mean $\mu$ and unit variance $\sigma$
+and $U^{(k,1)},\ldots,U^{(k,N_k)}$ are $N_k$ realizations of $U$
 obtained at the $k$-th iteration of the optimization loop
 with an optimized Latin hypercube sampling technique.
 """
 from __future__ import annotations
 
-import logging
 from typing import Any
 from typing import Mapping
 from typing import Sequence
@@ -43,8 +43,6 @@ from gemseo.core.discipline import MDODiscipline
 from gemseo.core.formulation import MDOFormulation
 
 from gemseo_umdo.formulations.sampling import Sampling
-
-LOGGER = logging.getLogger(__name__)
 
 
 class SequentialSampling(Sampling):

@@ -42,61 +42,61 @@ class BeamModel:
     r"""The beam model.
 
     We consider an horizontal beam
-    with length :math:`L`, width :math:`b` and height :math:`h`.
+    with length $L$, width $b$ and height $h$.
     This beam is hollow and made of a material
-    with a Young's modulus :math:`E`,
-    a Poisson's ratio :math:`\nu`
-    and a thickness :math:`t`.
-    One of its ends is fixed at :math:`x=0` (the "root")
-    while the other  at :math:`x=L`(the "tip") is free.
-    The :math:`y`-axis is horizontal and perpendicular to the beam,
-    the :math:`z` is vertical
-    and the center of the root is at the origin :math:`(0, 0, 0)`.
+    with a Young's modulus $E$,
+    a Poisson's ratio $\nu$
+    and a thickness $t$.
+    One of its ends is fixed at $x=0$ (the "root")
+    while the other  at $x=L$ (the "tip") is free.
+    The $y$-axis is horizontal and perpendicular to the beam,
+    the $z$ is vertical
+    and the center of the root is at the origin $(0, 0, 0)$.
 
-    A force :math:`\vec{F}` of amplitude :math:`F` is applied to the beam
-    at :math:`(L, dy, dz)`
-    with an angle :math:`\alpha` w.r.t. :math:`-\vec{e}_y` in the xz-plane
-    and an angle :math:`\beta` w.r.t. :math:`-\vec{e}_y` in the yz-plane,
-    where :math:`\vec{e}_y` is the unit vector along the :math:`y`-axis.
+    A force $\vec{F}$ of amplitude $F$ is applied to the beam
+    at $(L, dy, dz)$
+    with an angle $\alpha$ w.r.t. $-\vec{e}_y$ in the xz-plane
+    and an angle $\beta$ w.r.t. $-\vec{e}_y$ in the yz-plane,
+    where $\vec{e}_y$ is the unit vector along the $y$-axis.
 
     From these settings,
-    the model computes the weight of the beam :math:`w=2 \rho L (b + h -2t)`
-    and several quantities on a regular :math:`yz`-grid:
+    the model computes the weight of the beam $w=2 \rho L (b + h -2t)$
+    and several quantities on a regular $yz$-grid:
 
-    - the strain energy vector :math:`\vec{U}=(U_x,U_y,U_z)` at the tip,
-    - the normal stress :math:`\sigma` at the root,
-    - the torsional stress :math:`\tau` at the root,
-    - the displacement :math:`\delta` at the tip,
-    - the von Mises stress :math:`\sigma_{\text{VM}}` at the root.
+    - the strain energy vector $\vec{U}=(U_x,U_y,U_z)$ at the tip,
+    - the normal stress $\sigma$ at the root,
+    - the torsional stress $\tau$ at the root,
+    - the displacement $\delta$ at the tip,
+    - the von Mises stress $\sigma_{\text{VM}}$ at the root.
 
     The equations are:
 
     - Force components
-      - :math:`F_x=F\sin(\alpha)`
-      - :math:`F_y=F\cos(\alpha)\sin(\beta)`
-      - :math:`F_z=F\cos(\alpha)\cos(\beta)`
+        - $F_x=F\sin(\alpha)$
+        - $F_y=F\cos(\alpha)\sin(\beta)$
+        - $F_z=F\cos(\alpha)\cos(\beta)$
     - Inertia
-      - :math:`I_x=(2tb^2h^2)/(b + h)`
-      - :math:`I_y=(bh^3-(b-2t)(h-2t)^3)/12`
-      - :math:`I_z=(hb^3-(h-2t)(b-2t)^3)/12`
+        - $I_x=(2tb^2h^2)/(b + h)$
+        - $I_y=(bh^3-(b-2t)(h-2t)^3)/12$
+        - $I_z=(hb^3-(h-2t)(b-2t)^3)/12$
     - Strain energy
-      - :math:`U_x = E^{-1} \{ \frac{ F_x L }{ 2t (b+h-2t) }
-        + zL (F_x dZ - F_z L/2) I_y^{-1} - yL (F_y L/2 - F_x dY) I_z^{-1} \}`
-      - :math:`U_y = E^{-1} \{ (F_y L^3/3 - F_x dY L^2/2)I_z^{-1}
-        - zL \frac{ F_zdY-F_ydZ }{ 2 (1+\nu) I_x } \}`
-      - :math:`U_z = E^{-1} \{ (F_z L^3/3 - F_xdZ L^2/2) I_y^{-1}
-        + yL \frac{ F_zdY-F_ydZ }{ 2 (1+\nu) I_x } \}`
+        - $U_x = E^{-1} \{ \frac{ F_x L }{ 2t (b+h-2t) } +
+          zL (F_x dZ - F_z L/2) I_y^{-1} - yL (F_y L/2 - F_x dY) I_z^{-1} \}$
+        - $U_y = E^{-1} \{ (F_y L^3/3 - F_x dY L^2/2)I_z^{-1} -
+          zL \frac{ F_zdY-F_ydZ }{ 2 (1+\nu) I_x } \}$
+        - $U_z = E^{-1} \{ (F_z L^3/3 - F_xdZ L^2/2) I_y^{-1} +
+          yL \frac{ F_zdY-F_ydZ }{ 2 (1+\nu) I_x } \}$
     - Displacements
-      - :math:`\delta=\sqrt{U_x^2+U_y^2+U_z^2}`
+        - $\delta=\sqrt{U_x^2+U_y^2+U_z^2}$
     - Torsional stress
-      - :math:`\tau_x=(F_zdY-F_ydZ)/(2bht)`
-      - :math:`\tau_y= - (0.5|z|(b-t)+(b-t)^2(1-4y^2/(b-t)^2))F_y\text{sign}(z)/(8I_z)`
-      - :math:`\tau_z=(0.5|y|(h-t)+(h-t)^2(1-4z^2/(h-t)^2))F_z\text{sign}(y)/(8I_y)`
-      - :math:`\tau = \tau_x + \tau_y + \tau_z`
+        - $\tau_x=(F_zdY-F_ydZ)/(2bht)$
+        - $\tau_y= - (0.5|z|(b-t)+(b-t)^2(1-4y^2/(b-t)^2))F_y\text{sign}(z)/(8I_z)$
+        - $\tau_z=(0.5|y|(h-t)+(h-t)^2(1-4z^2/(h-t)^2))F_z\text{sign}(y)/(8I_y)$
+        - $\tau = \tau_x + \tau_y + \tau_z$
     - Stress
-      - :math:`\sigma = F_x/(2t(b+h-2t)) + y (F_xdY-F_yL)/I_z + z (F_xdZ-F_zL)/I_y`
+        - $\sigma = F_x/(2t(b+h-2t)) + y (F_xdY-F_yL)/I_z + z (F_xdZ-F_zL)/I_y$
     - von Mises stress
-      - :math:`\sigma_{\text{VM}} = \sqrt{\sigma^2 + 3\tau^2}`
+        - $\sigma_{\text{VM}} = \sqrt{\sigma^2 + 3\tau^2}$
     """
 
     def __init__(self, n_y: int = 3, n_z: int = 3) -> None:
@@ -131,20 +131,20 @@ class BeamModel:
             t: The thickness of the beam.
             L: The length of the beam.
             E: The Young's modulus of the material.
-            alpha: The angle between :math:`-\vec{e}_z` and :math:`\vec{F}`
-                in the :math:`xz`-plane.
-            beta: The angle between :math:`-\vec{e}`_z and :math:`\vec{F}`
-                in the :math:`yz`-plane.
-            dy: The :math:`y`-coordinate of the point where the force is applied.
-            dz: the :math:`z`-coordinate of the point where the force is applied
+            alpha: The angle between $-\vec{e}_z$ and $\vec{F}$
+                in the $xz$-plane.
+            beta: The angle between $-\vec{e}_z$ and $\vec{F}$
+                in the $yz$-plane.
+            dy: The $y$-coordinate of the point where the force is applied.
+            dz: the $z$-coordinate of the point where the force is applied
             rho: The density of the material.
             F: The load applied to a point at the tip of the beam.
             nu: The Poisson's ratio.
 
         Returns:
-            The strain energy along the :math:`x`-axis,
-            the strain energy along the :math:`y`-axis,
-            the strain energy along the :math:`z`-axis,
+            The strain energy along the $x$-axis,
+            the strain energy along the $y$-axis,
+            the strain energy along the $z$-axis,
             the normal stress at the root section points,
             the torsional stress at the root section points,
             the displacement at the tip section points,

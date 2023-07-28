@@ -12,7 +12,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-"""The uncertain space to be used with the :class:`.HeatEquation` discipline."""
+"""The uncertain space to be used with the heat equation discipline."""
 from __future__ import annotations
 
 from gemseo.algos.parameter_space import ParameterSpace
@@ -20,13 +20,13 @@ from numpy import pi
 
 
 class HeatEquationUncertainSpace(ParameterSpace):
-    """The uncertain space to be used with the :class:`.HeatEquation` discipline."""
+    """The uncertain space to be used with the heat equation discipline."""
 
     def __init__(self, nu_bounds: tuple[float, float] = (0.001, 0.009)) -> None:
         r"""
         Args:
             nu_bounds: The lower and upper bounds
-                of the thermal diffusivity :math:`\nu`.
+                of the thermal diffusivity $\nu$.
         """  # noqa: D205 D212 D415
         distribution_name = "OTUniformDistribution"
         super().__init__()
