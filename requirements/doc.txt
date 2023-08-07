@@ -12,12 +12,17 @@ click==8.1.6
     # via mkdocs
 colorama==0.4.6
     # via
+    #   click
     #   griffe
+    #   mkdocs
     #   mkdocs-material
+    #   tqdm
 contourpy==1.1.0
     # via matplotlib
 cycler==0.11.0
     # via matplotlib
+decorator==5.1.1
+    # via validators
 dill==0.3.7
     # via openturns
 docstring-inheritance==2.0.0
@@ -59,7 +64,9 @@ joblib==1.3.1
     # via scikit-learn
 kiwisolver==1.4.4
     # via matplotlib
-markdown==3.3.7
+latexcodec==2.0.1
+    # via pybtex
+markdown==3.4.4
     # via
     #   mkdocs
     #   mkdocs-autorefs
@@ -69,6 +76,7 @@ markdown==3.3.7
 markupsafe==2.1.3
     # via
     #   jinja2
+    #   mkdocs
     #   mkdocstrings
 matplotlib==3.7.1
     # via
@@ -76,9 +84,10 @@ matplotlib==3.7.1
     #   gemseo-umdo (setup.py)
 mergedeep==1.3.4
     # via mkdocs
-mkdocs==1.4.3
+mkdocs==1.5.1
     # via
     #   mkdocs-autorefs
+    #   mkdocs-bibtex
     #   mkdocs-gallery
     #   mkdocs-gen-files
     #   mkdocs-literate-nav
@@ -87,6 +96,8 @@ mkdocs==1.4.3
     #   mkdocstrings
 mkdocs-autorefs==0.4.1
     # via mkdocstrings
+mkdocs-bibtex==2.11.0
+    # via gemseo-umdo (setup.py)
 mkdocs-gallery==0.7.8
     # via gemseo-umdo (setup.py)
 mkdocs-gen-files==0.5.0
@@ -95,7 +106,7 @@ mkdocs-include-markdown-plugin==4.0.4
     # via gemseo-umdo (setup.py)
 mkdocs-literate-nav==0.6.0
     # via gemseo-umdo (setup.py)
-mkdocs-material==9.1.19
+mkdocs-material==9.1.21
     # via
     #   gemseo-umdo (setup.py)
     #   mkdocs-gallery
@@ -139,12 +150,24 @@ packaging==23.1
     #   mkdocs
 pandas==2.0.0
     # via gemseo
+pandoc==2.3
+    # via gemseo-umdo (setup.py)
+pathspec==0.11.2
+    # via mkdocs
 pillow==9.5.0
     # via
     #   gemseo
     #   matplotlib
+platformdirs==3.10.0
+    # via mkdocs
+plumbum==1.8.2
+    # via pandoc
+ply==3.11
+    # via pandoc
 psutil==5.9.5
     # via openturns
+pybtex==0.24.0
+    # via mkdocs-bibtex
 pydantic==1.10.8
     # via gemseo
 pydoe2==1.3.0
@@ -155,7 +178,9 @@ pymdown-extensions==10.1
     # via
     #   mkdocs-material
     #   mkdocstrings
-pyparsing==3.1.0
+pypandoc==1.11
+    # via mkdocs-bibtex
+pyparsing==3.1.1
     # via matplotlib
 python-dateutil==2.8.2
     # via
@@ -164,11 +189,16 @@ python-dateutil==2.8.2
     #   pandas
 pytz==2023.3
     # via pandas
+pywin32==306
+    # via
+    #   plumbum
+    #   xlwings
 pyxdsm==2.2.2
     # via gemseo
 pyyaml==6.0.1
     # via
     #   mkdocs
+    #   pybtex
     #   pymdown-extensions
     #   pyyaml-env-tag
 pyyaml-env-tag==0.1
@@ -178,6 +208,7 @@ regex==2023.6.3
 requests==2.31.0
     # via
     #   gemseo
+    #   mkdocs-bibtex
     #   mkdocs-material
 scikit-learn==1.2.2
     # via gemseo
@@ -188,7 +219,10 @@ scipy==1.10.1
     #   pydoe2
     #   scikit-learn
 six==1.16.0
-    # via python-dateutil
+    # via
+    #   latexcodec
+    #   pybtex
+    #   python-dateutil
 strenum==0.4.10
     # via gemseo
 sympy==1.11.1
@@ -208,9 +242,13 @@ tzdata==2023.3
     # via pandas
 urllib3==2.0.4
     # via requests
+validators==0.20.0
+    # via mkdocs-bibtex
 watchdog==3.0.0
     # via mkdocs
 xdsmjs==2.0.0
+    # via gemseo
+xlwings==0.27.15
     # via gemseo
 xxhash==3.2.0
     # via gemseo
