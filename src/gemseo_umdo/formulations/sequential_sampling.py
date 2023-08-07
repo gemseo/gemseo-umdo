@@ -19,13 +19,13 @@ is an [UMDOFormulation][gemseo_umdo.formulations.formulation.UMDOFormulation]
 estimating the statistics with sequential (quasi) Monte Carlo techniques.
 
 E.g.
-$\mathbb{E}[f(x,U)] \approx \frac{1}{N}\sum_{i=1}^N f\left(x,U^{(i)}\right)$
+$\mathbb{E}[f(x,U)] \approx \frac{1}{N_k}\sum_{i=1}^{N_k} f\left(x,U^{(k,i)}\right)$
 or
 $\mathbb{V}[f(x,U)] \approx
-\frac{1}{N}\sum_{i=1}^N \left(f\left(x,U^{(i)}\right)-
-\frac{1}{N}\sum_{j=1}^N f\left(x,U^{(j)}\right)\right)^2$
+\frac{1}{N_k-1}\sum_{i=1}^{N_k} \left(f\left(x,U^{(k,i)}\right)-
+\frac{1}{N_k}\sum_{j=1}^{N_k} f\left(x,U^{(k,j)}\right)\right)^2$
 where $U$ is normally distributed
-with mean $\mu$ and unit variance $\sigma$
+with mean $\mu$ and variance $\sigma^2$
 and $U^{(k,1)},\ldots,U^{(k,N_k)}$ are $N_k$ realizations of $U$
 obtained at the $k$-th iteration of the optimization loop
 with an optimized Latin hypercube sampling technique.

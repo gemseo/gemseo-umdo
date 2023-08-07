@@ -12,7 +12,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-"""A generic algorithm for multi-level Monte Carlo (MLMC) sampling."""
+"""A generic algorithm for multilevel Monte Carlo (MLMC) sampling."""
 from __future__ import annotations
 
 import logging
@@ -47,7 +47,7 @@ LOGGER = logging.getLogger(__name__)
 
 
 class MLMC:
-    r"""Multi-level Monte Carlo (MLMC) algorithm.
+    r"""Multilevel Monte Carlo (MLMC) algorithm.
 
     This algorithm aims at sampling the different model levels in an adaptive way,
     with many evaluations for the coarsest model

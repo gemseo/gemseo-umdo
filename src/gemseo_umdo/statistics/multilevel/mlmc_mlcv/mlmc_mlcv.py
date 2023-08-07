@@ -12,7 +12,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-"""Multi-level Monte Carlo with multi-level control variates (MLMC-MLCV)."""
+"""Multilevel Monte Carlo with multilevel control variates (MLMC-MLCV)."""
 from __future__ import annotations
 
 from typing import Sequence
@@ -30,7 +30,7 @@ from gemseo_umdo.statistics.multilevel.mlmc_mlcv.pilots.factory import (
 
 
 class MLMCMLCV(MLMC):
-    """Multi-level Monte Carlo with multi-level control variates (MLMC-MLCV)."""
+    """Multilevel Monte Carlo with multilevel control variates (MLMC-MLCV)."""
 
     class Variant(StrEnum):
         """A variant of the MLMC-MLCV algorithm."""

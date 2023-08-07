@@ -12,7 +12,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-r"""Multi-level Monte Carlo (MLMC) algorithm.
+r"""Multilevel Monte Carlo (MLMC) algorithm.
 
 The goal of the MLMC algorithm is to estimate a statistic $\theta$
 (ex: mean, variance)

@@ -12,7 +12,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-"""The base pilot for multi-level algorithms."""
+"""The base pilot for multilevel algorithms."""
 from __future__ import annotations
 
 from abc import abstractmethod
@@ -28,19 +28,19 @@ from numpy.typing import NDArray
 
 
 class Pilot(metaclass=ABCGoogleDocstringInheritanceMeta):
-    r"""The base pilot for multi-level algorithms.
+    r"""The base pilot for multilevel algorithms.
 
     A pilot is associated with a statistic, e.g. mean.
     The method
     [compute_next_level_and_statistic()][gemseo_umdo.statistics.multilevel.pilot.Pilot.compute_next_level_and_statistic]
-    returns a multi-level estimation of the statistic based on the current samples
+    returns a multilevel estimation of the statistic based on the current samples
     and the next level $\ell^*$ of the telescopic sum to sample
     in order to improve this estimation.
 
     This level $\ell^*$ maximizes the criterion
 
     $$\frac{\mathcal{V}_\ell}
-    {r_\ell n_\ell^2(\mathcal{C}_\ell+\mathcal{C}_{\ell-1}}$$
+    {r_\ell n_\ell^2(\mathcal{C}_\ell+\mathcal{C}_{\ell-1})}$$
 
     where $\mathcal{C}_{\ell}$ is the unit evaluation cost
     of the model $f_\ell$ (with $\mathcal{C}_{-1}=0$),

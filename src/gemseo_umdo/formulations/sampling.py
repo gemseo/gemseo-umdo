@@ -25,8 +25,8 @@ $\mathbb{V}[f(x,U)] \approx
 \frac{1}{N}\sum_{i=1}^N \left(f\left(x,U^{(i)}\right)-
 \frac{1}{N}\sum_{j=1}^N f\left(x,U^{(j)}\right)\right)^2$
 where $U$ is normally distributed
-with mean $\muv and unit variance $\sigma$
-and $U^{(1)},\ldots,U^{(1)}$ are $N$ realizations of $U$
+with mean $\mu$ and variance $\sigma^2$
+and $U^{(1)},\ldots,U^{(N)}$ are $N$ realizations of $U$
 obtained with an optimized Latin hypercube sampling technique.
 """
 from __future__ import annotations

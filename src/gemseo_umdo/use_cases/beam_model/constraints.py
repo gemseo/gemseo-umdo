@@ -26,8 +26,8 @@ from gemseo_umdo.use_cases.beam_model.core.variables import sigma_all
 class BeamConstraints(MDODiscipline):
     r"""The discipline computing the constraints of the beam problem.
 
-    - Stress constraints: $\sigma_all/(\sigma_VM+1)$.
-    - Displacements constraints: $\Delta_{min}/(\Delta+0.1)$.
+    - Stress constraints: $\sigma_{\mathrm{all}}/(\sigma_{\mathrm{VM}}+1)$.
+    - Displacements constraints: $\Delta_{\mathrm{min}}/(\Delta+0.1)$.
     """
     __C_STRESS: Final[str] = "c_stress"
     __SIGMA_VM: Final[str] = "sigma_vm"

@@ -55,6 +55,8 @@ plugins:
     conf_script: docs/gallery_conf.py
     default_thumb_file: docs/images/monogram.png
 - include-markdown
+- bibtex:
+    bib_file: "docs/references.bib"
 
 nav:
 - Home: index.md
@@ -67,8 +69,14 @@ nav:
   - Modules: reference/SUMMARY.md
 
 markdown_extensions:
+- admonition
+- pymdownx.details
 - pymdownx.arithmatex:
     generic: true
+- footnotes
+- toc:
+    permalink: true
+- pymdownx.snippets
 
 extra_javascript:
 - javascripts/mathjax.js
