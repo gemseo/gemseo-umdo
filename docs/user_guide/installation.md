@@ -17,10 +17,10 @@ To install GEMSEO-UMDO,
 you should use a Python environment.
 You can create environments with
 the Python built-in
-[venv](https://docs.python.org/3.9/library/venv.html) module
+[venv](https://docs.python.org/3/library/venv.html) module
 or with [anaconda](https://docs.anaconda.com/anaconda/install).
 
-### Install from Pypi
+### Install
 
 Install the latest version with
 
@@ -29,17 +29,6 @@ pip install gemseo-umdo
 ```
 
 See [pip](https://pip.pypa.io/en/stable/getting-started/) for more information.
-
-### Install from Anaconda
-
-Install the latest version
-in an anaconda environment named *gemseo-umdo* for Python 3.9 with
-
-```bash
-conda create -c conda-forge -n gemseo-umdo python=3.9 gemseo-umdo
-```
-
-You can change the Python version to 3.8 or 3.10.
 
 ## Test the installation
 
