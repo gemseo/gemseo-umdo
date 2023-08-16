@@ -108,7 +108,7 @@ repos:
     - id: nbqa-autopep8
 
 - repo: https://github.com/Lucas-C/pre-commit-hooks
-  rev: v1.5.3
+  rev: v1.5.4
   hooks:
     - id: insert-license
       name: insert LGPL license
