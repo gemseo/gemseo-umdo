@@ -1,0 +1,25 @@
+[flake8]
+# See http://www.pydocstyle.org/en/latest/error_codes.html for more details.
+# https://github.com/PyCQA/flake8-bugbear#how-to-enable-opinionated-warnings
+ignore =
+    E501
+    # no docstring for standard and private methods
+    D105
+    E203
+    W503
+    # Missing type annotation for self in method.
+    ANN101
+    # Missing type annotation for cls in classmethod.
+    ANN102
+    # Dynamically typed expressions (typing.Any) are disallowed.
+    ANN401
+select = ANN,B,C,D,E,F,G,N,T,W,B950
+# settings for compatibility with black, see
+# https://github.com/psf/black/blob/master/docs/compatible_configs.md#flake8
+# https://black.readthedocs.io/en/stable/the_black_code_style.html?highlight=bugbear#line-length
+max-line-length = 88
+docstring-convention = google
+per-file-ignores =
+    tests/*.py: D100,D104,ANN
+    # T201 print found
+    docs/*.py: D,T201

@@ -1,0 +1,7 @@
+[run]
+plugins = covdefaults
+source = gemseo_umdo
+
+[report]
+# Override covdefaults.
+fail_under = 1

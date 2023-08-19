@@ -89,7 +89,7 @@ class MonteCarloSampler:
             output_samples = [function(input_samples) for function in self.__functions]
         else:
             output_samples = [
-                vstack(function(input_sample) for input_sample in input_samples)
+                vstack([function(input_sample) for input_sample in input_samples])
                 for function in self.__functions
             ]
 

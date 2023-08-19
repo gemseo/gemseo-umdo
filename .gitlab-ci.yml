@@ -1,9 +1,8 @@
 include:
   - remote: "https://gitlab.com/gemseo/dev/ci-includes/-/raw/main/plugin.yml"
 
-test:
-  rules:
-    - when: never
+variables:
+  TOX_EXE: tox4
 
 pages:
   stage: publish
