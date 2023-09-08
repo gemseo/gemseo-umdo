@@ -15,6 +15,7 @@
 """Tests for SpringMassUncertainSpace."""
 from __future__ import annotations
 
+from gemseo.uncertainty.distributions.openturns.composed import OTComposedDistribution
 from gemseo_umdo.use_cases.spring_mass_model.uncertain_space import (
     SpringMassUncertainSpace,
 )
@@ -25,6 +26,11 @@ def test_uncertain_space():
     uncertain_space = SpringMassUncertainSpace()
     assert len(uncertain_space) == 1
     assert "stiffness" in uncertain_space.uncertain_variables
-    distribution = uncertain_space.distributions["stiffness"].marginals[0]
-    assert distribution.getClassName() == "Beta"
-    assert distribution.getParameter() == [3, 2, 1, 3.5]
+    distribution = uncertain_space.distributions["stiffness"]
+    assert isinstance(distribution, OTComposedDistribution)
+    assert len(distribution.marginals) == 1
+    marginal = distribution.marginals[0]
+    assert marginal.distribution_name == "Beta"
+    assert marginal.distribution.getClassName() == "ComposedDistribution"
+    assert len(marginal.marginals) == 1
+    assert marginal.marginals[0].getParameter() == [3, 2, 1, 3.5]
