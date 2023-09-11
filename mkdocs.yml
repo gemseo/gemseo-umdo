@@ -36,8 +36,9 @@ plugins:
           - docs/docstring_inheritance.py:DocstringInheritance
           filters:
           - "!^_"
-          # docstring_options:
+          docstring_options:
           #   ignore_init_summary: true
+            returns_multiple_items: False
           docstring_section_style: list
           heading_level: 1
           inherited_members: true

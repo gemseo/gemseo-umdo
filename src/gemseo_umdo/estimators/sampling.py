@@ -43,10 +43,7 @@ class SamplingEstimatorFactory(BaseFactory):
 
 
 class Mean(SamplingEstimator):
-    """Estimator of the expectation, a.k.a.
-
-    mean.
-    """
+    """Estimator of the expectation, also known as the mean."""
 
     def __call__(self, samples: ndarray, **kwargs: Any) -> float | ndarray:
         """
