@@ -23,7 +23,7 @@ repos:
     - id: rst-inline-touching-normal
 
 - repo: https://github.com/PyCQA/autoflake
-  rev: v2.2.0
+  rev: v2.2.1
   hooks:
     - id: autoflake
       args: [
@@ -72,7 +72,7 @@ repos:
       args: [--py38-plus]
 
 - repo: https://github.com/psf/black
-  rev: 23.7.0
+  rev: 23.9.1
   hooks:
     - id: black
 
@@ -89,7 +89,7 @@ repos:
         - pep8-naming==0.13.3
 
 - repo: https://github.com/commitizen-tools/commitizen
-  rev: 3.6.0
+  rev: 3.8.2
   hooks:
     - id: commitizen
       stages: [commit-msg]
@@ -108,13 +108,13 @@ repos:
     - id: nbqa-autopep8
 
 - repo: https://github.com/igorshubovych/markdownlint-cli
-  rev: v0.35.0
+  rev: v0.36.0
   hooks:
   - id: markdownlint
     args: ["--fix"]
 
 - repo: https://github.com/Lucas-C/pre-commit-hooks
-  rev: v1.5.3
+  rev: v1.5.4
   hooks:
     - id: insert-license
       name: insert LGPL license
