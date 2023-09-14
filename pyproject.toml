@@ -37,6 +37,7 @@ dev = [
     "gemseo[all]@git+https://gitlab.com/gemseo/dev/gemseo.git@develop",
 ]
 doc = [
+    "black",
     "mkdocs-gallery",
     "mkdocs-section-index",
     "mkdocs-literate-nav",
@@ -57,7 +58,7 @@ file = "README.md"
 content-type = "text/markdown"
 
 [project.entry-points]
-gemseo_plugins = { gemseo-umdo = "gemseo_umdo"}
+gemseo_plugins = { gemseo-umdo = "gemseo_umdo" }
 
 [build-system]
 requires = [
