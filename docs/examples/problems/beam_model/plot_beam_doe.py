@@ -41,7 +41,7 @@ scenario.execute({"algo": "fullfact", "n_samples": 10**2})
 
 dataset = scenario.formulation.opt_problem.to_dataset()
 ZvsXY(dataset, "h", "t", "w").execute(save=True, show=False, file_name="w")
-for constraint_name in ["c_displ - 1.0", "-c_stress + 1.0"]:
+for constraint_name in ["[c_displ-1.0]", "-[c_stress-1.0]"]:
     for z_component in range(9):
         ZvsXY(dataset, "h", "t", (constraint_name, z_component)).execute(
             save=False,
