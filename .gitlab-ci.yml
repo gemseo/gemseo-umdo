@@ -14,7 +14,7 @@ pages:
       - $PIP_CACHE_DIR
     key:
       files:
-        - requirements/test-doc.txt
+        - requirements/doc.txt
       prefix: $TEST_DOCKER_IMAGE
   script:
     - $TOX_EXE -e doc
