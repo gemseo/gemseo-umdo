@@ -148,7 +148,7 @@ def test_self_coupled(tmp_wd):
     """Check the image computed with a self-coupled discipline."""
     file_name = "self_coupled.png"
     disciplines = [
-        AnalyticDiscipline({"x": "x+u", "y": "u"}, name="D1"),
+        AnalyticDiscipline({"x": "(x+u)/2", "y": "u"}, name="D1"),
         AnalyticDiscipline({"z": "y"}, name="D2"),
     ]
     uncertain_space = DesignSpace()
