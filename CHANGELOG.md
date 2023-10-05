@@ -47,6 +47,13 @@ and this project adheres to
 - [UncertainCouplingGraph][gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph]
   has a new option ``save`` (default: ``True``).
 
+### Fixed
+
+- The [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario]
+  and [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
+  maximize the statistic of the objective
+  when the argument ``maximize_objective`` is set to ``True``.
+
 ## Version 1.1.0 (June 2023)
 
 ### Added

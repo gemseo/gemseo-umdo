@@ -53,6 +53,7 @@ class _UScenario(Scenario):
         uncertain_design_variables: Mapping[str, str] | None = None,
         name: str | None = None,
         grammar_type: MDODiscipline.GrammarType = MDODiscipline.GrammarType.JSON,
+        maximize_objective: bool = False,
         **formulation_options: Any,
     ) -> None:
         """
@@ -78,17 +79,12 @@ class _UScenario(Scenario):
                 If ``None``,
                 do not consider other variable relations
                 than those defined by ``disciplines``.
+            maximize_objective: Whether to maximize the statistic of the objective.
         """  # noqa: D205 D212 D415
         all_disciplines = [discipline for discipline in disciplines]
 
         if statistic_estimation_parameters is None:
             statistic_estimation_parameters = {}
-
-        maximize_objective = formulation_options.get(self.__MAXIMIZE_OBJECTIVE)
-        if maximize_objective is not None:
-            statistic_estimation_parameters[
-                self.__MAXIMIZE_OBJECTIVE
-            ] = maximize_objective
 
         formulations_factory = MDOFormulationsFactory()
 
@@ -130,6 +126,7 @@ class _UScenario(Scenario):
             objective_statistic_name=objective_statistic_name,
             objective_statistic_parameters=objective_statistic_parameters,
             uncertain_space=uncertain_space,
+            maximize_objective=maximize_objective,
             **statistic_estimation_parameters,
         )
 

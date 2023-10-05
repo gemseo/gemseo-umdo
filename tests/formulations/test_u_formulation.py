@@ -117,8 +117,16 @@ def test_objective(formulation):
     assert formulation.opt_problem.objective.name == "E[f]"
 
 
-def test_objective_to_maximize(disciplines, design_space, mdf, uncertain_space):
-    """Check that an objective to maximize is correctly handled."""
+@pytest.mark.parametrize("maximize_objective", [None, False, True])
+def test_maximize_objective(
+    disciplines, design_space, mdf, uncertain_space, maximize_objective
+):
+    """Check that the argument maximize_objective is correctly used."""
+    if maximize_objective is None:
+        kwargs = {}
+    else:
+        kwargs = {"maximize_objective": maximize_objective}
+
     formulation = MyUMDOFormulation(
         disciplines,
         "f",
@@ -126,10 +134,13 @@ def test_objective_to_maximize(disciplines, design_space, mdf, uncertain_space):
         mdf,
         uncertain_space,
         "Mean",
-        maximize_objective=True,
+        **kwargs,
     )
-    assert formulation.opt_problem.minimize_objective is False
-    assert formulation.opt_problem.objective.name == "-E[f]"
+    maximize = bool(maximize_objective)
+    assert formulation.mdo_formulation.opt_problem.minimize_objective
+    assert formulation.opt_problem.minimize_objective is not maximize
+    expected_name = "-E[f]" if maximize else "E[f]"
+    assert formulation.opt_problem.objective.name == expected_name
 
 
 def test_observable(formulation):

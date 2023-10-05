@@ -148,8 +148,15 @@ def test_constraint_wrong_type(disciplines, design_space, uncertain_space):
         scn.add_constraint("c", "Mean", constraint_type="wrong_type")
 
 
-def test_maximize_objective(disciplines, design_space, uncertain_space):
-    """Check that a performance objective is maximized."""
+@pytest.mark.parametrize("maximize_objective", [None, False, True])
+def test_maximize_objective(
+    disciplines, design_space, uncertain_space, maximize_objective
+):
+    """Check that the argument maximize_objective is correctly used."""
+    if maximize_objective is None:
+        kwargs = {}
+    else:
+        kwargs = {"maximize_objective": maximize_objective}
     scn = UMDOScenario(
         disciplines,
         "MDF",
@@ -157,12 +164,15 @@ def test_maximize_objective(disciplines, design_space, uncertain_space):
         design_space,
         uncertain_space,
         "Mean",
-        maximize_objective=True,
         statistic_estimation="Sampling",
         statistic_estimation_parameters={"algo": "OT_OPT_LHS", "n_samples": 3},
+        **kwargs,
     )
-    assert scn.formulation.opt_problem.minimize_objective is False
-    assert scn.formulation.opt_problem.objective.name == "-E[f]"
+    maximize = bool(maximize_objective)
+    assert scn.formulation.mdo_formulation.opt_problem.minimize_objective
+    assert scn.formulation.opt_problem.minimize_objective is not maximize
+    expected_name = "-E[f]" if maximize else "E[f]"
+    assert scn.formulation.opt_problem.objective.name == expected_name
 
 
 def test_uncertain_design_variables(disciplines, design_space, uncertain_space):
