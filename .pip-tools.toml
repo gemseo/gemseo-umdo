@@ -1,0 +1,4 @@
+[tool.pip-tools]
+upgrade = true
+pre = true
+extra_index_url = ["https://gitlab.com/api/v4/projects/25527353/packages/pypi/simple"]
