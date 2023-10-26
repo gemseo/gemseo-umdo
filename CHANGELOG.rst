@@ -26,6 +26,15 @@ and this project adheres to
 `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`_.
 
 
+Version 1.1.1 (October 2023)
+****************************
+
+Fixed
+-----
+
+- One test was not compatible with GEMSEO 5.1+.
+
+
 Version 1.1.0 (June 2023)
 *************************
 
