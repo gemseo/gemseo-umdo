@@ -29,8 +29,5 @@ def test_uncertain_space():
     distribution = uncertain_space.distributions["stiffness"]
     assert isinstance(distribution, OTComposedDistribution)
     assert len(distribution.marginals) == 1
-    marginal = distribution.marginals[0]
-    assert marginal.distribution_name == "Beta"
-    assert marginal.distribution.getClassName() == "ComposedDistribution"
-    assert len(marginal.marginals) == 1
-    assert marginal.marginals[0].getParameter() == [3, 2, 1, 3.5]
+    distribution = uncertain_space.distributions["stiffness"]
+    assert repr(distribution) == "Beta(3.0, 2.0, 1.0, 3.5)"

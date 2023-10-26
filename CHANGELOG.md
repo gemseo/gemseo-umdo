@@ -54,6 +54,12 @@ and this project adheres to
   maximize the statistic of the objective
   when the argument ``maximize_objective`` is set to ``True``.
 
+## Version 1.1.1 (October 2023)
+
+### Fixed
+
+- One test was not compatible with GEMSEO 5.1+.
+
 ## Version 1.1.0 (June 2023)
 
 ### Added
