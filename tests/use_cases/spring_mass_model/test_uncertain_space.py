@@ -25,6 +25,5 @@ def test_uncertain_space():
     uncertain_space = SpringMassUncertainSpace()
     assert len(uncertain_space) == 1
     assert "stiffness" in uncertain_space.uncertain_variables
-    distribution = uncertain_space.distributions["stiffness"].marginals[0]
-    assert distribution.getClassName() == "Beta"
-    assert distribution.getParameter() == [3, 2, 1, 3.5]
+    distribution = uncertain_space.distributions["stiffness"]
+    assert repr(distribution) == "Beta(3.0, 2.0, 1.0, 3.5)"
