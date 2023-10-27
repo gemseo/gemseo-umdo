@@ -12,16 +12,26 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-"""Formulate a multidisciplinary design problem under uncertainty."""
+"""Iterative estimator of the expectation for sampling-based U-MDO formulations."""
 from __future__ import annotations
 
-from gemseo.formulations.formulations_factory import MDOFormulationsFactory
+from typing import ClassVar
 
-from gemseo_umdo.formulations.formulation import UMDOFormulation
+from openturns import Point
+
+from gemseo_umdo.formulations.statistics.iterative_sampling.central_moment import (
+    CentralMoment,
+)
 
 
-class UMDOFormulationsFactory(MDOFormulationsFactory):
-    """The factory of U-MDO formulations."""
+class Mean(CentralMoment):
+    """Iterative estimator of the expectation.
 
-    _CLASS = UMDOFormulation
-    _MODULE_NAMES = ("gemseo_umdo.formulations",)
+    This class iteratively computes the mean of an increasing dataset without storing
+    any data in memory.
+    """
+
+    _ORDER: ClassVar[int] = 1
+
+    def _get_central_moment(self) -> Point:
+        return self._estimator.getMean()

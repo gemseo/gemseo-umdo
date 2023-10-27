@@ -12,16 +12,19 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-"""Formulate a multidisciplinary design problem under uncertainty."""
+"""Base estimator of statistic associated with a U-MDO formulation."""
 from __future__ import annotations
 
-from gemseo.formulations.formulations_factory import MDOFormulationsFactory
+from abc import abstractmethod
+from typing import Any
 
-from gemseo_umdo.formulations.formulation import UMDOFormulation
+from gemseo.utils.metaclasses import ABCGoogleDocstringInheritanceMeta
+from numpy import ndarray
 
 
-class UMDOFormulationsFactory(MDOFormulationsFactory):
-    """The factory of U-MDO formulations."""
+class BaseStatisticEstimator(metaclass=ABCGoogleDocstringInheritanceMeta):
+    """The base statistic estimator for U-MDO formulations."""
 
-    _CLASS = UMDOFormulation
-    _MODULE_NAMES = ("gemseo_umdo.formulations",)
+    @abstractmethod
+    def __call__(self, *args: Any, **kwargs: Any) -> ndarray:  # noqa: D102
+        """Estimate the statistic."""

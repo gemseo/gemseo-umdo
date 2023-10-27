@@ -118,34 +118,20 @@ def test_repr(scenario):
 
 def test_mdo_formulation(scenario):
     """Check the content of the MDO formulation."""
-    assert scenario.mdo_formulation.__class__.__name__ == "MDF"
-    assert scenario.mdo_formulation.mda.inner_mdas[0].name == "MDAGaussSeidel"
-    assert scenario.mdo_formulation.disciplines == scenario.disciplines
-    assert scenario.mdo_formulation.opt_problem.objective.name == "f"
-    assert scenario.mdo_formulation.opt_problem.observables[0].name == "o"
-    assert scenario.mdo_formulation.opt_problem.constraints[0].name == "c"
+    mdo_formulation = scenario.mdo_formulation
+    opt_problem = mdo_formulation.opt_problem
+    assert mdo_formulation.__class__.__name__ == "MDF"
+    assert mdo_formulation.mda.inner_mdas[0].name == "MDAGaussSeidel"
+    assert mdo_formulation.disciplines == scenario.disciplines
+    assert opt_problem.objective.name == "f"
+    assert [c.name for c in opt_problem.constraints] == ["c"]
+    assert [o.name for o in opt_problem.observables] == [
+        "Mean[f]",
+        "Margin[c]",
+        "o",
+        "Mean[o]",
+    ]
     assert scenario.mdo_formulation.design_space.variable_names == ["u"]
-
-
-def test_constraint_wrong_type(disciplines, design_space, uncertain_space):
-    """Check that a ValueError is raised when the constraint has a wrong type."""
-    scn = UMDOScenario(
-        disciplines,
-        "MDF",
-        "f",
-        design_space,
-        uncertain_space,
-        "Mean",
-        statistic_estimation="Sampling",
-        statistic_estimation_parameters={"algo": "OT_OPT_LHS", "n_samples": 3},
-    )
-    with pytest.raises(
-        ValueError,
-        match=re.escape(
-            "Constraint type must be either 'eq' or 'ineq'; got 'wrong_type' instead."
-        ),
-    ):
-        scn.add_constraint("c", "Mean", constraint_type="wrong_type")
 
 
 @pytest.mark.parametrize("maximize_objective", [None, False, True])

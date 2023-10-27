@@ -14,6 +14,7 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 from __future__ import annotations
 
+from typing import Any
 from typing import Sequence
 
 import pytest
@@ -21,12 +22,37 @@ from gemseo.algos.design_space import DesignSpace
 from gemseo.algos.parameter_space import ParameterSpace
 from gemseo.core.discipline import MDODiscipline
 from gemseo.formulations.mdf import MDF
-from gemseo_umdo.estimators.sampling import Margin
-from gemseo_umdo.estimators.sampling import Mean
-from gemseo_umdo.estimators.sampling import Probability
-from gemseo_umdo.estimators.sampling import StandardDeviation
-from gemseo_umdo.estimators.sampling import Variance
 from gemseo_umdo.formulations.sampling import Sampling
+from gemseo_umdo.formulations.statistics.iterative_sampling.margin import (
+    Margin as IterativeMargin,
+)
+from gemseo_umdo.formulations.statistics.iterative_sampling.mean import (
+    Mean as IterativeMean,
+)
+from gemseo_umdo.formulations.statistics.iterative_sampling.probability import (
+    Probability as IterativeProbability,
+)
+from gemseo_umdo.formulations.statistics.iterative_sampling.sampling_estimator import (
+    SamplingEstimator as IterativeSamplingEstimator,
+)
+from gemseo_umdo.formulations.statistics.iterative_sampling.standard_deviation import (
+    StandardDeviation as IterativeStandardDeviation,
+)
+from gemseo_umdo.formulations.statistics.iterative_sampling.variance import (
+    Variance as IterativeVariance,
+)
+from gemseo_umdo.formulations.statistics.sampling.margin import Margin
+from gemseo_umdo.formulations.statistics.sampling.mean import Mean
+from gemseo_umdo.formulations.statistics.sampling.probability import (
+    Probability,
+)
+from gemseo_umdo.formulations.statistics.sampling.sampling_estimator import (
+    SamplingEstimator,
+)
+from gemseo_umdo.formulations.statistics.sampling.standard_deviation import (
+    StandardDeviation,
+)
+from gemseo_umdo.formulations.statistics.sampling.variance import Variance
 from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
 from numpy import array
 from numpy import ndarray
@@ -67,7 +93,14 @@ def mdo_samples(mdf_discipline) -> list[dict[str, ndarray]]:
     ]
 
 
-def test_scenario(disciplines, design_space, uncertain_space, tmp_path):
+@pytest.mark.parametrize("estimate_statistics_iteratively", [False, True])
+def test_scenario(
+    disciplines,
+    design_space,
+    uncertain_space,
+    estimate_statistics_iteratively,
+    tmp_path,
+):
     """Check the optimum returned by the UMDOScenario."""
     scn = UDOEScenario(
         disciplines,
@@ -81,6 +114,7 @@ def test_scenario(disciplines, design_space, uncertain_space, tmp_path):
             "algo": "CustomDOE",
             "n_samples": None,
             "algo_options": {"samples": array([[0.0] * 3, [1.0] * 3])},
+            "estimate_statistics_iteratively": estimate_statistics_iteratively,
         },
     )
     scn.add_constraint("c", "Margin", factor=3.0)
@@ -95,48 +129,87 @@ def test_scenario(disciplines, design_space, uncertain_space, tmp_path):
     assert scn.optimization_result.f_opt == -2.0
     assert_equal(saved_scn.optimization_result.x_opt, array([0.0] * 3))
     assert saved_scn.optimization_result.f_opt == -2.0
+    assert len(scn.mdo_formulation.opt_problem.database) == (
+        0 if estimate_statistics_iteratively else 2
+    )
 
 
-def test_estimate_mean(umdo_formulation):
+def estimate(
+    statistic_class: SamplingEstimator | IterativeSamplingEstimator,
+    samples: ndarray,
+    **options: Any,
+) -> ndarray:
+    """A function estimating a statistic.
+
+    Args:
+        statistic_class: The class of the statistic.
+        samples: The samples to estimate the statistics.
+        **options: The options to instantiate the class of the statistic.
+
+    Returns:
+        The estimation of the statistic.
+    """
+    statistic = statistic_class(**options)
+    if issubclass(statistic_class, SamplingEstimator):
+        return statistic(samples)
+
+    for sample in samples:
+        result = statistic(sample)
+
+    return result
+
+
+@pytest.mark.parametrize("statistic_class", [Mean, IterativeMean])
+def test_estimate_mean(statistic_class):
     """Check the estimation of the mean."""
-    mean_estimation = Mean(umdo_formulation)(array([[0.0, 0.0], [1.0, 2.0]]))
-    assert_equal(mean_estimation, array([0.5, 1.0]))
+    assert_equal(
+        estimate(statistic_class, array([[0.0, 0.0], [1.0, 2.0]])), array([0.5, 1.0])
+    )
 
 
-def test_estimate_variance(umdo_formulation):
+@pytest.mark.parametrize("statistic_class", [Variance, IterativeVariance])
+def test_estimate_variance(statistic_class):
     """Check the estimation of the variance."""
-    var_estimation = Variance(umdo_formulation)(array([[0.0, 0.0], [1.0, 2.0]]))
-    assert_equal(var_estimation, array([0.25, 1.0]))
-
-
-def test_estimate_standard_derivation(umdo_formulation):
-    """Check the estimation of the standard deviation."""
-    std_estimation = StandardDeviation(umdo_formulation)(
-        array([[0.0, 0.0], [1.0, 2.0]])
+    assert_equal(
+        estimate(statistic_class, array([[0.0, 0.0], [1.0, 2.0]])), array([0.5, 2.0])
     )
-    expected = Variance(umdo_formulation)(array([[0.0, 0.0], [1.0, 2.0]])) ** 0.5
-    assert_equal(std_estimation, expected)
-
-
-def test_estimate_margin(umdo_formulation):
-    """Check the estimation of the margin."""
-    data = array([[0.0, 0.0], [1.0, 2.0]])
-    expected = Mean(umdo_formulation)(data) + 3.0 * StandardDeviation(umdo_formulation)(
-        data
-    )
-    margin_estimation = Margin(umdo_formulation)(data, factor=3.0)
-    assert_equal(margin_estimation, expected)
 
 
 @pytest.mark.parametrize(
-    "greater,result", [(False, array([1.0, 1.0])), (True, array([0.0, 0.5]))]
+    "statistic_class", [StandardDeviation, IterativeStandardDeviation]
 )
-def test_estimate_probability(umdo_formulation, greater, result):
-    """Check the estimation of the probability."""
-    probability_estimation = Probability(umdo_formulation)(
-        array([[0.0, 0.0], [1.0, 2.0]]), 2.0, greater=greater
+def test_estimate_standard_derivation(statistic_class):
+    """Check the estimation of the standard deviation."""
+    assert_equal(
+        estimate(statistic_class, array([[0.0, 0.0], [1.0, 2.0]])),
+        array([0.5, 2.0]) ** 0.5,
     )
-    assert_equal(probability_estimation, result)
+
+
+@pytest.mark.parametrize("statistic_class", [Margin, IterativeMargin])
+def test_estimate_margin(statistic_class):
+    """Check the estimation of the margin."""
+    assert_equal(
+        estimate(statistic_class, array([[0.0, 0.0], [1.0, 2.0]]), factor=3),
+        array([0.5, 1.0]) + 3 * array([0.5, 2.0]) ** 0.5,
+    )
+
+
+@pytest.mark.parametrize(
+    "greater,result", [(False, array([1.0, 0.5])), (True, array([0.0, 0.5]))]
+)
+@pytest.mark.parametrize("statistic_class", [Probability, IterativeProbability])
+def test_estimate_probability(greater, result, statistic_class):
+    """Check the estimation of the probability."""
+    assert_equal(
+        estimate(
+            statistic_class,
+            array([[0.0, 0.0], [1.0, 2.0]]),
+            threshold=1.5,
+            greater=greater,
+        ),
+        result,
+    )
 
 
 def test_mdo_formulation_objective(umdo_formulation, mdf_discipline):
@@ -155,7 +228,7 @@ def test_mdo_formulation_constraint(umdo_formulation, mdf_discipline):
 
 def test_mdo_formulation_observable(umdo_formulation, mdf_discipline):
     """Check that the MDO formulation can compute the observables correctly."""
-    observable = umdo_formulation.mdo_formulation.opt_problem.observables[0]
+    observable = umdo_formulation.mdo_formulation.opt_problem.observables[2]
     input_data = {name: array([2.0]) for name in ["u", "u1", "u2"]}
     assert_equal(observable(array([2.0] * 3)), mdf_discipline.execute(input_data)["o"])
 
@@ -211,3 +284,7 @@ def test_read_write_n_samples(umdo_formulation):
     # the number of samples is set to 3 with the property _n_samples.
     umdo_formulation._n_samples = 3
     assert umdo_formulation._n_samples == doe_algo_options["n_samples"] == 3
+
+
+def test_iterative_margin_get_statistic():
+    """Check that."""

@@ -15,10 +15,7 @@
 """Formulate a multidisciplinary design problem under uncertainty."""
 from __future__ import annotations
 
-from abc import abstractmethod
 from typing import Any
-from typing import Callable
-from typing import ClassVar
 from typing import Iterable
 from typing import Mapping
 from typing import Sequence
@@ -34,18 +31,33 @@ from gemseo.core.mdofunctions.mdo_function import MDOFunction
 from gemseo.uncertainty.statistics.statistics import Statistics
 from gemseo.utils.data_conversion import split_array_to_dict_of_arrays
 from gemseo.utils.file_path_manager import FilePathManager
-from numpy import ndarray
 
-from gemseo_umdo.estimators.estimator import BaseStatisticEstimatorFactory
+from gemseo_umdo.formulations.functions.statistic_function import StatisticFunction
 
 
 class UMDOFormulation(BaseFormulation):
     """Base formulation of a multidisciplinary design problem under uncertainty."""
 
+    _mdo_formulation: MDOFormulation
+    """The MDO formulation used by the U-MDO formulation over the uncertain space."""
+
     _processed_functions: list[str]
     """The names of the functions whose statistics have been estimated."""
 
-    _STATISTIC_FACTORY: ClassVar[BaseFactory] = BaseStatisticEstimatorFactory()
+    _statistic_factory: BaseFactory
+    """A factory of statistics."""
+
+    _statistic_function_class: type[StatisticFunction]
+    """A subclass of :class:`.MDOFunction` to compute a statistic."""
+
+    _uncertain_space: ParameterSpace
+    """The uncertain space."""
+
+    __signature: str
+    """The pattern of the signature of the objective and constraints."""
+
+    __available_statistics: list[str]
+    """The names of the available statistics."""
 
     def __init__(
         self,
@@ -91,12 +103,14 @@ class UMDOFormulation(BaseFormulation):
             grammar_type=grammar_type,
             **options,
         )
-        self.__available_statistics = self._STATISTIC_FACTORY.class_names
-        self.opt_problem.objective = self._StatisticFunction(
+        self.__available_statistics = self._statistic_factory.class_names
+        sub_opt_problem = self._mdo_formulation.opt_problem
+        self.opt_problem.objective = self._statistic_function_class(
             self,
-            self._mdo_formulation.opt_problem.objective,
+            sub_opt_problem.objective,
             MDOFunction.FunctionType.OBJ,
             objective_statistic_name,
+            sub_opt_problem,
             **objective_statistic_parameters,
         )
         if self._maximize_objective:
@@ -142,11 +156,13 @@ class UMDOFormulation(BaseFormulation):
             observable_name=observable_name,
             discipline=discipline,
         )
-        observable = self._StatisticFunction(
+        sub_opt_problem = self._mdo_formulation.opt_problem
+        observable = self._statistic_function_class(
             self,
-            self._mdo_formulation.opt_problem.observables[-1],
-            None,
+            sub_opt_problem.observables[-1],
+            MDOFunction.FunctionType.NONE,
             statistic_name,
+            sub_opt_problem,
             **statistic_parameters,
         )
         observable.special_repr, observable.name = self.__compute_name(
@@ -159,7 +175,7 @@ class UMDOFormulation(BaseFormulation):
         self,
         output_name: str | Sequence[str],
         statistic_name: str,
-        constraint_type: str = MDOFunction.ConstraintType.INEQ,
+        constraint_type: MDOFunction.ConstraintType = MDOFunction.ConstraintType.INEQ,
         constraint_name: str | None = None,
         value: float | None = None,
         positive: bool = False,
@@ -175,11 +191,13 @@ class UMDOFormulation(BaseFormulation):
             output_name,
             constraint_name=constraint_name,
         )
-        constraint = self._StatisticFunction(
+        sub_opt_problem = self._mdo_formulation.opt_problem
+        constraint = self._statistic_function_class(
             self,
-            self._mdo_formulation.opt_problem.constraints[-1],
-            None,
+            sub_opt_problem.constraints[-1],
+            MDOFunction.FunctionType.NONE,
             statistic_name,
+            sub_opt_problem,
             **statistic_parameters,
         )
         constraint.name, constraint.special_repr = self.__compute_name(
@@ -263,54 +281,3 @@ class UMDOFormulation(BaseFormulation):
         self,
     ) -> list[tuple[MDODiscipline, MDODiscipline, list[str]]]:
         return self._mdo_formulation.get_expected_dataflow()
-
-    class _StatisticFunction(MDOFunction):
-        """Compute a statistic of a function."""
-
-        _estimate_statistic: Callable
-        """The function to estimate the statistic."""
-
-        _function_name: str
-        """The name of the function."""
-
-        _formulation: UMDOFormulation
-        """The U-MDO formulation."""
-
-        _statistic_parameters: dict[str, Any]
-        """The parameters of the statistic."""
-
-        def __init__(
-            self,
-            formulation: UMDOFormulation,
-            func: MDOFunction,
-            function_type: str,
-            name: str,
-            **parameters: Any,
-        ) -> None:
-            """
-            Args:
-                formulation: The U-MDO formulation.
-                func: The function for which to calculate the statistic.
-                function_type: The type of function.
-                name: The name of the statistic.
-                **parameters: The parameters of the statistic.
-            """  # noqa: D205 D212 D415
-            self._estimate_statistic = formulation._STATISTIC_FACTORY.create(
-                name, formulation=formulation
-            )
-            self._function_name = func.name
-            self._formulation = formulation
-            self._statistic_parameters = parameters
-            super().__init__(self._func, name=func.name, f_type=function_type)
-
-        @abstractmethod
-        def _func(self, input_data: ndarray) -> ndarray:
-            """A function computing output data from input data.
-
-            Args:
-                input_data: The input data of the function.
-
-            Returns:
-                The output data of the function.
-            """
-            ...

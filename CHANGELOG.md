@@ -46,6 +46,23 @@ and this project adheres to
   to sample vectorized functions.
 - [UncertainCouplingGraph][gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph]
   has a new option ``save`` (default: ``True``).
+- The U-MDO formulation [Sampling][gemseo_umdo.formulations.sampling.Sampling]
+  has an option ``estimate_statistics_iteratively`` (default: ``True``)
+  to compute the statistics iteratively
+  and so do not store the samples in a ``Database``.
+- The package ``gemseo_umdo.formulations.functions`` contains the ``MDOFunction``s
+  used by a [UMDOFormulation][gemseo_umdo.formulations.formulation.UMDOFormulation]
+  to compute the statistics of the objective, constraints and observables.
+
+### Changed
+
+- The estimator of the [Variance][gemseo_umdo.formulations.statistics.sampling.variance.Variance]
+  used by the U-MDO formulation [Sampling][gemseo_umdo.formulations.sampling.Sampling]
+  with ``estimate_statistics_iteratively=False`` is now unbiased.
+- API changes:
+  - The options of the statistics estimators
+    are now set at instantiation instead of execution.
+  - ``gemseo_umdo.estimators`` has been renamed to ``gemseo_umdo.formulations.statistics``.
 
 ### Fixed
 
