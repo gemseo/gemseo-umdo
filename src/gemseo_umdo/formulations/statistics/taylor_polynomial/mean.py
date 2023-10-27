@@ -12,16 +12,28 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-"""Formulate a multidisciplinary design problem under uncertainty."""
+"""Estimator of the expectation for U-MDO formulations based on Taylor polynomials."""
 from __future__ import annotations
 
-from gemseo.formulations.formulations_factory import MDOFormulationsFactory
+from numpy import array
+from numpy import ndarray
+from numpy.linalg import multi_dot
 
-from gemseo_umdo.formulations.formulation import UMDOFormulation
+from gemseo_umdo.formulations.statistics.taylor_polynomial.taylor_polynomial_estimator import (
+    TaylorPolynomialEstimator,
+)
 
 
-class UMDOFormulationsFactory(MDOFormulationsFactory):
-    """The factory of U-MDO formulations."""
+class Mean(TaylorPolynomialEstimator):
+    """Estimator of the expectation."""
 
-    _CLASS = UMDOFormulation
-    _MODULE_NAMES = ("gemseo_umdo.formulations",)
+    def __call__(  # noqa: D102
+        self, func: ndarray, jac: ndarray, hess: ndarray
+    ) -> ndarray:
+        if hess is None:
+            return func
+
+        std = self._standard_deviations
+        return func + 0.5 * array(
+            [multi_dot([std, sub_hess, std]) for sub_hess in hess]
+        )

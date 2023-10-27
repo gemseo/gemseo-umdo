@@ -32,28 +32,51 @@ obtained with an optimized Latin hypercube sampling technique.
 from __future__ import annotations
 
 from typing import Any
-from typing import ClassVar
 from typing import Mapping
 from typing import Sequence
 
 from gemseo.algos.design_space import DesignSpace
 from gemseo.algos.doe.doe_factory import DOEFactory
 from gemseo.algos.doe.doe_library import DOELibrary
+from gemseo.algos.doe.lib_openturns import OpenTURNS
 from gemseo.algos.opt_problem import OptimizationProblem
 from gemseo.algos.parameter_space import ParameterSpace
 from gemseo.core.discipline import MDODiscipline
 from gemseo.core.formulation import MDOFormulation
 from gemseo.utils.logging_tools import LoggingContext
-from numpy import ndarray
 
-from gemseo_umdo.estimators.sampling import SamplingEstimatorFactory
 from gemseo_umdo.formulations.formulation import UMDOFormulation
+from gemseo_umdo.formulations.functions.statistic_function_for_iterative_sampling import (
+    StatisticFunctionForIterativeSampling,
+)
+from gemseo_umdo.formulations.functions.statistic_function_for_standard_sampling import (
+    StatisticFunctionForStandardSampling,
+)
+from gemseo_umdo.formulations.statistics.iterative_sampling.sampling_estimator_factory import (
+    SamplingEstimatorFactory as IterativeSamplingEstimatorFactory,
+)
+from gemseo_umdo.formulations.statistics.sampling.sampling_estimator_factory import (
+    SamplingEstimatorFactory,
+)
 
 
 class Sampling(UMDOFormulation):
     """Sampling-based robust MDO formulation."""
 
-    _STATISTIC_FACTORY: ClassVar[SamplingEstimatorFactory] = SamplingEstimatorFactory()
+    _estimate_statistics_iteratively: bool
+    """Whether to estimate the statistics iteratively."""
+
+    __doe_algo: DOELibrary
+    """The DOE library to execute the DOE algorithm."""
+
+    __doe_algo_options: dict[str, Any]
+    """The options of the DOE algorithm."""
+
+    __n_samples: int
+    """The number of samples."""
+
+    __seed: int
+    """The seed for reproducibility."""
 
     def __init__(
         self,
@@ -67,9 +90,10 @@ class Sampling(UMDOFormulation):
         objective_statistic_parameters: Mapping[str, Any] | None = None,
         maximize_objective: bool = False,
         grammar_type: MDODiscipline.GrammarType = MDODiscipline.GrammarType.JSON,
-        algo: str = "OT_OPT_LHS",
+        algo: str = OpenTURNS.OT_LHSO,
         algo_options: Mapping[str, Any] | None = None,
         seed: int = 1,
+        estimate_statistics_iteratively: bool = True,
         **options: Any,
     ) -> None:
         """
@@ -77,13 +101,27 @@ class Sampling(UMDOFormulation):
             n_samples: The number of samples, i.e. the size of the DOE.
             algo: The name of the DOE algorithm.
             algo_options: The options of the DOE algorithm.
+            seed: The seed for reproducibility.
+            estimate_statistics_iteratively: Whether to estimate
+                the statistics iteratively.
         """  # noqa: D205 D212 D415
+        self._estimate_statistics_iteratively = estimate_statistics_iteratively
+        if estimate_statistics_iteratively:
+            self._statistic_factory = IterativeSamplingEstimatorFactory()
+            self._statistic_function_class = StatisticFunctionForIterativeSampling
+        else:
+            self._statistic_factory = SamplingEstimatorFactory()
+            self._statistic_function_class = StatisticFunctionForStandardSampling
+
         self.__doe_algo = DOEFactory().create(algo)
         self.__doe_algo_options = algo_options or {}
-        self.__doe_algo_options["n_samples"] = n_samples
+        self.__doe_algo_options[
+            DOELibrary.USE_DATABASE_OPTION
+        ] = not estimate_statistics_iteratively
+        self.__doe_algo_options[DOELibrary.N_SAMPLES] = n_samples
         self.__n_samples = n_samples
-        self.processed_functions = []
         self.__seed = seed
+        self._estimators = []
         super().__init__(
             disciplines,
             objective_name,
@@ -103,11 +141,11 @@ class Sampling(UMDOFormulation):
     @property
     def _n_samples(self) -> int:
         """The number of samples."""
-        return self.__doe_algo_options["n_samples"]
+        return self.__doe_algo_options[DOELibrary.N_SAMPLES]
 
     @_n_samples.setter
     def _n_samples(self, value: int) -> None:
-        self.__doe_algo_options["n_samples"] = value
+        self.__doe_algo_options[DOELibrary.N_SAMPLES] = value
 
     @property
     def _algo(self) -> DOELibrary:
@@ -121,26 +159,6 @@ class Sampling(UMDOFormulation):
             problem: The problem.
         """
         with LoggingContext():
-            self.__doe_algo.seed = self.__seed
             self.__doe_algo.execute(
                 problem, seed=self.__seed, **self.__doe_algo_options
             )
-
-    class _StatisticFunction(UMDOFormulation._StatisticFunction):
-        def _func(self, input_data: ndarray) -> ndarray:
-            formulation = self._formulation
-            problem = formulation.mdo_formulation.opt_problem
-            if self._function_name in formulation._processed_functions:
-                formulation._processed_functions = []
-                problem.reset()
-
-            database = problem.database
-            if not database:
-                formulation.update_top_level_disciplines(input_data)
-                formulation.compute_samples(problem)
-
-            formulation._processed_functions.append(self._function_name)
-            samples, _, _ = database.get_history_array(
-                [self._function_name], with_x_vect=False
-            )
-            return self._estimate_statistic(samples, **self._statistic_parameters)

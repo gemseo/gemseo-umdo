@@ -154,15 +154,6 @@ class _UScenario(Scenario):
                 to be applied to the constraint,
                 ``{"factor": 2.}`` when ``objective_statistic="margin"``.
         """  # noqa: D205 D212 D415
-        if constraint_type not in [
-            MDOFunction.ConstraintType.EQ,
-            MDOFunction.ConstraintType.INEQ,
-        ]:
-            raise ValueError(
-                f"Constraint type must be either '{MDOFunction.ConstraintType.EQ}' "
-                f"or '{MDOFunction.ConstraintType.INEQ}'; "
-                f"got '{constraint_type}' instead."
-            )
         self.formulation.add_constraint(
             output_name,
             statistic_name,

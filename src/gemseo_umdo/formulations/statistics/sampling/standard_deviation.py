@@ -12,16 +12,16 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-"""Formulate a multidisciplinary design problem under uncertainty."""
+"""Estimator of the standard deviation for sampling-based U-MDO formulations."""
 from __future__ import annotations
 
-from gemseo.formulations.formulations_factory import MDOFormulationsFactory
+from numpy import ndarray
 
-from gemseo_umdo.formulations.formulation import UMDOFormulation
+from gemseo_umdo.formulations.statistics.sampling.variance import Variance
 
 
-class UMDOFormulationsFactory(MDOFormulationsFactory):
-    """The factory of U-MDO formulations."""
+class StandardDeviation(Variance):
+    """Estimator of the standard deviation."""
 
-    _CLASS = UMDOFormulation
-    _MODULE_NAMES = ("gemseo_umdo.formulations",)
+    def __call__(self, samples: ndarray) -> ndarray:  # noqa: D102
+        return super().__call__(samples) ** 0.5

@@ -18,13 +18,16 @@ from typing import Any
 
 import pytest
 from gemseo.algos.design_space import DesignSpace
+from gemseo.algos.opt_problem import OptimizationProblem
 from gemseo.algos.parameter_space import ParameterSpace
 from gemseo.core.execution_sequence import SerialExecSequence
 from gemseo.core.mdofunctions.mdo_function import MDOFunction
 from gemseo.disciplines.analytic import AnalyticDiscipline
 from gemseo.formulations.mdf import MDF
-from gemseo_umdo.estimators.sampling import SamplingEstimatorFactory
 from gemseo_umdo.formulations.formulation import UMDOFormulation
+from gemseo_umdo.formulations.statistics.sampling.sampling_estimator_factory import (
+    SamplingEstimatorFactory,
+)
 from numpy import array
 
 
@@ -63,13 +66,16 @@ def mdf(disciplines, uncertain_space) -> MDF:
     return MDF(disciplines, "f", uncertain_space, inner_mda_name="MDAGaussSeidel")
 
 
-class _StatisticFunction(MDOFunction):
-    def __init__(
+class StatisticFunction(MDOFunction):
+    """A function to compute a statistic."""
+
+    def __init__(  # noqa: D107
         self,
         formulation: UMDOFormulation,
         func: MDOFunction,
         function_type: str,
         name: str,
+        sub_opt_problem: OptimizationProblem,
         **parameters: Any,
     ) -> None:
         super().__init__(lambda u: array([1.0]), name="func")
@@ -80,9 +86,10 @@ class _StatisticFunction(MDOFunction):
 class MyUMDOFormulation(UMDOFormulation):
     """A dummy UMDOFormulation."""
 
-
-MyUMDOFormulation._StatisticFunction = _StatisticFunction
-MyUMDOFormulation._STATISTIC_FACTORY = SamplingEstimatorFactory()
+    def __init__(self, *args, **kwargs):  # noqa: D107
+        self._statistic_function_class = StatisticFunction
+        self._statistic_factory = SamplingEstimatorFactory()
+        super().__init__(*args, **kwargs)
 
 
 @pytest.fixture

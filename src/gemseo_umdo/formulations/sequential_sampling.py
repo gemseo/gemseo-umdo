@@ -48,6 +48,12 @@ from gemseo_umdo.formulations.sampling import Sampling
 class SequentialSampling(Sampling):
     """Sequential sampling-based robust MDO formulation."""
 
+    __final_n_samples: int
+    """The maximum number of samples when evaluating the U-MDO formulation."""
+
+    __n_samples_increment: int
+    """The increment of the sampling size."""
+
     def __init__(
         self,
         disciplines: Sequence[MDODiscipline],

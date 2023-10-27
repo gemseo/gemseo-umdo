@@ -12,16 +12,5 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-"""Formulate a multidisciplinary design problem under uncertainty."""
+"""Estimators of statistics for U-MDO formulations based on Taylor polynomials."""
 from __future__ import annotations
-
-from gemseo.formulations.formulations_factory import MDOFormulationsFactory
-
-from gemseo_umdo.formulations.formulation import UMDOFormulation
-
-
-class UMDOFormulationsFactory(MDOFormulationsFactory):
-    """The factory of U-MDO formulations."""
-
-    _CLASS = UMDOFormulation
-    _MODULE_NAMES = ("gemseo_umdo.formulations",)

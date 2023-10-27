@@ -45,7 +45,7 @@ class AdvancedBeamUncertainSpace(ParameterSpace):
             nominal_values: The nominal values of some uncertain variables.
                 For missing ones,
                 use the default values of the variables available in
-                :mod:`~gemseo_umdo.use_cases.beam_model.core.variables.`
+                ``gemseo_umdo.use_cases.beam_model.core.variables``.
             **dispersions: The dispersions around the nominal values.
         """  # noqa: D205 D212 D415
         super().__init__()
