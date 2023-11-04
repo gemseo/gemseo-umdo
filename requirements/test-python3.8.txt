@@ -32,9 +32,9 @@ execnet==2.0.2
     # via pytest-xdist
 fastjsonschema==2.18.1
     # via gemseo
-fonttools==4.43.1
+fonttools==4.44.0
     # via matplotlib
-gemseo[all]==5.1.2.dev114+gf7b1bbb5
+gemseo[all]==5.1.2.dev120+gd9b61d6e
     # via gemseo-umdo (pyproject.toml)
 genson==1.2.2
     # via gemseo
