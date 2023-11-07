@@ -16,6 +16,7 @@
 from __future__ import annotations
 
 import pytest
+
 from gemseo_umdo.use_cases.beam_model.advanced_uncertain_space import (
     AdvancedBeamUncertainSpace,
 )
@@ -40,7 +41,7 @@ def test_nominal_values():
 
 
 @pytest.mark.parametrize(
-    "name,distribution_class_name,parameters",
+    ("name", "distribution_class_name", "parameters"),
     [
         (
             "b",

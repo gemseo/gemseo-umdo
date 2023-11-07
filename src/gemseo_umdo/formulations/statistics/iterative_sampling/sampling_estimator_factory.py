@@ -17,7 +17,7 @@ from __future__ import annotations
 
 from gemseo.core.base_factory import BaseFactory
 
-from gemseo_umdo.formulations.statistics.iterative_sampling.base_sampling_estimator import (
+from gemseo_umdo.formulations.statistics.iterative_sampling.base_sampling_estimator import (  # noqa: E501
     BaseSamplingEstimator,
 )
 

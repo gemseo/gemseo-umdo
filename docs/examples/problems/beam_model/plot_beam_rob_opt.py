@@ -24,6 +24,7 @@ from __future__ import annotations
 
 from gemseo import configure
 from gemseo import configure_logger
+
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 from gemseo_umdo.use_cases.beam_model.constraints import BeamConstraints
 from gemseo_umdo.use_cases.beam_model.design_space import BeamDesignSpace

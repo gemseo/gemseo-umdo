@@ -15,10 +15,14 @@
 """A function approximating the Hessian matrix by finite differences."""
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from gemseo.algos.database import Database
 from gemseo.core.mdofunctions.mdo_function import MDOFunction
 from gemseo.utils.derivatives.finite_differences import FirstOrderFD
-from numpy import ndarray
+
+if TYPE_CHECKING:
+    from numpy import ndarray
 
 
 class HessianFunction(MDOFunction):

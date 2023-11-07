@@ -15,11 +15,14 @@
 """The GEMSEO-free spring-mass model."""
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
 from typing import Sequence
 
 from numpy import arange
-from numpy.typing import NDArray
 from scipy.integrate import odeint
+
+if TYPE_CHECKING:
+    from numpy.typing import NDArray
 
 
 class SpringMassModel:

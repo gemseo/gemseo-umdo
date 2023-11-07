@@ -17,9 +17,10 @@ from __future__ import annotations
 
 import pytest
 from gemseo.utils.comparisons import compare_dict_of_arrays
-from gemseo_umdo.use_cases.beam_model.constraints import BeamConstraints
 from numpy import array
 from numpy.testing import assert_almost_equal
+
+from gemseo_umdo.use_cases.beam_model.constraints import BeamConstraints
 
 
 @pytest.fixture(scope="module")

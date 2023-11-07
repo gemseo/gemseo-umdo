@@ -15,16 +15,20 @@
 """Tests for the base class Pilot."""
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
 from typing import Iterable
 from typing import Sequence
 
 import pytest
 from gemseo.utils.testing.helpers import concretize_classes
-from gemseo_umdo.statistics.multilevel.pilot import Pilot
 from numpy import array
 from numpy import ndarray
-from numpy._typing import NDArray
 from numpy.testing import assert_equal
+
+from gemseo_umdo.statistics.multilevel.pilot import Pilot
+
+if TYPE_CHECKING:
+    from numpy._typing import NDArray
 
 
 class MyPilot(Pilot):

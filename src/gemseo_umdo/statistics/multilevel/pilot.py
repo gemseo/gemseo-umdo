@@ -16,6 +16,7 @@
 from __future__ import annotations
 
 from abc import abstractmethod
+from typing import TYPE_CHECKING
 from typing import Any
 from typing import Iterable
 from typing import Sequence
@@ -24,7 +25,9 @@ from gemseo.utils.metaclasses import ABCGoogleDocstringInheritanceMeta
 from numpy import argmax
 from numpy import array
 from numpy import nan
-from numpy.typing import NDArray
+
+if TYPE_CHECKING:
+    from numpy.typing import NDArray
 
 
 class Pilot(metaclass=ABCGoogleDocstringInheritanceMeta):

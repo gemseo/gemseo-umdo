@@ -14,13 +14,16 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
 from typing import Callable
 
 import pytest
-from numpy import ndarray
+
+if TYPE_CHECKING:
+    from numpy import ndarray
 
 
-@pytest.fixture
+@pytest.fixture()
 def model() -> Callable[[ndarray], ndarray]:
     """The model f."""
 

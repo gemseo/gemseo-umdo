@@ -15,9 +15,7 @@
 """Tests for the BeamDesignSpace."""
 from __future__ import annotations
 
-from gemseo_umdo.use_cases.beam_model.core.design_space import (
-    BeamDesignVariables,
-)
+from gemseo_umdo.use_cases.beam_model.core.design_space import BeamDesignVariables
 from gemseo_umdo.use_cases.beam_model.core.design_space import DesignVariable
 
 

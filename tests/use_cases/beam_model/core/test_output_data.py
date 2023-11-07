@@ -17,9 +17,7 @@ from __future__ import annotations
 
 from dataclasses import fields
 
-from gemseo_umdo.use_cases.beam_model.core.output_data import (
-    BeamModelOutputData,
-)
+from gemseo_umdo.use_cases.beam_model.core.output_data import BeamModelOutputData
 
 
 def test_field_names():

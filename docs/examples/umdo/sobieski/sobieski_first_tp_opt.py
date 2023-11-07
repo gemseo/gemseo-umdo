@@ -25,6 +25,7 @@ from gemseo.problems.sobieski.disciplines import SobieskiAerodynamics
 from gemseo.problems.sobieski.disciplines import SobieskiMission
 from gemseo.problems.sobieski.disciplines import SobieskiPropulsion
 from gemseo.problems.sobieski.disciplines import SobieskiStructure
+
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 
 configure_logger()

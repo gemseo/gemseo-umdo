@@ -17,7 +17,7 @@ from __future__ import annotations
 
 from gemseo.core.base_factory import BaseFactory
 
-from gemseo_umdo.formulations.statistics.taylor_polynomial.taylor_polynomial_estimator import (
+from gemseo_umdo.formulations.statistics.taylor_polynomial.taylor_polynomial_estimator import (  # noqa: E501
     TaylorPolynomialEstimator,
 )
 

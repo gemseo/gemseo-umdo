@@ -29,6 +29,7 @@ class BeamConstraints(MDODiscipline):
     - Stress constraints: $\sigma_{\mathrm{all}}/(\sigma_{\mathrm{VM}}+1)$.
     - Displacements constraints: $\Delta_{\mathrm{min}}/(\Delta+0.1)$.
     """
+
     __C_STRESS: Final[str] = "c_stress"
     __SIGMA_VM: Final[str] = "sigma_vm"
     __C_DISPL: Final[str] = "c_displ"

@@ -31,33 +31,36 @@ obtained with an optimized Latin hypercube sampling technique.
 """
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
 from typing import Any
 from typing import Mapping
 from typing import Sequence
 
-from gemseo.algos.design_space import DesignSpace
 from gemseo.algos.doe.doe_factory import DOEFactory
 from gemseo.algos.doe.doe_library import DOELibrary
 from gemseo.algos.doe.lib_openturns import OpenTURNS
-from gemseo.algos.opt_problem import OptimizationProblem
-from gemseo.algos.parameter_space import ParameterSpace
 from gemseo.core.discipline import MDODiscipline
-from gemseo.core.formulation import MDOFormulation
 from gemseo.utils.logging_tools import LoggingContext
 
 from gemseo_umdo.formulations.formulation import UMDOFormulation
-from gemseo_umdo.formulations.functions.statistic_function_for_iterative_sampling import (
+from gemseo_umdo.formulations.functions.statistic_function_for_iterative_sampling import (  # noqa: E501
     StatisticFunctionForIterativeSampling,
 )
-from gemseo_umdo.formulations.functions.statistic_function_for_standard_sampling import (
+from gemseo_umdo.formulations.functions.statistic_function_for_standard_sampling import (  # noqa: E501
     StatisticFunctionForStandardSampling,
 )
-from gemseo_umdo.formulations.statistics.iterative_sampling.sampling_estimator_factory import (
+from gemseo_umdo.formulations.statistics.iterative_sampling.sampling_estimator_factory import (  # noqa: E501
     SamplingEstimatorFactory as IterativeSamplingEstimatorFactory,
 )
 from gemseo_umdo.formulations.statistics.sampling.sampling_estimator_factory import (
     SamplingEstimatorFactory,
 )
+
+if TYPE_CHECKING:
+    from gemseo.algos.design_space import DesignSpace
+    from gemseo.algos.opt_problem import OptimizationProblem
+    from gemseo.algos.parameter_space import ParameterSpace
+    from gemseo.core.formulation import MDOFormulation
 
 
 class Sampling(UMDOFormulation):

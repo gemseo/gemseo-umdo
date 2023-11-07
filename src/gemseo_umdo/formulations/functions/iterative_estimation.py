@@ -15,15 +15,17 @@
 """A function updating the estimation of a statistic."""
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
 from typing import Any
 
 from gemseo.core.mdofunctions.mdo_function import MDOFunction
 from numpy import atleast_1d
 from numpy import ndarray
 
-from gemseo_umdo.formulations.statistics.iterative_sampling.sampling_estimator import (
-    SamplingEstimator as IterativeSamplingEstimator,
-)
+if TYPE_CHECKING:
+    from gemseo_umdo.formulations.statistics.iterative_sampling.sampling_estimator import (  # noqa: E501
+        SamplingEstimator as IterativeSamplingEstimator,
+    )
 
 
 class IterativeEstimation(MDOFunction):

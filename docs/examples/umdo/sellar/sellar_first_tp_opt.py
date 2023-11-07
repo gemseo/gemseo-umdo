@@ -22,6 +22,7 @@ from gemseo import configure_logger
 from gemseo.algos.design_space import DesignSpace
 from gemseo.algos.parameter_space import ParameterSpace
 from gemseo.disciplines.analytic import AnalyticDiscipline
+
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 
 configure_logger()

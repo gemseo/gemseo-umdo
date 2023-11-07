@@ -16,10 +16,11 @@ from __future__ import annotations
 
 import pytest
 from gemseo.formulations.formulations_factory import MDOFormulationsFactory
+
 from gemseo_umdo.formulations.factory import UMDOFormulationsFactory
 
 
-@pytest.fixture
+@pytest.fixture()
 def factory() -> UMDOFormulationsFactory:
     """The factory of UMDOFormulation."""
     return UMDOFormulationsFactory()

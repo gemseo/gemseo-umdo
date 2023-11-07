@@ -14,12 +14,16 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 import pytest
 from numpy import array
-from numpy.typing import NDArray
+
+if TYPE_CHECKING:
+    from numpy.typing import NDArray
 
 
-@pytest.fixture
+@pytest.fixture()
 def samples() -> list[NDArray[float]]:
     """The samples used to test MLMC-MLCV methods."""
     return [

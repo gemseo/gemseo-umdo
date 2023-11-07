@@ -15,14 +15,18 @@
 """A network of uncertain variables representing their Sobol' indices."""
 from __future__ import annotations
 
-from pathlib import Path
+from typing import TYPE_CHECKING
 from typing import ClassVar
 from typing import Mapping
 
 from gemseo.post._graph_view import GraphView
-from gemseo.uncertainty.sensitivity.sobol.analysis import SobolAnalysis
 from gemseo.utils.string_tools import repr_variable
-from numpy.typing import NDArray
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+    from gemseo.uncertainty.sensitivity.sobol.analysis import SobolAnalysis
+    from numpy.typing import NDArray
 
 
 class SobolGraph(GraphView):

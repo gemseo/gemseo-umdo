@@ -14,13 +14,14 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
 from typing import Sequence
 
 import pytest
-from gemseo.algos.design_space import DesignSpace
-from gemseo.algos.parameter_space import ParameterSpace
-from gemseo.core.discipline import MDODiscipline
 from gemseo.formulations.mdf import MDF
+from numpy import array
+from numpy.testing import assert_equal
+
 from gemseo_umdo.formulations.statistics.taylor_polynomial.margin import Margin
 from gemseo_umdo.formulations.statistics.taylor_polynomial.mean import Mean
 from gemseo_umdo.formulations.statistics.taylor_polynomial.standard_deviation import (
@@ -29,11 +30,14 @@ from gemseo_umdo.formulations.statistics.taylor_polynomial.standard_deviation im
 from gemseo_umdo.formulations.statistics.taylor_polynomial.variance import Variance
 from gemseo_umdo.formulations.taylor_polynomial import TaylorPolynomial
 from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
-from numpy import array
-from numpy.testing import assert_equal
+
+if TYPE_CHECKING:
+    from gemseo.algos.design_space import DesignSpace
+    from gemseo.algos.parameter_space import ParameterSpace
+    from gemseo.core.discipline import MDODiscipline
 
 
-@pytest.fixture
+@pytest.fixture()
 def umdo_formulation(
     disciplines: Sequence[MDODiscipline],
     design_space: DesignSpace,
@@ -55,7 +59,7 @@ def umdo_formulation(
     return formulation
 
 
-@pytest.fixture
+@pytest.fixture()
 def umdo_formulation_with_hessian(
     disciplines: Sequence[MDODiscipline],
     design_space: DesignSpace,

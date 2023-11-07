@@ -16,12 +16,14 @@
 from __future__ import annotations
 
 from abc import abstractmethod
+from typing import TYPE_CHECKING
 
-from numpy import ndarray
-
-from gemseo_umdo.formulations.statistics.iterative_sampling.base_sampling_estimator import (
+from gemseo_umdo.formulations.statistics.iterative_sampling.base_sampling_estimator import (  # noqa: E501
     BaseSamplingEstimator,
 )
+
+if TYPE_CHECKING:
+    from numpy import ndarray
 
 
 class SamplingEstimator(BaseSamplingEstimator):

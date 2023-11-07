@@ -16,13 +16,14 @@
 from __future__ import annotations
 
 import pytest
-from gemseo_umdo.statistics.multilevel.mlmc.pilots.variance import Variance
 from numpy import array
 from numpy import nan
 from numpy.testing import assert_almost_equal
 
+from gemseo_umdo.statistics.multilevel.mlmc.pilots.variance import Variance
 
-@pytest.fixture
+
+@pytest.fixture()
 def pilot() -> Variance:
     """The variance-based pilot."""
     return Variance(array([2.0, 2.0, 2.0]), array([1, 2, 3]))

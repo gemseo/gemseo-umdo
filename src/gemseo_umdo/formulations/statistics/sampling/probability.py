@@ -31,14 +31,16 @@ from __future__ import annotations
 
 from operator import ge
 from operator import le
+from typing import TYPE_CHECKING
 from typing import Any
 from typing import Callable
-
-from numpy import ndarray
 
 from gemseo_umdo.formulations.statistics.sampling.sampling_estimator import (
     SamplingEstimator,
 )
+
+if TYPE_CHECKING:
+    from numpy import ndarray
 
 
 class Probability(SamplingEstimator):

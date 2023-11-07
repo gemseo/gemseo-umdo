@@ -16,13 +16,14 @@
 from __future__ import annotations
 
 import pytest
-from gemseo_umdo.statistics.multilevel.mlmc.pilots.mean import Mean
 from numpy import array
 from numpy import nan
 from numpy.testing import assert_almost_equal
 
+from gemseo_umdo.statistics.multilevel.mlmc.pilots.mean import Mean
 
-@pytest.fixture
+
+@pytest.fixture()
 def pilot() -> Mean:
     """The mean-based pilot."""
     return Mean(array([2.0, 2.0, 2.0]), array([1, 2, 3]))

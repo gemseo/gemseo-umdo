@@ -82,6 +82,8 @@ See Also:
 """
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 import numpy as np
 from numpy import abs
 from numpy import array
@@ -91,11 +93,11 @@ from numpy import newaxis
 from numpy import pi
 from numpy import sin
 from numpy import trapz
-from numpy.typing import NDArray
 
-from gemseo_umdo.use_cases.heat_equation.configuration import (
-    HeatEquationConfiguration,
-)
+from gemseo_umdo.use_cases.heat_equation.configuration import HeatEquationConfiguration
+
+if TYPE_CHECKING:
+    from numpy.typing import NDArray
 
 
 class HeatEquationModel:
@@ -147,7 +149,8 @@ class HeatEquationModel:
         self.taylor_mean = self.__f_at_mu_X + 600 * self.__term1
 
     def __compute_initial_temperature(
-        self, X: NDArray[float]  # noqa: N803
+        self,
+        X: NDArray[float],  # noqa: N803
     ) -> NDArray[float]:
         """Compute the initial temperature for each mesh nodes.
 
@@ -209,11 +212,12 @@ class HeatEquationModel:
 
         if is_input_samples_1d:
             return u[0], u_mesh[0]
-        else:
-            return u, u_mesh
+
+        return u, u_mesh
 
     def __evaluate(
-        self, X: NDArray[float]  # noqa: N803
+        self,
+        X: NDArray[float],  # noqa: N803
     ) -> tuple[NDArray[float], NDArray[float]]:
         """Compute the temperature.
 
@@ -248,9 +252,7 @@ class HeatEquationModel:
 
         u0_at_mu_X = self.__compute_initial_temperature(  # noqa: N806
             mu_X[newaxis, :]
-        ).reshape(
-            -1
-        )  # -> (nx, 1) => (nx,)
+        ).reshape(-1)  # -> (nx, 1) => (nx,)
         snu0_at_mu_X = sn[:, :, 0] * u0_at_mu_X[None, :]  # -> (n_modes, nx)# noqa: N806
         snF1 = sn[:, :, 0] * self.__F1[None, :]  # noqa: N806 -> (n_modes, nx)
         snF2 = sn[:, :, 0] * self.__F2[None, :]  # noqa: N806 -> (n_modes, nx)
@@ -267,10 +269,7 @@ class HeatEquationModel:
         self.__term1 = np.sum(B_n_at_mu_X_quad * snF1_quad)  # (scalar)
         self.__term2 = np.sum(B_n_at_mu_X_quad * snF2_quad)  # (scalar)
         self.__term3 = np.sum(  # (scalar)
-            A_n_at_mu_X_quad
-            * sn_quad
-            * n**2
-            * np.exp(-mu_X[3] * n**2 * np.pi**2 * 0.5)
+            A_n_at_mu_X_quad * sn_quad * n**2 * np.exp(-mu_X[3] * n**2 * np.pi**2 * 0.5)
         )
         self.__f_at_mu_X = self(mu_X)[0]  # -> (1,) => (scalar)
 

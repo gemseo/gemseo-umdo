@@ -16,10 +16,11 @@ from __future__ import annotations
 
 import pytest
 from gemseo.algos.parameter_space import ParameterSpace
+from numpy import pi
+
 from gemseo_umdo.use_cases.heat_equation.uncertain_space import (
     HeatEquationUncertainSpace,
 )
-from numpy import pi
 
 
 @pytest.mark.parametrize("nu_bounds", [None, (0.002, 0.004)])

@@ -15,18 +15,22 @@
 """Multilevel Monte Carlo with multilevel control variates (MLMC-MLCV)."""
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
 from typing import Sequence
 
-from gemseo.algos.parameter_space import ParameterSpace
-from gemseo.core.mdofunctions.mdo_function import MDOFunction
 from numpy import array
 from strenum import StrEnum
 
 from gemseo_umdo.statistics.multilevel.mlmc.mlmc import MLMC
-from gemseo_umdo.statistics.multilevel.mlmc_mlcv.level import Level
 from gemseo_umdo.statistics.multilevel.mlmc_mlcv.pilots.factory import (
     MLMCMLCVPilotFactory,
 )
+
+if TYPE_CHECKING:
+    from gemseo.algos.parameter_space import ParameterSpace
+    from gemseo.core.mdofunctions.mdo_function import MDOFunction
+
+    from gemseo_umdo.statistics.multilevel.mlmc_mlcv.level import Level
 
 
 class MLMCMLCV(MLMC):
@@ -76,7 +80,7 @@ class MLMCMLCV(MLMC):
             if l != 0
         )
         for l, h_l in enumerate(self.__h_l):  # noqa: E741
-            h_l.name = f"h[{l+1}]"
+            h_l.name = f"h[{l + 1}]"
         self.__variant = variant
         super().__init__(
             levels,
@@ -137,18 +141,18 @@ class MLMCMLCV(MLMC):
         if level == 0:
             if variant == cls.Variant.MLMC_MLCV:
                 return slice(0, n_levels)
-            elif variant == cls.Variant.MLMC_CV:
+            if variant == cls.Variant.MLMC_CV:
                 return slice(0, 1)
-            elif variant == cls.Variant.MLMC_MLCV_0:
+            if variant == cls.Variant.MLMC_MLCV_0:
                 return slice(0, 2)
-            elif variant == cls.Variant.MLMC_CV_0:
+            if variant == cls.Variant.MLMC_CV_0:
                 return slice(0, 1)
         else:
             if variant == cls.Variant.MLMC_MLCV:
                 return slice(0, n_levels - 1)
-            elif variant == cls.Variant.MLMC_CV:
+            if variant == cls.Variant.MLMC_CV:
                 return slice(level - 1, level)
-            elif variant == cls.Variant.MLMC_MLCV_0:
+            if variant == cls.Variant.MLMC_MLCV_0:
                 return slice(0, 1)
 
         return slice(0, 0)

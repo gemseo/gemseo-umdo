@@ -1,18 +1,23 @@
 from __future__ import annotations
 
-import ast
 import inspect
+from typing import TYPE_CHECKING
 from typing import Any
+from typing import ClassVar
 
 from griffe import Attribute
 from griffe import Class
 from griffe import Docstring
-from griffe import dynamic_import
 from griffe import Extension
-from griffe import get_logger
 from griffe import Object
 from griffe import ObjectNode
-from griffe.enumerations import Parser
+from griffe import dynamic_import
+from griffe import get_logger
+
+if TYPE_CHECKING:
+    import ast
+
+    from griffe.enumerations import Parser
 
 logger = get_logger(__name__)
 
@@ -23,7 +28,7 @@ class DocstringInheritance(Extension):
     __parser: Parser | None = None
     """The docstring parser."""
 
-    __parser_options: dict[str, Any] = {}
+    __parser_options: ClassVar[dict[str, Any]] = {}
     """The docstring parser options."""
 
     def on_class_members(self, node: ast.AST | ObjectNode, cls: Class) -> None:

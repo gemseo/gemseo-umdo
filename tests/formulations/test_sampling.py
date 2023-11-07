@@ -14,14 +14,16 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
 from typing import Any
 from typing import Sequence
 
 import pytest
-from gemseo.algos.design_space import DesignSpace
-from gemseo.algos.parameter_space import ParameterSpace
-from gemseo.core.discipline import MDODiscipline
 from gemseo.formulations.mdf import MDF
+from numpy import array
+from numpy import ndarray
+from numpy.testing import assert_equal
+
 from gemseo_umdo.formulations.sampling import Sampling
 from gemseo_umdo.formulations.statistics.iterative_sampling.margin import (
     Margin as IterativeMargin,
@@ -32,9 +34,6 @@ from gemseo_umdo.formulations.statistics.iterative_sampling.mean import (
 from gemseo_umdo.formulations.statistics.iterative_sampling.probability import (
     Probability as IterativeProbability,
 )
-from gemseo_umdo.formulations.statistics.iterative_sampling.sampling_estimator import (
-    SamplingEstimator as IterativeSamplingEstimator,
-)
 from gemseo_umdo.formulations.statistics.iterative_sampling.standard_deviation import (
     StandardDeviation as IterativeStandardDeviation,
 )
@@ -43,9 +42,7 @@ from gemseo_umdo.formulations.statistics.iterative_sampling.variance import (
 )
 from gemseo_umdo.formulations.statistics.sampling.margin import Margin
 from gemseo_umdo.formulations.statistics.sampling.mean import Mean
-from gemseo_umdo.formulations.statistics.sampling.probability import (
-    Probability,
-)
+from gemseo_umdo.formulations.statistics.sampling.probability import Probability
 from gemseo_umdo.formulations.statistics.sampling.sampling_estimator import (
     SamplingEstimator,
 )
@@ -54,12 +51,18 @@ from gemseo_umdo.formulations.statistics.sampling.standard_deviation import (
 )
 from gemseo_umdo.formulations.statistics.sampling.variance import Variance
 from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
-from numpy import array
-from numpy import ndarray
-from numpy.testing import assert_equal
+
+if TYPE_CHECKING:
+    from gemseo.algos.design_space import DesignSpace
+    from gemseo.algos.parameter_space import ParameterSpace
+    from gemseo.core.discipline import MDODiscipline
+
+    from gemseo_umdo.formulations.statistics.iterative_sampling.sampling_estimator import (  # noqa: E501
+        SamplingEstimator as IterativeSamplingEstimator,
+    )
 
 
-@pytest.fixture
+@pytest.fixture()
 def umdo_formulation(
     disciplines: Sequence[MDODiscipline],
     design_space: DesignSpace,
@@ -84,7 +87,7 @@ def umdo_formulation(
     return formulation
 
 
-@pytest.fixture
+@pytest.fixture()
 def mdo_samples(mdf_discipline) -> list[dict[str, ndarray]]:
     """The samples of the MDO formulations at x = [0,0,0] and x = [1,1,1]."""
     return [
@@ -196,7 +199,7 @@ def test_estimate_margin(statistic_class):
 
 
 @pytest.mark.parametrize(
-    "greater,result", [(False, array([1.0, 0.5])), (True, array([0.0, 0.5]))]
+    ("greater", "result"), [(False, array([1.0, 0.5])), (True, array([0.0, 0.5]))]
 )
 @pytest.mark.parametrize("statistic_class", [Probability, IterativeProbability])
 def test_estimate_probability(greater, result, statistic_class):

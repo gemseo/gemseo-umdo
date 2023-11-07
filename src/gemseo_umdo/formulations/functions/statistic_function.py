@@ -16,19 +16,19 @@
 from __future__ import annotations
 
 from abc import abstractmethod
-from typing import Any
 from typing import TYPE_CHECKING
+from typing import Any
 
-from gemseo.algos.opt_problem import OptimizationProblem
 from gemseo.core.mdofunctions.mdo_function import MDOFunction
-from numpy import ndarray
-
-from gemseo_umdo.formulations.statistics.base_statistic_estimator import (
-    BaseStatisticEstimator,
-)
 
 if TYPE_CHECKING:
+    from gemseo.algos.opt_problem import OptimizationProblem
+    from numpy import ndarray
+
     from gemseo_umdo.formulations.formulation import UMDOFormulation
+    from gemseo_umdo.formulations.statistics.base_statistic_estimator import (
+        BaseStatisticEstimator,
+    )
 
 
 class StatisticFunction(MDOFunction):
@@ -74,7 +74,7 @@ class StatisticFunction(MDOFunction):
     @property
     def _statistic_estimator_parameters(self) -> tuple[Any]:
         """The parameters of the estimator of the statistic."""
-        return tuple()
+        return ()
 
     def _update_sampling_problem(
         self, sampling_problem: OptimizationProblem, function: MDOFunction

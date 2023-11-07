@@ -15,13 +15,15 @@
 """Iterative estimator of the variance for sampling-based U-MDO formulations."""
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
 from typing import ClassVar
-
-from openturns import Point
 
 from gemseo_umdo.formulations.statistics.iterative_sampling.central_moment import (
     CentralMoment,
 )
+
+if TYPE_CHECKING:
+    from openturns import Point
 
 
 class Variance(CentralMoment):

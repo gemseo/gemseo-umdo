@@ -24,6 +24,7 @@ from __future__ import annotations
 from gemseo import configure_logger
 from gemseo.core.doe_scenario import DOEScenario
 from gemseo.post.dataset.zvsxy import ZvsXY
+
 from gemseo_umdo.use_cases.beam_model.constraints import BeamConstraints
 from gemseo_umdo.use_cases.beam_model.design_space import BeamDesignSpace
 from gemseo_umdo.use_cases.beam_model.discipline import Beam

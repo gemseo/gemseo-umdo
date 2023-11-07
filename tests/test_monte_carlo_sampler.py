@@ -15,18 +15,23 @@
 """Test the Monte Carlo sampler."""
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 import pytest
 from gemseo.algos.design_space import DesignSpace
-from gemseo_umdo.monte_carlo_sampler import FunctionType
-from gemseo_umdo.monte_carlo_sampler import MonteCarloSampler
 from numpy import array
 from numpy import array_equal
 from numpy import newaxis
 from numpy.testing import assert_equal
-from numpy.typing import NDArray
+
+from gemseo_umdo.monte_carlo_sampler import FunctionType
+from gemseo_umdo.monte_carlo_sampler import MonteCarloSampler
+
+if TYPE_CHECKING:
+    from numpy.typing import NDArray
 
 
-@pytest.fixture
+@pytest.fixture()
 def input_space() -> DesignSpace:
     """The input space on which to sample the functions."""
     design_space = DesignSpace()
@@ -34,7 +39,7 @@ def input_space() -> DesignSpace:
     return design_space
 
 
-@pytest.fixture
+@pytest.fixture()
 def functions() -> tuple[FunctionType, FunctionType]:
     """The functions to be sampled."""
 
@@ -44,13 +49,13 @@ def functions() -> tuple[FunctionType, FunctionType]:
     def g(x: NDArray[float]) -> NDArray[float]:
         if x.ndim == 2:
             return x.sum(1)[:, newaxis]
-        else:
-            return array([x.sum(0)])
+
+        return array([x.sum(0)])
 
     return f, g
 
 
-@pytest.fixture
+@pytest.fixture()
 def sampler(
     input_space: DesignSpace, functions: list[FunctionType]
 ) -> MonteCarloSampler:

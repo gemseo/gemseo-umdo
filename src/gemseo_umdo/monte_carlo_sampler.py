@@ -15,14 +15,17 @@
 """A Monte Carlo sampler."""
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
 from typing import Callable
 
-from gemseo.algos.design_space import DesignSpace
 from gemseo.algos.doe.lib_openturns import OpenTURNS
 from numpy import array
 from numpy import hstack
 from numpy import vstack
 from numpy.typing import NDArray
+
+if TYPE_CHECKING:
+    from gemseo.algos.design_space import DesignSpace
 
 FunctionType = Callable[[NDArray[float]], NDArray[float]]
 
@@ -103,13 +106,13 @@ class MonteCarloSampler:
         """The history of the function inputs."""
         if self.__input_histories:
             return vstack(self.__input_histories)
-        else:
-            return array(())
+
+        return array(())
 
     @property
     def output_history(self) -> NDArray[float]:
         """The history of the function outputs."""
         if self.__output_histories:
             return vstack(self.__output_histories)
-        else:
-            return array(())
+
+        return array(())

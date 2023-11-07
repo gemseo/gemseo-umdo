@@ -15,21 +15,24 @@
 """Scenarios to address multidisciplinary design problems under uncertainty."""
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
 from typing import Any
 from typing import Final
 from typing import Mapping
 from typing import Sequence
 
-from gemseo.algos.design_space import DesignSpace
-from gemseo.algos.parameter_space import ParameterSpace
 from gemseo.core.discipline import MDODiscipline
-from gemseo.core.formulation import MDOFormulation
 from gemseo.core.mdofunctions.mdo_function import MDOFunction
 from gemseo.core.scenario import Scenario
 from gemseo.disciplines.analytic import AnalyticDiscipline
 from gemseo.formulations.formulations_factory import MDOFormulationsFactory
 
 from gemseo_umdo.formulations.factory import UMDOFormulationsFactory
+
+if TYPE_CHECKING:
+    from gemseo.algos.design_space import DesignSpace
+    from gemseo.algos.parameter_space import ParameterSpace
+    from gemseo.core.formulation import MDOFormulation
 
 
 class _UScenario(Scenario):
@@ -81,7 +84,7 @@ class _UScenario(Scenario):
                 than those defined by ``disciplines``.
             maximize_objective: Whether to maximize the statistic of the objective.
         """  # noqa: D205 D212 D415
-        all_disciplines = [discipline for discipline in disciplines]
+        all_disciplines = list(disciplines)
 
         if statistic_estimation_parameters is None:
             statistic_estimation_parameters = {}

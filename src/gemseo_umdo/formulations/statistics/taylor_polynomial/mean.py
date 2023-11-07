@@ -19,7 +19,7 @@ from numpy import array
 from numpy import ndarray
 from numpy.linalg import multi_dot
 
-from gemseo_umdo.formulations.statistics.taylor_polynomial.taylor_polynomial_estimator import (
+from gemseo_umdo.formulations.statistics.taylor_polynomial.taylor_polynomial_estimator import (  # noqa: E501
     TaylorPolynomialEstimator,
 )
 

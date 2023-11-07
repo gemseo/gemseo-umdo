@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import pytest
 from gemseo.algos.parameter_space import ParameterSpace
+
 from gemseo_umdo.statistics.multilevel.mlmc_mlcv.level import Level
 from gemseo_umdo.statistics.multilevel.mlmc_mlcv.mlmc_mlcv import MLMCMLCV
 from gemseo_umdo.statistics.multilevel.mlmc_mlcv.pilots.factory import (
@@ -67,7 +68,7 @@ def samplers(mlmc_mlcv):
 
 def test_pilot_factory(mlmc_mlcv):
     """Check the pilot factory."""
-    assert mlmc_mlcv._PILOT_FACTORY == MLMCMLCVPilotFactory
+    assert MLMCMLCVPilotFactory == mlmc_mlcv._PILOT_FACTORY
     assert isinstance(mlmc_mlcv._MLMC__pilot_statistic_estimator, Mean)
 
 
@@ -84,7 +85,7 @@ def test_custom_variant(levels, uncertain_space):
 
 
 @pytest.mark.parametrize(
-    "level,size,expected_names,variant",
+    ("level", "size", "expected_names", "variant"),
     [
         (0, 5, ["f[0]", "f[-1]", "g[0]", "g[1]", "g[2]"], MLMCMLCV.Variant.MLMC_MLCV),
         (1, 4, ["f[1]", "f[0]", "h[1]", "h[2]"], MLMCMLCV.Variant.MLMC_MLCV),
@@ -114,7 +115,7 @@ def test_samplers_mlmc_cv(
 
 
 @pytest.mark.parametrize(
-    "level,variant,expected",
+    ("level", "variant", "expected"),
     [
         (0, MLMCMLCV.Variant.MLMC_MLCV, slice(0, 3)),
         (0, MLMCMLCV.Variant.MLMC_MLCV_0, slice(0, 2)),

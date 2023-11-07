@@ -15,6 +15,8 @@
 """The uncertain space for the beam use case."""
 from __future__ import annotations
 
+from typing import Final
+
 from gemseo.algos.parameter_space import ParameterSpace
 
 from gemseo_umdo.use_cases.beam_model.core.variables import E
@@ -40,7 +42,7 @@ class BeamUncertainSpace(ParameterSpace):
     where $\delta$ is an aforementioned deviation value.
     """
 
-    __DEFAULT_DELTA = {
+    __DEFAULT_DELTA: Final[dict[str, float]] = {
         F.name: 10.0,
         E.name: 5.0,
         sigma_all.name: 5.0,

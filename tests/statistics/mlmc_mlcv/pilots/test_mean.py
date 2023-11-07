@@ -15,16 +15,21 @@
 """Tests for the mean-based pilot."""
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 import pytest
-from gemseo_umdo.statistics.multilevel.mlmc_mlcv.mlmc_mlcv import MLMCMLCV
-from gemseo_umdo.statistics.multilevel.mlmc_mlcv.pilots.mean import Mean
 from numpy import array
 from numpy import nan
 from numpy.testing import assert_almost_equal
-from numpy.typing import NDArray
+
+from gemseo_umdo.statistics.multilevel.mlmc_mlcv.mlmc_mlcv import MLMCMLCV
+from gemseo_umdo.statistics.multilevel.mlmc_mlcv.pilots.mean import Mean
+
+if TYPE_CHECKING:
+    from numpy.typing import NDArray
 
 
-@pytest.fixture
+@pytest.fixture()
 def pilot() -> Mean:
     """The mean-based pilot."""
     return Mean(array([2.0, 2.0, 2.0]), array([1, 2, 3]))
@@ -50,14 +55,19 @@ def test_compute_statistic(pilot, samples, parameters):
 
 
 @pytest.mark.parametrize(
-    "variant,expected_V_l,expected_x",
+    ("variant", "expected_V_l", "expected_x"),
     [
         (MLMCMLCV.Variant.MLMC_MLCV, 0.0, [-0.3, -0.3, -0.3]),
         (MLMCMLCV.Variant.MLMC_CV_0, 0.0022222, [-0.3, -0.4, -0.4]),
     ],
 )
 def test_compute_V_l_delta(  # noqa: N802
-    pilot, samples, parameters, variant, expected_V_l, expected_x  # noqa: N803
+    pilot,
+    samples,
+    parameters,
+    variant,
+    expected_V_l,  # noqa: N803
+    expected_x,  # noqa: N803
 ):
     """Check the computation of the V_l and delta."""
     V_l = pilot._compute_V_l([1], samples, *parameters, variant)  # noqa: N806
