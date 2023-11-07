@@ -15,9 +15,12 @@
 """Iterative estimator of a standard deviation for sampling-based U-MDO formulations."""
 from __future__ import annotations
 
-from openturns import Point
+from typing import TYPE_CHECKING
 
 from gemseo_umdo.formulations.statistics.iterative_sampling.variance import Variance
+
+if TYPE_CHECKING:
+    from openturns import Point
 
 
 class StandardDeviation(Variance):

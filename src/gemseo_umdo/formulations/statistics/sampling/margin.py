@@ -15,7 +15,7 @@
 """Estimator of a margin for sampling-based U-MDO formulations."""
 from __future__ import annotations
 
-from numpy import ndarray
+from typing import TYPE_CHECKING
 
 from gemseo_umdo.formulations.statistics.sampling.mean import Mean
 from gemseo_umdo.formulations.statistics.sampling.sampling_estimator import (
@@ -24,6 +24,9 @@ from gemseo_umdo.formulations.statistics.sampling.sampling_estimator import (
 from gemseo_umdo.formulations.statistics.sampling.standard_deviation import (
     StandardDeviation,
 )
+
+if TYPE_CHECKING:
+    from numpy import ndarray
 
 
 class Margin(SamplingEstimator):

@@ -15,11 +15,14 @@
 """A function to compute a statistic from :class:`.Sampling`."""
 from __future__ import annotations
 
-from numpy import ndarray
+from typing import TYPE_CHECKING
 
 from gemseo_umdo.formulations.functions.statistic_function_for_sampling import (
     StatisticFunctionForSampling,
 )
+
+if TYPE_CHECKING:
+    from numpy import ndarray
 
 
 class StatisticFunctionForStandardSampling(StatisticFunctionForSampling):

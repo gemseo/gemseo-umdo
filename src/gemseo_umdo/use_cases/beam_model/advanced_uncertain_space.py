@@ -20,16 +20,16 @@ from typing import Mapping
 
 from gemseo.algos.parameter_space import ParameterSpace
 
+from gemseo_umdo.use_cases.beam_model.core.variables import E
+from gemseo_umdo.use_cases.beam_model.core.variables import L
+from gemseo_umdo.use_cases.beam_model.core.variables import Variable
 from gemseo_umdo.use_cases.beam_model.core.variables import alpha
 from gemseo_umdo.use_cases.beam_model.core.variables import b
 from gemseo_umdo.use_cases.beam_model.core.variables import beta
 from gemseo_umdo.use_cases.beam_model.core.variables import dy
 from gemseo_umdo.use_cases.beam_model.core.variables import dz
-from gemseo_umdo.use_cases.beam_model.core.variables import E
 from gemseo_umdo.use_cases.beam_model.core.variables import h
-from gemseo_umdo.use_cases.beam_model.core.variables import L
 from gemseo_umdo.use_cases.beam_model.core.variables import t
-from gemseo_umdo.use_cases.beam_model.core.variables import Variable
 
 
 class AdvancedBeamUncertainSpace(ParameterSpace):

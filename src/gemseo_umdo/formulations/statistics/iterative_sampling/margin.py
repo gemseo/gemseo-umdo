@@ -15,15 +15,18 @@
 """Iterative estimator of a margin for sampling-based U-MDO formulations."""
 from __future__ import annotations
 
-from numpy import ndarray
+from typing import TYPE_CHECKING
 
-from gemseo_umdo.formulations.statistics.iterative_sampling.base_sampling_estimator import (
+from gemseo_umdo.formulations.statistics.iterative_sampling.base_sampling_estimator import (  # noqa: E501
     BaseSamplingEstimator,
 )
 from gemseo_umdo.formulations.statistics.iterative_sampling.mean import Mean
 from gemseo_umdo.formulations.statistics.iterative_sampling.standard_deviation import (
     StandardDeviation,
 )
+
+if TYPE_CHECKING:
+    from numpy import ndarray
 
 
 class Margin(BaseSamplingEstimator):

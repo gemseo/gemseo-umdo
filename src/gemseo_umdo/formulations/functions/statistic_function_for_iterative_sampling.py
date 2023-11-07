@@ -15,16 +15,17 @@
 """A function to compute a statistic from :class:`.Sampling` iteratively."""
 from __future__ import annotations
 
-from gemseo.algos.opt_problem import OptimizationProblem
-from gemseo.core.mdofunctions.mdo_function import MDOFunction
-from numpy import ndarray
+from typing import TYPE_CHECKING
 
-from gemseo_umdo.formulations.functions.iterative_estimation import (
-    IterativeEstimation,
-)
+from gemseo_umdo.formulations.functions.iterative_estimation import IterativeEstimation
 from gemseo_umdo.formulations.functions.statistic_function_for_sampling import (
     StatisticFunctionForSampling,
 )
+
+if TYPE_CHECKING:
+    from gemseo.algos.opt_problem import OptimizationProblem
+    from gemseo.core.mdofunctions.mdo_function import MDOFunction
+    from numpy import ndarray
 
 
 class StatisticFunctionForIterativeSampling(StatisticFunctionForSampling):

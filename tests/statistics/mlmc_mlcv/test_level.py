@@ -19,10 +19,11 @@ from typing import Callable
 
 import pytest
 from gemseo.core.mdofunctions.mdo_function import MDOFunction
-from gemseo_umdo.statistics.multilevel.mlmc_mlcv.level import Level
 from numpy import array
 from numpy import ndarray
 from numpy.testing import assert_equal
+
+from gemseo_umdo.statistics.multilevel.mlmc_mlcv.level import Level
 
 
 @pytest.fixture(scope="module")

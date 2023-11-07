@@ -15,13 +15,17 @@
 """A function to compute a statistic from :class:`.TaylorPolynomial`."""
 from __future__ import annotations
 
-from gemseo.algos.parameter_space import ParameterSpace
+from typing import TYPE_CHECKING
+
 from numpy import atleast_1d
 from numpy import atleast_2d
 from numpy import ndarray
 from numpy import newaxis
 
 from gemseo_umdo.formulations.functions.statistic_function import StatisticFunction
+
+if TYPE_CHECKING:
+    from gemseo.algos.parameter_space import ParameterSpace
 
 
 class StatisticFunctionForTaylorPolynomial(StatisticFunction):

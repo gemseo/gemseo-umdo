@@ -16,13 +16,15 @@
 from __future__ import annotations
 
 from abc import abstractmethod
-
-from numpy import ndarray
-from openturns import IterativeAlgorithmImplementation
+from typing import TYPE_CHECKING
 
 from gemseo_umdo.formulations.statistics.base_statistic_estimator import (
     BaseStatisticEstimator,
 )
+
+if TYPE_CHECKING:
+    from numpy import ndarray
+    from openturns import IterativeAlgorithmImplementation
 
 
 class BaseSamplingEstimator(BaseStatisticEstimator):
@@ -52,3 +54,4 @@ class BaseSamplingEstimator(BaseStatisticEstimator):
         Args:
             value: The value to update the estimation of the statistic.
         """  # noqa: D205 D212 D415
+        ...

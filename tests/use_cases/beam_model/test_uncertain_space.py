@@ -16,6 +16,7 @@
 from __future__ import annotations
 
 import pytest
+
 from gemseo_umdo.use_cases.beam_model.uncertain_space import BeamUncertainSpace
 
 
@@ -25,15 +26,15 @@ def uncertain_space(request) -> tuple[BeamUncertainSpace, bool]:
     return BeamUncertainSpace(uniform=request.param), request.param
 
 
-@pytest.mark.parametrize("uncertain_space", (False, True), indirect=True)
+@pytest.mark.parametrize("uncertain_space", [False, True], indirect=True)
 def test_dimension(uncertain_space):
     """Check the dimension of the uncertain space."""
     assert uncertain_space[0].dimension == 3
 
 
-@pytest.mark.parametrize("uncertain_space", (False, True), indirect=True)
+@pytest.mark.parametrize("uncertain_space", [False, True], indirect=True)
 @pytest.mark.parametrize(
-    "name,parameters",
+    ("name", "parameters"),
     [
         (
             "F",

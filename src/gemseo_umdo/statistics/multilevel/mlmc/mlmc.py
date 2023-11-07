@@ -17,13 +17,11 @@ from __future__ import annotations
 
 import logging
 import math
-from pathlib import Path
+from typing import TYPE_CHECKING
 from typing import Any
 from typing import ClassVar
 from typing import Iterable
 
-from gemseo.algos.parameter_space import ParameterSpace
-from gemseo.core.base_factory import BaseFactory
 from gemseo.core.mdofunctions.mdo_function import MDOFunction
 from gemseo.utils.matplotlib_figure import save_show_figure
 from gemseo.utils.string_tools import MultiLineString
@@ -34,14 +32,19 @@ from numpy import cumsum
 from numpy import isnan
 from numpy import nan
 from numpy import zeros
-from numpy.typing import NDArray
 
 from gemseo_umdo.monte_carlo_sampler import MonteCarloSampler
-from gemseo_umdo.statistics.multilevel.mlmc.level import Level
-from gemseo_umdo.statistics.multilevel.mlmc.pilots.factory import (
-    MLMCPilotFactory,
-)
-from gemseo_umdo.statistics.multilevel.pilot import Pilot
+from gemseo_umdo.statistics.multilevel.mlmc.pilots.factory import MLMCPilotFactory
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+    from gemseo.algos.parameter_space import ParameterSpace
+    from gemseo.core.base_factory import BaseFactory
+    from numpy.typing import NDArray
+
+    from gemseo_umdo.statistics.multilevel.mlmc.level import Level
+    from gemseo_umdo.statistics.multilevel.pilot import Pilot
 
 LOGGER = logging.getLogger(__name__)
 
@@ -194,7 +197,7 @@ class MLMC:
         )
         self.__C_l = C_l = C_l / C_l[-1]  # noqa: N806
         self.__total_execution_times = array([0] * self._n_levels)
-        self.__costs = array([C_l[0]] + (C_l[1:] + C_l[:-1]).tolist())
+        self.__costs = array([C_l[0], *(C_l[1:] + C_l[:-1]).tolist()])
 
         # Set the sampling ratios r_l of each level of the TS.
         self.__r_l = array([level.sampling_ratio for level in levels])
@@ -353,7 +356,7 @@ class MLMC:
         """Execute the algorithm."""
         # The current version of the algorithm samples only one level at a time,
         # except at the first iteration where it samples them all.
-        levels_to_be_sampled = list(range(0, self._n_levels))
+        levels_to_be_sampled = list(range(self._n_levels))
 
         # Initialize the iteration of the algorithm.
         is_last_iteration = False
@@ -483,7 +486,7 @@ class MLMC:
         if self.__use_empirical_C_l:
             self.__C_l = self.__total_execution_times / self.__total_execution_times[-1]
             self.__costs = array(
-                [self.__C_l[0]] + (self.__C_l[1:] + self.__C_l[:-1]).tolist()
+                [self.__C_l[0], *(self.__C_l[1:] + self.__C_l[:-1]).tolist()]
             )
         cost = sum(delta_n_l_star * self.__costs)
         LOGGER.info("         Cost = %s", cost)
@@ -494,7 +497,7 @@ class MLMC:
     def plot_evaluation_history(
         self,
         show: bool = True,
-        file_path: str | Path = None,
+        file_path: str | Path | None = None,
         log_n_evaluations: bool = True,
         log_budget: bool = False,
     ) -> None:

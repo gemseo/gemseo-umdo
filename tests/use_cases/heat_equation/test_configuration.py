@@ -16,12 +16,11 @@
 from __future__ import annotations
 
 import pytest
-from gemseo_umdo.use_cases.heat_equation.configuration import (
-    HeatEquationConfiguration,
-)
 from numpy import linspace
 from numpy.testing import assert_allclose
 from numpy.testing import assert_equal
+
+from gemseo_umdo.use_cases.heat_equation.configuration import HeatEquationConfiguration
 
 
 def test_default_configuration_and_cost():

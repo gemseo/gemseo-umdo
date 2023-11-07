@@ -21,18 +21,16 @@ from numpy import linspace
 from numpy import meshgrid
 from numpy import sqrt
 
-from gemseo_umdo.use_cases.beam_model.core.output_data import (
-    BeamModelOutputData,
-)
+from gemseo_umdo.use_cases.beam_model.core.output_data import BeamModelOutputData
+from gemseo_umdo.use_cases.beam_model.core.variables import E
+from gemseo_umdo.use_cases.beam_model.core.variables import F
+from gemseo_umdo.use_cases.beam_model.core.variables import L
 from gemseo_umdo.use_cases.beam_model.core.variables import alpha
 from gemseo_umdo.use_cases.beam_model.core.variables import b
 from gemseo_umdo.use_cases.beam_model.core.variables import beta
 from gemseo_umdo.use_cases.beam_model.core.variables import dy
 from gemseo_umdo.use_cases.beam_model.core.variables import dz
-from gemseo_umdo.use_cases.beam_model.core.variables import E
-from gemseo_umdo.use_cases.beam_model.core.variables import F
 from gemseo_umdo.use_cases.beam_model.core.variables import h
-from gemseo_umdo.use_cases.beam_model.core.variables import L
 from gemseo_umdo.use_cases.beam_model.core.variables import nu
 from gemseo_umdo.use_cases.beam_model.core.variables import rho
 from gemseo_umdo.use_cases.beam_model.core.variables import t
@@ -114,13 +112,13 @@ class BeamModel:
         h: float = h.value,
         t: float = t.value,
         L: float = L.value,  # noqa: N803
-        E: float = E.value,
+        E: float = E.value,  # noqa: N803
         alpha: float = alpha.value,
         beta: float = beta.value,
         dy: float = dy.value,
         dz: float = dz.value,
         rho: float = rho.value,
-        F: float = F.value,
+        F: float = F.value,  # noqa: N803
         nu: float = nu.value,
     ) -> BeamModelOutputData:
         r"""Compute the weight of the beam as well as properties on a yz-grid.

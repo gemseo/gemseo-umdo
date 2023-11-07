@@ -30,29 +30,30 @@ with mean $\mu$ and variance $\sigma^2$.
 """
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
 from typing import Any
 from typing import Mapping
 from typing import Sequence
 
-from gemseo.algos.design_space import DesignSpace
 from gemseo.algos.doe.lib_custom import CustomDOE
 from gemseo.algos.opt_problem import OptimizationProblem
-from gemseo.algos.parameter_space import ParameterSpace
 from gemseo.core.discipline import MDODiscipline
-from gemseo.core.formulation import MDOFormulation
 from gemseo.core.mdofunctions.mdo_function import MDOFunction
 from gemseo.utils.logging_tools import LoggingContext
 
 from gemseo_umdo.formulations.formulation import UMDOFormulation
-from gemseo_umdo.formulations.functions.hessian_function import (
-    HessianFunction,
-)
-from gemseo_umdo.formulations.functions.statistic_function_for_taylor_polynomial import (
+from gemseo_umdo.formulations.functions.hessian_function import HessianFunction
+from gemseo_umdo.formulations.functions.statistic_function_for_taylor_polynomial import (  # noqa: E501
     StatisticFunctionForTaylorPolynomial,
 )
-from gemseo_umdo.formulations.statistics.taylor_polynomial.taylor_polynomial_estimator_factory import (  # noqa: B950
+from gemseo_umdo.formulations.statistics.taylor_polynomial.taylor_polynomial_estimator_factory import (  # noqa: E501
     TaylorPolynomialEstimatorFactory,
 )
+
+if TYPE_CHECKING:
+    from gemseo.algos.design_space import DesignSpace
+    from gemseo.algos.parameter_space import ParameterSpace
+    from gemseo.core.formulation import MDOFormulation
 
 
 class TaylorPolynomial(UMDOFormulation):
@@ -81,7 +82,7 @@ class TaylorPolynomial(UMDOFormulation):
         objective_statistic_parameters: Mapping[str, Any] | None = None,
         maximize_objective: bool = False,
         grammar_type: MDODiscipline.GrammarType = MDODiscipline.GrammarType.JSON,
-        differentiation_method: OptimizationProblem.DifferentiationMethod = OptimizationProblem.DifferentiationMethod.USER_GRAD,  # noqa: B950
+        differentiation_method: OptimizationProblem.DifferentiationMethod = OptimizationProblem.DifferentiationMethod.USER_GRAD,  # noqa: E501
         second_order: bool = False,
         **options: Any,
     ) -> None:  # noqa: D205 D212 D415

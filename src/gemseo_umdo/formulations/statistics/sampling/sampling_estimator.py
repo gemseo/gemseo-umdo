@@ -16,12 +16,14 @@
 from __future__ import annotations
 
 from abc import abstractmethod
-
-from numpy import ndarray
+from typing import TYPE_CHECKING
 
 from gemseo_umdo.formulations.statistics.base_statistic_estimator import (
     BaseStatisticEstimator,
 )
+
+if TYPE_CHECKING:
+    from numpy import ndarray
 
 
 class SamplingEstimator(BaseStatisticEstimator):
@@ -32,4 +34,5 @@ class SamplingEstimator(BaseStatisticEstimator):
         """
         Args:
             samples: The samples to estimate the statistic.
-        """  # noqa: D205 D212 D415
+        """  # noqa: D205 D212 D415 E112
+        ...

@@ -15,24 +15,27 @@
 """Formulate a multidisciplinary design problem under uncertainty."""
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
 from typing import Any
 from typing import Iterable
 from typing import Mapping
 from typing import Sequence
 
-from gemseo.algos.design_space import DesignSpace
-from gemseo.algos.parameter_space import ParameterSpace
-from gemseo.core.base_factory import BaseFactory
 from gemseo.core.base_formulation import BaseFormulation
 from gemseo.core.discipline import MDODiscipline
-from gemseo.core.execution_sequence import ExecutionSequence
-from gemseo.core.formulation import MDOFormulation
 from gemseo.core.mdofunctions.mdo_function import MDOFunction
 from gemseo.uncertainty.statistics.statistics import Statistics
 from gemseo.utils.data_conversion import split_array_to_dict_of_arrays
 from gemseo.utils.file_path_manager import FilePathManager
 
-from gemseo_umdo.formulations.functions.statistic_function import StatisticFunction
+if TYPE_CHECKING:
+    from gemseo.algos.design_space import DesignSpace
+    from gemseo.algos.parameter_space import ParameterSpace
+    from gemseo.core.base_factory import BaseFactory
+    from gemseo.core.execution_sequence import ExecutionSequence
+    from gemseo.core.formulation import MDOFormulation
+
+    from gemseo_umdo.formulations.functions.statistic_function import StatisticFunction
 
 
 class UMDOFormulation(BaseFormulation):

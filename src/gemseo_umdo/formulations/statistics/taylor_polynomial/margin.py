@@ -15,16 +15,19 @@
 """Estimators of a margin for U-MDO formulation based on Taylor polynomials."""
 from __future__ import annotations
 
-from gemseo.algos.parameter_space import ParameterSpace
-from numpy import ndarray
+from typing import TYPE_CHECKING
 
 from gemseo_umdo.formulations.statistics.taylor_polynomial.mean import Mean
 from gemseo_umdo.formulations.statistics.taylor_polynomial.standard_deviation import (
     StandardDeviation,
 )
-from gemseo_umdo.formulations.statistics.taylor_polynomial.taylor_polynomial_estimator import (
+from gemseo_umdo.formulations.statistics.taylor_polynomial.taylor_polynomial_estimator import (  # noqa: E501
     TaylorPolynomialEstimator,
 )
+
+if TYPE_CHECKING:
+    from gemseo.algos.parameter_space import ParameterSpace
+    from numpy import ndarray
 
 
 class Margin(TaylorPolynomialEstimator):

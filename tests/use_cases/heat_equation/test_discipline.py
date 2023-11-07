@@ -16,10 +16,11 @@
 from __future__ import annotations
 
 import pytest
-from gemseo_umdo.use_cases.heat_equation.discipline import HeatEquation
 from numpy import array
 from numpy.testing import assert_almost_equal
 from numpy.testing import assert_equal
+
+from gemseo_umdo.use_cases.heat_equation.discipline import HeatEquation
 
 
 @pytest.fixture(scope="module")

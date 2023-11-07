@@ -16,14 +16,16 @@
 from __future__ import annotations
 
 from dataclasses import asdict
+from typing import TYPE_CHECKING
 
 import pytest
 from gemseo.utils.comparisons import compare_dict_of_arrays
-from gemseo_umdo.use_cases.beam_model.core.model import BeamModel
-from gemseo_umdo.use_cases.beam_model.core.output_data import (
-    BeamModelOutputData,
-)
 from numpy import array
+
+from gemseo_umdo.use_cases.beam_model.core.model import BeamModel
+
+if TYPE_CHECKING:
+    from gemseo_umdo.use_cases.beam_model.core.output_data import BeamModelOutputData
 
 
 @pytest.fixture(scope="module")

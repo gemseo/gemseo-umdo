@@ -15,11 +15,14 @@
 """Estimator of the expectation for sampling-based U-MDO formulations."""
 from __future__ import annotations
 
-from numpy import ndarray
+from typing import TYPE_CHECKING
 
 from gemseo_umdo.formulations.statistics.sampling.sampling_estimator import (
     SamplingEstimator,
 )
+
+if TYPE_CHECKING:
+    from numpy import ndarray
 
 
 class Mean(SamplingEstimator):

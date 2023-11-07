@@ -22,12 +22,13 @@ from gemseo import configure_logger
 from gemseo.algos.design_space import DesignSpace
 from gemseo.algos.parameter_space import ParameterSpace
 from gemseo.disciplines.analytic import AnalyticDiscipline
-from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 from matplotlib import pyplot as plt
 from numpy import load
 from numpy import save
 from numpy import stack
 from numpy import vstack
+
+from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 
 configure_logger()
 

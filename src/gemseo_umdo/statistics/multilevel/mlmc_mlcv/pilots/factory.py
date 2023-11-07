@@ -17,9 +17,7 @@ from __future__ import annotations
 
 from gemseo.core.base_factory import BaseFactory
 
-from gemseo_umdo.statistics.multilevel.mlmc_mlcv.pilots.pilot import (
-    MLMCMLCVPilot,
-)
+from gemseo_umdo.statistics.multilevel.mlmc_mlcv.pilots.pilot import MLMCMLCVPilot
 
 
 class MLMCMLCVPilotFactory(BaseFactory):

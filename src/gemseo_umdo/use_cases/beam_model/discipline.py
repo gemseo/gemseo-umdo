@@ -22,18 +22,16 @@ from gemseo.core.discipline import MDODiscipline
 from numpy import array
 
 from gemseo_umdo.use_cases.beam_model.core.model import BeamModel
-from gemseo_umdo.use_cases.beam_model.core.output_data import (
-    BeamModelOutputData,
-)
+from gemseo_umdo.use_cases.beam_model.core.output_data import BeamModelOutputData
+from gemseo_umdo.use_cases.beam_model.core.variables import E
+from gemseo_umdo.use_cases.beam_model.core.variables import F
+from gemseo_umdo.use_cases.beam_model.core.variables import L
 from gemseo_umdo.use_cases.beam_model.core.variables import alpha
 from gemseo_umdo.use_cases.beam_model.core.variables import b
 from gemseo_umdo.use_cases.beam_model.core.variables import beta
 from gemseo_umdo.use_cases.beam_model.core.variables import dy
 from gemseo_umdo.use_cases.beam_model.core.variables import dz
-from gemseo_umdo.use_cases.beam_model.core.variables import E
-from gemseo_umdo.use_cases.beam_model.core.variables import F
 from gemseo_umdo.use_cases.beam_model.core.variables import h
-from gemseo_umdo.use_cases.beam_model.core.variables import L
 from gemseo_umdo.use_cases.beam_model.core.variables import nu
 from gemseo_umdo.use_cases.beam_model.core.variables import rho
 from gemseo_umdo.use_cases.beam_model.core.variables import t

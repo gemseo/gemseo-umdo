@@ -18,12 +18,17 @@ from __future__ import annotations
 import re
 from pathlib import Path
 from time import sleep
+from typing import TYPE_CHECKING
 from typing import Callable
 
 import pytest
 from gemseo.algos.parameter_space import ParameterSpace
 from gemseo.utils.platform import PLATFORM_IS_WINDOWS
 from gemseo.utils.testing.helpers import image_comparison
+from numpy import array
+from numpy.testing import assert_almost_equal
+from numpy.testing import assert_equal
+
 from gemseo_umdo.statistics.multilevel.mlmc.level import Level
 from gemseo_umdo.statistics.multilevel.mlmc.mlmc import MLMC
 from gemseo_umdo.statistics.multilevel.mlmc.pilots.mean import Mean
@@ -32,10 +37,9 @@ from gemseo_umdo.use_cases.heat_equation.model import HeatEquationModel
 from gemseo_umdo.use_cases.heat_equation.uncertain_space import (
     HeatEquationUncertainSpace,
 )
-from numpy import array
-from numpy.testing import assert_almost_equal
-from numpy.testing import assert_equal
-from numpy.typing import NDArray
+
+if TYPE_CHECKING:
+    from numpy.typing import NDArray
 
 
 @pytest.fixture(scope="module")
@@ -208,7 +212,7 @@ def test_pilot(levels, uncertain_space):
 
 
 @pytest.mark.parametrize(
-    "log,baseline_images",
+    ("log", "baseline_images"),
     [
         (False, ["mlmc"]),
         (True, ["mlmc_log" if PLATFORM_IS_WINDOWS else "mlmc_log_linux"]),

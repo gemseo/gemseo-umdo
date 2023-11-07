@@ -16,14 +16,16 @@
 from __future__ import annotations
 
 from abc import abstractmethod
-
-from gemseo.algos.parameter_space import ParameterSpace
-from numpy import ndarray
-from numpy.typing import NDArray
+from typing import TYPE_CHECKING
 
 from gemseo_umdo.formulations.statistics.base_statistic_estimator import (
     BaseStatisticEstimator,
 )
+
+if TYPE_CHECKING:
+    from gemseo.algos.parameter_space import ParameterSpace
+    from numpy import ndarray
+    from numpy.typing import NDArray
 
 
 class TaylorPolynomialEstimator(BaseStatisticEstimator):
@@ -47,4 +49,5 @@ class TaylorPolynomialEstimator(BaseStatisticEstimator):
             func: The output value at the mean value of the uncertain variables.
             jac: The Jacobian value at the mean value of the uncertain variables.
             hess: The Hessian value at the mean value of the uncertain variables.
-        """  # noqa: D205 D212 D415
+        """  # noqa: D205 D212 D415 E112
+        ...

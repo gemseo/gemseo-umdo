@@ -16,6 +16,7 @@
 from __future__ import annotations
 
 from gemseo.uncertainty.distributions.openturns.composed import OTComposedDistribution
+
 from gemseo_umdo.use_cases.spring_mass_model.uncertain_space import (
     SpringMassUncertainSpace,
 )

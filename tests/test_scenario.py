@@ -15,20 +15,24 @@
 from __future__ import annotations
 
 import re
+from typing import TYPE_CHECKING
 
 import pytest
 from gemseo.algos.design_space import DesignSpace
 from gemseo.algos.parameter_space import ParameterSpace
-from gemseo.core.discipline import MDODiscipline
 from gemseo.disciplines.analytic import AnalyticDiscipline
+
 from gemseo_umdo.formulations.factory import UMDOFormulationsFactory
 from gemseo_umdo.formulations.sampling import Sampling
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 
+if TYPE_CHECKING:
+    from gemseo.core.discipline import MDODiscipline
+
 AVAILABLE_FORMULATIONS = UMDOFormulationsFactory().formulations
 
 
-@pytest.fixture
+@pytest.fixture()
 def disciplines() -> list[MDODiscipline]:
     """Three simple disciplines."""
     disc0 = AnalyticDiscipline(
@@ -39,7 +43,7 @@ def disciplines() -> list[MDODiscipline]:
     return [disc0, disc1, disc2]
 
 
-@pytest.fixture
+@pytest.fixture()
 def design_space() -> DesignSpace:
     """The space of local and global design variables."""
     space = DesignSpace()
@@ -49,7 +53,7 @@ def design_space() -> DesignSpace:
     return space
 
 
-@pytest.fixture
+@pytest.fixture()
 def uncertain_space() -> ParameterSpace:
     """The space defining the uncertain variable."""
     space = ParameterSpace()
@@ -57,7 +61,7 @@ def uncertain_space() -> ParameterSpace:
     return space
 
 
-@pytest.fixture
+@pytest.fixture()
 def scenario(disciplines, design_space, uncertain_space) -> UMDOScenario:
     """The MDO scenario under uncertainty."""
     scn = UMDOScenario(

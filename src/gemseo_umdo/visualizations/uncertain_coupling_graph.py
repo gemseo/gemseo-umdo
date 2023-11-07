@@ -15,24 +15,28 @@
 """An uncertain coupling graph."""
 from __future__ import annotations
 
-from pathlib import Path
+from typing import TYPE_CHECKING
 from typing import Any
 from typing import Callable
 from typing import Final
 from typing import Iterable
 from typing import Sequence
 
-from gemseo.algos.parameter_space import ParameterSpace
 from gemseo.core.dependency_graph import DependencyGraph
-from gemseo.core.discipline import MDODiscipline
 from gemseo.core.doe_scenario import DOEScenario
 from gemseo.disciplines.utils import get_all_outputs
 from gemseo.post._graph_view import GraphView
 from gemseo.utils.string_tools import repr_variable
 from numpy import atleast_1d
 from numpy import quantile
-from numpy.typing import NDArray
 from strenum import StrEnum
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+    from gemseo.algos.parameter_space import ParameterSpace
+    from gemseo.core.discipline import MDODiscipline
+    from numpy.typing import NDArray
 
 
 def _compute_qcd(x: NDArray[float]) -> NDArray[float]:

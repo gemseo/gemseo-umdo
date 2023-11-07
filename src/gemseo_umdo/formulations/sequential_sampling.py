@@ -32,17 +32,20 @@ with an optimized Latin hypercube sampling technique.
 """
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
 from typing import Any
 from typing import Mapping
 from typing import Sequence
 
-from gemseo.algos.design_space import DesignSpace
-from gemseo.algos.opt_problem import OptimizationProblem
-from gemseo.algos.parameter_space import ParameterSpace
 from gemseo.core.discipline import MDODiscipline
-from gemseo.core.formulation import MDOFormulation
 
 from gemseo_umdo.formulations.sampling import Sampling
+
+if TYPE_CHECKING:
+    from gemseo.algos.design_space import DesignSpace
+    from gemseo.algos.opt_problem import OptimizationProblem
+    from gemseo.algos.parameter_space import ParameterSpace
+    from gemseo.core.formulation import MDOFormulation
 
 
 class SequentialSampling(Sampling):

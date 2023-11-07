@@ -16,10 +16,13 @@
 from __future__ import annotations
 
 from abc import abstractmethod
+from typing import TYPE_CHECKING
 from typing import Any
 
 from gemseo.utils.metaclasses import ABCGoogleDocstringInheritanceMeta
-from numpy import ndarray
+
+if TYPE_CHECKING:
+    from numpy import ndarray
 
 
 class BaseStatisticEstimator(metaclass=ABCGoogleDocstringInheritanceMeta):

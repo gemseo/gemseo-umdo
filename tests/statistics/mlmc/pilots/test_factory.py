@@ -16,9 +16,8 @@
 from __future__ import annotations
 
 import pytest
-from gemseo_umdo.statistics.multilevel.mlmc.pilots.factory import (
-    MLMCPilotFactory,
-)
+
+from gemseo_umdo.statistics.multilevel.mlmc.pilots.factory import MLMCPilotFactory
 
 
 @pytest.mark.parametrize("pilot_class_name", ["Mean", "Variance"])

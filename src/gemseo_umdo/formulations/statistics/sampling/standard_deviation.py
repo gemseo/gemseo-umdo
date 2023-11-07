@@ -15,9 +15,12 @@
 """Estimator of the standard deviation for sampling-based U-MDO formulations."""
 from __future__ import annotations
 
-from numpy import ndarray
+from typing import TYPE_CHECKING
 
 from gemseo_umdo.formulations.statistics.sampling.variance import Variance
+
+if TYPE_CHECKING:
+    from numpy import ndarray
 
 
 class StandardDeviation(Variance):

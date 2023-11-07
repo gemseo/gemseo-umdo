@@ -14,24 +14,28 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
 from typing import Any
 
 import pytest
 from gemseo.algos.design_space import DesignSpace
-from gemseo.algos.opt_problem import OptimizationProblem
 from gemseo.algos.parameter_space import ParameterSpace
 from gemseo.core.execution_sequence import SerialExecSequence
 from gemseo.core.mdofunctions.mdo_function import MDOFunction
 from gemseo.disciplines.analytic import AnalyticDiscipline
 from gemseo.formulations.mdf import MDF
+from numpy import array
+
 from gemseo_umdo.formulations.formulation import UMDOFormulation
 from gemseo_umdo.formulations.statistics.sampling.sampling_estimator_factory import (
     SamplingEstimatorFactory,
 )
-from numpy import array
+
+if TYPE_CHECKING:
+    from gemseo.algos.opt_problem import OptimizationProblem
 
 
-@pytest.fixture
+@pytest.fixture()
 def disciplines() -> list[AnalyticDiscipline]:
     """Three coupled disciplines, with two strongly coupled ones."""
     disc0 = AnalyticDiscipline(
@@ -42,7 +46,7 @@ def disciplines() -> list[AnalyticDiscipline]:
     return [disc0, disc1, disc2]
 
 
-@pytest.fixture
+@pytest.fixture()
 def design_space() -> DesignSpace:
     """The design space containing the global and local design variables."""
     space = DesignSpace()
@@ -52,7 +56,7 @@ def design_space() -> DesignSpace:
     return space
 
 
-@pytest.fixture
+@pytest.fixture()
 def uncertain_space() -> ParameterSpace:
     """The uncertain space containing the random variable."""
     space = ParameterSpace()
@@ -60,7 +64,7 @@ def uncertain_space() -> ParameterSpace:
     return space
 
 
-@pytest.fixture
+@pytest.fixture()
 def mdf(disciplines, uncertain_space) -> MDF:
     """The MDF formulation."""
     return MDF(disciplines, "f", uncertain_space, inner_mda_name="MDAGaussSeidel")
@@ -92,7 +96,7 @@ class MyUMDOFormulation(UMDOFormulation):
         super().__init__(*args, **kwargs)
 
 
-@pytest.fixture
+@pytest.fixture()
 def formulation(disciplines, design_space, mdf, uncertain_space):
     """A dummy formulation with an observable and a constraint."""
     form = MyUMDOFormulation(
