@@ -30,6 +30,7 @@ and $U^{(k,1)},\ldots,U^{(k,N_k)}$ are $N_k$ realizations of $U$
 obtained at the $k$-th iteration of the optimization loop
 with an optimized Latin hypercube sampling technique.
 """
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING

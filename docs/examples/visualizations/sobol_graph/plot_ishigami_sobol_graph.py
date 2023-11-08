@@ -14,6 +14,7 @@
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 """# Sobol' graph for the Ishigami use case"""
+
 from __future__ import annotations
 
 from gemseo.uncertainty.use_cases.ishigami.statistics import SOBOL_1

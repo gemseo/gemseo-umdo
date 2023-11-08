@@ -28,6 +28,7 @@ $\mathbb{V}[f(x,U)]\approx \sigma^2f'(x,\mu)$
 where $U$ is normally distributed
 with mean $\mu$ and variance $\sigma^2$.
 """
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING

@@ -16,6 +16,7 @@
 """
 # Robust MDO - First-order Taylor polynomial - Sobieski
 """
+
 from __future__ import annotations
 
 from gemseo import configure_logger

@@ -19,6 +19,7 @@ Sample the weight $w(h,t)$ and the constraints $c_{\text{stress}}(h,t)$ and
 $c_{\text{displacement}}(h,t)$ w.r.t. the height $h\in[500, 800]$ and the thickness
 $t\in[2,10]$.
 """
+
 from __future__ import annotations
 
 from gemseo import configure_logger

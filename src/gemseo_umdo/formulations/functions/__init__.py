@@ -20,4 +20,5 @@ and are associated with an :class:`.UMDOFormulation`,
 e.g. :class:`.Sampling` and :class:`.TaylorPolynomial`.
 The other modules are helpers.
 """
+
 from __future__ import annotations

@@ -14,6 +14,7 @@
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 """# Sobol' graph for the Sellar use case"""
+
 from __future__ import annotations
 
 from gemseo.problems.sellar.sellar import Sellar1

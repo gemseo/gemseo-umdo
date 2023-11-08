@@ -20,6 +20,7 @@ the thickness $t\in[2,10]$ while satisfying $c_{\text{stress}}(h,t)\geq 1.0$ and
 $c_{\text{displacement}}(h,t)\leq 1.0$ with probability 90\% where $F$, $E$ and
 $\sigma_{\text{all}}$ are random variables defined by ``BeamUncertainSpace``.
 """
+
 from __future__ import annotations
 
 from gemseo import configure
