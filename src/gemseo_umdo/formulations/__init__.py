@@ -46,4 +46,5 @@ The most common [UMDOFormulation][gemseo_umdo.formulations.formulation.UMDOFormu
 is [Sampling][gemseo_umdo.formulations.sampling.Sampling],
 consisting in estimating the statistics with (quasi) Monte Carlo techniques.
 """
+
 from __future__ import annotations

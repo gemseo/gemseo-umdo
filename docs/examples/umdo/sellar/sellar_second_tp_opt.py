@@ -16,6 +16,7 @@
 """
 # Robust OPT - Second-order Taylor polynomial - Sellar problem
 """
+
 from __future__ import annotations
 
 from gemseo import configure_logger

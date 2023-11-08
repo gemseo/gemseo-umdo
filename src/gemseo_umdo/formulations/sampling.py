@@ -29,6 +29,7 @@ with mean $\mu$ and variance $\sigma^2$
 and $U^{(1)},\ldots,U^{(N)}$ are $N$ realizations of $U$
 obtained with an optimized Latin hypercube sampling technique.
 """
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING

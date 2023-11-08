@@ -19,6 +19,7 @@ Compute and plot the total Sobol' indices for the field constraints $c_{\text{st
 and $c_{\text{displacement}}$ where $F$, $E$ and $\sigma_{\text{all}}$ are random
 variables defined by ``BeamUncertainSpace``.
 """
+
 from __future__ import annotations
 
 from gemseo import configure_logger

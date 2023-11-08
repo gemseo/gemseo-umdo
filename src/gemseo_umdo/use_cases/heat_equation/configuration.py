@@ -19,6 +19,7 @@ is used by
 [HeatEquationModel][gemseo_umdo.use_cases.heat_equation.model.HeatEquationModel];
 read its docstring for more details.
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass

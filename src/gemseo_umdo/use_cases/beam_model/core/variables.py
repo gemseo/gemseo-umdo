@@ -13,6 +13,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 """Some variables of the GEMSEO-free version of the beam use case."""
+
 from __future__ import annotations
 
 from typing import NamedTuple

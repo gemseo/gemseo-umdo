@@ -19,6 +19,7 @@ Minimize the weight $w(h,t)$ w.r.t. the height $h\in[500, 800]$ and the thicknes
 $t\in[2,10]$ while satisfying $c_{\text{stress}}(h,t)\geq 1.0$ and
 $c_{\text{displacement}}(h,t)\leq 1.0$.
 """
+
 from __future__ import annotations
 
 from gemseo import configure_logger
