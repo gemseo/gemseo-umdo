@@ -70,7 +70,7 @@ def test_compute_V_l(pilot, samples):  # noqa: N802
 
 def test_compute_next_level(pilot, samples):
     """Check the computation of the next level."""
-    next_level, statistic = pilot.compute_next_level_and_statistic(
+    next_level, _ = pilot.compute_next_level_and_statistic(
         [1], array([12, 43, 19]), samples, 1, 2
     )
     assert next_level == 0
