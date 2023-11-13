@@ -32,6 +32,7 @@ obtained with an optimized Latin hypercube sampling technique.
 
 from __future__ import annotations
 
+import logging
 from typing import TYPE_CHECKING
 from typing import Any
 from typing import Mapping
@@ -162,7 +163,7 @@ class Sampling(UMDOFormulation):
         Args:
             problem: The problem.
         """
-        with LoggingContext():
+        with LoggingContext(logging.getLogger("gemseo")):
             self.__doe_algo.execute(
                 problem, seed=self.__seed, **self.__doe_algo_options
             )
