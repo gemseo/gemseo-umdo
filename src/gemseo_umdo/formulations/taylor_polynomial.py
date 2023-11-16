@@ -31,6 +31,7 @@ with mean $\mu$ and variance $\sigma^2$.
 
 from __future__ import annotations
 
+import logging
 from typing import TYPE_CHECKING
 from typing import Any
 from typing import Mapping
@@ -185,7 +186,7 @@ class TaylorPolynomial(UMDOFormulation):
             problem: The problem.
             eval_jac: Whether to evaluate the Jacobian functions.
         """
-        with LoggingContext():
+        with LoggingContext(logging.getLogger("gemseo")):
             self.__custom_doe.execute(
                 problem,
                 samples=self._uncertain_space.distribution.mean[None],
