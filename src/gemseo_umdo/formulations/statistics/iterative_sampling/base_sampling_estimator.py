@@ -55,4 +55,3 @@ class BaseSamplingEstimator(BaseStatisticEstimator):
         Args:
             value: The value to update the estimation of the statistic.
         """  # noqa: D205 D212 D415
-        ...
