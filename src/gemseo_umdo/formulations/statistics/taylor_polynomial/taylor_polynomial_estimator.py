@@ -51,4 +51,3 @@ class TaylorPolynomialEstimator(BaseStatisticEstimator):
             jac: The Jacobian value at the mean value of the uncertain variables.
             hess: The Hessian value at the mean value of the uncertain variables.
         """  # noqa: D205 D212 D415 E112
-        ...

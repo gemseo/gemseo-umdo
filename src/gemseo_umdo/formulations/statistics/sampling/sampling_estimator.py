@@ -36,4 +36,3 @@ class SamplingEstimator(BaseStatisticEstimator):
         Args:
             samples: The samples to estimate the statistic.
         """  # noqa: D205 D212 D415 E112
-        ...
