@@ -1,5 +1,5 @@
 include:
-  - remote: "https://gitlab.com/gemseo/dev/ci-includes/-/raw/auto-merge/plugin.yml"
+  - remote: "https://gitlab.com/gemseo/dev/ci-includes/-/raw/main/plugin.yml"
 
 variables:
   TOX_EXE: tox4
