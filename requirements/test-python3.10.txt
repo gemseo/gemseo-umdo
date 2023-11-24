@@ -32,9 +32,9 @@ execnet==2.0.2
     # via pytest-xdist
 fastjsonschema==2.18.1
     # via gemseo
-fonttools==4.45.0
+fonttools==4.45.1
     # via matplotlib
-gemseo[all]==5.1.2.dev157+g0a882063
+gemseo[all]==5.1.2.dev171+g0deac003
     # via
     #   gemseo
     #   gemseo-umdo (pyproject.toml)
@@ -87,6 +87,7 @@ packaging==23.1
     # via
     #   gemseo
     #   matplotlib
+    #   plotly
     #   pytest
 pandas==2.1.3
     # via gemseo
@@ -94,6 +95,8 @@ pillow==10.1.0
     # via
     #   gemseo
     #   matplotlib
+plotly==5.18.0
+    # via gemseo
 pluggy==1.3.0
     # via pytest
 psutil==5.9.6
@@ -137,6 +140,8 @@ strenum==0.4.15
     # via gemseo
 sympy==1.12
     # via gemseo
+tenacity==8.2.3
+    # via plotly
 threadpoolctl==3.2.0
     # via scikit-learn
 tomli==2.0.1
