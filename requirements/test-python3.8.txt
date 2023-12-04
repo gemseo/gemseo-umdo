@@ -34,7 +34,7 @@ fastjsonschema==2.18.1
     # via gemseo
 fonttools==4.46.0
     # via matplotlib
-gemseo[all]==5.1.2.dev205+g5590b304
+gemseo[all]==5.1.2.dev209+g7ec5e0ac
     # via
     #   gemseo
     #   gemseo-umdo (pyproject.toml)
