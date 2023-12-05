@@ -131,12 +131,10 @@ class SobolGraph(GraphView):
                 for component_1, sub_indices_12 in enumerate(indices_12):
                     for component_2, index in enumerate(sub_indices_12):
                         edge = tuple(
-                            sorted(
-                                [
-                                    repr_variable(name_1, component_1, size_1),
-                                    repr_variable(name_2, component_2, size_2),
-                                ]
-                            )
+                            sorted([
+                                repr_variable(name_1, component_1, size_1),
+                                repr_variable(name_2, component_2, size_2),
+                            ])
                         )
                         if edge not in edges:
                             new_indices[edge] = max(index, 0)

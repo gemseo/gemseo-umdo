@@ -38,9 +38,11 @@ class BeamConstraints(MDODiscipline):
 
     def __init__(self) -> None:  # noqa: D107
         super().__init__()
-        self.input_grammar.update_from_names(
-            [self.__DISPL, self.__SIGMA_VM, sigma_all.name]
-        )
+        self.input_grammar.update_from_names([
+            self.__DISPL,
+            self.__SIGMA_VM,
+            sigma_all.name,
+        ])
         self.output_grammar.update_from_names([self.__C_DISPL, self.__C_STRESS])
         self.default_inputs = {
             sigma_all.name: array([sigma_all.value]),

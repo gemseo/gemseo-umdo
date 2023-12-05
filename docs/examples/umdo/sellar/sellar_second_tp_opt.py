@@ -31,13 +31,11 @@ configure_logger()
 # %%
 # Firstly,
 # we instantiate the disciplines of the Sellar problem:
-system = AnalyticDiscipline(
-    {
-        "obj": "x**2 + z2 + y1**2 + exp(-y2)",
-        "c1": "3.16 - y1 ** 2",
-        "c2": "y2 - 24.0",
-    }
-)
+system = AnalyticDiscipline({
+    "obj": "x**2 + z2 + y1**2 + exp(-y2)",
+    "c1": "3.16 - y1 ** 2",
+    "c2": "y2 - 24.0",
+})
 disc1 = AnalyticDiscipline({"y1": "(z1**2 + z2 + x - a*y2)**0.5"})
 disc2 = AnalyticDiscipline({"y2": "2/10*log(1+exp(10*y1))-y1-2/10*log(2) + z1 + z2"})
 

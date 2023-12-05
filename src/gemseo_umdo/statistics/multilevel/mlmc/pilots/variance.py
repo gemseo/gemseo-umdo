@@ -62,12 +62,10 @@ class Variance(MLMCPilot):
         # Var_MLMC[Y] = sum_l Var^l[Y_l] - Var^l[Y_{l-1}]
         #             = sum_l Var^l[(D_l+S_l)/2] - Var^l[(S_l+D_l)/2]
         #               where D_l = Y_l-Y_{l-1} and S_l = Y_l+Y_{l-1}
-        return nansum(
-            [
-                nanvar((delta + sigma) / 2) - nanvar((sigma - delta) / 2)
-                for delta, sigma in zip(self.__delta, self.__sigma)
-            ]
-        )
+        return nansum([
+            nanvar((delta + sigma) / 2) - nanvar((sigma - delta) / 2)
+            for delta, sigma in zip(self.__delta, self.__sigma)
+        ])
 
     def _compute_V_l(  # noqa: D102 N802
         self,
@@ -84,13 +82,11 @@ class Variance(MLMCPilot):
             self.__delta[level] = _samples[:, 0] - _samples[:, 1]
             self.__sigma[level] = _samples.sum(1)
 
-        return array(
-            [
-                (
-                    nanmean((delta - delta.mean()) ** 4)
-                    * nanmean((sigma - sigma.mean()) ** 4)
-                )
-                ** 0.5
-                for delta, sigma in zip(self.__delta, self.__sigma)
-            ]
-        )
+        return array([
+            (
+                nanmean((delta - delta.mean()) ** 4)
+                * nanmean((sigma - sigma.mean()) ** 4)
+            )
+            ** 0.5
+            for delta, sigma in zip(self.__delta, self.__sigma)
+        ])

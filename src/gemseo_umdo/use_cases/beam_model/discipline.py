@@ -54,12 +54,12 @@ class Beam(MDODiscipline):
         """  # noqa: D205 D212 D415
         super().__init__()
         input_variables = [b, h, t, L, E, alpha, beta, dy, dz, rho, F, nu]
-        self.input_grammar.update_from_names(
-            [variable.name for variable in input_variables]
-        )
-        self.output_grammar.update_from_names(
-            [f.name for f in fields(BeamModelOutputData)]
-        )
+        self.input_grammar.update_from_names([
+            variable.name for variable in input_variables
+        ])
+        self.output_grammar.update_from_names([
+            f.name for f in fields(BeamModelOutputData)
+        ])
         self.default_inputs = {
             variable.name: array([variable.value]) for variable in input_variables
         }

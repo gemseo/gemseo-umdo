@@ -94,13 +94,11 @@ class MLMCMLCV(MLMC):
         self._algorithm_name = variant.value
         self._pilot_statistic_estimator_parameters = [
             array([level.surrogate_model[1] for level in levels]),
-            array(
-                [
-                    level.difference_surrogate_model[1]
-                    for l, level in enumerate(levels)  # noqa: E741
-                    if l != 0
-                ]
-            ),
+            array([
+                level.difference_surrogate_model[1]
+                for l, level in enumerate(levels)  # noqa: E741
+                if l != 0
+            ]),
             variant,
         ]
 
