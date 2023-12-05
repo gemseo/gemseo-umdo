@@ -486,9 +486,10 @@ class MLMC:
 
         if self.__use_empirical_C_l:
             self.__C_l = self.__total_execution_times / self.__total_execution_times[-1]
-            self.__costs = array(
-                [self.__C_l[0], *(self.__C_l[1:] + self.__C_l[:-1]).tolist()]
-            )
+            self.__costs = array([
+                self.__C_l[0],
+                *(self.__C_l[1:] + self.__C_l[:-1]).tolist(),
+            ])
         cost = sum(delta_n_l_star * self.__costs)
         LOGGER.info("         Cost = %s", cost)
         self.__current_budget -= cost

@@ -265,13 +265,9 @@ class UMDOFormulation(BaseFormulation):
             self.design_space.variable_names,
         )
         for discipline in self._mdo_formulation.get_top_level_disc():
-            discipline.default_inputs.update(
-                {
-                    k: v
-                    for k, v in design_values.items()
-                    if k in discipline.input_grammar
-                }
-            )
+            discipline.default_inputs.update({
+                k: v for k, v in design_values.items() if k in discipline.input_grammar
+            })
 
     def get_top_level_disc(self) -> list[MDODiscipline]:  # noqa: D102
         return self._mdo_formulation.get_top_level_disc()

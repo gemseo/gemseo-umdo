@@ -35,6 +35,6 @@ class Mean(TaylorPolynomialEstimator):
             return func
 
         std = self._standard_deviations
-        return func + 0.5 * array(
-            [multi_dot([std, sub_hess, std]) for sub_hess in hess]
-        )
+        return func + 0.5 * array([
+            multi_dot([std, sub_hess, std]) for sub_hess in hess
+        ])

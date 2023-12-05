@@ -63,9 +63,10 @@ class BeamUncertainSpace(ParameterSpace):
             name = variable.name
             delta = deltas.pop(name, self.__DEFAULT_DELTA[name]) / 100
             if uniform:
-                minimum, maximum = sorted(
-                    [nominal * (1 - delta), nominal * (1 + delta)]
-                )
+                minimum, maximum = sorted([
+                    nominal * (1 - delta),
+                    nominal * (1 + delta),
+                ])
                 self.add_random_variable(
                     name,
                     "OTUniformDistribution",

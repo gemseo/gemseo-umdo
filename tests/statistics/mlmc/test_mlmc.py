@@ -159,22 +159,20 @@ def test_budget_history(executed_mlmc):
     """Check the history of the budget."""
     assert_equal(
         executed_mlmc.budget_history,
-        array(
-            [
-                1000.0,
-                980.0,
-                975.0,
-                965.0,
-                945.0,
-                905.0,
-                825.0,
-                810.0,
-                650.0,
-                620.0,
-                300.0,
-                240.0,
-            ]
-        ),
+        array([
+            1000.0,
+            980.0,
+            975.0,
+            965.0,
+            945.0,
+            905.0,
+            825.0,
+            810.0,
+            650.0,
+            620.0,
+            300.0,
+            240.0,
+        ]),
     )
 
 
@@ -182,22 +180,20 @@ def test_sampling_history(executed_mlmc):
     """Check the history of the number of samples per level."""
     assert_equal(
         executed_mlmc.sampling_history,
-        array(
-            [
-                [10, 10],
-                [10, 0],
-                [20, 0],
-                [40, 0],
-                [80, 0],
-                [160, 0],
-                [0, 10],
-                [320, 0],
-                [0, 20],
-                [640, 0],
-                [0, 40],
-                [480, 0],
-            ]
-        ),
+        array([
+            [10, 10],
+            [10, 0],
+            [20, 0],
+            [40, 0],
+            [80, 0],
+            [160, 0],
+            [0, 10],
+            [320, 0],
+            [0, 20],
+            [640, 0],
+            [0, 40],
+            [480, 0],
+        ]),
     )
 
 

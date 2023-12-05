@@ -118,12 +118,10 @@ def test_scenario(disciplines, design_space, uncertain_space, second_order, tmp_
 # Here are the value of f(x, m), jac(x, m) and hess(x, m).
 FUNC = array([1.0, 2.0])
 JAC = array([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]])
-HESS = array(
-    [
-        [[1.0, 2.0, 3.0], [4.0, 5.0, 6.0], [7.0, 8.0, 9.0]],
-        [[-1.0, -2.0, -3.0], [-4.0, -5.0, -6.0], [-7.0, -8.0, -9.0]],
-    ]
-)
+HESS = array([
+    [[1.0, 2.0, 3.0], [4.0, 5.0, 6.0], [7.0, 8.0, 9.0]],
+    [[-1.0, -2.0, -3.0], [-4.0, -5.0, -6.0], [-7.0, -8.0, -9.0]],
+])
 
 
 def test_init_differentiation_method(umdo_formulation):

@@ -126,9 +126,11 @@ class UncertainCouplingGraph:
             algo_name: The name of the DOE algorithm.
             **algo_options: The options of the DOE algorithm.
         """
-        self.__scenario.execute(
-            {"algo": algo_name, "n_samples": n_samples, "algo_options": algo_options}
-        )
+        self.__scenario.execute({
+            "algo": algo_name,
+            "n_samples": n_samples,
+            "algo_options": algo_options,
+        })
 
     def visualize(
         self,
