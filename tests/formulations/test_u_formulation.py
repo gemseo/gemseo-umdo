@@ -164,7 +164,7 @@ def test_constraint(formulation):
     """Check the constraint function is correctly set."""
     opt_problem = formulation.opt_problem
     assert opt_problem.constraints[0].mock == "c_statistics"
-    assert opt_problem.constraints[0].name == "Margin[c(x0, x1, x2, y1; u); 3.0]"
+    assert opt_problem.constraints[0].name == "Margin[c; 3.0]"
 
 
 def test_available_statistics(formulation):

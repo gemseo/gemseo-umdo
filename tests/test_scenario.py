@@ -21,9 +21,11 @@ import pytest
 from gemseo.algos.design_space import DesignSpace
 from gemseo.algos.parameter_space import ParameterSpace
 from gemseo.disciplines.analytic import AnalyticDiscipline
+from numpy import array
 
 from gemseo_umdo.formulations.factory import UMDOFormulationsFactory
 from gemseo_umdo.formulations.sampling import Sampling
+from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 
 if TYPE_CHECKING:
@@ -209,3 +211,67 @@ def test_statistic_no_estimation_parameters(disciplines, design_space, uncertain
             "Mean",
             maximize_objective=True,
         )
+
+
+@pytest.mark.parametrize(
+    ("constraint_name", "constraint_expr", "constraint_res"),
+    [
+        (None, "E[y] <= 0.05", "[E[y]-0.05] = [1.45]"),
+        ("foo", "foo: E[y] <= 0.05", "foo = [1.45]"),
+    ],
+)
+@pytest.mark.parametrize(
+    ("maximize_objective", "use_standardized_objective", "objective_expr"),
+    [
+        (False, False, "minimize E[y]"),
+        (False, True, "minimize E[y]"),
+        (True, False, "maximize E[y]"),
+        (True, True, "minimize -E[y]"),
+    ],
+)
+def test_log(
+    caplog,
+    constraint_name,
+    constraint_expr,
+    constraint_res,
+    maximize_objective,
+    use_standardized_objective,
+    objective_expr,
+):
+    """Check some parts of the log of a scenario."""
+    discipline = AnalyticDiscipline({"y": "x**2+u"}, name="f")
+
+    design_space = DesignSpace()
+    design_space.add_variable("x", l_b=-1, u_b=1.0, value=0.5)
+
+    uncertain_space = ParameterSpace()
+    uncertain_space.add_random_variable("u", "OTNormalDistribution")
+
+    scenario = UDOEScenario(
+        [discipline],
+        "DisciplinaryOpt",
+        "y",
+        design_space,
+        uncertain_space,
+        "Mean",
+        statistic_estimation="Sampling",
+        statistic_estimation_parameters={
+            "algo": "CustomDOE",
+            "n_samples": None,
+            "algo_options": {"samples": array([[0.5]])},
+        },
+        maximize_objective=maximize_objective,
+    )
+
+    scenario.add_constraint(
+        "y",
+        "Mean",
+        constraint_type="ineq",
+        value=0.05,
+        constraint_name=constraint_name,
+    )
+    scenario.use_standardized_objective = use_standardized_objective
+    scenario.execute({"algo": "CustomDOE", "algo_options": {"samples": array([[1.0]])}})
+    assert objective_expr in caplog.text
+    assert constraint_expr in caplog.text
+    assert constraint_res in caplog.text

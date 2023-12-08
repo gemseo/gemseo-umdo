@@ -41,7 +41,6 @@ class _UScenario(Scenario):
 
     __DV_TAG: Final[str] = "{}"
     __DV_PREFIX: Final[str] = "dv_"
-    __MAXIMIZE_OBJECTIVE: Final[str] = "maximize_objective"
 
     def __init__(
         self,

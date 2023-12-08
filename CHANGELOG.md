@@ -63,6 +63,9 @@ and this project adheres to
   - The options of the statistics estimators
     are now set at instantiation instead of execution.
   - ``gemseo_umdo.estimators`` has been renamed to ``gemseo_umdo.formulations.statistics``.
+- The log of the statistics no longer includes design variables and uncertain inputs
+  (e.g. ``E[y(x; u)]``),
+  but only uncertain output  (e.g. ``E[y]``) to avoid display problems in large dimensions.
 
 ### Fixed
 
@@ -70,6 +73,8 @@ and this project adheres to
   and [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
   maximize the statistic of the objective
   when the argument ``maximize_objective`` is set to ``True``.
+- The log of the objective and constraint is now consistent
+  with the arguments ``maximize_objective`` and ``constraint_name``.
 
 ## Version 1.1.1 (October 2023)
 
