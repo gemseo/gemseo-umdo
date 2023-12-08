@@ -184,11 +184,11 @@ class UMDOFormulation(BaseFormulation):
             statistic_parameters: The values of the parameters of the statistic
                 to be applied to the constraint, if any.
         """  # noqa: D205 D212 D415
-        self._mdo_formulation.add_constraint(output_name)
+        self._mdo_formulation.add_observable(output_name)
         sub_opt_problem = self._mdo_formulation.opt_problem
         constraint = self._statistic_function_class(
             self,
-            sub_opt_problem.constraints[-1],
+            sub_opt_problem.observables[-1],
             MDOFunction.FunctionType.NONE,
             statistic_name,
             sub_opt_problem,

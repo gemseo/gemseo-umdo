@@ -194,8 +194,8 @@ def test_init_sub_formulation(formulation):
     assert sub_form.mda.inner_mdas[0].name == "MDAGaussSeidel"
     assert sub_form.disciplines == formulation.disciplines
     assert sub_form.opt_problem.objective.name == "f"
-    assert sub_form.opt_problem.constraints[0].name == "c"
-    assert sub_form.opt_problem.observables[0].name == "o"
+    assert sub_form.opt_problem.observables[0].name == "c"
+    assert sub_form.opt_problem.observables[1].name == "o"
     assert sub_form.design_space.variable_names == ["u"]
 
 
