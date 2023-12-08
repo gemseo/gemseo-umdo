@@ -32,11 +32,11 @@ exceptiongroup==1.2.0
     # via pytest
 execnet==2.0.2
     # via pytest-xdist
-fastjsonschema==2.18.1
+fastjsonschema==2.19.0
     # via gemseo
 fonttools==4.46.0
     # via matplotlib
-gemseo[all]==5.1.2.dev233+g8ef16b2b
+gemseo[all]==5.1.2.dev243+gab14d04f
     # via
     #   gemseo
     #   gemseo-umdo (pyproject.toml)
