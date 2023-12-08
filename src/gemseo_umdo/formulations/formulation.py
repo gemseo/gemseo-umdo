@@ -28,6 +28,7 @@ from gemseo.core.mdofunctions.mdo_function import MDOFunction
 from gemseo.uncertainty.statistics.statistics import Statistics
 from gemseo.utils.data_conversion import split_array_to_dict_of_arrays
 from gemseo.utils.file_path_manager import FilePathManager
+from gemseo.utils.string_tools import pretty_str
 
 if TYPE_CHECKING:
     from gemseo.algos.design_space import DesignSpace
@@ -57,9 +58,6 @@ class UMDOFormulation(BaseFormulation):
     _uncertain_space: ParameterSpace
     """The uncertain space."""
 
-    __signature: str
-    """The pattern of the signature of the objective and constraints."""
-
     __available_statistics: list[str]
     """The names of the available statistics."""
 
@@ -86,13 +84,12 @@ class UMDOFormulation(BaseFormulation):
             objective_statistic_parameters: The values of the parameters
                 of the statistic to be applied to the objective, if any.
         """  # noqa: D205 D212 D415
-        design_variables = ", ".join(design_space.variable_names)
-        uncertain_variables = ", ".join(uncertain_space.variable_names)
-        self.__signature = f"({design_variables}; {uncertain_variables})"
+        pretty_str(design_space.variable_names)
+        pretty_str(uncertain_space.variable_names)
         if objective_statistic_parameters is None:
             objective_statistic_parameters = {}
 
-        objective_expression, objective_name = self.__compute_name(
+        objective_name = self.__compute_name(
             objective_name,
             objective_statistic_name,
             **objective_statistic_parameters,
@@ -103,13 +100,12 @@ class UMDOFormulation(BaseFormulation):
             disciplines,
             objective_name,
             design_space,
-            maximize_objective=maximize_objective,
             grammar_type=grammar_type,
             **options,
         )
         self.__available_statistics = self._statistic_factory.class_names
         sub_opt_problem = self._mdo_formulation.opt_problem
-        self.opt_problem.objective = self._statistic_function_class(
+        objective = self._statistic_function_class(
             self,
             sub_opt_problem.objective,
             MDOFunction.FunctionType.OBJ,
@@ -117,12 +113,9 @@ class UMDOFormulation(BaseFormulation):
             sub_opt_problem,
             **objective_statistic_parameters,
         )
-        if self._maximize_objective:
-            objective_name = f"-{objective_name}"
-            self.opt_problem.minimize_objective = False
-
-        self.opt_problem.objective.name = objective_name
-        self.opt_problem.objective.special_repr = objective_expression
+        objective.name = objective_name
+        self.opt_problem.objective = objective
+        self.opt_problem.minimize_objective = not maximize_objective
         self.name = f"{self.__class__.__name__}[{mdo_formulation.__class__.__name__}]"
         self._processed_functions = []
 
@@ -169,7 +162,7 @@ class UMDOFormulation(BaseFormulation):
             sub_opt_problem,
             **statistic_parameters,
         )
-        observable.special_repr, observable.name = self.__compute_name(
+        observable.name = self.__compute_name(
             observable_name or output_names, statistic_name, **statistic_parameters
         )
         self.opt_problem.add_observable(observable)
@@ -191,10 +184,7 @@ class UMDOFormulation(BaseFormulation):
             statistic_parameters: The values of the parameters of the statistic
                 to be applied to the constraint, if any.
         """  # noqa: D205 D212 D415
-        self._mdo_formulation.add_constraint(
-            output_name,
-            constraint_name=constraint_name,
-        )
+        self._mdo_formulation.add_constraint(output_name)
         sub_opt_problem = self._mdo_formulation.opt_problem
         constraint = self._statistic_function_class(
             self,
@@ -204,9 +194,14 @@ class UMDOFormulation(BaseFormulation):
             sub_opt_problem,
             **statistic_parameters,
         )
-        constraint.name, constraint.special_repr = self.__compute_name(
-            constraint_name or output_name, statistic_name, **statistic_parameters
-        )
+        name = self.__compute_name(output_name, statistic_name, **statistic_parameters)
+        constraint.output_names = [name]
+        if constraint_name is None:
+            constraint.name = name
+            constraint.has_default_name = True
+        else:
+            constraint.name = constraint_name
+            constraint.has_default_name = False
         self.opt_problem.add_constraint(
             constraint,
             value=value,
@@ -221,12 +216,12 @@ class UMDOFormulation(BaseFormulation):
     def _post_add_observable(self) -> None:
         """Apply actions after adding an observable."""
 
+    @staticmethod
     def __compute_name(
-        self,
         output_name: str | Iterable[str],
         statistic_name: str,
         **statistic_parameters: Any,
-    ) -> tuple[str, str]:
+    ) -> str:
         """Create the string representation of a statistic applied to output variables.
 
         Args:
@@ -237,20 +232,16 @@ class UMDOFormulation(BaseFormulation):
                 to be applied to the variable, if any.
 
         Returns:
-            The string representations of the statistic applied to the variables,
-            with and without the signature.
+            The string representations of the statistic applied to the output variables.
         """
         if not isinstance(output_name, str):
             output_name = "_".join(output_name)
 
-        statistic_name = FilePathManager.to_snake_case(statistic_name)
-        name_with_signature = Statistics.compute_expression(
-            f"{output_name}{self.__signature}", statistic_name, **statistic_parameters
+        return Statistics.compute_expression(
+            output_name,
+            FilePathManager.to_snake_case(statistic_name),
+            **statistic_parameters,
         )
-        name = Statistics.compute_expression(
-            output_name, statistic_name, **statistic_parameters
-        )
-        return name_with_signature, name
 
     def update_top_level_disciplines(self, design_values: Mapping[str, Any]) -> None:
         """Update the default input values of the top-level disciplines.
