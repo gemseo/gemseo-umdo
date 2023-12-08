@@ -130,9 +130,9 @@ def test_mdo_formulation(scenario):
     assert mdo_formulation.mda.inner_mdas[0].name == "MDAGaussSeidel"
     assert mdo_formulation.disciplines == scenario.disciplines
     assert opt_problem.objective.name == "f"
-    assert [c.name for c in opt_problem.constraints] == ["c"]
     assert [o.name for o in opt_problem.observables] == [
         "Mean[f]",
+        "c",
         "Margin[c]",
         "o",
         "Mean[o]",

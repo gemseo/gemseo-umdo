@@ -169,14 +169,14 @@ def test_mdo_formulation_objective(umdo_formulation, mdf_discipline):
 
 def test_mdo_formulation_constraint(umdo_formulation, mdf_discipline):
     """Check that the MDO formulation can compute the constraints correctly."""
-    constraint = umdo_formulation.mdo_formulation.opt_problem.constraints[0]
+    constraint = umdo_formulation.mdo_formulation.opt_problem.observables[0]
     input_data = {name: array([2.0]) for name in ["u", "u1", "u2"]}
     assert_equal(constraint(array([2.0] * 3)), mdf_discipline.execute(input_data)["c"])
 
 
 def test_mdo_formulation_observable(umdo_formulation, mdf_discipline):
     """Check that the MDO formulation can compute the observables correctly."""
-    observable = umdo_formulation.mdo_formulation.opt_problem.observables[0]
+    observable = umdo_formulation.mdo_formulation.opt_problem.observables[1]
     input_data = {name: array([2.0]) for name in ["u", "u1", "u2"]}
     assert_equal(observable(array([2.0] * 3)), mdf_discipline.execute(input_data)["o"])
 
@@ -214,7 +214,7 @@ def test_second_order_approximation(umdo_formulation_with_hessian):
     assert objective_value.shape == (3, 3)
     assert_equal(objective_value, 0.0)
 
-    constraint = problem.constraints[0]
+    constraint = problem.observables[0]
     assert constraint.name == "@@c"
     constraint_value = constraint(array([0.0] * 3))
     assert constraint_value.shape == (3, 3)

@@ -154,9 +154,8 @@ class TaylorPolynomial(UMDOFormulation):
             **statistic_parameters,
         )
         if self.hessian_fd_problem is not None:
-            self.hessian_fd_problem.add_constraint(
-                HessianFunction(self.mdo_formulation.opt_problem.constraints[-1]),
-                cstr_type=MDOFunction.ConstraintType.INEQ,
+            self.hessian_fd_problem.add_observable(
+                HessianFunction(self._mdo_formulation.opt_problem.observables[-1])
             )
 
     def add_observable(  # noqa: D102
