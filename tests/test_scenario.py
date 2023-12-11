@@ -117,9 +117,19 @@ def test_uncertain_space(scenario):
 
 
 def test_repr(scenario):
-    """Check the text representation of the formulation section of the scenario."""
-    expected = f"   Formulation: {scenario.formulation.name}"
-    assert repr(scenario).split("\n")[2] == expected
+    """Check the string representation of the scenario."""
+    expected = """UMDOScenario
+   Disciplines: D0 D1 D2
+   Formulation:
+      MDO formulation: MDF
+      Statistic estimation: Sampling
+   Uncertain space:
+      +------+-------------------------+
+      | Name |       Distribution      |
+      +------+-------------------------+
+      |  u   | norm(mu=0.0, sigma=1.0) |
+      +------+-------------------------+"""
+    assert repr(scenario) == expected
 
 
 def test_mdo_formulation(scenario):
