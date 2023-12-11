@@ -27,6 +27,8 @@ from gemseo.core.mdofunctions.mdo_function import MDOFunction
 from gemseo.core.scenario import Scenario
 from gemseo.disciplines.analytic import AnalyticDiscipline
 from gemseo.formulations.formulations_factory import MDOFormulationsFactory
+from gemseo.utils.string_tools import MultiLineString
+from gemseo.utils.string_tools import pretty_str
 
 from gemseo_umdo.formulations.factory import UMDOFormulationsFactory
 
@@ -192,9 +194,20 @@ class _UScenario(Scenario):
         )
 
     def __repr__(self) -> str:
-        msg = super().__repr__().split("\n")
-        msg[2] = f"   Formulation: {self.formulation.name}"
-        return "\n".join(msg)
+        msg = MultiLineString()
+        msg.add(self.name)
+        msg.indent()
+        msg.add("Disciplines: {}", pretty_str(self.disciplines, delimiter=" "))
+        msg.add("Formulation:")
+        msg.indent()
+        msg.add("MDO formulation: {}", self.mdo_formulation.__class__.__name__)
+        msg.add("Statistic estimation: {}", self.formulation.__class__.__name__)
+        msg.dedent()
+        msg.add("Uncertain space:")
+        msg.indent()
+        for line in str(self.uncertain_space).split("\n")[1:]:
+            msg.add(line)
+        return str(msg)
 
     @property
     def uncertain_space(self) -> ParameterSpace:
