@@ -16,7 +16,6 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 from typing import Any
-from typing import Sequence
 
 import pytest
 from gemseo.formulations.mdf import MDF
@@ -53,6 +52,8 @@ from gemseo_umdo.formulations.statistics.sampling.variance import Variance
 from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
 
 if TYPE_CHECKING:
+    from collections.abc import Sequence
+
     from gemseo.algos.design_space import DesignSpace
     from gemseo.algos.parameter_space import ParameterSpace
     from gemseo.core.discipline import MDODiscipline
@@ -78,7 +79,6 @@ def umdo_formulation(
         mdo_formulation,
         uncertain_space,
         "Mean",
-        n_samples=None,
         algo="CustomDOE",
         algo_options={"samples": array([[0.0] * 3, [1.0] * 3])},
     )
@@ -115,7 +115,6 @@ def test_scenario(
         statistic_estimation="Sampling",
         statistic_estimation_parameters={
             "algo": "CustomDOE",
-            "n_samples": None,
             "algo_options": {"samples": array([[0.0] * 3, [1.0] * 3])},
             "estimate_statistics_iteratively": estimate_statistics_iteratively,
         },
@@ -281,7 +280,7 @@ def test_read_write_n_samples(umdo_formulation):
 
     # Sampling has been instantiated with `n_samples=None`.
     assert umdo_formulation._n_samples is None
-    assert doe_algo_options["n_samples"] is None
+    assert "n_samples" not in doe_algo_options
 
     # In the options of the DOE,
     # the number of samples is set to 3 with the property _n_samples.
