@@ -204,14 +204,10 @@ def test_uncertain_design_variables(disciplines, design_space, uncertain_space):
 def test_statistic_no_estimation_parameters(disciplines, design_space, uncertain_space):
     """Check that a TypeError is raised when estimation parameters are missing.
 
-    The default UMDOFormulation is "Sampling" whose "n_samples" argument is mandatory.
+    The default UMDOFormulation is "Sampling" whose "n_samples" argument is mandatory
+    for most of the DOE algorithms, including the default one.
     """
-    with pytest.raises(
-        TypeError,
-        match=re.escape(
-            "__init__() missing 1 required positional argument: 'n_samples'"
-        ),
-    ):
+    with pytest.raises(ValueError, match=re.escape("Sampling: n_samples is required.")):
         UMDOScenario(
             disciplines,
             "MDF",

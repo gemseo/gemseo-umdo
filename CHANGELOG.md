@@ -56,6 +56,11 @@ and this project adheres to
 
 ### Changed
 
+- Setting the argument ``n_samples``
+  of the U-MDO formulation [Sampling][gemseo_umdo.formulations.sampling.Sampling]
+  is mandatory for many DOE algorithms
+  but optional in the case where
+  the DOE algorithm does not consider a ``n_samples`` argument to generate the samples.
 - The estimator of the [Variance][gemseo_umdo.formulations.statistics.sampling.variance.Variance]
   used by the U-MDO formulation [Sampling][gemseo_umdo.formulations.sampling.Sampling]
   with ``estimate_statistics_iteratively=False`` is now unbiased.
