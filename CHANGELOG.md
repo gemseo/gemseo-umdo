@@ -53,6 +53,9 @@ and this project adheres to
 - The package ``gemseo_umdo.formulations.functions`` contains the ``MDOFunction``s
   used by a [UMDOFormulation][gemseo_umdo.formulations.formulation.UMDOFormulation]
   to compute the statistics of the objective, constraints and observables.
+- The logs of the [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario]
+  and [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
+  include the uncertain space.
 
 ### Changed
 
