@@ -24,7 +24,7 @@ cycler==0.12.1
     # via matplotlib
 dill==0.3.7
     # via openturns
-docstring-inheritance==2.1.1
+docstring-inheritance==2.1.2
     # via gemseo
 et-xmlfile==1.1.0
     # via openpyxl
@@ -34,9 +34,9 @@ execnet==2.0.2
     # via pytest-xdist
 fastjsonschema==2.19.0
     # via gemseo
-fonttools==4.46.0
+fonttools==4.47.0
     # via matplotlib
-gemseo[all]==5.1.2.dev295+g5adaf10f
+gemseo[all]==5.1.2.dev305+g042c8237
     # via
     #   gemseo
     #   gemseo-umdo (pyproject.toml)
@@ -85,7 +85,7 @@ openpyxl==3.1.2
     # via gemseo
 openturns==1.21
     # via gemseo
-packaging==23.1
+packaging==23.2
     # via
     #   gemseo
     #   matplotlib
