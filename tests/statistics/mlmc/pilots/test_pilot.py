@@ -17,8 +17,6 @@
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
-from typing import Iterable
-from typing import Sequence
 
 import pytest
 from gemseo.utils.testing.helpers import concretize_classes
@@ -29,6 +27,9 @@ from numpy.testing import assert_equal
 from gemseo_umdo.statistics.multilevel.pilot import Pilot
 
 if TYPE_CHECKING:
+    from collections.abc import Iterable
+    from collections.abc import Sequence
+
     from numpy._typing import NDArray
 
 

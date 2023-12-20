@@ -35,14 +35,15 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 from typing import Any
-from typing import Mapping
-from typing import Sequence
 
 from gemseo.core.discipline import MDODiscipline
 
 from gemseo_umdo.formulations.sampling import Sampling
 
 if TYPE_CHECKING:
+    from collections.abc import Mapping
+    from collections.abc import Sequence
+
     from gemseo.algos.design_space import DesignSpace
     from gemseo.algos.opt_problem import OptimizationProblem
     from gemseo.algos.parameter_space import ParameterSpace

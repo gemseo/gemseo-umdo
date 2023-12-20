@@ -16,8 +16,8 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
 from typing import ClassVar
-from typing import Mapping
 
 from gemseo.algos.parameter_space import ParameterSpace
 
@@ -31,6 +31,9 @@ from gemseo_umdo.use_cases.beam_model.core.variables import dy
 from gemseo_umdo.use_cases.beam_model.core.variables import dz
 from gemseo_umdo.use_cases.beam_model.core.variables import h
 from gemseo_umdo.use_cases.beam_model.core.variables import t
+
+if TYPE_CHECKING:
+    from collections.abc import Mapping
 
 
 class AdvancedBeamUncertainSpace(ParameterSpace):

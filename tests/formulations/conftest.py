@@ -15,7 +15,6 @@
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
-from typing import Sequence
 
 import pytest
 from gemseo.algos.design_space import DesignSpace
@@ -25,6 +24,8 @@ from gemseo.disciplines.analytic import AnalyticDiscipline
 from gemseo.formulations.mdf import MDF
 
 if TYPE_CHECKING:
+    from collections.abc import Sequence
+
     from gemseo.core.discipline import MDODiscipline
 
 

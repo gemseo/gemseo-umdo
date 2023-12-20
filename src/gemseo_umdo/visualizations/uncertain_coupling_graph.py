@@ -20,8 +20,6 @@ from typing import TYPE_CHECKING
 from typing import Any
 from typing import Callable
 from typing import Final
-from typing import Iterable
-from typing import Sequence
 
 from gemseo.core.dependency_graph import DependencyGraph
 from gemseo.core.doe_scenario import DOEScenario
@@ -33,6 +31,8 @@ from numpy import quantile
 from strenum import StrEnum
 
 if TYPE_CHECKING:
+    from collections.abc import Iterable
+    from collections.abc import Sequence
     from pathlib import Path
 
     from gemseo.algos.parameter_space import ParameterSpace

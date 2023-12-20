@@ -17,7 +17,6 @@
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
-from typing import Sequence
 
 from numpy import array
 from strenum import StrEnum
@@ -28,6 +27,8 @@ from gemseo_umdo.statistics.multilevel.mlmc_mlcv.pilots.factory import (
 )
 
 if TYPE_CHECKING:
+    from collections.abc import Sequence
+
     from gemseo.algos.parameter_space import ParameterSpace
     from gemseo.core.mdofunctions.mdo_function import MDOFunction
 

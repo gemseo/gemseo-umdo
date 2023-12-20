@@ -15,7 +15,6 @@
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
-from typing import Sequence
 
 import pytest
 from gemseo.formulations.mdf import MDF
@@ -32,6 +31,8 @@ from gemseo_umdo.formulations.taylor_polynomial import TaylorPolynomial
 from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
 
 if TYPE_CHECKING:
+    from collections.abc import Sequence
+
     from gemseo.algos.design_space import DesignSpace
     from gemseo.algos.parameter_space import ParameterSpace
     from gemseo.core.discipline import MDODiscipline

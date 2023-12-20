@@ -34,8 +34,6 @@ from __future__ import annotations
 import logging
 from typing import TYPE_CHECKING
 from typing import Any
-from typing import Mapping
-from typing import Sequence
 
 from gemseo.algos.doe.lib_custom import CustomDOE
 from gemseo.algos.opt_problem import OptimizationProblem
@@ -53,6 +51,9 @@ from gemseo_umdo.formulations.statistics.taylor_polynomial.taylor_polynomial_est
 )
 
 if TYPE_CHECKING:
+    from collections.abc import Mapping
+    from collections.abc import Sequence
+
     from gemseo.algos.design_space import DesignSpace
     from gemseo.algos.parameter_space import ParameterSpace
     from gemseo.core.formulation import MDOFormulation

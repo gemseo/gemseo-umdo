@@ -18,8 +18,6 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 from typing import Any
-from typing import Iterable
-from typing import Sequence
 
 from numpy import array
 from numpy import nanmean
@@ -29,6 +27,9 @@ from numpy import nanvar
 from gemseo_umdo.statistics.multilevel.mlmc.pilots.pilot import MLMCPilot
 
 if TYPE_CHECKING:
+    from collections.abc import Iterable
+    from collections.abc import Sequence
+
     from numpy.typing import NDArray
 
 
