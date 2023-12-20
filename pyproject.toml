@@ -13,12 +13,12 @@ classifiers = [
     "Operating System :: MacOS",
     "Operating System :: Microsoft :: Windows",
     "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
 ]
 dynamic = ["version"]
-requires-python = ">=3.8, <3.11"
+requires-python = ">=3.9, <3.12"
 dependencies = [
     "gemseo[all] >=5",
     "matplotlib",

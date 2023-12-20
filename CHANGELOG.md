@@ -30,6 +30,7 @@ and this project adheres to
 
 ### Added
 
+- Support for Python 3.11.
 - A web documentation.
 - The heat equation problem (
   [HeatEquationConfiguration][gemseo_umdo.use_cases.heat_equation.configuration.HeatEquationConfiguration],
@@ -83,6 +84,10 @@ and this project adheres to
   when the argument ``maximize_objective`` is set to ``True``.
 - The log of the objective and constraint is now consistent
   with the arguments ``maximize_objective`` and ``constraint_name``.
+
+### Removed
+
+- Support for Python 3.8.
 
 ## Version 1.1.1 (October 2023)
 

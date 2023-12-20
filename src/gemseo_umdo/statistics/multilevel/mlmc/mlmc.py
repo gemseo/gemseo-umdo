@@ -21,7 +21,6 @@ import math
 from typing import TYPE_CHECKING
 from typing import Any
 from typing import ClassVar
-from typing import Iterable
 
 from gemseo.core.mdofunctions.mdo_function import MDOFunction
 from gemseo.utils.matplotlib_figure import save_show_figure
@@ -38,6 +37,7 @@ from gemseo_umdo.monte_carlo_sampler import MonteCarloSampler
 from gemseo_umdo.statistics.multilevel.mlmc.pilots.factory import MLMCPilotFactory
 
 if TYPE_CHECKING:
+    from collections.abc import Iterable
     from pathlib import Path
 
     from gemseo.algos.parameter_space import ParameterSpace

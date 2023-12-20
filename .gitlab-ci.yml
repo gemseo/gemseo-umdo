@@ -1,8 +1,5 @@
 include:
-  - remote: "https://gitlab.com/gemseo/dev/ci-includes/-/raw/main/plugin.yml"
-
-variables:
-  TOX_EXE: tox4
+  - remote: "https://gitlab.com/gemseo/dev/ci-includes/-/raw/py311/plugin.yml"
 
 pages:
   stage: publish

@@ -19,8 +19,6 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 from typing import Any
 from typing import Final
-from typing import Mapping
-from typing import Sequence
 
 from gemseo.core.discipline import MDODiscipline
 from gemseo.core.mdofunctions.mdo_function import MDOFunction
@@ -33,6 +31,9 @@ from gemseo.utils.string_tools import pretty_str
 from gemseo_umdo.formulations.factory import UMDOFormulationsFactory
 
 if TYPE_CHECKING:
+    from collections.abc import Mapping
+    from collections.abc import Sequence
+
     from gemseo.algos.design_space import DesignSpace
     from gemseo.algos.parameter_space import ParameterSpace
     from gemseo.core.formulation import MDOFormulation

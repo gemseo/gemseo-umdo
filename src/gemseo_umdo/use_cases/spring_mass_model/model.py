@@ -17,12 +17,13 @@
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
-from typing import Sequence
 
 from numpy import arange
 from scipy.integrate import odeint
 
 if TYPE_CHECKING:
+    from collections.abc import Sequence
+
     from numpy.typing import NDArray
 
 

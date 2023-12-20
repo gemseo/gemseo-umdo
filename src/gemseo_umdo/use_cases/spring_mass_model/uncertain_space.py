@@ -22,7 +22,7 @@ from gemseo.algos.parameter_space import ParameterSpace
 class SpringMassUncertainSpace(ParameterSpace):
     """The space of the uncertain variables of the spring-mass system."""
 
-    def __init__(self) -> None:  # noqa: 107
+    def __init__(self) -> None:  # noqa: D107
         super().__init__()
         self.add_random_variable(
             "stiffness",
