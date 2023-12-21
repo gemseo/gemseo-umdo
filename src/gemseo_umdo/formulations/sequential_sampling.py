@@ -14,41 +14,50 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 r"""Sequential sampling for multidisciplinary design problems under uncertainty.
 
-:class:`.SequentialSampling` is an :class:`.UMDOFormulation`
+[SequentialSampling][gemseo_umdo.formulations.sequential_sampling.SequentialSampling]
+is an [UMDOFormulation][gemseo_umdo.formulations.formulation.UMDOFormulation]
 estimating the statistics with sequential (quasi) Monte Carlo techniques.
 
 E.g.
-:math:`\mathbb{E}[f(x,U)] \approx \frac{1}{N}\sum_{i=1}^N f\left(x,U^{(i)}\right)`
+$\mathbb{E}[f(x,U)] \approx \frac{1}{N_k}\sum_{i=1}^{N_k} f\left(x,U^{(k,i)}\right)$
 or
-:math:`\mathbb{V}[f(x,U)] \approx
-\frac{1}{N}\sum_{i=1}^N \left(f\left(x,U^{(i)}\right)-
-\frac{1}{N}\sum_{j=1}^N f\left(x,U^{(j)}\right)\right)^2`
-where :math:`U` is normally distributed
-with mean :math:`\mu` and unit variance :math:`\sigma`
-and :math:`U^{(k,1)},\ldots,U^{(k,N_k)}` are :math:`N_k` realizations of :math:`U`
+$\mathbb{V}[f(x,U)] \approx
+\frac{1}{N_k-1}\sum_{i=1}^{N_k} \left(f\left(x,U^{(k,i)}\right)-
+\frac{1}{N_k}\sum_{j=1}^{N_k} f\left(x,U^{(k,j)}\right)\right)^2$
+where $U$ is normally distributed
+with mean $\mu$ and variance $\sigma^2$
+and $U^{(k,1)},\ldots,U^{(k,N_k)}$ are $N_k$ realizations of $U$
 obtained at the $k$-th iteration of the optimization loop
 with an optimized Latin hypercube sampling technique.
 """
+
 from __future__ import annotations
 
-import logging
+from typing import TYPE_CHECKING
 from typing import Any
-from typing import Mapping
-from typing import Sequence
 
-from gemseo.algos.design_space import DesignSpace
-from gemseo.algos.opt_problem import OptimizationProblem
-from gemseo.algos.parameter_space import ParameterSpace
 from gemseo.core.discipline import MDODiscipline
-from gemseo.core.formulation import MDOFormulation
 
 from gemseo_umdo.formulations.sampling import Sampling
 
-LOGGER = logging.getLogger(__name__)
+if TYPE_CHECKING:
+    from collections.abc import Mapping
+    from collections.abc import Sequence
+
+    from gemseo.algos.design_space import DesignSpace
+    from gemseo.algos.opt_problem import OptimizationProblem
+    from gemseo.algos.parameter_space import ParameterSpace
+    from gemseo.core.formulation import MDOFormulation
 
 
 class SequentialSampling(Sampling):
     """Sequential sampling-based robust MDO formulation."""
+
+    __final_n_samples: int
+    """The maximum number of samples when evaluating the U-MDO formulation."""
+
+    __n_samples_increment: int
+    """The increment of the sampling size."""
 
     def __init__(
         self,

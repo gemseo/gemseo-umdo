@@ -13,16 +13,21 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 """A network of uncertain variables representing their Sobol' indices."""
+
 from __future__ import annotations
 
-from pathlib import Path
+from typing import TYPE_CHECKING
 from typing import ClassVar
-from typing import Mapping
 
 from gemseo.post._graph_view import GraphView
-from gemseo.uncertainty.sensitivity.sobol.analysis import SobolAnalysis
 from gemseo.utils.string_tools import repr_variable
-from numpy.typing import NDArray
+
+if TYPE_CHECKING:
+    from collections.abc import Mapping
+    from pathlib import Path
+
+    from gemseo.uncertainty.sensitivity.sobol.analysis import SobolAnalysis
+    from numpy.typing import NDArray
 
 
 class SobolGraph(GraphView):
@@ -126,12 +131,10 @@ class SobolGraph(GraphView):
                 for component_1, sub_indices_12 in enumerate(indices_12):
                     for component_2, index in enumerate(sub_indices_12):
                         edge = tuple(
-                            sorted(
-                                [
-                                    repr_variable(name_1, component_1, size_1),
-                                    repr_variable(name_2, component_2, size_2),
-                                ]
-                            )
+                            sorted([
+                                repr_variable(name_1, component_1, size_1),
+                                repr_variable(name_2, component_2, size_2),
+                            ])
                         )
                         if edge not in edges:
                             new_indices[edge] = max(index, 0)

@@ -12,29 +12,34 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-"""The |g|-free spring-mass model."""
+"""The GEMSEO-free spring-mass model."""
+
 from __future__ import annotations
 
-from typing import Sequence
+from typing import TYPE_CHECKING
 
 from numpy import arange
-from numpy.typing import NDArray
 from scipy.integrate import odeint
+
+if TYPE_CHECKING:
+    from collections.abc import Sequence
+
+    from numpy.typing import NDArray
 
 
 class SpringMassModel:
-    r"""The |g|-free spring-mass model :math:`m\frac{d^2z(t)}{dt^2} = -kz(t) + mg`.
+    r"""The GEMSEO-free spring-mass model.
 
-    This model computes the time displacement of an object attached to a spring
-    in function of the stiffness of the spring.
+    This model computes the time displacement of an object attached to a spring in
+    function of the stiffness of the spring.
 
     It computes also its maximum displacement.
 
-    The equations are
+    The ordinary differential equation is
 
-    .. math::
+    $$m\frac{d^2z(t)}{dt^2} = -kz(t) + mg$$
 
-       m\frac{d^2z}{dt^2} = -kz + mg
+    with $\left.\frac{dz(t)}{dt}\right|_{t=0}=z(0)=z_0$.
     """
 
     def __init__(

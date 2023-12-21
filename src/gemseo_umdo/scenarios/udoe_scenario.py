@@ -13,19 +13,18 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 """Scenario for multidisciplinary design sampling problems under uncertainty."""
+
 from __future__ import annotations
 
-import logging
 from pathlib import Path
+from typing import ClassVar
 
 from gemseo.core.doe_scenario import DOEScenario
 
 from gemseo_umdo.scenarios._scenario import _UScenario
 
-LOGGER = logging.getLogger(__name__)
-
 
 class UDOEScenario(_UScenario, DOEScenario):
     """A DOE-based scenario for multidisciplinary design under uncertainty."""
 
-    GRAMMAR_DIRECTORY = Path(__file__) / "udoe"
+    GRAMMAR_DIRECTORY: ClassVar[Path] = Path(__file__) / "udoe"

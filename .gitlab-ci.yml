@@ -1,2 +1,23 @@
 include:
-  - remote: "https://gitlab.com/gemseo/dev/ci-includes/-/raw/main/plugin.yml"
+  - remote: "https://gitlab.com/gemseo/dev/ci-includes/-/raw/py311/plugin.yml"
+
+pages:
+  stage: publish
+  image: $TEST_DOCKER_IMAGE
+  variables:
+    PIP_CACHE_DIR: $CI_PROJECT_DIR/.cache/pip
+  cache:
+    paths:
+      - $PIP_CACHE_DIR
+    key:
+      files:
+        - requirements/doc.txt
+      prefix: $TEST_DOCKER_IMAGE
+  script:
+    - $TOX_EXE -e doc
+  artifacts:
+    paths:
+      - site
+  publish: site
+  rules:
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH

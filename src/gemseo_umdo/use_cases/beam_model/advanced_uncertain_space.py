@@ -13,23 +13,27 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 """The advanced uncertain space for the beam use case."""
+
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
 from typing import ClassVar
-from typing import Mapping
 
 from gemseo.algos.parameter_space import ParameterSpace
 
+from gemseo_umdo.use_cases.beam_model.core.variables import E
+from gemseo_umdo.use_cases.beam_model.core.variables import L
+from gemseo_umdo.use_cases.beam_model.core.variables import Variable
 from gemseo_umdo.use_cases.beam_model.core.variables import alpha
 from gemseo_umdo.use_cases.beam_model.core.variables import b
 from gemseo_umdo.use_cases.beam_model.core.variables import beta
 from gemseo_umdo.use_cases.beam_model.core.variables import dy
 from gemseo_umdo.use_cases.beam_model.core.variables import dz
-from gemseo_umdo.use_cases.beam_model.core.variables import E
 from gemseo_umdo.use_cases.beam_model.core.variables import h
-from gemseo_umdo.use_cases.beam_model.core.variables import L
 from gemseo_umdo.use_cases.beam_model.core.variables import t
-from gemseo_umdo.use_cases.beam_model.core.variables import Variable
+
+if TYPE_CHECKING:
+    from collections.abc import Mapping
 
 
 class AdvancedBeamUncertainSpace(ParameterSpace):
@@ -45,7 +49,7 @@ class AdvancedBeamUncertainSpace(ParameterSpace):
             nominal_values: The nominal values of some uncertain variables.
                 For missing ones,
                 use the default values of the variables available in
-                :mod:`~gemseo_umdo.use_cases.beam_model.core.variables.`
+                ``gemseo_umdo.use_cases.beam_model.core.variables``.
             **dispersions: The dispersions around the nominal values.
         """  # noqa: D205 D212 D415
         super().__init__()
@@ -85,15 +89,15 @@ class AdvancedBeamUncertainSpace(ParameterSpace):
     def __add_truncated_normal(self, name: str, **dispersions: float) -> None:
         r"""Add a truncated normal distribution to the parameter space.
 
-        Use the :attr:`.__nominal_values[name]` as mean.
+        Use the ``.__nominal_values[name]`` as mean.
 
         Args:
             name: The name of the random variable.
-            **dispersions: The dispersion :math:`\delta` around the mean :math:`\mu`
-                to define the standard deviation :math:`\sigma=\delta/3`;
+            **dispersions: The dispersion $\delta$ around the mean $\mu$
+                to define the standard deviation $\sigma=\delta/3$;
                 the distribution is truncated
-                to the interval :math:`[\mu-3\sigma,\mu+3\sigma]`;
-                if the dispersion is missing, use :attr:`.__DEFAULT_DISPERSION`.
+                to the interval $[\mu-3\sigma,\mu+3\sigma]$;
+                if the dispersion is missing, use ``.__DEFAULT_DISPERSION``.
         """
         nominal_value = self.__nominal_values[name]
         sigma = dispersions.get(name, self.__DEFAULT_DISPERSION / 3.0)

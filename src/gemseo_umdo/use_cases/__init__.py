@@ -15,4 +15,5 @@
 # Copyright 2022 IRT Saint Exupéry, https://www.irt-saintexupery.com
 # All rights reserved.
 """Some use cases for uncertainty quantification and robust optimization."""
+
 from __future__ import annotations

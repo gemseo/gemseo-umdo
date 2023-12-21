@@ -13,26 +13,31 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 """An uncertain coupling graph."""
+
 from __future__ import annotations
 
-from pathlib import Path
+from typing import TYPE_CHECKING
 from typing import Any
 from typing import Callable
 from typing import Final
-from typing import Iterable
-from typing import Sequence
 
-from gemseo.algos.parameter_space import ParameterSpace
 from gemseo.core.dependency_graph import DependencyGraph
-from gemseo.core.discipline import MDODiscipline
 from gemseo.core.doe_scenario import DOEScenario
 from gemseo.disciplines.utils import get_all_outputs
 from gemseo.post._graph_view import GraphView
 from gemseo.utils.string_tools import repr_variable
 from numpy import atleast_1d
 from numpy import quantile
-from numpy.typing import NDArray
 from strenum import StrEnum
+
+if TYPE_CHECKING:
+    from collections.abc import Iterable
+    from collections.abc import Sequence
+    from pathlib import Path
+
+    from gemseo.algos.parameter_space import ParameterSpace
+    from gemseo.core.discipline import MDODiscipline
+    from numpy.typing import NDArray
 
 
 def _compute_qcd(x: NDArray[float]) -> NDArray[float]:
@@ -55,16 +60,19 @@ class UncertainCouplingGraph:
     A coupling graph whose disciplines are represented by nodes
     and coupling variables by edges whose thickness is proportional to its dispersion.
 
-    The dispersion is computed using a :class:`.DispersionMeasure`
+    The dispersion is computed using a
+    [DispersionMeasure][gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph.DispersionMeasure]
     such as the coefficient of variation (CV)
     or the quartile coefficient of dispersion (QCD).
 
     To be used as:
 
-    1. Instantiate an :class:`.UncertainCouplingGraph`.
-    2. Sample the multidisciplinary system using :meth:`.sample`.
-    3. Generate the coupling graph for a given dispersion measure,
-       using :meth:`.visualize`.
+    1. Instantiate an
+       [UncertainCouplingGraph][gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph].
+    2. Sample the multidisciplinary system, using
+       [sample()][gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph.sample].
+    3. Generate the coupling graph for a given dispersion measure, using
+       [visualize()][gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph.visualize].
 
     If you want to change the dispersion measure or filter the variables,
     repeat Step 3 with another dispersion measure or a list of variable names.
@@ -118,9 +126,11 @@ class UncertainCouplingGraph:
             algo_name: The name of the DOE algorithm.
             **algo_options: The options of the DOE algorithm.
         """
-        self.__scenario.execute(
-            {"algo": algo_name, "n_samples": n_samples, "algo_options": algo_options}
-        )
+        self.__scenario.execute({
+            "algo": algo_name,
+            "n_samples": n_samples,
+            "algo_options": algo_options,
+        })
 
     def visualize(
         self,
@@ -128,6 +138,7 @@ class UncertainCouplingGraph:
         dispersion_measure: DispersionMeasure = DispersionMeasure.QCD,
         variable_names: Iterable[str] | None = None,
         show: bool = True,
+        save: bool = True,
         file_path: str | Path = "",
         clean_up: bool = True,
     ) -> GraphView:
@@ -141,6 +152,7 @@ class UncertainCouplingGraph:
                 use all the coupling variables of interest defined at instantiation.
             show: Whether to display the graph
                 with the default application associated to the file extension.
+            save: Whether to save the graph on the disk.
             file_path: The file path with extension to save the graph.
                 If ``""``, use the class name with PNG format.
             clean_up: Whether to remove the source files.
@@ -195,5 +207,7 @@ class UncertainCouplingGraph:
                         penwidth=str(round(abs(disp_meas[i] * maximum_thickness), 2)),
                     )
 
-        graph_view.visualize(show=show, file_path=file_path, clean_up=clean_up)
+        if save:
+            graph_view.visualize(show=show, file_path=file_path, clean_up=clean_up)
+
         return graph_view

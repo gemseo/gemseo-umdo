@@ -1,16 +1,21 @@
 repos:
 
 - repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v4.4.0
+  rev: v4.5.0
   hooks:
     - id: trailing-whitespace
     - id: end-of-file-fixer
       exclude: LICENSES/headers
     - id: check-yaml
       # !reference is specific to gitlab
-      exclude: .gitlab-ci.yml
+      exclude: \.gitlab-ci.yml
     - id: check-added-large-files
     - id: check-json
+    - id: pretty-format-json
+      args: [
+        --autofix,
+        --no-sort-keys,
+      ]
     - id: check-toml
     - id: destroyed-symlinks
     - id: check-symlinks
@@ -22,74 +27,32 @@ repos:
     - id: rst-directive-colons
     - id: rst-inline-touching-normal
 
-- repo: https://github.com/PyCQA/autoflake
-  rev: v2.1.1
-  hooks:
-    - id: autoflake
-      args: [
-        --in-place,
-        --remove-all-unused-imports,
-      ]
-
-- repo: https://github.com/asottile/reorder_python_imports
-  rev: v3.9.0
-  hooks:
-    - id: reorder-python-imports
-      name: reorder python imports in src
-      files: ^src
-      args: [
-        --application-directories,
-        src,
-        --py38-plus,
-        --add-import,
-        "from __future__ import annotations",
-      ]
-    - id: reorder-python-imports
-      name: reorder python imports out of src
-      exclude: ^src
-      args: [
-        --py38-plus,
-        --add-import,
-        "from __future__ import annotations",
-      ]
-
 - repo: https://github.com/myint/docformatter
-  rev: v1.6.5
+  rev: v1.7.5
   hooks:
     - id: docformatter
       args: [
         --in-place,
-        --wrap-summaries,
-        "88",
-        --wrap-descriptions,
-        "88",
+        --black,
       ]
 
-- repo: https://github.com/asottile/pyupgrade
-  rev: v3.4.0
+- repo: https://github.com/astral-sh/ruff-pre-commit
+  rev: v0.1.8
   hooks:
-    - id: pyupgrade
-      args: [--py38-plus]
+    - id: ruff
+      args: [
+        --fix,
+        --preview,
+        --exit-non-zero-on-fix,
+      ]
 
-- repo: https://github.com/psf/black
-  rev: 23.3.0
+- repo: https://github.com/astral-sh/ruff-pre-commit
+  rev: v0.1.8
   hooks:
-    - id: black
-
-- repo: https://github.com/PyCQA/flake8
-  rev: 6.0.0
-  hooks:
-    - id: flake8
-      additional_dependencies:
-        - flake8-annotations==3.0.1
-        - flake8-bugbear==23.5.9
-        - flake8-docstrings==1.7.0
-        - flake8-logging-format==0.9.0
-        - flake8-print==5.0.0
-        - pep8-naming==0.13.3
+    - id: ruff-format
 
 - repo: https://github.com/commitizen-tools/commitizen
-  rev: 3.2.2
+  rev: v3.13.0
   hooks:
     - id: commitizen
       stages: [commit-msg]
@@ -100,34 +63,49 @@ repos:
     - id: nbstripout
 
 - repo: https://github.com/nbQA-dev/nbQA
-  rev: 1.7.0
+  rev: 1.7.1
   hooks:
     - id: nbqa-black
     - id: nbqa-pyupgrade
       args: [ "--py38-plus" ]
     - id: nbqa-autopep8
 
+- repo: https://github.com/igorshubovych/markdownlint-cli
+  rev: v0.38.0
+  hooks:
+  - id: markdownlint
+    args: ["--fix"]
+
 - repo: https://github.com/Lucas-C/pre-commit-hooks
-  rev: v1.5.1
+  rev: v1.5.4
   hooks:
     - id: insert-license
       name: insert LGPL license
-      exclude: ^doc_src
+      exclude: ^docs
       files: \.py$
       args:
         - --license-filepath
         - LICENSES/headers/LGPL-3.0.txt
     - id: insert-license
       name: insert BSD license
-      files: ^doc_src/(examples|tutorials).*\.py$
+      files: ^docs/(examples|tutorials).*\.py$
       args:
         - --license-filepath
         - LICENSES/headers/BSD-0-Clause.txt
     - id: insert-license
-      name: insert CC BY-SA license
-      files: (\.rst|\.rst\.txt)$
+      name: insert CC BY-SA license for rst files
+      files: \.rst$
       args:
         - --license-filepath
         - LICENSES/headers/CC-BY-SA-4.0.txt
         - --comment-style
         - ..|   |
+    - id: insert-license
+      name: insert CC BY-SA license for md files
+      files: \.md$
+      exclude: ^docs/index.md
+      args:
+        - --license-filepath
+        - LICENSES/headers/CC-BY-SA-4.0.txt
+        - --comment-style
+        - <!--||-->

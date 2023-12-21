@@ -13,28 +13,30 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 """Tests for the Beam discipline."""
+
 from __future__ import annotations
 
 from dataclasses import asdict
 
 import pytest
 from gemseo.utils.comparisons import compare_dict_of_arrays
+from numpy import array
+from numpy import atleast_1d
+
 from gemseo_umdo.use_cases.beam_model.core.model import BeamModel
+from gemseo_umdo.use_cases.beam_model.core.variables import E
+from gemseo_umdo.use_cases.beam_model.core.variables import F
+from gemseo_umdo.use_cases.beam_model.core.variables import L
 from gemseo_umdo.use_cases.beam_model.core.variables import alpha
 from gemseo_umdo.use_cases.beam_model.core.variables import b
 from gemseo_umdo.use_cases.beam_model.core.variables import beta
 from gemseo_umdo.use_cases.beam_model.core.variables import dy
 from gemseo_umdo.use_cases.beam_model.core.variables import dz
-from gemseo_umdo.use_cases.beam_model.core.variables import E
-from gemseo_umdo.use_cases.beam_model.core.variables import F
 from gemseo_umdo.use_cases.beam_model.core.variables import h
-from gemseo_umdo.use_cases.beam_model.core.variables import L
 from gemseo_umdo.use_cases.beam_model.core.variables import nu
 from gemseo_umdo.use_cases.beam_model.core.variables import rho
 from gemseo_umdo.use_cases.beam_model.core.variables import t
 from gemseo_umdo.use_cases.beam_model.discipline import Beam
-from numpy import array
-from numpy import atleast_1d
 
 
 @pytest.fixture(scope="module")

@@ -13,15 +13,15 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 """Test for the BeamDesignSpace."""
+
 from __future__ import annotations
 
 import pytest
 from gemseo.algos.design_space import DesignSpace
-from gemseo_umdo.use_cases.beam_model.core.design_space import (
-    BeamDesignVariables,
-)
-from gemseo_umdo.use_cases.beam_model.design_space import BeamDesignSpace
 from numpy import array
+
+from gemseo_umdo.use_cases.beam_model.core.design_space import BeamDesignVariables
+from gemseo_umdo.use_cases.beam_model.design_space import BeamDesignSpace
 
 
 @pytest.fixture(scope="module")

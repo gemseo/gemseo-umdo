@@ -12,12 +12,15 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-"""The |g|-free version of the output data for the beam use case."""
+"""The GEMSEO-free version of the output data for the beam use case."""
+
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import TYPE_CHECKING
 
-from numpy.typing import NDArray
+if TYPE_CHECKING:
+    from numpy.typing import NDArray
 
 
 @dataclass
@@ -25,13 +28,13 @@ class BeamModelOutputData:
     """Output data of the beam model."""
 
     Ux: NDArray[float]
-    r"""The strain energy along the :math:`x`-axis."""
+    r"""The strain energy along the $x$-axis."""
 
     Uy: NDArray[float]
-    r"""The strain energy along the :math:`y`-axis."""
+    r"""The strain energy along the $y$-axis."""
 
     Uz: NDArray[float]
-    r"""The strain energy along the :math:`z`-axis."""
+    r"""The strain energy along the $z$-axis."""
 
     sigma: NDArray[float]
     """The normal stress at the root section points."""
@@ -49,4 +52,4 @@ class BeamModelOutputData:
     """The weight of the beam."""
 
     yz_grid: NDArray[float]
-    r"""The :math:`yz`-grid coordinates."""
+    r"""The $yz$-grid coordinates."""

@@ -1,0 +1,18 @@
+# MD013/line-length - Line length
+MD013:
+  # Number of characters for code blocks
+  code_block_line_length: 100
+
+# MD024/no-duplicate-heading/no-duplicate-header - Multiple headings with the same content
+MD024:
+  allow_different_nesting: true
+
+# MD041/first-line-heading/first-line-h1 - First line in a file should be a top-level heading
+MD041: false
+
+# MD046/code-block-style - Code block style
+# Set to false because admonition bugs with it
+MD046: false
+
+# MD052/reference-links-images - Reference links and images should use a label that is defined
+MD052: false

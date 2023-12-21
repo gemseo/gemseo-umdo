@@ -13,6 +13,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 """The discipline computing the constraints for the beam use case."""
+
 from __future__ import annotations
 
 from typing import Final
@@ -26,9 +27,10 @@ from gemseo_umdo.use_cases.beam_model.core.variables import sigma_all
 class BeamConstraints(MDODiscipline):
     r"""The discipline computing the constraints of the beam problem.
 
-    Stress constraints: :math:`\sigma_all/(\sigma_VM+1)`. Displacements constraints:
-    :math:`\Delta_{min}/(\Delta+0.1)`.
+    - Stress constraints: $\sigma_{\mathrm{all}}/(\sigma_{\mathrm{VM}}+1)$.
+    - Displacements constraints: $\Delta_{\mathrm{min}}/(\Delta+0.1)$.
     """
+
     __C_STRESS: Final[str] = "c_stress"
     __SIGMA_VM: Final[str] = "sigma_vm"
     __C_DISPL: Final[str] = "c_displ"
@@ -36,9 +38,11 @@ class BeamConstraints(MDODiscipline):
 
     def __init__(self) -> None:  # noqa: D107
         super().__init__()
-        self.input_grammar.update_from_names(
-            [self.__DISPL, self.__SIGMA_VM, sigma_all.name]
-        )
+        self.input_grammar.update_from_names([
+            self.__DISPL,
+            self.__SIGMA_VM,
+            sigma_all.name,
+        ])
         self.output_grammar.update_from_names([self.__C_DISPL, self.__C_STRESS])
         self.default_inputs = {
             sigma_all.name: array([sigma_all.value]),

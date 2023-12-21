@@ -13,6 +13,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 """The spring-mass model use case."""
+
 from __future__ import annotations
 
 from typing import Final
@@ -24,10 +25,10 @@ from gemseo_umdo.use_cases.spring_mass_model.model import SpringMassModel
 
 
 class SpringMassDiscipline(MDODiscipline):
-    r"""The |g|-based spring-mass model :math:`m\frac{d^2z(t)}{dt^2} = -kz(t) + mg`.
+    r"""The GEMSEO-based spring-mass model $m\frac{d^2z(t)}{dt^2} = -kz(t) + mg$.
 
-    This model computes the time displacement of an object attached to a spring
-    in function of the stiffness of the spring.
+    This model computes the time displacement of an object attached to a spring in
+    function of the stiffness of the spring.
 
     It computes also its maximum displacement.
     """
@@ -56,9 +57,10 @@ class SpringMassDiscipline(MDODiscipline):
         """  # noqa: D205 D212 D415
         super().__init__(name=f"{self.__class__.__name__}({time_step})")
         self.input_grammar.update_from_names([self.__STIFFNESS])
-        self.output_grammar.update_from_names(
-            [self.__MAX_DISPLACEMENT, self.__DISPLACEMENT]
-        )
+        self.output_grammar.update_from_names([
+            self.__MAX_DISPLACEMENT,
+            self.__DISPLACEMENT,
+        ])
         self.__model = SpringMassModel(
             mass=mass,
             initial_state=initial_state,

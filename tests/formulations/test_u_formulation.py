@@ -14,6 +14,7 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
 from typing import Any
 
 import pytest
@@ -23,12 +24,18 @@ from gemseo.core.execution_sequence import SerialExecSequence
 from gemseo.core.mdofunctions.mdo_function import MDOFunction
 from gemseo.disciplines.analytic import AnalyticDiscipline
 from gemseo.formulations.mdf import MDF
-from gemseo_umdo.estimators.sampling import SamplingEstimatorFactory
-from gemseo_umdo.formulations.formulation import UMDOFormulation
 from numpy import array
 
+from gemseo_umdo.formulations.formulation import UMDOFormulation
+from gemseo_umdo.formulations.statistics.sampling.sampling_estimator_factory import (
+    SamplingEstimatorFactory,
+)
 
-@pytest.fixture
+if TYPE_CHECKING:
+    from gemseo.algos.opt_problem import OptimizationProblem
+
+
+@pytest.fixture()
 def disciplines() -> list[AnalyticDiscipline]:
     """Three coupled disciplines, with two strongly coupled ones."""
     disc0 = AnalyticDiscipline(
@@ -39,7 +46,7 @@ def disciplines() -> list[AnalyticDiscipline]:
     return [disc0, disc1, disc2]
 
 
-@pytest.fixture
+@pytest.fixture()
 def design_space() -> DesignSpace:
     """The design space containing the global and local design variables."""
     space = DesignSpace()
@@ -49,7 +56,7 @@ def design_space() -> DesignSpace:
     return space
 
 
-@pytest.fixture
+@pytest.fixture()
 def uncertain_space() -> ParameterSpace:
     """The uncertain space containing the random variable."""
     space = ParameterSpace()
@@ -57,19 +64,22 @@ def uncertain_space() -> ParameterSpace:
     return space
 
 
-@pytest.fixture
+@pytest.fixture()
 def mdf(disciplines, uncertain_space) -> MDF:
     """The MDF formulation."""
     return MDF(disciplines, "f", uncertain_space, inner_mda_name="MDAGaussSeidel")
 
 
-class _StatisticFunction(MDOFunction):
-    def __init__(
+class StatisticFunction(MDOFunction):
+    """A function to compute a statistic."""
+
+    def __init__(  # noqa: D107
         self,
         formulation: UMDOFormulation,
         func: MDOFunction,
         function_type: str,
         name: str,
+        sub_opt_problem: OptimizationProblem,
         **parameters: Any,
     ) -> None:
         super().__init__(lambda u: array([1.0]), name="func")
@@ -80,12 +90,13 @@ class _StatisticFunction(MDOFunction):
 class MyUMDOFormulation(UMDOFormulation):
     """A dummy UMDOFormulation."""
 
+    def __init__(self, *args, **kwargs):  # noqa: D107
+        self._statistic_function_class = StatisticFunction
+        self._statistic_factory = SamplingEstimatorFactory()
+        super().__init__(*args, **kwargs)
 
-MyUMDOFormulation._StatisticFunction = _StatisticFunction
-MyUMDOFormulation._STATISTIC_FACTORY = SamplingEstimatorFactory()
 
-
-@pytest.fixture
+@pytest.fixture()
 def formulation(disciplines, design_space, mdf, uncertain_space):
     """A dummy formulation with an observable and a constraint."""
     form = MyUMDOFormulation(
@@ -117,8 +128,16 @@ def test_objective(formulation):
     assert formulation.opt_problem.objective.name == "E[f]"
 
 
-def test_objective_to_maximize(disciplines, design_space, mdf, uncertain_space):
-    """Check that an objective to maximize is correctly handled."""
+@pytest.mark.parametrize("maximize_objective", [None, False, True])
+def test_maximize_objective(
+    disciplines, design_space, mdf, uncertain_space, maximize_objective
+):
+    """Check that the argument maximize_objective is correctly used."""
+    if maximize_objective is None:
+        kwargs = {}
+    else:
+        kwargs = {"maximize_objective": maximize_objective}
+
     formulation = MyUMDOFormulation(
         disciplines,
         "f",
@@ -126,10 +145,13 @@ def test_objective_to_maximize(disciplines, design_space, mdf, uncertain_space):
         mdf,
         uncertain_space,
         "Mean",
-        maximize_objective=True,
+        **kwargs,
     )
-    assert formulation.opt_problem.minimize_objective is False
-    assert formulation.opt_problem.objective.name == "-E[f]"
+    maximize = bool(maximize_objective)
+    assert formulation.mdo_formulation.opt_problem.minimize_objective
+    assert formulation.opt_problem.minimize_objective is not maximize
+    expected_name = "-E[f]" if maximize else "E[f]"
+    assert formulation.opt_problem.objective.name == expected_name
 
 
 def test_observable(formulation):
@@ -142,7 +164,7 @@ def test_constraint(formulation):
     """Check the constraint function is correctly set."""
     opt_problem = formulation.opt_problem
     assert opt_problem.constraints[0].mock == "c_statistics"
-    assert opt_problem.constraints[0].name == "Margin[c(x0, x1, x2, y1; u); 3.0]"
+    assert opt_problem.constraints[0].name == "Margin[c; 3.0]"
 
 
 def test_available_statistics(formulation):
@@ -172,8 +194,8 @@ def test_init_sub_formulation(formulation):
     assert sub_form.mda.inner_mdas[0].name == "MDAGaussSeidel"
     assert sub_form.disciplines == formulation.disciplines
     assert sub_form.opt_problem.objective.name == "f"
-    assert sub_form.opt_problem.constraints[0].name == "c"
-    assert sub_form.opt_problem.observables[0].name == "o"
+    assert sub_form.opt_problem.observables[0].name == "c"
+    assert sub_form.opt_problem.observables[1].name == "o"
     assert sub_form.design_space.variable_names == ["u"]
 
 

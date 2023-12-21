@@ -13,12 +13,14 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 """Tests for SpringMassModel."""
+
 from __future__ import annotations
 
 import pytest
-from gemseo_umdo.use_cases.spring_mass_model.model import SpringMassModel
 from numpy import array
 from numpy.testing import assert_almost_equal
+
+from gemseo_umdo.use_cases.spring_mass_model.model import SpringMassModel
 
 
 @pytest.fixture(scope="module")
@@ -43,7 +45,7 @@ def test_output_data_with_default_settings(model):
 
 
 @pytest.mark.parametrize(
-    "name,value,size,max_d,mean,std,cost",
+    ("name", "value", "size", "max_d", "mean", "std", "cost"),
     [
         ("mass", 2.0, 100, 17.42, 9.41, 6.25, 10.0),
         ("initial_state", (0.2, 0.3), 100, 12.87, 6.70, 4.42, 10.0),

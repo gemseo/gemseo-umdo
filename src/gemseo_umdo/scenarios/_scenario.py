@@ -13,26 +13,30 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 """Scenarios to address multidisciplinary design problems under uncertainty."""
+
 from __future__ import annotations
 
-import logging
+from typing import TYPE_CHECKING
 from typing import Any
 from typing import Final
-from typing import Mapping
-from typing import Sequence
 
-from gemseo.algos.design_space import DesignSpace
-from gemseo.algos.parameter_space import ParameterSpace
 from gemseo.core.discipline import MDODiscipline
-from gemseo.core.formulation import MDOFormulation
 from gemseo.core.mdofunctions.mdo_function import MDOFunction
 from gemseo.core.scenario import Scenario
 from gemseo.disciplines.analytic import AnalyticDiscipline
 from gemseo.formulations.formulations_factory import MDOFormulationsFactory
+from gemseo.utils.string_tools import MultiLineString
+from gemseo.utils.string_tools import pretty_str
 
 from gemseo_umdo.formulations.factory import UMDOFormulationsFactory
 
-LOGGER = logging.getLogger(__name__)
+if TYPE_CHECKING:
+    from collections.abc import Mapping
+    from collections.abc import Sequence
+
+    from gemseo.algos.design_space import DesignSpace
+    from gemseo.algos.parameter_space import ParameterSpace
+    from gemseo.core.formulation import MDOFormulation
 
 
 class _UScenario(Scenario):
@@ -40,7 +44,6 @@ class _UScenario(Scenario):
 
     __DV_TAG: Final[str] = "{}"
     __DV_PREFIX: Final[str] = "dv_"
-    __MAXIMIZE_OBJECTIVE: Final[str] = "maximize_objective"
 
     def __init__(
         self,
@@ -56,6 +59,7 @@ class _UScenario(Scenario):
         uncertain_design_variables: Mapping[str, str] | None = None,
         name: str | None = None,
         grammar_type: MDODiscipline.GrammarType = MDODiscipline.GrammarType.JSON,
+        maximize_objective: bool = False,
         **formulation_options: Any,
     ) -> None:
         """
@@ -81,17 +85,12 @@ class _UScenario(Scenario):
                 If ``None``,
                 do not consider other variable relations
                 than those defined by ``disciplines``.
+            maximize_objective: Whether to maximize the statistic of the objective.
         """  # noqa: D205 D212 D415
-        all_disciplines = [discipline for discipline in disciplines]
+        all_disciplines = list(disciplines)
 
         if statistic_estimation_parameters is None:
             statistic_estimation_parameters = {}
-
-        maximize_objective = formulation_options.get(self.__MAXIMIZE_OBJECTIVE)
-        if maximize_objective is not None:
-            statistic_estimation_parameters[
-                self.__MAXIMIZE_OBJECTIVE
-            ] = maximize_objective
 
         formulations_factory = MDOFormulationsFactory()
 
@@ -133,6 +132,7 @@ class _UScenario(Scenario):
             objective_statistic_name=objective_statistic_name,
             objective_statistic_parameters=objective_statistic_parameters,
             uncertain_space=uncertain_space,
+            maximize_objective=maximize_objective,
             **statistic_estimation_parameters,
         )
 
@@ -160,15 +160,6 @@ class _UScenario(Scenario):
                 to be applied to the constraint,
                 ``{"factor": 2.}`` when ``objective_statistic="margin"``.
         """  # noqa: D205 D212 D415
-        if constraint_type not in [
-            MDOFunction.ConstraintType.EQ,
-            MDOFunction.ConstraintType.INEQ,
-        ]:
-            raise ValueError(
-                f"Constraint type must be either '{MDOFunction.ConstraintType.EQ}' "
-                f"or '{MDOFunction.ConstraintType.INEQ}'; "
-                f"got '{constraint_type}' instead."
-            )
         self.formulation.add_constraint(
             output_name,
             statistic_name,
@@ -204,9 +195,20 @@ class _UScenario(Scenario):
         )
 
     def __repr__(self) -> str:
-        msg = super().__repr__().split("\n")
-        msg[2] = f"   Formulation: {self.formulation.name}"
-        return "\n".join(msg)
+        msg = MultiLineString()
+        msg.add(self.name)
+        msg.indent()
+        msg.add("Disciplines: {}", pretty_str(self.disciplines, delimiter=" "))
+        msg.add("Formulation:")
+        msg.indent()
+        msg.add("MDO formulation: {}", self.mdo_formulation.__class__.__name__)
+        msg.add("Statistic estimation: {}", self.formulation.__class__.__name__)
+        msg.dedent()
+        msg.add("Uncertain space:")
+        msg.indent()
+        for line in str(self.uncertain_space).split("\n")[1:]:
+            msg.add(line)
+        return str(msg)
 
     @property
     def uncertain_space(self) -> ParameterSpace:

@@ -13,42 +13,54 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 """Formulate a multidisciplinary design problem under uncertainty."""
+
 from __future__ import annotations
 
-import logging
-from abc import abstractmethod
+from typing import TYPE_CHECKING
 from typing import Any
-from typing import Callable
-from typing import ClassVar
-from typing import Iterable
-from typing import Mapping
-from typing import Sequence
 
-from gemseo.algos.design_space import DesignSpace
-from gemseo.algos.parameter_space import ParameterSpace
-from gemseo.core.base_factory import BaseFactory
 from gemseo.core.base_formulation import BaseFormulation
 from gemseo.core.discipline import MDODiscipline
-from gemseo.core.execution_sequence import ExecutionSequence
-from gemseo.core.formulation import MDOFormulation
 from gemseo.core.mdofunctions.mdo_function import MDOFunction
 from gemseo.uncertainty.statistics.statistics import Statistics
 from gemseo.utils.data_conversion import split_array_to_dict_of_arrays
 from gemseo.utils.file_path_manager import FilePathManager
-from numpy import ndarray
+from gemseo.utils.string_tools import pretty_str
 
-from gemseo_umdo.estimators.estimator import BaseStatisticEstimatorFactory
+if TYPE_CHECKING:
+    from collections.abc import Iterable
+    from collections.abc import Mapping
+    from collections.abc import Sequence
 
-LOGGER = logging.getLogger(__name__)
+    from gemseo.algos.design_space import DesignSpace
+    from gemseo.algos.parameter_space import ParameterSpace
+    from gemseo.core.base_factory import BaseFactory
+    from gemseo.core.execution_sequence import ExecutionSequence
+    from gemseo.core.formulation import MDOFormulation
+
+    from gemseo_umdo.formulations.functions.statistic_function import StatisticFunction
 
 
 class UMDOFormulation(BaseFormulation):
     """Base formulation of a multidisciplinary design problem under uncertainty."""
 
+    _mdo_formulation: MDOFormulation
+    """The MDO formulation used by the U-MDO formulation over the uncertain space."""
+
     _processed_functions: list[str]
     """The names of the functions whose statistics have been estimated."""
 
-    _STATISTIC_FACTORY: ClassVar[BaseFactory] = BaseStatisticEstimatorFactory()
+    _statistic_factory: BaseFactory
+    """A factory of statistics."""
+
+    _statistic_function_class: type[StatisticFunction]
+    """A subclass of :class:`.MDOFunction` to compute a statistic."""
+
+    _uncertain_space: ParameterSpace
+    """The uncertain space."""
+
+    __available_statistics: list[str]
+    """The names of the available statistics."""
 
     def __init__(
         self,
@@ -73,13 +85,12 @@ class UMDOFormulation(BaseFormulation):
             objective_statistic_parameters: The values of the parameters
                 of the statistic to be applied to the objective, if any.
         """  # noqa: D205 D212 D415
-        design_variables = ", ".join(design_space.variable_names)
-        uncertain_variables = ", ".join(uncertain_space.variable_names)
-        self.__signature = f"({design_variables}; {uncertain_variables})"
+        pretty_str(design_space.variable_names)
+        pretty_str(uncertain_space.variable_names)
         if objective_statistic_parameters is None:
             objective_statistic_parameters = {}
 
-        objective_expression, objective_name = self.__compute_name(
+        objective_name = self.__compute_name(
             objective_name,
             objective_statistic_name,
             **objective_statistic_parameters,
@@ -90,24 +101,22 @@ class UMDOFormulation(BaseFormulation):
             disciplines,
             objective_name,
             design_space,
-            maximize_objective=maximize_objective,
             grammar_type=grammar_type,
             **options,
         )
-        self.__available_statistics = self._STATISTIC_FACTORY.class_names
-        self.opt_problem.objective = self._StatisticFunction(
+        self.__available_statistics = self._statistic_factory.class_names
+        sub_opt_problem = self._mdo_formulation.opt_problem
+        objective = self._statistic_function_class(
             self,
-            self._mdo_formulation.opt_problem.objective,
+            sub_opt_problem.objective,
             MDOFunction.FunctionType.OBJ,
             objective_statistic_name,
+            sub_opt_problem,
             **objective_statistic_parameters,
         )
-        if self._maximize_objective:
-            objective_name = f"-{objective_name}"
-            self.opt_problem.minimize_objective = False
-
-        self.opt_problem.objective.name = objective_name
-        self.opt_problem.objective.special_repr = objective_expression
+        objective.name = objective_name
+        self.opt_problem.objective = objective
+        self.opt_problem.minimize_objective = not maximize_objective
         self.name = f"{self.__class__.__name__}[{mdo_formulation.__class__.__name__}]"
         self._processed_functions = []
 
@@ -145,14 +154,16 @@ class UMDOFormulation(BaseFormulation):
             observable_name=observable_name,
             discipline=discipline,
         )
-        observable = self._StatisticFunction(
+        sub_opt_problem = self._mdo_formulation.opt_problem
+        observable = self._statistic_function_class(
             self,
-            self._mdo_formulation.opt_problem.observables[-1],
-            None,
+            sub_opt_problem.observables[-1],
+            MDOFunction.FunctionType.NONE,
             statistic_name,
+            sub_opt_problem,
             **statistic_parameters,
         )
-        observable.special_repr, observable.name = self.__compute_name(
+        observable.name = self.__compute_name(
             observable_name or output_names, statistic_name, **statistic_parameters
         )
         self.opt_problem.add_observable(observable)
@@ -162,7 +173,7 @@ class UMDOFormulation(BaseFormulation):
         self,
         output_name: str | Sequence[str],
         statistic_name: str,
-        constraint_type: str = MDOFunction.ConstraintType.INEQ,
+        constraint_type: MDOFunction.ConstraintType = MDOFunction.ConstraintType.INEQ,
         constraint_name: str | None = None,
         value: float | None = None,
         positive: bool = False,
@@ -174,20 +185,24 @@ class UMDOFormulation(BaseFormulation):
             statistic_parameters: The values of the parameters of the statistic
                 to be applied to the constraint, if any.
         """  # noqa: D205 D212 D415
-        self._mdo_formulation.add_constraint(
-            output_name,
-            constraint_name=constraint_name,
-        )
-        constraint = self._StatisticFunction(
+        self._mdo_formulation.add_observable(output_name)
+        sub_opt_problem = self._mdo_formulation.opt_problem
+        constraint = self._statistic_function_class(
             self,
-            self._mdo_formulation.opt_problem.constraints[-1],
-            None,
+            sub_opt_problem.observables[-1],
+            MDOFunction.FunctionType.NONE,
             statistic_name,
+            sub_opt_problem,
             **statistic_parameters,
         )
-        constraint.name, constraint.special_repr = self.__compute_name(
-            constraint_name or output_name, statistic_name, **statistic_parameters
-        )
+        name = self.__compute_name(output_name, statistic_name, **statistic_parameters)
+        constraint.output_names = [name]
+        if constraint_name is None:
+            constraint.name = name
+            constraint.has_default_name = True
+        else:
+            constraint.name = constraint_name
+            constraint.has_default_name = False
         self.opt_problem.add_constraint(
             constraint,
             value=value,
@@ -202,36 +217,32 @@ class UMDOFormulation(BaseFormulation):
     def _post_add_observable(self) -> None:
         """Apply actions after adding an observable."""
 
+    @staticmethod
     def __compute_name(
-        self,
         output_name: str | Iterable[str],
         statistic_name: str,
         **statistic_parameters: Any,
-    ) -> tuple[str, str]:
+    ) -> str:
         """Create the string representation of a statistic applied to output variables.
 
         Args:
             output_name: Either the names of the output variables
                 for which to estimate the statistic or a unique name to define them.
-            statistic: The name of the statistic to be applied to the variables.
+            statistic_name: The name of the statistic to be applied to the variables.
             statistic_parameters: The values of the parameters of the statistic
                 to be applied to the variable, if any.
 
         Returns:
-            The string representations of the statistic applied to the variables,
-            with and without the signature.
+            The string representations of the statistic applied to the output variables.
         """
         if not isinstance(output_name, str):
             output_name = "_".join(output_name)
 
-        statistic_name = FilePathManager.to_snake_case(statistic_name)
-        name_with_signature = Statistics.compute_expression(
-            f"{output_name}{self.__signature}", statistic_name, **statistic_parameters
+        return Statistics.compute_expression(
+            output_name,
+            FilePathManager.to_snake_case(statistic_name),
+            **statistic_parameters,
         )
-        name = Statistics.compute_expression(
-            output_name, statistic_name, **statistic_parameters
-        )
-        return name_with_signature, name
 
     def update_top_level_disciplines(self, design_values: Mapping[str, Any]) -> None:
         """Update the default input values of the top-level disciplines.
@@ -246,13 +257,9 @@ class UMDOFormulation(BaseFormulation):
             self.design_space.variable_names,
         )
         for discipline in self._mdo_formulation.get_top_level_disc():
-            discipline.default_inputs.update(
-                {
-                    k: v
-                    for k, v in design_values.items()
-                    if k in discipline.input_grammar
-                }
-            )
+            discipline.default_inputs.update({
+                k: v for k, v in design_values.items() if k in discipline.input_grammar
+            })
 
     def get_top_level_disc(self) -> list[MDODiscipline]:  # noqa: D102
         return self._mdo_formulation.get_top_level_disc()
@@ -266,54 +273,3 @@ class UMDOFormulation(BaseFormulation):
         self,
     ) -> list[tuple[MDODiscipline, MDODiscipline, list[str]]]:
         return self._mdo_formulation.get_expected_dataflow()
-
-    class _StatisticFunction(MDOFunction):
-        """Compute a statistic of a function."""
-
-        _estimate_statistic: Callable
-        """The function to estimate the statistic."""
-
-        _function_name: str
-        """The name of the function."""
-
-        _formulation: UMDOFormulation
-        """The U-MDO formulation."""
-
-        _statistic_parameters: dict[str, Any]
-        """The parameters of the statistic."""
-
-        def __init__(
-            self,
-            formulation: UMDOFormulation,
-            func: MDOFunction,
-            function_type: str,
-            name: str,
-            **parameters: Any,
-        ) -> None:
-            """
-            Args:
-                formulation: The U-MDO formulation.
-                func: The function for which to calculate the statistic.
-                function_type: The type of function.
-                name: The name of the statistic.
-                **parameters: The parameters of the statistic.
-            """  # noqa: D205 D212 D415
-            self._estimate_statistic = formulation._STATISTIC_FACTORY.create(
-                name, formulation=formulation
-            )
-            self._function_name = func.name
-            self._formulation = formulation
-            self._statistic_parameters = parameters
-            super().__init__(self._func, name=func.name, f_type=function_type)
-
-        @abstractmethod
-        def _func(self, input_data: ndarray) -> ndarray:
-            """A function computing output data from input data.
-
-            Args:
-                input_data: The input data of the function.
-
-            Returns:
-                The output data of the function.
-            """
-            ...

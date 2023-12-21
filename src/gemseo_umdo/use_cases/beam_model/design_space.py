@@ -13,13 +13,12 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 """The design space for the beam use case."""
+
 from __future__ import annotations
 
 from gemseo.algos.design_space import DesignSpace
 
-from gemseo_umdo.use_cases.beam_model.core.design_space import (
-    BeamDesignVariables,
-)
+from gemseo_umdo.use_cases.beam_model.core.design_space import BeamDesignVariables
 
 
 class BeamDesignSpace(DesignSpace):

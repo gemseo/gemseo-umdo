@@ -15,20 +15,26 @@
 from __future__ import annotations
 
 import re
+from typing import TYPE_CHECKING
 
 import pytest
 from gemseo.algos.design_space import DesignSpace
 from gemseo.algos.parameter_space import ParameterSpace
-from gemseo.core.discipline import MDODiscipline
 from gemseo.disciplines.analytic import AnalyticDiscipline
+from numpy import array
+
 from gemseo_umdo.formulations.factory import UMDOFormulationsFactory
 from gemseo_umdo.formulations.sampling import Sampling
+from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
+
+if TYPE_CHECKING:
+    from gemseo.core.discipline import MDODiscipline
 
 AVAILABLE_FORMULATIONS = UMDOFormulationsFactory().formulations
 
 
-@pytest.fixture
+@pytest.fixture()
 def disciplines() -> list[MDODiscipline]:
     """Three simple disciplines."""
     disc0 = AnalyticDiscipline(
@@ -39,7 +45,7 @@ def disciplines() -> list[MDODiscipline]:
     return [disc0, disc1, disc2]
 
 
-@pytest.fixture
+@pytest.fixture()
 def design_space() -> DesignSpace:
     """The space of local and global design variables."""
     space = DesignSpace()
@@ -49,7 +55,7 @@ def design_space() -> DesignSpace:
     return space
 
 
-@pytest.fixture
+@pytest.fixture()
 def uncertain_space() -> ParameterSpace:
     """The space defining the uncertain variable."""
     space = ParameterSpace()
@@ -57,7 +63,7 @@ def uncertain_space() -> ParameterSpace:
     return space
 
 
-@pytest.fixture
+@pytest.fixture()
 def scenario(disciplines, design_space, uncertain_space) -> UMDOScenario:
     """The MDO scenario under uncertainty."""
     scn = UMDOScenario(
@@ -111,24 +117,48 @@ def test_uncertain_space(scenario):
 
 
 def test_repr(scenario):
-    """Check the text representation of the formulation section of the scenario."""
-    expected = f"   Formulation: {scenario.formulation.name}"
-    assert repr(scenario).split("\n")[2] == expected
+    """Check the string representation of the scenario."""
+    expected = """UMDOScenario
+   Disciplines: D0 D1 D2
+   Formulation:
+      MDO formulation: MDF
+      Statistic estimation: Sampling
+   Uncertain space:
+      +------+-------------------------+
+      | Name |       Distribution      |
+      +------+-------------------------+
+      |  u   | norm(mu=0.0, sigma=1.0) |
+      +------+-------------------------+"""
+    assert repr(scenario) == expected
 
 
 def test_mdo_formulation(scenario):
     """Check the content of the MDO formulation."""
-    assert scenario.mdo_formulation.__class__.__name__ == "MDF"
-    assert scenario.mdo_formulation.mda.inner_mdas[0].name == "MDAGaussSeidel"
-    assert scenario.mdo_formulation.disciplines == scenario.disciplines
-    assert scenario.mdo_formulation.opt_problem.objective.name == "f"
-    assert scenario.mdo_formulation.opt_problem.observables[0].name == "o"
-    assert scenario.mdo_formulation.opt_problem.constraints[0].name == "c"
+    mdo_formulation = scenario.mdo_formulation
+    opt_problem = mdo_formulation.opt_problem
+    assert mdo_formulation.__class__.__name__ == "MDF"
+    assert mdo_formulation.mda.inner_mdas[0].name == "MDAGaussSeidel"
+    assert mdo_formulation.disciplines == scenario.disciplines
+    assert opt_problem.objective.name == "f"
+    assert [o.name for o in opt_problem.observables] == [
+        "Mean[f]",
+        "c",
+        "Margin[c]",
+        "o",
+        "Mean[o]",
+    ]
     assert scenario.mdo_formulation.design_space.variable_names == ["u"]
 
 
-def test_constraint_wrong_type(disciplines, design_space, uncertain_space):
-    """Check that a ValueError is raised when the constraint has a wrong type."""
+@pytest.mark.parametrize("maximize_objective", [None, False, True])
+def test_maximize_objective(
+    disciplines, design_space, uncertain_space, maximize_objective
+):
+    """Check that the argument maximize_objective is correctly used."""
+    if maximize_objective is None:
+        kwargs = {}
+    else:
+        kwargs = {"maximize_objective": maximize_objective}
     scn = UMDOScenario(
         disciplines,
         "MDF",
@@ -138,31 +168,13 @@ def test_constraint_wrong_type(disciplines, design_space, uncertain_space):
         "Mean",
         statistic_estimation="Sampling",
         statistic_estimation_parameters={"algo": "OT_OPT_LHS", "n_samples": 3},
+        **kwargs,
     )
-    with pytest.raises(
-        ValueError,
-        match=re.escape(
-            "Constraint type must be either 'eq' or 'ineq'; got 'wrong_type' instead."
-        ),
-    ):
-        scn.add_constraint("c", "Mean", constraint_type="wrong_type")
-
-
-def test_maximize_objective(disciplines, design_space, uncertain_space):
-    """Check that a performance objective is maximized."""
-    scn = UMDOScenario(
-        disciplines,
-        "MDF",
-        "f",
-        design_space,
-        uncertain_space,
-        "Mean",
-        maximize_objective=True,
-        statistic_estimation="Sampling",
-        statistic_estimation_parameters={"algo": "OT_OPT_LHS", "n_samples": 3},
-    )
-    assert scn.formulation.opt_problem.minimize_objective is False
-    assert scn.formulation.opt_problem.objective.name == "-E[f]"
+    maximize = bool(maximize_objective)
+    assert scn.formulation.mdo_formulation.opt_problem.minimize_objective
+    assert scn.formulation.opt_problem.minimize_objective is not maximize
+    expected_name = "-E[f]" if maximize else "E[f]"
+    assert scn.formulation.opt_problem.objective.name == expected_name
 
 
 def test_uncertain_design_variables(disciplines, design_space, uncertain_space):
@@ -192,14 +204,10 @@ def test_uncertain_design_variables(disciplines, design_space, uncertain_space):
 def test_statistic_no_estimation_parameters(disciplines, design_space, uncertain_space):
     """Check that a TypeError is raised when estimation parameters are missing.
 
-    The default UMDOFormulation is "Sampling" whose "n_samples" argument is mandatory.
+    The default UMDOFormulation is "Sampling" whose "n_samples" argument is mandatory
+    for most of the DOE algorithms, including the default one.
     """
-    with pytest.raises(
-        TypeError,
-        match=re.escape(
-            "__init__() missing 1 required positional argument: 'n_samples'"
-        ),
-    ):
+    with pytest.raises(ValueError, match=re.escape("Sampling: n_samples is required.")):
         UMDOScenario(
             disciplines,
             "MDF",
@@ -209,3 +217,67 @@ def test_statistic_no_estimation_parameters(disciplines, design_space, uncertain
             "Mean",
             maximize_objective=True,
         )
+
+
+@pytest.mark.parametrize(
+    ("constraint_name", "constraint_expr", "constraint_res"),
+    [
+        (None, "E[y] <= 0.05", "[E[y]-0.05] = [1.45]"),
+        ("foo", "foo: E[y] <= 0.05", "foo = [1.45]"),
+    ],
+)
+@pytest.mark.parametrize(
+    ("maximize_objective", "use_standardized_objective", "objective_expr"),
+    [
+        (False, False, "minimize E[y]"),
+        (False, True, "minimize E[y]"),
+        (True, False, "maximize E[y]"),
+        (True, True, "minimize -E[y]"),
+    ],
+)
+def test_log(
+    caplog,
+    constraint_name,
+    constraint_expr,
+    constraint_res,
+    maximize_objective,
+    use_standardized_objective,
+    objective_expr,
+):
+    """Check some parts of the log of a scenario."""
+    discipline = AnalyticDiscipline({"y": "x**2+u"}, name="f")
+
+    design_space = DesignSpace()
+    design_space.add_variable("x", l_b=-1, u_b=1.0, value=0.5)
+
+    uncertain_space = ParameterSpace()
+    uncertain_space.add_random_variable("u", "OTNormalDistribution")
+
+    scenario = UDOEScenario(
+        [discipline],
+        "DisciplinaryOpt",
+        "y",
+        design_space,
+        uncertain_space,
+        "Mean",
+        statistic_estimation="Sampling",
+        statistic_estimation_parameters={
+            "algo": "CustomDOE",
+            "n_samples": None,
+            "algo_options": {"samples": array([[0.5]])},
+        },
+        maximize_objective=maximize_objective,
+    )
+
+    scenario.add_constraint(
+        "y",
+        "Mean",
+        constraint_type="ineq",
+        value=0.05,
+        constraint_name=constraint_name,
+    )
+    scenario.use_standardized_objective = use_standardized_objective
+    scenario.execute({"algo": "CustomDOE", "algo_options": {"samples": array([[1.0]])}})
+    assert objective_expr in caplog.text
+    assert constraint_expr in caplog.text
+    assert constraint_res in caplog.text

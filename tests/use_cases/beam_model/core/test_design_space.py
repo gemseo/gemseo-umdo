@@ -13,11 +13,10 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 """Tests for the BeamDesignSpace."""
+
 from __future__ import annotations
 
-from gemseo_umdo.use_cases.beam_model.core.design_space import (
-    BeamDesignVariables,
-)
+from gemseo_umdo.use_cases.beam_model.core.design_space import BeamDesignVariables
 from gemseo_umdo.use_cases.beam_model.core.design_space import DesignVariable
 
 

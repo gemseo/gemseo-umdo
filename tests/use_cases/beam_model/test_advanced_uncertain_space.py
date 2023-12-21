@@ -13,9 +13,11 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 """Test for the AdvancedBeamUncertainSpace."""
+
 from __future__ import annotations
 
 import pytest
+
 from gemseo_umdo.use_cases.beam_model.advanced_uncertain_space import (
     AdvancedBeamUncertainSpace,
 )
@@ -40,7 +42,7 @@ def test_nominal_values():
 
 
 @pytest.mark.parametrize(
-    "name,distribution_class_name,parameters",
+    ("name", "distribution_class_name", "parameters"),
     [
         (
             "b",
