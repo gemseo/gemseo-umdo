@@ -23,6 +23,14 @@ from gemseo_umdo.use_cases.beam_model.core.output_data import BeamModelOutputDat
 
 def test_field_names():
     """Check the names of the fields."""
-    assert ["Ux", "Uy", "Uz", "sigma", "tau", "displ", "sigma_vm", "w", "yz_grid"] == [
-        f.name for f in fields(BeamModelOutputData)
+    assert [f.name for f in fields(BeamModelOutputData)] == [
+        "Ux",
+        "Uy",
+        "Uz",
+        "sigma",
+        "tau",
+        "displ",
+        "sigma_vm",
+        "w",
+        "yz_grid",
     ]
