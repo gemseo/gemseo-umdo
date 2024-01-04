@@ -29,5 +29,5 @@ if TYPE_CHECKING:
 class Variance(SamplingEstimator):
     """Estimator of the variance."""
 
-    def __call__(self, samples: ndarray) -> ndarray:  # noqa: D102
+    def _compute(self, samples: ndarray) -> ndarray:  # noqa: D102
         return samples.var(0, ddof=1)

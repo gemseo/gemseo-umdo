@@ -29,20 +29,15 @@ if TYPE_CHECKING:
 class StatisticFunctionForStandardSampling(StatisticFunctionForSampling):
     """A function to compute a statistic from :class:`.Sampling`."""
 
-    def _func(self, input_data: ndarray) -> ndarray:
+    def _compute_statistic_estimation(self, output_data: dict[str, ndarray]) -> ndarray:
+        return self._estimate_statistic(output_data[self._function_name])
+
+    def _compute_output_data(self, output_data: dict[str, ndarray]) -> None:
         formulation = self._formulation
         problem = formulation.mdo_formulation.opt_problem
-        if (
-            self._function_name in formulation._processed_functions
-            or not formulation._processed_functions
-        ):
-            formulation._processed_functions = []
-            problem.reset()
-            formulation.update_top_level_disciplines(input_data)
-            formulation.compute_samples(problem)
+        database = problem.database
+        formulation.compute_samples(problem)
+        for output_name in database.get_function_names():
+            output_data[output_name] = database.get_function_history(output_name)
 
-        formulation._processed_functions.append(self._function_name)
-        samples, _, _ = problem.database.get_history_array(
-            [self._function_name], with_x_vect=False
-        )
-        return self._estimate_statistic(samples)
+        problem.reset()

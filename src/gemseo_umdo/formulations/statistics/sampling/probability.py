@@ -63,5 +63,5 @@ class Probability(SamplingEstimator):
         self.__threshold = threshold
         self.__compare = ge if greater else le
 
-    def __call__(self, samples: ndarray) -> ndarray:  # noqa: D102
+    def _compute(self, samples: ndarray) -> ndarray:  # noqa: D102
         return self.__compare(samples, self.__threshold).mean(0)

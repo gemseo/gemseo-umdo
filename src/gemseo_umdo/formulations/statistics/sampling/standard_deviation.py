@@ -27,5 +27,5 @@ if TYPE_CHECKING:
 class StandardDeviation(Variance):
     """Estimator of the standard deviation."""
 
-    def __call__(self, samples: ndarray) -> ndarray:  # noqa: D102
-        return super().__call__(samples) ** 0.5
+    def _compute(self, samples: ndarray) -> ndarray:  # noqa: D102
+        return super()._compute(samples) ** 0.5
