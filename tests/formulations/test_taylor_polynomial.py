@@ -19,6 +19,7 @@ from typing import TYPE_CHECKING
 import pytest
 from gemseo.formulations.mdf import MDF
 from numpy import array
+from numpy import ndarray
 from numpy.testing import assert_equal
 
 from gemseo_umdo.formulations.statistics.taylor_polynomial.margin import Margin
@@ -83,9 +84,18 @@ def umdo_formulation_with_hessian(
     return formulation
 
 
-@pytest.mark.parametrize("second_order", [False, True])
-def test_scenario(disciplines, design_space, uncertain_space, second_order, tmp_path):
-    """Check the optimum returned by the UMDOScenario."""
+@pytest.fixture()
+def scenario_input_data() -> dict[str, str | dict[str, ndarray]]:
+    """The input data of the scenario."""
+    return {
+        "algo": "CustomDOE",
+        "algo_options": {"samples": array([[0.0, 0.0, 0.0], [1.0, 1.0, 1.0]])},
+    }
+
+
+@pytest.fixture(params=[False, True])
+def scenario(disciplines, design_space, uncertain_space, request):
+    """A scenario of interest."""
     scn = UDOEScenario(
         disciplines,
         "MDF",
@@ -94,25 +104,30 @@ def test_scenario(disciplines, design_space, uncertain_space, second_order, tmp_
         uncertain_space,
         "Mean",
         statistic_estimation="TaylorPolynomial",
-        statistic_estimation_parameters={"second_order": second_order},
+        statistic_estimation_parameters={"second_order": request.param},
     )
     scn.add_constraint("c", "Margin", factor=3.0)
     scn.add_observable("o", "Variance")
+    return scn
+
+
+def test_scenario_execution(scenario, scenario_input_data):
+    """Check the execution of an UMDOScenario with the TaylorPolynomial formulation."""
+    scenario.execute(scenario_input_data)
+    optimization_result = scenario.optimization_result
+    assert_equal(optimization_result.x_opt, array([1.0, 1.0, 1.0]))
+    assert_equal(optimization_result.f_opt, array([-21.0]))
+
+
+def test_scenario_serialization(scenario, tmp_path, scenario_input_data):
+    """Check the serialization of an UMDOScenario with Sampling U-MDO formulation."""
     file_path = tmp_path / "scenario.h5"
-    scn.to_pickle(file_path)
-    algo_data = {
-        "algo": "CustomDOE",
-        "algo_options": {"samples": array([[0.0, 0.0, 0.0], [1.0, 1.0, 1.0]])},
-    }
-    scn.execute(algo_data)
-    saved_scn = UDOEScenario.from_pickle(file_path)
-    saved_scn.execute(algo_data)
-    expected_output_data = array([-21.0])
-    expected_input_data = array([1.0] * 3)
-    assert_equal(scn.optimization_result.x_opt, expected_input_data)
-    assert_equal(scn.optimization_result.f_opt, expected_output_data)
-    assert_equal(saved_scn.optimization_result.x_opt, expected_input_data)
-    assert_equal(saved_scn.optimization_result.f_opt, expected_output_data)
+    scenario.to_pickle(file_path)
+    saved_scenario = UDOEScenario.from_pickle(file_path)
+    saved_scenario.execute(scenario_input_data)
+    optimization_result = saved_scenario.optimization_result
+    assert_equal(optimization_result.x_opt, array([1.0, 1.0, 1.0]))
+    assert_equal(optimization_result.f_opt, array([-21.0]))
 
 
 # In the following, we will name m and s the mean and standard deviation of U.

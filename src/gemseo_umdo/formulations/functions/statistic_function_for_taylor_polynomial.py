@@ -36,34 +36,44 @@ class StatisticFunctionForTaylorPolynomial(StatisticFunction):
     def _statistic_estimator_parameters(self) -> tuple[ParameterSpace]:
         return (self._formulation.uncertain_space,)
 
-    def _func(self, input_data: ndarray) -> ndarray:
+    def _compute_statistic_estimation(self, output_data: dict[str, ndarray]) -> ndarray:
+        function_name = self._function_name
+        database = self._formulation.mdo_formulation.opt_problem.database
+        gradient_name = database.get_gradient_name(function_name)
+        return self._estimate_statistic(
+            output_data[function_name],
+            output_data[gradient_name],
+            output_data.get(database.get_gradient_name(gradient_name)),
+        )
+
+    def _compute_output_data(self, output_data: dict[str, ndarray]) -> None:
         formulation = self._formulation
         problem = formulation.mdo_formulation.opt_problem
-        if self._function_name in formulation._processed_functions:
-            formulation._processed_functions = []
-            problem.reset()
-            if formulation.hessian_fd_problem is not None:
-                formulation.hessian_fd_problem.reset()
-
         database = problem.database
-        if not database:
-            formulation.update_top_level_disciplines(input_data)
-            formulation.evaluate_with_mean(problem, True)
-            if formulation.hessian_fd_problem is not None:
-                formulation.evaluate_with_mean(formulation.hessian_fd_problem, False)
+        formulation.evaluate_with_mean(problem, True)
+        for function in problem.get_all_functions():
+            name = function.name
+            output_data[name] = atleast_1d(function.last_eval)
+            output_data[database.get_gradient_name(name)] = atleast_2d(
+                database.get_gradient_history(self._function_name)[0]
+            )
 
-        func_value = atleast_1d(database.get_function_history(self._function_name)[0])
-        jac_value = atleast_2d(database.get_gradient_history(self._function_name)[0])
-        hess_value = None
+        problem.reset()
+
         if formulation.second_order:
-            hessian_database = formulation.hessian_fd_problem.database
-            hess_name = f"{database.GRAD_TAG}{database.GRAD_TAG}{self._function_name}"
-            hess_value = hessian_database.get_function_history(hess_name)[0]
-            if hess_value.ndim == 1:
-                hess_value = hess_value[newaxis, newaxis, ...]
+            formulation.evaluate_with_mean(formulation.hessian_fd_problem, False)
+            for function in problem.get_all_functions():
+                hess_name = database.get_gradient_name(
+                    database.get_gradient_name(function.name)
+                )
+                hessian_database = formulation.hessian_fd_problem.database
+                hess_value = hessian_database.get_function_history(hess_name)[0]
+                if hess_value.ndim == 1:
+                    hess_value = hess_value[newaxis, newaxis, ...]
 
-            if hess_value.ndim == 2:
-                hess_value = hess_value[newaxis, ...]
+                if hess_value.ndim == 2:
+                    hess_value = hess_value[newaxis, ...]
 
-        formulation._processed_functions.append(self._function_name)
-        return self._estimate_statistic(func_value, jac_value, hess_value)
+                output_data[hess_name] = hess_value
+
+            formulation.hessian_fd_problem.reset()

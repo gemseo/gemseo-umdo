@@ -35,26 +35,26 @@ class StatisticFunctionForIterativeSampling(StatisticFunctionForSampling):
     def _update_sampling_problem(
         self, sampling_problem: OptimizationProblem, function: MDOFunction
     ) -> None:
-        self._formulation._estimators.append(self._estimate_statistic)
+        self._formulation._estimators.append((
+            self._observable_name,
+            self._estimate_statistic,
+        ))
         sampling_problem.add_observable(
             IterativeEstimation(
                 self._observable_name, function, self._estimate_statistic
             )
         )
 
-    def _func(self, input_data: ndarray) -> ndarray:
+    def _compute_statistic_estimation(self, output_data: dict[str, ndarray]) -> ndarray:
+        return output_data[self._observable_name]
+
+    def _compute_output_data(self, output_data: dict[str, ndarray]) -> None:
         formulation = self._formulation
         problem = formulation.mdo_formulation.opt_problem
-        if (
-            self._function_name in formulation._processed_functions
-            or not formulation._processed_functions
-        ):
-            formulation._processed_functions = []
-            for estimator in self._formulation._estimators:
-                estimator.reset()
-            problem.reset()
-            formulation.update_top_level_disciplines(input_data)
-            formulation.compute_samples(problem)
+        formulation.compute_samples(problem)
+        for estimator_name, estimate_statistic in self._formulation._estimators:
+            estimator_function = problem.get_observable(estimator_name)
+            output_data[estimator_name] = estimator_function.last_eval
+            estimate_statistic.reset()
 
-        formulation._processed_functions.append(self._function_name)
-        return problem.get_observable(self._observable_name).last_eval
+        problem.reset()

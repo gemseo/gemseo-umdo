@@ -116,6 +116,7 @@ class Sampling(UMDOFormulation):
             ValueError: When ``n_samples`` is ``None``,
                 whereas it is required by the DOE algorithm.
         """  # noqa: D205 D212 D415
+        self.input_data_to_output_samples = {}
         self._estimate_statistics_iteratively = estimate_statistics_iteratively
         if estimate_statistics_iteratively:
             self._statistic_factory = IterativeSamplingEstimatorFactory()
