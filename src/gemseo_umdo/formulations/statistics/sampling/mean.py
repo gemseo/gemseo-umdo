@@ -29,5 +29,5 @@ if TYPE_CHECKING:
 class Mean(SamplingEstimator):
     """Estimator of the expectation."""
 
-    def __call__(self, samples: ndarray) -> ndarray:  # noqa: D102
+    def _compute(self, samples: ndarray) -> ndarray:  # noqa: D102
         return samples.mean(0)

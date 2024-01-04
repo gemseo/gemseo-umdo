@@ -52,5 +52,5 @@ class Margin(SamplingEstimator):
         self.__standard_deviation = StandardDeviation()
         self.__factor = factor
 
-    def __call__(self, value: ndarray) -> ndarray:  # noqa: D102
+    def _compute(self, value: ndarray) -> ndarray:  # noqa: D102
         return self.__mean(value) + self.__factor * self.__standard_deviation(value)

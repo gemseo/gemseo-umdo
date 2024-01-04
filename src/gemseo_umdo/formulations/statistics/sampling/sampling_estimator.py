@@ -19,6 +19,8 @@ from __future__ import annotations
 from abc import abstractmethod
 from typing import TYPE_CHECKING
 
+from numpy import atleast_1d
+
 from gemseo_umdo.formulations.statistics.base_statistic_estimator import (
     BaseStatisticEstimator,
 )
@@ -30,9 +32,20 @@ if TYPE_CHECKING:
 class SamplingEstimator(BaseStatisticEstimator):
     """Base statistic estimator for a U-MDO formulation using sampling."""
 
-    @abstractmethod
     def __call__(self, samples: ndarray) -> ndarray:
         """
         Args:
             samples: The samples to estimate the statistic.
         """  # noqa: D205 D212 D415 E112
+        return atleast_1d(self._compute(samples))
+
+    @abstractmethod
+    def _compute(self, samples: ndarray) -> ndarray:
+        """Estimate the statistic from samples.
+
+        Args:
+            samples: The samples.
+
+        Returns:
+            The estimation of the statistic.
+        """

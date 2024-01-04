@@ -20,6 +20,7 @@ from abc import abstractmethod
 from typing import TYPE_CHECKING
 from typing import Any
 
+from gemseo.algos.hashable_ndarray import HashableNdarray
 from gemseo.core.mdofunctions.mdo_function import MDOFunction
 
 if TYPE_CHECKING:
@@ -88,13 +89,42 @@ class StatisticFunction(MDOFunction):
             function: The function to update the problem.
         """
 
-    @abstractmethod
     def _func(self, input_data: ndarray) -> ndarray:
-        """A function computing output data from input data.
+        """A function estimating the statistic at a given input point.
 
         Args:
-            input_data: The input data of the function.
+            input_data: The input point at which to estimate the statistic.
 
         Returns:
-            The output data of the function.
+            The estimation of the statistic at the given input point.
+        """
+        formulation = self._formulation
+        hashable_input_data = HashableNdarray(input_data)
+        output_data = formulation.input_data_to_output_data.get(hashable_input_data)
+        if output_data is None:
+            formulation.update_top_level_disciplines(input_data)
+            output_data = formulation.input_data_to_output_data[
+                hashable_input_data
+            ] = {}
+            self._compute_output_data(output_data)
+
+        return self._compute_statistic_estimation(output_data)
+
+    @abstractmethod
+    def _compute_statistic_estimation(self, data: dict[str, ndarray]) -> ndarray:
+        """Estimate the statistic.
+
+        Args:
+            data: The data from which to estimate the statistic.
+
+        Returns:
+            The estimation of the statistic.
+        """
+
+    @abstractmethod
+    def _compute_output_data(self, output_data: dict[str, ndarray]) -> None:
+        """Compute the output data.
+
+        Args:
+            output_data: The output data structure to be filled.
         """

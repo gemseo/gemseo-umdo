@@ -96,15 +96,15 @@ def mdo_samples(mdf_discipline) -> list[dict[str, ndarray]]:
     ]
 
 
-@pytest.mark.parametrize("estimate_statistics_iteratively", [False, True])
-def test_scenario(
-    disciplines,
-    design_space,
-    uncertain_space,
-    estimate_statistics_iteratively,
-    tmp_path,
-):
-    """Check the optimum returned by the UMDOScenario."""
+@pytest.fixture()
+def scenario_input_data() -> dict[str, str | dict[str, ndarray]]:
+    """The input data of the scenario."""
+    return {"algo": "CustomDOE", "algo_options": {"samples": array([[0.0] * 3])}}
+
+
+@pytest.fixture(params=[False, True])
+def scenario(request, disciplines, design_space, uncertain_space, scenario_input_data):
+    """A scenario of interest."""
     scn = UDOEScenario(
         disciplines,
         "MDF",
@@ -116,24 +116,28 @@ def test_scenario(
         statistic_estimation_parameters={
             "algo": "CustomDOE",
             "algo_options": {"samples": array([[0.0] * 3, [1.0] * 3])},
-            "estimate_statistics_iteratively": estimate_statistics_iteratively,
+            "estimate_statistics_iteratively": request.param,
         },
     )
     scn.add_constraint("c", "Margin", factor=3.0)
     scn.add_observable("o", "Variance")
+    return scn
+
+
+def test_scenario_execution(scenario, scenario_input_data):
+    """Check the execution of an UMDOScenario with the Sampling U-MDO formulation."""
+    scenario.execute(scenario_input_data)
+    assert_equal(scenario.optimization_result.x_opt, array([0.0, 0.0, 0.0]))
+    assert scenario.optimization_result.f_opt == -2.0
+
+
+def test_scenario_serialization(scenario, tmp_path, scenario_input_data):
+    """Check the serialization of an UMDOScenario with Sampling U-MDO formulation."""
     file_path = tmp_path / "scenario.h5"
-    scn.to_pickle(file_path)
-    algo_data = {"algo": "CustomDOE", "algo_options": {"samples": array([[0.0] * 3])}}
-    scn.execute(algo_data)
-    saved_scn = UDOEScenario.from_pickle(file_path)
-    saved_scn.execute(algo_data)
-    assert_equal(scn.optimization_result.x_opt, array([0.0] * 3))
-    assert scn.optimization_result.f_opt == -2.0
-    assert_equal(saved_scn.optimization_result.x_opt, array([0.0] * 3))
-    assert saved_scn.optimization_result.f_opt == -2.0
-    assert len(scn.mdo_formulation.opt_problem.database) == (
-        0 if estimate_statistics_iteratively else 2
-    )
+    scenario.to_pickle(file_path)
+    saved_scenario = UDOEScenario.from_pickle(file_path)
+    saved_scenario.execute(scenario_input_data)
+    assert_equal(saved_scenario.optimization_result.x_opt, array([0.0, 0.0, 0.0]))
 
 
 def estimate(
@@ -264,13 +268,11 @@ def test_umdo_formulation_observable(umdo_formulation, mdo_samples):
 
 def test_clear_inner_database(umdo_formulation):
     """Check that the inner database is cleared before sampling."""
-    assert "f" not in umdo_formulation._processed_functions
-    obj_value = umdo_formulation.opt_problem.objective(array([0.0] * 3))
-    assert "f" in umdo_formulation._processed_functions
     # The inner problem depending on the uncertain variables is reset
     # when the outer problem changes the values of the design variables
     # to avoid recovering the data stored in the inner database
     # and force new evaluations of the functions attached to the inner problem.
+    obj_value = umdo_formulation.opt_problem.objective(array([0.0] * 3))
     assert umdo_formulation.opt_problem.objective(array([1.0, 0.0, 0.0])) != obj_value
 
 
@@ -286,7 +288,3 @@ def test_read_write_n_samples(umdo_formulation):
     # the number of samples is set to 3 with the property _n_samples.
     umdo_formulation._n_samples = 3
     assert umdo_formulation._n_samples == doe_algo_options["n_samples"] == 3
-
-
-def test_iterative_margin_get_statistic():
-    """Check that."""

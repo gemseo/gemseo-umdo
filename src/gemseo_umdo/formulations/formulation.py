@@ -33,10 +33,12 @@ if TYPE_CHECKING:
     from collections.abc import Sequence
 
     from gemseo.algos.design_space import DesignSpace
+    from gemseo.algos.hashable_ndarray import HashableNdarray
     from gemseo.algos.parameter_space import ParameterSpace
     from gemseo.core.base_factory import BaseFactory
     from gemseo.core.execution_sequence import ExecutionSequence
     from gemseo.core.formulation import MDOFormulation
+    from numpy import ndarray
 
     from gemseo_umdo.formulations.functions.statistic_function import StatisticFunction
 
@@ -46,9 +48,6 @@ class UMDOFormulation(BaseFormulation):
 
     _mdo_formulation: MDOFormulation
     """The MDO formulation used by the U-MDO formulation over the uncertain space."""
-
-    _processed_functions: list[str]
-    """The names of the functions whose statistics have been estimated."""
 
     _statistic_factory: BaseFactory
     """A factory of statistics."""
@@ -61,6 +60,9 @@ class UMDOFormulation(BaseFormulation):
 
     __available_statistics: list[str]
     """The names of the available statistics."""
+
+    input_data_to_output_data: dict[HashableNdarray, dict[str, ndarray]]
+    """The output samples or output statistics associated with the input data."""
 
     def __init__(
         self,
@@ -118,7 +120,16 @@ class UMDOFormulation(BaseFormulation):
         self.opt_problem.objective = objective
         self.opt_problem.minimize_objective = not maximize_objective
         self.name = f"{self.__class__.__name__}[{mdo_formulation.__class__.__name__}]"
-        self._processed_functions = []
+        self.input_data_to_output_data = {}
+        self.opt_problem.add_callback(self._clear_input_data_to_output_data)
+
+    def _clear_input_data_to_output_data(self, x_vect: ndarray) -> None:
+        """Clear the attribute ``input_data_to_output_data``.
+
+        Args:
+            x_vect: An input vector.
+        """
+        self.input_data_to_output_data.clear()
 
     @property
     def mdo_formulation(self) -> MDOFormulation:
