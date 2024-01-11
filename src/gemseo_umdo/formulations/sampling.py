@@ -36,6 +36,7 @@ import logging
 from typing import TYPE_CHECKING
 from typing import Any
 
+from gemseo import SEED
 from gemseo.algos.doe.doe_factory import DOEFactory
 from gemseo.algos.doe.doe_library import DOELibrary
 from gemseo.algos.doe.lib_openturns import OpenTURNS
@@ -95,7 +96,7 @@ class Sampling(UMDOFormulation):
         grammar_type: MDODiscipline.GrammarType = MDODiscipline.GrammarType.JSON,
         algo: str = OpenTURNS.OT_LHSO,
         algo_options: Mapping[str, Any] | None = None,
-        seed: int = 1,
+        seed: int = SEED,
         estimate_statistics_iteratively: bool = True,
         **options: Any,
     ) -> None:

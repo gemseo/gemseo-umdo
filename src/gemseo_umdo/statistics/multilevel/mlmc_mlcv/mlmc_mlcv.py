@@ -18,6 +18,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from gemseo import SEED
 from numpy import array
 from strenum import StrEnum
 
@@ -70,7 +71,7 @@ class MLMCMLCV(MLMC):
         n_samples: float,
         pilot: str = "Mean",
         variant: Variant = Variant.MLMC_MLCV,
-        seed: int = 0,
+        seed: int = SEED,
     ) -> None:
         self.__g_l = tuple(level.surrogate_model[0] for level in levels)
         for l, g_l in enumerate(self.__g_l):  # noqa: E741

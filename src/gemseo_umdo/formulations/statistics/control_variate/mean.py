@@ -12,31 +12,28 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-"""Base estimator of statistic associated with a U-MDO formulation."""
+"""Estimator of the expectation for U-MDO formulations based on control variates."""
 
 from __future__ import annotations
 
-from abc import abstractmethod
 from typing import TYPE_CHECKING
-from typing import Any
 
-from gemseo.utils.metaclasses import ABCGoogleDocstringInheritanceMeta
+from gemseo_umdo.formulations.statistics.control_variate.control_variate_estimator import (  # noqa: E501
+    ControlVariateEstimator,
+)
 
 if TYPE_CHECKING:
     from numpy import ndarray
 
 
-class BaseStatisticEstimator(metaclass=ABCGoogleDocstringInheritanceMeta):
-    """The base statistic estimator for U-MDO formulations."""
+class Mean(ControlVariateEstimator):
+    """Estimator of the expectation."""
 
-    @abstractmethod
-    def __call__(self, *args: Any, **kwargs: Any) -> ndarray:  # noqa: D102
-        """Estimate the statistic.
-
-        Args:
-            *args: The mandatory arguments.
-            **kwargs: The optional arguments.
-
-        Returns:
-            The estimation of the statistic.
-        """
+    def __call__(  # noqa: D102
+        self, samples: ndarray, u_samples: ndarray, mean: ndarray, jac: ndarray
+    ) -> ndarray:
+        sample_lf, sample_hf = self._compute_lf_and_hf_samples(
+            samples, u_samples, mean, jac
+        )
+        alpha = self._compute_opposite_scaled_covariance(sample_hf, sample_lf)
+        return samples.mean(0) + alpha * (sample_lf.mean(0) - mean)

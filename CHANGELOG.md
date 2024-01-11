@@ -26,6 +26,14 @@ The format is based on
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Develop
+
+### Added
+
+- [ControlVariate][gemseo_umdo.formulations.control_variate.ControlVariate],
+  a new [UMDOFormulation][gemseo_umdo.formulations.formulation.UMDOFormulation]
+  estimating the statistics with a control variate technique based on Taylor polynomials.
+
 ## Version 2.0.1 (January 2024)
 
 ### Fixed
