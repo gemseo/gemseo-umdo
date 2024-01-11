@@ -12,31 +12,6 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-"""Base estimator of statistic associated with a U-MDO formulation."""
+"""Estimators of statistics for U-MDO formulations based on control variates."""
 
 from __future__ import annotations
-
-from abc import abstractmethod
-from typing import TYPE_CHECKING
-from typing import Any
-
-from gemseo.utils.metaclasses import ABCGoogleDocstringInheritanceMeta
-
-if TYPE_CHECKING:
-    from numpy import ndarray
-
-
-class BaseStatisticEstimator(metaclass=ABCGoogleDocstringInheritanceMeta):
-    """The base statistic estimator for U-MDO formulations."""
-
-    @abstractmethod
-    def __call__(self, *args: Any, **kwargs: Any) -> ndarray:  # noqa: D102
-        """Estimate the statistic.
-
-        Args:
-            *args: The mandatory arguments.
-            **kwargs: The optional arguments.
-
-        Returns:
-            The estimation of the statistic.
-        """

@@ -31,15 +31,12 @@ with mean $\mu$ and variance $\sigma^2$.
 
 from __future__ import annotations
 
-import logging
 from typing import TYPE_CHECKING
 from typing import Any
 
-from gemseo.algos.doe.lib_custom import CustomDOE
 from gemseo.algos.opt_problem import OptimizationProblem
 from gemseo.core.discipline import MDODiscipline
 from gemseo.core.mdofunctions.mdo_function import MDOFunction
-from gemseo.utils.logging_tools import LoggingContext
 
 from gemseo_umdo.formulations.formulation import UMDOFormulation
 from gemseo_umdo.formulations.functions.hessian_function import HessianFunction
@@ -61,9 +58,6 @@ if TYPE_CHECKING:
 
 class TaylorPolynomial(UMDOFormulation):
     """Robust MDO formulation based on Taylor polynomials."""
-
-    __custom_doe: CustomDOE
-    """The DOE to evaluate the MDO formulation at the mean value of the input vector."""
 
     __hessian_fd_problem: OptimizationProblem | None
     """The problem related to the approximation of the Hessian if any."""
@@ -123,7 +117,6 @@ class TaylorPolynomial(UMDOFormulation):
         problem.design_space = problem.design_space.to_design_space()
         self.opt_problem.differentiation_method = finite_differences
         self.opt_problem.fd_step = 1e-6
-        self.__custom_doe = CustomDOE()
 
     @property
     def hessian_fd_problem(self) -> OptimizationProblem | None:
@@ -139,7 +132,7 @@ class TaylorPolynomial(UMDOFormulation):
         self,
         output_name: str | Sequence[str],
         statistic_name: str,
-        constraint_type: str = MDOFunction.ConstraintType.INEQ,
+        constraint_type: MDOFunction.ConstraintType = MDOFunction.ConstraintType.INEQ,
         constraint_name: str | None = None,
         value: float | None = None,
         positive: bool = False,
@@ -180,16 +173,16 @@ class TaylorPolynomial(UMDOFormulation):
             )
 
     def evaluate_with_mean(self, problem: OptimizationProblem, eval_jac: bool) -> None:
-        """Evaluate the functions of a problem at the mean of the uncertain variables.
+        """Evaluate the functions at the mean value of the uncertain vector.
 
         Args:
-            problem: The problem.
+            problem: The problem including the functions.
             eval_jac: Whether to evaluate the Jacobian functions.
         """
-        with LoggingContext(logging.getLogger("gemseo")):
-            self.__custom_doe.execute(
-                problem,
-                samples=self._uncertain_space.distribution.mean[None],
-                eval_jac=eval_jac,
-                eval_obs_jac=eval_jac,
+        if problem.nonproc_objective is None:
+            problem.preprocess_functions(
+                is_function_input_normalized=False, eval_obs_jac=eval_jac
             )
+        problem.evaluate_functions(
+            self._uncertain_space.distribution.mean, eval_jac=eval_jac
+        )

@@ -1,0 +1,56 @@
+# Copyright 2021 IRT Saint Exupéry, https://www.irt-saintexupery.com
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public
+# License version 3 as published by the Free Software Foundation.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program; if not, write to the Free Software Foundation,
+# Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+"""Estimator of a margin for U-MDO formulations based on control variates."""
+
+from gemseo.algos.parameter_space import ParameterSpace
+from numpy import ndarray
+
+from gemseo_umdo.formulations.statistics.control_variate.control_variate_estimator import (  # noqa: E501
+    ControlVariateEstimator,
+)
+from gemseo_umdo.formulations.statistics.control_variate.mean import Mean
+from gemseo_umdo.formulations.statistics.control_variate.standard_deviation import (
+    StandardDeviation,
+)
+
+
+class Margin(ControlVariateEstimator):
+    """Estimator of a margin, i.e. mean + factor * deviation."""
+
+    __factor: float
+    """The factor related to the standard deviation."""
+
+    __mean: Mean
+    """The iterative estimator of the mean."""
+
+    __standard_deviation: StandardDeviation
+    """The iterative estimator of the standard deviation."""
+
+    def __init__(self, uncertain_space: ParameterSpace, factor: float = 2.0) -> None:
+        """
+        Args:
+            factor: The factor related to the standard deviation.
+        """  # noqa: D205 D212 D415
+        super().__init__(uncertain_space)
+        self.__mean = Mean(uncertain_space)
+        self.__standard_deviation = StandardDeviation(uncertain_space)
+        self.__factor = factor
+
+    def __call__(  # noqa: D102
+        self, samples: ndarray, u_samples: ndarray, mean: ndarray, jac: ndarray
+    ) -> ndarray:
+        return self.__mean(
+            samples, u_samples, mean, jac
+        ) + self.__factor * self.__standard_deviation(samples, u_samples, mean, jac)

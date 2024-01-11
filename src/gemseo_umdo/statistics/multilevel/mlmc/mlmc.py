@@ -22,6 +22,7 @@ from typing import TYPE_CHECKING
 from typing import Any
 from typing import ClassVar
 
+from gemseo import SEED
 from gemseo.core.mdofunctions.mdo_function import MDOFunction
 from gemseo.utils.matplotlib_figure import save_show_figure
 from gemseo.utils.string_tools import MultiLineString
@@ -155,7 +156,7 @@ class MLMC:
         uncertain_space: ParameterSpace,
         n_samples: float,
         pilot_statistic_name: str = "Mean",
-        seed: int = 0,
+        seed: int = SEED,
     ) -> None:
         r"""
         Args:
