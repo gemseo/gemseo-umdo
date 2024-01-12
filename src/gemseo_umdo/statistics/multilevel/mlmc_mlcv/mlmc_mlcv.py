@@ -142,18 +142,22 @@ class MLMCMLCV(MLMC):
         if level == 0:
             if variant == cls.Variant.MLMC_MLCV:
                 return slice(0, n_levels)
+
             if variant == cls.Variant.MLMC_CV:
                 return slice(0, 1)
+
             if variant == cls.Variant.MLMC_MLCV_0:
                 return slice(0, 2)
-            if variant == cls.Variant.MLMC_CV_0:
-                return slice(0, 1)
-        else:
-            if variant == cls.Variant.MLMC_MLCV:
-                return slice(0, n_levels - 1)
-            if variant == cls.Variant.MLMC_CV:
-                return slice(level - 1, level)
-            if variant == cls.Variant.MLMC_MLCV_0:
-                return slice(0, 1)
+
+            return slice(0, 1)
+
+        if variant == cls.Variant.MLMC_MLCV:
+            return slice(0, n_levels - 1)
+
+        if variant == cls.Variant.MLMC_CV:
+            return slice(level - 1, level)
+
+        if variant == cls.Variant.MLMC_MLCV_0:
+            return slice(0, 1)
 
         return slice(0, 0)

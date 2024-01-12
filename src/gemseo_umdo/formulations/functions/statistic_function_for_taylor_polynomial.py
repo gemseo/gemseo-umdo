@@ -58,7 +58,7 @@ class StatisticFunctionForTaylorPolynomial(StatisticFunction):
                 database.get_gradient_history(self._function_name)[0]
             )
 
-        problem.reset()
+        problem.reset(preprocessing=False)
 
         if formulation.second_order:
             formulation.evaluate_with_mean(formulation.hessian_fd_problem, False)
@@ -76,4 +76,4 @@ class StatisticFunctionForTaylorPolynomial(StatisticFunction):
 
                 output_data[hess_name] = hess_value
 
-            formulation.hessian_fd_problem.reset()
+            formulation.hessian_fd_problem.reset(preprocessing=False)

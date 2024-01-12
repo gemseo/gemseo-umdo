@@ -25,6 +25,7 @@ from gemseo.core.mdofunctions.mdo_function import MDOFunction
 from gemseo.core.scenario import Scenario
 from gemseo.disciplines.analytic import AnalyticDiscipline
 from gemseo.formulations.formulations_factory import MDOFormulationsFactory
+from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
 from gemseo.utils.string_tools import MultiLineString
 from gemseo.utils.string_tools import pretty_str
 
@@ -53,10 +54,10 @@ class _UScenario(Scenario):
         design_space: DesignSpace,
         uncertain_space: ParameterSpace,
         objective_statistic_name: str,
-        objective_statistic_parameters: Mapping[str, Any] | None = None,
+        objective_statistic_parameters: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
         statistic_estimation: str = "Sampling",
-        statistic_estimation_parameters: Mapping[str, Any] | None = None,
-        uncertain_design_variables: Mapping[str, str] | None = None,
+        statistic_estimation_parameters: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
+        uncertain_design_variables: Mapping[str, str] = READ_ONLY_EMPTY_DICT,
         name: str | None = None,
         grammar_type: MDODiscipline.GrammarType = MDODiscipline.GrammarType.JSON,
         maximize_objective: bool = False,
@@ -88,13 +89,10 @@ class _UScenario(Scenario):
             maximize_objective: Whether to maximize the statistic of the objective.
         """  # noqa: D205 D212 D415
         all_disciplines = list(disciplines)
-
-        if statistic_estimation_parameters is None:
-            statistic_estimation_parameters = {}
-
+        # TODO: API: Remove this line in gemseo-umdo 3.0.0
+        statistic_estimation_parameters = statistic_estimation_parameters or {}
         formulations_factory = MDOFormulationsFactory()
-
-        if uncertain_design_variables is not None:
+        if uncertain_design_variables:
             expressions = {}
             for dv_name, expression in uncertain_design_variables.items():
                 new_dv_name = self.__DV_PREFIX + dv_name

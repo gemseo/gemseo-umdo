@@ -39,6 +39,7 @@ from typing import Any
 from gemseo import SEED
 from gemseo.algos.doe.lib_openturns import OpenTURNS
 from gemseo.core.discipline import MDODiscipline
+from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
 
 from gemseo_umdo.formulations.sampling import Sampling
 
@@ -72,11 +73,11 @@ class SequentialSampling(Sampling):
         n_samples: int,
         initial_n_samples: int = 1,
         n_samples_increment: int = 1,
-        objective_statistic_parameters: Mapping[str, Any] | None = None,
+        objective_statistic_parameters: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
         maximize_objective: bool = False,
         grammar_type: MDODiscipline.GrammarType = MDODiscipline.GrammarType.JSON,
         algo: str = OpenTURNS.OT_LHSO,
-        algo_options: Mapping[str, Any] | None = None,
+        algo_options: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
         seed: int = SEED,
         **options: Any,
     ) -> None:

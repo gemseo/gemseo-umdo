@@ -23,9 +23,9 @@ from gemseo.core.base_formulation import BaseFormulation
 from gemseo.core.discipline import MDODiscipline
 from gemseo.core.mdofunctions.mdo_function import MDOFunction
 from gemseo.uncertainty.statistics.statistics import Statistics
+from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
 from gemseo.utils.data_conversion import split_array_to_dict_of_arrays
 from gemseo.utils.file_path_manager import FilePathManager
-from gemseo.utils.string_tools import pretty_str
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -72,7 +72,7 @@ class UMDOFormulation(BaseFormulation):
         mdo_formulation: MDOFormulation,
         uncertain_space: ParameterSpace,
         objective_statistic_name: str,
-        objective_statistic_parameters: Mapping[str, Any] | None = None,
+        objective_statistic_parameters: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
         maximize_objective: bool = False,
         grammar_type: MDODiscipline.GrammarType = MDODiscipline.GrammarType.JSON,
         **options: Any,
@@ -87,11 +87,6 @@ class UMDOFormulation(BaseFormulation):
             objective_statistic_parameters: The values of the parameters
                 of the statistic to be applied to the objective, if any.
         """  # noqa: D205 D212 D415
-        pretty_str(design_space.variable_names)
-        pretty_str(uncertain_space.variable_names)
-        if objective_statistic_parameters is None:
-            objective_statistic_parameters = {}
-
         objective_name = self.__compute_name(
             objective_name,
             objective_statistic_name,
