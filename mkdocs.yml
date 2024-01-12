@@ -40,7 +40,7 @@ plugins:
           #   ignore_init_summary: true
             returns_multiple_items: False
           docstring_section_style: list
-          heading_level: 1
+          # heading_level: 1
           inherited_members: true
 #          preload_modules:
 #          - gemseo
@@ -49,9 +49,10 @@ plugins:
           show_root_heading: true
           show_root_full_path: false
           show_signature_annotations: true
-          # show_symbol_type_heading: true
+          show_symbol_type_heading: true
           show_symbol_type_toc: true
-          # signature_crossrefs: true
+          show_category_heading: true
+          signature_crossrefs: true
 - gallery:
     conf_script: docs/gallery_conf.py
     default_thumb_file: docs/images/monogram.png
