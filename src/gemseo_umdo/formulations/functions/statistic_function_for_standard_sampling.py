@@ -40,4 +40,4 @@ class StatisticFunctionForStandardSampling(StatisticFunctionForSampling):
         for output_name in database.get_function_names():
             output_data[output_name] = database.get_function_history(output_name)
 
-        problem.reset()
+        problem.reset(preprocessing=False)

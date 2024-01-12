@@ -41,6 +41,7 @@ from gemseo.algos.doe.doe_factory import DOEFactory
 from gemseo.algos.doe.lib_openturns import OpenTURNS
 from gemseo.algos.opt_problem import OptimizationProblem
 from gemseo.core.discipline import MDODiscipline
+from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
 from gemseo.utils.logging_tools import LoggingContext
 
 from gemseo_umdo.formulations.formulation import UMDOFormulation
@@ -89,11 +90,11 @@ class ControlVariate(UMDOFormulation):
         uncertain_space: ParameterSpace,
         objective_statistic_name: str,
         n_samples: int,
-        objective_statistic_parameters: Mapping[str, Any] | None = None,
+        objective_statistic_parameters: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
         maximize_objective: bool = False,
         grammar_type: MDODiscipline.GrammarType = MDODiscipline.GrammarType.JSON,
         algo: str = OpenTURNS.OT_LHSO,
-        algo_options: Mapping[str, Any] | None = None,
+        algo_options: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
         seed: int = SEED,
         **options: Any,
     ) -> None:
@@ -107,7 +108,7 @@ class ControlVariate(UMDOFormulation):
         self._statistic_function_class = StatisticFunctionForControlVariate
         self._statistic_factory = ControlVariateEstimatorFactory()
         self.__doe_algo = DOEFactory().create(algo)
-        self.__doe_algo_options = algo_options or {}
+        self.__doe_algo_options = dict(algo_options)
         self.__doe_algo_options["n_samples"] = n_samples
         self.__n_samples = n_samples
         self.__seed = seed

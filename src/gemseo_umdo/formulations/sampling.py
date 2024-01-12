@@ -41,6 +41,7 @@ from gemseo.algos.doe.doe_factory import DOEFactory
 from gemseo.algos.doe.doe_library import DOELibrary
 from gemseo.algos.doe.lib_openturns import OpenTURNS
 from gemseo.core.discipline import MDODiscipline
+from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
 from gemseo.utils.logging_tools import LoggingContext
 
 from gemseo_umdo.formulations.formulation import UMDOFormulation
@@ -91,11 +92,11 @@ class Sampling(UMDOFormulation):
         uncertain_space: ParameterSpace,
         objective_statistic_name: str,
         n_samples: int | None = None,
-        objective_statistic_parameters: Mapping[str, Any] | None = None,
+        objective_statistic_parameters: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
         maximize_objective: bool = False,
         grammar_type: MDODiscipline.GrammarType = MDODiscipline.GrammarType.JSON,
         algo: str = OpenTURNS.OT_LHSO,
-        algo_options: Mapping[str, Any] | None = None,
+        algo_options: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
         seed: int = SEED,
         estimate_statistics_iteratively: bool = True,
         **options: Any,
@@ -127,13 +128,14 @@ class Sampling(UMDOFormulation):
             self._statistic_function_class = StatisticFunctionForStandardSampling
 
         self.__doe_algo = DOEFactory().create(algo)
-        self.__doe_algo_options = algo_options or {}
+        self.__doe_algo_options = dict(algo_options)
         self.__doe_algo_options[
             DOELibrary.USE_DATABASE_OPTION
         ] = not estimate_statistics_iteratively
         if DOELibrary.N_SAMPLES in self.__doe_algo.opt_grammar:
             if n_samples is None:
-                raise ValueError("Sampling: n_samples is required.")
+                msg = "Sampling: n_samples is required."
+                raise ValueError(msg)
             self.__doe_algo_options[DOELibrary.N_SAMPLES] = n_samples
 
         if DOELibrary.SEED in self.__doe_algo.opt_grammar:

@@ -37,6 +37,7 @@ from typing import Any
 from gemseo.algos.opt_problem import OptimizationProblem
 from gemseo.core.discipline import MDODiscipline
 from gemseo.core.mdofunctions.mdo_function import MDOFunction
+from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
 
 from gemseo_umdo.formulations.formulation import UMDOFormulation
 from gemseo_umdo.formulations.functions.hessian_function import HessianFunction
@@ -76,7 +77,7 @@ class TaylorPolynomial(UMDOFormulation):
         mdo_formulation: MDOFormulation,
         uncertain_space: ParameterSpace,
         objective_statistic_name: str,
-        objective_statistic_parameters: Mapping[str, Any] | None = None,
+        objective_statistic_parameters: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
         maximize_objective: bool = False,
         grammar_type: MDODiscipline.GrammarType = MDODiscipline.GrammarType.JSON,
         differentiation_method: OptimizationProblem.DifferentiationMethod = OptimizationProblem.DifferentiationMethod.USER_GRAD,  # noqa: E501

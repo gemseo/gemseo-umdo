@@ -58,8 +58,8 @@ class StatisticFunctionForControlVariate(StatisticFunction):
             output_data[self.__GRAD_TEMPLATE.format(output_name)] = atleast_2d(
                 linearization_database.get_gradient_history(output_name)
             )
-        problem.reset()
-        linearization_problem.reset()
+        problem.reset(preprocessing=False)
+        linearization_problem.reset(preprocessing=False)
 
     def _compute_statistic_estimation(self, output_data: dict[str, ndarray]) -> ndarray:
         output_name = self._function_name

@@ -57,4 +57,4 @@ class StatisticFunctionForIterativeSampling(StatisticFunctionForSampling):
             output_data[estimator_name] = estimator_function.last_eval
             estimate_statistic.reset()
 
-        problem.reset()
+        problem.reset(preprocessing=False)
