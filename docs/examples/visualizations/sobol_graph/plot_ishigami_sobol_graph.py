@@ -13,7 +13,7 @@
 # FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-"""# Sobol' graph for the Ishigami use case"""
+"""# Sobol' graph for the Ishigami use case."""
 
 from __future__ import annotations
 
@@ -52,7 +52,7 @@ sobol_graph = SobolGraph(
 sobol_graph
 
 # %%
-# Sphinx Gallery and Jupyter Notebook can display ``sobol_graph`` in the web browser.
-# You can also use ``sobol_graph.visualize()``
+# Sphinx Gallery and Jupyter Notebook can display `sobol_graph` in the web browser.
+# You can also use `sobol_graph.visualize()`
 # to save it on the disk
 # or display it with a dedicated program.

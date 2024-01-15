@@ -103,7 +103,7 @@ class UncertainCouplingGraph:
             disciplines: The coupled disciplines.
             uncertain_space: The space of the uncertain variables.
             variable_names: The names of the coupling variables of interest.
-                If ``None``, use all the coupling variables.
+                If `None`, use all the coupling variables.
         """  # noqa: D205 D212 D415
         if variable_names is None:
             self.__output_names = get_all_outputs(disciplines)
@@ -148,13 +148,13 @@ class UncertainCouplingGraph:
             maximum_thickness: The maximum thickness of a line.
             dispersion_measure: A standardized measure of dispersion.
             variable_names: The names of the coupling variables of interest.
-                If ``None``,
+                If `None`,
                 use all the coupling variables of interest defined at instantiation.
             show: Whether to display the graph
                 with the default application associated to the file extension.
             save: Whether to save the graph on the disk.
             file_path: The file path with extension to save the graph.
-                If ``""``, use the class name with PNG format.
+                If `""`, use the class name with PNG format.
             clean_up: Whether to remove the source files.
 
         Returns:

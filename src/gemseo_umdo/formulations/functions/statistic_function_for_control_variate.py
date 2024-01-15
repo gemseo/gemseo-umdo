@@ -12,7 +12,10 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-"""A function to compute a statistic from :class:`.ControlVariate`."""
+"""A function to compute a statistic from `ControlVariate`.
+
+See also [ControlVariate][gemseo_umdo.formulations.control_variate.ControlVariate].
+"""
 
 from __future__ import annotations
 
@@ -30,7 +33,7 @@ if TYPE_CHECKING:
 
 
 class StatisticFunctionForControlVariate(StatisticFunction):
-    """A function to compute a statistic from :class:`.ControlVariate`."""
+    """A function to compute a statistic from `ControlVariate`."""
 
     __FUNC_TEMPLATE: Final[str] = "#{}"
     """The template for the function history name from the linearization problem."""

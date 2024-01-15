@@ -13,7 +13,7 @@
 # FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-"""# The uncertain coupling graph for the Sobieski's SSBJ use case"""
+"""# The uncertain coupling graph for the Sobieski's SSBJ use case."""
 
 from __future__ import annotations
 
@@ -75,6 +75,6 @@ uncertain_coupling_graph.visualize(save=False, show=True)
 
 # %%
 # In this example designed for Sphinx Gallery and Jupyter Notebook,
-# we do not save the graph on the disk (``save=False``)
-# or display it with a dedicated program (``save=True``)
+# we do not save the graph on the disk (`save=False`)
+# or display it with a dedicated program (`save=True`)
 # but display it in the web browser.

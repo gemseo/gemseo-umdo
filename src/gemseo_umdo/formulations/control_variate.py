@@ -17,15 +17,19 @@ r"""Control variate for multidisciplinary design problems under uncertainty.
 [ControlVariate][gemseo_umdo.formulations.control_variate.ControlVariate] is an
 [UMDOFormulation][gemseo_umdo.formulations.formulation.UMDOFormulation]
 estimating the statistics with first-order Taylor polynomials as control variates:
-$\tilde{f}(x,u)=f(x,\mu) + (u-\mu)\frac{\partial f(x,\mu)}{\partial u}$
+
+$$\tilde{f}(x,u)=f(x,\mu) + (u-\mu)\frac{\partial f(x,\mu)}{\partial u}$$
+
 where $u$ is a realization of the random variable $U$ and $\mu=\mathbb{E}[U]$.
 
 The expectation $\mathbb{E}[f(x,U)]$ can be approximated
 by the control variate estimator
-$\frac{1}{N}\sum_{i=1}^N f\left(x,U^{(i)}\right)
-+\alpha_N\left(\frac{1}{N}\sum_{j=1}^N \tilde{f}\left(x,U^{(j)}\right)-f(x,\mu)\right)$
+
+$$\frac{1}{N}\sum_{i=1}^N f\left(x,U^{(i)}\right)
++\alpha_N\left(\frac{1}{N}\sum_{j=1}^N \tilde{f}\left(x,U^{(j)}\right)-f(x,\mu)\right)$$
+
 where $\alpha_N$ is the empirical estimator
-of $\frac{\text{cov}\left[f(x,U),\tilde{f(x,u)}\right]}
+of $\frac{\text{cov}\left[f(x,U),\tilde{f}(x,u)\right]}
 {\mathbb{V}\left[f(x,U)\right]}$
 and $U^{(1)},\ldots,U^{(N)}$ are $N$ independent realizations of $U$.
 """

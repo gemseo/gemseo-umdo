@@ -58,11 +58,11 @@ class SobolGraph(GraphView):
         """
         Args:
             first_order_indices: The first-order Sobol' indices of the scalar inputs,
-                shaped as ``{name: index}``.
+                shaped as `{name: index}`.
             second_order_indices:  The second-order Sobol' indices of the scalar inputs,
-                shaped as ``{(name, other_name): index}``.
+                shaped as `{(name, other_name): index}`.
             total_order_indices: The total-order Sobol' indices of the scalar inputs,
-                shaped as ``{name: index}``.
+                shaped as `{name: index}`.
             threshold: The sensitivity threshold
                 above which a second-order index is significant
                 and the corresponding edge plotted.

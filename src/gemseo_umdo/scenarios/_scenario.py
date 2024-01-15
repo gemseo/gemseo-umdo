@@ -71,21 +71,21 @@ class _UScenario(Scenario):
                 to be applied to the objective, e.g. "margin".
             objective_statistic_parameters: The parameters of the statistics
                 to be applied to the objective,
-                e.g. ``{"factor": 2.}`` when ``objective_statistic="margin"``.
+                e.g. `{"factor": 2.}` when `objective_statistic="margin"`.
             statistic_estimation: The name of the method to estimate the statistic.
-            statistic_estimation_parameters: The options of ``statistic_estimation``.
+            statistic_estimation_parameters: The options of `statistic_estimation`.
             uncertain_design_variables: The expressions of the uncertainties
                 applied to the design variables,
-                e.g. ``{"x": "{} + u"}``
-                where ``"x"`` is the name of the design variable
+                e.g. `{"x": "{} + u"}`
+                where `"x"` is the name of the design variable
                 actually used in the equations,
-                ``"u"`` is the name of the uncertain variable
-                defined in the ``uncertain_space``
-                and ``"{}"`` is the optimization variable.
-                Leave ``"{}"`` as is; it will be automatically replaced by ``"dv_x"``.
-                If ``None``,
+                `"u"` is the name of the uncertain variable
+                defined in the `uncertain_space`
+                and `"{}"` is the optimization variable.
+                Leave `"{}"` as is; it will be automatically replaced by `"dv_x"`.
+                If `None`,
                 do not consider other variable relations
-                than those defined by ``disciplines``.
+                than those defined by `disciplines`.
             maximize_objective: Whether to maximize the statistic of the objective.
         """  # noqa: D205 D212 D415
         all_disciplines = list(disciplines)
@@ -156,7 +156,7 @@ class _UScenario(Scenario):
                 to be applied to the constraint, e.g. "margin".
             statistic_parameters: The parameters of the statistics
                 to be applied to the constraint,
-                ``{"factor": 2.}`` when ``objective_statistic="margin"``.
+                `{"factor": 2.}` when `objective_statistic="margin"`.
         """  # noqa: D205 D212 D415
         self.formulation.add_constraint(
             output_name,
@@ -182,7 +182,7 @@ class _UScenario(Scenario):
                 to be applied to the constraint, e.g. "margin".
             statistic_parameters: The parameters of the statistics
                 to be applied to the constraint,
-                ``{"factor": 2.}`` when ``objective_statistic="margin"``.
+                `{"factor": 2.}` when `objective_statistic="margin"`.
         """  # noqa: D205 D212 D415
         self.formulation.add_observable(
             output_names,

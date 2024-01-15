@@ -49,7 +49,7 @@ class AdvancedBeamUncertainSpace(ParameterSpace):
             nominal_values: The nominal values of some uncertain variables.
                 For missing ones,
                 use the default values of the variables available in
-                ``gemseo_umdo.use_cases.beam_model.core.variables``.
+                `gemseo_umdo.use_cases.beam_model.core.variables`.
             **dispersions: The dispersions around the nominal values.
         """  # noqa: D205 D212 D415
         super().__init__()
@@ -89,7 +89,7 @@ class AdvancedBeamUncertainSpace(ParameterSpace):
     def __add_truncated_normal(self, name: str, **dispersions: float) -> None:
         r"""Add a truncated normal distribution to the parameter space.
 
-        Use the ``.__nominal_values[name]`` as mean.
+        Use the `.__nominal_values[name]` as mean.
 
         Args:
             name: The name of the random variable.
@@ -97,7 +97,7 @@ class AdvancedBeamUncertainSpace(ParameterSpace):
                 to define the standard deviation $\sigma=\delta/3$;
                 the distribution is truncated
                 to the interval $[\mu-3\sigma,\mu+3\sigma]$;
-                if the dispersion is missing, use ``.__DEFAULT_DISPERSION``.
+                if the dispersion is missing, use `.__DEFAULT_DISPERSION`.
         """
         nominal_value = self.__nominal_values[name]
         sigma = dispersions.get(name, self.__DEFAULT_DISPERSION / 3.0)

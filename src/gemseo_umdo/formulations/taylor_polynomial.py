@@ -18,13 +18,18 @@ r"""Taylor polynomials for multidisciplinary design problems under uncertainty.
 [UMDOFormulation][gemseo_umdo.formulations.formulation.UMDOFormulation]
 estimating the statistics with first- or second-order Taylor polynomials
 around the expectation of the uncertain variables:
-$f(x,U)\approx f(x,\mu) + (U-\mu)f'(x,\mu) \pm 0.5(U-\mu)^2f''(x,\mu)$.
+
+$$f(x,U)\approx f(x,\mu) + (U-\mu)f'(x,\mu).$$
 
 E.g.
-$\mathbb{E}[f(x,U)]\approx
-\frac{1}{N}\sum_{i=1}^N f\left(x,U^{(i)}\right)$
+
+$$\mathbb{E}[f(x,U)]\approx
+\frac{1}{N}\sum_{i=1}^N f\left(x,U^{(i)}\right)$$
+
 or
-$\mathbb{V}[f(x,U)]\approx \sigma^2f'(x,\mu)$
+
+$$\mathbb{V}[f(x,U)]\approx \sigma^2f'(x,\mu)$$
+
 where $U$ is normally distributed
 with mean $\mu$ and variance $\sigma^2$.
 """
