@@ -68,12 +68,12 @@ $H_k=\frac{2}{k^3\pi^3T}
 
 The [HeatEquationModel][gemseo_umdo.use_cases.heat_equation.model.HeatEquationModel]
 computes the temperature at final time
-from instances of the random variables ``"X_1"``, ..., ``"X_7"``
+from instances of the random variables `"X_1"`, ..., `"X_7"`
 defined over the
 [HeatEquationUncertainSpace]
 [gemseo_umdo.use_cases.heat_equation.uncertain_space.HeatEquationUncertainSpace].
-The temperature ``"u_mesh"`` is computed at each mesh node
-while the temperature ``"u"`` is an integral over the rod.
+The temperature `"u_mesh"` is computed at each mesh node
+while the temperature `"u"` is an integral over the rod.
 
 See Also:
     Geraci et al., A multifidelity control variate approach
@@ -159,7 +159,7 @@ class HeatEquationModel:
 
         Args:
             X: The input samples
-                shaped as ``(sample_size, input_dimension)``.
+                shaped as `(sample_size, input_dimension)`.
 
         Returns:
             The initial temperature for each mesh nodes.
@@ -180,13 +180,13 @@ class HeatEquationModel:
 
         Args:
             input_samples: The input samples
-                shaped as ``(sample_size, input_dimension)`` or ``(input_dimension, )``.
+                shaped as `(sample_size, input_dimension)` or `(input_dimension, )`.
             batch_size: The maximum number of samples per batch.
 
         Returns:
-            - The integrated temperature shaped as ``(sample_size, )`` or ``()``.
+            - The integrated temperature shaped as `(sample_size, )` or `()`.
             - The temperature at the different nodes
-                shaped as ``(sample_size, n_nodes)`` or ``(n_nodes, )``.
+                shaped as `(sample_size, n_nodes)` or `(n_nodes, )`.
         """
         if input_samples is None:
             input_samples = self.__default_input_value
@@ -226,11 +226,11 @@ class HeatEquationModel:
 
         Args:
             X: The input samples
-                shaped as ``(sample_size, input_dimension)``.
+                shaped as `(sample_size, input_dimension)`.
 
         Returns:
-            The integrated temperature shaped as ``(sample_size, )``,
-            the temperature at the different nodes shaped as ``(sample_size, n_nodes)``.
+            The integrated temperature shaped as `(sample_size, )`,
+            the temperature at the different nodes shaped as `(sample_size, n_nodes)`.
         """
         term = np.trapz(
             self.__sinus * self.__compute_initial_temperature(X)[newaxis, :, :],
@@ -279,11 +279,11 @@ class HeatEquationModel:
 
         Args:
             input_samples: The input samples
-                shaped as ``(sample_size, input_dimension)`` or ``(input_dimension, )``.
+                shaped as `(sample_size, input_dimension)` or `(input_dimension, )`.
 
         Returns:
             The output samples of the first-order Taylor polynomial
-            shaped as ``(sample_size, n_nodes)`` or ``(n_nodes, )``.
+            shaped as `(sample_size, n_nodes)` or `(n_nodes, )`.
         """
         X = input_samples  # noqa: N806
         mu_X = self.__default_input_value  # noqa: N806

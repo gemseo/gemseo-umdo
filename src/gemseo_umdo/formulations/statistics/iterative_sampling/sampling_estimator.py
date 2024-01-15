@@ -33,7 +33,9 @@ class SamplingEstimator(BaseSamplingEstimator):
     Derive this class to implement estimator of simple statistics,
     e.g. mean, standard deviation, variance and probability.
 
-    Derive from :class:`.BaseSamplingEstimator` for combinations of statistics,
+    Derive from
+    [BaseSamplingEstimator][gemseo_umdo.formulations.statistics.iterative_sampling.base_sampling_estimator.BaseSamplingEstimator]
+    for combinations of statistics,
     e.g. margin.
     """
 

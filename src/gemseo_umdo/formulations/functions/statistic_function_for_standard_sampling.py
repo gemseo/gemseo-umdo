@@ -12,7 +12,10 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-"""A function to compute a statistic from :class:`.Sampling`."""
+"""A function to compute a statistic from `Sampling`.
+
+See also [Sampling][gemseo_umdo.formulations.sampling.Sampling].
+"""
 
 from __future__ import annotations
 
@@ -27,7 +30,7 @@ if TYPE_CHECKING:
 
 
 class StatisticFunctionForStandardSampling(StatisticFunctionForSampling):
-    """A function to compute a statistic from :class:`.Sampling`."""
+    """A function to compute a statistic from `Sampling`."""
 
     def _compute_statistic_estimation(self, output_data: dict[str, ndarray]) -> ndarray:
         return self._estimate_statistic(output_data[self._function_name])

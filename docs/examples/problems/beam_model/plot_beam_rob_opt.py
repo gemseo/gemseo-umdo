@@ -13,12 +13,12 @@
 # FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-r"""# Robust optimization problem
+r"""# Robust optimization problem.
 
 Minimize the expectation of the weight $w(h,t)$ w.r.t. the height $h\in[500, 800]$ and
 the thickness $t\in[2,10]$ while satisfying $c_{\text{stress}}(h,t)\geq 1.0$ and
 $c_{\text{displacement}}(h,t)\leq 1.0$ with probability 90\% where $F$, $E$ and
-$\sigma_{\text{all}}$ are random variables defined by ``BeamUncertainSpace``.
+$\sigma_{\text{all}}$ are random variables defined by `BeamUncertainSpace`.
 """
 
 from __future__ import annotations

@@ -12,7 +12,10 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-"""A function to compute a statistic from :class:`.TaylorPolynomial`."""
+"""A function to compute a statistic from `TaylorPolynomial`.
+
+See also [TaylorPolynomial][gemseo_umdo.formulations.taylor_polynomial.TaylorPolynomial].
+"""  # noqa: E501
 
 from __future__ import annotations
 
@@ -30,7 +33,7 @@ if TYPE_CHECKING:
 
 
 class StatisticFunctionForTaylorPolynomial(StatisticFunction):
-    """A function to compute a statistic from :class:`.TaylorPolynomial`."""
+    """A function to compute a statistic from `TaylorPolynomial`."""
 
     @property
     def _statistic_estimator_parameters(self) -> tuple[ParameterSpace]:

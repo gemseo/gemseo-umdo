@@ -60,12 +60,12 @@ and this project adheres to
 - The [MonteCarloSampler][gemseo_umdo.monte_carlo_sampler.MonteCarloSampler]
   to sample vectorized functions.
 - [UncertainCouplingGraph][gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph]
-  has a new option ``save`` (default: ``True``).
+  has a new option `save` (default: `True`).
 - The U-MDO formulation [Sampling][gemseo_umdo.formulations.sampling.Sampling]
-  has an option ``estimate_statistics_iteratively`` (default: ``True``)
+  has an option `estimate_statistics_iteratively` (default: `True`)
   to compute the statistics iteratively
-  and so do not store the samples in a ``Database``.
-- The package ``gemseo_umdo.formulations.functions`` contains the ``MDOFunction``s
+  and so do not store the samples in a `Database`.
+- The package `gemseo_umdo.formulations.functions` contains the `MDOFunction`s
   used by a [UMDOFormulation][gemseo_umdo.formulations.formulation.UMDOFormulation]
   to compute the statistics of the objective, constraints and observables.
 - The logs of the [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario]
@@ -74,30 +74,30 @@ and this project adheres to
 
 ### Changed
 
-- Setting the argument ``n_samples``
+- Setting the argument `n_samples`
   of the U-MDO formulation [Sampling][gemseo_umdo.formulations.sampling.Sampling]
   is mandatory for many DOE algorithms
   but optional in the case where
-  the DOE algorithm does not consider a ``n_samples`` argument to generate the samples.
+  the DOE algorithm does not consider a `n_samples` argument to generate the samples.
 - The estimator of the [Variance][gemseo_umdo.formulations.statistics.sampling.variance.Variance]
   used by the U-MDO formulation [Sampling][gemseo_umdo.formulations.sampling.Sampling]
-  with ``estimate_statistics_iteratively=False`` is now unbiased.
+  with `estimate_statistics_iteratively=False` is now unbiased.
 - API changes:
   - The options of the statistics estimators
     are now set at instantiation instead of execution.
-  - ``gemseo_umdo.estimators`` has been renamed to ``gemseo_umdo.formulations.statistics``.
+  - `gemseo_umdo.estimators` has been renamed to `gemseo_umdo.formulations.statistics`.
 - The log of the statistics no longer includes design variables and uncertain inputs
-  (e.g. ``E[y(x; u)]``),
-  but only uncertain output  (e.g. ``E[y]``) to avoid display problems in large dimensions.
+  (e.g. `E[y(x; u)]`),
+  but only uncertain output  (e.g. `E[y]`) to avoid display problems in large dimensions.
 
 ### Fixed
 
 - The [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario]
   and [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
   maximize the statistic of the objective
-  when the argument ``maximize_objective`` is set to ``True``.
+  when the argument `maximize_objective` is set to `True`.
 - The log of the objective and constraint is now consistent
-  with the arguments ``maximize_objective`` and ``constraint_name``.
+  with the arguments `maximize_objective` and `constraint_name`.
 
 ### Removed
 
@@ -135,16 +135,16 @@ and this project adheres to
 
 ### Fixed
 
-- The ``_UScenario`` no longer changes the list of disciplines passed by the user.
+- The `_UScenario` no longer changes the list of disciplines passed by the user.
 
 ## Version 1.0.1 (January 2023)
 
 ### Changed
 
-- API change: the argument ``statistic_estimation_options``
+- API change: the argument `statistic_estimation_options`
   of [UMDOFormulation][gemseo_umdo.formulations.formulation.UMDOFormulation]
-  has been renamed to ``statistic_estimation_parameters``.
-- API change: ``UMDOFormulation._processed_functions`` replaces ``Sampling.processed_functions``.
+  has been renamed to `statistic_estimation_parameters`.
+- API change: `UMDOFormulation._processed_functions` replaces `Sampling.processed_functions`.
 
 ### Version 1.0.0 (July 2022)
 

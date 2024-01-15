@@ -12,7 +12,10 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-"""A function to compute a statistic from a :class:`.UMDOFormulation`."""
+"""A function to compute a statistic from a `UMDOFormulation`.
+
+See also [UMDOFormulation][gemseo_umdo.formulations.formulation.UMDOFormulation].
+"""
 
 from __future__ import annotations
 
@@ -34,13 +37,14 @@ if TYPE_CHECKING:
 
 
 class StatisticFunction(MDOFunction):
-    """A function to compute a statistic from a :class:`.UMDOFormulation`."""
+    """A function to compute a statistic from a `UMDOFormulation`."""
 
     _estimate_statistic: BaseStatisticEstimator
     """A callable to estimate the statistic."""
 
     _formulation: UMDOFormulation
-    """The U-MDO formulation to which the :class:`.StatisticFunction` is attached."""
+    """The U-MDO formulation to which the [StatisticFunction][gemseo_umdo.formulations.f
+    unctions.statistic_function.StatisticFunction] is attached."""
 
     _function_name: str
     """The name of the function."""
@@ -57,7 +61,9 @@ class StatisticFunction(MDOFunction):
         """
         Args:
             formulation: The U-MDO formulation
-                to which the :class:`.StatisticFunction` is attached.
+                to which the
+                [StatisticFunction][gemseo_umdo.formulations.functions.statistic_function.StatisticFunction]
+                is attached.
             func: The function for which we want to estimate an output statistic.
             function_type: The type of function.
             name: The name of the statistic.

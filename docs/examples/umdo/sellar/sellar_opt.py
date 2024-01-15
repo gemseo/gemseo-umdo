@@ -13,9 +13,7 @@
 # FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-"""
-# OPT - Deterministic - Sellar problem
-"""
+"""# OPT - Deterministic - Sellar problem."""
 
 from __future__ import annotations
 
@@ -46,8 +44,8 @@ design_space.add_variable("z2", 1, l_b=0.0, u_b=10.0, value=3.0)
 
 # %%
 # Then,
-# we build an ``MDOScenario``
-# to minimize ``"obj"``:
+# we build an `MDOScenario`
+# to minimize `"obj"`:
 scenario = MDOScenario(
     [system, disc1, disc2],
     formulation="MDF",
@@ -55,7 +53,7 @@ scenario = MDOScenario(
     design_space=design_space,
 )
 # %%
-# while satisfying inequality constraints related to ``"c_1"`` and ``"c_2"``:
+# while satisfying inequality constraints related to `"c_1"` and `"c_2"`:
 scenario.add_constraint("c1", "ineq")
 scenario.add_constraint("c2", "ineq")
 # %%

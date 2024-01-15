@@ -52,7 +52,7 @@ class BeamUncertainSpace(ParameterSpace):
     def __init__(self, uniform: bool = True, **deltas: float) -> None:
         r"""
         Args:
-            uniform: If ``True``, use uniform distributions;
+            uniform: If `True`, use uniform distributions;
                 otherwise, use Gaussian ones.
             **deltas: The percentage variations $\delta$ around the nominal values
                 of the random variables.

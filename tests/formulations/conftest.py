@@ -42,7 +42,7 @@ def disciplines() -> list[AnalyticDiscipline]:
 
 @pytest.fixture()
 def mdf_discipline() -> MDOChain:
-    """A monodisciplinary version of ``disciplines``."""
+    """A monodisciplinary version of `disciplines`."""
     disc0 = AnalyticDiscipline(
         {"f": "x0+y1+y2+u", "c": "x0+y1+y2+2*u", "o": "x0+y1+y2+3*u"}, name="D0"
     )

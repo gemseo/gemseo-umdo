@@ -53,7 +53,8 @@ class UMDOFormulation(BaseFormulation):
     """A factory of statistics."""
 
     _statistic_function_class: type[StatisticFunction]
-    """A subclass of :class:`.MDOFunction` to compute a statistic."""
+    """A subclass of [MDOFunction][gemseo.core.mdofunctions.mdo_function.MDOFunction] to
+    compute a statistic."""
 
     _uncertain_space: ParameterSpace
     """The uncertain space."""
@@ -119,7 +120,7 @@ class UMDOFormulation(BaseFormulation):
         self.opt_problem.add_callback(self._clear_input_data_to_output_data)
 
     def _clear_input_data_to_output_data(self, x_vect: ndarray) -> None:
-        """Clear the attribute ``input_data_to_output_data``.
+        """Clear the attribute `input_data_to_output_data`.
 
         Args:
             x_vect: An input vector.
