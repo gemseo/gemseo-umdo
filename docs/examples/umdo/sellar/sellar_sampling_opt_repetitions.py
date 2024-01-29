@@ -66,7 +66,7 @@ uncertain_space.add_random_variable(
     "a", "OTTriangularDistribution", minimum=0.1, maximum=0.3, mode=0.2
 )
 
-# %
+# %%
 # Then,
 # we build 10 [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
 # to minimize a sampling-based estimation
