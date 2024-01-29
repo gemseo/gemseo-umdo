@@ -29,7 +29,7 @@ dependencies = [
 [project.optional-dependencies]
 test = [
     "covdefaults",
-    "pytest",
+    "pytest <8",
     "pytest-cov",
     "pytest-xdist",
 ]
