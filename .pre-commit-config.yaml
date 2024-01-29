@@ -67,14 +67,18 @@ repos:
   hooks:
     - id: nbqa-black
     - id: nbqa-pyupgrade
-      args: [ "--py38-plus" ]
+      args: [--py39-plus]
     - id: nbqa-autopep8
 
 - repo: https://github.com/igorshubovych/markdownlint-cli
-  rev: v0.38.0
+  rev: v0.39.0
   hooks:
   - id: markdownlint
-    args: ["--fix"]
+    args: [
+      --fix,
+      --disable,
+      MD024,
+      ]
 
 - repo: https://github.com/Lucas-C/pre-commit-hooks
   rev: v1.5.4
