@@ -60,7 +60,7 @@ uncertain_space.add_random_variable(
     "u_x_2", "OTNormalDistribution", mu=0.0, sigma=1 * 0.05
 )
 
-# %
+# %%
 # Then,
 # we build an [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
 # to maximize a second-order approximation-based estimation
@@ -78,7 +78,7 @@ scenario = UMDOScenario(
     uncertain_design_variables={"x_2": "{}+u_x_2"},
 )
 
-# %
+# %%
 # while satisfying margin constraints
 # of the form $\mathbb{E}[g_i]+3\mathbb{S}[g_i]$
 scenario.add_constraint("g_1", "Margin", factor=3.0)
