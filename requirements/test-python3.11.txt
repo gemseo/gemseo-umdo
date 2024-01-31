@@ -34,7 +34,7 @@ fastjsonschema==2.19.1
     # via gemseo
 fonttools==4.47.2
     # via matplotlib
-gemseo[all]==5.2.1.dev83+gb456d4e3
+gemseo[all]==5.2.1.dev85+gb5f63898
     # via
     #   gemseo
     #   gemseo-umdo (pyproject.toml)
@@ -155,7 +155,7 @@ typing-extensions==4.9.0
     #   pydantic-core
 tzdata==2023.4
     # via pandas
-urllib3==2.1.0
+urllib3==2.2.0
     # via requests
 xdsmjs==2.0.0
     # via gemseo
