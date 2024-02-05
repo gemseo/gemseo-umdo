@@ -52,13 +52,13 @@ repos:
     - id: ruff-format
 
 - repo: https://github.com/commitizen-tools/commitizen
-  rev: v3.14.0
+  rev: v3.14.1
   hooks:
     - id: commitizen
       stages: [commit-msg]
 
 - repo: https://github.com/kynan/nbstripout
-  rev: 0.6.2
+  rev: 0.7.1
   hooks:
     - id: nbstripout
 
