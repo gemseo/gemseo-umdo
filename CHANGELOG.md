@@ -34,6 +34,16 @@ and this project adheres to
   a new [UMDOFormulation][gemseo_umdo.formulations.formulation.UMDOFormulation]
   estimating the statistics with a control variate technique based on Taylor polynomials.
 
+### Fixed
+
+- The discipline transforming the design variables into uncertain design variables
+  is placed before the user's disciplines;
+  by doing so,
+  the uncertain design variables can be propagated
+  through the multidisciplinary process
+  even with MDO formulations that do not ensure the satisfaction of couplings,
+  such as [DisciplinaryOpt][gemseo.formulations.disciplinary_opt.DisciplinaryOpt].
+
 ## Version 2.0.1 (January 2024)
 
 ### Fixed
