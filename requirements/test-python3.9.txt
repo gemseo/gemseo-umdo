@@ -36,7 +36,7 @@ fastjsonschema==2.19.1
     # via gemseo
 fonttools==4.48.1
     # via matplotlib
-gemseo[all]==5.2.1.dev119+g5e763b43
+gemseo[all]==5.2.1.dev121+ga9890e78
     # via
     #   gemseo
     #   gemseo-umdo (pyproject.toml)
@@ -148,7 +148,7 @@ sympy==1.12
     # via gemseo
 tenacity==8.2.3
     # via plotly
-threadpoolctl==3.2.0
+threadpoolctl==3.3.0
     # via scikit-learn
 tomli==2.0.1
     # via
