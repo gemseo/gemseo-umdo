@@ -193,12 +193,12 @@ def test_uncertain_design_variables(disciplines, design_space, uncertain_space):
     design_space = scn.design_space
     assert "x0" not in design_space
     assert "dv_x0" in design_space
-    discipline = scn.mdo_formulation.disciplines[-1]
+    discipline = scn.mdo_formulation.disciplines[0]
     assert discipline.name == "Design Uncertainties"
     assert discipline.expressions == {"x0": "dv_x0+v"}
     assert len(scn.disciplines) == len(disciplines) + 1
     for index, discipline in enumerate(disciplines):
-        assert id(scn.disciplines[index]) == id(discipline)
+        assert id(scn.disciplines[index + 1]) == id(discipline)
 
 
 def test_statistic_no_estimation_parameters(disciplines, design_space, uncertain_space):

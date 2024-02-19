@@ -99,8 +99,8 @@ class _UScenario(Scenario):
                 design_space.rename_variable(dv_name, new_dv_name)
                 expressions[dv_name] = expression.replace(self.__DV_TAG, new_dv_name)
 
-            all_disciplines.append(
-                AnalyticDiscipline(expressions, "Design Uncertainties")
+            all_disciplines.insert(
+                0, AnalyticDiscipline(expressions, "Design Uncertainties")
             )
 
         mdo_formulation = formulations_factory.create(
