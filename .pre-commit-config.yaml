@@ -16,6 +16,7 @@ repos:
         --autofix,
         --no-sort-keys,
       ]
+      exclude: \.ipynb
     - id: check-toml
     - id: destroyed-symlinks
     - id: check-symlinks
@@ -52,7 +53,7 @@ repos:
     - id: ruff-format
 
 - repo: https://github.com/commitizen-tools/commitizen
-  rev: v3.15.0
+  rev: v3.16.0
   hooks:
     - id: commitizen
       stages: [commit-msg]
