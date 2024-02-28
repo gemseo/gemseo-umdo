@@ -35,6 +35,7 @@ test = [
 ]
 doc = [
     "black",
+    "mike",
     "mkdocs-gallery",
     "mkdocs-section-index",
     "mkdocs-literate-nav",

@@ -59,6 +59,10 @@ plugins:
 - include-markdown
 - bibtex:
     bib_file: "docs/references.bib"
+- mike:
+    canonical_version: latest
+    # Gitlab pages expects the docs in this directory.
+    deploy_prefix: public
 
 nav:
 - Home: index.md
@@ -95,3 +99,7 @@ extra_javascript:
 watch:
   # mkdoc serve will rebuild the pages when changes in the docstrings.
   - src/gemseo_umdo
+
+extra:
+  version:
+    provider: mike
