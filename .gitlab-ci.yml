@@ -6,6 +6,7 @@ pages:
   image: $TEST_DOCKER_IMAGE
   variables:
     PIP_CACHE_DIR: $CI_PROJECT_DIR/.cache/pip
+    MIKE_BRANCH: docs-site
   cache:
     paths:
       - $PIP_CACHE_DIR
@@ -13,11 +14,28 @@ pages:
       files:
         - requirements/doc.txt
       prefix: $TEST_DOCKER_IMAGE
-  script:
-    - $TOX_EXE -e doc
-  artifacts:
-    paths:
-      - site
-  publish: site
   rules:
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+      variables:
+        MIKE_ARGS: $CI_COMMIT_REF_NAME
+      changes:
+        - src/**/*.*
+        - docs/**/*.*
+        - requirements/doc.txt
+    - if: $CI_COMMIT_TAG
+      variables:
+        MIKE_ARGS: --update-aliases $CI_COMMIT_TAG latest
+  before_script:
+    - !reference [.bash-functions]
+  script:
+    - $TOX_EXE -e doc --notest
+    - . .tox/doc/bin/activate
+    # By default gitlab does not fetch all branches.
+    - git fetch origin $MIKE_BRANCH --depth=1
+    - config_git_push
+    - mike deploy --branch $MIKE_BRANCH --push $MIKE_ARGS
+    - if [[ -n $CI_COMMIT_TAG ]]; then mike set-default --branch $MIKE_BRANCH --push latest; fi
+    - git checkout $MIKE_BRANCH -- public
+  artifacts:
+    paths:
+      - public
