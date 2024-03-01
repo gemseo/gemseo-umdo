@@ -9,5 +9,5 @@ project_is_open_source: true
 project_name: gemseo-umdo
 project_name_suffix: umdo
 project_slug: gemseo_umdo
-short_description: Capability for MDO under uncertainty.
+short_description: Robust MDO and advanced UQ with GEMSEO.
 use_gemseo_develop: true

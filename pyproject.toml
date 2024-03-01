@@ -3,7 +3,7 @@ name = "gemseo-umdo"
 authors = [
     {name = "Matthias De Lozzo", email = "contact@gemseo.org"}
 ]
-description = "Capability for MDO under uncertainty."
+description = "Robust MDO and advanced UQ with GEMSEO."
 license = {text = "GNU Lesser General Public License v3"}
 classifiers = [
     "License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)",
