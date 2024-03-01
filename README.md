@@ -7,11 +7,11 @@
  Commons, PO Box 1866, Mountain View, CA 94042, USA.
 -->
 
-MDO under uncertainty
+Robust MDO and advanced UQ with GEMSEO.
 
 # Documentation
 
-See <https://gemseo.readthedocs.io/en/stable/plugins.html>.
+See <https://gemseo.gitlab.io/dev/gemseo-umdo/latest/>.
 
 # Bugs/Questions
 
