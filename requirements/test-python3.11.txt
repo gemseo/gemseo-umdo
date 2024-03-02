@@ -27,7 +27,7 @@ fastjsonschema==2.19.1
     # via gemseo
 fonttools==4.49.0
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@86fe1abb6102e951a5964a59394cc8d4c99c635f
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@557a20ff54f0ddd04529678afa5ee9364830bcbb
 genson==1.2.2
     # via gemseo
 graphviz==0.20.1
@@ -102,7 +102,7 @@ pytest==7.4.4
     #   pytest-xdist
 pytest-cov==4.1.0
 pytest-xdist==3.5.0
-python-dateutil==2.8.2
+python-dateutil==2.9.0.post0
     # via
     #   matplotlib
     #   pandas
