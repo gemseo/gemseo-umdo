@@ -17,7 +17,7 @@ cycler==0.12.1
     # via matplotlib
 dill==0.3.8
     # via openturns
-docstring-inheritance==2.1.2
+docstring-inheritance==2.2.0
     # via gemseo
 et-xmlfile==1.1.0
     # via openpyxl
@@ -29,7 +29,7 @@ fastjsonschema==2.19.1
     # via gemseo
 fonttools==4.49.0
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@604b52631a0302bbaeddeaac8489ce66b7f91b5a
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@2b5fc67c15478f1f31f54b10e0fd3648466443d8
 genson==1.2.2
     # via gemseo
 graphviz==0.20.1
