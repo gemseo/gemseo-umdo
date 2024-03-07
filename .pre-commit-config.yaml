@@ -38,7 +38,7 @@ repos:
       ]
 
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.3.0
+  rev: v0.3.1
   hooks:
     - id: ruff
       args: [
@@ -48,12 +48,12 @@ repos:
       ]
 
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.3.0
+  rev: v0.3.1
   hooks:
     - id: ruff-format
 
 - repo: https://github.com/commitizen-tools/commitizen
-  rev: v3.16.0
+  rev: v3.17.0
   hooks:
     - id: commitizen
       stages: [commit-msg]
