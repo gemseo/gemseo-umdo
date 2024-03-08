@@ -18,11 +18,8 @@ click==8.1.7
     #   mkdocstrings
 colorama==0.4.6
     # via
-    #   click
     #   griffe
-    #   mkdocs
     #   mkdocs-material
-    #   tqdm
 contourpy==1.2.0
     # via matplotlib
 cycler==0.12.1
@@ -37,7 +34,7 @@ fastjsonschema==2.19.1
     # via gemseo
 fonttools==4.49.0
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@1fbd473e349c4b01691692159daa6905fa5aed9c
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@a3965fc8a6ea3e095eecb3770c6915f320e5942a
 genson==1.2.2
     # via gemseo
 ghp-import==2.1.0
@@ -53,13 +50,13 @@ h5py==3.10.0
     # via gemseo
 idna==3.6
     # via requests
-importlib-metadata==7.0.1
+importlib-metadata==7.0.2
     # via
     #   markdown
     #   mike
     #   mkdocs
     #   mkdocstrings
-importlib-resources==6.1.2
+importlib-resources==6.1.3
     # via
     #   matplotlib
     #   mike
@@ -202,8 +199,6 @@ python-dateutil==2.9.0.post0
     #   pandas
 pytz==2024.1
     # via pandas
-pywin32==306
-    # via xlwings
 pyxdsm==2.3.0
     # via gemseo
 pyyaml==6.0.1
@@ -269,8 +264,6 @@ watchdog==4.0.0
 wcmatch==8.5.1
     # via mkdocs-include-markdown-plugin
 xdsmjs==2.0.0
-    # via gemseo
-xlwings==0.30.15
     # via gemseo
 xxhash==3.4.1
     # via gemseo
