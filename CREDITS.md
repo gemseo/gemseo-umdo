@@ -7,12 +7,14 @@ http://creativecommons.org/licenses/by-sa/4.0/ or send a letter to Creative
 Commons, PO Box 1866, Mountain View, CA 94042, USA.
 -->
 
+# Credits
+
 The developers thank all the open source libraries making
-**gemseo-umdo** possible.
+`gemseo-umdo` possible.
 
 # External Dependencies
 
-**gemseo-umdo** depends on software with compatible
+`gemseo-umdo` depends on software with compatible
 licenses that are listed below.
 
 [GEMSEO](http://gemseo.org/)
@@ -23,12 +25,12 @@ licenses that are listed below.
 
 # Internal Dependencies
 
-**gemseo-umdo** source code includes software with
+`gemseo-umdo` source code includes software with
 compatible licenses that are listed below.
 
 # External application
 
-Some external applications are used by **gemseo-umdo**,
+Some external applications are used by `gemseo-umdo`,
 but not linked with the application,
 for documentation generation,
 training or example purposes.
@@ -62,4 +64,4 @@ training or example purposes.
 
 # Resources
 
-Some icons and fonts are used by **gemseo-umdo** or its documentation.
+Some icons and fonts are used by `gemseo-umdo` or its documentation.

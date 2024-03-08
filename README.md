@@ -1,43 +1,83 @@
 <!--
- Copyright 2021 IRT Saint Exupéry, https://www.irt-saintexupery.com
+Copyright 2021 IRT Saint Exupéry, https://www.irt-saintexupery.com
 
- This work is licensed under the Creative Commons Attribution-ShareAlike 4.0
- International License. To view a copy of this license, visit
- http://creativecommons.org/licenses/by-sa/4.0/ or send a letter to Creative
- Commons, PO Box 1866, Mountain View, CA 94042, USA.
+This work is licensed under the Creative Commons Attribution-ShareAlike 4.0
+International License. To view a copy of this license, visit
+http://creativecommons.org/licenses/by-sa/4.0/ or send a letter to Creative
+Commons, PO Box 1866, Mountain View, CA 94042, USA.
 -->
+# gemseo-umdo
 
-Robust MDO and advanced UQ with GEMSEO.
+[![PyPI - License](https://img.shields.io/pypi/l/gemseo)](https://www.gnu.org/licenses/lgpl-3.0.en.html)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/gemseo-umdo)](https://pypi.org/project/gemseo-umdo/)
+[![PyPI](https://img.shields.io/pypi/v/gemseo-mlearning)](https://pypi.org/project/gemseo-umdo/)
+[![Codecov branch](https://img.shields.io/codecov/c/gitlab/gemseo:dev/gemseo-umdo/develop
+)](https://app.codecov.io/gl/gemseo:dev/gemseo-umdo)
 
-# Documentation
+`gemseo-umdo` is a plugin of the library [GEMSEO](https://www.gemseo.org), dedicated to multidisciplinary optimization (MDO).
+This package is open-source,
+under the [LGPL v3 license](https://www.gnu.org/licenses/lgpl-3.0.en.html).
 
-See <https://gemseo.gitlab.io/dev/gemseo-umdo/latest/>.
+## Overview
 
-# Bugs/Questions
+### MDO under uncertainty
 
-Please use the gitlab issue tracker at
-<https://gitlab.com/gemseo/dev/gemseo-umdo/-/issues> to submit bugs or
-questions.
+The main goal of `gemseo-umdo` is to extend GEMSEO
+to MDO under uncertainty.
 
-# License
+Given a collection of disciplines,
+we are interested in solving a problem like
 
-The GEMSEO-UMDO source code is distributed under the GNU LGPL v3.0
-license. A copy of it can be found in the LICENSE.txt file. The GNU LGPL
-v3.0 license is an exception to the GNU GPL v3.0 license. A copy of the
-GNU GPL v3.0 license can be found in the LICENSES folder.
+$$
+\begin{align}
+&\underset{x\in\mathcal{X}}{\operatorname{minimize}}&
+& \mathbb{E}[f(x,U)]+\kappa\times\mathbb{S}[f(x,U)] \\
+&\operatorname{subject\;to}
+& &\mathbb{P}[g(x,U)\geq 0] \leq \varepsilon
+\end{align}
+$$
 
-The GEMSEO-UMDO examples are distributed under the BSD 0-Clause, a
-permissive license that allows to copy paste the code of examples
-without preserving the copyright mentions.
+by selecting an MDO formulation to handle the multidisciplinary coupling
+and an estimation technique to approximate the statistics.
 
-The GEMSEO-UMDO documentation is distributed under the CC BY-SA 4.0
-license.
+### Statistics
 
-The GEMSEO-UMDO product depends on other software which have various
-licenses. The list of dependencies with their licenses is given in the
-CREDITS.rst file.
+`gemseo-umdo` also proposes advanced techniques
+for uncertainty quantification and management (UQ&M).
+In presence of multilevel simulators,
+multilevel Monte Carlo (MLMC) sampling can reduce
+the variance of the statistics estimators.
+Another variance reduction technique
+consists of using the outputs of surrogate models
+as control variates,
+even moderately correlated with the original models.
 
-# Contributors
+### Visualization
 
+A third facet of `gemseo-umdo` is the visualization toolbox
+to display the propagation of the uncertainties
+through a multidisciplinary system
+as well as the interaction between the uncertain input variables.
+
+## Installation
+
+Install the latest stable version with `pip install gemseo-umdo`.
+
+Install the development version with
+`pip install gemseo-umdo@git+https://gitlab.com/gemseo/dev/gemseo-umdo.git@develop`.
+
+See [pip](https://pip.pypa.io/en/stable/getting-started/) for more information.
+
+## Bugs and questions
+
+Please use the [gitlab issue tracker](https://gitlab.com/gemseo/dev/gemseo-umdo/-/issues)
+to submit bugs or questions.
+
+## Contributing
+
+See the [contributing section of GEMSEO](https://gemseo.readthedocs.io/en/stable/software/developing.html#dev).
+
+## Contributors
+
+- Antoine Dechaume
 - Matthias De Lozzo
-- Antoine DECHAUME

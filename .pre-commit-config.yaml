@@ -108,7 +108,6 @@ repos:
     - id: insert-license
       name: insert CC BY-SA license for md files
       files: \.md$
-      exclude: ^docs/index.md
       args:
         - --license-filepath
         - LICENSES/headers/CC-BY-SA-4.0.txt
