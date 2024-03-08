@@ -14,15 +14,15 @@
         <link rel="prev" href="../udoe/quadratic/quadratic_sampling_doe/">
       
       
-        <link rel="next" href="quadratic/control_variate/">
+        <link rel="next" href="quadratic/taylor_polynomial/">
       
       
       <link rel="icon" href="../../../images/favicon.ico">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.11">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.13">
     
     
       
-        <title>Umdo - gemseo-umdo</title>
+        <title>U-MDO - gemseo-umdo</title>
       
     
     
@@ -70,10 +70,12 @@
   
     
     
+      
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo">
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -102,7 +104,7 @@
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="../../.." title="gemseo-umdo" class="md-header__button md-logo" aria-label="gemseo-umdo" data-md-component="logo">
       
-  <img src="../../../images/logo.png" alt="logo">
+  <img src="../../../images/monogram.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -119,7 +121,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Umdo
+              U-MDO
             
           </span>
         </div>
@@ -127,7 +129,33 @@
     </div>
     
       
+        <form class="md-header__option" data-md-component="palette">
+  
     
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7M9 21v-1h6v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1m3-17a5 5 0 0 0-5 5c0 2.05 1.23 3.81 3 4.58V16h4v-2.42c1.77-.77 3-2.53 3-4.58a5 5 0 0 0-5-5Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7M9 21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1H9v1Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
     
     
     
@@ -169,6 +197,18 @@
 </div>
     
     
+      <div class="md-header__source">
+        <a href="https://gitlab.com/gemseo/dev/gemseo-umdo" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="m503.5 204.6-.7-1.8-69.7-181.78c-1.4-3.57-3.9-6.59-7.2-8.64-2.4-1.55-5.1-2.515-8-2.81-2.9-.295-5.7.083-8.4 1.11-2.7 1.02-5.1 2.66-7.1 4.78-1.9 2.12-3.3 4.67-4.1 7.44l-47 144H160.8l-47.1-144c-.8-2.77-2.2-5.31-4.1-7.43-2-2.12-4.4-3.75-7.1-4.77a18.1 18.1 0 0 0-8.38-1.113 18.4 18.4 0 0 0-8.04 2.793 18.09 18.09 0 0 0-7.16 8.64L9.267 202.8l-.724 1.8a129.57 129.57 0 0 0-3.52 82c7.747 26.9 24.047 50.7 46.447 67.6l.27.2.59.4 105.97 79.5 52.6 39.7 32 24.2c3.7 1.9 8.3 4.3 13 4.3 4.7 0 9.3-2.4 13-4.3l32-24.2 52.6-39.7 106.7-79.9.3-.3c22.4-16.9 38.7-40.6 45.6-67.5 8.6-27 7.4-55.8-2.6-82z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    gemseo-umdo
+  </div>
+</a>
+      </div>
+    
   </nav>
   
 </header>
@@ -187,16 +227,19 @@
   
   
   
-    <li class="md-tabs__item">
-      <a href="../../.." class="md-tabs__link">
-        
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../.." class="md-tabs__link">
+          
   
     
   
   Home
 
-      </a>
-    </li>
+        </a>
+      </li>
+    
   
 
       
@@ -223,16 +266,30 @@
     
   
   
-    <li class="md-tabs__item md-tabs__item--active">
-      <a href="../" class="md-tabs__link">
-        
+    
+    
+      
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../problems/" class="md-tabs__link">
+          
   
     
   
   Examples
 
-      </a>
-    </li>
+        </a>
+      </li>
+    
+  
+
+    
   
 
       
@@ -246,30 +303,10 @@
   
     
   
-  Code
+  API documentation
 
       </a>
     </li>
-  
-
-      
-        
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../../../changelog/" class="md-tabs__link">
-          
-  
-    
-  
-  More
-
-        </a>
-      </li>
-    
   
 
       
@@ -297,11 +334,23 @@
   <label class="md-nav__title" for="__drawer">
     <a href="../../.." title="gemseo-umdo" class="md-nav__button md-logo" aria-label="gemseo-umdo" data-md-component="logo">
       
-  <img src="../../../images/logo.png" alt="logo">
+  <img src="../../../images/monogram.png" alt="logo">
 
     </a>
     gemseo-umdo
   </label>
+  
+    <div class="md-nav__source">
+      <a href="https://gitlab.com/gemseo/dev/gemseo-umdo" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="m503.5 204.6-.7-1.8-69.7-181.78c-1.4-3.57-3.9-6.59-7.2-8.64-2.4-1.55-5.1-2.515-8-2.81-2.9-.295-5.7.083-8.4 1.11-2.7 1.02-5.1 2.66-7.1 4.78-1.9 2.12-3.3 4.67-4.1 7.44l-47 144H160.8l-47.1-144c-.8-2.77-2.2-5.31-4.1-7.43-2-2.12-4.4-3.75-7.1-4.77a18.1 18.1 0 0 0-8.38-1.113 18.4 18.4 0 0 0-8.04 2.793 18.09 18.09 0 0 0-7.16 8.64L9.267 202.8l-.724 1.8a129.57 129.57 0 0 0-3.52 82c7.747 26.9 24.047 50.7 46.447 67.6l.27.2.59.4 105.97 79.5 52.6 39.7 32 24.2c3.7 1.9 8.3 4.3 13 4.3 4.7 0 9.3-2.4 13-4.3l32-24.2 52.6-39.7 106.7-79.9.3-.3c22.4-16.9 38.7-40.6 45.6-67.5 8.6-27 7.4-55.8-2.6-82z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    gemseo-umdo
+  </div>
+</a>
+    </div>
   
   <ul class="md-nav__list" data-md-scrollfix>
     
@@ -311,16 +360,126 @@
   
   
   
-    <li class="md-nav__item">
-      <a href="../../.." class="md-nav__link">
+    
+    
+      
         
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../.." class="md-nav__link ">
+              
   
   <span class="md-ellipsis">
     Home
   </span>
   
 
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            Home
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../changelog/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Changelog
+  </span>
+  
+
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../credits/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Credits
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../licenses/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Licenses
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -337,15 +496,7 @@
         
       
         
-          
-        
       
-        
-          
-        
-      
-        
-          
         
       
     
@@ -393,108 +544,14 @@
   
   
   
-    <li class="md-nav__item">
-      <a href="../../../user_guide/installation/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Installation
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
     
     
       
-        
-      
-    
-    
-      
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
         
           
-          
-          <div class="md-nav__link md-nav__container">
-            <a href="../../../user_guide/statistics/" class="md-nav__link ">
-              
-  
-  <span class="md-ellipsis">
-    Statistics
-  </span>
-  
-
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_2_2">
-            <span class="md-nav__icon md-icon"></span>
-            Statistics
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../user_guide/statistics/multilevel/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Multilevel
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
       
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
+        
       
         
       
@@ -512,7 +569,7 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
         
           
           
@@ -521,25 +578,27 @@
               
   
   <span class="md-ellipsis">
-    Umdo
+    MDO under uncertainty
   </span>
   
 
             </a>
             
               
-              <label class="md-nav__link " for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_2_3">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
             <span class="md-nav__icon md-icon"></span>
-            Umdo
+            MDO under uncertainty
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
             
               
                 
@@ -604,6 +663,27 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user_guide/umdo/control_variate/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Control variate
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -622,6 +702,8 @@
     
       
         
+          
+        
       
         
       
@@ -635,7 +717,94 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../user_guide/statistics/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Statistics
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            Statistics
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user_guide/statistics/multilevel/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Multilevel Monte Carlo
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
         
           
           
@@ -651,38 +820,19 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_2_4" id="__nav_2_4_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_2_4">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
             <span class="md-nav__icon md-icon"></span>
             Visualization
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../user_guide/visualization/sobol_graph/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Sobol graph
-  </span>
-  
-
-      </a>
-    </li>
-  
-
               
             
               
@@ -706,6 +856,27 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user_guide/visualization/sobol_graph/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Sobol graph
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -733,19 +904,11 @@
     
       
         
-          
+      
         
       
         
-          
-        
       
-        
-          
-        
-      
-        
-          
         
       
     
@@ -764,24 +927,16 @@
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
-          
-          <div class="md-nav__link md-nav__container">
-            <a href="../" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
   
   <span class="md-ellipsis">
     Examples
   </span>
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
@@ -798,6 +953,10 @@
   
     
     
+      
+        
+          
+        
       
         
       
@@ -841,6 +1000,8 @@
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+            
+              
                 
   
   
@@ -867,55 +1028,26 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_1" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_2" >
         
           
-          
-          <div class="md-nav__link md-nav__container">
-            <a href="../problems/beam_model/mg_execution_times/" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_3_1_2" id="__nav_3_1_2_label" tabindex="0">
+            
   
   <span class="md-ellipsis">
-    Beam model
+    The beam problem
   </span>
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_3_1_1" id="__nav_3_1_1_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
-        
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_1_1_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_1_1">
             <span class="md-nav__icon md-icon"></span>
-            Beam model
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_1_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1_2">
+            <span class="md-nav__icon md-icon"></span>
+            The beam problem
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../problems/beam_model/plot_beam_doe/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Plot beam doe
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
             
               
                 
@@ -928,28 +1060,7 @@
         
   
   <span class="md-ellipsis">
-    Plot beam opt
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../problems/beam_model/plot_beam_rob_opt/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Plot beam rob opt
+    Optimization problem
   </span>
   
 
@@ -970,7 +1081,49 @@
         
   
   <span class="md-ellipsis">
-    Plot beam sa
+    Sobol' sensitivity analysis.
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../problems/beam_model/plot_beam_rob_opt/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Robust optimization problem.
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../problems/beam_model/plot_beam_doe/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Large DOE study
   </span>
   
 
@@ -1004,6 +1157,10 @@
   
     
     
+      
+        
+          
+        
       
         
       
@@ -1026,7 +1183,7 @@
               
   
   <span class="md-ellipsis">
-    Udoe
+    U-DOE
   </span>
   
 
@@ -1042,7 +1199,51 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3_2">
             <span class="md-nav__icon md-icon"></span>
-            Udoe
+            U-DOE
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2_2" id="__nav_3_2_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    DOE under uncertainty | Quadratic
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            DOE under uncertainty | Quadratic
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -1057,11 +1258,19 @@
         
   
   <span class="md-ellipsis">
-    Quadratic
+    Robust DOE - Sampling - Quadratic function
   </span>
   
 
       </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -1085,6 +1294,10 @@
   
     
     
+      
+        
+          
+        
       
         
       
@@ -1113,7 +1326,7 @@
               
   
   <span class="md-ellipsis">
-    Umdo
+    U-MDO
   </span>
   
 
@@ -1129,9 +1342,11 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3_3">
             <span class="md-nav__icon md-icon"></span>
-            Umdo
+            U-MDO
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
             
               
                 
@@ -1141,6 +1356,8 @@
   
     
     
+      
+        
       
         
       
@@ -1158,34 +1375,47 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_1" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_2" >
         
           
-          
-          <div class="md-nav__link md-nav__container">
-            <a href="quadratic/control_variate/" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_3_3_2" id="__nav_3_3_2_label" tabindex="0">
+            
   
   <span class="md-ellipsis">
-    Quadratic
+    MDO under uncertainty | Quadratic
   </span>
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_3_3_1" id="__nav_3_3_1_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
-        
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_1_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_3_1">
             <span class="md-nav__icon md-icon"></span>
-            Quadratic
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            MDO under uncertainty | Quadratic
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="quadratic/taylor_polynomial/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Robust OPT - Taylor polynomial - Quadratic function
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -1198,7 +1428,28 @@
         
   
   <span class="md-ellipsis">
-    Quadratic sampling opt
+    Robust OPT - Sampling - Quadratic function
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="quadratic/control_variate/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Robust OPT - Control variate - Quadratic function.
   </span>
   
 
@@ -1219,28 +1470,7 @@
         
   
   <span class="md-ellipsis">
-    Sequential sampling
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="quadratic/taylor_polynomial/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Taylor polynomial
+    Robust OPT - Sequential sampling - Quadratic function
   </span>
   
 
@@ -1266,112 +1496,6 @@
   
     
     
-      
-        
-      
-        
-      
-    
-    
-      
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_2" >
-        
-          
-          
-          <div class="md-nav__link md-nav__container">
-            <a href="rosenbrock/comparison/" class="md-nav__link ">
-              
-  
-  <span class="md-ellipsis">
-    Rosenbrock
-  </span>
-  
-
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_3_3_2" id="__nav_3_3_2_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
-        
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_2_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_3_2">
-            <span class="md-nav__icon md-icon"></span>
-            Rosenbrock
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="rosenbrock/rosenbrock_control_variate/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Rosenbrock control variate
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="rosenbrock/rosenbrock_sampling_opt/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Rosenbrock sampling opt
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
       
         
       
@@ -1392,29 +1516,21 @@
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_3" >
         
           
-          
-          <div class="md-nav__link md-nav__container">
-            <a href="sellar/sellar_control_variate/" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_3_3_3" id="__nav_3_3_3_label" tabindex="0">
+            
   
   <span class="md-ellipsis">
-    Sellar
+    MDO under uncertainty | Rosenbrock
   </span>
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_3_3_3" id="__nav_3_3_3_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
         <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3_3_3">
             <span class="md-nav__icon md-icon"></span>
-            Sellar
+            MDO under uncertainty | Rosenbrock
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -1425,11 +1541,11 @@
   
   
     <li class="md-nav__item">
-      <a href="sellar/sellar_first_tp_opt/" class="md-nav__link">
+      <a href="rosenbrock/rosenbrock_sampling_opt/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Sellar first tp opt
+    Robust OPT - Sampling - Rosenbrock function
   </span>
   
 
@@ -1438,6 +1554,108 @@
   
 
               
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="rosenbrock/rosenbrock_control_variate/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Robust OPT - Control variate - Rosenbrock function.
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="rosenbrock/comparison/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Robust OPT - Control variate vs Sampling - Rosenbrock function.
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3_4" id="__nav_3_3_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    MDO under uncertainty | Sellar
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            MDO under uncertainty | Sellar
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
             
               
                 
@@ -1450,7 +1668,7 @@
         
   
   <span class="md-ellipsis">
-    Sellar opt
+    OPT - Deterministic - Sellar problem.
   </span>
   
 
@@ -1467,11 +1685,11 @@
   
   
     <li class="md-nav__item">
-      <a href="sellar/sellar_sampling_opt/" class="md-nav__link">
+      <a href="sellar/sellar_first_tp_opt/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Sellar sampling opt
+    Robust OPT - First-order Taylor polynomial - Sellar problem
   </span>
   
 
@@ -1488,11 +1706,11 @@
   
   
     <li class="md-nav__item">
-      <a href="sellar/sellar_sampling_opt_repetitions/" class="md-nav__link">
+      <a href="sellar/sellar_control_variate/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Sellar sampling opt repetitions
+    Robust OPT - Control variate - Sellar problem
   </span>
   
 
@@ -1513,7 +1731,49 @@
         
   
   <span class="md-ellipsis">
-    Sellar second tp opt
+    Robust OPT - Second-order Taylor polynomial - Sellar problem
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="sellar/sellar_sampling_opt/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Robust OPT - Sampling - Sellar problem
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="sellar/sellar_sampling_opt_repetitions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Robust OPT - Sampling with repetitions - Sellar problem
   </span>
   
 
@@ -1544,6 +1804,8 @@
       
         
       
+        
+      
     
     
       
@@ -1554,34 +1816,47 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_4" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_5" >
         
           
-          
-          <div class="md-nav__link md-nav__container">
-            <a href="sobieski/sobieski_first_tp_opt/" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_3_3_5" id="__nav_3_3_5_label" tabindex="0">
+            
   
   <span class="md-ellipsis">
-    Sobieski
+    MDO under uncertainty | Sobieski
   </span>
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_3_3_4" id="__nav_3_3_4_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
-        
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_4_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_3_4">
             <span class="md-nav__icon md-icon"></span>
-            Sobieski
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            MDO under uncertainty | Sobieski
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="sobieski/sobieski_first_tp_opt/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Robust MDO - First-order Taylor polynomial - Sobieski
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -1594,7 +1869,7 @@
         
   
   <span class="md-ellipsis">
-    Sobieski sampling opt
+    Robust MDO - Sampling - Sobieski
   </span>
   
 
@@ -1615,7 +1890,7 @@
         
   
   <span class="md-ellipsis">
-    Sobieski second tp opt
+    Robust MDO - Second-order Taylor polynomial - Sobieski
   </span>
   
 
@@ -1649,6 +1924,10 @@
   
     
     
+      
+        
+          
+        
       
         
       
@@ -1673,7 +1952,7 @@
               
   
   <span class="md-ellipsis">
-    Visualizations
+    Visualization
   </span>
   
 
@@ -1689,9 +1968,11 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3_4">
             <span class="md-nav__icon md-icon"></span>
-            Visualizations
+            Visualization
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
             
               
                 
@@ -1718,32 +1999,24 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4_1" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4_2" >
         
           
-          
-          <div class="md-nav__link md-nav__container">
-            <a href="../visualizations/sobol_graph/mg_execution_times/" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_3_4_2" id="__nav_3_4_2_label" tabindex="0">
+            
   
   <span class="md-ellipsis">
-    Sobol graph
+    Sobol' graph
   </span>
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_3_4_1" id="__nav_3_4_1_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
-        
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_4_1_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_4_1">
             <span class="md-nav__icon md-icon"></span>
-            Sobol graph
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            Sobol' graph
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -1754,11 +2027,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../visualizations/sobol_graph/plot_ishigami_sobol_graph/" class="md-nav__link">
+      <a href="../visualizations/sobol_graph/plot_sellar_sobol_graph/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Plot ishigami sobol graph
+    Sobol' graph for the Sellar use case.
   </span>
   
 
@@ -1775,11 +2048,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../visualizations/sobol_graph/plot_sellar_sobol_graph/" class="md-nav__link">
+      <a href="../visualizations/sobol_graph/plot_ishigami_sobol_graph/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Plot sellar sobol graph
+    Sobol' graph for the Ishigami use case.
   </span>
   
 
@@ -1800,7 +2073,7 @@
         
   
   <span class="md-ellipsis">
-    Plot sobieski sobol graph
+    Sobol' graph for the Sobieski's SSBJ use case.
   </span>
   
 
@@ -1839,30 +2112,22 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4_3" >
         
           
-          
-          <div class="md-nav__link md-nav__container">
-            <a href="../visualizations/uncertain_coupling_graph/mg_execution_times/" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_3_4_3" id="__nav_3_4_3_label" tabindex="0">
+            
   
   <span class="md-ellipsis">
     Uncertain coupling graph
   </span>
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_3_4_2" id="__nav_3_4_2_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_4_2_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_4_2">
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4_3">
             <span class="md-nav__icon md-icon"></span>
             Uncertain coupling graph
           </label>
@@ -1879,7 +2144,7 @@
         
   
   <span class="md-ellipsis">
-    Plot sobieski coupling graph
+    The uncertain coupling graph for the Sobieski's SSBJ use case.
   </span>
   
 
@@ -1962,7 +2227,7 @@
               
   
   <span class="md-ellipsis">
-    Code
+    API documentation
   </span>
   
 
@@ -1978,7 +2243,7 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
-            Code
+            API documentation
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -4938,122 +5203,6 @@
   
 
     
-      
-      
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-        
-      
-    
-    
-      
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
-        
-          
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    More
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5">
-            <span class="md-nav__icon md-icon"></span>
-            More
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../changelog/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Changelog
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../getting_started/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Getting started
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../reference/SUMMARY/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Modules
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
   </ul>
 </nav>
                   </div>
@@ -5085,6 +5234,9 @@
               <article class="md-content__inner md-typeset">
                 
                   
+
+  
+  
 
 
 <!-- docs_generated_examples_umdo -->
@@ -5430,7 +5582,7 @@
     <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.instant", "navigation.indexes"], "search": "../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.8fd75fb4.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.c8d2eff1.min.js"></script>
       
         <script src="../../../javascripts/mathjax.js"></script>
       
