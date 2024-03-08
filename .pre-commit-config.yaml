@@ -53,7 +53,7 @@ repos:
     - id: ruff-format
 
 - repo: https://github.com/commitizen-tools/commitizen
-  rev: v3.17.0
+  rev: v3.18.0
   hooks:
     - id: commitizen
       stages: [commit-msg]
@@ -64,7 +64,7 @@ repos:
     - id: nbstripout
 
 - repo: https://github.com/nbQA-dev/nbQA
-  rev: 1.8.3
+  rev: 1.8.4
   hooks:
     - id: nbqa-black
     - id: nbqa-pyupgrade
