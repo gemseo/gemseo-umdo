@@ -8,6 +8,3 @@
 -->
 
 # Visualization
-
-[Sobol' graph](sobol_graph.md){ .md-button }
-[Uncertain coupling graph](uncertain_coupling_graph.md){ .md-button }

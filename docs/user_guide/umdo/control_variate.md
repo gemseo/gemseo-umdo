@@ -7,20 +7,23 @@
  Commons, PO Box 1866, Mountain View, CA 94042, USA.
 -->
 
-# Sampling
+# Control variate
 
-The U-MDO formulation [Sampling][gemseo_umdo.formulations.sampling.Sampling]
+The U-MDO formulation [ControlVariate]
+[gemseo_umdo.formulations.control_variate.ControlVariate]
 can solve an MDO problem
 associated with an [MDOFormulation][gemseo.core.formulation.MDOFormulation]
-by using Monte Carlo sampling.
-This U-MDO formulation replaces the statistics
-by their unbiased empirical estimators.
+by using control variates based on first-order Taylor polynomials.
 
-This is the default U-MDO formulation.
-So, the argument `statistic_estimation` does not have to be set to use it.
-However,
-the number of samples is mandatory
-and must be set with the parameter `n_samples`.
+!!! note "Control variates (CVs) method"
+
+    The control variates method is a variance reduction technique used in Monte Carlo sampling.
+    [Read more](https://en.wikipedia.org/wiki/Control_variates)
+
+The Taylor polynomials are centered at $\mu=\mathbb{E}[U]$
+where $U$ is the random input vector.
+
+This U-MDO formulation has one mandatory parameter, namely `n_samples`.
 
 Here is a typical scenario template:
 
@@ -32,7 +35,7 @@ scenario = UMDOScenario(
     design_space,
     uncertain_space,
     statistic_name,
-    statistic_estimation_parameters={"n_samples": n_samples}
+    statistic_estimation="ControlVariate",
 )
 ```
 
@@ -63,6 +66,7 @@ and its options with the dictionary parameter `algo_options`.
         design_space,
         uncertain_space,
         statistic_name,
+        statistic_estimation="ControlVariate",
         statistic_estimation_parameters={"algo": "OT_MONTE_CARLO"}
     )
     ```
@@ -72,34 +76,15 @@ and its options with the dictionary parameter `algo_options`.
 This formulation has been implemented for the expectation, variance and probability,
 as well as combinations of these statistics.
 
-### Mean
+Only the average formula is noted here, for simplicity's sake
 
 $$\mathbb{E}[\varphi(x,U)]
-\approx E_N[\varphi(x,U)]
-=\frac{1}{N}\sum_{i=1}^N\varphi(x,U^{(i)})$$
+\approx
+\frac{1}{N}\sum_{i=1}^N f\left(x,U^{(i)}\right)
++\alpha_N\left(\frac{1}{N}\sum_{j=1}^N \tilde{f}\left(x,U^{(j)}\right)-f(x,\mu)\right)$$
 
-### Variance
-
-$$\mathbb{V}[\varphi(x,U)]
-\approx V_N[\varphi(x,U)]
-=\frac{1}{N-1}\sum_{i=1}^N\left(
-\varphi(x,U^{(i)})-\frac{1}{N}\sum_{j=1}^N\varphi(x,U^{(j)})
-\right)^2$$
-
-### Standard deviation
-
-$$\mathbb{S}[\varphi(x,U)]
-\approx S_N[\varphi(x,U)]
-=\sqrt{V_N[\varphi(x,U)]}$$
-
-### Margin
-
-$$\textrm{Margin}[\varphi(x,U)]
-\approx \textrm{Margin}_N[\varphi(x,U)]
-=E_N[\varphi(x,U)]+\kappa\times S_N[\varphi(x,U)]$$
-
-### Probability
-
-$$\mathbb{P}[\varphi(x,U)\leq 0]
-\approx P_N[\varphi(x,U)\leq 0]
-=E_N[\mathbb{1}_{\varphi(x,U)\leq 0}]$$
+where $\tilde{f}(x)$ is the first-order Taylor polynomial of $f(x)$ at $\mu$,
+$\alpha_N$ is the empirical estimator
+of $\frac{\text{cov}\left[f(x,U),\tilde{f}(x,u)\right]}
+{\mathbb{V}\left[f(x,U)\right]}$
+and $U^{(1)},\ldots,U^{(N)}$ are $N$ independent realizations of $U$.

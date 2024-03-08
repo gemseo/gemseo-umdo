@@ -1,16 +1,26 @@
 site_name: gemseo-umdo
 site_url: https://gemseo.gitlab.io/gemseo-umdo
+repo_url: https://gitlab.com/gemseo/dev/gemseo-umdo
+repo_name: gemseo-umdo
 
 theme:
   name: material
-  custom_dir: docs/overrides
   favicon: images/favicon.ico
-  logo: images/logo.png
+  logo: images/monogram.png
   features:
     - navigation.tabs
     - navigation.instant
   palette:
-    primary: custom
+    - scheme: default
+      toggle:
+        icon: material/lightbulb-outline
+        name: Switch to dark mode
+    - scheme: slate
+      toggle:
+        icon: material/lightbulb
+        name: Switch to light mode
+  icon:
+    repo: fontawesome/brands/gitlab
 
 plugins:
 - search
@@ -33,11 +43,12 @@ plugins:
         - https://openturns.github.io/openturns/latest/objects.inv
         options:
           extensions:
-          - docs/docstring_inheritance.py:DocstringInheritance
+          - griffe_inherited_docstrings
+          - docstring_inheritance.griffe
           filters:
           - "!^_"
           docstring_options:
-          #   ignore_init_summary: true
+#            ignore_init_summary: true
             returns_multiple_items: False
           docstring_section_style: list
           # heading_level: 1
@@ -65,14 +76,32 @@ plugins:
     deploy_prefix: public
 
 nav:
-- Home: index.md
-- User guide: user_guide/
-- Examples: generated/examples/
-- Code: reference/gemseo_umdo/
-- More:
+- Home:
+  - Overview: index.md
   - Changelog: changelog.md
-  - Getting started: getting_started.md
-  - Modules: reference/SUMMARY.md
+  - Credits: credits.md
+  - Licenses: licenses.md
+- User guide:
+  - user_guide/index.md
+  - MDO under uncertainty:
+    - Introduction: user_guide/umdo/index.md
+    - Sampling: user_guide/umdo/sampling.md
+    - Sequential sampling: user_guide/umdo/sequential_sampling.md
+    - Taylor polynomial: user_guide/umdo/taylor_polynomial.md
+    - Control variate: user_guide/umdo/control_variate.md
+  - Statistics:
+    - Introduction: user_guide/statistics/index.md
+    - Multilevel Monte Carlo: user_guide/statistics/multilevel.md
+  - Visualization:
+    - Introduction: user_guide/visualization/index.md
+    - Uncertain coupling graph: user_guide/visualization/uncertain_coupling_graph.md
+    - Sobol graph: user_guide/visualization/sobol_graph.md
+- Examples:
+  - Problems: generated/examples/problems
+  - U-DOE:  generated/examples/udoe
+  - U-MDO: generated/examples/umdo
+  - Visualization: generated/examples/visualizations
+- API documentation: reference/gemseo_umdo/
 
 markdown_extensions:
 - admonition
@@ -92,9 +121,6 @@ extra_javascript:
 - javascripts/mathjax.js
 - https://polyfill.io/v3/polyfill.min.js?features=es6
 - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
-
-# extra_css:
-#   - css/extra.css
 
 watch:
   # mkdoc serve will rebuild the pages when changes in the docstrings.

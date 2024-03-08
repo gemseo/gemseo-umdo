@@ -35,6 +35,7 @@ test = [
 ]
 doc = [
     "black",
+    "griffe-inherited-docstrings",
     "mike",
     "mkdocs-gallery",
     "mkdocs-section-index",
