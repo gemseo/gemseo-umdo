@@ -27,7 +27,7 @@ fastjsonschema==2.19.1
     # via gemseo
 fonttools==4.49.0
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@a3965fc8a6ea3e095eecb3770c6915f320e5942a
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@1afeff8edbb4155d35d2ac0fe0c250cd9390c609
 genson==1.2.2
     # via gemseo
 graphviz==0.20.1
