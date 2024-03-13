@@ -14,7 +14,7 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 """Estimator of the standard deviation for control variate-based U-MDO formulations."""
 
-from numpy import ndarray
+from gemseo.typing import RealArray
 
 from gemseo_umdo.formulations.statistics.control_variate.variance import Variance
 
@@ -23,6 +23,6 @@ class StandardDeviation(Variance):
     """Estimator of the standard deviation."""
 
     def __call__(  # noqa: D102
-        self, samples: ndarray, u_samples: ndarray, mean: ndarray, jac: ndarray
-    ) -> ndarray:
+        self, samples: RealArray, u_samples: RealArray, mean: RealArray, jac: RealArray
+    ) -> RealArray:
         return super().__call__(samples, u_samples, mean, jac) ** 0.5

@@ -27,7 +27,7 @@ from gemseo_umdo.formulations.statistics.sampling.standard_deviation import (
 )
 
 if TYPE_CHECKING:
-    from numpy import ndarray
+    from gemseo.typing import RealArray
 
 
 class Margin(SamplingEstimator):
@@ -52,5 +52,5 @@ class Margin(SamplingEstimator):
         self.__standard_deviation = StandardDeviation()
         self.__factor = factor
 
-    def _compute(self, value: ndarray) -> ndarray:  # noqa: D102
+    def _compute(self, value: RealArray) -> RealArray:  # noqa: D102
         return self.__mean(value) + self.__factor * self.__standard_deviation(value)

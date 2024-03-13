@@ -21,11 +21,11 @@ from typing import TYPE_CHECKING
 from gemseo_umdo.formulations.statistics.sampling.variance import Variance
 
 if TYPE_CHECKING:
-    from numpy import ndarray
+    from gemseo.typing import RealArray
 
 
 class StandardDeviation(Variance):
     """Estimator of the standard deviation."""
 
-    def _compute(self, samples: ndarray) -> ndarray:  # noqa: D102
+    def _compute(self, samples: RealArray) -> RealArray:  # noqa: D102
         return super()._compute(samples) ** 0.5

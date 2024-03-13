@@ -27,7 +27,7 @@ from gemseo_umdo.formulations.statistics.sampling.sampling_estimator import (
 )
 
 if TYPE_CHECKING:
-    from numpy import ndarray
+    from gemseo.typing import RealArray
 
 
 class Probability(SamplingEstimator):
@@ -49,5 +49,5 @@ class Probability(SamplingEstimator):
         self.__threshold = threshold
         self.__compare = ge if greater else le
 
-    def _compute(self, samples: ndarray) -> ndarray:  # noqa: D102
+    def _compute(self, samples: RealArray) -> RealArray:  # noqa: D102
         return self.__compare(samples, self.__threshold).mean(0)

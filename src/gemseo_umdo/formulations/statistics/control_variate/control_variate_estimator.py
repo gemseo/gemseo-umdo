@@ -22,7 +22,6 @@ from typing import Final
 
 from numpy import cov
 from numpy import finfo
-from numpy import ndarray
 from numpy import var
 
 from gemseo_umdo.formulations.statistics.base_statistic_estimator import (
@@ -31,6 +30,7 @@ from gemseo_umdo.formulations.statistics.base_statistic_estimator import (
 
 if TYPE_CHECKING:
     from gemseo.algos.parameter_space import ParameterSpace
+    from gemseo.typing import RealArray
     from numpy.typing import NDArray
 
 
@@ -60,8 +60,8 @@ class ControlVariateEstimator(BaseStatisticEstimator):
 
     @abstractmethod
     def __call__(
-        self, samples: ndarray, u_samples: ndarray, mean: ndarray, jac: ndarray
-    ) -> ndarray:
+        self, samples: RealArray, u_samples: RealArray, mean: RealArray, jac: RealArray
+    ) -> RealArray:
         """
         Args:
             samples: The output evaluations arranged in rows.
@@ -71,8 +71,8 @@ class ControlVariateEstimator(BaseStatisticEstimator):
         """  # noqa: D205 D212 D415
 
     def _compute_lf_and_hf_samples(
-        self, samples: ndarray, u_samples: ndarray, mean: ndarray, jac: ndarray
-    ) -> tuple[ndarray, ndarray]:
+        self, samples: RealArray, u_samples: RealArray, mean: RealArray, jac: RealArray
+    ) -> tuple[RealArray, RealArray]:
         """Compute the low- and high-fidelity samples.
 
         Args:
@@ -87,7 +87,9 @@ class ControlVariateEstimator(BaseStatisticEstimator):
         return (mean + (u_samples - self._u_mean) @ jac.T).ravel(), samples.ravel()
 
     @classmethod
-    def _compute_opposite_scaled_covariance(cls, h_f: ndarray, l_f: ndarray) -> float:
+    def _compute_opposite_scaled_covariance(
+        cls, h_f: RealArray, l_f: RealArray
+    ) -> float:
         """Compute the opposite scaled covariance between high- and low-fidelity data.
 
         Args:

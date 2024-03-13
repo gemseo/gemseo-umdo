@@ -28,7 +28,7 @@ from gemseo.core.mdofunctions.mdo_function import MDOFunction
 
 if TYPE_CHECKING:
     from gemseo.algos.opt_problem import OptimizationProblem
-    from numpy import ndarray
+    from gemseo.typing import RealArray
 
     from gemseo_umdo.formulations.formulation import UMDOFormulation
     from gemseo_umdo.formulations.statistics.base_statistic_estimator import (
@@ -95,7 +95,7 @@ class StatisticFunction(MDOFunction):
             function: The function to update the problem.
         """
 
-    def _func(self, input_data: ndarray) -> ndarray:
+    def _func(self, input_data: RealArray) -> RealArray:
         """A function estimating the statistic at a given input point.
 
         Args:
@@ -117,7 +117,7 @@ class StatisticFunction(MDOFunction):
         return self._compute_statistic_estimation(output_data)
 
     @abstractmethod
-    def _compute_statistic_estimation(self, data: dict[str, ndarray]) -> ndarray:
+    def _compute_statistic_estimation(self, data: dict[str, RealArray]) -> RealArray:
         """Estimate the statistic.
 
         Args:
@@ -128,7 +128,7 @@ class StatisticFunction(MDOFunction):
         """
 
     @abstractmethod
-    def _compute_output_data(self, output_data: dict[str, ndarray]) -> None:
+    def _compute_output_data(self, output_data: dict[str, RealArray]) -> None:
         """Compute the output data.
 
         Args:

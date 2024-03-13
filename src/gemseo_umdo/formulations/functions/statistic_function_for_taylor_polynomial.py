@@ -23,13 +23,13 @@ from typing import TYPE_CHECKING
 
 from numpy import atleast_1d
 from numpy import atleast_2d
-from numpy import ndarray
 from numpy import newaxis
 
 from gemseo_umdo.formulations.functions.statistic_function import StatisticFunction
 
 if TYPE_CHECKING:
     from gemseo.algos.parameter_space import ParameterSpace
+    from gemseo.typing import RealArray
 
 
 class StatisticFunctionForTaylorPolynomial(StatisticFunction):
@@ -39,7 +39,9 @@ class StatisticFunctionForTaylorPolynomial(StatisticFunction):
     def _statistic_estimator_parameters(self) -> tuple[ParameterSpace]:
         return (self._formulation.uncertain_space,)
 
-    def _compute_statistic_estimation(self, output_data: dict[str, ndarray]) -> ndarray:
+    def _compute_statistic_estimation(
+        self, output_data: dict[str, RealArray]
+    ) -> RealArray:
         function_name = self._function_name
         database = self._formulation.mdo_formulation.opt_problem.database
         gradient_name = database.get_gradient_name(function_name)
@@ -49,7 +51,7 @@ class StatisticFunctionForTaylorPolynomial(StatisticFunction):
             output_data.get(database.get_gradient_name(gradient_name)),
         )
 
-    def _compute_output_data(self, output_data: dict[str, ndarray]) -> None:
+    def _compute_output_data(self, output_data: dict[str, RealArray]) -> None:
         formulation = self._formulation
         problem = formulation.mdo_formulation.opt_problem
         database = problem.database

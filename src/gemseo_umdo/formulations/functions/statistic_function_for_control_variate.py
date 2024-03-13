@@ -24,12 +24,12 @@ from typing import Final
 
 from numpy import atleast_1d
 from numpy import atleast_2d
-from numpy import ndarray
 
 from gemseo_umdo.formulations.functions.statistic_function import StatisticFunction
 
 if TYPE_CHECKING:
     from gemseo.algos.parameter_space import ParameterSpace
+    from gemseo.typing import RealArray
 
 
 class StatisticFunctionForControlVariate(StatisticFunction):
@@ -45,7 +45,7 @@ class StatisticFunctionForControlVariate(StatisticFunction):
     def _statistic_estimator_parameters(self) -> tuple[ParameterSpace]:
         return (self._formulation.uncertain_space,)
 
-    def _compute_output_data(self, output_data: dict[str, ndarray]) -> None:
+    def _compute_output_data(self, output_data: dict[str, RealArray]) -> None:
         formulation = self._formulation
         problem = formulation.mdo_formulation.opt_problem
         linearization_problem = formulation.linearization_problem
@@ -64,7 +64,9 @@ class StatisticFunctionForControlVariate(StatisticFunction):
         problem.reset(preprocessing=False)
         linearization_problem.reset(preprocessing=False)
 
-    def _compute_statistic_estimation(self, output_data: dict[str, ndarray]) -> ndarray:
+    def _compute_statistic_estimation(
+        self, output_data: dict[str, RealArray]
+    ) -> RealArray:
         output_name = self._function_name
         return self._estimate_statistic(
             output_data[output_name],

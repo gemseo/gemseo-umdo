@@ -23,14 +23,14 @@ from typing import Any
 from gemseo.utils.metaclasses import ABCGoogleDocstringInheritanceMeta
 
 if TYPE_CHECKING:
-    from numpy import ndarray
+    from gemseo.typing import RealArray
 
 
 class BaseStatisticEstimator(metaclass=ABCGoogleDocstringInheritanceMeta):
     """The base statistic estimator for U-MDO formulations."""
 
     @abstractmethod
-    def __call__(self, *args: Any, **kwargs: Any) -> ndarray:  # noqa: D102
+    def __call__(self, *args: Any, **kwargs: Any) -> RealArray:  # noqa: D102
         """Estimate the statistic.
 
         Args:

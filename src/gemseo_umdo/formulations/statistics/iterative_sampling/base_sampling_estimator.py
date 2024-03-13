@@ -24,7 +24,7 @@ from gemseo_umdo.formulations.statistics.base_statistic_estimator import (
 )
 
 if TYPE_CHECKING:
-    from numpy import ndarray
+    from gemseo.typing import RealArray
     from openturns import IterativeAlgorithmImplementation
 
 
@@ -50,7 +50,7 @@ class BaseSamplingEstimator(BaseStatisticEstimator):
         """Reset the estimator of the statistic."""
 
     @abstractmethod
-    def __call__(self, value: ndarray) -> ndarray:
+    def __call__(self, value: RealArray) -> RealArray:
         """
         Args:
             value: The value to update the estimation of the statistic.

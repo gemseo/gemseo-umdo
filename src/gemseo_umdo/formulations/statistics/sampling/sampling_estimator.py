@@ -26,13 +26,13 @@ from gemseo_umdo.formulations.statistics.base_statistic_estimator import (
 )
 
 if TYPE_CHECKING:
-    from numpy import ndarray
+    from gemseo.typing import RealArray
 
 
 class SamplingEstimator(BaseStatisticEstimator):
     """Base statistic estimator for a U-MDO formulation using sampling."""
 
-    def __call__(self, samples: ndarray) -> ndarray:
+    def __call__(self, samples: RealArray) -> RealArray:
         """
         Args:
             samples: The samples to estimate the statistic.
@@ -40,7 +40,7 @@ class SamplingEstimator(BaseStatisticEstimator):
         return atleast_1d(self._compute(samples))
 
     @abstractmethod
-    def _compute(self, samples: ndarray) -> ndarray:
+    def _compute(self, samples: RealArray) -> RealArray:
         """Estimate the statistic from samples.
 
         Args:

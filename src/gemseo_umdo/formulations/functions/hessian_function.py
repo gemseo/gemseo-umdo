@@ -23,7 +23,7 @@ from gemseo.core.mdofunctions.mdo_function import MDOFunction
 from gemseo.utils.derivatives.finite_differences import FirstOrderFD
 
 if TYPE_CHECKING:
-    from numpy import ndarray
+    from gemseo.typing import RealArray
 
 
 class HessianFunction(MDOFunction):
@@ -48,7 +48,7 @@ class HessianFunction(MDOFunction):
             f"{grad_tag}{grad_tag}{func.name}",
         )
 
-    def _compute_jac(self, input_data: ndarray) -> ndarray:
+    def _compute_jac(self, input_data: RealArray) -> RealArray:
         """Compute the Jacobian matrix.
 
         Args:
