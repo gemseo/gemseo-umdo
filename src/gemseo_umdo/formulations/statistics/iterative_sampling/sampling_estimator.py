@@ -24,7 +24,7 @@ from gemseo_umdo.formulations.statistics.iterative_sampling.base_sampling_estima
 )
 
 if TYPE_CHECKING:
-    from numpy import ndarray
+    from gemseo.typing import RealArray
 
 
 class SamplingEstimator(BaseSamplingEstimator):
@@ -40,14 +40,14 @@ class SamplingEstimator(BaseSamplingEstimator):
     """
 
     @abstractmethod
-    def _get_statistic(self) -> ndarray:
+    def _get_statistic(self) -> RealArray:
         """Return the statistic.
 
         Returns:
             The current estimation of the statistic.
         """
 
-    def __call__(self, value: ndarray) -> ndarray:
+    def __call__(self, value: RealArray) -> RealArray:
         """
         Args:
             value: The value to update the estimation of the statistic.

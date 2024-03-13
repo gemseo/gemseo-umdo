@@ -17,16 +17,19 @@
 from __future__ import annotations
 
 from abc import abstractmethod
+from typing import TYPE_CHECKING
 from typing import ClassVar
 
 from numpy import array
-from numpy import ndarray
 from openturns import IterativeMoments
 from openturns import Point
 
 from gemseo_umdo.formulations.statistics.iterative_sampling.sampling_estimator import (
     SamplingEstimator,
 )
+
+if TYPE_CHECKING:
+    from gemseo.typing import RealArray
 
 
 class CentralMoment(SamplingEstimator):
@@ -39,7 +42,7 @@ class CentralMoment(SamplingEstimator):
     _ORDER: ClassVar[int]
     """The order of the central moment."""
 
-    def _get_statistic(self) -> ndarray:
+    def _get_statistic(self) -> RealArray:
         return array(self._get_central_moment())
 
     @abstractmethod

@@ -28,7 +28,7 @@ from gemseo_umdo.formulations.statistics.control_variate.control_variate_estimat
 
 if TYPE_CHECKING:
     from gemseo.algos.parameter_space import ParameterSpace
-    from numpy import ndarray
+    from gemseo.typing import RealArray
 
 
 class Probability(ControlVariateEstimator):
@@ -63,8 +63,8 @@ class Probability(ControlVariateEstimator):
         self.__n_samples = n_samples
 
     def __call__(  # noqa: D102
-        self, samples: ndarray, u_samples: ndarray, mean: ndarray, jac: ndarray
-    ) -> ndarray:
+        self, samples: RealArray, u_samples: RealArray, mean: RealArray, jac: RealArray
+    ) -> RealArray:
         sample_lf, sample_hf = self._compute_lf_and_hf_samples(
             samples, u_samples, mean, jac
         )

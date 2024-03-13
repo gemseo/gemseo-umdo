@@ -29,7 +29,7 @@ from gemseo_umdo.formulations.functions.statistic_function_for_sampling import (
 if TYPE_CHECKING:
     from gemseo.algos.opt_problem import OptimizationProblem
     from gemseo.core.mdofunctions.mdo_function import MDOFunction
-    from numpy import ndarray
+    from gemseo.typing import RealArray
 
 
 class StatisticFunctionForIterativeSampling(StatisticFunctionForSampling):
@@ -48,10 +48,12 @@ class StatisticFunctionForIterativeSampling(StatisticFunctionForSampling):
             )
         )
 
-    def _compute_statistic_estimation(self, output_data: dict[str, ndarray]) -> ndarray:
+    def _compute_statistic_estimation(
+        self, output_data: dict[str, RealArray]
+    ) -> RealArray:
         return output_data[self._observable_name]
 
-    def _compute_output_data(self, output_data: dict[str, ndarray]) -> None:
+    def _compute_output_data(self, output_data: dict[str, RealArray]) -> None:
         formulation = self._formulation
         problem = formulation.mdo_formulation.opt_problem
         formulation.compute_samples(problem)

@@ -16,20 +16,24 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from numpy import diag
 from numpy import diagonal
-from numpy import ndarray
 from numpy.linalg import multi_dot
 
 from gemseo_umdo.formulations.statistics.taylor_polynomial.taylor_polynomial_estimator import (  # noqa: E501
     TaylorPolynomialEstimator,
 )
 
+if TYPE_CHECKING:
+    from gemseo.typing import RealArray
+
 
 class Variance(TaylorPolynomialEstimator):
     """Estimator of the variance."""
 
-    def __call__(self, func: ndarray, jac: ndarray, hess: ndarray) -> ndarray:
+    def __call__(self, func: RealArray, jac: RealArray, hess: RealArray) -> RealArray:
         """
         Args:
             func: The output value at the mean value of the uncertain variables.

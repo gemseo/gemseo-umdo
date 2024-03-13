@@ -23,11 +23,11 @@ from gemseo_umdo.formulations.statistics.sampling.sampling_estimator import (
 )
 
 if TYPE_CHECKING:
-    from numpy import ndarray
+    from gemseo.typing import RealArray
 
 
 class Variance(SamplingEstimator):
     """Estimator of the variance."""
 
-    def _compute(self, samples: ndarray) -> ndarray:  # noqa: D102
+    def _compute(self, samples: RealArray) -> RealArray:  # noqa: D102
         return samples.var(0, ddof=1)

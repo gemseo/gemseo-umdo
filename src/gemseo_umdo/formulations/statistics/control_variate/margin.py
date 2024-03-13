@@ -15,7 +15,7 @@
 """Estimator of a margin for U-MDO formulations based on control variates."""
 
 from gemseo.algos.parameter_space import ParameterSpace
-from numpy import ndarray
+from gemseo.typing import RealArray
 
 from gemseo_umdo.formulations.statistics.control_variate.control_variate_estimator import (  # noqa: E501
     ControlVariateEstimator,
@@ -49,8 +49,8 @@ class Margin(ControlVariateEstimator):
         self.__factor = factor
 
     def __call__(  # noqa: D102
-        self, samples: ndarray, u_samples: ndarray, mean: ndarray, jac: ndarray
-    ) -> ndarray:
+        self, samples: RealArray, u_samples: RealArray, mean: RealArray, jac: RealArray
+    ) -> RealArray:
         return self.__mean(
             samples, u_samples, mean, jac
         ) + self.__factor * self.__standard_deviation(samples, u_samples, mean, jac)

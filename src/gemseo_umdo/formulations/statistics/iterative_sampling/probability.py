@@ -16,13 +16,17 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from numpy import array
-from numpy import ndarray
 from openturns import IterativeThresholdExceedance
 
 from gemseo_umdo.formulations.statistics.iterative_sampling.sampling_estimator import (
     SamplingEstimator,
 )
+
+if TYPE_CHECKING:
+    from gemseo.typing import RealArray
 
 
 class Probability(SamplingEstimator):
@@ -52,7 +56,7 @@ class Probability(SamplingEstimator):
         self.__threshold = threshold
         self.__greater = greater
 
-    def _get_statistic(self) -> ndarray:
+    def _get_statistic(self) -> RealArray:
         result = array(
             self._estimator.getThresholdExceedance()
             / self._estimator.getIterationNumber()

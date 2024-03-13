@@ -21,13 +21,13 @@ from typing import TYPE_CHECKING
 from gemseo_umdo.formulations.statistics.taylor_polynomial.variance import Variance
 
 if TYPE_CHECKING:
-    from numpy import ndarray
+    from gemseo.typing import RealArray
 
 
 class StandardDeviation(Variance):
     """Estimator of the standard deviation."""
 
-    def __call__(self, func: ndarray, jac: ndarray, hess: ndarray) -> ndarray:
+    def __call__(self, func: RealArray, jac: RealArray, hess: RealArray) -> RealArray:
         """
         Args:
             func: The output value at the mean value of the uncertain variables.

@@ -28,7 +28,7 @@ from gemseo_umdo.formulations.statistics.taylor_polynomial.taylor_polynomial_est
 
 if TYPE_CHECKING:
     from gemseo.algos.parameter_space import ParameterSpace
-    from numpy import ndarray
+    from gemseo.typing import RealArray
 
 
 class Margin(TaylorPolynomialEstimator):
@@ -54,8 +54,8 @@ class Margin(TaylorPolynomialEstimator):
         self.__factor = factor
 
     def __call__(  # noqa: D102
-        self, func: ndarray, jac: ndarray, hess: ndarray
-    ) -> ndarray:
+        self, func: RealArray, jac: RealArray, hess: RealArray
+    ) -> RealArray:
         return self.__mean(func, jac, hess) + self.__factor * self.__standard_deviation(
             func, jac, hess
         )

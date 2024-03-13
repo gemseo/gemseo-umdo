@@ -25,7 +25,7 @@ from gemseo_umdo.formulations.statistics.base_statistic_estimator import (
 
 if TYPE_CHECKING:
     from gemseo.algos.parameter_space import ParameterSpace
-    from numpy import ndarray
+    from gemseo.typing import RealArray
     from numpy.typing import NDArray
 
 
@@ -44,7 +44,7 @@ class TaylorPolynomialEstimator(BaseStatisticEstimator):
         self._standard_deviations = uncertain_space.distribution.standard_deviation
 
     @abstractmethod
-    def __call__(self, func: ndarray, jac: ndarray, hess: ndarray) -> ndarray:
+    def __call__(self, func: RealArray, jac: RealArray, hess: RealArray) -> RealArray:
         """
         Args:
             func: The output value at the mean value of the uncertain variables.

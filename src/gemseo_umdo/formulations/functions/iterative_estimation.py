@@ -21,9 +21,10 @@ from typing import Any
 
 from gemseo.core.mdofunctions.mdo_function import MDOFunction
 from numpy import atleast_1d
-from numpy import ndarray
 
 if TYPE_CHECKING:
+    from gemseo.typing import RealArray
+
     from gemseo_umdo.formulations.statistics.iterative_sampling.sampling_estimator import (  # noqa: E501
         SamplingEstimator as IterativeSamplingEstimator,
     )
@@ -61,7 +62,7 @@ class IterativeEstimation(MDOFunction):
         self._iterative_estimator = iterative_estimator
         super().__init__(self._estimate_statistic, name)
 
-    def _estimate_statistic(self, input_value: ndarray) -> ndarray:
+    def _estimate_statistic(self, input_value: RealArray) -> RealArray:
         """The function to be called.
 
         Args:

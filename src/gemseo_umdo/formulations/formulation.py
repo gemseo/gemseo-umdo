@@ -38,7 +38,7 @@ if TYPE_CHECKING:
     from gemseo.core.base_factory import BaseFactory
     from gemseo.core.execution_sequence import ExecutionSequence
     from gemseo.core.formulation import MDOFormulation
-    from numpy import ndarray
+    from gemseo.typing import RealArray
 
     from gemseo_umdo.formulations.functions.statistic_function import StatisticFunction
 
@@ -62,7 +62,7 @@ class UMDOFormulation(BaseFormulation):
     __available_statistics: list[str]
     """The names of the available statistics."""
 
-    input_data_to_output_data: dict[HashableNdarray, dict[str, ndarray]]
+    input_data_to_output_data: dict[HashableNdarray, dict[str, RealArray]]
     """The output samples or output statistics associated with the input data."""
 
     def __init__(
@@ -119,7 +119,7 @@ class UMDOFormulation(BaseFormulation):
         self.input_data_to_output_data = {}
         self.opt_problem.add_callback(self._clear_input_data_to_output_data)
 
-    def _clear_input_data_to_output_data(self, x_vect: ndarray) -> None:
+    def _clear_input_data_to_output_data(self, x_vect: RealArray) -> None:
         """Clear the attribute `input_data_to_output_data`.
 
         Args:
