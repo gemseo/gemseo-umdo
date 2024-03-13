@@ -27,7 +27,7 @@ fastjsonschema==2.19.1
     # via gemseo
 fonttools==4.49.0
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@1afeff8edbb4155d35d2ac0fe0c250cd9390c609
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@052923ea9a5dd77fbfbded67ba61a3d97d9bf158
 genson==1.2.2
     # via gemseo
 graphviz==0.20.1
@@ -88,7 +88,7 @@ pluggy==1.4.0
     # via pytest
 psutil==5.9.8
     # via openturns
-pydantic==2.6.3
+pydantic==2.6.4
     # via gemseo
 pydantic-core==2.16.3
     # via pydantic
