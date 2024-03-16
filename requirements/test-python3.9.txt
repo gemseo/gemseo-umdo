@@ -27,9 +27,9 @@ execnet==2.0.2
     # via pytest-xdist
 fastjsonschema==2.19.1
     # via gemseo
-fonttools==4.49.0
+fonttools==4.50.0
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@4fd5f43c71ac1f0ef9731cec48e21f260b8f39b6
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@eb002540ea54c232c54114a3fbe6212288126550
 genson==1.2.2
     # via gemseo
 graphviz==0.20.1
