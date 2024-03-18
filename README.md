@@ -14,7 +14,8 @@ Commons, PO Box 1866, Mountain View, CA 94042, USA.
 [![Codecov branch](https://img.shields.io/codecov/c/gitlab/gemseo:dev/gemseo-umdo/develop
 )](https://app.codecov.io/gl/gemseo:dev/gemseo-umdo)
 
-`gemseo-umdo` is a plugin of the library [GEMSEO](https://www.gemseo.org), dedicated to multidisciplinary optimization (MDO).
+`gemseo-umdo` is a plugin of the library [GEMSEO](https://www.gemseo.org),
+dedicated to multidisciplinary optimization (MDO) under uncertainty.
 This package is open-source,
 under the [LGPL v3 license](https://www.gnu.org/licenses/lgpl-3.0.en.html).
 
