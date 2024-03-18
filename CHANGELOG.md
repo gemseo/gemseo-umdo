@@ -30,12 +30,34 @@ and this project adheres to
 
 ### Added
 
+- The dictionary argument `uncertain_design_variables` of
+  [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario]
+  and [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
+  can now accept values such as `("+", "u")` and `("*", "u")`
+  to noise the corresponding key `x` as `x = dv_x + u` and `x = dv_x * (1 + u)`
+  where `x` is a discipline input made uncertain by the random variable `u`.
+- [AdditiveNoiser][gemseo_umdo.disciplines.additive_noiser.AdditiveNoiser]
+  and
+  [MultiplicativeNoiser][gemseo_umdo.disciplines.multiplicative_noiser.MultiplicativeNoiser]
+  are disciplines to noise a design variable $x$ as $X=x+U$ and $X=x(1+U)$ respectively
+  where $U$ is a random variable.
+  [BaseNoiser][gemseo_umdo.disciplines.base_noiser.BaseNoiser]
+  can be used to create other noising disciplines
+  and a specific
+  [NoiserFactory][gemseo_umdo.disciplines.noiser_factory.NoiserFactory]
+  is available.
 - [ControlVariate][gemseo_umdo.formulations.control_variate.ControlVariate],
   a new [UMDOFormulation][gemseo_umdo.formulations.formulation.UMDOFormulation]
   estimating the statistics with a control variate technique based on Taylor polynomials.
 
 ### Fixed
 
+- The docstring of the `uncertain_design_variables` argument of
+  [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario]
+  and [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
+  explains that specifying a value such as `"{} + u"` at key `"x"`
+  assumes that both the uncertain design variable `"x"`
+  and the uncertain variable `"u"` are scalar variables.
 - The discipline transforming the design variables into uncertain design variables
   is placed before the user's disciplines;
   by doing so,

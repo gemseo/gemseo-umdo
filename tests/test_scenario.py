@@ -20,9 +20,16 @@ from typing import TYPE_CHECKING
 import pytest
 from gemseo.algos.design_space import DesignSpace
 from gemseo.algos.parameter_space import ParameterSpace
+from gemseo.core.chain import MDOChain
 from gemseo.disciplines.analytic import AnalyticDiscipline
+from gemseo.disciplines.auto_py import AutoPyDiscipline
 from numpy import array
+from numpy import atleast_2d
+from numpy import vstack
+from numpy.linalg import norm
 
+from gemseo_umdo.disciplines.additive_noiser import AdditiveNoiser
+from gemseo_umdo.disciplines.multiplicative_noiser import MultiplicativeNoiser
 from gemseo_umdo.formulations.factory import UMDOFormulationsFactory
 from gemseo_umdo.formulations.sampling import Sampling
 from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
@@ -178,7 +185,10 @@ def test_maximize_objective(
 
 
 def test_uncertain_design_variables(disciplines, design_space, uncertain_space):
-    """Check that a design variable can be noised."""
+    """Check that a design variable can be noised.
+
+    Here we check the disciplines created by the _UScenario.
+    """
     scn = UMDOScenario(
         disciplines,
         "MDF",
@@ -186,19 +196,77 @@ def test_uncertain_design_variables(disciplines, design_space, uncertain_space):
         design_space,
         uncertain_space,
         "Mean",
-        uncertain_design_variables={"x0": "{}+v"},
+        uncertain_design_variables={
+            "x0": ("+", "v0"),
+            "x1": "{}+v1",
+            "x2": ("*", "v2"),
+        },
         statistic_estimation="Sampling",
         statistic_estimation_parameters={"algo": "OT_OPT_LHS", "n_samples": 3},
     )
     design_space = scn.design_space
-    assert "x0" not in design_space
-    assert "dv_x0" in design_space
-    discipline = scn.mdo_formulation.disciplines[0]
-    assert discipline.name == "Design Uncertainties"
-    assert discipline.expressions == {"x0": "dv_x0+v"}
+    for i in range(3):
+        assert f"x{i}" not in design_space
+        assert f"dv_x{i}" in design_space
+
     assert len(scn.disciplines) == len(disciplines) + 1
-    for index, discipline in enumerate(disciplines):
-        assert id(scn.disciplines[index + 1]) == id(discipline)
+    mdo_chain = scn.disciplines[0]
+    assert isinstance(mdo_chain, MDOChain)
+
+    discipline = mdo_chain.disciplines[0]
+    assert isinstance(discipline, AnalyticDiscipline)
+    assert discipline.expressions == {"x1": "dv_x1+v1"}
+
+    discipline = mdo_chain.disciplines[1]
+    assert isinstance(discipline, AdditiveNoiser)
+    assert set(discipline.input_grammar.names) == {"dv_x0", "v0"}
+    assert set(discipline.output_grammar.names) == {"x0"}
+
+    discipline = mdo_chain.disciplines[2]
+    assert isinstance(discipline, MultiplicativeNoiser)
+    assert set(discipline.input_grammar.names) == {"dv_x2", "v2"}
+    assert set(discipline.output_grammar.names) == {"x2"}
+
+
+@pytest.mark.parametrize("x", [array([1, 2]), array([1])])
+@pytest.mark.parametrize(
+    ("u1", "u2"), [(array([1]), array([-1])), (array([1, -1]), array([-1, 1]))]
+)
+def test_uncertain_design_variables_values(x, u1, u2):
+    """Check that a design variable can be noised.
+
+    Here we check the disciplines.
+    """
+
+    uncertain_space = ParameterSpace()
+    uncertain_space.add_random_vector("u", "OTNormalDistribution", size=len(u1))
+
+    def f(x):
+        y = norm(x) ** 2
+        return y  # noqa: RET504
+
+    design_space = DesignSpace()
+    design_space.add_variable("x", size=len(x), value=0)
+
+    discipline = AutoPyDiscipline(f)
+    scenario = UDOEScenario(
+        [discipline],
+        "DisciplinaryOpt",
+        "y",
+        design_space,
+        uncertain_space,
+        "Mean",
+        statistic_estimation_parameters={
+            "algo": "CustomDOE",
+            "algo_options": {"samples": vstack((u1, u2))},
+        },
+        uncertain_design_variables={"x": ("+", "u")},
+    )
+    scenario.execute({
+        "algo": "CustomDOE",
+        "algo_options": {"samples": atleast_2d(x)},
+    })
+    assert scenario.optimization_result.f_opt == (f(x + u1) + f(x + u2)) / 2
 
 
 def test_statistic_no_estimation_parameters(disciplines, design_space, uncertain_space):
