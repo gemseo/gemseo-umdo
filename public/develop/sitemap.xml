@@ -201,6 +201,31 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/disciplines/</loc>
+         <lastmod>2024-03-18</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/disciplines/additive_noiser/</loc>
+         <lastmod>2024-03-18</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/disciplines/base_noiser/</loc>
+         <lastmod>2024-03-18</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/disciplines/multiplicative_noiser/</loc>
+         <lastmod>2024-03-18</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/disciplines/noiser_factory/</loc>
+         <lastmod>2024-03-18</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/</loc>
          <lastmod>2024-03-18</lastmod>
          <changefreq>daily</changefreq>
