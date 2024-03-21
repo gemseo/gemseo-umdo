@@ -42,6 +42,7 @@ from typing import Any
 
 from gemseo import SEED
 from gemseo.algos.doe.doe_factory import DOEFactory
+from gemseo.algos.doe.doe_library import CallbackType
 from gemseo.algos.doe.doe_library import DOELibrary
 from gemseo.algos.doe.lib_openturns import OpenTURNS
 from gemseo.core.discipline import MDODiscipline
@@ -87,6 +88,9 @@ class Sampling(UMDOFormulation):
     __n_samples: int | None
     """The number of samples, if defined."""
 
+    callbacks: list[CallbackType]
+    """The callback functions for the DOE algorithm."""
+
     def __init__(
         self,
         disciplines: Sequence[MDODiscipline],
@@ -122,6 +126,7 @@ class Sampling(UMDOFormulation):
             ValueError: When `n_samples` is `None`,
                 whereas it is required by the DOE algorithm.
         """  # noqa: D205 D212 D415
+        self.callbacks = []
         self.input_data_to_output_samples = {}
         self._estimate_statistics_iteratively = estimate_statistics_iteratively
         if estimate_statistics_iteratively:
@@ -183,5 +188,8 @@ class Sampling(UMDOFormulation):
         Args:
             problem: The problem.
         """
+        self.__doe_algo_options["callbacks"] = set.union(
+            set(self.__doe_algo_options.get("callbacks", set())), set(self.callbacks)
+        )
         with LoggingContext(logging.getLogger("gemseo")):
             self.__doe_algo.execute(problem, **self.__doe_algo_options)

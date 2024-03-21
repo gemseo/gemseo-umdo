@@ -52,6 +52,9 @@ and this project adheres to
 
 ### Fixed
 
+- The U-MDO formulation [Sampling][gemseo_umdo.formulations.sampling.Sampling]
+  works properly when the option `estimate_statistics_iteratively`  is `True`
+  and the DOE option `n_processes` is greater than 1.
 - The docstring of the `uncertain_design_variables` argument of
   [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario]
   and [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
