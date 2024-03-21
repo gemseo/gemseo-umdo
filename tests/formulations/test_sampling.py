@@ -103,7 +103,32 @@ def scenario_input_data() -> dict[str, str | dict[str, ndarray]]:
 
 
 @pytest.fixture(params=[False, True])
-def scenario(request, disciplines, design_space, uncertain_space, scenario_input_data):
+def estimate_statistics_iteratively(request) -> bool:
+    """Whether to estimate the statistics iteratively."""
+    return request.param
+
+
+@pytest.fixture(params=[1, 2])
+def n_processes(request) -> int:
+    """Whether to estimate the statistics iteratively."""
+    return request.param
+
+
+@pytest.fixture(params=[False, True])
+def maximize_objective(request) -> int:
+    """Whether to maximize the objective."""
+    return request.param
+
+
+@pytest.fixture()
+def scenario(
+    estimate_statistics_iteratively,
+    n_processes,
+    maximize_objective,
+    disciplines,
+    design_space,
+    uncertain_space,
+):
     """A scenario of interest."""
     scn = UDOEScenario(
         disciplines,
@@ -115,20 +140,25 @@ def scenario(request, disciplines, design_space, uncertain_space, scenario_input
         statistic_estimation="Sampling",
         statistic_estimation_parameters={
             "algo": "CustomDOE",
-            "algo_options": {"samples": array([[0.0] * 3, [1.0] * 3])},
-            "estimate_statistics_iteratively": request.param,
+            "algo_options": {
+                "samples": array([[0.0] * 3, [1.0] * 3]),
+                "n_processes": n_processes,
+            },
+            "estimate_statistics_iteratively": estimate_statistics_iteratively,
         },
+        maximize_objective=maximize_objective,
     )
     scn.add_constraint("c", "Margin", factor=3.0)
     scn.add_observable("o", "Variance")
     return scn
 
 
-def test_scenario_execution(scenario, scenario_input_data):
+def test_scenario_execution(scenario, maximize_objective, scenario_input_data):
     """Check the execution of an UMDOScenario with the Sampling U-MDO formulation."""
     scenario.execute(scenario_input_data)
     assert_equal(scenario.optimization_result.x_opt, array([0.0, 0.0, 0.0]))
-    assert scenario.optimization_result.f_opt == -2.0
+    expected_f_opt = 2.0 if maximize_objective else -2.0
+    assert scenario.optimization_result.f_opt == expected_f_opt
 
 
 def test_scenario_serialization(scenario, tmp_path, scenario_input_data):
@@ -227,14 +257,14 @@ def test_mdo_formulation_objective(umdo_formulation, mdf_discipline):
 
 def test_mdo_formulation_constraint(umdo_formulation, mdf_discipline):
     """Check that the MDO formulation can compute the constraints correctly."""
-    constraint = umdo_formulation.mdo_formulation.opt_problem.observables[1]
+    constraint = umdo_formulation.mdo_formulation.opt_problem.observables[0]
     input_data = {name: array([2.0]) for name in ["u", "u1", "u2"]}
     assert_equal(constraint(array([2.0] * 3)), mdf_discipline.execute(input_data)["c"])
 
 
 def test_mdo_formulation_observable(umdo_formulation, mdf_discipline):
     """Check that the MDO formulation can compute the observables correctly."""
-    observable = umdo_formulation.mdo_formulation.opt_problem.observables[3]
+    observable = umdo_formulation.mdo_formulation.opt_problem.observables[1]
     input_data = {name: array([2.0]) for name in ["u", "u1", "u2"]}
     assert_equal(observable(array([2.0] * 3)), mdf_discipline.execute(input_data)["o"])
 

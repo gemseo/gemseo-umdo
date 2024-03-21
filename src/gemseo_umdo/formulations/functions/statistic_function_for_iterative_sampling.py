@@ -42,10 +42,8 @@ class StatisticFunctionForIterativeSampling(StatisticFunctionForSampling):
             self._observable_name,
             self._estimate_statistic,
         ))
-        sampling_problem.add_observable(
-            IterativeEstimation(
-                self._observable_name, function, self._estimate_statistic
-            )
+        self._formulation.callbacks.append(
+            IterativeEstimation(function.name, self._estimate_statistic)
         )
 
     def _compute_statistic_estimation(
@@ -57,9 +55,10 @@ class StatisticFunctionForIterativeSampling(StatisticFunctionForSampling):
         formulation = self._formulation
         problem = formulation.mdo_formulation.opt_problem
         formulation.compute_samples(problem)
-        for estimator_name, estimate_statistic in self._formulation._estimators:
-            estimator_function = problem.get_observable(estimator_name)
-            output_data[estimator_name] = estimator_function.last_eval
+        for (estimator_name, estimate_statistic), iterative_estimation in zip(
+            formulation._estimators, formulation.callbacks
+        ):
+            output_data[estimator_name] = iterative_estimation.last_estimation
             estimate_statistic.reset()
 
         problem.reset(preprocessing=False)

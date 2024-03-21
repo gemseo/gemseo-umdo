@@ -17,12 +17,12 @@
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
-from typing import Any
 
-from gemseo.core.mdofunctions.mdo_function import MDOFunction
+from numpy import array
 from numpy import atleast_1d
 
 if TYPE_CHECKING:
+    from gemseo.algos.opt_problem import EvaluationType
     from gemseo.typing import RealArray
 
     from gemseo_umdo.formulations.statistics.iterative_sampling.sampling_estimator import (  # noqa: E501
@@ -30,47 +30,57 @@ if TYPE_CHECKING:
     )
 
 
-class IterativeEstimation(MDOFunction):
-    """A function updating the estimation of a statistic."""
+class IterativeEstimation:
+    """A functor to estimate a statistic iteratively.
 
-    _function: MDOFunction
-    """The function computing the output for which we want to estimate the statistic."""
+    Call this functor to update the estimation of the statistic
+    and access the last evaluation with :attr:`.last_evaluation`.
 
-    _iterative_estimator: IterativeSamplingEstimator
-    """The iterative statistic estimator."""
+    The [Sampling][gemseo_umdo.formulations.sampling.Sampling] U-MDO formulation
+    passes such functors to a [DOELibrary][gemseo.algos.doe.doe_library.DOELibrary]
+    as callback functions
+    to update the statistics of the objective, constraints and observables.
+    """
 
-    _parameters: Any
-    """The parameters of the iterative statistic estimator."""
+    _update_estimation: IterativeSamplingEstimator
+    """The function to update the estimation of the statistic."""
+
+    _name: str
+    """The name of the output."""
+
+    _last_estimation: RealArray
+    """The last estimation of the statistic."""
 
     def __init__(
         self,
         name: str,
-        function: MDOFunction,
-        iterative_estimator: IterativeSamplingEstimator,
-        **parameters: Any,
+        update_estimation: IterativeSamplingEstimator,
     ) -> None:
         """
         Args:
-            name: The name of this iterative estimation function.
-            function: The function computing the output
-                for which we want to estimate the statistic.
-            iterative_estimator: The iterative statistic estimator.
-            **parameters: The parameters of the iterative statistic estimator.
+            name: The name of the output for which to estimate the statistic.
+            update_estimation: The function to update the estimation of the statistic.
         """  # noqa: D202 D205 D212 D415
-        self._parameters = parameters
-        self._function = function
-        self._iterative_estimator = iterative_estimator
-        super().__init__(self._estimate_statistic, name)
+        self._name = name
+        self._last_estimation = array([])
+        self._update_estimation = update_estimation
 
-    def _estimate_statistic(self, input_value: RealArray) -> RealArray:
-        """The function to be called.
-
+    def __call__(self, index: int, evaluation: EvaluationType) -> RealArray:
+        """
         Args:
-            input_value: The input value of the function.
+            index: The index of the evaluation.
+            evaluation: The values of the function outputs
+                and the values of their Jacobian.
 
         Returns:
             The new estimation of the statistic.
-        """
-        return self._iterative_estimator(
-            atleast_1d(self._function.last_eval), **self._parameters
+        """  # noqa: D205, D212
+        self._last_estimation = self._update_estimation(
+            atleast_1d(evaluation[0][self._name])
         )
+        return self._last_estimation
+
+    @property
+    def last_estimation(self) -> RealArray:
+        """The last estimation of the statistic."""
+        return self._last_estimation
