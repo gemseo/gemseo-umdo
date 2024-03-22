@@ -201,6 +201,21 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/_utils/</loc>
+         <lastmod>2024-03-22</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/_utils/compatibility/</loc>
+         <lastmod>2024-03-22</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/_utils/compatibility/openturns/</loc>
+         <lastmod>2024-03-22</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/disciplines/</loc>
          <lastmod>2024-03-22</lastmod>
          <changefreq>daily</changefreq>
@@ -702,11 +717,6 @@
     </url>
     <url>
          <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/visualizations/uncertain_coupling_graph/</loc>
-         <lastmod>2024-03-22</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/user_guide/</loc>
          <lastmod>2024-03-22</lastmod>
          <changefreq>daily</changefreq>
     </url>
