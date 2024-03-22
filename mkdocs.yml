@@ -82,7 +82,6 @@ nav:
   - Credits: credits.md
   - Licenses: licenses.md
 - User guide:
-  - user_guide/index.md
   - MDO under uncertainty:
     - Introduction: user_guide/umdo/index.md
     - Sampling: user_guide/umdo/sampling.md

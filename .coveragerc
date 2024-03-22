@@ -1,6 +1,9 @@
 [run]
 plugins = covdefaults
 source = gemseo_umdo
+omit =
+    # those paths are the installed ones, eventually under the env site-package
+    */gemseo-umdo/_utils/compatibility/*.py
 
 [report]
 # Override covdefaults.
