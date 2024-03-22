@@ -19,8 +19,8 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from numpy import array
-from openturns import IterativeThresholdExceedance
 
+from gemseo_umdo._utils.compatibility.openturns import IterativeThresholdExceedance
 from gemseo_umdo.formulations.statistics.iterative_sampling.sampling_estimator import (
     SamplingEstimator,
 )
