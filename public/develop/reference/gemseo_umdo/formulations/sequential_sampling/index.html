@@ -6012,6 +6012,8 @@ with an optimized Latin hypercube sampling technique.</p>
     <span class="n">algo</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span> <span class="o">=</span> <span class="n">OpenTURNS</span><span class="o">.</span><span class="n">OT_LHSO</span><span class="p">,</span>
     <span class="n">algo_options</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="collections.abc.Mapping" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping">Mapping</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></span><span class="p">]</span> <span class="o">=</span> <span class="n">READ_ONLY_EMPTY_DICT</span><span class="p">,</span>
     <span class="n">seed</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></span> <span class="o">=</span> <span class="n">SEED</span><span class="p">,</span>
+    <span class="n">estimate_statistics_iteratively</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">samples_directory_path</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span> <span class="o">|</span> <span class="n"><a class="autorefs autorefs-external" title="pathlib.Path" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path">Path</a></span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
     <span class="o">**</span><span class="n">options</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></span>
 <span class="p">)</span>
 </code></pre></div>
@@ -6173,6 +6175,33 @@ of the statistic to be applied to the objective, if any.</p>
         </div>
       </li>
       <li class="field-body">
+        <b><code>estimate_statistics_iteratively</code></b>
+            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>, default:
+                <code>True</code>
+)
+        –
+        <div class="doc-md-description">
+          <p>Whether to estimate
+the statistics iteratively for memory reasons.
+This argument is ignored when <code>samples_directory_path</code> is defined;
+in this case, the statistics are not estimated iteratively.</p>
+        </div>
+      </li>
+      <li class="field-body">
+        <b><code>samples_directory_path</code></b>
+            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a> | <a class="autorefs autorefs-external" title="pathlib.Path" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path">Path</a></code>, default:
+                <code>&#39;&#39;</code>
+)
+        –
+        <div class="doc-md-description">
+          <p>The path to a new directory
+where the samples stored as :class:<code>.IODataset</code> objects will be saved
+(one object per file, one file per iteration).
+This directory must not exist; it will be created by the formulation.
+If empty, do not save the samples.</p>
+        </div>
+      </li>
+      <li class="field-body">
         <b><code>**options</code></b>
             (<code><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></code>, default:
                 <code>{}</code>
@@ -6200,9 +6229,7 @@ whereas it is required by the DOE algorithm.</p>
 
                 <details class="quote">
                   <summary>Source code in <code>src/gemseo_umdo/formulations/sequential_sampling.py</code></summary>
-                  <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 69</span>
-<span class="normal"> 70</span>
-<span class="normal"> 71</span>
+                  <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 71</span>
 <span class="normal"> 72</span>
 <span class="normal"> 73</span>
 <span class="normal"> 74</span>
@@ -6241,7 +6268,13 @@ whereas it is required by the DOE algorithm.</p>
 <span class="normal">107</span>
 <span class="normal">108</span>
 <span class="normal">109</span>
-<span class="normal">110</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">disciplines</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">MDODiscipline</span><span class="p">],</span>
     <span class="n">objective_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -6258,6 +6291,8 @@ whereas it is required by the DOE algorithm.</p>
     <span class="n">algo</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">OpenTURNS</span><span class="o">.</span><span class="n">OT_LHSO</span><span class="p">,</span>
     <span class="n">algo_options</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">READ_ONLY_EMPTY_DICT</span><span class="p">,</span>
     <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">SEED</span><span class="p">,</span>
+    <span class="n">estimate_statistics_iteratively</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">samples_directory_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
     <span class="o">**</span><span class="n">options</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -6279,6 +6314,8 @@ whereas it is required by the DOE algorithm.</p>
         <span class="n">algo</span><span class="o">=</span><span class="n">algo</span><span class="p">,</span>
         <span class="n">algo_options</span><span class="o">=</span><span class="n">algo_options</span><span class="p">,</span>
         <span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">,</span>
+        <span class="n">estimate_statistics_iteratively</span><span class="o">=</span><span class="n">estimate_statistics_iteratively</span><span class="p">,</span>
+        <span class="n">samples_directory_path</span><span class="o">=</span><span class="n">samples_directory_path</span><span class="p">,</span>
         <span class="o">**</span><span class="n">options</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__final_n_samples</span> <span class="o">=</span> <span class="n">n_samples</span>
@@ -6770,7 +6807,9 @@ If <code>None</code>, the discipline is detected from inner disciplines.</p>
 
 
 <a href="#gemseo_umdo.formulations.sequential_sampling.SequentialSampling.compute_samples" class="headerlink" title="Permanent link">&para;</a></h6>
-<div class="doc-signature highlight"><pre><span></span><code><span class="n">compute_samples</span><span class="p">(</span><span class="n">problem</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.algos.opt_problem.OptimizationProblem" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.algos.opt_problem.html#gemseo.algos.opt_problem.OptimizationProblem">OptimizationProblem</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">compute_samples</span><span class="p">(</span>
+    <span class="n">problem</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.algos.opt_problem.OptimizationProblem" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.algos.opt_problem.html#gemseo.algos.opt_problem.OptimizationProblem">OptimizationProblem</a></span><span class="p">,</span> <span class="n">input_data</span><span class="p">:</span> <span class="n"><span title="gemseo.typing.RealArray">RealArray</span></span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
 
   <div class="doc doc-contents ">
@@ -6786,20 +6825,32 @@ If <code>None</code>, the discipline is detected from inner disciplines.</p>
             (<code><a class="autorefs autorefs-external" title="gemseo.algos.opt_problem.OptimizationProblem" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.algos.opt_problem.html#gemseo.algos.opt_problem.OptimizationProblem">OptimizationProblem</a></code>)
         –
         <div class="doc-md-description">
-          <p>The problem.</p>
+          <p>The sampling problem.</p>
+        </div>
+      </li>
+      <li class="field-body">
+        <b><code>input_data</code></b>
+            (<code><span title="gemseo.typing.RealArray">RealArray</span></code>)
+        –
+        <div class="doc-md-description">
+          <p>The input point at which to estimate the statistic.</p>
         </div>
       </li>
   </ul>
 
           <details class="quote">
             <summary>Source code in <code>src/gemseo_umdo/formulations/sequential_sampling.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">112</span>
-<span class="normal">113</span>
-<span class="normal">114</span>
-<span class="normal">115</span>
-<span class="normal">116</span>
-<span class="normal">117</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">compute_samples</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">problem</span><span class="p">:</span> <span class="n">OptimizationProblem</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># noqa: D102</span>
-    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">compute_samples</span><span class="p">(</span><span class="n">problem</span><span class="p">)</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">compute_samples</span><span class="p">(</span>  <span class="c1"># noqa: D102</span>
+    <span class="bp">self</span><span class="p">,</span> <span class="n">problem</span><span class="p">:</span> <span class="n">OptimizationProblem</span><span class="p">,</span> <span class="n">input_data</span><span class="p">:</span> <span class="n">RealArray</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">compute_samples</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span> <span class="n">input_data</span><span class="p">)</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n_samples</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">__final_n_samples</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_n_samples</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__final_n_samples</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n_samples</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">__n_samples_increment</span>

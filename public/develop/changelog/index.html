@@ -6014,6 +6014,17 @@ and this project adheres to
 <h2 id="develop">Develop<a class="headerlink" href="#develop" title="Permanent link">&para;</a></h2>
 <h3 id="added">Added<a class="headerlink" href="#added" title="Permanent link">&para;</a></h3>
 <ul>
+<li>The U-MDO formulations
+  <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/formulations/sampling/#gemseo_umdo.formulations.sampling.Sampling">Sampling</a>
+  <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/formulations/sequential_sampling/#gemseo_umdo.formulations.sequential_sampling.SequentialSampling">SequentialSampling</a>
+  have an option <code>samples_directory_path</code>
+  to save the samples at each iteration of the algorithm chosen for the execution of the
+  <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/scenarios/udoe_scenario/#gemseo_umdo.scenarios.udoe_scenario.UDOEScenario">UDOEScenario</a>
+  or <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>.</li>
+<li>The U-MDO formulation <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/formulations/sequential_sampling/#gemseo_umdo.formulations.sequential_sampling.SequentialSampling">SequentialSampling</a>
+  has an option <code>estimate_statistics_iteratively</code> (default: <code>True</code>)
+  to compute the statistics iteratively
+  and so do not store the samples in a <code>Database</code>.</li>
 <li>The dictionary argument <code>uncertain_design_variables</code> of
   <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/scenarios/udoe_scenario/#gemseo_umdo.scenarios.udoe_scenario.UDOEScenario">UDOEScenario</a>
   and <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>
