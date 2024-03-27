@@ -14,14 +14,19 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 from __future__ import annotations
 
+import pickle
+from pathlib import Path
 from typing import TYPE_CHECKING
 from typing import Any
 
 import pytest
+from gemseo.datasets.io_dataset import IODataset
 from gemseo.formulations.mdf import MDF
+from gemseo.utils.comparisons import compare_dict_of_arrays
 from numpy import array
 from numpy import ndarray
 from numpy.testing import assert_equal
+from pandas._testing import assert_frame_equal
 
 from gemseo_umdo.formulations.sampling import Sampling
 from gemseo_umdo.formulations.statistics.iterative_sampling.margin import (
@@ -318,3 +323,60 @@ def test_read_write_n_samples(umdo_formulation):
     # the number of samples is set to 3 with the property _n_samples.
     umdo_formulation._n_samples = 3
     assert umdo_formulation._n_samples == doe_algo_options["n_samples"] == 3
+
+
+def test_save_samples(disciplines, design_space, uncertain_space, tmp_wd):
+    scenario = UDOEScenario(
+        disciplines,
+        "MDF",
+        "f",
+        design_space,
+        uncertain_space,
+        "Mean",
+        statistic_estimation_parameters={
+            "samples_directory_path": "foo",
+            "algo": "CustomDOE",
+            "algo_options": {"samples": array([[0.0, 0.0, 0.0], [1.0, 1.0, 1.0]])},
+        },
+    )
+    scenario.add_constraint("c", "Margin", factor=3.0)
+    scenario.add_observable("o", "Variance")
+    scenario.execute({
+        "algo": "CustomDOE",
+        "algo_options": {
+            "samples": array([[0.0, 0.0, 0.0], [1.0, 1.0, 1.0]]),
+        },
+    })
+    assert set(Path("foo").iterdir()) == {Path("foo") / "1.pkl", Path("foo") / "2.pkl"}
+
+    expected_dataset = IODataset()
+    expected_dataset.add_input_variable("u", array([[0.0], [1.0]]))
+    expected_dataset.add_input_variable("u1", array([[0.0], [1.0]]))
+    expected_dataset.add_input_variable("u2", array([[0.0], [1.0]]))
+    expected_dataset.add_output_variable("c", array([[0.0], [-3.0]]))
+    expected_dataset.add_output_variable("f", array([[0.0], [-4.0]]))
+    expected_dataset.add_output_variable("o", array([[0.0], [-2.0]]))
+    with (Path("foo") / "1.pkl").open("rb") as f:
+        dataset = pickle.load(f)
+
+    assert_frame_equal(dataset, expected_dataset)
+    assert compare_dict_of_arrays(
+        dataset.misc, {"x0": array([0.0]), "x1": array([0.0]), "x2": array([0.0])}
+    )
+    assert dataset.name == "Iteration 1"
+
+    expected_dataset = IODataset()
+    expected_dataset.add_input_variable("u", array([[0.0], [1.0]]))
+    expected_dataset.add_input_variable("u1", array([[0.0], [1.0]]))
+    expected_dataset.add_input_variable("u2", array([[0.0], [1.0]]))
+    expected_dataset.add_output_variable("c", array([[-9.0], [-12.0]]))
+    expected_dataset.add_output_variable("f", array([[-9.0], [-13.0]]))
+    expected_dataset.add_output_variable("o", array([[-9.0], [-11.0]]))
+    with (Path("foo") / "2.pkl").open("rb") as f:
+        dataset = pickle.load(f)
+
+    assert_frame_equal(dataset, expected_dataset)
+    assert compare_dict_of_arrays(
+        dataset.misc, {"x0": array([1.0]), "x1": array([1.0]), "x2": array([1.0])}
+    )
+    assert dataset.name == "Iteration 2"

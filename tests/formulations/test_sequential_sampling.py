@@ -14,6 +14,7 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 from __future__ import annotations
 
+import pytest
 from gemseo.algos.design_space import DesignSpace
 from gemseo.algos.parameter_space import ParameterSpace
 from gemseo.disciplines.analytic import AnalyticDiscipline
@@ -21,7 +22,8 @@ from gemseo.disciplines.analytic import AnalyticDiscipline
 from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
 
 
-def test_scenario():
+@pytest.mark.parametrize("estimate_statistics_iteratively", [False, True])
+def test_scenario(estimate_statistics_iteratively):
     """Check SequentialSampling."""
     discipline = AnalyticDiscipline({"y": "(x+u)**2"}, name="quadratic_function")
     discipline.set_cache_policy("MemoryFullCache")
@@ -41,6 +43,7 @@ def test_scenario():
             "n_samples": 7,
             "initial_n_samples": 2,
             "n_samples_increment": 2,
+            "estimate_statistics_iteratively": estimate_statistics_iteratively,
         },
     )
     scenario.execute({"algo": "fullfact", "n_samples": 5})

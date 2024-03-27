@@ -112,7 +112,7 @@ class StatisticFunction(MDOFunction):
             output_data = formulation.input_data_to_output_data[
                 hashable_input_data
             ] = {}
-            self._compute_output_data(output_data)
+            self._compute_output_data(input_data, output_data)
 
         return self._compute_statistic_estimation(output_data)
 
@@ -128,9 +128,12 @@ class StatisticFunction(MDOFunction):
         """
 
     @abstractmethod
-    def _compute_output_data(self, output_data: dict[str, RealArray]) -> None:
+    def _compute_output_data(
+        self, input_data: RealArray, output_data: dict[str, RealArray]
+    ) -> None:
         """Compute the output data.
 
         Args:
+            input_data: The input point at which to estimate the statistic.
             output_data: The output data structure to be filled.
         """

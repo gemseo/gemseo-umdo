@@ -30,6 +30,17 @@ and this project adheres to
 
 ### Added
 
+- The U-MDO formulations
+  [Sampling][gemseo_umdo.formulations.sampling.Sampling]
+  [SequentialSampling][gemseo_umdo.formulations.sequential_sampling.SequentialSampling]
+  have an option `samples_directory_path`
+  to save the samples at each iteration of the algorithm chosen for the execution of the
+  [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario]
+  or [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario].
+- The U-MDO formulation [SequentialSampling][gemseo_umdo.formulations.sequential_sampling.SequentialSampling]
+  has an option `estimate_statistics_iteratively` (default: `True`)
+  to compute the statistics iteratively
+  and so do not store the samples in a `Database`.
 - The dictionary argument `uncertain_design_variables` of
   [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario]
   and [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
