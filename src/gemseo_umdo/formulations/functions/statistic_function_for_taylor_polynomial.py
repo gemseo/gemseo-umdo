@@ -51,7 +51,9 @@ class StatisticFunctionForTaylorPolynomial(StatisticFunction):
             output_data.get(database.get_gradient_name(gradient_name)),
         )
 
-    def _compute_output_data(self, output_data: dict[str, RealArray]) -> None:
+    def _compute_output_data(
+        self, input_data: RealArray, output_data: dict[str, RealArray]
+    ) -> None:
         formulation = self._formulation
         problem = formulation.mdo_formulation.opt_problem
         database = problem.database

@@ -50,11 +50,13 @@ from gemseo_umdo.formulations.sampling import Sampling
 if TYPE_CHECKING:
     from collections.abc import Mapping
     from collections.abc import Sequence
+    from pathlib import Path
 
     from gemseo.algos.design_space import DesignSpace
     from gemseo.algos.opt_problem import OptimizationProblem
     from gemseo.algos.parameter_space import ParameterSpace
     from gemseo.core.formulation import MDOFormulation
+    from gemseo.typing import RealArray
 
 
 class SequentialSampling(Sampling):
@@ -83,6 +85,8 @@ class SequentialSampling(Sampling):
         algo: str = OpenTURNS.OT_LHSO,
         algo_options: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
         seed: int = SEED,
+        estimate_statistics_iteratively: bool = True,
+        samples_directory_path: str | Path = "",
         **options: Any,
     ) -> None:
         """
@@ -104,13 +108,17 @@ class SequentialSampling(Sampling):
             algo=algo,
             algo_options=algo_options,
             seed=seed,
+            estimate_statistics_iteratively=estimate_statistics_iteratively,
+            samples_directory_path=samples_directory_path,
             **options,
         )
         self.__final_n_samples = n_samples
         self.__n_samples_increment = n_samples_increment
 
-    def compute_samples(self, problem: OptimizationProblem) -> None:  # noqa: D102
-        super().compute_samples(problem)
+    def compute_samples(  # noqa: D102
+        self, problem: OptimizationProblem, input_data: RealArray
+    ) -> None:
+        super().compute_samples(problem, input_data)
         if self._n_samples < self.__final_n_samples:
             self._n_samples = min(
                 self.__final_n_samples, self._n_samples + self.__n_samples_increment

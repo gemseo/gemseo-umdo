@@ -51,10 +51,12 @@ class StatisticFunctionForIterativeSampling(StatisticFunctionForSampling):
     ) -> RealArray:
         return output_data[self._observable_name]
 
-    def _compute_output_data(self, output_data: dict[str, RealArray]) -> None:
+    def _compute_output_data(
+        self, input_data: RealArray, output_data: dict[str, RealArray]
+    ) -> None:
         formulation = self._formulation
         problem = formulation.mdo_formulation.opt_problem
-        formulation.compute_samples(problem)
+        formulation.compute_samples(problem, input_data)
         for (estimator_name, estimate_statistic), iterative_estimation in zip(
             formulation._estimators, formulation.callbacks
         ):

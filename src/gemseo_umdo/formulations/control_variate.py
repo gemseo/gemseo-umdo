@@ -64,6 +64,7 @@ if TYPE_CHECKING:
     from gemseo.algos.doe.doe_library import DOELibrary
     from gemseo.algos.parameter_space import ParameterSpace
     from gemseo.core.formulation import MDOFormulation
+    from gemseo.typing import RealArray
 
 
 class ControlVariate(UMDOFormulation):
@@ -156,11 +157,14 @@ class ControlVariate(UMDOFormulation):
             self._mdo_formulation.opt_problem.observables[-1]
         )
 
-    def compute_samples(self, problem: OptimizationProblem) -> None:
+    def compute_samples(
+        self, problem: OptimizationProblem, input_data: RealArray
+    ) -> None:
         """Evaluate the functions of a problem with a DOE algorithm.
 
         Args:
             problem: The problem.
+            input_data: The input point at which to estimate the statistic.
         """
         with LoggingContext(logging.getLogger("gemseo")):
             self.__doe_algo.seed = self.__seed

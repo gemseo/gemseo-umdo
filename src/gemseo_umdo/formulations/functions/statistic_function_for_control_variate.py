@@ -45,13 +45,15 @@ class StatisticFunctionForControlVariate(StatisticFunction):
     def _statistic_estimator_parameters(self) -> tuple[ParameterSpace]:
         return (self._formulation.uncertain_space,)
 
-    def _compute_output_data(self, output_data: dict[str, RealArray]) -> None:
+    def _compute_output_data(
+        self, input_data: RealArray, output_data: dict[str, RealArray]
+    ) -> None:
         formulation = self._formulation
         problem = formulation.mdo_formulation.opt_problem
         linearization_problem = formulation.linearization_problem
         database = problem.database
         linearization_database = linearization_problem.database
-        formulation.compute_samples(problem)
+        formulation.compute_samples(problem, input_data)
         formulation.evaluate_with_mean()
         for output_name in database.get_function_names():
             output_data[output_name] = database.get_function_history(output_name)

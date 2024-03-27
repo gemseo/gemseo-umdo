@@ -37,6 +37,7 @@ obtained with an optimized Latin hypercube sampling technique.
 from __future__ import annotations
 
 import logging
+from pathlib import Path
 from typing import TYPE_CHECKING
 from typing import Any
 
@@ -71,6 +72,7 @@ if TYPE_CHECKING:
     from gemseo.algos.opt_problem import OptimizationProblem
     from gemseo.algos.parameter_space import ParameterSpace
     from gemseo.core.formulation import MDOFormulation
+    from gemseo.typing import RealArray
 
 
 class Sampling(UMDOFormulation):
@@ -87,6 +89,9 @@ class Sampling(UMDOFormulation):
 
     __n_samples: int | None
     """The number of samples, if defined."""
+
+    __samples_directory_path: str | Path
+    """The path to the directory where the samples are saved."""
 
     callbacks: list[CallbackType]
     """The callback functions for the DOE algorithm."""
@@ -107,6 +112,7 @@ class Sampling(UMDOFormulation):
         algo_options: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
         seed: int = SEED,
         estimate_statistics_iteratively: bool = True,
+        samples_directory_path: str | Path = "",
         **options: Any,
     ) -> None:
         """
@@ -120,7 +126,14 @@ class Sampling(UMDOFormulation):
             algo_options: The options of the DOE algorithm.
             seed: The seed for reproducibility.
             estimate_statistics_iteratively: Whether to estimate
-                the statistics iteratively.
+                the statistics iteratively for memory reasons.
+                This argument is ignored when `samples_directory_path` is defined;
+                in this case, the statistics are not estimated iteratively.
+            samples_directory_path: The path to a new directory
+                where the samples stored as :class:`.IODataset` objects will be saved
+                (one object per file, one file per iteration).
+                This directory must not exist; it will be created by the formulation.
+                If empty, do not save the samples.
 
         Raises:
             ValueError: When `n_samples` is `None`,
@@ -128,6 +141,13 @@ class Sampling(UMDOFormulation):
         """  # noqa: D205 D212 D415
         self.callbacks = []
         self.input_data_to_output_samples = {}
+        if samples_directory_path:
+            self.__samples_directory_path = Path(samples_directory_path)
+            self.__samples_directory_path.mkdir()
+            estimate_statistics_iteratively = False
+        else:
+            self.__samples_directory_path = ""
+
         self._estimate_statistics_iteratively = estimate_statistics_iteratively
         if estimate_statistics_iteratively:
             self._statistic_factory = IterativeSamplingEstimatorFactory()
@@ -182,14 +202,24 @@ class Sampling(UMDOFormulation):
         """The DOE algorithm."""
         return self.__doe_algo
 
-    def compute_samples(self, problem: OptimizationProblem) -> None:
+    def compute_samples(
+        self, problem: OptimizationProblem, input_data: RealArray
+    ) -> None:
         """Evaluate the functions of a problem with a DOE algorithm.
 
         Args:
-            problem: The problem.
+            problem: The sampling problem.
+            input_data: The input point at which to estimate the statistic.
         """
         self.__doe_algo_options["callbacks"] = set.union(
             set(self.__doe_algo_options.get("callbacks", set())), set(self.callbacks)
         )
         with LoggingContext(logging.getLogger("gemseo")):
             self.__doe_algo.execute(problem, **self.__doe_algo_options)
+
+        if self.__samples_directory_path:
+            main_problem = self.opt_problem
+            iteration = main_problem.current_iter + 1
+            dataset = problem.to_dataset(f"Iteration {iteration}", opt_naming=False)
+            dataset.misc.update(main_problem.design_space.array_to_dict(input_data))
+            dataset.to_pickle(self.__samples_directory_path / f"{iteration}.pkl")

@@ -37,11 +37,13 @@ class StatisticFunctionForStandardSampling(StatisticFunctionForSampling):
     ) -> RealArray:
         return self._estimate_statistic(output_data[self._function_name])
 
-    def _compute_output_data(self, output_data: dict[str, RealArray]) -> None:
+    def _compute_output_data(
+        self, input_data: RealArray, output_data: dict[str, RealArray]
+    ) -> None:
         formulation = self._formulation
         problem = formulation.mdo_formulation.opt_problem
         database = problem.database
-        formulation.compute_samples(problem)
+        formulation.compute_samples(problem, input_data)
         for output_name in database.get_function_names():
             output_data[output_name] = database.get_function_history(output_name)
 
