@@ -31,7 +31,7 @@ and this project adheres to
 ### Added
 
 - The U-MDO formulations
-  [Sampling][gemseo_umdo.formulations.sampling.Sampling]
+  [Sampling][gemseo_umdo.formulations.sampling.Sampling] and
   [SequentialSampling][gemseo_umdo.formulations.sequential_sampling.SequentialSampling]
   have an option `samples_directory_path`
   to save the samples at each iteration of the algorithm chosen for the execution of the
