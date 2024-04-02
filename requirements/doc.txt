@@ -34,7 +34,7 @@ fastjsonschema==2.19.1
     # via gemseo
 fonttools==4.50.0
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@2e9ae636fb025ca1a140edae09faae9072db1d2b
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@f23131291b35d6be9c6970cc310f20c08cd19181
 genson==1.2.2
     # via gemseo
 ghp-import==2.1.0
@@ -105,7 +105,7 @@ mkdocs==1.5.3
     #   mkdocstrings
 mkdocs-autorefs==1.0.1
     # via mkdocstrings
-mkdocs-bibtex==2.14.4
+mkdocs-bibtex==2.14.5
 mkdocs-gallery==0.10.1
 mkdocs-gen-files==0.5.0
 mkdocs-include-markdown-plugin==6.0.5
