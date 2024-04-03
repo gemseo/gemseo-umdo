@@ -16,7 +16,7 @@
       
       
       <link rel="icon" href="../../../../images/favicon.ico">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.16">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.17">
     
     
       
@@ -5816,7 +5816,7 @@
 
 
 <a href="#gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph" class="headerlink" title="Permanent link">&para;</a></h4>
-<div class="doc-signature highlight"><pre><span></span><code><span class="n">UncertainCouplingGraph</span><span class="p">(</span>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">UncertainCouplingGraph</span><span class="p">(</span>
     <span class="n">disciplines</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="collections.abc.Sequence" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Sequence">Sequence</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" title="gemseo.core.discipline.MDODiscipline" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.core.discipline.html#gemseo.core.discipline.MDODiscipline">MDODiscipline</a></span><span class="p">],</span>
     <span class="n">uncertain_space</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.algos.parameter_space.ParameterSpace" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.algos.parameter_space.html#gemseo.algos.parameter_space.ParameterSpace">ParameterSpace</a></span><span class="p">,</span>
     <span class="n">variable_names</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="collections.abc.Iterable" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable">Iterable</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -5993,7 +5993,7 @@ If <code>None</code>, use all the coupling variables.</p>
 
 
 <a href="#gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph.sample" class="headerlink" title="Permanent link">&para;</a></h6>
-<div class="doc-signature highlight"><pre><span></span><code><span class="n">sample</span><span class="p">(</span>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">sample</span><span class="p">(</span>
     <span class="n">n_samples</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></span><span class="p">,</span>
     <span class="n">algo_name</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span> <span class="o">=</span> <span class="s2">&quot;OT_OPT_LHS&quot;</span><span class="p">,</span>
     <span class="o">**</span><span class="n">algo_options</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></span>
@@ -6085,7 +6085,7 @@ If <code>None</code>, use all the coupling variables.</p>
 
 
 <a href="#gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph.visualize" class="headerlink" title="Permanent link">&para;</a></h6>
-<div class="doc-signature highlight"><pre><span></span><code><span class="n">visualize</span><span class="p">(</span>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">visualize</span><span class="p">(</span>
     <span class="n">maximum_thickness</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span>
     <span class="n">dispersion_measure</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph.DispersionMeasure" href="#gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph.DispersionMeasure">DispersionMeasure</a></span> <span class="o">=</span> <span class="n">DispersionMeasure</span><span class="o">.</span><span class="n">QCD</span><span class="p">,</span>
     <span class="n">variable_names</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="collections.abc.Iterable" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable">Iterable</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -6424,7 +6424,7 @@ If <code>""</code>, use the class name with PNG format.</p>
     <script id="__config" type="application/json">{"base": "../../../..", "features": ["navigation.tabs", "navigation.instant", "navigation.indexes"], "search": "../../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../../../assets/javascripts/bundle.bd41221c.min.js"></script>
+      <script src="../../../../assets/javascripts/bundle.1e8ae164.min.js"></script>
       
         <script src="../../../../javascripts/mathjax.js"></script>
       
