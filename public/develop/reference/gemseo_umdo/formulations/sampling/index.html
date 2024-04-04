@@ -6208,7 +6208,9 @@ whereas it is required by the DOE algorithm.</p>
 
                 <details class="quote">
                   <summary>Source code in <code>src/gemseo_umdo/formulations/sampling.py</code></summary>
-                  <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 99</span>
+                  <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
 <span class="normal">100</span>
 <span class="normal">101</span>
 <span class="normal">102</span>
@@ -6296,9 +6298,7 @@ whereas it is required by the DOE algorithm.</p>
 <span class="normal">184</span>
 <span class="normal">185</span>
 <span class="normal">186</span>
-<span class="normal">187</span>
-<span class="normal">188</span>
-<span class="normal">189</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<span class="normal">187</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">disciplines</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">MDODiscipline</span><span class="p">],</span>
     <span class="n">objective_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -6909,7 +6909,9 @@ If <code>None</code>, the discipline is detected from inner disciplines.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/gemseo_umdo/formulations/sampling.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">205</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
 <span class="normal">206</span>
 <span class="normal">207</span>
 <span class="normal">208</span>
@@ -6926,10 +6928,7 @@ If <code>None</code>, the discipline is detected from inner disciplines.</p>
 <span class="normal">219</span>
 <span class="normal">220</span>
 <span class="normal">221</span>
-<span class="normal">222</span>
-<span class="normal">223</span>
-<span class="normal">224</span>
-<span class="normal">225</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">compute_samples</span><span class="p">(</span>
+<span class="normal">222</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">compute_samples</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span> <span class="n">problem</span><span class="p">:</span> <span class="n">OptimizationProblem</span><span class="p">,</span> <span class="n">input_data</span><span class="p">:</span> <span class="n">RealArray</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Evaluate the functions of a problem with a DOE algorithm.</span>
@@ -6941,8 +6940,7 @@ If <code>None</code>, the discipline is detected from inner disciplines.</p>
     <span class="bp">self</span><span class="o">.</span><span class="n">__doe_algo_options</span><span class="p">[</span><span class="s2">&quot;callbacks&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="o">.</span><span class="n">union</span><span class="p">(</span>
         <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__doe_algo_options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;callbacks&quot;</span><span class="p">,</span> <span class="nb">set</span><span class="p">())),</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">callbacks</span><span class="p">)</span>
     <span class="p">)</span>
-    <span class="k">with</span> <span class="n">LoggingContext</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;gemseo&quot;</span><span class="p">)):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__doe_algo</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">__doe_algo_options</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__doe_algo</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">__doe_algo_options</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__samples_directory_path</span><span class="p">:</span>
         <span class="n">main_problem</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">opt_problem</span>

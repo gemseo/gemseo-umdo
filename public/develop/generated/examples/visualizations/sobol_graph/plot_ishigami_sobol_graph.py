@@ -17,15 +17,15 @@
 
 from __future__ import annotations
 
-from gemseo.uncertainty.use_cases.ishigami.statistics import SOBOL_1
-from gemseo.uncertainty.use_cases.ishigami.statistics import SOBOL_2
-from gemseo.uncertainty.use_cases.ishigami.statistics import SOBOL_3
-from gemseo.uncertainty.use_cases.ishigami.statistics import SOBOL_12
-from gemseo.uncertainty.use_cases.ishigami.statistics import SOBOL_13
-from gemseo.uncertainty.use_cases.ishigami.statistics import SOBOL_23
-from gemseo.uncertainty.use_cases.ishigami.statistics import TOTAL_SOBOL_1
-from gemseo.uncertainty.use_cases.ishigami.statistics import TOTAL_SOBOL_2
-from gemseo.uncertainty.use_cases.ishigami.statistics import TOTAL_SOBOL_3
+from gemseo.problems.uncertainty.ishigami.statistics import SOBOL_1
+from gemseo.problems.uncertainty.ishigami.statistics import SOBOL_2
+from gemseo.problems.uncertainty.ishigami.statistics import SOBOL_3
+from gemseo.problems.uncertainty.ishigami.statistics import SOBOL_12
+from gemseo.problems.uncertainty.ishigami.statistics import SOBOL_13
+from gemseo.problems.uncertainty.ishigami.statistics import SOBOL_23
+from gemseo.problems.uncertainty.ishigami.statistics import TOTAL_SOBOL_1
+from gemseo.problems.uncertainty.ishigami.statistics import TOTAL_SOBOL_2
+from gemseo.problems.uncertainty.ishigami.statistics import TOTAL_SOBOL_3
 
 from gemseo_umdo.visualizations.sobol_graph import SobolGraph
 
