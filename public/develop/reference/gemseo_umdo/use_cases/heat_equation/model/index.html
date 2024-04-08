@@ -5950,9 +5950,7 @@ value.</p>
 
                 <details class="quote">
                   <summary>Source code in <code>src/gemseo_umdo/use_cases/heat_equation/model.py</code></summary>
-                  <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">117</span>
-<span class="normal">118</span>
-<span class="normal">119</span>
+                  <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">119</span>
 <span class="normal">120</span>
 <span class="normal">121</span>
 <span class="normal">122</span>
@@ -5983,7 +5981,9 @@ value.</p>
 <span class="normal">147</span>
 <span class="normal">148</span>
 <span class="normal">149</span>
-<span class="normal">150</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">mesh_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
     <span class="n">n_modes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">21</span><span class="p">,</span>
@@ -6005,7 +6005,7 @@ value.</p>
     <span class="bp">self</span><span class="o">.</span><span class="n">__nu_delta</span> <span class="o">=</span> <span class="n">nu_bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">nu_bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__modes</span> <span class="o">=</span> <span class="n">linspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_modes</span><span class="p">,</span> <span class="n">n_modes</span><span class="p">)</span>
     <span class="n">xx</span><span class="p">,</span> <span class="n">nn</span> <span class="o">=</span> <span class="n">meshgrid</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">mesh</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__modes</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">__sinus</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">xx</span> <span class="o">*</span> <span class="n">nn</span> <span class="o">*</span> <span class="n">pi</span><span class="p">)[:,</span> <span class="p">:,</span> <span class="n">newaxis</span><span class="p">]</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__sinus</span> <span class="o">=</span> <span class="n">sin</span><span class="p">(</span><span class="n">xx</span> <span class="o">*</span> <span class="n">nn</span> <span class="o">*</span> <span class="n">pi</span><span class="p">)[:,</span> <span class="p">:,</span> <span class="n">newaxis</span><span class="p">]</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__default_input_value</span> <span class="o">=</span> <span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.005</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
     <span class="n">pi_mesh</span> <span class="o">=</span> <span class="n">pi</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">mesh</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__F1</span> <span class="o">=</span> <span class="n">sin</span><span class="p">(</span><span class="n">pi_mesh</span><span class="p">)</span>  <span class="c1"># noqa: N806</span>
@@ -6136,9 +6136,7 @@ shaped as <code>(sample_size, n_nodes)</code> or <code>(n_nodes, )</code>.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/gemseo_umdo/use_cases/heat_equation/model.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">277</span>
-<span class="normal">278</span>
-<span class="normal">279</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">279</span>
 <span class="normal">280</span>
 <span class="normal">281</span>
 <span class="normal">282</span>
@@ -6155,7 +6153,9 @@ shaped as <code>(sample_size, n_nodes)</code> or <code>(n_nodes, )</code>.</p>
 <span class="normal">293</span>
 <span class="normal">294</span>
 <span class="normal">295</span>
-<span class="normal">296</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">compute_taylor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_samples</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+<span class="normal">296</span>
+<span class="normal">297</span>
+<span class="normal">298</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">compute_taylor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_samples</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Evaluate the first-order Taylor polynomial.</span>
 
 <span class="sd">    Args:</span>
@@ -6170,10 +6170,10 @@ shaped as <code>(sample_size, n_nodes)</code> or <code>(n_nodes, )</code>.</p>
     <span class="n">mu_X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__default_input_value</span>  <span class="c1"># noqa: N806</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__f_at_mu_X</span> <span class="o">+</span> <span class="p">(</span>
         <span class="mi">7</span> <span class="o">*</span> <span class="n">X</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">__term2</span>
-        <span class="o">-</span> <span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">[</span><span class="mi">3</span><span class="p">]]</span> <span class="o">-</span> <span class="n">mu_X</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">__term3</span>
+        <span class="o">-</span> <span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">[</span><span class="mi">3</span><span class="p">]]</span> <span class="o">-</span> <span class="n">mu_X</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span> <span class="o">*</span> <span class="n">pi</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">__term3</span>
         <span class="o">+</span> <span class="mi">400</span>
         <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">__term1</span>
-        <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">[</span><span class="mi">4</span><span class="p">]])</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">[</span><span class="mi">5</span><span class="p">]])</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">[</span><span class="mi">6</span><span class="p">]]))</span>
+        <span class="o">*</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">[</span><span class="mi">4</span><span class="p">]])</span> <span class="o">+</span> <span class="nb">abs</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">[</span><span class="mi">5</span><span class="p">]])</span> <span class="o">+</span> <span class="nb">abs</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">[</span><span class="mi">6</span><span class="p">]]))</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
           </details>
