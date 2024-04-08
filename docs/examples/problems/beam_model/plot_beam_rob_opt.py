@@ -46,10 +46,10 @@ scenario = UMDOScenario(
     statistic_estimation_parameters={"n_samples": 200},
 )
 scenario.add_constraint(
-    "c_stress", "Probability", greater=True, threshold=1.0, positive=True, value=0.9
+    "c_stress", "Probability", greater=False, threshold=1.0, positive=True, value=0.9
 )
 scenario.add_constraint(
-    "c_displ", "Probability", greater=False, threshold=1.0, positive=True, value=0.9
+    "c_displ", "Probability", greater=True, threshold=1.0, positive=True, value=0.9
 )
 scenario.execute({"algo": "NLOPT_COBYLA", "max_iter": 30})
 

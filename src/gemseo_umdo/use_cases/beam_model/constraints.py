@@ -27,8 +27,11 @@ from gemseo_umdo.use_cases.beam_model.core.variables import sigma_all
 class BeamConstraints(MDODiscipline):
     r"""The discipline computing the constraints of the beam problem.
 
-    - Stress constraints: $\sigma_{\mathrm{all}}/(\sigma_{\mathrm{VM}}+1)$.
-    - Displacements constraints: $\Delta_{\mathrm{min}}/(\Delta+0.1)$.
+    More particularly,
+    the left-hand sides of
+
+    - the stress constraints $\sigma_{\mathrm{VM}}/\sigma_{\mathrm{all}} \leq 1$,
+    - the displacements constraints $\Delta/\Delta_{\mathrm{min}} \geq 1$.
     """
 
     __C_STRESS: Final[str] = "c_stress"
@@ -51,9 +54,7 @@ class BeamConstraints(MDODiscipline):
         }
 
     def _run(self) -> None:
-        self._local_data[self.__C_STRESS] = self._local_data[sigma_all.name] / (
-            self._local_data[self.__SIGMA_VM] + 1.0
+        self._local_data[self.__C_STRESS] = (
+            self._local_data[self.__SIGMA_VM] / self._local_data[sigma_all.name]
         )
-        self._local_data[self.__C_DISPL] = 100.0 / (
-            self._local_data[self.__DISPL] + 0.1
-        )
+        self._local_data[self.__C_DISPL] = self._local_data[self.__DISPL] / 100.0

@@ -13,7 +13,7 @@
 # FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-r"""# Large DOE study
+r"""# Large DOE study.
 
 Sample the weight $w(h,t)$ and the constraints $c_{\text{stress}}(h,t)$ and
 $c_{\text{displacement}}(h,t)$ w.r.t. the height $h\in[500, 800]$ and the thickness
@@ -37,13 +37,13 @@ disciplines = [Beam(), BeamConstraints()]
 design_space = BeamDesignSpace()
 
 scenario = DOEScenario(disciplines, "MDF", "w", design_space)
-scenario.add_constraint("c_stress", constraint_type="ineq", positive=True, value=1.0)
-scenario.add_constraint("c_displ", constraint_type="ineq", value=1.0)
+scenario.add_constraint("c_stress", constraint_type="ineq", value=1.0)
+scenario.add_constraint("c_displ", constraint_type="ineq", positive=True, value=1.0)
 scenario.execute({"algo": "fullfact", "n_samples": 10**2})
 
 dataset = scenario.formulation.opt_problem.to_dataset()
 ZvsXY(dataset, "h", "t", "w").execute(save=True, show=False, file_name="w")
-for constraint_name in ["[c_displ-1.0]", "-[c_stress-1.0]"]:
+for constraint_name in ["-[c_displ-1.0]", "[c_stress-1.0]"]:
     for z_component in range(9):
         ZvsXY(dataset, "h", "t", (constraint_name, z_component)).execute(
             save=False,

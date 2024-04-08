@@ -61,6 +61,14 @@ and this project adheres to
   a new [UMDOFormulation][gemseo_umdo.formulations.formulation.UMDOFormulation]
   estimating the statistics with a control variate technique based on Taylor polynomials.
 
+### Changed
+
+- The [BeamConstraints][gemseo_umdo.use_cases.beam_model.constraints.BeamConstraints] discipline
+  computed outputs of the form `a/(b+eps)` where `eps` was used to avoid division by zero.
+  Now,
+  this discipline computes outputs of the form `b/a`
+  as `a` is never zero.
+
 ### Fixed
 
 - The U-MDO formulation [Sampling][gemseo_umdo.formulations.sampling.Sampling]

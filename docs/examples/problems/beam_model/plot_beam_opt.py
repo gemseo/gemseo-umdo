@@ -13,7 +13,7 @@
 # FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-r"""# Optimization problem
+r"""# Optimization problem.
 
 Minimize the weight $w(h,t)$ w.r.t. the height $h\in[500, 800]$ and the thickness
 $t\in[2,10]$ while satisfying $c_{\text{stress}}(h,t)\geq 1.0$ and
@@ -36,8 +36,8 @@ disciplines = [Beam(), BeamConstraints()]
 design_space = BeamDesignSpace()
 
 scenario = MDOScenario(disciplines, "MDF", "w", design_space)
-scenario.add_constraint("c_stress", constraint_type="ineq", positive=True, value=1.0)
-scenario.add_constraint("c_displ", constraint_type="ineq", value=1.0)
+scenario.add_constraint("c_stress", constraint_type="ineq", value=1.0)
+scenario.add_constraint("c_displ", constraint_type="ineq", positive=True, value=1.0)
 scenario.execute({"algo": "NLOPT_COBYLA", "max_iter": 1000})
 
 scenario.post_process("OptHistoryView", save=False, show=True)
