@@ -501,6 +501,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#changed" class="md-nav__link">
+    <span class="md-ellipsis">
+      Changed
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#fixed" class="md-nav__link">
     <span class="md-ellipsis">
       Fixed
@@ -558,7 +567,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed" class="md-nav__link">
+  <a href="#changed_1" class="md-nav__link">
     <span class="md-ellipsis">
       Changed
     </span>
@@ -657,7 +666,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#changed_1" class="md-nav__link">
+  <a href="#changed_2" class="md-nav__link">
     <span class="md-ellipsis">
       Changed
     </span>
@@ -1300,7 +1309,7 @@
         
   
   <span class="md-ellipsis">
-    Optimization problem
+    Optimization problem.
   </span>
   
 
@@ -1363,7 +1372,7 @@
         
   
   <span class="md-ellipsis">
-    Large DOE study
+    Large DOE study.
   </span>
   
 
@@ -5782,6 +5791,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#changed" class="md-nav__link">
+    <span class="md-ellipsis">
+      Changed
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#fixed" class="md-nav__link">
     <span class="md-ellipsis">
       Fixed
@@ -5839,7 +5857,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed" class="md-nav__link">
+  <a href="#changed_1" class="md-nav__link">
     <span class="md-ellipsis">
       Changed
     </span>
@@ -5938,7 +5956,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#changed_1" class="md-nav__link">
+  <a href="#changed_2" class="md-nav__link">
     <span class="md-ellipsis">
       Changed
     </span>
@@ -6045,6 +6063,14 @@ and this project adheres to
   a new <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/formulations/formulation/#gemseo_umdo.formulations.formulation.UMDOFormulation">UMDOFormulation</a>
   estimating the statistics with a control variate technique based on Taylor polynomials.</li>
 </ul>
+<h3 id="changed">Changed<a class="headerlink" href="#changed" title="Permanent link">&para;</a></h3>
+<ul>
+<li>The <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/use_cases/beam_model/constraints/#gemseo_umdo.use_cases.beam_model.constraints.BeamConstraints">BeamConstraints</a> discipline
+  computed outputs of the form <code>a/(b+eps)</code> where <code>eps</code> was used to avoid division by zero.
+  Now,
+  this discipline computes outputs of the form <code>b/a</code>
+  as <code>a</code> is never zero.</li>
+</ul>
 <h3 id="fixed">Fixed<a class="headerlink" href="#fixed" title="Permanent link">&para;</a></h3>
 <ul>
 <li>The U-MDO formulation <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/formulations/sampling/#gemseo_umdo.formulations.sampling.Sampling">Sampling</a>
@@ -6100,7 +6126,7 @@ and this project adheres to
   and <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>
   include the uncertain space.</li>
 </ul>
-<h3 id="changed">Changed<a class="headerlink" href="#changed" title="Permanent link">&para;</a></h3>
+<h3 id="changed_1">Changed<a class="headerlink" href="#changed_1" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Setting the argument <code>n_samples</code>
   of the U-MDO formulation <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/formulations/sampling/#gemseo_umdo.formulations.sampling.Sampling">Sampling</a>
@@ -6164,7 +6190,7 @@ and this project adheres to
 <li>The <code>_UScenario</code> no longer changes the list of disciplines passed by the user.</li>
 </ul>
 <h2 id="version-101-january-2023">Version 1.0.1 (January 2023)<a class="headerlink" href="#version-101-january-2023" title="Permanent link">&para;</a></h2>
-<h3 id="changed_1">Changed<a class="headerlink" href="#changed_1" title="Permanent link">&para;</a></h3>
+<h3 id="changed_2">Changed<a class="headerlink" href="#changed_2" title="Permanent link">&para;</a></h3>
 <ul>
 <li>API change: the argument <code>statistic_estimation_options</code>
   of <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/formulations/formulation/#gemseo_umdo.formulations.formulation.UMDOFormulation">UMDOFormulation</a>
