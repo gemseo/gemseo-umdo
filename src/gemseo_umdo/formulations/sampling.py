@@ -36,6 +36,7 @@ obtained with an optimized Latin hypercube sampling technique.
 
 from __future__ import annotations
 
+import logging
 from pathlib import Path
 from typing import TYPE_CHECKING
 from typing import Any
@@ -47,6 +48,7 @@ from gemseo.algos.doe.doe_library import DOELibrary
 from gemseo.algos.doe.lib_openturns import OpenTURNS
 from gemseo.core.discipline import MDODiscipline
 from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
+from gemseo.utils.logging_tools import LoggingContext
 
 from gemseo_umdo.formulations.formulation import UMDOFormulation
 from gemseo_umdo.formulations.functions.statistic_function_for_iterative_sampling import (  # noqa: E501
@@ -212,7 +214,8 @@ class Sampling(UMDOFormulation):
         self.__doe_algo_options["callbacks"] = set.union(
             set(self.__doe_algo_options.get("callbacks", set())), set(self.callbacks)
         )
-        self.__doe_algo.execute(problem, **self.__doe_algo_options)
+        with LoggingContext(logging.getLogger("gemseo")):
+            self.__doe_algo.execute(problem, **self.__doe_algo_options)
 
         if self.__samples_directory_path:
             main_problem = self.opt_problem
