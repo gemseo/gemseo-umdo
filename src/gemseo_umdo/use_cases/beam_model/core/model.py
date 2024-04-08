@@ -16,10 +16,12 @@
 
 from __future__ import annotations
 
-import numpy as np
+from numpy import cos
 from numpy import hstack
 from numpy import linspace
 from numpy import meshgrid
+from numpy import sign
+from numpy import sin
 from numpy import sqrt
 
 from gemseo_umdo.use_cases.beam_model.core.output_data import BeamModelOutputData
@@ -160,9 +162,9 @@ class BeamModel:
         I_z = h * b**3 / 12 - (h - 2 * t) * (b - 2 * t) ** 3 / 12  # noqa: N806
 
         # Compute the force vector.
-        F_x = F * np.sin(alpha)  # noqa: N806
-        F_y = F * np.cos(alpha) * np.sin(beta)  # noqa: N806
-        F_z = F * np.cos(alpha) * np.cos(beta)  # noqa: N806
+        F_x = F * sin(alpha)  # noqa: N806
+        F_y = F * cos(alpha) * sin(beta)  # noqa: N806
+        F_z = F * cos(alpha) * cos(beta)  # noqa: N806
 
         # Compute the tip moments.
         M_tip_y = F_x * dz  # noqa: N806
@@ -198,8 +200,8 @@ class BeamModel:
 
         # Compute the torsional stress.
         tau_xx = M_x / 2 / b / h / t
-        tau_xy = -F_y / I_z * S_t_z * np.sign(z)
-        tau_xz = F_z / I_y * S_t_y * np.sign(y)
+        tau_xy = -F_y / I_z * S_t_z * sign(z)
+        tau_xz = F_z / I_y * S_t_y * sign(y)
 
         U_z = U_z + y * theta_x  # noqa: N806
         U_y = U_y - z * theta_x  # noqa: N806
