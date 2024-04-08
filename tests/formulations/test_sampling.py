@@ -158,12 +158,14 @@ def scenario(
     return scn
 
 
-def test_scenario_execution(scenario, maximize_objective, scenario_input_data):
+def test_scenario_execution(scenario, maximize_objective, scenario_input_data, caplog):
     """Check the execution of an UMDOScenario with the Sampling U-MDO formulation."""
     scenario.execute(scenario_input_data)
     assert_equal(scenario.optimization_result.x_opt, array([0.0, 0.0, 0.0]))
     expected_f_opt = 2.0 if maximize_objective else -2.0
     assert scenario.optimization_result.f_opt == expected_f_opt
+    # Check that the sampling is not logged.
+    assert "minimize f" not in caplog.text
 
 
 def test_scenario_serialization(scenario, tmp_path, scenario_input_data):
