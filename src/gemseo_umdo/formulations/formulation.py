@@ -22,7 +22,7 @@ from typing import Any
 from gemseo.core.base_formulation import BaseFormulation
 from gemseo.core.discipline import MDODiscipline
 from gemseo.core.mdofunctions.mdo_function import MDOFunction
-from gemseo.uncertainty.statistics.statistics import Statistics
+from gemseo.uncertainty.statistics.base_statistics import BaseStatistics
 from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
 from gemseo.utils.data_conversion import split_array_to_dict_of_arrays
 from gemseo.utils.file_path_manager import FilePathManager
@@ -245,7 +245,7 @@ class UMDOFormulation(BaseFormulation):
         if not isinstance(output_name, str):
             output_name = "_".join(output_name)
 
-        return Statistics.compute_expression(
+        return BaseStatistics.compute_expression(
             output_name,
             FilePathManager.to_snake_case(statistic_name),
             **statistic_parameters,
