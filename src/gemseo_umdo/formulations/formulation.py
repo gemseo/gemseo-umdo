@@ -19,9 +19,9 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 from typing import Any
 
-from gemseo.core.base_formulation import BaseFormulation
 from gemseo.core.discipline import MDODiscipline
 from gemseo.core.mdofunctions.mdo_function import MDOFunction
+from gemseo.formulations.base_formulation import BaseFormulation
 from gemseo.uncertainty.statistics.base_statistics import BaseStatistics
 from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
 from gemseo.utils.data_conversion import split_array_to_dict_of_arrays
@@ -37,7 +37,7 @@ if TYPE_CHECKING:
     from gemseo.algos.parameter_space import ParameterSpace
     from gemseo.core.base_factory import BaseFactory
     from gemseo.core.execution_sequence import ExecutionSequence
-    from gemseo.core.formulation import MDOFormulation
+    from gemseo.formulations.mdo_formulation import MDOFormulation
     from gemseo.typing import RealArray
 
     from gemseo_umdo.formulations.functions.statistic_function import StatisticFunction
@@ -214,7 +214,7 @@ class UMDOFormulation(BaseFormulation):
             constraint,
             value=value,
             positive=positive,
-            cstr_type=constraint_type,
+            constraint_type=constraint_type,
         )
         self._post_add_constraint()
 

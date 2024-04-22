@@ -16,12 +16,12 @@
 
 from __future__ import annotations
 
-from gemseo.problems.disciplines_factory import DisciplinesFactory
+from gemseo.disciplines.factory import MDODisciplineFactory
 
 from gemseo_umdo.disciplines.base_noiser import BaseNoiser
 
 
-class NoiserFactory(DisciplinesFactory):
+class NoiserFactory(MDODisciplineFactory):
     """A factory of noising disciplines."""
 
     _CLASS = BaseNoiser

@@ -22,9 +22,9 @@ from typing import Callable
 from typing import Final
 
 from gemseo.core.dependency_graph import DependencyGraph
-from gemseo.core.doe_scenario import DOEScenario
 from gemseo.disciplines.utils import get_all_outputs
 from gemseo.post._graph_view import GraphView
+from gemseo.scenarios.doe_scenario import DOEScenario
 from gemseo.utils.string_tools import repr_variable
 from numpy import atleast_1d
 from numpy import quantile

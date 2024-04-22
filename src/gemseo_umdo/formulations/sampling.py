@@ -42,9 +42,9 @@ from typing import TYPE_CHECKING
 from typing import Any
 
 from gemseo import SEED
-from gemseo.algos.doe.doe_factory import DOEFactory
 from gemseo.algos.doe.doe_library import CallbackType
 from gemseo.algos.doe.doe_library import DOELibrary
+from gemseo.algos.doe.factory import DOELibraryFactory
 from gemseo.algos.doe.lib_openturns import OpenTURNS
 from gemseo.core.discipline import MDODiscipline
 from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
@@ -71,7 +71,7 @@ if TYPE_CHECKING:
     from gemseo.algos.design_space import DesignSpace
     from gemseo.algos.opt_problem import OptimizationProblem
     from gemseo.algos.parameter_space import ParameterSpace
-    from gemseo.core.formulation import MDOFormulation
+    from gemseo.formulations.mdo_formulation import MDOFormulation
     from gemseo.typing import RealArray
 
 
@@ -156,7 +156,7 @@ class Sampling(UMDOFormulation):
             self._statistic_factory = SamplingEstimatorFactory()
             self._statistic_function_class = StatisticFunctionForStandardSampling
 
-        self.__doe_algo = DOEFactory().create(algo)
+        self.__doe_algo = DOELibraryFactory().create(algo)
         self.__doe_algo_options = dict(algo_options)
         self.__doe_algo_options[
             DOELibrary.USE_DATABASE_OPTION

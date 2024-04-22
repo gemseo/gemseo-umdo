@@ -19,7 +19,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import ClassVar
 
-from gemseo.core.doe_scenario import DOEScenario
+from gemseo.scenarios.doe_scenario import DOEScenario
 
 from gemseo_umdo.scenarios._scenario import _UScenario
 
