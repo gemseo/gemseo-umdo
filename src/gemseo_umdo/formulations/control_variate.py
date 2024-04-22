@@ -41,7 +41,7 @@ from typing import TYPE_CHECKING
 from typing import Any
 
 from gemseo import SEED
-from gemseo.algos.doe.doe_factory import DOEFactory
+from gemseo.algos.doe.factory import DOELibraryFactory
 from gemseo.algos.doe.lib_openturns import OpenTURNS
 from gemseo.algos.opt_problem import OptimizationProblem
 from gemseo.core.discipline import MDODiscipline
@@ -63,7 +63,7 @@ if TYPE_CHECKING:
     from gemseo.algos.design_space import DesignSpace
     from gemseo.algos.doe.doe_library import DOELibrary
     from gemseo.algos.parameter_space import ParameterSpace
-    from gemseo.core.formulation import MDOFormulation
+    from gemseo.formulations.mdo_formulation import MDOFormulation
     from gemseo.typing import RealArray
 
 
@@ -112,7 +112,7 @@ class ControlVariate(UMDOFormulation):
         """  # noqa: D205 D212 D415
         self._statistic_function_class = StatisticFunctionForControlVariate
         self._statistic_factory = ControlVariateEstimatorFactory()
-        self.__doe_algo = DOEFactory().create(algo)
+        self.__doe_algo = DOELibraryFactory().create(algo)
         self.__doe_algo_options = dict(algo_options)
         self.__doe_algo_options["n_samples"] = n_samples
         self.__n_samples = n_samples

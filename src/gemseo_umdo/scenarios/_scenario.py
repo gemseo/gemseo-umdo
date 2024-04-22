@@ -23,9 +23,9 @@ from typing import Final
 from gemseo.core.chain import MDOChain
 from gemseo.core.discipline import MDODiscipline
 from gemseo.core.mdofunctions.mdo_function import MDOFunction
-from gemseo.core.scenario import Scenario
 from gemseo.disciplines.analytic import AnalyticDiscipline
-from gemseo.formulations.formulations_factory import MDOFormulationsFactory
+from gemseo.formulations.factory import MDOFormulationFactory
+from gemseo.scenarios.scenario import Scenario
 from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
 from gemseo.utils.string_tools import MultiLineString
 from gemseo.utils.string_tools import pretty_str
@@ -39,7 +39,7 @@ if TYPE_CHECKING:
 
     from gemseo.algos.design_space import DesignSpace
     from gemseo.algos.parameter_space import ParameterSpace
-    from gemseo.core.formulation import MDOFormulation
+    from gemseo.formulations.mdo_formulation import MDOFormulation
 
 
 class _UScenario(Scenario):
@@ -118,7 +118,7 @@ class _UScenario(Scenario):
                 disciplines, design_space, uncertain_design_variables
             )
 
-        formulations_factory = MDOFormulationsFactory()
+        formulations_factory = MDOFormulationFactory()
         mdo_formulation = formulations_factory.create(
             formulation,
             disciplines,

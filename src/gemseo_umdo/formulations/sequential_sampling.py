@@ -55,7 +55,7 @@ if TYPE_CHECKING:
     from gemseo.algos.design_space import DesignSpace
     from gemseo.algos.opt_problem import OptimizationProblem
     from gemseo.algos.parameter_space import ParameterSpace
-    from gemseo.core.formulation import MDOFormulation
+    from gemseo.formulations.mdo_formulation import MDOFormulation
     from gemseo.typing import RealArray
 
 
