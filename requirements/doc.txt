@@ -34,14 +34,14 @@ fastjsonschema==2.19.1
     # via gemseo
 fonttools==4.51.0
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@a64f1e3341506740a3aea18ffd4eca560cf62941
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@b65dac437887bca3a86aae77d56d2c70f05afd1d
 genson==1.2.2
     # via gemseo
 ghp-import==2.1.0
     # via mkdocs
 graphviz==0.20.3
     # via gemseo
-griffe==0.42.1
+griffe==0.44.0
     # via
     #   griffe-inherited-docstrings
     #   mkdocstrings-python
@@ -110,14 +110,14 @@ mkdocs-gallery==0.10.1
 mkdocs-gen-files==0.5.0
 mkdocs-include-markdown-plugin==6.0.5
 mkdocs-literate-nav==0.6.1
-mkdocs-material==9.5.17
+mkdocs-material==9.5.18
     # via mkdocs-gallery
 mkdocs-material-extensions==1.3.1
     # via mkdocs-material
-mkdocs-section-index==0.3.8
+mkdocs-section-index==0.3.9
 mkdocstrings==0.24.3
     # via mkdocstrings-python
-mkdocstrings-python==1.9.2
+mkdocstrings-python==1.10.0
     # via mkdocstrings
 mpmath==1.3.0
     # via sympy
@@ -182,7 +182,7 @@ pydoe3==1.0.1
     # via gemseo
 pygments==2.17.2
     # via mkdocs-material
-pymdown-extensions==10.7.1
+pymdown-extensions==10.8
     # via
     #   mkdocs-material
     #   mkdocstrings
@@ -210,7 +210,7 @@ pyyaml==6.0.1
     #   pyyaml-env-tag
 pyyaml-env-tag==0.1
     # via mkdocs
-regex==2023.12.25
+regex==2024.4.16
     # via mkdocs-material
 requests==2.31.0
     # via
@@ -255,7 +255,7 @@ tzdata==2024.1
     # via pandas
 urllib3==2.2.1
     # via requests
-validators==0.28.0
+validators==0.28.1
     # via mkdocs-bibtex
 verspec==0.1.0
     # via mike
