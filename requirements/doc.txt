@@ -4,7 +4,7 @@ annotated-types==0.6.0
     # via pydantic
 babel==2.14.0
     # via mkdocs-material
-black==24.4.0
+black==24.4.1
 bracex==2.4
     # via wcmatch
 certifi==2024.2.2
@@ -34,7 +34,7 @@ fastjsonschema==2.19.1
     # via gemseo
 fonttools==4.51.0
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@5c6f70ddc011323069fbe127bdd0369be0eea380
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@02092241213dfd56862e7ae3b896bb1ea8042800
 genson==1.2.2
     # via gemseo
 ghp-import==2.1.0
