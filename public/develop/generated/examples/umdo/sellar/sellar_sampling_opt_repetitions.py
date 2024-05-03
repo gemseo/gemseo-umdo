@@ -93,7 +93,7 @@ for i in range(10):
     scenario.add_constraint("c2", "Margin", factor=3.0)
     scenario.execute({"algo": "NLOPT_COBYLA", "max_iter": 100})
     x_hist.append(
-        vstack(scenario.formulation.opt_problem.database.get_x_vect_history())
+        vstack(scenario.formulation.optimization_problem.database.get_x_vect_history())
     )
 
 # %%

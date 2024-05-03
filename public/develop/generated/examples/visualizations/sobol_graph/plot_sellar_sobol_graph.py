@@ -17,10 +17,10 @@
 
 from __future__ import annotations
 
-from gemseo.problems.sellar.sellar import Sellar1
-from gemseo.problems.sellar.sellar import Sellar2
-from gemseo.problems.sellar.sellar import SellarSystem
-from gemseo.problems.sellar.sellar_design_space import SellarDesignSpace
+from gemseo.problems.mdo.sellar.sellar_1 import Sellar1
+from gemseo.problems.mdo.sellar.sellar_2 import Sellar2
+from gemseo.problems.mdo.sellar.sellar_design_space import SellarDesignSpace
+from gemseo.problems.mdo.sellar.sellar_system import SellarSystem
 from gemseo.uncertainty.sensitivity.sobol.analysis import SobolAnalysis
 
 from gemseo_umdo.visualizations.sobol_graph import SobolGraph
