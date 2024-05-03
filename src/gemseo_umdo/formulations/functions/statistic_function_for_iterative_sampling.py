@@ -27,7 +27,7 @@ from gemseo_umdo.formulations.functions.statistic_function_for_sampling import (
 )
 
 if TYPE_CHECKING:
-    from gemseo.algos.opt_problem import OptimizationProblem
+    from gemseo.algos.optimization_problem import OptimizationProblem
     from gemseo.core.mdofunctions.mdo_function import MDOFunction
     from gemseo.typing import RealArray
 
@@ -55,7 +55,7 @@ class StatisticFunctionForIterativeSampling(StatisticFunctionForSampling):
         self, input_data: RealArray, output_data: dict[str, RealArray]
     ) -> None:
         formulation = self._formulation
-        problem = formulation.mdo_formulation.opt_problem
+        problem = formulation.mdo_formulation.optimization_problem
         formulation.compute_samples(problem, input_data)
         for (estimator_name, estimate_statistic), iterative_estimation in zip(
             formulation._estimators, formulation.callbacks

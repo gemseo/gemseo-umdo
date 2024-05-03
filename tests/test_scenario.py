@@ -142,7 +142,7 @@ def test_repr(scenario):
 def test_mdo_formulation(scenario):
     """Check the content of the MDO formulation."""
     mdo_formulation = scenario.mdo_formulation
-    opt_problem = mdo_formulation.opt_problem
+    opt_problem = mdo_formulation.optimization_problem
     assert mdo_formulation.__class__.__name__ == "MDF"
     assert mdo_formulation.mda.inner_mdas[0].name == "MDAGaussSeidel"
     assert mdo_formulation.disciplines == scenario.disciplines
@@ -172,10 +172,10 @@ def test_maximize_objective(
         **kwargs,
     )
     maximize = bool(maximize_objective)
-    assert scn.formulation.mdo_formulation.opt_problem.minimize_objective
-    assert scn.formulation.opt_problem.minimize_objective is not maximize
+    assert scn.formulation.mdo_formulation.optimization_problem.minimize_objective
+    assert scn.formulation.optimization_problem.minimize_objective is not maximize
     expected_name = "-E[f]" if maximize else "E[f]"
-    assert scn.formulation.opt_problem.objective.name == expected_name
+    assert scn.formulation.optimization_problem.objective.name == expected_name
 
 
 def test_uncertain_design_variables(disciplines, design_space, uncertain_space):

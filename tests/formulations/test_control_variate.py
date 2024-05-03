@@ -118,51 +118,54 @@ def test_scenario_serialization(scenario, tmp_path, algo_data):
 
 def test_mdo_formulation_objective(umdo_formulation, mdf_discipline):
     """Check that the MDO formulation can compute the objective correctly."""
-    objective = umdo_formulation.mdo_formulation.opt_problem.objective
+    objective = umdo_formulation.mdo_formulation.optimization_problem.objective
     input_data = {name: array([2.0]) for name in ["u", "u1", "u2"]}
     assert_equal(objective(array([2.0] * 3)), mdf_discipline.execute(input_data)["f"])
 
 
 def test_mdo_formulation_constraint(umdo_formulation, mdf_discipline):
     """Check that the MDO formulation can compute the constraints correctly."""
-    constraint = umdo_formulation.mdo_formulation.opt_problem.observables[0]
+    constraint = umdo_formulation.mdo_formulation.optimization_problem.observables[0]
     input_data = {name: array([2.0]) for name in ["u", "u1", "u2"]}
     assert_equal(constraint(array([2.0] * 3)), mdf_discipline.execute(input_data)["c"])
 
 
 def test_mdo_formulation_observable(umdo_formulation, mdf_discipline):
     """Check that the MDO formulation can compute the observables correctly."""
-    observable = umdo_formulation.mdo_formulation.opt_problem.observables[1]
+    observable = umdo_formulation.mdo_formulation.optimization_problem.observables[1]
     input_data = {name: array([2.0]) for name in ["u", "u1", "u2"]}
     assert_equal(observable(array([2.0] * 3)), mdf_discipline.execute(input_data)["o"])
 
 
 def test_umdo_formulation_objective(umdo_formulation):
     """Check that the UMDO formulation can compute the objective correctly."""
-    objective = umdo_formulation.opt_problem.objective
+    objective = umdo_formulation.optimization_problem.objective
     assert_allclose(objective(array([0.0] * 3)), array([-22.0]), atol=1e-6)
 
 
 def test_umdo_formulation_constraint(umdo_formulation):
     """Check that the UMDO formulation can compute the constraints correctly."""
-    constraint = umdo_formulation.opt_problem.constraints[0]
+    constraint = umdo_formulation.optimization_problem.constraints[0]
     assert_allclose(constraint(array([0.0] * 3)), array([-20.5]), atol=1e-6)
 
 
 def test_umdo_formulation_observable(umdo_formulation):
     """Check that the UMDO formulation can compute the observables correctly."""
-    observable = umdo_formulation.opt_problem.observables[0]
+    observable = umdo_formulation.optimization_problem.observables[0]
     assert_allclose(observable(array([0.0] * 3)), array([-19.0]))
 
 
 def test_clear_inner_database(umdo_formulation):
     """Check that the inner database is cleared before sampling."""
-    obj_value = umdo_formulation.opt_problem.objective(array([0.0] * 3))
+    obj_value = umdo_formulation.optimization_problem.objective(array([0.0] * 3))
     # The inner problem depending on the uncertain variables is reset
     # when the outer problem changes the values of the design variables
     # to avoid recovering the data stored in the inner database
     # and force new evaluations of the functions attached to the inner problem.
-    assert umdo_formulation.opt_problem.objective(array([1.0, 0.0, 0.0])) != obj_value
+    assert (
+        umdo_formulation.optimization_problem.objective(array([1.0, 0.0, 0.0]))
+        != obj_value
+    )
 
 
 U_SAMPLES = array([[0.5, 1.0, 1.5], [0.5, 1.0, 1.5]])

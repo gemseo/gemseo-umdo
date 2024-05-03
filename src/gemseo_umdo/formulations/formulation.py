@@ -103,7 +103,7 @@ class UMDOFormulation(BaseFormulation):
             **options,
         )
         self.__available_statistics = self._statistic_factory.class_names
-        sub_opt_problem = self._mdo_formulation.opt_problem
+        sub_opt_problem = self._mdo_formulation.optimization_problem
         objective = self._statistic_function_class(
             self,
             sub_opt_problem.objective,
@@ -113,11 +113,11 @@ class UMDOFormulation(BaseFormulation):
             **objective_statistic_parameters,
         )
         objective.name = objective_name
-        self.opt_problem.objective = objective
-        self.opt_problem.minimize_objective = not maximize_objective
+        self.optimization_problem.objective = objective
+        self.optimization_problem.minimize_objective = not maximize_objective
         self.name = f"{self.__class__.__name__}[{mdo_formulation.__class__.__name__}]"
         self.input_data_to_output_data = {}
-        self.opt_problem.add_callback(self._clear_input_data_to_output_data)
+        self.optimization_problem.add_callback(self._clear_input_data_to_output_data)
 
     def _clear_input_data_to_output_data(self, x_vect: RealArray) -> None:
         """Clear the attribute `input_data_to_output_data`.
@@ -161,7 +161,7 @@ class UMDOFormulation(BaseFormulation):
             observable_name=observable_name,
             discipline=discipline,
         )
-        sub_opt_problem = self._mdo_formulation.opt_problem
+        sub_opt_problem = self._mdo_formulation.optimization_problem
         observable = self._statistic_function_class(
             self,
             sub_opt_problem.observables[-1],
@@ -173,7 +173,7 @@ class UMDOFormulation(BaseFormulation):
         observable.name = self.__compute_name(
             observable_name or output_names, statistic_name, **statistic_parameters
         )
-        self.opt_problem.add_observable(observable)
+        self.optimization_problem.add_observable(observable)
         self._post_add_observable()
 
     def add_constraint(
@@ -193,7 +193,7 @@ class UMDOFormulation(BaseFormulation):
                 to be applied to the constraint, if any.
         """  # noqa: D205 D212 D415
         self._mdo_formulation.add_observable(output_name)
-        sub_opt_problem = self._mdo_formulation.opt_problem
+        sub_opt_problem = self._mdo_formulation.optimization_problem
         constraint = self._statistic_function_class(
             self,
             sub_opt_problem.observables[-1],
@@ -210,7 +210,7 @@ class UMDOFormulation(BaseFormulation):
         else:
             constraint.name = constraint_name
             constraint.has_default_name = False
-        self.opt_problem.add_constraint(
+        self.optimization_problem.add_constraint(
             constraint,
             value=value,
             positive=positive,

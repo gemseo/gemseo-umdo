@@ -142,7 +142,7 @@ HESS = array([
 
 def test_init_differentiation_method(umdo_formulation):
     """Check that the default method to derive wrt uncertainties is USER_GRAD."""
-    problem = umdo_formulation.mdo_formulation.opt_problem
+    problem = umdo_formulation.mdo_formulation.optimization_problem
     assert problem.differentiation_method == problem.DifferentiationMethod.USER_GRAD
 
 
@@ -178,28 +178,28 @@ def test_estimate_margin(umdo_formulation):
 
 def test_mdo_formulation_objective(umdo_formulation, mdf_discipline):
     """Check that the MDO formulation can compute the objective correctly."""
-    objective = umdo_formulation.mdo_formulation.opt_problem.objective
+    objective = umdo_formulation.mdo_formulation.optimization_problem.objective
     input_data = {name: array([2.0]) for name in ["u", "u1", "u2"]}
     assert_equal(objective(array([2.0] * 3)), mdf_discipline.execute(input_data)["f"])
 
 
 def test_mdo_formulation_constraint(umdo_formulation, mdf_discipline):
     """Check that the MDO formulation can compute the constraints correctly."""
-    constraint = umdo_formulation.mdo_formulation.opt_problem.observables[0]
+    constraint = umdo_formulation.mdo_formulation.optimization_problem.observables[0]
     input_data = {name: array([2.0]) for name in ["u", "u1", "u2"]}
     assert_equal(constraint(array([2.0] * 3)), mdf_discipline.execute(input_data)["c"])
 
 
 def test_mdo_formulation_observable(umdo_formulation, mdf_discipline):
     """Check that the MDO formulation can compute the observables correctly."""
-    observable = umdo_formulation.mdo_formulation.opt_problem.observables[1]
+    observable = umdo_formulation.mdo_formulation.optimization_problem.observables[1]
     input_data = {name: array([2.0]) for name in ["u", "u1", "u2"]}
     assert_equal(observable(array([2.0] * 3)), mdf_discipline.execute(input_data)["o"])
 
 
 def test_umdo_formulation_objective(umdo_formulation, mdf_discipline):
     """Check that the UMDO formulation can compute the objective correctly."""
-    objective = umdo_formulation.opt_problem.objective
+    objective = umdo_formulation.optimization_problem.objective
     uncertain_space = umdo_formulation.uncertain_space
     input_data = uncertain_space.array_to_dict(uncertain_space.distribution.mean)
     assert_equal(objective(array([0.0] * 3)), mdf_discipline.execute(input_data)["f"])
@@ -207,7 +207,7 @@ def test_umdo_formulation_objective(umdo_formulation, mdf_discipline):
 
 def test_umdo_formulation_constraint(umdo_formulation, mdf_discipline):
     """Check that the UMDO formulation can compute the constraints correctly."""
-    constraint = umdo_formulation.opt_problem.constraints[0]
+    constraint = umdo_formulation.optimization_problem.constraints[0]
     uncertain_space = umdo_formulation.uncertain_space
     input_data = uncertain_space.array_to_dict(uncertain_space.distribution.mean)
     assert_equal(constraint(array([0.0] * 3)), mdf_discipline.execute(input_data)["c"])
@@ -215,7 +215,7 @@ def test_umdo_formulation_constraint(umdo_formulation, mdf_discipline):
 
 def test_umdo_formulation_observable(umdo_formulation, mdf_discipline):
     """Check that the UMDO formulation can compute the observables correctly."""
-    observable = umdo_formulation.opt_problem.observables[0]
+    observable = umdo_formulation.optimization_problem.observables[0]
     uncertain_space = umdo_formulation.uncertain_space
     input_data = uncertain_space.array_to_dict(uncertain_space.distribution.mean)
     assert_equal(observable(array([0.0] * 3)), mdf_discipline.execute(input_data)["o"])

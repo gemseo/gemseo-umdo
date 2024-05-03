@@ -49,7 +49,7 @@ class StatisticFunctionForControlVariate(StatisticFunction):
         self, input_data: RealArray, output_data: dict[str, RealArray]
     ) -> None:
         formulation = self._formulation
-        problem = formulation.mdo_formulation.opt_problem
+        problem = formulation.mdo_formulation.optimization_problem
         linearization_problem = formulation.linearization_problem
         database = problem.database
         linearization_database = linearization_problem.database

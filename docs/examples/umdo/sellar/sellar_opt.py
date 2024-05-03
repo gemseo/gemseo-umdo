@@ -19,8 +19,8 @@ from __future__ import annotations
 
 from gemseo import configure_logger
 from gemseo.algos.design_space import DesignSpace
-from gemseo.core.mdo_scenario import MDOScenario
 from gemseo.disciplines.analytic import AnalyticDiscipline
+from gemseo.scenarios.mdo_scenario import MDOScenario
 
 configure_logger()
 

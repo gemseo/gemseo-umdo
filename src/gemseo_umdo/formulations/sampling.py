@@ -41,7 +41,6 @@ from pathlib import Path
 from typing import TYPE_CHECKING
 from typing import Any
 
-from gemseo import SEED
 from gemseo.algos.doe.doe_library import CallbackType
 from gemseo.algos.doe.doe_library import DOELibrary
 from gemseo.algos.doe.factory import DOELibraryFactory
@@ -49,6 +48,7 @@ from gemseo.algos.doe.lib_openturns import OpenTURNS
 from gemseo.core.discipline import MDODiscipline
 from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
 from gemseo.utils.logging_tools import LoggingContext
+from gemseo.utils.seeder import SEED
 
 from gemseo_umdo.formulations.formulation import UMDOFormulation
 from gemseo_umdo.formulations.functions.statistic_function_for_iterative_sampling import (  # noqa: E501
@@ -69,7 +69,7 @@ if TYPE_CHECKING:
     from collections.abc import Sequence
 
     from gemseo.algos.design_space import DesignSpace
-    from gemseo.algos.opt_problem import OptimizationProblem
+    from gemseo.algos.optimization_problem import OptimizationProblem
     from gemseo.algos.parameter_space import ParameterSpace
     from gemseo.formulations.mdo_formulation import MDOFormulation
     from gemseo.typing import RealArray
@@ -161,13 +161,13 @@ class Sampling(UMDOFormulation):
         self.__doe_algo_options[
             DOELibrary.USE_DATABASE_OPTION
         ] = not estimate_statistics_iteratively
-        if DOELibrary.N_SAMPLES in self.__doe_algo.opt_grammar:
+        if DOELibrary.N_SAMPLES in self.__doe_algo.option_grammar:
             if n_samples is None:
                 msg = "Sampling: n_samples is required."
                 raise ValueError(msg)
             self.__doe_algo_options[DOELibrary.N_SAMPLES] = n_samples
 
-        if DOELibrary.SEED in self.__doe_algo.opt_grammar:
+        if DOELibrary.SEED in self.__doe_algo.option_grammar:
             self.__doe_algo_options[DOELibrary.SEED] = seed
 
         self.__n_samples = n_samples
@@ -218,7 +218,7 @@ class Sampling(UMDOFormulation):
             self.__doe_algo.execute(problem, **self.__doe_algo_options)
 
         if self.__samples_directory_path:
-            main_problem = self.opt_problem
+            main_problem = self.optimization_problem
             iteration = main_problem.current_iter + 1
             dataset = problem.to_dataset(f"Iteration {iteration}", opt_naming=False)
             dataset.misc.update(main_problem.design_space.array_to_dict(input_data))

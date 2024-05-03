@@ -18,7 +18,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from gemseo import SEED
+from gemseo.utils.seeder import SEED
 from numpy import array
 from strenum import StrEnum
 

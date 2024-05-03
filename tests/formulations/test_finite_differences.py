@@ -88,7 +88,7 @@ def test_finite_differences(
         "algo_options": {"samples": array([[1.0, 1.0]]), "eval_jac": True},
     })
     # The database storing the samples is cleared after each sampling.
-    assert not scenario.mdo_formulation.opt_problem.database
+    assert not scenario.mdo_formulation.optimization_problem.database
 
     # input_data_to_output_samples stores the samples
     # at points (x1, x2), (x1+dx1, x2) and (x1, x2+dx2)
@@ -106,7 +106,9 @@ def test_finite_differences(
     ):
         assert key == expected_key
 
-    get_history = scenario.formulation.opt_problem.database.get_gradient_history
+    get_history = (
+        scenario.formulation.optimization_problem.database.get_gradient_history
+    )
 
     grad_history = get_history("E[f]")
     assert_allclose(grad_history, array([[expected]]), atol=1e-3)

@@ -165,7 +165,7 @@ class UncertainCouplingGraph:
         else:
             all_output_names = variable_names
 
-        database = self.__scenario.formulation.opt_problem.database
+        database = self.__scenario.formulation.optimization_problem.database
         output_names_to_measures = {
             output_name: self.__DISP_MEAS_TO_FUNCTION[dispersion_measure](
                 database.get_function_history(output_name)

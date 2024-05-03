@@ -40,10 +40,10 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 from typing import Any
 
-from gemseo import SEED
 from gemseo.algos.doe.lib_openturns import OpenTURNS
 from gemseo.core.discipline import MDODiscipline
 from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
+from gemseo.utils.seeder import SEED
 
 from gemseo_umdo.formulations.sampling import Sampling
 
@@ -53,7 +53,7 @@ if TYPE_CHECKING:
     from pathlib import Path
 
     from gemseo.algos.design_space import DesignSpace
-    from gemseo.algos.opt_problem import OptimizationProblem
+    from gemseo.algos.optimization_problem import OptimizationProblem
     from gemseo.algos.parameter_space import ParameterSpace
     from gemseo.formulations.mdo_formulation import MDOFormulation
     from gemseo.typing import RealArray
