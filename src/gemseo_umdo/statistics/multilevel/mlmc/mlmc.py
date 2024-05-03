@@ -22,9 +22,9 @@ from typing import TYPE_CHECKING
 from typing import Any
 from typing import ClassVar
 
-from gemseo import SEED
 from gemseo.core.mdofunctions.mdo_function import MDOFunction
 from gemseo.utils.matplotlib_figure import save_show_figure
+from gemseo.utils.seeder import SEED
 from gemseo.utils.string_tools import MultiLineString
 from gemseo.utils.timer import Timer
 from matplotlib import pyplot as plt

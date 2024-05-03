@@ -56,7 +56,7 @@ can be reduced to this standard optimization problem:
 
     In [GEMSEO](https://www.gemseo.org),
     the user instantiates an
-    [OptimizationProblem][gemseo.algos.opt_problem.OptimizationProblem]
+    [OptimizationProblem][gemseo.algos.optimization_problem.OptimizationProblem]
     from a [DesignSpace][gemseo.algos.design_space.DesignSpace],
     defines its objective functions and constraints
     with
@@ -80,7 +80,7 @@ can be reduced to this standard optimization problem:
 
         ``` py
         from gemseo import execute_algo
-        from gemseo.algos.opt_problem import Optimization
+        from gemseo.algos.optimization_problem import Optimization
         from gemseo.algos.design_space import DesignSpace
         from gemseo.core.mdofunctions.mdo_function import MDOFunction
 
@@ -363,9 +363,9 @@ the MDO problem can be set up.
 In the case of MDO *without* uncertainty,
 there are two scenarios to set up the MDO problem:
 
-- [DOEScenario][gemseo.core.doe_scenario.DOEScenario]
+- [DOEScenario][gemseo.scenarios.doe_scenario.DOEScenario]
   to solve it with a DOE,
-- [MDOScenario][gemseo.core.mdo_scenario.MDOScenario]
+- [MDOScenario][gemseo.scenarios.mdo_scenario.MDOScenario]
   to solve it with an optimizer.
 
 Both need knowledge of objective and constraint functions
@@ -388,11 +388,11 @@ to solve the MDO problem under uncertainty.
 
     The API of [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario]
     is deliberately similar to
-    the API of [DOEScenario][gemseo.core.doe_scenario.DOEScenario].
+    the API of [DOEScenario][gemseo.scenarios.doe_scenario.DOEScenario].
     And the same for
     [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
     and
-    [MDOScenario][gemseo.core.mdo_scenario.MDOScenario].
+    [MDOScenario][gemseo.scenarios.mdo_scenario.MDOScenario].
     This choice was made not only to simplify the user's life,
     but also because an MDO problem under uncertainty
     is first and foremost an MDO problem.
@@ -444,9 +444,9 @@ can be combined to any MDO formulation.
     [DesignSpace][gemseo.algos.design_space.DesignSpace]
     and a collection of
     [MDODisciplines][gemseo.core.discipline.MDODiscipline],
-    a [DOEScenario][gemseo.core.doe_scenario.DOEScenario]
+    a [DOEScenario][gemseo.scenarios.doe_scenario.DOEScenario]
     generates and solves an
-    [OptimizationProblem][gemseo.algos.opt_problem.OptimizationProblem]
+    [OptimizationProblem][gemseo.algos.optimization_problem.OptimizationProblem]
     that corresponds to an
     [MDOFormulation][gemseo.core.formulation.MDOFormulation].
     The resolution consists in sampling the objective and constraints
@@ -473,7 +473,7 @@ can be combined to any MDO formulation.
     $\hat{\mathbb{K}}_g[g(x,U)]$ and
     $\hat{\mathbb{K}}_h[h(x,U)]$
     are then used to build a new
-    [OptimizationProblem][gemseo.algos.opt_problem.OptimizationProblem]
+    [OptimizationProblem][gemseo.algos.optimization_problem.OptimizationProblem]
     over the [DesignSpace][gemseo.algos.design_space.DesignSpace]:
 
     $$

@@ -43,7 +43,7 @@ class StatisticFunctionForTaylorPolynomial(StatisticFunction):
         self, output_data: dict[str, RealArray]
     ) -> RealArray:
         function_name = self._function_name
-        database = self._formulation.mdo_formulation.opt_problem.database
+        database = self._formulation.mdo_formulation.optimization_problem.database
         gradient_name = database.get_gradient_name(function_name)
         return self._estimate_statistic(
             output_data[function_name],
@@ -55,7 +55,7 @@ class StatisticFunctionForTaylorPolynomial(StatisticFunction):
         self, input_data: RealArray, output_data: dict[str, RealArray]
     ) -> None:
         formulation = self._formulation
-        problem = formulation.mdo_formulation.opt_problem
+        problem = formulation.mdo_formulation.optimization_problem
         database = problem.database
         formulation.evaluate_with_mean(problem, True)
         for function in problem.get_all_functions():

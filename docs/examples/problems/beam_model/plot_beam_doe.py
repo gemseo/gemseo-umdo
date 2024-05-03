@@ -23,8 +23,8 @@ $t\in[2,10]$.
 from __future__ import annotations
 
 from gemseo import configure_logger
-from gemseo.core.doe_scenario import DOEScenario
 from gemseo.post.dataset.zvsxy import ZvsXY
+from gemseo.scenarios.doe_scenario import DOEScenario
 
 from gemseo_umdo.use_cases.beam_model.constraints import BeamConstraints
 from gemseo_umdo.use_cases.beam_model.design_space import BeamDesignSpace
@@ -41,7 +41,7 @@ scenario.add_constraint("c_stress", constraint_type="ineq", value=1.0)
 scenario.add_constraint("c_displ", constraint_type="ineq", positive=True, value=1.0)
 scenario.execute({"algo": "fullfact", "n_samples": 10**2})
 
-dataset = scenario.formulation.opt_problem.to_dataset()
+dataset = scenario.formulation.optimization_problem.to_dataset()
 ZvsXY(dataset, "h", "t", "w").execute(save=True, show=False, file_name="w")
 for constraint_name in ["-[c_displ-1.0]", "[c_stress-1.0]"]:
     for z_component in range(9):

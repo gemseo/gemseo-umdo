@@ -40,13 +40,13 @@ import logging
 from typing import TYPE_CHECKING
 from typing import Any
 
-from gemseo import SEED
 from gemseo.algos.doe.factory import DOELibraryFactory
 from gemseo.algos.doe.lib_openturns import OpenTURNS
-from gemseo.algos.opt_problem import OptimizationProblem
+from gemseo.algos.optimization_problem import OptimizationProblem
 from gemseo.core.discipline import MDODiscipline
 from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
 from gemseo.utils.logging_tools import LoggingContext
+from gemseo.utils.seeder import SEED
 
 from gemseo_umdo.formulations.formulation import UMDOFormulation
 from gemseo_umdo.formulations.functions.statistic_function_for_control_variate import (
@@ -131,7 +131,9 @@ class ControlVariate(UMDOFormulation):
         )
         mdo_formulation = self._mdo_formulation
         self.__linearization_problem = OptimizationProblem(self.uncertain_space)
-        self.__linearization_problem.objective = mdo_formulation.opt_problem.objective
+        self.__linearization_problem.objective = (
+            mdo_formulation.optimization_problem.objective
+        )
         self.name = (
             f"{self.__class__.__name__}"
             f"[{mdo_formulation.__class__.__name__}; {algo}({n_samples})]"
@@ -149,12 +151,12 @@ class ControlVariate(UMDOFormulation):
 
     def _post_add_constraint(self) -> None:
         self.__linearization_problem.add_observable(
-            self._mdo_formulation.opt_problem.observables[-1]
+            self._mdo_formulation.optimization_problem.observables[-1]
         )
 
     def _post_add_observable(self) -> None:
         self.__linearization_problem.add_observable(
-            self._mdo_formulation.opt_problem.observables[-1]
+            self._mdo_formulation.optimization_problem.observables[-1]
         )
 
     def compute_samples(

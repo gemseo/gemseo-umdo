@@ -23,7 +23,7 @@ $c_{\text{displacement}}(h,t)\leq 1.0$.
 from __future__ import annotations
 
 from gemseo import configure_logger
-from gemseo.core.mdo_scenario import MDOScenario
+from gemseo.scenarios.mdo_scenario import MDOScenario
 
 from gemseo_umdo.use_cases.beam_model.constraints import BeamConstraints
 from gemseo_umdo.use_cases.beam_model.design_space import BeamDesignSpace

@@ -41,7 +41,7 @@ class StatisticFunctionForStandardSampling(StatisticFunctionForSampling):
         self, input_data: RealArray, output_data: dict[str, RealArray]
     ) -> None:
         formulation = self._formulation
-        problem = formulation.mdo_formulation.opt_problem
+        problem = formulation.mdo_formulation.optimization_problem
         database = problem.database
         formulation.compute_samples(problem, input_data)
         for output_name in database.get_function_names():

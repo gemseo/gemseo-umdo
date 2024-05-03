@@ -32,7 +32,7 @@ from gemseo_umdo.formulations.statistics.sampling.sampling_estimator_factory imp
 )
 
 if TYPE_CHECKING:
-    from gemseo.algos.opt_problem import OptimizationProblem
+    from gemseo.algos.optimization_problem import OptimizationProblem
 
 
 @pytest.fixture()
@@ -124,8 +124,8 @@ def test_name(formulation):
 
 def test_objective(formulation):
     """Check the objective function is correctly set."""
-    assert formulation.opt_problem.objective.mock == "f_statistics"
-    assert formulation.opt_problem.objective.name == "E[f]"
+    assert formulation.optimization_problem.objective.mock == "f_statistics"
+    assert formulation.optimization_problem.objective.name == "E[f]"
 
 
 @pytest.mark.parametrize("maximize_objective", [None, False, True])
@@ -148,21 +148,21 @@ def test_maximize_objective(
         **kwargs,
     )
     maximize = bool(maximize_objective)
-    assert formulation.mdo_formulation.opt_problem.minimize_objective
-    assert formulation.opt_problem.minimize_objective is not maximize
+    assert formulation.mdo_formulation.optimization_problem.minimize_objective
+    assert formulation.optimization_problem.minimize_objective is not maximize
     expected_name = "-E[f]" if maximize else "E[f]"
-    assert formulation.opt_problem.objective.name == expected_name
+    assert formulation.optimization_problem.objective.name == expected_name
 
 
 def test_observable(formulation):
     """Check the observable function is correctly set."""
-    assert formulation.opt_problem.observables[0].mock == "o_statistics"
-    assert formulation.opt_problem.observables[0].name == "E[o]"
+    assert formulation.optimization_problem.observables[0].mock == "o_statistics"
+    assert formulation.optimization_problem.observables[0].name == "E[o]"
 
 
 def test_constraint(formulation):
     """Check the constraint function is correctly set."""
-    opt_problem = formulation.opt_problem
+    opt_problem = formulation.optimization_problem
     assert opt_problem.constraints[0].mock == "c_statistics"
     assert opt_problem.constraints[0].name == "Margin[c; 3.0]"
 
@@ -193,9 +193,9 @@ def test_init_sub_formulation(formulation):
     assert sub_form.__class__.__name__ == "MDF"
     assert sub_form.mda.inner_mdas[0].name == "MDAGaussSeidel"
     assert sub_form.disciplines == formulation.disciplines
-    assert sub_form.opt_problem.objective.name == "f"
-    assert sub_form.opt_problem.observables[0].name == "c"
-    assert sub_form.opt_problem.observables[1].name == "o"
+    assert sub_form.optimization_problem.objective.name == "f"
+    assert sub_form.optimization_problem.observables[0].name == "c"
+    assert sub_form.optimization_problem.observables[1].name == "o"
     assert sub_form.design_space.variable_names == ["u"]
 
 
@@ -223,4 +223,4 @@ def test_multiobjective(disciplines, design_space, mdf, uncertain_space):
         uncertain_space,
         "Mean",
     )
-    assert formulation.opt_problem.objective.name == "E[f_o]"
+    assert formulation.optimization_problem.objective.name == "E[f_o]"

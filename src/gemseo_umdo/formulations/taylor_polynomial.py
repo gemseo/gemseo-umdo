@@ -39,7 +39,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 from typing import Any
 
-from gemseo.algos.opt_problem import OptimizationProblem
+from gemseo.algos.optimization_problem import OptimizationProblem
 from gemseo.core.discipline import MDODiscipline
 from gemseo.core.mdofunctions.mdo_function import MDOFunction
 from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
@@ -112,17 +112,19 @@ class TaylorPolynomial(UMDOFormulation):
         )
 
         self.__hessian_fd_problem = None
-        finite_differences = self.opt_problem.ApproximationMode.FINITE_DIFFERENCES
+        finite_differences = (
+            self.optimization_problem.ApproximationMode.FINITE_DIFFERENCES
+        )
         if self.__second_order:
-            problem = self._mdo_formulation.opt_problem
+            problem = self._mdo_formulation.optimization_problem
             self.__hessian_fd_problem = OptimizationProblem(self.uncertain_space)
             self.__hessian_fd_problem.objective = HessianFunction(problem.objective)
 
-        problem = self._mdo_formulation.opt_problem
+        problem = self._mdo_formulation.optimization_problem
         problem.differentiation_method = differentiation_method
         problem.design_space = problem.design_space.to_design_space()
-        self.opt_problem.differentiation_method = finite_differences
-        self.opt_problem.fd_step = 1e-6
+        self.optimization_problem.differentiation_method = finite_differences
+        self.optimization_problem.fd_step = 1e-6
 
     @property
     def hessian_fd_problem(self) -> OptimizationProblem | None:
@@ -155,7 +157,9 @@ class TaylorPolynomial(UMDOFormulation):
         )
         if self.hessian_fd_problem is not None:
             self.hessian_fd_problem.add_observable(
-                HessianFunction(self._mdo_formulation.opt_problem.observables[-1])
+                HessianFunction(
+                    self._mdo_formulation.optimization_problem.observables[-1]
+                )
             )
 
     def add_observable(  # noqa: D102
@@ -175,7 +179,9 @@ class TaylorPolynomial(UMDOFormulation):
         )
         if self.hessian_fd_problem is not None:
             self.hessian_fd_problem.add_observable(
-                HessianFunction(self.mdo_formulation.opt_problem.observables[-1]),
+                HessianFunction(
+                    self.mdo_formulation.optimization_problem.observables[-1]
+                ),
             )
 
     def evaluate_with_mean(self, problem: OptimizationProblem, eval_jac: bool) -> None:

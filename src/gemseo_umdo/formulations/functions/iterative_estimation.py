@@ -22,7 +22,7 @@ from numpy import array
 from numpy import atleast_1d
 
 if TYPE_CHECKING:
-    from gemseo.algos.opt_problem import EvaluationType
+    from gemseo.algos.optimization_problem import EvaluationType
     from gemseo.typing import RealArray
 
     from gemseo_umdo.formulations.statistics.iterative_sampling.sampling_estimator import (  # noqa: E501
