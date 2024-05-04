@@ -34,7 +34,7 @@ fastjsonschema==2.19.1
     # via gemseo
 fonttools==4.51.0
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@64981895ac4b15179165fc648c2ac323ac4cdcb6
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@57c1b96651acdff29c0acf9b2a5c17adeb6c02dc
 genson==1.2.2
     # via gemseo
 ghp-import==2.1.0
@@ -185,7 +185,7 @@ pydantic-core==2.16.3
     # via pydantic
 pydoe3==1.0.1
     # via gemseo
-pygments==2.17.2
+pygments==2.18.0
     # via mkdocs-material
 pymdown-extensions==10.8.1
     # via
