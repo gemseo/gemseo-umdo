@@ -2,7 +2,7 @@
 #    uv pip compile --extra doc --constraint requirements/test-constraints.in -o requirements/doc.txt --python-version 3.9 pyproject.toml
 annotated-types==0.6.0
     # via pydantic
-babel==2.14.0
+babel==2.15.0
     # via mkdocs-material
 black==24.4.2
 bracex==2.4
@@ -34,7 +34,7 @@ fastjsonschema==2.19.1
     # via gemseo
 fonttools==4.51.0
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@57c1b96651acdff29c0acf9b2a5c17adeb6c02dc
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@2611266ec6f95123f19690ee33bd7916ae3f1951
 genson==1.2.2
     # via gemseo
 ghp-import==2.1.0
@@ -120,7 +120,7 @@ mkdocs-material==9.5.21
 mkdocs-material-extensions==1.3.1
     # via mkdocs-material
 mkdocs-section-index==0.3.9
-mkdocstrings==0.25.0
+mkdocstrings==0.25.1
     # via mkdocstrings-python
 mkdocstrings-python==1.10.0
     # via mkdocstrings
