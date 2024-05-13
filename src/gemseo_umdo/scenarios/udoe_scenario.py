@@ -16,9 +16,6 @@
 
 from __future__ import annotations
 
-from pathlib import Path
-from typing import ClassVar
-
 from gemseo.scenarios.doe_scenario import DOEScenario
 
 from gemseo_umdo.scenarios._scenario import _UScenario
@@ -26,5 +23,3 @@ from gemseo_umdo.scenarios._scenario import _UScenario
 
 class UDOEScenario(_UScenario, DOEScenario):
     """A DOE-based scenario for multidisciplinary design under uncertainty."""
-
-    GRAMMAR_DIRECTORY: ClassVar[Path] = Path(__file__) / "udoe"
