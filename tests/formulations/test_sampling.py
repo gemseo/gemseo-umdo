@@ -43,12 +43,12 @@ from gemseo_umdo.formulations._statistics.iterative_sampling.standard_deviation 
 from gemseo_umdo.formulations._statistics.iterative_sampling.variance import (
     Variance as IterativeVariance,
 )
+from gemseo_umdo.formulations._statistics.sampling.base_sampling_estimator import (
+    BaseSamplingEstimator,
+)
 from gemseo_umdo.formulations._statistics.sampling.margin import Margin
 from gemseo_umdo.formulations._statistics.sampling.mean import Mean
 from gemseo_umdo.formulations._statistics.sampling.probability import Probability
-from gemseo_umdo.formulations._statistics.sampling.sampling_estimator import (
-    SamplingEstimator,
-)
 from gemseo_umdo.formulations._statistics.sampling.standard_deviation import (
     StandardDeviation,
 )
@@ -178,7 +178,7 @@ def test_scenario_serialization(scenario, tmp_path, scenario_input_data):
 
 
 def estimate(
-    statistic_class: SamplingEstimator | IterativeSamplingEstimator,
+    statistic_class: BaseSamplingEstimator | IterativeSamplingEstimator,
     samples: ndarray,
     **options: Any,
 ) -> ndarray:
@@ -193,7 +193,7 @@ def estimate(
         The estimation of the statistic.
     """
     statistic = statistic_class(**options)
-    if issubclass(statistic_class, SamplingEstimator):
+    if issubclass(statistic_class, BaseSamplingEstimator):
         return statistic(samples)
 
     for sample in samples:
@@ -385,3 +385,7 @@ def test_save_samples(disciplines, design_space, uncertain_space, tmp_wd):
         dataset.misc, {"x0": array([1.0]), "x1": array([1.0]), "x2": array([1.0])}
     )
     assert dataset.name == "Iteration 2"
+
+
+def test_iterative_margin():
+    """"""

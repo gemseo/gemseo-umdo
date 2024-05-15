@@ -34,7 +34,7 @@ if TYPE_CHECKING:
     from numpy.typing import NDArray
 
 
-class ControlVariateEstimator(BaseStatisticEstimator):
+class BaseControlVariateEstimator(BaseStatisticEstimator):
     """Base statistic estimator for a U-MDO formulation using control variates."""
 
     __EPSILON: Final[float] = finfo(float).eps

@@ -29,7 +29,7 @@ if TYPE_CHECKING:
     from numpy.typing import NDArray
 
 
-class TaylorPolynomialEstimator(BaseStatisticEstimator):
+class BaseTaylorPolynomialEstimator(BaseStatisticEstimator):
     """Base statistic estimator for a U-MDO formulation using Taylor polynomials."""
 
     _standard_deviations: NDArray[float]

@@ -18,10 +18,10 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from gemseo_umdo.formulations._statistics.sampling.mean import Mean
-from gemseo_umdo.formulations._statistics.sampling.sampling_estimator import (
-    SamplingEstimator,
+from gemseo_umdo.formulations._statistics.sampling.base_sampling_estimator import (
+    BaseSamplingEstimator,
 )
+from gemseo_umdo.formulations._statistics.sampling.mean import Mean
 from gemseo_umdo.formulations._statistics.sampling.standard_deviation import (
     StandardDeviation,
 )
@@ -30,7 +30,7 @@ if TYPE_CHECKING:
     from gemseo.typing import RealArray
 
 
-class Margin(SamplingEstimator):
+class Margin(BaseSamplingEstimator):
     """Estimator of a margin, i.e. mean + factor * deviation."""
 
     __factor: float

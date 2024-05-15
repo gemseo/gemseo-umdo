@@ -17,8 +17,8 @@
 from gemseo.algos.parameter_space import ParameterSpace
 from gemseo.typing import RealArray
 
-from gemseo_umdo.formulations._statistics.control_variate.control_variate_estimator import (  # noqa: E501
-    ControlVariateEstimator,
+from gemseo_umdo.formulations._statistics.control_variate.base_control_variate_estimator import (  # noqa: E501
+    BaseControlVariateEstimator,
 )
 from gemseo_umdo.formulations._statistics.control_variate.mean import Mean
 from gemseo_umdo.formulations._statistics.control_variate.standard_deviation import (
@@ -26,7 +26,7 @@ from gemseo_umdo.formulations._statistics.control_variate.standard_deviation imp
 )
 
 
-class Margin(ControlVariateEstimator):
+class Margin(BaseControlVariateEstimator):
     """Estimator of a margin, i.e. mean + factor * deviation."""
 
     __factor: float

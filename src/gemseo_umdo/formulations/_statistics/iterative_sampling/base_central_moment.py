@@ -24,16 +24,16 @@ from numpy import array
 from openturns import IterativeMoments
 from openturns import Point
 
-from gemseo_umdo.formulations._statistics.iterative_sampling.sampling_estimator import (
-    SamplingEstimator,
+from gemseo_umdo.formulations._statistics.iterative_sampling.base_sampling_estimator import (  # noqa: E501
+    BaseSamplingEstimator,
 )
 
 if TYPE_CHECKING:
     from gemseo.typing import RealArray
 
 
-class CentralMoment(SamplingEstimator):
-    """Iterative estimator of a central moment, e.g. expectation or variance.
+class BaseCentralMoment(BaseSamplingEstimator):
+    """Base iterative estimator of a central moment, e.g. expectation or variance.
 
     This class iteratively computes a central moment of an increasing dataset without
     storing any data in memory.

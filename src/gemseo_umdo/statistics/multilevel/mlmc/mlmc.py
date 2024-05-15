@@ -45,8 +45,8 @@ if TYPE_CHECKING:
     from gemseo.core.base_factory import BaseFactory
     from numpy.typing import NDArray
 
+    from gemseo_umdo.statistics.multilevel.base_pilot import BasePilot
     from gemseo_umdo.statistics.multilevel.mlmc.level import Level
-    from gemseo_umdo.statistics.multilevel.pilot import Pilot
 
 LOGGER = logging.getLogger(__name__)
 
@@ -59,7 +59,7 @@ class MLMC:
     and a few evaluations for the finest one.
 
     This adaptive sampling is guided
-    by a [Pilot][gemseo_umdo.statistics.multilevel.pilot.Pilot].
+    by a [BasePilot][gemseo_umdo.statistics.multilevel.base_pilot.BasePilot].
 
     This algorithm depends on the execution cost ratio between two consecutive levels,
     that can be estimated from the models,
@@ -122,7 +122,7 @@ class MLMC:
     __pilot_statistic_estimation: NDArray[float]
     """The estimation of the pilot statistic."""
 
-    __pilot_statistic_estimator: Pilot
+    __pilot_statistic_estimator: BasePilot
     """The estimator of the pilot statistic."""
 
     _pilot_statistic_estimator_parameters: list[Any]

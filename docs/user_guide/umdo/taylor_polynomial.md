@@ -12,7 +12,7 @@
 The U-MDO formulation [TaylorPolynomial]
 [gemseo_umdo.formulations.taylor_polynomial.TaylorPolynomial]
 can solve an MDO problem
-associated with an [MDOFormulation][gemseo.core.formulation.MDOFormulation]
+associated with an [MDOFormulation][gemseo.formulations.mdo_formulation.MDOFormulation]
 with Taylor polynomials.
 
 The Taylor polynomials are centered at $\mu=\mathbb{E}[U]$
@@ -24,7 +24,7 @@ associated with taking the uncertainties into account.
 Otherwise,
 finite differences are computed
 and so the additional cost is $d+1$ evaluations of the process
-associated with the [MDOFormulation][gemseo.core.formulation.MDOFormulation]
+associated with the [MDOFormulation][gemseo.formulations.mdo_formulation.MDOFormulation]
 where $d$ is the dimension of the uncertain space.
 
 This U-MDO formulation has no mandatory parameters.
@@ -49,7 +49,7 @@ scenario = UMDOScenario(
 
 When the derivatives with respect to the uncertain variables are missing
 or when the process
-resulting from the [MDOFormulation][gemseo.core.formulation.MDOFormulation]
+resulting from the [MDOFormulation][gemseo.formulations.mdo_formulation.MDOFormulation]
 cannot be differentiated with respect to these variables,
 this U-MDO formulation uses finite difference approximations.
 One can also force the use of finite difference approximations

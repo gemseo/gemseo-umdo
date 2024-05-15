@@ -22,15 +22,15 @@ from typing import TYPE_CHECKING
 from typing import Any
 from typing import Callable
 
-from gemseo_umdo.formulations._statistics.sampling.sampling_estimator import (
-    SamplingEstimator,
+from gemseo_umdo.formulations._statistics.sampling.base_sampling_estimator import (
+    BaseSamplingEstimator,
 )
 
 if TYPE_CHECKING:
     from gemseo.typing import RealArray
 
 
-class Probability(SamplingEstimator):
+class Probability(BaseSamplingEstimator):
     """Estimator of a probability."""
 
     __compare: Callable[[Any, Any], Any]

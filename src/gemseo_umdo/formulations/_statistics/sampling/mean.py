@@ -18,15 +18,15 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from gemseo_umdo.formulations._statistics.sampling.sampling_estimator import (
-    SamplingEstimator,
+from gemseo_umdo.formulations._statistics.sampling.base_sampling_estimator import (
+    BaseSamplingEstimator,
 )
 
 if TYPE_CHECKING:
     from gemseo.typing import RealArray
 
 
-class Mean(SamplingEstimator):
+class Mean(BaseSamplingEstimator):
     """Estimator of the expectation."""
 
     def _compute(self, samples: RealArray) -> RealArray:  # noqa: D102

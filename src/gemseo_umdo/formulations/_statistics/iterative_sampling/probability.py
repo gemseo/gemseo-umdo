@@ -21,15 +21,15 @@ from typing import TYPE_CHECKING
 from numpy import array
 
 from gemseo_umdo._utils.compatibility.openturns import IterativeThresholdExceedance
-from gemseo_umdo.formulations._statistics.iterative_sampling.sampling_estimator import (
-    SamplingEstimator,
+from gemseo_umdo.formulations._statistics.iterative_sampling.base_sampling_estimator import (  # noqa: E501
+    BaseSamplingEstimator,
 )
 
 if TYPE_CHECKING:
     from gemseo.typing import RealArray
 
 
-class Probability(SamplingEstimator):
+class Probability(BaseSamplingEstimator):
     """Iterative estimator of a probability.
 
     This class iteratively computes a probability on an increasing dataset without

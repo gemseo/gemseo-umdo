@@ -26,10 +26,10 @@ from gemseo.disciplines.analytic import AnalyticDiscipline
 from gemseo.formulations.mdf import MDF
 from numpy import array
 
-from gemseo_umdo.formulations._statistics.sampling.sampling_estimator_factory import (
+from gemseo_umdo.formulations._statistics.sampling.factory import (
     SamplingEstimatorFactory,
 )
-from gemseo_umdo.formulations.formulation import UMDOFormulation
+from gemseo_umdo.formulations.base_umdo_formulation import BaseUMDOFormulation
 
 if TYPE_CHECKING:
     from gemseo.algos.optimization_problem import OptimizationProblem
@@ -75,7 +75,7 @@ class StatisticFunction(MDOFunction):
 
     def __init__(  # noqa: D107
         self,
-        formulation: UMDOFormulation,
+        formulation: BaseUMDOFormulation,
         func: MDOFunction,
         function_type: str,
         name: str,
@@ -87,8 +87,8 @@ class StatisticFunction(MDOFunction):
         self.f_type = func.ConstraintType.INEQ
 
 
-class MyUMDOFormulation(UMDOFormulation):
-    """A dummy UMDOFormulation."""
+class MyUMDOFormulation(BaseUMDOFormulation):
+    """A dummy BaseUMDOFormulation."""
 
     def __init__(self, *args, **kwargs):  # noqa: D107
         self._statistic_function_class = StatisticFunction
@@ -118,7 +118,7 @@ def test_uncertain_space(formulation):
 
 
 def test_name(formulation):
-    """Check the name of the UMDOFormulation."""
+    """Check the name of the BaseUMDOFormulation."""
     assert formulation.name == "MyUMDOFormulation[MDF]"
 
 

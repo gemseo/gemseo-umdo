@@ -90,7 +90,7 @@ def scenario(disciplines, design_space, uncertain_space) -> UMDOScenario:
 
 
 def test_disciplines_copy(scenario, disciplines):
-    """Check that the _UScenario works on a copy of the sequence of disciplines."""
+    """Check that the BaseUScenario works on a copy of the sequence of disciplines."""
     assert id(scenario.disciplines) != id(disciplines)
 
 
@@ -181,7 +181,7 @@ def test_maximize_objective(
 def test_uncertain_design_variables(disciplines, design_space, uncertain_space):
     """Check that a design variable can be noised.
 
-    Here we check the disciplines created by the _UScenario.
+    Here we check the disciplines created by the BaseUScenario.
     """
     scn = UMDOScenario(
         disciplines,
@@ -266,8 +266,8 @@ def test_uncertain_design_variables_values(x, u1, u2):
 def test_statistic_no_estimation_parameters(disciplines, design_space, uncertain_space):
     """Check that a TypeError is raised when estimation parameters are missing.
 
-    The default UMDOFormulation is "Sampling" whose "n_samples" argument is mandatory
-    for most of the DOE algorithms, including the default one.
+    The default BaseUMDOFormulation is "Sampling" whose "n_samples" argument is
+    mandatory for most of the DOE algorithms, including the default one.
     """
     with pytest.raises(ValueError, match=re.escape("Sampling: n_samples is required.")):
         UMDOScenario(

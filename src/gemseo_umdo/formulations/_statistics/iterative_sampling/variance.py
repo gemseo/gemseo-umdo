@@ -19,15 +19,15 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 from typing import ClassVar
 
-from gemseo_umdo.formulations._statistics.iterative_sampling.central_moment import (
-    CentralMoment,
+from gemseo_umdo.formulations._statistics.iterative_sampling.base_central_moment import (  # noqa: E501
+    BaseCentralMoment,
 )
 
 if TYPE_CHECKING:
     from openturns import Point
 
 
-class Variance(CentralMoment):
+class Variance(BaseCentralMoment):
     """Iterative estimator of the variance.
 
     This class iteratively computes the variance of an increasing dataset without

@@ -25,14 +25,16 @@ from numpy import atleast_1d
 from numpy import atleast_2d
 from numpy import newaxis
 
-from gemseo_umdo.formulations._functions.statistic_function import StatisticFunction
+from gemseo_umdo.formulations._functions.base_statistic_function import (
+    BaseStatisticFunction,
+)
 
 if TYPE_CHECKING:
     from gemseo.algos.parameter_space import ParameterSpace
     from gemseo.typing import RealArray
 
 
-class StatisticFunctionForTaylorPolynomial(StatisticFunction):
+class StatisticFunctionForTaylorPolynomial(BaseStatisticFunction):
     """A function to compute a statistic from `TaylorPolynomial`."""
 
     @property

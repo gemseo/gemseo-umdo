@@ -12,19 +12,12 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-"""A factory of statistic estimators for sampling-based U-MDO formulations."""
+"""The base pilot class for the MLMC algorithm."""
 
 from __future__ import annotations
 
-from gemseo.core.base_factory import BaseFactory
-
-from gemseo_umdo.formulations._statistics.sampling.sampling_estimator import (
-    SamplingEstimator,
-)
+from gemseo_umdo.statistics.multilevel.base_pilot import BasePilot
 
 
-class SamplingEstimatorFactory(BaseFactory):
-    """The factory of sampling-based statistic estimators."""
-
-    _CLASS = SamplingEstimator
-    _MODULE_NAMES = ("gemseo_umdo.formulations._statistics.sampling",)
+class BaseMLMCPilot(BasePilot):
+    """The base pilot class for the MLMC algorithm."""

@@ -12,9 +12,10 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-"""A function to compute a statistic from a `UMDOFormulation`.
+"""A function to compute a statistic from a `BaseUMDOFormulation`.
 
-See also [UMDOFormulation][gemseo_umdo.formulations.formulation.UMDOFormulation].
+See Also:
+[BaseUMDOFormulation][gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation].
 """
 
 from __future__ import annotations
@@ -33,25 +34,26 @@ if TYPE_CHECKING:
     from gemseo_umdo.formulations._statistics.base_statistic_estimator import (
         BaseStatisticEstimator,
     )
-    from gemseo_umdo.formulations.formulation import UMDOFormulation
+    from gemseo_umdo.formulations.base_umdo_formulation import BaseUMDOFormulation
 
 
-class StatisticFunction(MDOFunction):
-    """A function to compute a statistic from a `UMDOFormulation`."""
+class BaseStatisticFunction(MDOFunction):
+    """A function to compute a statistic from a `BaseUMDOFormulation`."""
 
     _estimate_statistic: BaseStatisticEstimator
     """A callable to estimate the statistic."""
 
-    _formulation: UMDOFormulation
-    """The U-MDO formulation to which the [StatisticFunction][gemseo_umdo.formulations.f
-    unctions.statistic_function.StatisticFunction] is attached."""
+    _formulation: BaseUMDOFormulation
+    """The U-MDO formulation to which the
+    [BaseStatisticFunction][gemseo_umdo.formulations.f
+    unctions.base_statistic_function.BaseStatisticFunction] is attached."""
 
     _function_name: str
     """The name of the function."""
 
     def __init__(
         self,
-        formulation: UMDOFormulation,
+        formulation: BaseUMDOFormulation,
         func: MDOFunction,
         function_type: MDOFunction.FunctionType,
         name: str,
@@ -62,7 +64,7 @@ class StatisticFunction(MDOFunction):
         Args:
             formulation: The U-MDO formulation
                 to which the
-                [StatisticFunction][gemseo_umdo.formulations._functions.statistic_function.StatisticFunction]
+                [BaseStatisticFunction][gemseo_umdo.formulations._functions.base_statistic_function.BaseStatisticFunction]
                 is attached.
             func: The function for which we want to estimate an output statistic.
             function_type: The type of function.

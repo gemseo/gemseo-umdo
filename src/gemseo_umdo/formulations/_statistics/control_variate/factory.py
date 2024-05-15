@@ -12,19 +12,17 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-"""A factory of statistic estimators for U-MDO formulations using Taylor polynomials."""
-
-from __future__ import annotations
+"""A factory of statistic estimators for U-MDO formulations based on control variate."""
 
 from gemseo.core.base_factory import BaseFactory
 
-from gemseo_umdo.formulations._statistics.taylor_polynomial.taylor_polynomial_estimator import (  # noqa: E501
-    TaylorPolynomialEstimator,
+from gemseo_umdo.formulations._statistics.control_variate.base_control_variate_estimator import (  # noqa: E501
+    BaseControlVariateEstimator,
 )
 
 
-class TaylorPolynomialEstimatorFactory(BaseFactory):
-    """The factory of statistic estimators based on Taylor polynomials."""
+class ControlVariateEstimatorFactory(BaseFactory):
+    """The factory of statistic estimators based on control variates."""
 
-    _CLASS = TaylorPolynomialEstimator
-    _MODULE_NAMES = ("gemseo_umdo.formulations._statistics.taylor_polynomial",)
+    _CLASS = BaseControlVariateEstimator
+    _MODULE_NAMES = ("gemseo_umdo.formulations._statistics.control_variate",)

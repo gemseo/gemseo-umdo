@@ -22,8 +22,8 @@ from typing import TYPE_CHECKING
 from typing import Any
 from typing import Callable
 
-from gemseo_umdo.formulations._statistics.control_variate.control_variate_estimator import (  # noqa: E501
-    ControlVariateEstimator,
+from gemseo_umdo.formulations._statistics.control_variate.base_control_variate_estimator import (  # noqa: E501
+    BaseControlVariateEstimator,
 )
 
 if TYPE_CHECKING:
@@ -31,7 +31,7 @@ if TYPE_CHECKING:
     from gemseo.typing import RealArray
 
 
-class Probability(ControlVariateEstimator):
+class Probability(BaseControlVariateEstimator):
     """Estimator of a probability."""
 
     __compare: Callable[[Any, Any], Any]

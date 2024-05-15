@@ -25,14 +25,16 @@ from typing import Final
 from numpy import atleast_1d
 from numpy import atleast_2d
 
-from gemseo_umdo.formulations._functions.statistic_function import StatisticFunction
+from gemseo_umdo.formulations._functions.base_statistic_function import (
+    BaseStatisticFunction,
+)
 
 if TYPE_CHECKING:
     from gemseo.algos.parameter_space import ParameterSpace
     from gemseo.typing import RealArray
 
 
-class StatisticFunctionForControlVariate(StatisticFunction):
+class StatisticFunctionForControlVariate(BaseStatisticFunction):
     """A function to compute a statistic from `ControlVariate`."""
 
     __FUNC_TEMPLATE: Final[str] = "#{}"

@@ -40,14 +40,16 @@ if TYPE_CHECKING:
     from gemseo.formulations.mdo_formulation import MDOFormulation
     from gemseo.typing import RealArray
 
-    from gemseo_umdo.formulations._functions.statistic_function import StatisticFunction
+    from gemseo_umdo.formulations._functions.base_statistic_function import (
+        BaseStatisticFunction,
+    )
 
 
-class UMDOFormulation(BaseFormulation):
+class BaseUMDOFormulation(BaseFormulation):
     """Base class for U-MDO formulations.
 
     A U-MDO formulation rewrites a multidisciplinary optimization problem under
-    uncertainty, a.k.a. U-MDO probem, as a standard optimization problem without
+    uncertainty, a.k.a. U-MDO problem, as a standard optimization problem without
     uncertainty.
     """
 
@@ -57,7 +59,7 @@ class UMDOFormulation(BaseFormulation):
     _statistic_factory: BaseFactory
     """A factory of statistics."""
 
-    _statistic_function_class: type[StatisticFunction]
+    _statistic_function_class: type[BaseStatisticFunction]
     """A subclass of [MDOFunction][gemseo.core.mdofunctions.mdo_function.MDOFunction] to
     compute a statistic."""
 

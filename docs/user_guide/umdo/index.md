@@ -435,7 +435,7 @@ by sampling the random function $f(x,U)$, $g(x,U)$ and $h(x,U)$.
 
 GEMSEO-UMDO offers other statistic estimations methods
 and refers to them as U-MDO formulations.
-A [UMDOFormulation][gemseo_umdo.formulations.formulation.UMDOFormulation]
+A [BaseUMDOFormulation][gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation]
 can be combined to any MDO formulation.
 
 ??? info "Implementation"
@@ -448,7 +448,7 @@ can be combined to any MDO formulation.
     generates and solves an
     [OptimizationProblem][gemseo.algos.optimization_problem.OptimizationProblem]
     that corresponds to an
-    [MDOFormulation][gemseo.core.formulation.MDOFormulation].
+    [MDOFormulation][gemseo.formulations.mdo_formulation.MDOFormulation].
     The resolution consists in sampling the objective and constraints
     over the [DesignSpace][gemseo.algos.design_space.DesignSpace],
     i.e. $(x^{(i)},f(x^{(i)},U),g(x^{(i)},U),h(x^{(i)},U))_{1\leq i \leq N}$,
@@ -489,7 +489,7 @@ can be combined to any MDO formulation.
     Thus implemented,
     GEMSEO-UMDO should be able
     to set up any MDO problem under uncertainty
-    from any [MDOFormulation][gemseo.core.formulation.MDOFormulation]
+    from any [MDOFormulation][gemseo.formulations.mdo_formulation.MDOFormulation]
     and any statistic estimation technique.
     This vision may be theoretical at the moment,
     but the ambition of GEMSEO-UMDO is to be

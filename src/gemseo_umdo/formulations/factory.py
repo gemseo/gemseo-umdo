@@ -18,11 +18,11 @@ from __future__ import annotations
 
 from gemseo.formulations.factory import MDOFormulationFactory
 
-from gemseo_umdo.formulations.formulation import UMDOFormulation
+from gemseo_umdo.formulations.base_umdo_formulation import BaseUMDOFormulation
 
 
 class UMDOFormulationsFactory(MDOFormulationFactory):
     """The factory of U-MDO formulations."""
 
-    _CLASS = UMDOFormulation
+    _CLASS = BaseUMDOFormulation
     _MODULE_NAMES = ("gemseo_umdo.formulations",)

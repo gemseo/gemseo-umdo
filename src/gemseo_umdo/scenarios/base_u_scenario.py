@@ -42,7 +42,7 @@ if TYPE_CHECKING:
     from gemseo.formulations.mdo_formulation import MDOFormulation
 
 
-class _UScenario(Scenario):
+class BaseUScenario(Scenario):
     """Base scenario for multidisciplinary design problems under uncertainty."""
 
     __DV_TAG: Final[str] = "{}"
