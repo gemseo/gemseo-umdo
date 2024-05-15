@@ -26,10 +26,10 @@ from gemseo.disciplines.analytic import AnalyticDiscipline
 from gemseo.formulations.mdf import MDF
 from numpy import array
 
-from gemseo_umdo.formulations.formulation import UMDOFormulation
-from gemseo_umdo.formulations.statistics.sampling.sampling_estimator_factory import (
+from gemseo_umdo.formulations._statistics.sampling.sampling_estimator_factory import (
     SamplingEstimatorFactory,
 )
+from gemseo_umdo.formulations.formulation import UMDOFormulation
 
 if TYPE_CHECKING:
     from gemseo.algos.optimization_problem import OptimizationProblem

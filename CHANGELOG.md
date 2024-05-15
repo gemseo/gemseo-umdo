@@ -30,6 +30,9 @@ and this project adheres to
 
 ### Added
 
+- The U-MDO formulation [PCE][gemseo_umdo.formulations.pce.PCE] creates a polynomial chaos expansion (PCE)
+  over the uncertain space at each iteration of the optimization loop and uses the coefficients of the PCE
+  to estimate the following statistics: `Mean`, `StandardDeviation`, `Margin` and `Variance`.
 - The U-MDO formulations
   [Sampling][gemseo_umdo.formulations.sampling.Sampling] and
   [SequentialSampling][gemseo_umdo.formulations.sequential_sampling.SequentialSampling]
@@ -63,6 +66,8 @@ and this project adheres to
 
 ### Changed
 
+- `gemseo_umdo.formulations.statistics` is now a protected package.
+- `gemseo_umdo.formulations.functions` is now a protected package.
 - The [BeamConstraints][gemseo_umdo.use_cases.beam_model.constraints.BeamConstraints] discipline
   computed outputs of the form `a/(b+eps)` where `eps` was used to avoid division by zero.
   Now,

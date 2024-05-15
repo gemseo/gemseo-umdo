@@ -12,17 +12,19 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-"""Factory of U-MDO formulations."""
+"""A factory of statistic estimators for U-MDO formulations using Taylor polynomials."""
 
 from __future__ import annotations
 
-from gemseo.formulations.factory import MDOFormulationFactory
+from gemseo.core.base_factory import BaseFactory
 
-from gemseo_umdo.formulations.formulation import UMDOFormulation
+from gemseo_umdo.formulations._statistics.taylor_polynomial.taylor_polynomial_estimator import (  # noqa: E501
+    TaylorPolynomialEstimator,
+)
 
 
-class UMDOFormulationsFactory(MDOFormulationFactory):
-    """The factory of U-MDO formulations."""
+class TaylorPolynomialEstimatorFactory(BaseFactory):
+    """The factory of statistic estimators based on Taylor polynomials."""
 
-    _CLASS = UMDOFormulation
-    _MODULE_NAMES = ("gemseo_umdo.formulations",)
+    _CLASS = TaylorPolynomialEstimator
+    _MODULE_NAMES = ("gemseo_umdo.formulations._statistics.taylor_polynomial",)

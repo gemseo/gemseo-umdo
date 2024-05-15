@@ -12,17 +12,19 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-"""Factory of U-MDO formulations."""
+"""A factory of statistic estimators for sampling-based U-MDO formulations."""
 
 from __future__ import annotations
 
-from gemseo.formulations.factory import MDOFormulationFactory
+from gemseo.core.base_factory import BaseFactory
 
-from gemseo_umdo.formulations.formulation import UMDOFormulation
+from gemseo_umdo.formulations._statistics.sampling.sampling_estimator import (
+    SamplingEstimator,
+)
 
 
-class UMDOFormulationsFactory(MDOFormulationFactory):
-    """The factory of U-MDO formulations."""
+class SamplingEstimatorFactory(BaseFactory):
+    """The factory of sampling-based statistic estimators."""
 
-    _CLASS = UMDOFormulation
-    _MODULE_NAMES = ("gemseo_umdo.formulations",)
+    _CLASS = SamplingEstimator
+    _MODULE_NAMES = ("gemseo_umdo.formulations._statistics.sampling",)

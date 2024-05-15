@@ -30,7 +30,7 @@ typically an optimizer
 or a design of experiments
 (DOE, see [DOELibrary][gemseo.algos.doe.doe_library.DOELibrary]).
 
-In the frame of robust MDO,
+In the frame of U-MDO,
 the [UMDOFormulation][gemseo_umdo.formulations.formulation.UMDOFormulation]
 uses a [MDOFormulation][gemseo.core.formulation.MDOFormulation]
 with a [ParameterSpace][gemseo.algos.parameter_space.ParameterSpace]

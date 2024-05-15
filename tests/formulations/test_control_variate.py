@@ -26,14 +26,14 @@ from numpy.testing import assert_allclose
 from numpy.testing import assert_almost_equal
 from numpy.testing import assert_equal
 
-from gemseo_umdo.formulations.control_variate import ControlVariate
-from gemseo_umdo.formulations.statistics.control_variate.margin import Margin
-from gemseo_umdo.formulations.statistics.control_variate.mean import Mean
-from gemseo_umdo.formulations.statistics.control_variate.probability import Probability
-from gemseo_umdo.formulations.statistics.control_variate.standard_deviation import (
+from gemseo_umdo.formulations._statistics.control_variate.margin import Margin
+from gemseo_umdo.formulations._statistics.control_variate.mean import Mean
+from gemseo_umdo.formulations._statistics.control_variate.probability import Probability
+from gemseo_umdo.formulations._statistics.control_variate.standard_deviation import (
     StandardDeviation,
 )
-from gemseo_umdo.formulations.statistics.control_variate.variance import Variance
+from gemseo_umdo.formulations._statistics.control_variate.variance import Variance
+from gemseo_umdo.formulations.control_variate import ControlVariate
 from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
 
 if TYPE_CHECKING:

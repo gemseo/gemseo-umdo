@@ -12,17 +12,20 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-"""Factory of U-MDO formulations."""
+"""A function to compute a statistic from `Sampling`.
+
+See also [Sampling][gemseo_umdo.formulations.sampling.Sampling].
+"""
 
 from __future__ import annotations
 
-from gemseo.formulations.factory import MDOFormulationFactory
-
-from gemseo_umdo.formulations.formulation import UMDOFormulation
+from gemseo_umdo.formulations._functions.statistic_function import StatisticFunction
 
 
-class UMDOFormulationsFactory(MDOFormulationFactory):
-    """The factory of U-MDO formulations."""
+class StatisticFunctionForSampling(StatisticFunction):
+    """A function to compute a statistic from `Sampling`."""
 
-    _CLASS = UMDOFormulation
-    _MODULE_NAMES = ("gemseo_umdo.formulations",)
+    @property
+    def _observable_name(self) -> str:
+        """The name of the observable."""
+        return f"{self._estimate_statistic.__class__.__name__}[{self._function_name}]"

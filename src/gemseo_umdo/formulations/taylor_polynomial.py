@@ -12,7 +12,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-r"""Taylor polynomials for multidisciplinary design problems under uncertainty.
+r"""U-MDO formulation based on Taylor polynomials.
 
 [TaylorPolynomial][gemseo_umdo.formulations.taylor_polynomial.TaylorPolynomial] is an
 [UMDOFormulation][gemseo_umdo.formulations.formulation.UMDOFormulation]
@@ -44,14 +44,14 @@ from gemseo.core.discipline import MDODiscipline
 from gemseo.core.mdofunctions.mdo_function import MDOFunction
 from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
 
-from gemseo_umdo.formulations.formulation import UMDOFormulation
-from gemseo_umdo.formulations.functions.hessian_function import HessianFunction
-from gemseo_umdo.formulations.functions.statistic_function_for_taylor_polynomial import (  # noqa: E501
+from gemseo_umdo.formulations._functions.hessian_function import HessianFunction
+from gemseo_umdo.formulations._functions.statistic_function_for_taylor_polynomial import (  # noqa: E501
     StatisticFunctionForTaylorPolynomial,
 )
-from gemseo_umdo.formulations.statistics.taylor_polynomial.taylor_polynomial_estimator_factory import (  # noqa: E501
+from gemseo_umdo.formulations._statistics.taylor_polynomial.taylor_polynomial_estimator_factory import (  # noqa: E501
     TaylorPolynomialEstimatorFactory,
 )
+from gemseo_umdo.formulations.formulation import UMDOFormulation
 
 if TYPE_CHECKING:
     from collections.abc import Mapping
@@ -63,7 +63,7 @@ if TYPE_CHECKING:
 
 
 class TaylorPolynomial(UMDOFormulation):
-    """Robust MDO formulation based on Taylor polynomials."""
+    """U-MDO formulation based on Taylor polynomials."""
 
     __hessian_fd_problem: OptimizationProblem | None
     """The problem related to the approximation of the Hessian if any."""

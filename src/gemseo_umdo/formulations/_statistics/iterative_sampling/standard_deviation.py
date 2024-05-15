@@ -12,17 +12,24 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-"""Factory of U-MDO formulations."""
+"""Iterative estimator of a standard deviation for sampling-based U-MDO formulations."""
 
 from __future__ import annotations
 
-from gemseo.formulations.factory import MDOFormulationFactory
+from typing import TYPE_CHECKING
 
-from gemseo_umdo.formulations.formulation import UMDOFormulation
+from gemseo_umdo.formulations._statistics.iterative_sampling.variance import Variance
+
+if TYPE_CHECKING:
+    from openturns import Point
 
 
-class UMDOFormulationsFactory(MDOFormulationFactory):
-    """The factory of U-MDO formulations."""
+class StandardDeviation(Variance):
+    """Iterative estimator of the standard deviation.
 
-    _CLASS = UMDOFormulation
-    _MODULE_NAMES = ("gemseo_umdo.formulations",)
+    This class iteratively computes the standard deviation of an increasing dataset
+    without storing any data in memory.
+    """
+
+    def _get_statistic(self) -> Point:
+        return self._estimator.getStandardDeviation()

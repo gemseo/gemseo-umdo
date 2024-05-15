@@ -12,17 +12,29 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-"""Factory of U-MDO formulations."""
+"""Iterative estimator of the variance for sampling-based U-MDO formulations."""
 
 from __future__ import annotations
 
-from gemseo.formulations.factory import MDOFormulationFactory
+from typing import TYPE_CHECKING
+from typing import ClassVar
 
-from gemseo_umdo.formulations.formulation import UMDOFormulation
+from gemseo_umdo.formulations._statistics.iterative_sampling.central_moment import (
+    CentralMoment,
+)
+
+if TYPE_CHECKING:
+    from openturns import Point
 
 
-class UMDOFormulationsFactory(MDOFormulationFactory):
-    """The factory of U-MDO formulations."""
+class Variance(CentralMoment):
+    """Iterative estimator of the variance.
 
-    _CLASS = UMDOFormulation
-    _MODULE_NAMES = ("gemseo_umdo.formulations",)
+    This class iteratively computes the variance of an increasing dataset without
+    storing any data in memory.
+    """
+
+    _ORDER: ClassVar[int] = 2
+
+    def _get_central_moment(self) -> Point:
+        return self._estimator.getVariance()

@@ -12,17 +12,17 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-"""Factory of U-MDO formulations."""
+"""Estimator of the standard deviation for control variate-based U-MDO formulations."""
 
-from __future__ import annotations
+from gemseo.typing import RealArray
 
-from gemseo.formulations.factory import MDOFormulationFactory
-
-from gemseo_umdo.formulations.formulation import UMDOFormulation
+from gemseo_umdo.formulations._statistics.control_variate.variance import Variance
 
 
-class UMDOFormulationsFactory(MDOFormulationFactory):
-    """The factory of U-MDO formulations."""
+class StandardDeviation(Variance):
+    """Estimator of the standard deviation."""
 
-    _CLASS = UMDOFormulation
-    _MODULE_NAMES = ("gemseo_umdo.formulations",)
+    def __call__(  # noqa: D102
+        self, samples: RealArray, u_samples: RealArray, mean: RealArray, jac: RealArray
+    ) -> RealArray:
+        return super().__call__(samples, u_samples, mean, jac) ** 0.5
