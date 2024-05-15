@@ -11,7 +11,7 @@
 
 The U-MDO formulation [PCE][gemseo_umdo.formulations.pce.PCE]
 can solve an MDO problem
-associated with an [MDOFormulation][gemseo.core.formulation.MDOFormulation]
+associated with an [MDOFormulation][gemseo.formulations.mdo_formulation.MDOFormulation]
 with polynomial chaos expansions (PCEs).
 
 At each iteration of the optimization loop,

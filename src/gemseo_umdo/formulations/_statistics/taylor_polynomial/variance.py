@@ -22,15 +22,15 @@ from numpy import diag
 from numpy import diagonal
 from numpy.linalg import multi_dot
 
-from gemseo_umdo.formulations._statistics.taylor_polynomial.taylor_polynomial_estimator import (  # noqa: E501
-    TaylorPolynomialEstimator,
+from gemseo_umdo.formulations._statistics.taylor_polynomial.base_taylor_polynomial_estimator import (  # noqa: E501
+    BaseTaylorPolynomialEstimator,
 )
 
 if TYPE_CHECKING:
     from gemseo.typing import RealArray
 
 
-class Variance(TaylorPolynomialEstimator):
+class Variance(BaseTaylorPolynomialEstimator):
     """Estimator of the variance."""
 
     def __call__(self, func: RealArray, jac: RealArray, hess: RealArray) -> RealArray:

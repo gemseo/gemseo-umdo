@@ -28,7 +28,9 @@ from numpy import nanvar
 from scipy.linalg import solve
 
 from gemseo_umdo.statistics.multilevel.mlmc_mlcv.mlmc_mlcv import MLMCMLCV
-from gemseo_umdo.statistics.multilevel.mlmc_mlcv.pilots.pilot import MLMCMLCVPilot
+from gemseo_umdo.statistics.multilevel.mlmc_mlcv.pilots.base_mlmc_mlcv_pilot import (
+    BaseMLMCMLCVPilot,
+)
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -37,7 +39,7 @@ if TYPE_CHECKING:
     from numpy.typing import NDArray
 
 
-class Mean(MLMCMLCVPilot):
+class Mean(BaseMLMCMLCVPilot):
     """The mean-based pilot for the MLMC-MLCV algorithm."""
 
     def __init__(  # noqa: D107

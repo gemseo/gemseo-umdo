@@ -15,7 +15,7 @@
 r"""PCE-based U-MDO formulation.
 
 [PCE][gemseo_umdo.formulations.pce.PCE] is an
-[UMDOFormulation][gemseo_umdo.formulations.formulation.UMDOFormulation]
+[BaseUMDOFormulation][gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation]
 estimating the statistics from the coefficients of a polynomial chaos expansion (PCE).
 
 E.g.
@@ -56,10 +56,8 @@ from numpy import full
 from gemseo_umdo.formulations._functions.statistic_function_for_pce import (
     StatisticFunctionForPCE,
 )
-from gemseo_umdo.formulations._statistics.pce.pce_estimator_factory import (
-    PCEEstimatorFactory,
-)
-from gemseo_umdo.formulations.formulation import UMDOFormulation
+from gemseo_umdo.formulations._statistics.pce.factory import PCEEstimatorFactory
+from gemseo_umdo.formulations.base_umdo_formulation import BaseUMDOFormulation
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -77,7 +75,7 @@ if TYPE_CHECKING:
     from gemseo.typing import RealArray
 
 
-class PCE(UMDOFormulation):
+class PCE(BaseUMDOFormulation):
     """PCE-based U-MDO formulation.
 
     !!! note "DOE algorithms"

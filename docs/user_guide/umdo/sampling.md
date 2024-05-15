@@ -11,7 +11,7 @@
 
 The U-MDO formulation [Sampling][gemseo_umdo.formulations.sampling.Sampling]
 can solve an MDO problem
-associated with an [MDOFormulation][gemseo.core.formulation.MDOFormulation]
+associated with an [MDOFormulation][gemseo.formulations.mdo_formulation.MDOFormulation]
 by using Monte Carlo sampling.
 This U-MDO formulation replaces the statistics
 by their unbiased empirical estimators.

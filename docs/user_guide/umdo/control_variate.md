@@ -12,7 +12,7 @@
 The U-MDO formulation [ControlVariate]
 [gemseo_umdo.formulations.control_variate.ControlVariate]
 can solve an MDO problem
-associated with an [MDOFormulation][gemseo.core.formulation.MDOFormulation]
+associated with an [MDOFormulation][gemseo.formulations.mdo_formulation.MDOFormulation]
 by using control variates based on first-order Taylor polynomials.
 
 !!! note "Control variates (CVs) method"

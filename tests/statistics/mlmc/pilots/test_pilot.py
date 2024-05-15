@@ -12,7 +12,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-"""Tests for the base class Pilot."""
+"""Tests for the base class BasePilot."""
 
 from __future__ import annotations
 
@@ -24,7 +24,7 @@ from numpy import array
 from numpy import ndarray
 from numpy.testing import assert_equal
 
-from gemseo_umdo.statistics.multilevel.pilot import Pilot
+from gemseo_umdo.statistics.multilevel.base_pilot import BasePilot
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -33,7 +33,7 @@ if TYPE_CHECKING:
     from numpy._typing import NDArray
 
 
-class MyPilot(Pilot):
+class MyPilot(BasePilot):
     """A dummy pilot."""
 
     def __init__(self) -> None:  # noqa: D107

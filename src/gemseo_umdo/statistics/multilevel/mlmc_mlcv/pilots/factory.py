@@ -18,11 +18,13 @@ from __future__ import annotations
 
 from gemseo.core.base_factory import BaseFactory
 
-from gemseo_umdo.statistics.multilevel.mlmc_mlcv.pilots.pilot import MLMCMLCVPilot
+from gemseo_umdo.statistics.multilevel.mlmc_mlcv.pilots.base_mlmc_mlcv_pilot import (
+    BaseMLMCMLCVPilot,
+)
 
 
 class MLMCMLCVPilotFactory(BaseFactory):
     """A factory of pilots for the MLMC-MLCV algorithm."""
 
-    _CLASS = MLMCMLCVPilot
+    _CLASS = BaseMLMCMLCVPilot
     _MODULE_NAMES = ("gemseo_umdo.statistics.multilevel.mlmc_mlcv.pilots",)

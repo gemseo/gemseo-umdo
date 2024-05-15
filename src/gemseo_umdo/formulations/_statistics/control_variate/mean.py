@@ -18,15 +18,15 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from gemseo_umdo.formulations._statistics.control_variate.control_variate_estimator import (  # noqa: E501
-    ControlVariateEstimator,
+from gemseo_umdo.formulations._statistics.control_variate.base_control_variate_estimator import (  # noqa: E501
+    BaseControlVariateEstimator,
 )
 
 if TYPE_CHECKING:
     from gemseo.typing import RealArray
 
 
-class Mean(ControlVariateEstimator):
+class Mean(BaseControlVariateEstimator):
     """Estimator of the expectation."""
 
     def __call__(  # noqa: D102

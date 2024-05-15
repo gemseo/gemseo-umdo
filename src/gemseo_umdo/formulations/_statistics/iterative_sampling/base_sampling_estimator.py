@@ -49,9 +49,22 @@ class BaseSamplingEstimator(BaseStatisticEstimator):
     def reset(self) -> None:
         """Reset the estimator of the statistic."""
 
-    @abstractmethod
+    def _get_statistic(self) -> RealArray | None:
+        """Return the statistic.
+
+        Returns:
+            The current estimation of the statistic if required;
+            otherwise ``None``.
+        """
+
     def __call__(self, value: RealArray) -> RealArray:
         """
         Args:
             value: The value to update the estimation of the statistic.
         """  # noqa: D205 D212 D415
+        if self._size == 0:
+            self._size = value.size
+            self.reset()
+
+        self._estimator.increment(value)
+        return self._get_statistic()

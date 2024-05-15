@@ -21,10 +21,10 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from gemseo_umdo.formulations._functions.iterative_estimation import IterativeEstimation
-from gemseo_umdo.formulations._functions.statistic_function_for_sampling import (
-    StatisticFunctionForSampling,
+from gemseo_umdo.formulations._functions.base_statistic_function_for_sampling import (
+    BaseStatisticFunctionForSampling,
 )
+from gemseo_umdo.formulations._functions.iterative_estimation import IterativeEstimation
 
 if TYPE_CHECKING:
     from gemseo.algos.optimization_problem import OptimizationProblem
@@ -32,7 +32,7 @@ if TYPE_CHECKING:
     from gemseo.typing import RealArray
 
 
-class StatisticFunctionForIterativeSampling(StatisticFunctionForSampling):
+class StatisticFunctionForIterativeSampling(BaseStatisticFunctionForSampling):
     """A function to compute a statistic from `Sampling`."""
 
     def _update_sampling_problem(

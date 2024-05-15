@@ -19,12 +19,12 @@ from numpy import diag
 from numpy import diagonal
 from numpy.linalg import multi_dot
 
-from gemseo_umdo.formulations._statistics.control_variate.control_variate_estimator import (  # noqa: E501
-    ControlVariateEstimator,
+from gemseo_umdo.formulations._statistics.control_variate.base_control_variate_estimator import (  # noqa: E501
+    BaseControlVariateEstimator,
 )
 
 
-class Variance(ControlVariateEstimator):
+class Variance(BaseControlVariateEstimator):
     """Estimator of the variance."""
 
     def __call__(  # noqa: D102

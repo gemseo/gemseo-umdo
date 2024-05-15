@@ -14,7 +14,7 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 """Formulations for multidisciplinary design problems under uncertainty.
 
-An [MDOFormulation][gemseo.core.formulation.MDOFormulation]
+An [MDOFormulation][gemseo.formulations.mdo_formulation.MDOFormulation]
 defines an [OptimizationProblem][gemseo.algos.optimization_problem.OptimizationProblem]
 from one or several [MDODiscipline][gemseo.core.discipline.MDODiscipline]s,
 a [DesignSpace][gemseo.algos.design_space.DesignSpace],
@@ -31,8 +31,9 @@ or a design of experiments
 (DOE, see [DOELibrary][gemseo.algos.doe.doe_library.DOELibrary]).
 
 In the frame of U-MDO,
-the [UMDOFormulation][gemseo_umdo.formulations.formulation.UMDOFormulation]
-uses a [MDOFormulation][gemseo.core.formulation.MDOFormulation]
+the
+[BaseUMDOFormulation][gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation]
+uses an [MDOFormulation][gemseo.formulations.mdo_formulation.MDOFormulation]
 with a [ParameterSpace][gemseo.algos.parameter_space.ParameterSpace]
 defining the uncertain variables
 and executes the corresponding
@@ -42,7 +43,8 @@ Then,
 it post-processed the associated [Database][gemseo.algos.database.Database]
 to estimate the statistics applied to the objective and constraints.
 
-The most common [UMDOFormulation][gemseo_umdo.formulations.formulation.UMDOFormulation]
+The most common
+[BaseUMDOFormulation][gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation]
 is [Sampling][gemseo_umdo.formulations.sampling.Sampling],
 consisting in estimating the statistics with (quasi) Monte Carlo techniques.
 """

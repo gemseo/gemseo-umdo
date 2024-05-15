@@ -21,15 +21,15 @@ from typing import TYPE_CHECKING
 from numpy import array
 from numpy.linalg import multi_dot
 
-from gemseo_umdo.formulations._statistics.taylor_polynomial.taylor_polynomial_estimator import (  # noqa: E501
-    TaylorPolynomialEstimator,
+from gemseo_umdo.formulations._statistics.taylor_polynomial.base_taylor_polynomial_estimator import (  # noqa: E501
+    BaseTaylorPolynomialEstimator,
 )
 
 if TYPE_CHECKING:
     from gemseo.typing import RealArray
 
 
-class Mean(TaylorPolynomialEstimator):
+class Mean(BaseTaylorPolynomialEstimator):
     """Estimator of the expectation."""
 
     def __call__(  # noqa: D102

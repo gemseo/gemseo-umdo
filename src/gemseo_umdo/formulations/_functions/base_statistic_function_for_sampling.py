@@ -12,17 +12,22 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-"""A factory of statistic estimators for U-MDO formulations based on control variate."""
+"""A function to compute a statistic from `Sampling`.
 
-from gemseo.core.base_factory import BaseFactory
+See also [Sampling][gemseo_umdo.formulations.sampling.Sampling].
+"""
 
-from gemseo_umdo.formulations._statistics.control_variate.control_variate_estimator import (  # noqa: E501
-    ControlVariateEstimator,
+from __future__ import annotations
+
+from gemseo_umdo.formulations._functions.base_statistic_function import (
+    BaseStatisticFunction,
 )
 
 
-class ControlVariateEstimatorFactory(BaseFactory):
-    """The factory of statistic estimators based on control variates."""
+class BaseStatisticFunctionForSampling(BaseStatisticFunction):
+    """A function to compute a statistic from `Sampling`."""
 
-    _CLASS = ControlVariateEstimator
-    _MODULE_NAMES = ("gemseo_umdo.formulations._statistics.control_variate",)
+    @property
+    def _observable_name(self) -> str:
+        """The name of the observable."""
+        return f"{self._estimate_statistic.__class__.__name__}[{self._function_name}]"

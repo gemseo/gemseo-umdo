@@ -12,20 +12,19 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-"""A function to compute a statistic from `Sampling`.
-
-See also [Sampling][gemseo_umdo.formulations.sampling.Sampling].
-"""
+"""A factory of statistic estimators for U-MDO formulations using Taylor polynomials."""
 
 from __future__ import annotations
 
-from gemseo_umdo.formulations._functions.statistic_function import StatisticFunction
+from gemseo.core.base_factory import BaseFactory
+
+from gemseo_umdo.formulations._statistics.taylor_polynomial.base_taylor_polynomial_estimator import (  # noqa: E501
+    BaseTaylorPolynomialEstimator,
+)
 
 
-class StatisticFunctionForSampling(StatisticFunction):
-    """A function to compute a statistic from `Sampling`."""
+class TaylorPolynomialEstimatorFactory(BaseFactory):
+    """The factory of statistic estimators based on Taylor polynomials."""
 
-    @property
-    def _observable_name(self) -> str:
-        """The name of the observable."""
-        return f"{self._estimate_statistic.__class__.__name__}[{self._function_name}]"
+    _CLASS = BaseTaylorPolynomialEstimator
+    _MODULE_NAMES = ("gemseo_umdo.formulations._statistics.taylor_polynomial",)

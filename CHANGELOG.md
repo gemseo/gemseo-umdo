@@ -61,13 +61,18 @@ and this project adheres to
   [NoiserFactory][gemseo_umdo.disciplines.noiser_factory.NoiserFactory]
   is available.
 - [ControlVariate][gemseo_umdo.formulations.control_variate.ControlVariate],
-  a new [UMDOFormulation][gemseo_umdo.formulations.formulation.UMDOFormulation]
+  a new [BaseUMDOFormulation][gemseo_umdo.base_umdo_formulation.base_umdo_formulation.BaseUMDOFormulation]
   estimating the statistics with a control variate technique based on Taylor polynomials.
 
 ### Changed
 
-- `gemseo_umdo.formulations.statistics` is now a protected package.
-- `gemseo_umdo.formulations.functions` is now a protected package.
+- `gemseo_umdo.scenarios._uscenario._UScenario` renamed to `gemseo_umdo.scenarios.base_u_scenario.BaseUScenario`.
+- API CHANGE: `gemseo_umdo.statistics.mlmc.pilots.pilot.MLMCPilot` renamed to `gemseo_umdo.statistics.mlmc.pilots.base_mlmc_pilot.BaseMLMCPilot`.
+- API CHANGE: `gemseo_umdo.statistics.mlmc_mlcv.pilots.pilot.MLMCMLCVPilot` renamed to `gemseo_umdo.statistics.mlmc_mlcv.pilots.base_mlmc_mlcv_pilot.BaseMLMCMLCVPilot`.
+- API CHANGE: `gemseo_umdo.statistics.pilot.Pilot` renamed to `gemseo_umdo.statistics.base_pilot.BasePilot`.
+- API CHANGE: `gemseo_umdo.formulations.formulation.UMDOFormulation` renamed to `gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation`.
+- API CHANGE: `gemseo_umdo.formulations.statistics` is now a protected package.
+- API CHANGE: `gemseo_umdo.formulations.functions` is now a protected package.
 - The [BeamConstraints][gemseo_umdo.use_cases.beam_model.constraints.BeamConstraints] discipline
   computed outputs of the form `a/(b+eps)` where `eps` was used to avoid division by zero.
   Now,

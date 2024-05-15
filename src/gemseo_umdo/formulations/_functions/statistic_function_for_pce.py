@@ -25,7 +25,9 @@ from typing import TYPE_CHECKING
 from gemseo.mlearning.regression.algos.pce import PCERegressor
 from gemseo.utils.data_conversion import split_array_to_dict_of_arrays as array_to_dict
 
-from gemseo_umdo.formulations._functions.statistic_function import StatisticFunction
+from gemseo_umdo.formulations._functions.base_statistic_function import (
+    BaseStatisticFunction,
+)
 from gemseo_umdo.formulations._statistics.pce.base_pce_estimator import BasePCEEstimator
 
 if TYPE_CHECKING:
@@ -35,7 +37,7 @@ if TYPE_CHECKING:
 LOGGER = logging.getLogger(__name__)
 
 
-class StatisticFunctionForPCE(StatisticFunction):
+class StatisticFunctionForPCE(BaseStatisticFunction):
     """A function to compute a statistic from `PCE`."""
 
     def _compute_statistic_estimation(

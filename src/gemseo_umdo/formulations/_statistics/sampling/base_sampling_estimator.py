@@ -29,7 +29,7 @@ if TYPE_CHECKING:
     from gemseo.typing import RealArray
 
 
-class SamplingEstimator(BaseStatisticEstimator):
+class BaseSamplingEstimator(BaseStatisticEstimator):
     """Base statistic estimator for a U-MDO formulation using sampling."""
 
     def __call__(self, samples: RealArray) -> RealArray:

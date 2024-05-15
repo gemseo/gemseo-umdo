@@ -12,7 +12,7 @@
 The U-MDO formulation [SequentialSampling]
 [gemseo_umdo.formulations.sequential_sampling.SequentialSampling]
 can solve an MDO problem
-associated with an [MDOFormulation][gemseo.core.formulation.MDOFormulation]
+associated with an [MDOFormulation][gemseo.formulations.mdo_formulation.MDOFormulation]
 by using Monte Carlo sampling.
 Contrary to [Sampling][gemseo_umdo.formulations.sampling.Sampling],
 this U-MDO formulation does not use a constant sampling size
