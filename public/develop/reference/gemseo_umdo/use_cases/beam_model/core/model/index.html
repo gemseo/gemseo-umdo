@@ -5685,16 +5685,16 @@
 
 
 <h2 id="gemseo_umdo.use_cases.beam_model.core.model" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>          <span class="doc doc-object-name doc-module-name">model</span>
+<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>            <span class="doc doc-object-name doc-module-name">model</span>
 
 
 <a href="#gemseo_umdo.use_cases.beam_model.core.model" class="headerlink" title="Permanent link">&para;</a></h2>
 
-  <div class="doc doc-contents first">
-  
+    <div class="doc doc-contents first">
+
       <p>The GEMSEO-free version of the model for the beam use case.</p>
 
-  
+
 
   <div class="doc doc-children">
 
@@ -5710,16 +5710,16 @@
 
 
 <h4 id="gemseo_umdo.use_cases.beam_model.core.model.BeamModel" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>          <span class="doc doc-object-name doc-class-name">BeamModel</span>
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">BeamModel</span>
 
 
 <a href="#gemseo_umdo.use_cases.beam_model.core.model.BeamModel" class="headerlink" title="Permanent link">&para;</a></h4>
 <div class="doc-signature highlight"><pre><span></span><code><span class="nf">BeamModel</span><span class="p">(</span><span class="n">n_y</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">n_z</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></span> <span class="o">=</span> <span class="mi">3</span><span class="p">)</span>
 </code></pre></div>
 
-  <div class="doc doc-contents ">
+    <div class="doc doc-contents ">
 
-  
+
       <p>The beam model.</p>
 <p>We consider an horizontal beam
 with length <span class="arithmatex">\(L\)</span>, width <span class="arithmatex">\(b\)</span> and height <span class="arithmatex">\(h\)</span>.
@@ -5790,37 +5790,36 @@ and several quantities on a regular <span class="arithmatex">\(yz\)</span>-grid:
 </ul>
 </li>
 </ul>
-  
 
 
 
-  <p><span class="doc-section-title">Parameters:</span></p>
-  <ul>
-      <li class="doc-section-item field-body">
-        <b><code>n_y</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>, default:
-                <code>3</code>
+<p><span class="doc-section-title">Parameters:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code>n_y</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>, default:
+                  <code>3</code>
 )
-        –
-        <div class="doc-md-description">
-          <p>The number of discretization points in the y-direction.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>n_z</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>, default:
-                <code>3</code>
+          –
+          <div class="doc-md-description">
+            <p>The number of discretization points in the y-direction.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>n_z</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>, default:
+                  <code>3</code>
 )
-        –
-        <div class="doc-md-description">
-          <p>The number of discretization points in the z-direction.</p>
-        </div>
-      </li>
-  </ul>
+          –
+          <div class="doc-md-description">
+            <p>The number of discretization points in the z-direction.</p>
+          </div>
+        </li>
+    </ul>
 
-                <details class="quote">
-                  <summary>Source code in <code>src/gemseo_umdo/use_cases/beam_model/core/model.py</code></summary>
-                  <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">103</span>
+                  <details class="quote">
+                    <summary>Source code in <code>src/gemseo_umdo/use_cases/beam_model/core/model.py</code></summary>
+                    <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">103</span>
 <span class="normal">104</span>
 <span class="normal">105</span>
 <span class="normal">106</span>
@@ -5836,9 +5835,9 @@ and several quantities on a regular <span class="arithmatex">\(yz\)</span>-grid:
     <span class="bp">self</span><span class="o">.</span><span class="n">__n_y</span> <span class="o">=</span> <span class="n">n_y</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__n_z</span> <span class="o">=</span> <span class="n">n_z</span>
 </code></pre></div></td></tr></table></div>
-                </details>
+                  </details>
 
-  
+
 
   <div class="doc doc-children">
 
@@ -5854,8 +5853,7 @@ and several quantities on a regular <span class="arithmatex">\(yz\)</span>-grid:
 
   </div>
 
-  </div>
-
+    </div>
 
 </div>
 
@@ -5864,7 +5862,7 @@ and several quantities on a regular <span class="arithmatex">\(yz\)</span>-grid:
 
   </div>
 
-  </div>
+    </div>
 
 </div>
 

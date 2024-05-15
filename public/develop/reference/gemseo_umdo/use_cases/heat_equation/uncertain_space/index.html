@@ -5665,16 +5665,16 @@
 
 
 <h2 id="gemseo_umdo.use_cases.heat_equation.uncertain_space" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>          <span class="doc doc-object-name doc-module-name">uncertain_space</span>
+<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>            <span class="doc doc-object-name doc-module-name">uncertain_space</span>
 
 
 <a href="#gemseo_umdo.use_cases.heat_equation.uncertain_space" class="headerlink" title="Permanent link">&para;</a></h2>
 
-  <div class="doc doc-contents first">
-  
+    <div class="doc doc-contents first">
+
       <p>The uncertain space to be used with the heat equation discipline.</p>
 
-  
+
 
   <div class="doc doc-children">
 
@@ -5690,7 +5690,7 @@
 
 
 <h4 id="gemseo_umdo.use_cases.heat_equation.uncertain_space.HeatEquationUncertainSpace" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>          <span class="doc doc-object-name doc-class-name">HeatEquationUncertainSpace</span>
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">HeatEquationUncertainSpace</span>
 
 
 <a href="#gemseo_umdo.use_cases.heat_equation.uncertain_space.HeatEquationUncertainSpace" class="headerlink" title="Permanent link">&para;</a></h4>
@@ -5699,34 +5699,33 @@
 <span class="p">)</span>
 </code></pre></div>
 
-  <div class="doc doc-contents ">
-          <p class="doc doc-class-bases">
-            Bases: <code><a class="autorefs autorefs-external" title="gemseo.algos.parameter_space.ParameterSpace" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.algos.parameter_space.html#gemseo.algos.parameter_space.ParameterSpace">ParameterSpace</a></code></p>
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-external" title="gemseo.algos.parameter_space.ParameterSpace" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.algos.parameter_space.html#gemseo.algos.parameter_space.ParameterSpace">ParameterSpace</a></code></p>
 
-  
+
       <p>The uncertain space to be used with the heat equation discipline.</p>
-  
 
 
 
-  <p><span class="doc-section-title">Parameters:</span></p>
-  <ul>
-      <li class="doc-section-item field-body">
-        <b><code>nu_bounds</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#tuple">tuple</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a>, <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a>]</code>, default:
-                <code>(0.001, 0.009)</code>
+<p><span class="doc-section-title">Parameters:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code>nu_bounds</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#tuple">tuple</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a>, <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a>]</code>, default:
+                  <code>(0.001, 0.009)</code>
 )
-        –
-        <div class="doc-md-description">
-          <p>The lower and upper bounds
+          –
+          <div class="doc-md-description">
+            <p>The lower and upper bounds
 of the thermal diffusivity <span class="arithmatex">\(\nu\)</span>.</p>
-        </div>
-      </li>
-  </ul>
+          </div>
+        </li>
+    </ul>
 
-                <details class="quote">
-                  <summary>Source code in <code>src/gemseo_umdo/use_cases/heat_equation/uncertain_space.py</code></summary>
-                  <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">26</span>
+                  <details class="quote">
+                    <summary>Source code in <code>src/gemseo_umdo/use_cases/heat_equation/uncertain_space.py</code></summary>
+                    <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">26</span>
 <span class="normal">27</span>
 <span class="normal">28</span>
 <span class="normal">29</span>
@@ -5760,9 +5759,9 @@ of the thermal diffusivity <span class="arithmatex">\(\nu\)</span>.</p>
     <span class="bp">self</span><span class="o">.</span><span class="n">add_random_variable</span><span class="p">(</span><span class="s2">&quot;X_6&quot;</span><span class="p">,</span> <span class="n">distribution_name</span><span class="p">,</span> <span class="n">minimum</span><span class="o">=-</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">maximum</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">add_random_variable</span><span class="p">(</span><span class="s2">&quot;X_7&quot;</span><span class="p">,</span> <span class="n">distribution_name</span><span class="p">,</span> <span class="n">minimum</span><span class="o">=-</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">maximum</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
-                </details>
+                  </details>
 
-  
+
 
   <div class="doc doc-children">
 
@@ -5778,8 +5777,7 @@ of the thermal diffusivity <span class="arithmatex">\(\nu\)</span>.</p>
 
   </div>
 
-  </div>
-
+    </div>
 
 </div>
 
@@ -5788,7 +5786,7 @@ of the thermal diffusivity <span class="arithmatex">\(\nu\)</span>.</p>
 
   </div>
 
-  </div>
+    </div>
 
 </div>
 

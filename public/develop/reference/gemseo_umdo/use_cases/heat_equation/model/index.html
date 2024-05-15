@@ -5791,13 +5791,13 @@
 
 
 <h2 id="gemseo_umdo.use_cases.heat_equation.model" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>          <span class="doc doc-object-name doc-module-name">model</span>
+<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>            <span class="doc doc-object-name doc-module-name">model</span>
 
 
 <a href="#gemseo_umdo.use_cases.heat_equation.model" class="headerlink" title="Permanent link">&para;</a></h2>
 
-  <div class="doc doc-contents first">
-  
+    <div class="doc doc-contents first">
+
       <p>The heat equation model.</p>
 <p>This model solves the 1D transient equation, a.k.a. heat equation.
 It describes the temperature evolution <span class="arithmatex">\(u\)</span> in a <span class="arithmatex">\(L\)</span>-length rod
@@ -5849,13 +5849,14 @@ defined over the
 The temperature <code>"u_mesh"</code> is computed at each mesh node
 while the temperature <code>"u"</code> is an integral over the rod.</p>
 
+
 <details class="see-also" open>
   <summary>See Also</summary>
   <p>Geraci et al., A multifidelity control variate approach
 for the multilevel Monte Carlo technique, Center for Turbulence Research,
 Annual Research Briefs, 2015.</p>
 </details>
-  
+
 
   <div class="doc doc-children">
 
@@ -5871,7 +5872,7 @@ Annual Research Briefs, 2015.</p>
 
 
 <h4 id="gemseo_umdo.use_cases.heat_equation.model.HeatEquationModel" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>          <span class="doc doc-object-name doc-class-name">HeatEquationModel</span>
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">HeatEquationModel</span>
 
 
 <a href="#gemseo_umdo.use_cases.heat_equation.model.HeatEquationModel" class="headerlink" title="Permanent link">&para;</a></h4>
@@ -5884,73 +5885,72 @@ Annual Research Briefs, 2015.</p>
 <span class="p">)</span>
 </code></pre></div>
 
-  <div class="doc doc-contents ">
+    <div class="doc doc-contents ">
 
-  
+
       <p>The discipline computing the temperature averaged over the rod at final time.</p>
 <p>This discipline can also compute a first-order polynomial centered at the mean input
 value.</p>
-  
 
 
 
-  <p><span class="doc-section-title">Parameters:</span></p>
-  <ul>
-      <li class="doc-section-item field-body">
-        <b><code>mesh_size</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>, default:
-                <code>100</code>
+<p><span class="doc-section-title">Parameters:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code>mesh_size</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>, default:
+                  <code>100</code>
 )
-        –
-        <div class="doc-md-description">
-          <p>The number of equispaced spatial nodes.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>n_modes</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>, default:
-                <code>21</code>
+          –
+          <div class="doc-md-description">
+            <p>The number of equispaced spatial nodes.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>n_modes</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>, default:
+                  <code>21</code>
 )
-        –
-        <div class="doc-md-description">
-          <p>The number of modes of the truncated Fourier expansion.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>final_time</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></code>, default:
-                <code>0.5</code>
+          –
+          <div class="doc-md-description">
+            <p>The number of modes of the truncated Fourier expansion.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>final_time</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></code>, default:
+                  <code>0.5</code>
 )
-        –
-        <div class="doc-md-description">
-          <p>The time of interest.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>nu_bounds</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#tuple">tuple</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a>, <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a>]</code>, default:
-                <code>(0.001, 0.009)</code>
+          –
+          <div class="doc-md-description">
+            <p>The time of interest.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>nu_bounds</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#tuple">tuple</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a>, <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a>]</code>, default:
+                  <code>(0.001, 0.009)</code>
 )
-        –
-        <div class="doc-md-description">
-          <p>The bounds of the thermal diffusivity.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>rod_length</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></code>, default:
-                <code>1.0</code>
+          –
+          <div class="doc-md-description">
+            <p>The bounds of the thermal diffusivity.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>rod_length</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></code>, default:
+                  <code>1.0</code>
 )
-        –
-        <div class="doc-md-description">
-          <p>The length of the rod.</p>
-        </div>
-      </li>
-  </ul>
+          –
+          <div class="doc-md-description">
+            <p>The length of the rod.</p>
+          </div>
+        </li>
+    </ul>
 
-                <details class="quote">
-                  <summary>Source code in <code>src/gemseo_umdo/use_cases/heat_equation/model.py</code></summary>
-                  <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">119</span>
+                  <details class="quote">
+                    <summary>Source code in <code>src/gemseo_umdo/use_cases/heat_equation/model.py</code></summary>
+                    <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">119</span>
 <span class="normal">120</span>
 <span class="normal">121</span>
 <span class="normal">122</span>
@@ -6018,9 +6018,9 @@ value.</p>
     <span class="bp">self</span><span class="o">.</span><span class="n">__compute_taylor_materials</span><span class="p">()</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">taylor_mean</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__f_at_mu_X</span> <span class="o">+</span> <span class="mi">600</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">__term1</span>
 </code></pre></div></td></tr></table></div>
-                </details>
+                  </details>
 
-  
+
 
   <div class="doc doc-children">
 
@@ -6035,9 +6035,9 @@ value.</p>
 
 
 <h6 id="gemseo_umdo.use_cases.heat_equation.model.HeatEquationModel.configuration" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>          <span class="doc doc-object-name doc-attribute-name">configuration</span>
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">configuration</span>
 
-  
+
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
   </span>
@@ -6054,10 +6054,10 @@ value.</p>
 <span class="p">)</span>
 </code></pre></div>
 
-  <div class="doc doc-contents ">
-  
+    <div class="doc doc-contents ">
+
       <p>The configuration of the heat equation problem.</p>
-  </div>
+    </div>
 
 </div>
 
@@ -6066,9 +6066,9 @@ value.</p>
 
 
 <h6 id="gemseo_umdo.use_cases.heat_equation.model.HeatEquationModel.taylor_mean" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>          <span class="doc doc-object-name doc-attribute-name">taylor_mean</span>
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">taylor_mean</span>
 
-  
+
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
   </span>
@@ -6077,22 +6077,20 @@ value.</p>
 <div class="doc-signature highlight"><pre><span></span><code><span class="n">taylor_mean</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></span> <span class="o">=</span> <span class="n"><span title="self.__f_at_mu_X">__f_at_mu_X</span></span> <span class="o">+</span> <span class="mi">600</span> <span class="o">*</span> <span class="n"><span title="self.__term1">__term1</span></span>
 </code></pre></div>
 
-  <div class="doc doc-contents ">
-  
+    <div class="doc doc-contents ">
+
       <p>The expectation of the output of the first-order Taylor polynomial.</p>
-  </div>
+    </div>
 
 </div>
 
 <h5 id="gemseo_umdo.use_cases.heat_equation.model.HeatEquationModel-functions">Functions<a href="#gemseo_umdo.use_cases.heat_equation.model.HeatEquationModel-functions" class="headerlink" title="Permanent link">&para;</a></h5>
 
-
 <div class="doc doc-object doc-function">
 
 
-
 <h6 id="gemseo_umdo.use_cases.heat_equation.model.HeatEquationModel.compute_taylor" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>          <span class="doc doc-object-name doc-function-name">compute_taylor</span>
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">compute_taylor</span>
 
 
 <a href="#gemseo_umdo.use_cases.heat_equation.model.HeatEquationModel.compute_taylor" class="headerlink" title="Permanent link">&para;</a></h6>
@@ -6101,42 +6099,40 @@ value.</p>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" title="numpy.typing.NDArray" href="https://numpy.org/doc/stable/reference/typing.html#numpy.typing.NDArray">NDArray</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></span><span class="p">]</span>
 </code></pre></div>
 
-  <div class="doc doc-contents ">
-  
+    <div class="doc doc-contents ">
+
       <p>Evaluate the first-order Taylor polynomial.</p>
 
 
-
-  <p><span class="doc-section-title">Parameters:</span></p>
-  <ul>
-      <li class="doc-section-item field-body">
-        <b><code>input_samples</code></b>
-            (<code><a class="autorefs autorefs-external" title="numpy.typing.NDArray" href="https://numpy.org/doc/stable/reference/typing.html#numpy.typing.NDArray">NDArray</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a>]</code>)
-        –
-        <div class="doc-md-description">
-          <p>The input samples
+<p><span class="doc-section-title">Parameters:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code>input_samples</code></b>
+              (<code><a class="autorefs autorefs-external" title="numpy.typing.NDArray" href="https://numpy.org/doc/stable/reference/typing.html#numpy.typing.NDArray">NDArray</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a>]</code>)
+          –
+          <div class="doc-md-description">
+            <p>The input samples
 shaped as <code>(sample_size, input_dimension)</code> or <code>(input_dimension, )</code>.</p>
-        </div>
-      </li>
-  </ul>
+          </div>
+        </li>
+    </ul>
 
 
-
-  <p><span class="doc-section-title">Returns:</span></p>
-  <ul>
-      <li class="doc-section-item field-body">
-            <code><a class="autorefs autorefs-external" title="numpy.typing.NDArray" href="https://numpy.org/doc/stable/reference/typing.html#numpy.typing.NDArray">NDArray</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a>]</code>
-        –
-        <div class="doc-md-description">
-          <p>The output samples of the first-order Taylor polynomial
+<p><span class="doc-section-title">Returns:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+              <code><a class="autorefs autorefs-external" title="numpy.typing.NDArray" href="https://numpy.org/doc/stable/reference/typing.html#numpy.typing.NDArray">NDArray</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a>]</code>
+          –
+          <div class="doc-md-description">
+            <p>The output samples of the first-order Taylor polynomial
 shaped as <code>(sample_size, n_nodes)</code> or <code>(n_nodes, )</code>.</p>
-      </div>
-      </li>
-  </ul>
+          </div>
+        </li>
+    </ul>
 
-          <details class="quote">
-            <summary>Source code in <code>src/gemseo_umdo/use_cases/heat_equation/model.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">279</span>
+            <details class="quote">
+              <summary>Source code in <code>src/gemseo_umdo/use_cases/heat_equation/model.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">279</span>
 <span class="normal">280</span>
 <span class="normal">281</span>
 <span class="normal">282</span>
@@ -6176,8 +6172,8 @@ shaped as <code>(sample_size, n_nodes)</code> or <code>(n_nodes, )</code>.</p>
         <span class="o">*</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">[</span><span class="mi">4</span><span class="p">]])</span> <span class="o">+</span> <span class="nb">abs</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">[</span><span class="mi">5</span><span class="p">]])</span> <span class="o">+</span> <span class="nb">abs</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">[</span><span class="mi">6</span><span class="p">]]))</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
-          </details>
-  </div>
+            </details>
+    </div>
 
 </div>
 
@@ -6185,8 +6181,7 @@ shaped as <code>(sample_size, n_nodes)</code> or <code>(n_nodes, )</code>.</p>
 
   </div>
 
-  </div>
-
+    </div>
 
 </div>
 
@@ -6195,7 +6190,7 @@ shaped as <code>(sample_size, n_nodes)</code> or <code>(n_nodes, )</code>.</p>
 
   </div>
 
-  </div>
+    </div>
 
 </div>
 

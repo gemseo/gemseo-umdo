@@ -5725,16 +5725,16 @@
 
 
 <h2 id="gemseo_umdo.use_cases.spring_mass_model.model" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>          <span class="doc doc-object-name doc-module-name">model</span>
+<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>            <span class="doc doc-object-name doc-module-name">model</span>
 
 
 <a href="#gemseo_umdo.use_cases.spring_mass_model.model" class="headerlink" title="Permanent link">&para;</a></h2>
 
-  <div class="doc doc-contents first">
-  
+    <div class="doc doc-contents first">
+
       <p>The GEMSEO-free spring-mass model.</p>
 
-  
+
 
   <div class="doc doc-children">
 
@@ -5750,7 +5750,7 @@
 
 
 <h4 id="gemseo_umdo.use_cases.spring_mass_model.model.SpringMassModel" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>          <span class="doc doc-object-name doc-class-name">SpringMassModel</span>
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">SpringMassModel</span>
 
 
 <a href="#gemseo_umdo.use_cases.spring_mass_model.model.SpringMassModel" class="headerlink" title="Permanent link">&para;</a></h4>
@@ -5764,9 +5764,9 @@
 <span class="p">)</span>
 </code></pre></div>
 
-  <div class="doc doc-contents ">
+    <div class="doc doc-contents ">
 
-  
+
       <p>The GEMSEO-free spring-mass model.</p>
 <p>This model computes the time displacement of an object attached to a spring in
 function of the stiffness of the spring.</p>
@@ -5774,77 +5774,76 @@ function of the stiffness of the spring.</p>
 <p>The ordinary differential equation is</p>
 <div class="arithmatex">\[m\frac{d^2z(t)}{dt^2} = -kz(t) + mg\]</div>
 <p>with <span class="arithmatex">\(\left.\frac{dz(t)}{dt}\right|_{t=0}=z(0)=z_0\)</span>.</p>
-  
 
 
 
-  <p><span class="doc-section-title">Parameters:</span></p>
-  <ul>
-      <li class="doc-section-item field-body">
-        <b><code>mass</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></code>, default:
-                <code>1.5</code>
+<p><span class="doc-section-title">Parameters:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code>mass</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></code>, default:
+                  <code>1.5</code>
 )
-        –
-        <div class="doc-md-description">
-          <p>The mass of the object.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>initial_state</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#tuple">tuple</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a>, <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a>]</code>, default:
-                <code>(0, 0)</code>
+          –
+          <div class="doc-md-description">
+            <p>The mass of the object.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>initial_state</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#tuple">tuple</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a>, <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a>]</code>, default:
+                  <code>(0, 0)</code>
 )
-        –
-        <div class="doc-md-description">
-          <p>The initial position and velocity of the object.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>initial_time</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></code>, default:
-                <code>0.0</code>
+          –
+          <div class="doc-md-description">
+            <p>The initial position and velocity of the object.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>initial_time</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></code>, default:
+                  <code>0.0</code>
 )
-        –
-        <div class="doc-md-description">
-          <p>The initial time.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>final_time</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></code>, default:
-                <code>10.0</code>
+          –
+          <div class="doc-md-description">
+            <p>The initial time.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>final_time</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></code>, default:
+                  <code>10.0</code>
 )
-        –
-        <div class="doc-md-description">
-          <p>The final time.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>time_step</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></code>, default:
-                <code>0.1</code>
+          –
+          <div class="doc-md-description">
+            <p>The final time.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>time_step</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></code>, default:
+                  <code>0.1</code>
 )
-        –
-        <div class="doc-md-description">
-          <p>The time step.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>gravity</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></code>, default:
-                <code>9.8</code>
+          –
+          <div class="doc-md-description">
+            <p>The time step.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>gravity</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></code>, default:
+                  <code>9.8</code>
 )
-        –
-        <div class="doc-md-description">
-          <p>The gravity acceleration.</p>
-        </div>
-      </li>
-  </ul>
+          –
+          <div class="doc-md-description">
+            <p>The gravity acceleration.</p>
+          </div>
+        </li>
+    </ul>
 
-                <details class="quote">
-                  <summary>Source code in <code>src/gemseo_umdo/use_cases/spring_mass_model/model.py</code></summary>
-                  <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">45</span>
+                  <details class="quote">
+                    <summary>Source code in <code>src/gemseo_umdo/use_cases/spring_mass_model/model.py</code></summary>
+                    <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">45</span>
 <span class="normal">46</span>
 <span class="normal">47</span>
 <span class="normal">48</span>
@@ -5890,9 +5889,9 @@ function of the stiffness of the spring.</p>
     <span class="bp">self</span><span class="o">.</span><span class="n">__time</span> <span class="o">=</span> <span class="n">arange</span><span class="p">(</span><span class="n">initial_time</span><span class="p">,</span> <span class="n">final_time</span><span class="p">,</span> <span class="n">time_step</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__cost</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">time_step</span>
 </code></pre></div></td></tr></table></div>
-                </details>
+                  </details>
 
-  
+
 
   <div class="doc doc-children">
 
@@ -5907,9 +5906,9 @@ function of the stiffness of the spring.</p>
 
 
 <h6 id="gemseo_umdo.use_cases.spring_mass_model.model.SpringMassModel.cost" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>          <span class="doc doc-object-name doc-attribute-name">cost</span>
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">cost</span>
 
-  
+
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-property"><code>property</code></small>
   </span>
@@ -5918,10 +5917,10 @@ function of the stiffness of the spring.</p>
 <div class="doc-signature highlight"><pre><span></span><code><span class="n">cost</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></span>
 </code></pre></div>
 
-  <div class="doc doc-contents ">
-  
+    <div class="doc doc-contents ">
+
       <p>The evaluation cost.</p>
-  </div>
+    </div>
 
 </div>
 
@@ -5931,8 +5930,7 @@ function of the stiffness of the spring.</p>
 
   </div>
 
-  </div>
-
+    </div>
 
 </div>
 
@@ -5941,7 +5939,7 @@ function of the stiffness of the spring.</p>
 
   </div>
 
-  </div>
+    </div>
 
 </div>
 

@@ -5727,16 +5727,16 @@
 
 
 <h2 id="gemseo_umdo.formulations.statistics.iterative_sampling.probability" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>          <span class="doc doc-object-name doc-module-name">probability</span>
+<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>            <span class="doc doc-object-name doc-module-name">probability</span>
 
 
 <a href="#gemseo_umdo.formulations.statistics.iterative_sampling.probability" class="headerlink" title="Permanent link">&para;</a></h2>
 
-  <div class="doc doc-contents first">
-  
+    <div class="doc doc-contents first">
+
       <p>Iterative estimator of a probability for sampling-based U-MDO formulations.</p>
 
-  
+
 
   <div class="doc doc-children">
 
@@ -5752,53 +5752,52 @@
 
 
 <h4 id="gemseo_umdo.formulations.statistics.iterative_sampling.probability.Probability" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>          <span class="doc doc-object-name doc-class-name">Probability</span>
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">Probability</span>
 
 
 <a href="#gemseo_umdo.formulations.statistics.iterative_sampling.probability.Probability" class="headerlink" title="Permanent link">&para;</a></h4>
 <div class="doc-signature highlight"><pre><span></span><code><span class="nf">Probability</span><span class="p">(</span><span class="n">threshold</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">greater</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
 </code></pre></div>
 
-  <div class="doc doc-contents ">
-          <p class="doc doc-class-bases">
-            Bases: <code><a class="autorefs autorefs-internal" title="gemseo_umdo.formulations.statistics.iterative_sampling.sampling_estimator.SamplingEstimator" href="../sampling_estimator/#gemseo_umdo.formulations.statistics.iterative_sampling.sampling_estimator.SamplingEstimator">SamplingEstimator</a></code></p>
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="gemseo_umdo.formulations.statistics.iterative_sampling.sampling_estimator.SamplingEstimator" href="../sampling_estimator/#gemseo_umdo.formulations.statistics.iterative_sampling.sampling_estimator.SamplingEstimator">SamplingEstimator</a></code></p>
 
-  
+
       <p>Iterative estimator of a probability.</p>
 <p>This class iteratively computes a probability on an increasing dataset without
 storing any data in memory.</p>
-  
+
       <p>Initialize self.  See help(type(self)) for accurate signature.</p>
 
 
-
-  <p><span class="doc-section-title">Parameters:</span></p>
-  <ul>
-      <li class="doc-section-item field-body">
-        <b><code>threshold</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></code>, default:
-                <code>0.0</code>
+<p><span class="doc-section-title">Parameters:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code>threshold</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></code>, default:
+                  <code>0.0</code>
 )
-        –
-        <div class="doc-md-description">
-          <p>The threshold against which the probability is estimated.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>greater</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>, default:
-                <code>True</code>
+          –
+          <div class="doc-md-description">
+            <p>The threshold against which the probability is estimated.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>greater</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>, default:
+                  <code>True</code>
 )
-        –
-        <div class="doc-md-description">
-          <p>Whether to compute the probability of exceeding the threshold.</p>
-        </div>
-      </li>
-  </ul>
+          –
+          <div class="doc-md-description">
+            <p>Whether to compute the probability of exceeding the threshold.</p>
+          </div>
+        </li>
+    </ul>
 
-                <details class="quote">
-                  <summary>Source code in <code>src/gemseo_umdo/formulations/statistics/iterative_sampling/probability.py</code></summary>
-                  <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">45</span>
+                  <details class="quote">
+                    <summary>Source code in <code>src/gemseo_umdo/formulations/statistics/iterative_sampling/probability.py</code></summary>
+                    <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">45</span>
 <span class="normal">46</span>
 <span class="normal">47</span>
 <span class="normal">48</span>
@@ -5824,9 +5823,9 @@ storing any data in memory.</p>
     <span class="bp">self</span><span class="o">.</span><span class="n">__threshold</span> <span class="o">=</span> <span class="n">threshold</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__greater</span> <span class="o">=</span> <span class="n">greater</span>
 </code></pre></div></td></tr></table></div>
-                </details>
+                  </details>
 
-  
+
 
   <div class="doc doc-children">
 
@@ -5838,31 +5837,29 @@ storing any data in memory.</p>
 
 <h5 id="gemseo_umdo.formulations.statistics.iterative_sampling.probability.Probability-functions">Functions<a href="#gemseo_umdo.formulations.statistics.iterative_sampling.probability.Probability-functions" class="headerlink" title="Permanent link">&para;</a></h5>
 
-
 <div class="doc doc-object doc-function">
 
 
-
 <h6 id="gemseo_umdo.formulations.statistics.iterative_sampling.probability.Probability.reset" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>          <span class="doc doc-object-name doc-function-name">reset</span>
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">reset</span>
 
 
 <a href="#gemseo_umdo.formulations.statistics.iterative_sampling.probability.Probability.reset" class="headerlink" title="Permanent link">&para;</a></h6>
 <div class="doc-signature highlight"><pre><span></span><code><span class="nf">reset</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
 
-  <div class="doc doc-contents ">
-  
+    <div class="doc doc-contents ">
+
       <p>Reset the estimator of the statistic.</p>
 
-          <details class="quote">
-            <summary>Source code in <code>src/gemseo_umdo/formulations/statistics/iterative_sampling/probability.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">66</span>
+            <details class="quote">
+              <summary>Source code in <code>src/gemseo_umdo/formulations/statistics/iterative_sampling/probability.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">66</span>
 <span class="normal">67</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># noqa: D102</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_estimator</span> <span class="o">=</span> <span class="n">IterativeThresholdExceedance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__threshold</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
-          </details>
-  </div>
+            </details>
+    </div>
 
 </div>
 
@@ -5870,8 +5867,7 @@ storing any data in memory.</p>
 
   </div>
 
-  </div>
-
+    </div>
 
 </div>
 
@@ -5880,7 +5876,7 @@ storing any data in memory.</p>
 
   </div>
 
-  </div>
+    </div>
 
 </div>
 

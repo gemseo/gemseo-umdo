@@ -5725,19 +5725,19 @@
 
 
 <h2 id="gemseo_umdo.use_cases.heat_equation.discipline" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>          <span class="doc doc-object-name doc-module-name">discipline</span>
+<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>            <span class="doc doc-object-name doc-module-name">discipline</span>
 
 
 <a href="#gemseo_umdo.use_cases.heat_equation.discipline" class="headerlink" title="Permanent link">&para;</a></h2>
 
-  <div class="doc doc-contents first">
-  
+    <div class="doc doc-contents first">
+
       <p>The heat equation discipline.</p>
 <p>This discipline wraps
 the <a class="autorefs autorefs-internal" href="../model/#gemseo_umdo.use_cases.heat_equation.model.HeatEquationModel">HeatEquationModel</a>;
 read its docstring for more details.</p>
 
-  
+
 
   <div class="doc doc-children">
 
@@ -5753,7 +5753,7 @@ read its docstring for more details.</p>
 
 
 <h4 id="gemseo_umdo.use_cases.heat_equation.discipline.HeatEquation" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>          <span class="doc doc-object-name doc-class-name">HeatEquation</span>
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">HeatEquation</span>
 
 
 <a href="#gemseo_umdo.use_cases.heat_equation.discipline.HeatEquation" class="headerlink" title="Permanent link">&para;</a></h4>
@@ -5766,74 +5766,73 @@ read its docstring for more details.</p>
 <span class="p">)</span>
 </code></pre></div>
 
-  <div class="doc doc-contents ">
-          <p class="doc doc-class-bases">
-            Bases: <code><a class="autorefs autorefs-external" title="gemseo.core.discipline.MDODiscipline" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.core.discipline.html#gemseo.core.discipline.MDODiscipline">MDODiscipline</a></code></p>
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-external" title="gemseo.core.discipline.MDODiscipline" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.core.discipline.html#gemseo.core.discipline.MDODiscipline">MDODiscipline</a></code></p>
 
-  
+
       <p>The discipline computing the temperature averaged over the rod at final time.</p>
-  
+
       <p>Initialize self.  See help(type(self)) for accurate signature.</p>
 
 
+<p><span class="doc-section-title">Parameters:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code>mesh_size</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>, default:
+                  <code>100</code>
+)
+          –
+          <div class="doc-md-description">
+            <p>The number of equispaced spatial nodes.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>n_modes</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>, default:
+                  <code>21</code>
+)
+          –
+          <div class="doc-md-description">
+            <p>The number of modes of the truncated Fourier expansion.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>final_time</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></code>, default:
+                  <code>0.5</code>
+)
+          –
+          <div class="doc-md-description">
+            <p>The time of interest.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>nu_bounds</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#tuple">tuple</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a>, <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a>]</code>, default:
+                  <code>(0.001, 0.009)</code>
+)
+          –
+          <div class="doc-md-description">
+            <p>The bounds of the thermal diffusivity.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>rod_length</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></code>, default:
+                  <code>1.0</code>
+)
+          –
+          <div class="doc-md-description">
+            <p>The length of the rod.</p>
+          </div>
+        </li>
+    </ul>
 
-  <p><span class="doc-section-title">Parameters:</span></p>
-  <ul>
-      <li class="doc-section-item field-body">
-        <b><code>mesh_size</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>, default:
-                <code>100</code>
-)
-        –
-        <div class="doc-md-description">
-          <p>The number of equispaced spatial nodes.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>n_modes</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>, default:
-                <code>21</code>
-)
-        –
-        <div class="doc-md-description">
-          <p>The number of modes of the truncated Fourier expansion.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>final_time</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></code>, default:
-                <code>0.5</code>
-)
-        –
-        <div class="doc-md-description">
-          <p>The time of interest.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>nu_bounds</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#tuple">tuple</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a>, <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a>]</code>, default:
-                <code>(0.001, 0.009)</code>
-)
-        –
-        <div class="doc-md-description">
-          <p>The bounds of the thermal diffusivity.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>rod_length</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></code>, default:
-                <code>1.0</code>
-)
-        –
-        <div class="doc-md-description">
-          <p>The length of the rod.</p>
-        </div>
-      </li>
-  </ul>
-
-                <details class="quote">
-                  <summary>Source code in <code>src/gemseo_umdo/use_cases/heat_equation/discipline.py</code></summary>
-                  <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">40</span>
+                  <details class="quote">
+                    <summary>Source code in <code>src/gemseo_umdo/use_cases/heat_equation/discipline.py</code></summary>
+                    <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">40</span>
 <span class="normal">41</span>
 <span class="normal">42</span>
 <span class="normal">43</span>
@@ -5903,9 +5902,9 @@ read its docstring for more details.</p>
         <span class="s2">&quot;X_7&quot;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">]),</span>
     <span class="p">}</span>
 </code></pre></div></td></tr></table></div>
-                </details>
+                  </details>
 
-  
+
 
   <div class="doc doc-children">
 
@@ -5920,9 +5919,9 @@ read its docstring for more details.</p>
 
 
 <h6 id="gemseo_umdo.use_cases.heat_equation.discipline.HeatEquation.configuration" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>          <span class="doc doc-object-name doc-attribute-name">configuration</span>
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">configuration</span>
 
-  
+
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-property"><code>property</code></small>
   </span>
@@ -5931,10 +5930,10 @@ read its docstring for more details.</p>
 <div class="doc-signature highlight"><pre><span></span><code><span class="n">configuration</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="gemseo_umdo.use_cases.heat_equation.configuration.HeatEquationConfiguration" href="../configuration/#gemseo_umdo.use_cases.heat_equation.configuration.HeatEquationConfiguration">HeatEquationConfiguration</a></span>
 </code></pre></div>
 
-  <div class="doc doc-contents ">
-  
+    <div class="doc doc-contents ">
+
       <p>The configuration.</p>
-  </div>
+    </div>
 
 </div>
 
@@ -5944,8 +5943,7 @@ read its docstring for more details.</p>
 
   </div>
 
-  </div>
-
+    </div>
 
 </div>
 
@@ -5954,7 +5952,7 @@ read its docstring for more details.</p>
 
   </div>
 
-  </div>
+    </div>
 
 </div>
 

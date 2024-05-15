@@ -5725,16 +5725,16 @@
 
 
 <h2 id="gemseo_umdo.formulations.functions.iterative_estimation" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>          <span class="doc doc-object-name doc-module-name">iterative_estimation</span>
+<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>            <span class="doc doc-object-name doc-module-name">iterative_estimation</span>
 
 
 <a href="#gemseo_umdo.formulations.functions.iterative_estimation" class="headerlink" title="Permanent link">&para;</a></h2>
 
-  <div class="doc doc-contents first">
-  
+    <div class="doc doc-contents first">
+
       <p>A function updating the estimation of a statistic.</p>
 
-  
+
 
   <div class="doc doc-children">
 
@@ -5750,7 +5750,7 @@
 
 
 <h4 id="gemseo_umdo.formulations.functions.iterative_estimation.IterativeEstimation" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>          <span class="doc doc-object-name doc-class-name">IterativeEstimation</span>
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">IterativeEstimation</span>
 
 
 <a href="#gemseo_umdo.formulations.functions.iterative_estimation.IterativeEstimation" class="headerlink" title="Permanent link">&para;</a></h4>
@@ -5759,9 +5759,9 @@
 <span class="p">)</span>
 </code></pre></div>
 
-  <div class="doc doc-contents ">
+    <div class="doc doc-contents ">
 
-  
+
       <p>A functor to estimate a statistic iteratively.</p>
 <p>Call this functor to update the estimation of the statistic
 and access the last evaluation with :attr:<code>.last_evaluation</code>.</p>
@@ -5769,33 +5769,32 @@ and access the last evaluation with :attr:<code>.last_evaluation</code>.</p>
 passes such functors to a <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.algos.doe.doe_library.html#gemseo.algos.doe.doe_library.DOELibrary">DOELibrary</a>
 as callback functions
 to update the statistics of the objective, constraints and observables.</p>
-  
 
 
 
-  <p><span class="doc-section-title">Parameters:</span></p>
-  <ul>
-      <li class="doc-section-item field-body">
-        <b><code>name</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>)
-        –
-        <div class="doc-md-description">
-          <p>The name of the output for which to estimate the statistic.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>update_estimation</code></b>
-            (<code><a class="autorefs autorefs-internal" title="gemseo_umdo.formulations.statistics.iterative_sampling.sampling_estimator.SamplingEstimator" href="../../statistics/iterative_sampling/sampling_estimator/#gemseo_umdo.formulations.statistics.iterative_sampling.sampling_estimator.SamplingEstimator">SamplingEstimator</a></code>)
-        –
-        <div class="doc-md-description">
-          <p>The function to update the estimation of the statistic.</p>
-        </div>
-      </li>
-  </ul>
+<p><span class="doc-section-title">Parameters:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code>name</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>The name of the output for which to estimate the statistic.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>update_estimation</code></b>
+              (<code><a class="autorefs autorefs-internal" title="gemseo_umdo.formulations.statistics.iterative_sampling.sampling_estimator.SamplingEstimator" href="../../statistics/iterative_sampling/sampling_estimator/#gemseo_umdo.formulations.statistics.iterative_sampling.sampling_estimator.SamplingEstimator">SamplingEstimator</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>The function to update the estimation of the statistic.</p>
+          </div>
+        </li>
+    </ul>
 
-                <details class="quote">
-                  <summary>Source code in <code>src/gemseo_umdo/formulations/functions/iterative_estimation.py</code></summary>
-                  <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">54</span>
+                  <details class="quote">
+                    <summary>Source code in <code>src/gemseo_umdo/formulations/functions/iterative_estimation.py</code></summary>
+                    <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">54</span>
 <span class="normal">55</span>
 <span class="normal">56</span>
 <span class="normal">57</span>
@@ -5821,9 +5820,9 @@ to update the statistics of the objective, constraints and observables.</p>
     <span class="bp">self</span><span class="o">.</span><span class="n">_last_estimation</span> <span class="o">=</span> <span class="n">array</span><span class="p">([])</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_update_estimation</span> <span class="o">=</span> <span class="n">update_estimation</span>
 </code></pre></div></td></tr></table></div>
-                </details>
+                  </details>
 
-  
+
 
   <div class="doc doc-children">
 
@@ -5838,9 +5837,9 @@ to update the statistics of the objective, constraints and observables.</p>
 
 
 <h6 id="gemseo_umdo.formulations.functions.iterative_estimation.IterativeEstimation.last_estimation" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>          <span class="doc doc-object-name doc-attribute-name">last_estimation</span>
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">last_estimation</span>
 
-  
+
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-property"><code>property</code></small>
   </span>
@@ -5849,10 +5848,10 @@ to update the statistics of the objective, constraints and observables.</p>
 <div class="doc-signature highlight"><pre><span></span><code><span class="n">last_estimation</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.typing.RealArray" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.typing.html#gemseo.typing.RealArray">RealArray</a></span>
 </code></pre></div>
 
-  <div class="doc doc-contents ">
-  
+    <div class="doc doc-contents ">
+
       <p>The last estimation of the statistic.</p>
-  </div>
+    </div>
 
 </div>
 
@@ -5862,8 +5861,7 @@ to update the statistics of the objective, constraints and observables.</p>
 
   </div>
 
-  </div>
-
+    </div>
 
 </div>
 
@@ -5872,7 +5870,7 @@ to update the statistics of the objective, constraints and observables.</p>
 
   </div>
 
-  </div>
+    </div>
 
 </div>
 

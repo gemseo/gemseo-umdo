@@ -5787,16 +5787,16 @@
 
 
 <h2 id="gemseo_umdo.visualizations.uncertain_coupling_graph" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>          <span class="doc doc-object-name doc-module-name">uncertain_coupling_graph</span>
+<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>            <span class="doc doc-object-name doc-module-name">uncertain_coupling_graph</span>
 
 
 <a href="#gemseo_umdo.visualizations.uncertain_coupling_graph" class="headerlink" title="Permanent link">&para;</a></h2>
 
-  <div class="doc doc-contents first">
-  
+    <div class="doc doc-contents first">
+
       <p>An uncertain coupling graph.</p>
 
-  
+
 
   <div class="doc doc-children">
 
@@ -5812,7 +5812,7 @@
 
 
 <h4 id="gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>          <span class="doc doc-object-name doc-class-name">UncertainCouplingGraph</span>
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">UncertainCouplingGraph</span>
 
 
 <a href="#gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph" class="headerlink" title="Permanent link">&para;</a></h4>
@@ -5823,9 +5823,9 @@
 <span class="p">)</span>
 </code></pre></div>
 
-  <div class="doc doc-contents ">
+    <div class="doc doc-contents ">
 
-  
+
       <p>An uncertain coupling graph.</p>
 <p>A coupling graph whose disciplines are represented by nodes
 and coupling variables by edges whose thickness is proportional to its dispersion.</p>
@@ -5846,44 +5846,43 @@ or the quartile coefficient of dispersion (QCD).</p>
 repeat Step 3 with another dispersion measure or a list of variable names.</p>
 <p>If you want to improve the estimations of the statistics,
 repeat Step 2 with additional evaluations and Step 3.</p>
-  
 
 
 
-  <p><span class="doc-section-title">Parameters:</span></p>
-  <ul>
-      <li class="doc-section-item field-body">
-        <b><code>disciplines</code></b>
-            (<code><a class="autorefs autorefs-external" title="collections.abc.Sequence" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Sequence">Sequence</a>[<a class="autorefs autorefs-external" title="gemseo.core.discipline.MDODiscipline" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.core.discipline.html#gemseo.core.discipline.MDODiscipline">MDODiscipline</a>]</code>)
-        –
-        <div class="doc-md-description">
-          <p>The coupled disciplines.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>uncertain_space</code></b>
-            (<code><a class="autorefs autorefs-external" title="gemseo.algos.parameter_space.ParameterSpace" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.algos.parameter_space.html#gemseo.algos.parameter_space.ParameterSpace">ParameterSpace</a></code>)
-        –
-        <div class="doc-md-description">
-          <p>The space of the uncertain variables.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>variable_names</code></b>
-            (<code><a class="autorefs autorefs-external" title="collections.abc.Iterable" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable">Iterable</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>] | None</code>, default:
-                <code>None</code>
+<p><span class="doc-section-title">Parameters:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code>disciplines</code></b>
+              (<code><a class="autorefs autorefs-external" title="collections.abc.Sequence" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Sequence">Sequence</a>[<a class="autorefs autorefs-external" title="gemseo.core.discipline.MDODiscipline" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.core.discipline.html#gemseo.core.discipline.MDODiscipline">MDODiscipline</a>]</code>)
+          –
+          <div class="doc-md-description">
+            <p>The coupled disciplines.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>uncertain_space</code></b>
+              (<code><a class="autorefs autorefs-external" title="gemseo.algos.parameter_space.ParameterSpace" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.algos.parameter_space.html#gemseo.algos.parameter_space.ParameterSpace">ParameterSpace</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>The space of the uncertain variables.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>variable_names</code></b>
+              (<code><a class="autorefs autorefs-external" title="collections.abc.Iterable" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable">Iterable</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>] | None</code>, default:
+                  <code>None</code>
 )
-        –
-        <div class="doc-md-description">
-          <p>The names of the coupling variables of interest.
+          –
+          <div class="doc-md-description">
+            <p>The names of the coupling variables of interest.
 If <code>None</code>, use all the coupling variables.</p>
-        </div>
-      </li>
-  </ul>
+          </div>
+        </li>
+    </ul>
 
-                <details class="quote">
-                  <summary>Source code in <code>src/gemseo_umdo/visualizations/uncertain_coupling_graph.py</code></summary>
-                  <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 95</span>
+                  <details class="quote">
+                    <summary>Source code in <code>src/gemseo_umdo/visualizations/uncertain_coupling_graph.py</code></summary>
+                    <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 95</span>
 <span class="normal"> 96</span>
 <span class="normal"> 97</span>
 <span class="normal"> 98</span>
@@ -5929,9 +5928,9 @@ If <code>None</code>, use all the coupling variables.</p>
     <span class="k">for</span> <span class="n">output_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__output_names</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__scenario</span><span class="o">.</span><span class="n">add_observable</span><span class="p">(</span><span class="n">output_name</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
-                </details>
+                  </details>
 
-  
+
 
   <div class="doc doc-children">
 
@@ -5947,21 +5946,21 @@ If <code>None</code>, use all the coupling variables.</p>
 
 
 <h6 id="gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph.DispersionMeasure" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>          <span class="doc doc-object-name doc-class-name">DispersionMeasure</span>
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">DispersionMeasure</span>
 
 
 <a href="#gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph.DispersionMeasure" class="headerlink" title="Permanent link">&para;</a></h6>
 
 
-  <div class="doc doc-contents ">
-          <p class="doc doc-class-bases">
-            Bases: <code><span title="strenum.StrEnum">StrEnum</span></code></p>
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="strenum.StrEnum">StrEnum</span></code></p>
 
-  
+
       <p>A dispersion measure.</p>
 
 
-  
+
 
   <div class="doc doc-children">
 
@@ -5977,19 +5976,16 @@ If <code>None</code>, use all the coupling variables.</p>
 
   </div>
 
-  </div>
-
+    </div>
 
 </div>
 <h5 id="gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph-functions">Functions<a href="#gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph-functions" class="headerlink" title="Permanent link">&para;</a></h5>
 
-
 <div class="doc doc-object doc-function">
 
 
-
 <h6 id="gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph.sample" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>          <span class="doc doc-object-name doc-function-name">sample</span>
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">sample</span>
 
 
 <a href="#gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph.sample" class="headerlink" title="Permanent link">&para;</a></h6>
@@ -6000,47 +5996,46 @@ If <code>None</code>, use all the coupling variables.</p>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
 
-  <div class="doc doc-contents ">
-  
+    <div class="doc doc-contents ">
+
       <p>Sample the multidisciplinary system.</p>
 
 
-
-  <p><span class="doc-section-title">Parameters:</span></p>
-  <ul>
-      <li class="doc-section-item field-body">
-        <b><code>n_samples</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>)
-        –
-        <div class="doc-md-description">
-          <p>The number of evaluations of the multidisciplinary system.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>algo_name</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>, default:
-                <code>&#39;OT_OPT_LHS&#39;</code>
+<p><span class="doc-section-title">Parameters:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code>n_samples</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>The number of evaluations of the multidisciplinary system.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>algo_name</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>, default:
+                  <code>&#39;OT_OPT_LHS&#39;</code>
 )
-        –
-        <div class="doc-md-description">
-          <p>The name of the DOE algorithm.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>**algo_options</code></b>
-            (<code><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></code>, default:
-                <code>{}</code>
+          –
+          <div class="doc-md-description">
+            <p>The name of the DOE algorithm.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>**algo_options</code></b>
+              (<code><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></code>, default:
+                  <code>{}</code>
 )
-        –
-        <div class="doc-md-description">
-          <p>The options of the DOE algorithm.</p>
-        </div>
-      </li>
-  </ul>
+          –
+          <div class="doc-md-description">
+            <p>The options of the DOE algorithm.</p>
+          </div>
+        </li>
+    </ul>
 
-          <details class="quote">
-            <summary>Source code in <code>src/gemseo_umdo/visualizations/uncertain_coupling_graph.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">119</span>
+            <details class="quote">
+              <summary>Source code in <code>src/gemseo_umdo/visualizations/uncertain_coupling_graph.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">119</span>
 <span class="normal">120</span>
 <span class="normal">121</span>
 <span class="normal">122</span>
@@ -6070,18 +6065,16 @@ If <code>None</code>, use all the coupling variables.</p>
         <span class="s2">&quot;algo_options&quot;</span><span class="p">:</span> <span class="n">algo_options</span><span class="p">,</span>
     <span class="p">})</span>
 </code></pre></div></td></tr></table></div>
-          </details>
-  </div>
+            </details>
+    </div>
 
 </div>
-
 
 <div class="doc doc-object doc-function">
 
 
-
 <h6 id="gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph.visualize" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>          <span class="doc doc-object-name doc-function-name">visualize</span>
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">visualize</span>
 
 
 <a href="#gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph.visualize" class="headerlink" title="Permanent link">&para;</a></h6>
@@ -6096,106 +6089,104 @@ If <code>None</code>, use all the coupling variables.</p>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="gemseo.post._graph_view.GraphView">GraphView</span></span>
 </code></pre></div>
 
-  <div class="doc doc-contents ">
-  
+    <div class="doc doc-contents ">
+
       <p>Generate the uncertain coupling graph.</p>
 
 
-
-  <p><span class="doc-section-title">Parameters:</span></p>
-  <ul>
-      <li class="doc-section-item field-body">
-        <b><code>maximum_thickness</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>, default:
-                <code>30</code>
+<p><span class="doc-section-title">Parameters:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code>maximum_thickness</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>, default:
+                  <code>30</code>
 )
-        –
-        <div class="doc-md-description">
-          <p>The maximum thickness of a line.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>dispersion_measure</code></b>
-            (<code><a class="autorefs autorefs-internal" title="gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph.DispersionMeasure" href="#gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph.DispersionMeasure">DispersionMeasure</a></code>, default:
-                <code><span title="gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph.DispersionMeasure.QCD">QCD</span></code>
+          –
+          <div class="doc-md-description">
+            <p>The maximum thickness of a line.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>dispersion_measure</code></b>
+              (<code><a class="autorefs autorefs-internal" title="gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph.DispersionMeasure" href="#gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph.DispersionMeasure">DispersionMeasure</a></code>, default:
+                  <code><span title="gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph.DispersionMeasure.QCD">QCD</span></code>
 )
-        –
-        <div class="doc-md-description">
-          <p>A standardized measure of dispersion.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>variable_names</code></b>
-            (<code><a class="autorefs autorefs-external" title="collections.abc.Iterable" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable">Iterable</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>] | None</code>, default:
-                <code>None</code>
+          –
+          <div class="doc-md-description">
+            <p>A standardized measure of dispersion.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>variable_names</code></b>
+              (<code><a class="autorefs autorefs-external" title="collections.abc.Iterable" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable">Iterable</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>] | None</code>, default:
+                  <code>None</code>
 )
-        –
-        <div class="doc-md-description">
-          <p>The names of the coupling variables of interest.
+          –
+          <div class="doc-md-description">
+            <p>The names of the coupling variables of interest.
 If <code>None</code>,
 use all the coupling variables of interest defined at instantiation.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>show</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>, default:
-                <code>True</code>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>show</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>, default:
+                  <code>True</code>
 )
-        –
-        <div class="doc-md-description">
-          <p>Whether to display the graph
+          –
+          <div class="doc-md-description">
+            <p>Whether to display the graph
 with the default application associated to the file extension.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>save</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>, default:
-                <code>True</code>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>save</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>, default:
+                  <code>True</code>
 )
-        –
-        <div class="doc-md-description">
-          <p>Whether to save the graph on the disk.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>file_path</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a> | <a class="autorefs autorefs-external" title="pathlib.Path" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path">Path</a></code>, default:
-                <code>&#39;&#39;</code>
+          –
+          <div class="doc-md-description">
+            <p>Whether to save the graph on the disk.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>file_path</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a> | <a class="autorefs autorefs-external" title="pathlib.Path" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path">Path</a></code>, default:
+                  <code>&#39;&#39;</code>
 )
-        –
-        <div class="doc-md-description">
-          <p>The file path with extension to save the graph.
+          –
+          <div class="doc-md-description">
+            <p>The file path with extension to save the graph.
 If <code>""</code>, use the class name with PNG format.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>clean_up</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>, default:
-                <code>True</code>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>clean_up</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>, default:
+                  <code>True</code>
 )
-        –
-        <div class="doc-md-description">
-          <p>Whether to remove the source files.</p>
-        </div>
-      </li>
-  </ul>
+          –
+          <div class="doc-md-description">
+            <p>Whether to remove the source files.</p>
+          </div>
+        </li>
+    </ul>
 
 
+<p><span class="doc-section-title">Returns:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+              <code><span title="gemseo.post._graph_view.GraphView">GraphView</span></code>
+          –
+          <div class="doc-md-description">
+            <p>The view of the uncertain coupling graph.</p>
+          </div>
+        </li>
+    </ul>
 
-  <p><span class="doc-section-title">Returns:</span></p>
-  <ul>
-      <li class="doc-section-item field-body">
-            <code><span title="gemseo.post._graph_view.GraphView">GraphView</span></code>
-        –
-        <div class="doc-md-description">
-          <p>The view of the uncertain coupling graph.</p>
-      </div>
-      </li>
-  </ul>
-
-          <details class="quote">
-            <summary>Source code in <code>src/gemseo_umdo/visualizations/uncertain_coupling_graph.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">135</span>
+            <details class="quote">
+              <summary>Source code in <code>src/gemseo_umdo/visualizations/uncertain_coupling_graph.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">135</span>
 <span class="normal">136</span>
 <span class="normal">137</span>
 <span class="normal">138</span>
@@ -6353,8 +6344,8 @@ If <code>""</code>, use the class name with PNG format.</p>
 
     <span class="k">return</span> <span class="n">graph_view</span>
 </code></pre></div></td></tr></table></div>
-          </details>
-  </div>
+            </details>
+    </div>
 
 </div>
 
@@ -6362,8 +6353,7 @@ If <code>""</code>, use the class name with PNG format.</p>
 
   </div>
 
-  </div>
-
+    </div>
 
 </div>
 
@@ -6372,7 +6362,7 @@ If <code>""</code>, use the class name with PNG format.</p>
 
   </div>
 
-  </div>
+    </div>
 
 </div>
 

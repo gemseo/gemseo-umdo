@@ -5663,16 +5663,16 @@
 
 
 <h2 id="gemseo_umdo.scenarios.umdo_scenario" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>          <span class="doc doc-object-name doc-module-name">umdo_scenario</span>
+<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>            <span class="doc doc-object-name doc-module-name">umdo_scenario</span>
 
 
 <a href="#gemseo_umdo.scenarios.umdo_scenario" class="headerlink" title="Permanent link">&para;</a></h2>
 
-  <div class="doc doc-contents first">
-  
+    <div class="doc doc-contents first">
+
       <p>Scenario for multidisciplinary design optimization problems under uncertainty.</p>
 
-  
+
 
   <div class="doc doc-children">
 
@@ -5688,7 +5688,7 @@
 
 
 <h4 id="gemseo_umdo.scenarios.umdo_scenario.UMDOScenario" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>          <span class="doc doc-object-name doc-class-name">UMDOScenario</span>
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">UMDOScenario</span>
 
 
 <a href="#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario" class="headerlink" title="Permanent link">&para;</a></h4>
@@ -5716,115 +5716,114 @@
 <span class="p">)</span>
 </code></pre></div>
 
-  <div class="doc doc-contents ">
-          <p class="doc doc-class-bases">
-            Bases: <code><span title="gemseo_umdo.scenarios._scenario._UScenario">_UScenario</span></code>, <code><span title="gemseo.scenarios.mdo_scenario.MDOScenario">MDOScenario</span></code></p>
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="gemseo_umdo.scenarios._scenario._UScenario">_UScenario</span></code>, <code><span title="gemseo.scenarios.mdo_scenario.MDOScenario">MDOScenario</span></code></p>
 
-  
+
       <p>An optimizer-based scenario for multidisciplinary design under uncertainty.</p>
-  
+
       <p>Initialize self.  See help(type(self)) for accurate signature.</p>
 
 
-
-  <p><span class="doc-section-title">Parameters:</span></p>
-  <ul>
-      <li class="doc-section-item field-body">
-        <b><code>disciplines</code></b>
-            (<code><a class="autorefs autorefs-external" title="collections.abc.Sequence" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Sequence">Sequence</a>[<a class="autorefs autorefs-external" title="gemseo.core.discipline.MDODiscipline" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.core.discipline.html#gemseo.core.discipline.MDODiscipline">MDODiscipline</a>]</code>)
-        –
-        <div class="doc-md-description">
-          <p>The disciplines
+<p><span class="doc-section-title">Parameters:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code>disciplines</code></b>
+              (<code><a class="autorefs autorefs-external" title="collections.abc.Sequence" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Sequence">Sequence</a>[<a class="autorefs autorefs-external" title="gemseo.core.discipline.MDODiscipline" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.core.discipline.html#gemseo.core.discipline.MDODiscipline">MDODiscipline</a>]</code>)
+          –
+          <div class="doc-md-description">
+            <p>The disciplines
 used to compute the objective, constraints and observables
 from the design variables.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>formulation</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>)
-        –
-        <div class="doc-md-description">
-          <p>The class name of the :class:<code>.MDOFormulation</code>,
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>formulation</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>The class name of the :class:<code>.MDOFormulation</code>,
 e.g. <code>"MDF"</code>, <code>"IDF"</code> or <code>"BiLevel"</code>.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>objective_name</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>)
-        –
-        <div class="doc-md-description">
-          <p>The name(s) of the discipline output(s) used as objective.
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>objective_name</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>The name(s) of the discipline output(s) used as objective.
 If multiple names are passed, the objective will be a vector.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>design_space</code></b>
-            (<code><a class="autorefs autorefs-external" title="gemseo.algos.design_space.DesignSpace" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.algos.design_space.html#gemseo.algos.design_space.DesignSpace">DesignSpace</a></code>)
-        –
-        <div class="doc-md-description">
-          <p>The search space including at least the design variables
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>design_space</code></b>
+              (<code><a class="autorefs autorefs-external" title="gemseo.algos.design_space.DesignSpace" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.algos.design_space.html#gemseo.algos.design_space.DesignSpace">DesignSpace</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>The search space including at least the design variables
 (some formulations requires additional variables,
 e.g. :class:<code>.IDF</code> with the coupling variables).</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>uncertain_space</code></b>
-            (<code><a class="autorefs autorefs-external" title="gemseo.algos.parameter_space.ParameterSpace" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.algos.parameter_space.html#gemseo.algos.parameter_space.ParameterSpace">ParameterSpace</a></code>)
-        –
-        <div class="doc-md-description">
-          <p>The uncertain variables
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>uncertain_space</code></b>
+              (<code><a class="autorefs autorefs-external" title="gemseo.algos.parameter_space.ParameterSpace" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.algos.parameter_space.html#gemseo.algos.parameter_space.ParameterSpace">ParameterSpace</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>The uncertain variables
 with their probability distributions.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>objective_statistic_name</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>)
-        –
-        <div class="doc-md-description">
-          <p>The name of the statistic
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>objective_statistic_name</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>The name of the statistic
 to be applied to the objective, e.g. "margin".</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>objective_statistic_parameters</code></b>
-            (<code><a class="autorefs autorefs-external" title="collections.abc.Mapping" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping">Mapping</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>, <a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a>]</code>, default:
-                <code><a class="autorefs autorefs-external" title="gemseo.utils.constants.READ_ONLY_EMPTY_DICT" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.utils.constants.html#gemseo.utils.constants.READ_ONLY_EMPTY_DICT">READ_ONLY_EMPTY_DICT</a></code>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>objective_statistic_parameters</code></b>
+              (<code><a class="autorefs autorefs-external" title="collections.abc.Mapping" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping">Mapping</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>, <a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a>]</code>, default:
+                  <code><a class="autorefs autorefs-external" title="gemseo.utils.constants.READ_ONLY_EMPTY_DICT" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.utils.constants.html#gemseo.utils.constants.READ_ONLY_EMPTY_DICT">READ_ONLY_EMPTY_DICT</a></code>
 )
-        –
-        <div class="doc-md-description">
-          <p>The parameters of the statistics
+          –
+          <div class="doc-md-description">
+            <p>The parameters of the statistics
 to be applied to the objective,
 e.g. <code>{"factor": 2.}</code> when <code>objective_statistic="margin"</code>.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>statistic_estimation</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>, default:
-                <code>&#39;Sampling&#39;</code>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>statistic_estimation</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>, default:
+                  <code>&#39;Sampling&#39;</code>
 )
-        –
-        <div class="doc-md-description">
-          <p>The name of the method to estimate the statistic.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>statistic_estimation_parameters</code></b>
-            (<code><a class="autorefs autorefs-external" title="collections.abc.Mapping" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping">Mapping</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>, <a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a>]</code>, default:
-                <code><a class="autorefs autorefs-external" title="gemseo.utils.constants.READ_ONLY_EMPTY_DICT" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.utils.constants.html#gemseo.utils.constants.READ_ONLY_EMPTY_DICT">READ_ONLY_EMPTY_DICT</a></code>
+          –
+          <div class="doc-md-description">
+            <p>The name of the method to estimate the statistic.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>statistic_estimation_parameters</code></b>
+              (<code><a class="autorefs autorefs-external" title="collections.abc.Mapping" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping">Mapping</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>, <a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a>]</code>, default:
+                  <code><a class="autorefs autorefs-external" title="gemseo.utils.constants.READ_ONLY_EMPTY_DICT" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.utils.constants.html#gemseo.utils.constants.READ_ONLY_EMPTY_DICT">READ_ONLY_EMPTY_DICT</a></code>
 )
-        –
-        <div class="doc-md-description">
-          <p>The options of <code>statistic_estimation</code>.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>uncertain_design_variables</code></b>
-            (<code><a class="autorefs autorefs-external" title="collections.abc.Mapping" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping">Mapping</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>, <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a> | <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#tuple">tuple</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>, <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>]]</code>, default:
-                <code><a class="autorefs autorefs-external" title="gemseo.utils.constants.READ_ONLY_EMPTY_DICT" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.utils.constants.html#gemseo.utils.constants.READ_ONLY_EMPTY_DICT">READ_ONLY_EMPTY_DICT</a></code>
+          –
+          <div class="doc-md-description">
+            <p>The options of <code>statistic_estimation</code>.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>uncertain_design_variables</code></b>
+              (<code><a class="autorefs autorefs-external" title="collections.abc.Mapping" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping">Mapping</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>, <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a> | <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#tuple">tuple</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>, <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>]]</code>, default:
+                  <code><a class="autorefs autorefs-external" title="gemseo.utils.constants.READ_ONLY_EMPTY_DICT" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.utils.constants.html#gemseo.utils.constants.READ_ONLY_EMPTY_DICT">READ_ONLY_EMPTY_DICT</a></code>
 )
-        –
-        <div class="doc-md-description">
-          <p>This argument facilitates
+          –
+          <div class="doc-md-description">
+            <p>This argument facilitates
 the definition of uncertain design variables in two ways.
 The first way consists of passing a dictionary
 of the form <code>{"x1": ("+", "u1"), "x2": ("*", "u2"), ...}</code>
@@ -5856,54 +5855,54 @@ This more complex format assumes variables of dimension 1.
 If <code>None</code>,
 do not consider other variable relations
 than those defined by <code>disciplines</code>.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>name</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a> | None</code>, default:
-                <code>None</code>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>name</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a> | None</code>, default:
+                  <code>None</code>
 )
-        –
-        <div class="doc-md-description">
-          <p>The name to be given to this scenario.
+          –
+          <div class="doc-md-description">
+            <p>The name to be given to this scenario.
 If empty, use the name of the class.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>grammar_type</code></b>
-            (<code><a class="autorefs autorefs-external" title="gemseo.core.discipline.MDODiscipline.GrammarType" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.core.discipline.html#gemseo.core.discipline.MDODiscipline.GrammarType">GrammarType</a></code>, default:
-                <code><a class="autorefs autorefs-external" title="gemseo.core.discipline.MDODiscipline.GrammarType.JSON" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.core.discipline.html#gemseo.core.discipline.MDODiscipline.GrammarType.JSON">JSON</a></code>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>grammar_type</code></b>
+              (<code><a class="autorefs autorefs-external" title="gemseo.core.discipline.MDODiscipline.GrammarType" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.core.discipline.html#gemseo.core.discipline.MDODiscipline.GrammarType">GrammarType</a></code>, default:
+                  <code><a class="autorefs autorefs-external" title="gemseo.core.discipline.MDODiscipline.GrammarType.JSON" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.core.discipline.html#gemseo.core.discipline.MDODiscipline.GrammarType.JSON">JSON</a></code>
 )
-        –
-        <div class="doc-md-description">
-          <p>The grammar for the scenario and the MDO formulation.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>maximize_objective</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>, default:
-                <code>False</code>
+          –
+          <div class="doc-md-description">
+            <p>The grammar for the scenario and the MDO formulation.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>maximize_objective</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>, default:
+                  <code>False</code>
 )
-        –
-        <div class="doc-md-description">
-          <p>Whether to maximize the statistic of the objective.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>**formulation_options</code></b>
-            (<code><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></code>, default:
-                <code>{}</code>
+          –
+          <div class="doc-md-description">
+            <p>Whether to maximize the statistic of the objective.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>**formulation_options</code></b>
+              (<code><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></code>, default:
+                  <code>{}</code>
 )
-        –
-        <div class="doc-md-description">
-          <p>The options of the :class:<code>.MDOFormulation</code>.</p>
-        </div>
-      </li>
-  </ul>
+          –
+          <div class="doc-md-description">
+            <p>The options of the :class:<code>.MDOFormulation</code>.</p>
+          </div>
+        </li>
+    </ul>
 
-                <details class="quote">
-                  <summary>Source code in <code>src/gemseo_umdo/scenarios/_scenario.py</code></summary>
-                  <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 51</span>
+                  <details class="quote">
+                    <summary>Source code in <code>src/gemseo_umdo/scenarios/_scenario.py</code></summary>
+                    <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 51</span>
 <span class="normal"> 52</span>
 <span class="normal"> 53</span>
 <span class="normal"> 54</span>
@@ -6111,10 +6110,9 @@ If empty, use the name of the class.</p>
 
     <span class="bp">self</span><span class="o">.</span><span class="n">formulation_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">formulation</span><span class="o">.</span><span class="n">name</span>
 </code></pre></div></td></tr></table></div>
-                </details>
+                  </details>
 
-  </div>
-
+    </div>
 
 </div>
 
@@ -6123,7 +6121,7 @@ If empty, use the name of the class.</p>
 
   </div>
 
-  </div>
+    </div>
 
 </div>
 

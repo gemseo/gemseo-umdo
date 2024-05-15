@@ -5727,16 +5727,16 @@
 
 
 <h2 id="gemseo_umdo.formulations.statistics.iterative_sampling.variance" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>          <span class="doc doc-object-name doc-module-name">variance</span>
+<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>            <span class="doc doc-object-name doc-module-name">variance</span>
 
 
 <a href="#gemseo_umdo.formulations.statistics.iterative_sampling.variance" class="headerlink" title="Permanent link">&para;</a></h2>
 
-  <div class="doc doc-contents first">
-  
+    <div class="doc doc-contents first">
+
       <p>Iterative estimator of the variance for sampling-based U-MDO formulations.</p>
 
-  
+
 
   <div class="doc doc-children">
 
@@ -5752,35 +5752,35 @@
 
 
 <h4 id="gemseo_umdo.formulations.statistics.iterative_sampling.variance.Variance" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>          <span class="doc doc-object-name doc-class-name">Variance</span>
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">Variance</span>
 
 
 <a href="#gemseo_umdo.formulations.statistics.iterative_sampling.variance.Variance" class="headerlink" title="Permanent link">&para;</a></h4>
 <div class="doc-signature highlight"><pre><span></span><code><span class="nf">Variance</span><span class="p">()</span>
 </code></pre></div>
 
-  <div class="doc doc-contents ">
-          <p class="doc doc-class-bases">
-            Bases: <code><a class="autorefs autorefs-internal" title="gemseo_umdo.formulations.statistics.iterative_sampling.central_moment.CentralMoment" href="../central_moment/#gemseo_umdo.formulations.statistics.iterative_sampling.central_moment.CentralMoment">CentralMoment</a></code></p>
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="gemseo_umdo.formulations.statistics.iterative_sampling.central_moment.CentralMoment" href="../central_moment/#gemseo_umdo.formulations.statistics.iterative_sampling.central_moment.CentralMoment">CentralMoment</a></code></p>
 
-  
+
       <p>Iterative estimator of the variance.</p>
 <p>This class iteratively computes the variance of an increasing dataset without
 storing any data in memory.</p>
-  
+
       <p>Initialize self.  See help(type(self)) for accurate signature.</p>
 
-                <details class="quote">
-                  <summary>Source code in <code>src/gemseo_umdo/formulations/statistics/iterative_sampling/base_sampling_estimator.py</code></summary>
-                  <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">44</span>
+                  <details class="quote">
+                    <summary>Source code in <code>src/gemseo_umdo/formulations/statistics/iterative_sampling/base_sampling_estimator.py</code></summary>
+                    <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">44</span>
 <span class="normal">45</span>
 <span class="normal">46</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># noqa: D107</span>
     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_size</span> <span class="o">=</span> <span class="mi">0</span>
 </code></pre></div></td></tr></table></div>
-                </details>
+                  </details>
 
-  
+
 
   <div class="doc doc-children">
 
@@ -5792,31 +5792,29 @@ storing any data in memory.</p>
 
 <h5 id="gemseo_umdo.formulations.statistics.iterative_sampling.variance.Variance-functions">Functions<a href="#gemseo_umdo.formulations.statistics.iterative_sampling.variance.Variance-functions" class="headerlink" title="Permanent link">&para;</a></h5>
 
-
 <div class="doc doc-object doc-function">
 
 
-
 <h6 id="gemseo_umdo.formulations.statistics.iterative_sampling.variance.Variance.reset" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>          <span class="doc doc-object-name doc-function-name">reset</span>
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">reset</span>
 
 
 <a href="#gemseo_umdo.formulations.statistics.iterative_sampling.variance.Variance.reset" class="headerlink" title="Permanent link">&para;</a></h6>
 <div class="doc-signature highlight"><pre><span></span><code><span class="nf">reset</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
 
-  <div class="doc doc-contents ">
-  
+    <div class="doc doc-contents ">
+
       <p>Reset the estimator of the statistic.</p>
 
-          <details class="quote">
-            <summary>Source code in <code>src/gemseo_umdo/formulations/statistics/iterative_sampling/central_moment.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">52</span>
+            <details class="quote">
+              <summary>Source code in <code>src/gemseo_umdo/formulations/statistics/iterative_sampling/central_moment.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">52</span>
 <span class="normal">53</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># noqa: D102</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_estimator</span> <span class="o">=</span> <span class="n">IterativeMoments</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ORDER</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_size</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
-          </details>
-  </div>
+            </details>
+    </div>
 
 </div>
 
@@ -5824,8 +5822,7 @@ storing any data in memory.</p>
 
   </div>
 
-  </div>
-
+    </div>
 
 </div>
 
@@ -5834,7 +5831,7 @@ storing any data in memory.</p>
 
   </div>
 
-  </div>
+    </div>
 
 </div>
 

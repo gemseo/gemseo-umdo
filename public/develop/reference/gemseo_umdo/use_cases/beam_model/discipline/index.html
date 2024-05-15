@@ -5683,16 +5683,16 @@
 
 
 <h2 id="gemseo_umdo.use_cases.beam_model.discipline" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>          <span class="doc doc-object-name doc-module-name">discipline</span>
+<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>            <span class="doc doc-object-name doc-module-name">discipline</span>
 
 
 <a href="#gemseo_umdo.use_cases.beam_model.discipline" class="headerlink" title="Permanent link">&para;</a></h2>
 
-  <div class="doc doc-contents first">
-  
+    <div class="doc doc-contents first">
+
       <p>The discipline for the beam use case.</p>
 
-  
+
 
   <div class="doc doc-children">
 
@@ -5708,56 +5708,56 @@
 
 
 <h4 id="gemseo_umdo.use_cases.beam_model.discipline.Beam" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>          <span class="doc doc-object-name doc-class-name">Beam</span>
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">Beam</span>
 
 
 <a href="#gemseo_umdo.use_cases.beam_model.discipline.Beam" class="headerlink" title="Permanent link">&para;</a></h4>
 <div class="doc-signature highlight"><pre><span></span><code><span class="nf">Beam</span><span class="p">(</span><span class="n">n_y</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">n_z</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></span> <span class="o">=</span> <span class="mi">3</span><span class="p">)</span>
 </code></pre></div>
 
-  <div class="doc doc-contents ">
-          <p class="doc doc-class-bases">
-            Bases: <code><a class="autorefs autorefs-external" title="gemseo.core.discipline.MDODiscipline" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.core.discipline.html#gemseo.core.discipline.MDODiscipline">MDODiscipline</a></code></p>
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-external" title="gemseo.core.discipline.MDODiscipline" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.core.discipline.html#gemseo.core.discipline.MDODiscipline">MDODiscipline</a></code></p>
 
-  
+
       <p>The beam discipline.</p>
+
 
 <details class="see-also" open>
   <summary>See Also</summary>
   <p><a class="autorefs autorefs-internal" href="../core/model/#gemseo_umdo.use_cases.beam_model.core.model.BeamModel">BeamModel</a>
 for more information about the beam model.</p>
-</details>  
+</details>
       <p>Initialize self.  See help(type(self)) for accurate signature.</p>
 
 
-
-  <p><span class="doc-section-title">Parameters:</span></p>
-  <ul>
-      <li class="doc-section-item field-body">
-        <b><code>n_y</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>, default:
-                <code>3</code>
+<p><span class="doc-section-title">Parameters:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code>n_y</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>, default:
+                  <code>3</code>
 )
-        –
-        <div class="doc-md-description">
-          <p>The number of discretization points in the y-direction.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>n_z</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>, default:
-                <code>3</code>
+          –
+          <div class="doc-md-description">
+            <p>The number of discretization points in the y-direction.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>n_z</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>, default:
+                  <code>3</code>
 )
-        –
-        <div class="doc-md-description">
-          <p>The number of discretization points in the z-direction.</p>
-        </div>
-      </li>
-  </ul>
+          –
+          <div class="doc-md-description">
+            <p>The number of discretization points in the z-direction.</p>
+          </div>
+        </li>
+    </ul>
 
-                <details class="quote">
-                  <summary>Source code in <code>src/gemseo_umdo/use_cases/beam_model/discipline.py</code></summary>
-                  <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">49</span>
+                  <details class="quote">
+                    <summary>Source code in <code>src/gemseo_umdo/use_cases/beam_model/discipline.py</code></summary>
+                    <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">49</span>
 <span class="normal">50</span>
 <span class="normal">51</span>
 <span class="normal">52</span>
@@ -5793,9 +5793,9 @@ for more information about the beam model.</p>
     <span class="p">}</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__beam_model</span> <span class="o">=</span> <span class="n">BeamModel</span><span class="p">(</span><span class="n">n_y</span><span class="p">,</span> <span class="n">n_z</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
-                </details>
+                  </details>
 
-  
+
 
   <div class="doc doc-children">
 
@@ -5811,8 +5811,7 @@ for more information about the beam model.</p>
 
   </div>
 
-  </div>
-
+    </div>
 
 </div>
 
@@ -5821,7 +5820,7 @@ for more information about the beam model.</p>
 
   </div>
 
-  </div>
+    </div>
 
 </div>
 

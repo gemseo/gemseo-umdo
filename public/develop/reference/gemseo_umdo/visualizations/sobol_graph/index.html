@@ -5789,16 +5789,16 @@
 
 
 <h2 id="gemseo_umdo.visualizations.sobol_graph" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>          <span class="doc doc-object-name doc-module-name">sobol_graph</span>
+<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>            <span class="doc doc-object-name doc-module-name">sobol_graph</span>
 
 
 <a href="#gemseo_umdo.visualizations.sobol_graph" class="headerlink" title="Permanent link">&para;</a></h2>
 
-  <div class="doc doc-contents first">
-  
+    <div class="doc doc-contents first">
+
       <p>A network of uncertain variables representing their Sobol' indices.</p>
 
-  
+
 
   <div class="doc doc-children">
 
@@ -5814,7 +5814,7 @@
 
 
 <h4 id="gemseo_umdo.visualizations.sobol_graph.SobolGraph" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>          <span class="doc doc-object-name doc-class-name">SobolGraph</span>
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">SobolGraph</span>
 
 
 <a href="#gemseo_umdo.visualizations.sobol_graph.SobolGraph" class="headerlink" title="Permanent link">&para;</a></h4>
@@ -5827,78 +5827,77 @@
 <span class="p">)</span>
 </code></pre></div>
 
-  <div class="doc doc-contents ">
-          <p class="doc doc-class-bases">
-            Bases: <code><span title="gemseo.post._graph_view.GraphView">GraphView</span></code></p>
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="gemseo.post._graph_view.GraphView">GraphView</span></code></p>
 
-  
+
       <p>A network of uncertain variables representing their Sobol' indices.</p>
 <p>A node represents an uncertain variable whose name is written inside, followed by
 its first-order and total-order Sobol' indices.</p>
 <p>The thickness of a node is proportional to the total-order Sobol' index of the
 variable while the thickness of an edge is proportional to the second-order Sobol'
 index of the corresponding pair of variables.</p>
-  
+
       <p>Initialize self.  See help(type(self)) for accurate signature.</p>
 
 
-
-  <p><span class="doc-section-title">Parameters:</span></p>
-  <ul>
-      <li class="doc-section-item field-body">
-        <b><code>first_order_indices</code></b>
-            (<code><a class="autorefs autorefs-external" title="collections.abc.Mapping" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping">Mapping</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>, <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a>]</code>)
-        –
-        <div class="doc-md-description">
-          <p>The first-order Sobol' indices of the scalar inputs,
+<p><span class="doc-section-title">Parameters:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code>first_order_indices</code></b>
+              (<code><a class="autorefs autorefs-external" title="collections.abc.Mapping" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping">Mapping</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>, <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a>]</code>)
+          –
+          <div class="doc-md-description">
+            <p>The first-order Sobol' indices of the scalar inputs,
 shaped as <code>{name: index}</code>.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>total_order_indices</code></b>
-            (<code><a class="autorefs autorefs-external" title="collections.abc.Mapping" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping">Mapping</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>, <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a>]</code>)
-        –
-        <div class="doc-md-description">
-          <p>The total-order Sobol' indices of the scalar inputs,
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>total_order_indices</code></b>
+              (<code><a class="autorefs autorefs-external" title="collections.abc.Mapping" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping">Mapping</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>, <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a>]</code>)
+          –
+          <div class="doc-md-description">
+            <p>The total-order Sobol' indices of the scalar inputs,
 shaped as <code>{name: index}</code>.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>second_order_indices</code></b>
-            (<code><a class="autorefs autorefs-external" title="collections.abc.Mapping" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping">Mapping</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#tuple">tuple</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>, <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>], <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a>]</code>)
-        –
-        <div class="doc-md-description">
-          <p>The second-order Sobol' indices of the scalar inputs,
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>second_order_indices</code></b>
+              (<code><a class="autorefs autorefs-external" title="collections.abc.Mapping" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping">Mapping</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#tuple">tuple</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>, <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>], <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a>]</code>)
+          –
+          <div class="doc-md-description">
+            <p>The second-order Sobol' indices of the scalar inputs,
 shaped as <code>{(name, other_name): index}</code>.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>threshold</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></code>, default:
-                <code>0.1</code>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>threshold</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></code>, default:
+                  <code>0.1</code>
 )
-        –
-        <div class="doc-md-description">
-          <p>The sensitivity threshold
+          –
+          <div class="doc-md-description">
+            <p>The sensitivity threshold
 above which a second-order index is significant
 and the corresponding edge plotted.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>maximum_thickness</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></code>, default:
-                <code>10.0</code>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>maximum_thickness</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></code>, default:
+                  <code>10.0</code>
 )
-        –
-        <div class="doc-md-description">
-          <p>The maximum thickness of a line.</p>
-        </div>
-      </li>
-  </ul>
+          –
+          <div class="doc-md-description">
+            <p>The maximum thickness of a line.</p>
+          </div>
+        </li>
+    </ul>
 
-                <details class="quote">
-                  <summary>Source code in <code>src/gemseo_umdo/visualizations/sobol_graph.py</code></summary>
-                  <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">50</span>
+                  <details class="quote">
+                    <summary>Source code in <code>src/gemseo_umdo/visualizations/sobol_graph.py</code></summary>
+                    <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">50</span>
 <span class="normal">51</span>
 <span class="normal">52</span>
 <span class="normal">53</span>
@@ -5988,9 +5987,9 @@ and the corresponding edge plotted.</p>
                 <span class="n">penwidth</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">index</span> <span class="o">*</span> <span class="n">maximum_thickness</span><span class="p">),</span>
             <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
-                </details>
+                  </details>
 
-  
+
 
   <div class="doc doc-children">
 
@@ -6005,9 +6004,9 @@ and the corresponding edge plotted.</p>
 
 
 <h6 id="gemseo_umdo.visualizations.sobol_graph.SobolGraph.DEFAULT_FILE_PATH" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>          <span class="doc doc-object-name doc-attribute-name">DEFAULT_FILE_PATH</span>
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">DEFAULT_FILE_PATH</span>
 
-  
+
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
   </span>
@@ -6016,10 +6015,10 @@ and the corresponding edge plotted.</p>
 <div class="doc-signature highlight"><pre><span></span><code><span class="n">DEFAULT_FILE_PATH</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span> <span class="o">|</span> <span class="n"><a class="autorefs autorefs-external" title="pathlib.Path" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path">Path</a></span> <span class="o">=</span> <span class="s1">&#39;sobol_graph.png&#39;</span>
 </code></pre></div>
 
-  <div class="doc doc-contents ">
-  
+    <div class="doc doc-contents ">
+
       <p>The default file path to save the graph.</p>
-  </div>
+    </div>
 
 </div>
 
@@ -6028,9 +6027,9 @@ and the corresponding edge plotted.</p>
 
 
 <h6 id="gemseo_umdo.visualizations.sobol_graph.SobolGraph.threshold" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>          <span class="doc doc-object-name doc-attribute-name">threshold</span>
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">threshold</span>
 
-  
+
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
   </span>
@@ -6039,24 +6038,22 @@ and the corresponding edge plotted.</p>
 <div class="doc-signature highlight"><pre><span></span><code><span class="n">threshold</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></span>
 </code></pre></div>
 
-  <div class="doc doc-contents ">
-  
+    <div class="doc doc-contents ">
+
       <p>The threshold above which an edge is significant.</p>
-  </div>
+    </div>
 
 </div>
 
 <h5 id="gemseo_umdo.visualizations.sobol_graph.SobolGraph-functions">Functions<a href="#gemseo_umdo.visualizations.sobol_graph.SobolGraph-functions" class="headerlink" title="Permanent link">&para;</a></h5>
 
-
 <div class="doc doc-object doc-function">
 
 
-
 <h6 id="gemseo_umdo.visualizations.sobol_graph.SobolGraph.from_analysis" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>          <span class="doc doc-object-name doc-function-name">from_analysis</span>
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">from_analysis</span>
 
-  
+
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
   </span>
@@ -6069,58 +6066,56 @@ and the corresponding edge plotted.</p>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-internal" title="gemseo_umdo.visualizations.sobol_graph.SobolGraph" href="#gemseo_umdo.visualizations.sobol_graph.SobolGraph">SobolGraph</a></span>
 </code></pre></div>
 
-  <div class="doc doc-contents ">
-  
+    <div class="doc doc-contents ">
+
       <p>Create the Sobol' graph from a Sobol' analysis.</p>
 
 
-
-  <p><span class="doc-section-title">Parameters:</span></p>
-  <ul>
-      <li class="doc-section-item field-body">
-        <b><code>analysis</code></b>
-            (<code><a class="autorefs autorefs-external" title="gemseo.uncertainty.sensitivity.sobol.analysis.SobolAnalysis" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.uncertainty.sensitivity.sobol.analysis.html#gemseo.uncertainty.sensitivity.sobol.analysis.SobolAnalysis">SobolAnalysis</a></code>)
-        –
-        <div class="doc-md-description">
-          <p>A Sobol' analysis.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>output_name</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>)
-        –
-        <div class="doc-md-description">
-          <p>The name of the output.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>output_component</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>, default:
-                <code>0</code>
+<p><span class="doc-section-title">Parameters:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code>analysis</code></b>
+              (<code><a class="autorefs autorefs-external" title="gemseo.uncertainty.sensitivity.sobol.analysis.SobolAnalysis" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.uncertainty.sensitivity.sobol.analysis.html#gemseo.uncertainty.sensitivity.sobol.analysis.SobolAnalysis">SobolAnalysis</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>A Sobol' analysis.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>output_name</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>The name of the output.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>output_component</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>, default:
+                  <code>0</code>
 )
-        –
-        <div class="doc-md-description">
-          <p>The component of the output.</p>
-        </div>
-      </li>
-  </ul>
+          –
+          <div class="doc-md-description">
+            <p>The component of the output.</p>
+          </div>
+        </li>
+    </ul>
 
 
+<p><span class="doc-section-title">Returns:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+              <code><a class="autorefs autorefs-internal" title="gemseo_umdo.visualizations.sobol_graph.SobolGraph" href="#gemseo_umdo.visualizations.sobol_graph.SobolGraph">SobolGraph</a></code>
+          –
+          <div class="doc-md-description">
+            <p>The Sobol' graph associated with this Sobol' analysis.</p>
+          </div>
+        </li>
+    </ul>
 
-  <p><span class="doc-section-title">Returns:</span></p>
-  <ul>
-      <li class="doc-section-item field-body">
-            <code><a class="autorefs autorefs-internal" title="gemseo_umdo.visualizations.sobol_graph.SobolGraph" href="#gemseo_umdo.visualizations.sobol_graph.SobolGraph">SobolGraph</a></code>
-        –
-        <div class="doc-md-description">
-          <p>The Sobol' graph associated with this Sobol' analysis.</p>
-      </div>
-      </li>
-  </ul>
-
-          <details class="quote">
-            <summary>Source code in <code>src/gemseo_umdo/visualizations/sobol_graph.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">145</span>
+            <details class="quote">
+              <summary>Source code in <code>src/gemseo_umdo/visualizations/sobol_graph.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">145</span>
 <span class="normal">146</span>
 <span class="normal">147</span>
 <span class="normal">148</span>
@@ -6170,8 +6165,8 @@ and the corresponding edge plotted.</p>
         <span class="p">),</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
-          </details>
-  </div>
+            </details>
+    </div>
 
 </div>
 
@@ -6179,8 +6174,7 @@ and the corresponding edge plotted.</p>
 
   </div>
 
-  </div>
-
+    </div>
 
 </div>
 
@@ -6189,7 +6183,7 @@ and the corresponding edge plotted.</p>
 
   </div>
 
-  </div>
+    </div>
 
 </div>
 

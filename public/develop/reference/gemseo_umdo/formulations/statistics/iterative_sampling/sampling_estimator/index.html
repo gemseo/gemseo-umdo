@@ -5727,16 +5727,16 @@
 
 
 <h2 id="gemseo_umdo.formulations.statistics.iterative_sampling.sampling_estimator" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>          <span class="doc doc-object-name doc-module-name">sampling_estimator</span>
+<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>            <span class="doc doc-object-name doc-module-name">sampling_estimator</span>
 
 
 <a href="#gemseo_umdo.formulations.statistics.iterative_sampling.sampling_estimator" class="headerlink" title="Permanent link">&para;</a></h2>
 
-  <div class="doc doc-contents first">
-  
+    <div class="doc doc-contents first">
+
       <p>Statistic iterative estimator for a U-MDO formulation using sampling.</p>
 
-  
+
 
   <div class="doc doc-children">
 
@@ -5752,18 +5752,18 @@
 
 
 <h4 id="gemseo_umdo.formulations.statistics.iterative_sampling.sampling_estimator.SamplingEstimator" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>          <span class="doc doc-object-name doc-class-name">SamplingEstimator</span>
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">SamplingEstimator</span>
 
 
 <a href="#gemseo_umdo.formulations.statistics.iterative_sampling.sampling_estimator.SamplingEstimator" class="headerlink" title="Permanent link">&para;</a></h4>
 <div class="doc-signature highlight"><pre><span></span><code><span class="nf">SamplingEstimator</span><span class="p">()</span>
 </code></pre></div>
 
-  <div class="doc doc-contents ">
-          <p class="doc doc-class-bases">
-            Bases: <code><a class="autorefs autorefs-internal" title="gemseo_umdo.formulations.statistics.iterative_sampling.base_sampling_estimator.BaseSamplingEstimator" href="../base_sampling_estimator/#gemseo_umdo.formulations.statistics.iterative_sampling.base_sampling_estimator.BaseSamplingEstimator">BaseSamplingEstimator</a></code></p>
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="gemseo_umdo.formulations.statistics.iterative_sampling.base_sampling_estimator.BaseSamplingEstimator" href="../base_sampling_estimator/#gemseo_umdo.formulations.statistics.iterative_sampling.base_sampling_estimator.BaseSamplingEstimator">BaseSamplingEstimator</a></code></p>
 
-  
+
       <p>Statistic iterative estimator for a U-MDO formulation using sampling.</p>
 <p>Derive this class to implement estimator of simple statistics,
 e.g. mean, standard deviation, variance and probability.</p>
@@ -5771,20 +5771,20 @@ e.g. mean, standard deviation, variance and probability.</p>
 <a class="autorefs autorefs-internal" href="../base_sampling_estimator/#gemseo_umdo.formulations.statistics.iterative_sampling.base_sampling_estimator.BaseSamplingEstimator">BaseSamplingEstimator</a>
 for combinations of statistics,
 e.g. margin.</p>
-  
+
       <p>Initialize self.  See help(type(self)) for accurate signature.</p>
 
-                <details class="quote">
-                  <summary>Source code in <code>src/gemseo_umdo/formulations/statistics/iterative_sampling/base_sampling_estimator.py</code></summary>
-                  <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">44</span>
+                  <details class="quote">
+                    <summary>Source code in <code>src/gemseo_umdo/formulations/statistics/iterative_sampling/base_sampling_estimator.py</code></summary>
+                    <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">44</span>
 <span class="normal">45</span>
 <span class="normal">46</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># noqa: D107</span>
     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_size</span> <span class="o">=</span> <span class="mi">0</span>
 </code></pre></div></td></tr></table></div>
-                </details>
+                  </details>
 
-  
+
 
   <div class="doc doc-children">
 
@@ -5796,15 +5796,13 @@ e.g. margin.</p>
 
 <h5 id="gemseo_umdo.formulations.statistics.iterative_sampling.sampling_estimator.SamplingEstimator-functions">Functions<a href="#gemseo_umdo.formulations.statistics.iterative_sampling.sampling_estimator.SamplingEstimator-functions" class="headerlink" title="Permanent link">&para;</a></h5>
 
-
 <div class="doc doc-object doc-function">
 
 
-
 <h6 id="gemseo_umdo.formulations.statistics.iterative_sampling.sampling_estimator.SamplingEstimator.reset" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>          <span class="doc doc-object-name doc-function-name">reset</span>
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">reset</span>
 
-  
+
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-abstractmethod"><code>abstractmethod</code></small>
   </span>
@@ -5813,20 +5811,20 @@ e.g. margin.</p>
 <div class="doc-signature highlight"><pre><span></span><code><span class="nf">reset</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
 
-  <div class="doc doc-contents ">
-  
+    <div class="doc doc-contents ">
+
       <p>Reset the estimator of the statistic.</p>
 
-          <details class="quote">
-            <summary>Source code in <code>src/gemseo_umdo/formulations/statistics/iterative_sampling/base_sampling_estimator.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">48</span>
+            <details class="quote">
+              <summary>Source code in <code>src/gemseo_umdo/formulations/statistics/iterative_sampling/base_sampling_estimator.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">48</span>
 <span class="normal">49</span>
 <span class="normal">50</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@abstractmethod</span>
 <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Reset the estimator of the statistic.&quot;&quot;&quot;</span>
 </code></pre></div></td></tr></table></div>
-          </details>
-  </div>
+            </details>
+    </div>
 
 </div>
 
@@ -5834,8 +5832,7 @@ e.g. margin.</p>
 
   </div>
 
-  </div>
-
+    </div>
 
 </div>
 
@@ -5844,7 +5841,7 @@ e.g. margin.</p>
 
   </div>
 
-  </div>
+    </div>
 
 </div>
 

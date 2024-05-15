@@ -5787,16 +5787,16 @@
 
 
 <h2 id="gemseo_umdo.monte_carlo_sampler" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>          <span class="doc doc-object-name doc-module-name">monte_carlo_sampler</span>
+<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>            <span class="doc doc-object-name doc-module-name">monte_carlo_sampler</span>
 
 
 <a href="#gemseo_umdo.monte_carlo_sampler" class="headerlink" title="Permanent link">&para;</a></h2>
 
-  <div class="doc doc-contents first">
-  
+    <div class="doc doc-contents first">
+
       <p>A Monte Carlo sampler.</p>
 
-  
+
 
   <div class="doc doc-children">
 
@@ -5812,36 +5812,35 @@
 
 
 <h4 id="gemseo_umdo.monte_carlo_sampler.MonteCarloSampler" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>          <span class="doc doc-object-name doc-class-name">MonteCarloSampler</span>
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">MonteCarloSampler</span>
 
 
 <a href="#gemseo_umdo.monte_carlo_sampler.MonteCarloSampler" class="headerlink" title="Permanent link">&para;</a></h4>
 <div class="doc-signature highlight"><pre><span></span><code><span class="nf">MonteCarloSampler</span><span class="p">(</span><span class="n">input_space</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.algos.design_space.DesignSpace" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.algos.design_space.html#gemseo.algos.design_space.DesignSpace">DesignSpace</a></span><span class="p">)</span>
 </code></pre></div>
 
-  <div class="doc doc-contents ">
+    <div class="doc doc-contents ">
 
-  
+
       <p>A Monte Carlo sampler taking advantage of the vectorized functions.</p>
-  
 
 
 
-  <p><span class="doc-section-title">Parameters:</span></p>
-  <ul>
-      <li class="doc-section-item field-body">
-        <b><code>input_space</code></b>
-            (<code><a class="autorefs autorefs-external" title="gemseo.algos.design_space.DesignSpace" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.algos.design_space.html#gemseo.algos.design_space.DesignSpace">DesignSpace</a></code>)
-        –
-        <div class="doc-md-description">
-          <p>The input space on which to sample the functions.</p>
-        </div>
-      </li>
-  </ul>
+<p><span class="doc-section-title">Parameters:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code>input_space</code></b>
+              (<code><a class="autorefs autorefs-external" title="gemseo.algos.design_space.DesignSpace" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.algos.design_space.html#gemseo.algos.design_space.DesignSpace">DesignSpace</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>The input space on which to sample the functions.</p>
+          </div>
+        </li>
+    </ul>
 
-                <details class="quote">
-                  <summary>Source code in <code>src/gemseo_umdo/monte_carlo_sampler.py</code></summary>
-                  <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">52</span>
+                  <details class="quote">
+                    <summary>Source code in <code>src/gemseo_umdo/monte_carlo_sampler.py</code></summary>
+                    <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">52</span>
 <span class="normal">53</span>
 <span class="normal">54</span>
 <span class="normal">55</span>
@@ -5865,9 +5864,9 @@
     <span class="bp">self</span><span class="o">.</span><span class="n">__output_histories</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__all_functions_are_vectorized</span> <span class="o">=</span> <span class="kc">True</span>
 </code></pre></div></td></tr></table></div>
-                </details>
+                  </details>
 
-  
+
 
   <div class="doc doc-children">
 
@@ -5882,9 +5881,9 @@
 
 
 <h6 id="gemseo_umdo.monte_carlo_sampler.MonteCarloSampler.input_history" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>          <span class="doc doc-object-name doc-attribute-name">input_history</span>
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">input_history</span>
 
-  
+
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-property"><code>property</code></small>
   </span>
@@ -5893,10 +5892,10 @@
 <div class="doc-signature highlight"><pre><span></span><code><span class="n">input_history</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="numpy.typing.NDArray" href="https://numpy.org/doc/stable/reference/typing.html#numpy.typing.NDArray">NDArray</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></span><span class="p">]</span>
 </code></pre></div>
 
-  <div class="doc doc-contents ">
-  
+    <div class="doc doc-contents ">
+
       <p>The history of the function inputs.</p>
-  </div>
+    </div>
 
 </div>
 
@@ -5905,9 +5904,9 @@
 
 
 <h6 id="gemseo_umdo.monte_carlo_sampler.MonteCarloSampler.output_history" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>          <span class="doc doc-object-name doc-attribute-name">output_history</span>
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">output_history</span>
 
-  
+
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-property"><code>property</code></small>
   </span>
@@ -5916,22 +5915,20 @@
 <div class="doc-signature highlight"><pre><span></span><code><span class="n">output_history</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="numpy.typing.NDArray" href="https://numpy.org/doc/stable/reference/typing.html#numpy.typing.NDArray">NDArray</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></span><span class="p">]</span>
 </code></pre></div>
 
-  <div class="doc doc-contents ">
-  
+    <div class="doc doc-contents ">
+
       <p>The history of the function outputs.</p>
-  </div>
+    </div>
 
 </div>
 
 <h5 id="gemseo_umdo.monte_carlo_sampler.MonteCarloSampler-functions">Functions<a href="#gemseo_umdo.monte_carlo_sampler.MonteCarloSampler-functions" class="headerlink" title="Permanent link">&para;</a></h5>
 
-
 <div class="doc doc-object doc-function">
 
 
-
 <h6 id="gemseo_umdo.monte_carlo_sampler.MonteCarloSampler.add_function" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>          <span class="doc doc-object-name doc-function-name">add_function</span>
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">add_function</span>
 
 
 <a href="#gemseo_umdo.monte_carlo_sampler.MonteCarloSampler.add_function" class="headerlink" title="Permanent link">&para;</a></h6>
@@ -5940,37 +5937,36 @@
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
 
-  <div class="doc doc-contents ">
-  
+    <div class="doc doc-contents ">
+
       <p>Add a function to sample.</p>
 
 
-
-  <p><span class="doc-section-title">Parameters:</span></p>
-  <ul>
-      <li class="doc-section-item field-body">
-        <b><code>function</code></b>
-            (<code><span title="gemseo_umdo.monte_carlo_sampler.FunctionType">FunctionType</span></code>)
-        –
-        <div class="doc-md-description">
-          <p>A function to sample.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>is_vectorized</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>, default:
-                <code>True</code>
+<p><span class="doc-section-title">Parameters:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code>function</code></b>
+              (<code><span title="gemseo_umdo.monte_carlo_sampler.FunctionType">FunctionType</span></code>)
+          –
+          <div class="doc-md-description">
+            <p>A function to sample.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>is_vectorized</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>, default:
+                  <code>True</code>
 )
-        –
-        <div class="doc-md-description">
-          <p>Whether the function is vectorized.</p>
-        </div>
-      </li>
-  </ul>
+          –
+          <div class="doc-md-description">
+            <p>Whether the function is vectorized.</p>
+          </div>
+        </li>
+    </ul>
 
-          <details class="quote">
-            <summary>Source code in <code>src/gemseo_umdo/monte_carlo_sampler.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">65</span>
+            <details class="quote">
+              <summary>Source code in <code>src/gemseo_umdo/monte_carlo_sampler.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">65</span>
 <span class="normal">66</span>
 <span class="normal">67</span>
 <span class="normal">68</span>
@@ -5988,8 +5984,8 @@
     <span class="bp">self</span><span class="o">.</span><span class="n">__all_functions_are_vectorized</span> <span class="o">&amp;=</span> <span class="n">is_vectorized</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__functions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
-          </details>
-  </div>
+            </details>
+    </div>
 
 </div>
 
@@ -5997,8 +5993,7 @@
 
   </div>
 
-  </div>
-
+    </div>
 
 </div>
 
@@ -6007,7 +6002,7 @@
 
   </div>
 
-  </div>
+    </div>
 
 </div>
 
