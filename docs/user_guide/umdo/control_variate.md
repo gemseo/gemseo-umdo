@@ -55,7 +55,8 @@ The DOE algorithm can be set with the string parameter `algo`
 and its options with the dictionary parameter `algo_options`.
 
 !!! note "API"
-    Use `statistic_estimation_parameters` to set the options,
+    Use `statistic_estimation_parameters`
+    to set the algorithm name and parameters,
     e.g.
 
     ``` py
@@ -67,7 +68,11 @@ and its options with the dictionary parameter `algo_options`.
         uncertain_space,
         statistic_name,
         statistic_estimation="ControlVariate",
-        statistic_estimation_parameters={"algo": "OT_MONTE_CARLO"}
+        statistic_estimation_parameters={
+            "algo": "OT_MONTE_CARLO",
+            "n_samples": 20,
+            "algo_options": {"n_processes": 2}
+        }
     )
     ```
 

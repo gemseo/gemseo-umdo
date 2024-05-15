@@ -12,17 +12,17 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-"""Factory of U-MDO formulations."""
+"""A factory of statistic estimators for a U-MDO formulations using PCE."""
 
 from __future__ import annotations
 
-from gemseo.formulations.factory import MDOFormulationFactory
+from gemseo.core.base_factory import BaseFactory
 
-from gemseo_umdo.formulations.formulation import UMDOFormulation
+from gemseo_umdo.formulations._statistics.pce.base_pce_estimator import BasePCEEstimator
 
 
-class UMDOFormulationsFactory(MDOFormulationFactory):
-    """The factory of U-MDO formulations."""
+class PCEEstimatorFactory(BaseFactory):
+    """The factory of statistic estimators based on PCE."""
 
-    _CLASS = UMDOFormulation
-    _MODULE_NAMES = ("gemseo_umdo.formulations",)
+    _CLASS = BasePCEEstimator
+    _MODULE_NAMES = ("gemseo_umdo.formulations._statistics.pce",)

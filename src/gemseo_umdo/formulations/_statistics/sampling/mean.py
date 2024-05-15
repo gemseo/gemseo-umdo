@@ -12,17 +12,22 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-"""Factory of U-MDO formulations."""
+"""Estimator of the expectation for sampling-based U-MDO formulations."""
 
 from __future__ import annotations
 
-from gemseo.formulations.factory import MDOFormulationFactory
+from typing import TYPE_CHECKING
 
-from gemseo_umdo.formulations.formulation import UMDOFormulation
+from gemseo_umdo.formulations._statistics.sampling.sampling_estimator import (
+    SamplingEstimator,
+)
+
+if TYPE_CHECKING:
+    from gemseo.typing import RealArray
 
 
-class UMDOFormulationsFactory(MDOFormulationFactory):
-    """The factory of U-MDO formulations."""
+class Mean(SamplingEstimator):
+    """Estimator of the expectation."""
 
-    _CLASS = UMDOFormulation
-    _MODULE_NAMES = ("gemseo_umdo.formulations",)
+    def _compute(self, samples: RealArray) -> RealArray:  # noqa: D102
+        return samples.mean(0)

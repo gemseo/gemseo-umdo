@@ -28,32 +28,32 @@ from numpy import ndarray
 from numpy.testing import assert_equal
 from pandas._testing import assert_frame_equal
 
-from gemseo_umdo.formulations.sampling import Sampling
-from gemseo_umdo.formulations.statistics.iterative_sampling.margin import (
+from gemseo_umdo.formulations._statistics.iterative_sampling.margin import (
     Margin as IterativeMargin,
 )
-from gemseo_umdo.formulations.statistics.iterative_sampling.mean import (
+from gemseo_umdo.formulations._statistics.iterative_sampling.mean import (
     Mean as IterativeMean,
 )
-from gemseo_umdo.formulations.statistics.iterative_sampling.probability import (
+from gemseo_umdo.formulations._statistics.iterative_sampling.probability import (
     Probability as IterativeProbability,
 )
-from gemseo_umdo.formulations.statistics.iterative_sampling.standard_deviation import (
+from gemseo_umdo.formulations._statistics.iterative_sampling.standard_deviation import (
     StandardDeviation as IterativeStandardDeviation,
 )
-from gemseo_umdo.formulations.statistics.iterative_sampling.variance import (
+from gemseo_umdo.formulations._statistics.iterative_sampling.variance import (
     Variance as IterativeVariance,
 )
-from gemseo_umdo.formulations.statistics.sampling.margin import Margin
-from gemseo_umdo.formulations.statistics.sampling.mean import Mean
-from gemseo_umdo.formulations.statistics.sampling.probability import Probability
-from gemseo_umdo.formulations.statistics.sampling.sampling_estimator import (
+from gemseo_umdo.formulations._statistics.sampling.margin import Margin
+from gemseo_umdo.formulations._statistics.sampling.mean import Mean
+from gemseo_umdo.formulations._statistics.sampling.probability import Probability
+from gemseo_umdo.formulations._statistics.sampling.sampling_estimator import (
     SamplingEstimator,
 )
-from gemseo_umdo.formulations.statistics.sampling.standard_deviation import (
+from gemseo_umdo.formulations._statistics.sampling.standard_deviation import (
     StandardDeviation,
 )
-from gemseo_umdo.formulations.statistics.sampling.variance import Variance
+from gemseo_umdo.formulations._statistics.sampling.variance import Variance
+from gemseo_umdo.formulations.sampling import Sampling
 from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
 
 if TYPE_CHECKING:
@@ -63,7 +63,7 @@ if TYPE_CHECKING:
     from gemseo.algos.parameter_space import ParameterSpace
     from gemseo.core.discipline import MDODiscipline
 
-    from gemseo_umdo.formulations.statistics.iterative_sampling.sampling_estimator import (  # noqa: E501
+    from gemseo_umdo.formulations._statistics.iterative_sampling.sampling_estimator import (  # noqa: E501
         SamplingEstimator as IterativeSamplingEstimator,
     )
 

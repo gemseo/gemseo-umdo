@@ -22,12 +22,12 @@ from numpy import array
 from numpy import ndarray
 from numpy.testing import assert_equal
 
-from gemseo_umdo.formulations.statistics.taylor_polynomial.margin import Margin
-from gemseo_umdo.formulations.statistics.taylor_polynomial.mean import Mean
-from gemseo_umdo.formulations.statistics.taylor_polynomial.standard_deviation import (
+from gemseo_umdo.formulations._statistics.taylor_polynomial.margin import Margin
+from gemseo_umdo.formulations._statistics.taylor_polynomial.mean import Mean
+from gemseo_umdo.formulations._statistics.taylor_polynomial.standard_deviation import (
     StandardDeviation,
 )
-from gemseo_umdo.formulations.statistics.taylor_polynomial.variance import Variance
+from gemseo_umdo.formulations._statistics.taylor_polynomial.variance import Variance
 from gemseo_umdo.formulations.taylor_polynomial import TaylorPolynomial
 from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
 

@@ -12,17 +12,27 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-"""Factory of U-MDO formulations."""
+"""Estimator of the expectation for a U-MDO formulations based on PCE."""
 
 from __future__ import annotations
 
-from gemseo.formulations.factory import MDOFormulationFactory
+from typing import TYPE_CHECKING
 
-from gemseo_umdo.formulations.formulation import UMDOFormulation
+from gemseo_umdo.formulations._statistics.pce.base_pce_estimator import BasePCEEstimator
+
+if TYPE_CHECKING:
+    from typing import ClassVar
+
+    from gemseo.typing import RealArray
 
 
-class UMDOFormulationsFactory(MDOFormulationFactory):
-    """The factory of U-MDO formulations."""
+class Mean(BasePCEEstimator):
+    """Estimator of the expectation."""
 
-    _CLASS = UMDOFormulation
-    _MODULE_NAMES = ("gemseo_umdo.formulations",)
+    ARG_NAMES: ClassVar[tuple[str]] = (BasePCEEstimator.MEAN_ARG_NAME,)
+
+    def __call__(  # noqa: D102
+        self,
+        mean: RealArray,
+    ) -> RealArray:
+        return mean

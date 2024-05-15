@@ -12,17 +12,17 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-"""Factory of U-MDO formulations."""
+"""A factory of statistic estimators for U-MDO formulations based on control variate."""
 
-from __future__ import annotations
+from gemseo.core.base_factory import BaseFactory
 
-from gemseo.formulations.factory import MDOFormulationFactory
+from gemseo_umdo.formulations._statistics.control_variate.control_variate_estimator import (  # noqa: E501
+    ControlVariateEstimator,
+)
 
-from gemseo_umdo.formulations.formulation import UMDOFormulation
 
+class ControlVariateEstimatorFactory(BaseFactory):
+    """The factory of statistic estimators based on control variates."""
 
-class UMDOFormulationsFactory(MDOFormulationFactory):
-    """The factory of U-MDO formulations."""
-
-    _CLASS = UMDOFormulation
-    _MODULE_NAMES = ("gemseo_umdo.formulations",)
+    _CLASS = ControlVariateEstimator
+    _MODULE_NAMES = ("gemseo_umdo.formulations._statistics.control_variate",)

@@ -25,4 +25,4 @@ class MLMCPilotFactory(BaseFactory):
     """A factory of pilots for the MLMC algorithm."""
 
     _CLASS = MLMCPilot
-    _MODULE_NAMES = ("gemseo_umdo.statistics.multilevel.mlmc.pilots",)
+    _MODULE_NAMES = ("gemseo_umdo._statistics.multilevel.mlmc.pilots",)

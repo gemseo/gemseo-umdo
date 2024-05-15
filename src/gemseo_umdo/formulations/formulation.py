@@ -12,7 +12,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-"""Formulate a multidisciplinary design problem under uncertainty."""
+"""Base class for U-MDO formulations."""
 
 from __future__ import annotations
 
@@ -40,11 +40,16 @@ if TYPE_CHECKING:
     from gemseo.formulations.mdo_formulation import MDOFormulation
     from gemseo.typing import RealArray
 
-    from gemseo_umdo.formulations.functions.statistic_function import StatisticFunction
+    from gemseo_umdo.formulations._functions.statistic_function import StatisticFunction
 
 
 class UMDOFormulation(BaseFormulation):
-    """Base formulation of a multidisciplinary design problem under uncertainty."""
+    """Base class for U-MDO formulations.
+
+    A U-MDO formulation rewrites a multidisciplinary optimization problem under
+    uncertainty, a.k.a. U-MDO probem, as a standard optimization problem without
+    uncertainty.
+    """
 
     _mdo_formulation: MDOFormulation
     """The MDO formulation used by the U-MDO formulation over the uncertain space."""
@@ -62,7 +67,7 @@ class UMDOFormulation(BaseFormulation):
     __available_statistics: list[str]
     """The names of the available statistics."""
 
-    input_data_to_output_data: dict[HashableNdarray, dict[str, RealArray]]
+    input_data_to_output_data: dict[HashableNdarray, dict[str, Any]]
     """The output samples or output statistics associated with the input data."""
 
     def __init__(

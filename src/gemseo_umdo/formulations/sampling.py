@@ -12,7 +12,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-r"""Sampling for multidisciplinary design problems under uncertainty.
+r"""Sampling-based U-MDO formulation.
 
 [Sampling][gemseo_umdo.formulations.sampling.Sampling] is an
 [UMDOFormulation][gemseo_umdo.formulations.formulation.UMDOFormulation]
@@ -50,19 +50,19 @@ from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
 from gemseo.utils.logging_tools import LoggingContext
 from gemseo.utils.seeder import SEED
 
-from gemseo_umdo.formulations.formulation import UMDOFormulation
-from gemseo_umdo.formulations.functions.statistic_function_for_iterative_sampling import (  # noqa: E501
+from gemseo_umdo.formulations._functions.statistic_function_for_iterative_sampling import (  # noqa: E501
     StatisticFunctionForIterativeSampling,
 )
-from gemseo_umdo.formulations.functions.statistic_function_for_standard_sampling import (  # noqa: E501
+from gemseo_umdo.formulations._functions.statistic_function_for_standard_sampling import (  # noqa: E501
     StatisticFunctionForStandardSampling,
 )
-from gemseo_umdo.formulations.statistics.iterative_sampling.sampling_estimator_factory import (  # noqa: E501
+from gemseo_umdo.formulations._statistics.iterative_sampling.sampling_estimator_factory import (  # noqa: E501
     SamplingEstimatorFactory as IterativeSamplingEstimatorFactory,
 )
-from gemseo_umdo.formulations.statistics.sampling.sampling_estimator_factory import (
+from gemseo_umdo.formulations._statistics.sampling.sampling_estimator_factory import (
     SamplingEstimatorFactory,
 )
+from gemseo_umdo.formulations.formulation import UMDOFormulation
 
 if TYPE_CHECKING:
     from collections.abc import Mapping
@@ -76,7 +76,14 @@ if TYPE_CHECKING:
 
 
 class Sampling(UMDOFormulation):
-    """Sampling-based robust MDO formulation."""
+    """Sampling-based U-MDO formulation.
+
+    !!! note "DOE algorithms"
+        This formulation uses a DOE algorithm;
+        read the
+        [GEMSEO documentation](https://gemseo.readthedocs.io/en/stable/algorithms/doe_algos.html).
+        for more information about the available DOE algorithm names and options.
+    """
 
     _estimate_statistics_iteratively: bool
     """Whether to estimate the statistics iteratively."""

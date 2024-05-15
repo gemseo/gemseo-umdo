@@ -12,7 +12,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-r"""Sequential sampling for multidisciplinary design problems under uncertainty.
+r"""Sequential sampling-based U-MDO formulation.
 
 [SequentialSampling][gemseo_umdo.formulations.sequential_sampling.SequentialSampling]
 is an [UMDOFormulation][gemseo_umdo.formulations.formulation.UMDOFormulation]
@@ -60,7 +60,14 @@ if TYPE_CHECKING:
 
 
 class SequentialSampling(Sampling):
-    """Sequential sampling-based robust MDO formulation."""
+    """Sequential sampling-based U-MDO formulation.
+
+    !!! note "DOE algorithms"
+        This formulation uses a DOE algorithm;
+        read the
+        [GEMSEO documentation](https://gemseo.readthedocs.io/en/stable/algorithms/doe_algos.html).
+        for more information about the available DOE algorithm names and options.
+    """
 
     __final_n_samples: int
     """The maximum number of samples when evaluating the U-MDO formulation."""

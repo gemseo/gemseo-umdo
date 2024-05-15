@@ -12,7 +12,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-r"""Control variate for multidisciplinary design problems under uncertainty.
+r"""Control variate-based U-MDO formulation.
 
 [ControlVariate][gemseo_umdo.formulations.control_variate.ControlVariate] is an
 [UMDOFormulation][gemseo_umdo.formulations.formulation.UMDOFormulation]
@@ -48,13 +48,13 @@ from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
 from gemseo.utils.logging_tools import LoggingContext
 from gemseo.utils.seeder import SEED
 
-from gemseo_umdo.formulations.formulation import UMDOFormulation
-from gemseo_umdo.formulations.functions.statistic_function_for_control_variate import (
+from gemseo_umdo.formulations._functions.statistic_function_for_control_variate import (
     StatisticFunctionForControlVariate,
 )
-from gemseo_umdo.formulations.statistics.control_variate.control_variate_estimator_factory import (  # noqa: E501
+from gemseo_umdo.formulations._statistics.control_variate.control_variate_estimator_factory import (  # noqa: E501
     ControlVariateEstimatorFactory,
 )
+from gemseo_umdo.formulations.formulation import UMDOFormulation
 
 if TYPE_CHECKING:
     from collections.abc import Mapping
@@ -68,7 +68,14 @@ if TYPE_CHECKING:
 
 
 class ControlVariate(UMDOFormulation):
-    """Control variate-based robust MDO formulation."""
+    """Control variate-based U-MDO formulation.
+
+    !!! note "DOE algorithms"
+        This formulation uses a DOE algorithm;
+        read the
+        [GEMSEO documentation](https://gemseo.readthedocs.io/en/stable/algorithms/doe_algos.html).
+        for more information about the available DOE algorithm names and options.
+    """
 
     __doe_algo: DOELibrary
     """The DOE algorithm to sample the uncertain problem."""
