@@ -76,6 +76,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/generated/examples/umdo/quadratic/pce/</loc>
+         <lastmod>2024-05-15</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/generated/examples/umdo/quadratic/quadratic_sampling_opt/</loc>
          <lastmod>2024-05-15</lastmod>
          <changefreq>daily</changefreq>
@@ -261,6 +266,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/pce/</loc>
+         <lastmod>2024-05-15</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/sampling/</loc>
          <lastmod>2024-05-15</lastmod>
          <changefreq>daily</changefreq>
@@ -276,222 +286,262 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/functions/</loc>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_functions/</loc>
          <lastmod>2024-05-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/functions/hessian_function/</loc>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_functions/hessian_function/</loc>
          <lastmod>2024-05-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/functions/iterative_estimation/</loc>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_functions/iterative_estimation/</loc>
          <lastmod>2024-05-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/functions/statistic_function/</loc>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_functions/statistic_function/</loc>
          <lastmod>2024-05-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/functions/statistic_function_for_control_variate/</loc>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_functions/statistic_function_for_control_variate/</loc>
          <lastmod>2024-05-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/functions/statistic_function_for_iterative_sampling/</loc>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_functions/statistic_function_for_iterative_sampling/</loc>
          <lastmod>2024-05-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/functions/statistic_function_for_sampling/</loc>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_functions/statistic_function_for_pce/</loc>
          <lastmod>2024-05-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/functions/statistic_function_for_standard_sampling/</loc>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_functions/statistic_function_for_sampling/</loc>
          <lastmod>2024-05-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/functions/statistic_function_for_taylor_polynomial/</loc>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_functions/statistic_function_for_standard_sampling/</loc>
          <lastmod>2024-05-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/statistics/</loc>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_functions/statistic_function_for_taylor_polynomial/</loc>
          <lastmod>2024-05-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/statistics/base_statistic_estimator/</loc>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_statistics/</loc>
          <lastmod>2024-05-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/statistics/control_variate/</loc>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_statistics/base_statistic_estimator/</loc>
          <lastmod>2024-05-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/statistics/control_variate/control_variate_estimator/</loc>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_statistics/control_variate/</loc>
          <lastmod>2024-05-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/statistics/control_variate/control_variate_estimator_factory/</loc>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_statistics/control_variate/control_variate_estimator/</loc>
          <lastmod>2024-05-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/statistics/control_variate/margin/</loc>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_statistics/control_variate/control_variate_estimator_factory/</loc>
          <lastmod>2024-05-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/statistics/control_variate/mean/</loc>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_statistics/control_variate/margin/</loc>
          <lastmod>2024-05-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/statistics/control_variate/probability/</loc>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_statistics/control_variate/mean/</loc>
          <lastmod>2024-05-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/statistics/control_variate/standard_deviation/</loc>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_statistics/control_variate/probability/</loc>
          <lastmod>2024-05-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/statistics/control_variate/variance/</loc>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_statistics/control_variate/standard_deviation/</loc>
          <lastmod>2024-05-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/statistics/iterative_sampling/</loc>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_statistics/control_variate/variance/</loc>
          <lastmod>2024-05-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/statistics/iterative_sampling/base_sampling_estimator/</loc>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_statistics/iterative_sampling/</loc>
          <lastmod>2024-05-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/statistics/iterative_sampling/central_moment/</loc>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_statistics/iterative_sampling/base_sampling_estimator/</loc>
          <lastmod>2024-05-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/statistics/iterative_sampling/margin/</loc>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_statistics/iterative_sampling/central_moment/</loc>
          <lastmod>2024-05-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/statistics/iterative_sampling/mean/</loc>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_statistics/iterative_sampling/margin/</loc>
          <lastmod>2024-05-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/statistics/iterative_sampling/probability/</loc>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_statistics/iterative_sampling/mean/</loc>
          <lastmod>2024-05-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/statistics/iterative_sampling/sampling_estimator/</loc>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_statistics/iterative_sampling/probability/</loc>
          <lastmod>2024-05-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/statistics/iterative_sampling/sampling_estimator_factory/</loc>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_statistics/iterative_sampling/sampling_estimator/</loc>
          <lastmod>2024-05-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/statistics/iterative_sampling/standard_deviation/</loc>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_statistics/iterative_sampling/sampling_estimator_factory/</loc>
          <lastmod>2024-05-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/statistics/iterative_sampling/variance/</loc>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_statistics/iterative_sampling/standard_deviation/</loc>
          <lastmod>2024-05-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/statistics/sampling/</loc>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_statistics/iterative_sampling/variance/</loc>
          <lastmod>2024-05-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/statistics/sampling/margin/</loc>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_statistics/pce/</loc>
          <lastmod>2024-05-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/statistics/sampling/mean/</loc>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_statistics/pce/base_pce_estimator/</loc>
          <lastmod>2024-05-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/statistics/sampling/probability/</loc>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_statistics/pce/margin/</loc>
          <lastmod>2024-05-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/statistics/sampling/sampling_estimator/</loc>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_statistics/pce/mean/</loc>
          <lastmod>2024-05-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/statistics/sampling/sampling_estimator_factory/</loc>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_statistics/pce/pce_estimator_factory/</loc>
          <lastmod>2024-05-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/statistics/sampling/standard_deviation/</loc>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_statistics/pce/standard_deviation/</loc>
          <lastmod>2024-05-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/statistics/sampling/variance/</loc>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_statistics/pce/variance/</loc>
          <lastmod>2024-05-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/statistics/taylor_polynomial/</loc>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_statistics/sampling/</loc>
          <lastmod>2024-05-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/statistics/taylor_polynomial/margin/</loc>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_statistics/sampling/margin/</loc>
          <lastmod>2024-05-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/statistics/taylor_polynomial/mean/</loc>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_statistics/sampling/mean/</loc>
          <lastmod>2024-05-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/statistics/taylor_polynomial/standard_deviation/</loc>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_statistics/sampling/probability/</loc>
          <lastmod>2024-05-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/statistics/taylor_polynomial/taylor_polynomial_estimator/</loc>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_statistics/sampling/sampling_estimator/</loc>
          <lastmod>2024-05-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/statistics/taylor_polynomial/taylor_polynomial_estimator_factory/</loc>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_statistics/sampling/sampling_estimator_factory/</loc>
          <lastmod>2024-05-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/statistics/taylor_polynomial/variance/</loc>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_statistics/sampling/standard_deviation/</loc>
+         <lastmod>2024-05-15</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_statistics/sampling/variance/</loc>
+         <lastmod>2024-05-15</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_statistics/taylor_polynomial/</loc>
+         <lastmod>2024-05-15</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_statistics/taylor_polynomial/margin/</loc>
+         <lastmod>2024-05-15</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_statistics/taylor_polynomial/mean/</loc>
+         <lastmod>2024-05-15</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_statistics/taylor_polynomial/standard_deviation/</loc>
+         <lastmod>2024-05-15</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_statistics/taylor_polynomial/taylor_polynomial_estimator/</loc>
+         <lastmod>2024-05-15</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_statistics/taylor_polynomial/taylor_polynomial_estimator_factory/</loc>
+         <lastmod>2024-05-15</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_statistics/taylor_polynomial/variance/</loc>
          <lastmod>2024-05-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -737,6 +787,11 @@
     </url>
     <url>
          <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/user_guide/umdo/control_variate/</loc>
+         <lastmod>2024-05-15</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/user_guide/umdo/pce/</loc>
          <lastmod>2024-05-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
