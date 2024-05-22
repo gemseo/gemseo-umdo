@@ -21,7 +21,7 @@ from gemseo.problems.mdo.sellar.sellar_1 import Sellar1
 from gemseo.problems.mdo.sellar.sellar_2 import Sellar2
 from gemseo.problems.mdo.sellar.sellar_design_space import SellarDesignSpace
 from gemseo.problems.mdo.sellar.sellar_system import SellarSystem
-from gemseo.uncertainty.sensitivity.sobol.analysis import SobolAnalysis
+from gemseo.uncertainty.sensitivity.sobol_analysis import SobolAnalysis
 
 from gemseo_umdo.visualizations.sobol_graph import SobolGraph
 
