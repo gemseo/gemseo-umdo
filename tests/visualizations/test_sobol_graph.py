@@ -28,7 +28,7 @@ from gemseo.problems.uncertainty.ishigami.statistics import SOBOL_23
 from gemseo.problems.uncertainty.ishigami.statistics import TOTAL_SOBOL_1
 from gemseo.problems.uncertainty.ishigami.statistics import TOTAL_SOBOL_2
 from gemseo.problems.uncertainty.ishigami.statistics import TOTAL_SOBOL_3
-from gemseo.uncertainty.sensitivity.sobol.analysis import SobolAnalysis
+from gemseo.uncertainty.sensitivity.sobol_analysis import SobolAnalysis
 
 from gemseo_umdo.visualizations.sobol_graph import SobolGraph
 
