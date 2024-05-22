@@ -23,7 +23,7 @@ from gemseo.problems.mdo.sobieski.disciplines import SobieskiAerodynamics
 from gemseo.problems.mdo.sobieski.disciplines import SobieskiMission
 from gemseo.problems.mdo.sobieski.disciplines import SobieskiPropulsion
 from gemseo.problems.mdo.sobieski.disciplines import SobieskiStructure
-from gemseo.uncertainty.sensitivity.sobol.analysis import SobolAnalysis
+from gemseo.uncertainty.sensitivity.sobol_analysis import SobolAnalysis
 from gemseo.utils.data_conversion import split_array_to_dict_of_arrays
 
 from gemseo_umdo.visualizations.sobol_graph import SobolGraph

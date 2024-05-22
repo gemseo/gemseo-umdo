@@ -24,7 +24,7 @@ from __future__ import annotations
 
 from gemseo import configure_logger
 from gemseo.core.chain import MDOChain
-from gemseo.uncertainty.sensitivity.sobol.analysis import SobolAnalysis
+from gemseo.uncertainty.sensitivity.sobol_analysis import SobolAnalysis
 
 from gemseo_umdo.use_cases.beam_model.constraints import BeamConstraints
 from gemseo_umdo.use_cases.beam_model.discipline import Beam
