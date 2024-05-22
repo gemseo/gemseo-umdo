@@ -105,7 +105,7 @@ sobol_graph.visualize()
 Lastly,
 given one or more disciplines and an uncertain space,
 the
-[SobolAnalysis][gemseo.uncertainty.sensitivity.sobol.analysis.SobolAnalysis]
+[SobolAnalysis][gemseo.uncertainty.sensitivity.sobol_analysis.SobolAnalysis]
 proposed by [GEMSEO](https:///www.gemseo.org)
 computes the Sobol' indices for several discipline outputs.
 Then,
