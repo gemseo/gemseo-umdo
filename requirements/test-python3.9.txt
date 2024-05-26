@@ -10,7 +10,7 @@ contourpy==1.2.1
     # via matplotlib
 covdefaults==2.3.0
     # via gemseo-umdo (pyproject.toml)
-coverage==7.5.1
+coverage==7.5.2
     # via
     #   covdefaults
     #   pytest-cov
@@ -163,5 +163,5 @@ xdsmjs==2.0.0
     # via gemseo
 xxhash==3.4.1
     # via gemseo
-zipp==3.18.2
+zipp==3.19.0
     # via importlib-resources
