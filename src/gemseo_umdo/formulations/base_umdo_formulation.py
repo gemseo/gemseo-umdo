@@ -153,7 +153,7 @@ class BaseUMDOFormulation(BaseFormulation):
         self,
         output_names: Sequence[str],
         statistic_name: str,
-        observable_name: Sequence[str] | None = None,
+        observable_name: str = "",
         discipline: MDODiscipline | None = None,
         **statistic_parameters: Any,
     ) -> None:
@@ -258,7 +258,7 @@ class BaseUMDOFormulation(BaseFormulation):
             **statistic_parameters,
         )
 
-    def update_top_level_disciplines(self, design_values: Mapping[str, Any]) -> None:
+    def update_top_level_disciplines(self, design_values: RealArray) -> None:
         """Update the default input values of the top-level disciplines.
 
         Args:

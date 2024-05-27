@@ -22,9 +22,10 @@ from __future__ import annotations
 from gemseo_umdo.formulations._functions.base_statistic_function import (
     BaseStatisticFunction,
 )
+from gemseo_umdo.formulations._functions.base_statistic_function import UMDOFormulationT
 
 
-class BaseStatisticFunctionForSampling(BaseStatisticFunction):
+class BaseStatisticFunctionForSampling(BaseStatisticFunction[UMDOFormulationT]):
     """A function to compute a statistic from `Sampling`."""
 
     @property

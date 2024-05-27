@@ -23,6 +23,8 @@ from __future__ import annotations
 from abc import abstractmethod
 from typing import TYPE_CHECKING
 from typing import Any
+from typing import Generic
+from typing import TypeVar
 
 from gemseo.algos.hashable_ndarray import HashableNdarray
 from gemseo.core.mdofunctions.mdo_function import MDOFunction
@@ -36,14 +38,16 @@ if TYPE_CHECKING:
     )
     from gemseo_umdo.formulations.base_umdo_formulation import BaseUMDOFormulation
 
+UMDOFormulationT = TypeVar("UMDOFormulationT", bound="BaseUMDOFormulation")
 
-class BaseStatisticFunction(MDOFunction):
+
+class BaseStatisticFunction(MDOFunction, Generic[UMDOFormulationT]):
     """A function to compute a statistic from a `BaseUMDOFormulation`."""
 
     _estimate_statistic: BaseStatisticEstimator
     """A callable to estimate the statistic."""
 
-    _formulation: BaseUMDOFormulation
+    _formulation: UMDOFormulationT
     """The U-MDO formulation to which the
     [BaseStatisticFunction][gemseo_umdo.formulations.f
     unctions.base_statistic_function.BaseStatisticFunction] is attached."""
@@ -53,7 +57,7 @@ class BaseStatisticFunction(MDOFunction):
 
     def __init__(
         self,
-        formulation: BaseUMDOFormulation,
+        formulation: UMDOFormulationT,
         func: MDOFunction,
         function_type: MDOFunction.FunctionType,
         name: str,
@@ -82,7 +86,7 @@ class BaseStatisticFunction(MDOFunction):
         super().__init__(self._func, name=func.name, f_type=function_type)
 
     @property
-    def _statistic_estimator_parameters(self) -> tuple[Any]:
+    def _statistic_estimator_parameters(self) -> tuple[Any, ...]:
         """The parameters of the estimator of the statistic."""
         return ()
 

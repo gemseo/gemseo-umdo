@@ -21,6 +21,7 @@ from __future__ import annotations
 
 import logging
 from typing import TYPE_CHECKING
+from typing import TypeVar
 
 from gemseo.mlearning.regression.algos.pce import PCERegressor
 from gemseo.utils.data_conversion import split_array_to_dict_of_arrays as array_to_dict
@@ -34,10 +35,14 @@ if TYPE_CHECKING:
     from gemseo.typing import NumberArray
     from gemseo.typing import RealArray
 
+    from gemseo_umdo.formulations.pce import PCE
+
 LOGGER = logging.getLogger(__name__)
 
+PCET = TypeVar("PCET", bound="PCE")
 
-class StatisticFunctionForPCE(BaseStatisticFunction):
+
+class StatisticFunctionForPCE(BaseStatisticFunction[PCET]):
     """A function to compute a statistic from `PCE`."""
 
     def _compute_statistic_estimation(

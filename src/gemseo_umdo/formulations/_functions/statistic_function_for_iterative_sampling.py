@@ -20,6 +20,7 @@ See also [Sampling][gemseo_umdo.formulations.sampling.Sampling].
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
+from typing import TypeVar
 
 from gemseo_umdo.formulations._functions.base_statistic_function_for_sampling import (
     BaseStatisticFunctionForSampling,
@@ -31,9 +32,20 @@ if TYPE_CHECKING:
     from gemseo.core.mdofunctions.mdo_function import MDOFunction
     from gemseo.typing import RealArray
 
+    from gemseo_umdo.formulations._statistics.iterative_sampling.base_sampling_estimator import (  # noqa: E501
+        BaseSamplingEstimator,
+    )
+    from gemseo_umdo.formulations.sampling import Sampling
 
-class StatisticFunctionForIterativeSampling(BaseStatisticFunctionForSampling):
+SamplingT = TypeVar("SamplingT", bound="Sampling")
+
+
+class StatisticFunctionForIterativeSampling(
+    BaseStatisticFunctionForSampling[SamplingT]
+):
     """A function to compute a statistic from `Sampling`."""
+
+    _estimate_statistic: BaseSamplingEstimator
 
     def _update_sampling_problem(
         self, sampling_problem: OptimizationProblem, function: MDOFunction
