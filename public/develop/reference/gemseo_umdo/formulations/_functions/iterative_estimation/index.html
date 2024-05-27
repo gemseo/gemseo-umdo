@@ -6022,7 +6022,7 @@
 
 <a href="#gemseo_umdo.formulations._functions.iterative_estimation.IterativeEstimation" class="headerlink" title="Permanent link">&para;</a></h4>
 <div class="doc-signature highlight"><pre><span></span><code><span class="nf">IterativeEstimation</span><span class="p">(</span>
-    <span class="n">name</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">,</span> <span class="n">update_estimation</span><span class="p">:</span> <span class="n"><span title="gemseo_umdo.formulations._statistics.iterative_sampling.sampling_estimator.SamplingEstimator">SamplingEstimator</span></span>
+    <span class="n">name</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">,</span> <span class="n">update_estimation</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="gemseo_umdo.formulations._statistics.iterative_sampling.base_sampling_estimator.BaseSamplingEstimator" href="../../_statistics/iterative_sampling/base_sampling_estimator/#gemseo_umdo.formulations._statistics.iterative_sampling.base_sampling_estimator.BaseSamplingEstimator">BaseSamplingEstimator</a></span>
 <span class="p">)</span>
 </code></pre></div>
 
@@ -6051,7 +6051,7 @@ to update the statistics of the objective, constraints and observables.</p>
         </li>
         <li class="doc-section-item field-body">
           <b><code>update_estimation</code></b>
-              (<code><span title="gemseo_umdo.formulations._statistics.iterative_sampling.sampling_estimator.SamplingEstimator">SamplingEstimator</span></code>)
+              (<code><a class="autorefs autorefs-internal" title="gemseo_umdo.formulations._statistics.iterative_sampling.base_sampling_estimator.BaseSamplingEstimator" href="../../_statistics/iterative_sampling/base_sampling_estimator/#gemseo_umdo.formulations._statistics.iterative_sampling.base_sampling_estimator.BaseSamplingEstimator">BaseSamplingEstimator</a></code>)
           –
           <div class="doc-md-description">
             <p>The function to update the estimation of the statistic.</p>
@@ -6076,7 +6076,7 @@ to update the statistics of the objective, constraints and observables.</p>
 <span class="normal">66</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-    <span class="n">update_estimation</span><span class="p">:</span> <span class="n">IterativeSamplingEstimator</span><span class="p">,</span>
+    <span class="n">update_estimation</span><span class="p">:</span> <span class="n">BaseSamplingEstimator</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Args:</span>
