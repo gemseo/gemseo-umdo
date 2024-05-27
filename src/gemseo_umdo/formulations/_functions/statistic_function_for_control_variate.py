@@ -21,6 +21,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 from typing import Final
+from typing import TypeVar
 
 from numpy import atleast_1d
 from numpy import atleast_2d
@@ -33,8 +34,12 @@ if TYPE_CHECKING:
     from gemseo.algos.parameter_space import ParameterSpace
     from gemseo.typing import RealArray
 
+    from gemseo_umdo.formulations.control_variate import ControlVariate
 
-class StatisticFunctionForControlVariate(BaseStatisticFunction):
+ControlVariateT = TypeVar("ControlVariateT", bound="ControlVariate")
+
+
+class StatisticFunctionForControlVariate(BaseStatisticFunction[ControlVariateT]):
     """A function to compute a statistic from `ControlVariate`."""
 
     __FUNC_TEMPLATE: Final[str] = "#{}"

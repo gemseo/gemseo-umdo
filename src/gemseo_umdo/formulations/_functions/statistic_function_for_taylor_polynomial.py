@@ -20,6 +20,7 @@ See also [TaylorPolynomial][gemseo_umdo.formulations.taylor_polynomial.TaylorPol
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
+from typing import TypeVar
 
 from numpy import atleast_1d
 from numpy import atleast_2d
@@ -33,8 +34,12 @@ if TYPE_CHECKING:
     from gemseo.algos.parameter_space import ParameterSpace
     from gemseo.typing import RealArray
 
+    from gemseo_umdo.formulations.taylor_polynomial import TaylorPolynomial
 
-class StatisticFunctionForTaylorPolynomial(BaseStatisticFunction):
+TaylorPolynomialT = TypeVar("TaylorPolynomialT", bound="TaylorPolynomial")
+
+
+class StatisticFunctionForTaylorPolynomial(BaseStatisticFunction[TaylorPolynomialT]):
     """A function to compute a statistic from `TaylorPolynomial`."""
 
     @property

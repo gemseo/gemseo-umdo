@@ -25,8 +25,8 @@ if TYPE_CHECKING:
     from gemseo.algos.optimization_problem import EvaluationType
     from gemseo.typing import RealArray
 
-    from gemseo_umdo.formulations._statistics.iterative_sampling.sampling_estimator import (  # noqa: E501
-        SamplingEstimator as IterativeSamplingEstimator,
+    from gemseo_umdo.formulations._statistics.iterative_sampling.base_sampling_estimator import (  # noqa: E501
+        BaseSamplingEstimator,
     )
 
 
@@ -42,7 +42,7 @@ class IterativeEstimation:
     to update the statistics of the objective, constraints and observables.
     """
 
-    _update_estimation: IterativeSamplingEstimator
+    _update_estimation: BaseSamplingEstimator
     """The function to update the estimation of the statistic."""
 
     _name: str
@@ -54,7 +54,7 @@ class IterativeEstimation:
     def __init__(
         self,
         name: str,
-        update_estimation: IterativeSamplingEstimator,
+        update_estimation: BaseSamplingEstimator,
     ) -> None:
         """
         Args:

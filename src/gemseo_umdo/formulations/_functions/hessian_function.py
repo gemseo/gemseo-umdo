@@ -17,12 +17,14 @@
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
+from typing import Callable
 
 from gemseo.algos.database import Database
 from gemseo.core.mdofunctions.mdo_function import MDOFunction
 from gemseo.utils.derivatives.finite_differences import FirstOrderFD
 
 if TYPE_CHECKING:
+    from gemseo.typing import NumberArray
     from gemseo.typing import RealArray
 
 
@@ -33,7 +35,7 @@ class HessianFunction(MDOFunction):
     applied to its analytical or approximated Jacobian.
     """
 
-    __jac: MDOFunction
+    __jac: Callable[[NumberArray], NumberArray]
     """The function computing the Jacobian."""
 
     def __init__(self, func: MDOFunction) -> None:
