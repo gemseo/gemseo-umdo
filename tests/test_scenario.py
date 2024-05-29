@@ -224,14 +224,14 @@ def test_uncertain_design_variables(disciplines, design_space, uncertain_space):
 
 @pytest.mark.parametrize("x", [array([1, 2]), array([1])])
 @pytest.mark.parametrize(
-    ("u1", "u2"), [(array([1]), array([-1])), (array([1, -1]), array([-1, 1]))]
+    ("u1", "u2"),
+    [(array([1.0]), array([-1.0])), (array([1.0, -1.0]), array([-1.0, 1.0]))],
 )
 def test_uncertain_design_variables_values(x, u1, u2):
     """Check that a design variable can be noised.
 
     Here we check the disciplines.
     """
-
     uncertain_space = ParameterSpace()
     uncertain_space.add_random_vector("u", "OTNormalDistribution", size=len(u1))
 
