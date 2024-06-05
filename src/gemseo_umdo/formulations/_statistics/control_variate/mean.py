@@ -32,8 +32,6 @@ class Mean(BaseControlVariateEstimator):
     def __call__(  # noqa: D102
         self, samples: RealArray, u_samples: RealArray, mean: RealArray, jac: RealArray
     ) -> RealArray:
-        sample_lf, sample_hf = self._compute_lf_and_hf_samples(
-            samples, u_samples, mean, jac
-        )
-        alpha = self._compute_opposite_scaled_covariance(sample_hf, sample_lf)
-        return samples.mean(0) + alpha * (sample_lf.mean(0) - mean)
+        cv_samples = self._compute_control_variate_samples(u_samples, mean, jac)
+        alpha = self._compute_opposite_scaled_covariance(samples, cv_samples)
+        return samples.mean(0) + alpha * (cv_samples.mean(0) - mean)

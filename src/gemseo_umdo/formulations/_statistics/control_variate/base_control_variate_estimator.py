@@ -20,9 +20,7 @@ from abc import abstractmethod
 from typing import TYPE_CHECKING
 from typing import Final
 
-from numpy import cov
 from numpy import finfo
-from numpy import var
 
 from gemseo_umdo.formulations._statistics.base_statistic_estimator import (
     BaseStatisticEstimator,
@@ -70,34 +68,35 @@ class BaseControlVariateEstimator(BaseStatisticEstimator):
             jac: The Jacobian value at the mean input one.
         """  # noqa: D205 D212 D415
 
-    def _compute_lf_and_hf_samples(
-        self, samples: RealArray, u_samples: RealArray, mean: RealArray, jac: RealArray
-    ) -> tuple[RealArray, RealArray]:
-        """Compute the low- and high-fidelity samples.
+    def _compute_control_variate_samples(
+        self, u_samples: RealArray, mean: RealArray, jac: RealArray
+    ) -> RealArray:
+        """Compute the samples of the control variates.
 
         Args:
-            samples: The output evaluations arranged in rows.
             u_samples: The input evaluations arranged in rows.
             mean: The output value at the mean input one.
             jac: The Jacobian value at the mean input one.
 
         Returns:
-            The low- and high-fidelity samples.
+            The samples of the control variates.
         """
-        return (mean + (u_samples - self._u_mean) @ jac.T).ravel(), samples.ravel()
+        return mean + (u_samples - self._u_mean) @ jac.T
 
     @classmethod
     def _compute_opposite_scaled_covariance(
-        cls, h_f: RealArray, l_f: RealArray
-    ) -> float:
-        """Compute the opposite scaled covariance between high- and low-fidelity data.
+        cls, data: RealArray, cv_data: RealArray
+    ) -> RealArray:
+        """Compute the opposite scaled covariance between data and control variate data.
 
         Args:
-            h_f: The high-fidelity data.
-            l_f: The low-fidelity data.
+            data: The high-fidelity data.
+            cv_data: The control variate data.
 
         Returns:
-            The opposite of the scaled covariance
-            between high- and low-fidelity data.
+            The opposite of the scaled covariance between data and control variate data.
         """
-        return -cov(h_f, l_f)[0, 1] / max(var(l_f), cls.__EPSILON)
+        centered_cv_data = cv_data - cv_data.mean(axis=0)
+        den = (centered_cv_data**2).sum(axis=0)
+        den[den < cls.__EPSILON] = cls.__EPSILON
+        return -((data - data.mean(axis=0)) * centered_cv_data).sum(axis=0) / den

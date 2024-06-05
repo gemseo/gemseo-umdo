@@ -25,6 +25,7 @@ from typing import TypeVar
 
 from numpy import atleast_1d
 from numpy import atleast_2d
+from numpy import newaxis
 
 from gemseo_umdo.formulations._functions.base_statistic_function import (
     BaseStatisticFunction,
@@ -64,11 +65,12 @@ class StatisticFunctionForControlVariate(BaseStatisticFunction[ControlVariateT])
         formulation.evaluate_with_mean()
         for output_name in database.get_function_names():
             output_data[output_name] = database.get_function_history(output_name)
+            last_item = linearization_database.last_item
             output_data[self.__FUNC_TEMPLATE.format(output_name)] = atleast_1d(
-                linearization_database.get_function_history(output_name)
+                last_item[output_name]
             )
             output_data[self.__GRAD_TEMPLATE.format(output_name)] = atleast_2d(
-                linearization_database.get_gradient_history(output_name)
+                last_item[linearization_database.get_gradient_name(output_name)]
             )
         problem.reset(preprocessing=False)
         linearization_problem.reset(preprocessing=False)
@@ -77,8 +79,11 @@ class StatisticFunctionForControlVariate(BaseStatisticFunction[ControlVariateT])
         self, output_data: dict[str, RealArray]
     ) -> RealArray:
         output_name = self._function_name
+        samples = output_data[output_name]
+        if samples.ndim == 1:
+            samples = samples[:, newaxis]
         return self._estimate_statistic(
-            output_data[output_name],
+            samples,
             self._formulation.doe_algo.samples,
             output_data[self.__FUNC_TEMPLATE.format(output_name)],
             output_data[self.__GRAD_TEMPLATE.format(output_name)],

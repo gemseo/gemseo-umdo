@@ -41,7 +41,7 @@ class Probability(BaseControlVariateEstimator):
     """The threshold against which the probability is estimated."""
 
     __n_samples: int
-    """The sample size to approximate the statistic with the low-fidelity model."""
+    """The sample size to approximate the statistic with the control variates."""
 
     def __init__(
         self,
@@ -55,7 +55,7 @@ class Probability(BaseControlVariateEstimator):
             threshold: The threshold against which the probability is estimated.
             greater: Whether to compute the probability of exceeding the threshold.
             n_samples: A high number of samples to approximate the statistic
-                with the low-fidelity model.
+                with the control variates.
         """  # noqa: D205 D212 D415
         super().__init__(uncertain_space)
         self.__threshold = threshold
@@ -65,14 +65,12 @@ class Probability(BaseControlVariateEstimator):
     def __call__(  # noqa: D102
         self, samples: RealArray, u_samples: RealArray, mean: RealArray, jac: RealArray
     ) -> RealArray:
-        sample_lf, sample_hf = self._compute_lf_and_hf_samples(
-            samples, u_samples, mean, jac
-        )
-        ref_sample_lf = (
+        cv_samples = self._compute_control_variate_samples(u_samples, mean, jac)
+        ref_cv_samples = (
             mean + self._uncertain_space.compute_samples(self.__n_samples) @ jac.T
         )
-        sample_lf = self.__compare(sample_lf, self.__threshold)
-        sample_hf = self.__compare(sample_hf, self.__threshold)
-        ref_sample_lf = self.__compare(ref_sample_lf, self.__threshold)
-        alpha = self._compute_opposite_scaled_covariance(sample_hf, sample_lf)
-        return sample_hf.mean(0) + alpha * (sample_lf.mean(0) - ref_sample_lf.mean(0))
+        samples = self.__compare(samples, self.__threshold)
+        cv_samples = self.__compare(cv_samples, self.__threshold)
+        ref_cv_samples = self.__compare(ref_cv_samples, self.__threshold)
+        alpha = self._compute_opposite_scaled_covariance(samples, cv_samples)
+        return samples.mean(0) + alpha * (cv_samples.mean(0) - ref_cv_samples.mean(0))

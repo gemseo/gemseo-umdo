@@ -66,6 +66,10 @@ and this project adheres to
 
 ### Changed
 
+- The default value of the `initial_n_samples` argument of
+  [SequentialSampling][gemseo_umdo.formulations.sequential_sampling.SequentialSampling]
+  is 2 instead of 1,
+  because the default DOE algorithm (`"OT_OPT_LHS"`) requires at least 2 samples.
 - `gemseo_umdo.scenarios._uscenario._UScenario` renamed to `gemseo_umdo.scenarios.base_u_scenario.BaseUScenario`.
 - API CHANGE: `gemseo_umdo.statistics.mlmc.pilots.pilot.MLMCPilot` renamed to `gemseo_umdo.statistics.mlmc.pilots.base_mlmc_pilot.BaseMLMCPilot`.
 - API CHANGE: `gemseo_umdo.statistics.mlmc_mlcv.pilots.pilot.MLMCMLCVPilot` renamed to `gemseo_umdo.statistics.mlmc_mlcv.pilots.base_mlmc_mlcv_pilot.BaseMLMCMLCVPilot`.
