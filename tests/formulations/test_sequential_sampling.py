@@ -41,10 +41,10 @@ def test_scenario(estimate_statistics_iteratively):
         statistic_estimation="SequentialSampling",
         statistic_estimation_parameters={
             "n_samples": 7,
-            "initial_n_samples": 2,
+            "initial_n_samples": 3,
             "n_samples_increment": 2,
             "estimate_statistics_iteratively": estimate_statistics_iteratively,
         },
     )
     scenario.execute({"algo": "fullfact", "n_samples": 5})
-    assert discipline.n_calls == (2 + 4 + 6 + 7 + 7)
+    assert discipline.n_calls == (3 + 5 + 7 + 7 + 7)

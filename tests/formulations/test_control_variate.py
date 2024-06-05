@@ -101,7 +101,7 @@ def scenario(disciplines, design_space, uncertain_space, algo_data) -> UDOEScena
 def test_scenario_optimum(scenario):
     """Check the optimum returned by the UDOEScenario."""
     assert_equal(scenario.optimization_result.x_opt, array([0.0] * 3))
-    assert_allclose(scenario.optimization_result.f_opt, array([-22.0]), atol=1e-6)
+    assert_allclose(scenario.optimization_result.f_opt, array([-12.0]), atol=1e-6)
 
 
 def test_scenario_serialization(scenario, tmp_path, algo_data):
@@ -111,9 +111,9 @@ def test_scenario_serialization(scenario, tmp_path, algo_data):
     saved_scn = UDOEScenario.from_pickle(file_path)
     saved_scn.execute(algo_data)
     assert_equal(scenario.optimization_result.x_opt, array([0.0] * 3))
-    assert_allclose(scenario.optimization_result.f_opt, array([-22.0]), atol=1e-6)
+    assert_allclose(scenario.optimization_result.f_opt, array([-12.0]), atol=1e-6)
     assert_equal(saved_scn.optimization_result.x_opt, array([0.0] * 3))
-    assert_allclose(saved_scn.optimization_result.f_opt, array([-22.0]), atol=1e-6)
+    assert_allclose(saved_scn.optimization_result.f_opt, array([-12.0]), atol=1e-6)
 
 
 def test_mdo_formulation_objective(umdo_formulation, mdf_discipline):
@@ -140,19 +140,19 @@ def test_mdo_formulation_observable(umdo_formulation, mdf_discipline):
 def test_umdo_formulation_objective(umdo_formulation):
     """Check that the UMDO formulation can compute the objective correctly."""
     objective = umdo_formulation.optimization_problem.objective
-    assert_allclose(objective(array([0.0] * 3)), array([-22.0]), atol=1e-6)
+    assert_allclose(objective(array([0.0] * 3)), array([-12.0]), atol=1e-6)
 
 
 def test_umdo_formulation_constraint(umdo_formulation):
     """Check that the UMDO formulation can compute the constraints correctly."""
     constraint = umdo_formulation.optimization_problem.constraints[0]
-    assert_allclose(constraint(array([0.0] * 3)), array([-20.5]), atol=1e-6)
+    assert_allclose(constraint(array([0.0] * 3)), array([-11.0]), atol=1e-6)
 
 
 def test_umdo_formulation_observable(umdo_formulation):
     """Check that the UMDO formulation can compute the observables correctly."""
     observable = umdo_formulation.optimization_problem.observables[0]
-    assert_allclose(observable(array([0.0] * 3)), array([-19.0]))
+    assert_allclose(observable(array([0.0] * 3)), array([-10.0]))
 
 
 def test_clear_inner_database(umdo_formulation):
@@ -168,7 +168,7 @@ def test_clear_inner_database(umdo_formulation):
     )
 
 
-U_SAMPLES = array([[0.5, 1.0, 1.5], [0.5, 1.0, 1.5]])
+U_SAMPLES = array([[0.5, 1.0, 1.5], [-0.5, -1.0, -1.5]])
 MEAN = array([1.0, 2.0])
 JAC = array([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]])
 
@@ -178,39 +178,42 @@ def test_estimate_mean(umdo_formulation):
     statistic_function = Mean(umdo_formulation.uncertain_space)
     assert_almost_equal(
         statistic_function(array([[0.0, 0.0], [1.0, 2.0]]), U_SAMPLES, MEAN, JAC),
-        array([-125 / 300, 0.0]),
+        array([-0.5, -1.0]),
     )
 
 
 def test_estimate_variance(umdo_formulation):
     """Check the estimation of the variance."""
     statistic_function = Variance(umdo_formulation.uncertain_space)
-    assert_equal(
+    assert_almost_equal(
         statistic_function(array([[0.0, 0.0], [1.0, 2.0]]), U_SAMPLES, MEAN, JAC),
-        array([0.6875, 0.6875]),
+        array([0.263655, 1.267923]),
+        decimal=6,
     )
 
 
 def test_estimate_standard_derivation(umdo_formulation):
     """Check the estimation of the standard deviation."""
     statistic_function = StandardDeviation(umdo_formulation.uncertain_space)
-    assert_equal(
+    assert_almost_equal(
         statistic_function(array([[0.0, 0.0], [1.0, 2.0]]), U_SAMPLES, MEAN, JAC),
-        array([0.6875, 0.6875]) ** 0.5,
+        array([0.263655, 1.267923]) ** 0.5,
+        decimal=6,
     )
 
 
 def test_estimate_margin(umdo_formulation):
     """Check the estimation of the margin."""
     statistic_function = Margin(umdo_formulation.uncertain_space, factor=3)
-    assert_equal(
+    assert_almost_equal(
         statistic_function(array([[0.0, 0.0], [1.0, 2.0]]), U_SAMPLES, MEAN, JAC),
-        array([-125 / 300, 0.0]) + 3 * array([0.6875, 0.6875]) ** 0.5,
+        array([-0.5, -1.0]) + 3 * array([0.263655, 1.267923]) ** 0.5,
+        decimal=6,
     )
 
 
 @pytest.mark.parametrize(
-    ("greater", "result"), [(False, array([0.75, 0.75])), (True, array([0.25, 0.25]))]
+    ("greater", "result"), [(False, array([1.0, 0.5])), (True, array([0.0, 0.5]))]
 )
 def test_estimate_probability(umdo_formulation, greater, result):
     """Check the estimation of the probability."""

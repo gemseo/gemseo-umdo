@@ -30,11 +30,9 @@ class Variance(BaseControlVariateEstimator):
     def __call__(  # noqa: D102
         self, samples: RealArray, u_samples: RealArray, mean: RealArray, jac: RealArray
     ) -> RealArray:
-        sample_lf, sample_hf = self._compute_lf_and_hf_samples(
-            samples, u_samples, mean, jac
-        )
-        diff2_hf = (sample_hf - sample_hf.mean()) ** 2
-        diff2_lf = (sample_lf - sample_lf.mean()) ** 2
-        var_lf = diagonal(multi_dot([jac, diag(self._u_standard_deviation**2), jac.T]))
-        alpha = self._compute_opposite_scaled_covariance(diff2_hf, diff2_lf)
-        return (diff2_hf.mean(0) + alpha * (diff2_lf.mean(0) - var_lf)).ravel()
+        cv_samples = self._compute_control_variate_samples(u_samples, mean, jac)
+        diff2 = (samples - samples.mean()) ** 2
+        cv_diff2 = (cv_samples - cv_samples.mean()) ** 2
+        cv_var = diagonal(multi_dot([jac, diag(self._u_standard_deviation**2), jac.T]))
+        alpha = self._compute_opposite_scaled_covariance(diff2, cv_diff2)
+        return (diff2.mean(0) + alpha * (cv_diff2.mean(0) - cv_var)).ravel()

@@ -85,7 +85,7 @@ class SequentialSampling(Sampling):
         uncertain_space: ParameterSpace,
         objective_statistic_name: str,
         n_samples: int,
-        initial_n_samples: int = 1,
+        initial_n_samples: int = 2,
         n_samples_increment: int = 1,
         objective_statistic_parameters: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
         maximize_objective: bool = False,
