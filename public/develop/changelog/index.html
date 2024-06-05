@@ -6335,6 +6335,10 @@ and this project adheres to
 </ul>
 <h3 id="changed">Changed<a class="headerlink" href="#changed" title="Permanent link">&para;</a></h3>
 <ul>
+<li>The default value of the <code>initial_n_samples</code> argument of
+  <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/formulations/sequential_sampling/#gemseo_umdo.formulations.sequential_sampling.SequentialSampling">SequentialSampling</a>
+  is 2 instead of 1,
+  because the default DOE algorithm (<code>"OT_OPT_LHS"</code>) requires at least 2 samples.</li>
 <li><code>gemseo_umdo.scenarios._uscenario._UScenario</code> renamed to <code>gemseo_umdo.scenarios.base_u_scenario.BaseUScenario</code>.</li>
 <li>API CHANGE: <code>gemseo_umdo.statistics.mlmc.pilots.pilot.MLMCPilot</code> renamed to <code>gemseo_umdo.statistics.mlmc.pilots.base_mlmc_pilot.BaseMLMCPilot</code>.</li>
 <li>API CHANGE: <code>gemseo_umdo.statistics.mlmc_mlcv.pilots.pilot.MLMCMLCVPilot</code> renamed to <code>gemseo_umdo.statistics.mlmc_mlcv.pilots.base_mlmc_mlcv_pilot.BaseMLMCMLCVPilot</code>.</li>
