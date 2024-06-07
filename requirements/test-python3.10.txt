@@ -148,7 +148,7 @@ tomli==2.0.1
     #   pytest
 tqdm==4.66.2
     # via gemseo
-typing-extensions==4.12.1
+typing-extensions==4.12.2
     # via
     #   gemseo
     #   pydantic
