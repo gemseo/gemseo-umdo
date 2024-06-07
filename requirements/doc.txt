@@ -272,7 +272,7 @@ tqdm==4.66.2
     # via
     #   gemseo
     #   mkdocs-gallery
-typing-extensions==4.12.1
+typing-extensions==4.12.2
     # via
     #   black
     #   gemseo
