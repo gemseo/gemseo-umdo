@@ -28,11 +28,11 @@ fastjsonschema==2.19.1
     # via gemseo
 fonttools==4.53.0
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@857af2c26663afd8b5dff4b050aa4cf065d22fe4
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@8fc0270c7005c215036f85ab2afd28646a97cf04
     # via
     #   -c requirements/test-constraints.in
     #   gemseo-umdo (pyproject.toml)
-genson==1.2.2
+genson==1.3.0
     # via gemseo
 graphviz==0.20.3
     # via gemseo
@@ -42,7 +42,7 @@ idna==3.7
     # via requests
 iniconfig==2.0.0
     # via pytest
-jinja2==3.1.3
+jinja2==3.1.4
     # via gemseo
 joblib==1.4.2
     # via scikit-learn
@@ -56,7 +56,7 @@ matplotlib==3.8.3
     #   gemseo
 mpmath==1.3.0
     # via sympy
-networkx==3.2.1
+networkx==3.3
     # via gemseo
 nlopt==2.7.1
     # via gemseo
@@ -77,29 +77,29 @@ openpyxl==3.1.2
     # via gemseo
 openturns==1.23
     # via gemseo
-packaging==24.0
+packaging==24.1
     # via
     #   gemseo
     #   matplotlib
     #   plotly
     #   pytest
-pandas==2.2.1
+pandas==2.2.2
     # via gemseo
-pillow==10.2.0
+pillow==10.3.0
     # via
     #   gemseo
     #   matplotlib
-plotly==5.20.0
+plotly==5.22.0
     # via gemseo
 pluggy==1.5.0
     # via pytest
 psutil==5.9.8
     # via openturns
-pydantic==2.6.4
+pydantic==2.7.4
     # via gemseo
-pydantic-core==2.16.3
+pydantic-core==2.18.4
     # via pydantic
-pydoe3==1.0.1
+pydoe3==1.0.2
     # via gemseo
 pyparsing==3.1.2
     # via matplotlib
@@ -140,7 +140,7 @@ tenacity==8.3.0
     # via plotly
 threadpoolctl==3.5.0
     # via scikit-learn
-tqdm==4.66.2
+tqdm==4.66.4
     # via gemseo
 typing-extensions==4.12.2
     # via
