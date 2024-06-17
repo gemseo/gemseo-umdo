@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../../../../images/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.26">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.27">
     
     
       
@@ -2586,6 +2586,45 @@
         
           <li class="md-nav__item">
   <a href="#gemseo_umdo.disciplines.additive_noiser.AdditiveNoiser.SHORT_NAME" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;SHORT_NAME
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.disciplines.additive_noiser.BaseNoiser" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;BaseNoiser
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" BaseNoiser">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.disciplines.additive_noiser.BaseNoiser-attributes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Attributes
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Attributes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.disciplines.additive_noiser.BaseNoiser.SHORT_NAME" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;SHORT_NAME
     </span>
@@ -5955,6 +5994,45 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.disciplines.additive_noiser.BaseNoiser" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;BaseNoiser
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" BaseNoiser">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.disciplines.additive_noiser.BaseNoiser-attributes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Attributes
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Attributes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.disciplines.additive_noiser.BaseNoiser.SHORT_NAME" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;SHORT_NAME
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -6128,6 +6206,159 @@
 
 <a href="#gemseo_umdo.disciplines.additive_noiser.AdditiveNoiser.SHORT_NAME" class="headerlink" title="Permanent link">&para;</a></h6>
 <div class="doc-signature highlight"><pre><span></span><code><span class="n">SHORT_NAME</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span> <span class="o">=</span> <span class="s1">&#39;+&#39;</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+      <p>A short name of the noising discipline to instantiate it more easily.</p>
+<p>For example,
+<code>"*"</code> would be a good short name for a <code>"MultiplicativeNoiser"</code>,
+<em>i.e.</em> clear and concise.</p>
+<p>In particular,
+this short name can be used to set the <code>uncertain_design_variables</code> argument
+of
+<a class="autorefs autorefs-internal" href="../../scenarios/udoe_scenario/#gemseo_umdo.scenarios.udoe_scenario.UDOEScenario">UDOEScenario</a>
+and
+<a class="autorefs autorefs-internal" href="../../scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>.</p>
+    </div>
+
+</div>
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="gemseo_umdo.disciplines.additive_noiser.BaseNoiser" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">BaseNoiser</span>
+
+
+<a href="#gemseo_umdo.disciplines.additive_noiser.BaseNoiser" class="headerlink" title="Permanent link">&para;</a></h4>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">BaseNoiser</span><span class="p">(</span>
+    <span class="n">variable_name</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">,</span>
+    <span class="n">noised_variable_name</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">,</span>
+    <span class="n">uncertain_variable_name</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-external" title="gemseo.core.discipline.MDODiscipline" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.core.discipline.html#gemseo.core.discipline.MDODiscipline">MDODiscipline</a></code></p>
+
+
+      <p>A discipline noising a variable.</p>
+<p><a class="autorefs autorefs-internal" href="../../scenarios/udoe_scenario/#gemseo_umdo.scenarios.udoe_scenario.UDOEScenario">UDOEScenario</a>
+and
+<a class="autorefs autorefs-internal" href="../../scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>
+create this kind of discipline
+when using their argument <code>uncertain_design_variables</code>
+in order to define the link between design and uncertain variables
+in an intuitive way.</p>
+
+      <p>Initialize self.  See help(type(self)) for accurate signature.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code>variable_name</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>The name of the variable to be noised.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>noised_variable_name</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>The name of the variable once noised.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>uncertain_variable_name</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>The name of the uncertain variable.</p>
+          </div>
+        </li>
+    </ul>
+
+                  <details class="quote">
+                    <summary>Source code in <code>src/gemseo_umdo/disciplines/base_noiser.py</code></summary>
+                    <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">variable_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">noised_variable_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">uncertain_variable_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Args:</span>
+<span class="sd">        variable_name: The name of the variable to be noised.</span>
+<span class="sd">        noised_variable_name: The name of the variable once noised.</span>
+<span class="sd">        uncertain_variable_name: The name of the uncertain variable.</span>
+<span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: D205 D212 D415</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_noised_variable_name</span> <span class="o">=</span> <span class="n">noised_variable_name</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_variable_name</span> <span class="o">=</span> <span class="n">variable_name</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_uncertain_variable_name</span> <span class="o">=</span> <span class="n">uncertain_variable_name</span>
+    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">input_grammar</span><span class="o">.</span><span class="n">update_from_names</span><span class="p">([</span><span class="n">variable_name</span><span class="p">,</span> <span class="n">uncertain_variable_name</span><span class="p">])</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">output_grammar</span><span class="o">.</span><span class="n">update_from_names</span><span class="p">([</span><span class="n">noised_variable_name</span><span class="p">])</span>
+</code></pre></div></td></tr></table></div>
+                  </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+<h5 id="gemseo_umdo.disciplines.additive_noiser.BaseNoiser-attributes">Attributes<a href="#gemseo_umdo.disciplines.additive_noiser.BaseNoiser-attributes" class="headerlink" title="Permanent link">&para;</a></h5>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h6 id="gemseo_umdo.disciplines.additive_noiser.BaseNoiser.SHORT_NAME" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">SHORT_NAME</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+  </span>
+
+<a href="#gemseo_umdo.disciplines.additive_noiser.BaseNoiser.SHORT_NAME" class="headerlink" title="Permanent link">&para;</a></h6>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">SHORT_NAME</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">

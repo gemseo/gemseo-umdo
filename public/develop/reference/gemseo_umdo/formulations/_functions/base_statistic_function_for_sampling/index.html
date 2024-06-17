@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../../../../../images/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.26">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.27">
     
     
       
@@ -2963,6 +2963,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations._functions.base_statistic_function_for_sampling.BaseStatisticFunction" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;BaseStatisticFunction
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#gemseo_umdo.formulations._functions.base_statistic_function_for_sampling.BaseStatisticFunctionForSampling" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;BaseStatisticFunctionForSampling
@@ -5889,6 +5898,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations._functions.base_statistic_function_for_sampling.BaseStatisticFunction" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;BaseStatisticFunction
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#gemseo_umdo.formulations._functions.base_statistic_function_for_sampling.BaseStatisticFunctionForSampling" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;BaseStatisticFunctionForSampling
@@ -5952,6 +5970,175 @@
 
 
 <h3 id="gemseo_umdo.formulations._functions.base_statistic_function_for_sampling-classes">Classes<a href="#gemseo_umdo.formulations._functions.base_statistic_function_for_sampling-classes" class="headerlink" title="Permanent link">&para;</a></h3>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="gemseo_umdo.formulations._functions.base_statistic_function_for_sampling.BaseStatisticFunction" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">BaseStatisticFunction</span>
+
+
+<a href="#gemseo_umdo.formulations._functions.base_statistic_function_for_sampling.BaseStatisticFunction" class="headerlink" title="Permanent link">&para;</a></h4>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">BaseStatisticFunction</span><span class="p">(</span>
+    <span class="n">formulation</span><span class="p">:</span> <span class="n"><span title="gemseo_umdo.formulations._functions.base_statistic_function.UMDOFormulationT">UMDOFormulationT</span></span><span class="p">,</span>
+    <span class="n">func</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.core.mdofunctions.mdo_function.MDOFunction" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.core.mdofunctions.mdo_function.html#gemseo.core.mdofunctions.mdo_function.MDOFunction">MDOFunction</a></span><span class="p">,</span>
+    <span class="n">function_type</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.core.mdofunctions.mdo_function.MDOFunction.FunctionType" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.core.mdofunctions.mdo_function.html#gemseo.core.mdofunctions.mdo_function.MDOFunction.FunctionType">FunctionType</a></span><span class="p">,</span>
+    <span class="n">name</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">,</span>
+    <span class="n">sampling_problem</span><span class="p">:</span> <span class="n"><span title="gemseo.algos.optimization_problem.OptimizationProblem">OptimizationProblem</span></span><span class="p">,</span>
+    <span class="o">**</span><span class="n">statistic_options</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></span>
+<span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-external" title="gemseo.core.mdofunctions.mdo_function.MDOFunction" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.core.mdofunctions.mdo_function.html#gemseo.core.mdofunctions.mdo_function.MDOFunction">MDOFunction</a></code>, <code><a class="autorefs autorefs-external" title="typing.Generic" href="https://docs.python.org/3/library/typing.html#typing.Generic">Generic</a>[<span title="gemseo_umdo.formulations._functions.base_statistic_function.UMDOFormulationT">UMDOFormulationT</span>]</code></p>
+
+
+      <p>A function to compute a statistic from a <code>BaseUMDOFormulation</code>.</p>
+
+      <p>Initialize self.  See help(type(self)) for accurate signature.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code>formulation</code></b>
+              (<code><span title="gemseo_umdo.formulations._functions.base_statistic_function.UMDOFormulationT">UMDOFormulationT</span></code>)
+          –
+          <div class="doc-md-description">
+            <p>The U-MDO formulation
+to which the
+<a class="autorefs autorefs-internal" href="../base_statistic_function/#gemseo_umdo.formulations._functions.base_statistic_function.BaseStatisticFunction">BaseStatisticFunction</a>
+is attached.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>func</code></b>
+              (<code><a class="autorefs autorefs-external" title="gemseo.core.mdofunctions.mdo_function.MDOFunction" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.core.mdofunctions.mdo_function.html#gemseo.core.mdofunctions.mdo_function.MDOFunction">MDOFunction</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>The function for which we want to estimate an output statistic.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>function_type</code></b>
+              (<code><a class="autorefs autorefs-external" title="gemseo.core.mdofunctions.mdo_function.MDOFunction.FunctionType" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.core.mdofunctions.mdo_function.html#gemseo.core.mdofunctions.mdo_function.MDOFunction.FunctionType">FunctionType</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>The type of function.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>name</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>The name of the statistic.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>sampling_problem</code></b>
+              (<code><span title="gemseo.algos.optimization_problem.OptimizationProblem">OptimizationProblem</span></code>)
+          –
+          <div class="doc-md-description">
+            <p>The problem
+evaluating the function over the uncertain space.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>**statistic_options</code></b>
+              (<code><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></code>, default:
+                  <code>{}</code>
+)
+          –
+          <div class="doc-md-description">
+            <p>The options of the statistic.</p>
+          </div>
+        </li>
+    </ul>
+
+                  <details class="quote">
+                    <summary>Source code in <code>src/gemseo_umdo/formulations/_functions/base_statistic_function.py</code></summary>
+                    <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span>
+<span class="normal">84</span>
+<span class="normal">85</span>
+<span class="normal">86</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">formulation</span><span class="p">:</span> <span class="n">UMDOFormulationT</span><span class="p">,</span>
+    <span class="n">func</span><span class="p">:</span> <span class="n">MDOFunction</span><span class="p">,</span>
+    <span class="n">function_type</span><span class="p">:</span> <span class="n">MDOFunction</span><span class="o">.</span><span class="n">FunctionType</span><span class="p">,</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">sampling_problem</span><span class="p">:</span> <span class="n">OptimizationProblem</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">statistic_options</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Args:</span>
+<span class="sd">        formulation: The U-MDO formulation</span>
+<span class="sd">            to which the</span>
+<span class="sd">            [BaseStatisticFunction][gemseo_umdo.formulations._functions.base_statistic_function.BaseStatisticFunction]</span>
+<span class="sd">            is attached.</span>
+<span class="sd">        func: The function for which we want to estimate an output statistic.</span>
+<span class="sd">        function_type: The type of function.</span>
+<span class="sd">        name: The name of the statistic.</span>
+<span class="sd">        sampling_problem: The problem</span>
+<span class="sd">            evaluating the function over the uncertain space.</span>
+<span class="sd">        **statistic_options: The options of the statistic.</span>
+<span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: D205 D212 D415</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_function_name</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="n">name</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_formulation</span> <span class="o">=</span> <span class="n">formulation</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_estimate_statistic</span> <span class="o">=</span> <span class="n">formulation</span><span class="o">.</span><span class="n">_statistic_factory</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+        <span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_statistic_estimator_parameters</span><span class="p">,</span> <span class="o">**</span><span class="n">statistic_options</span>
+    <span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_update_sampling_problem</span><span class="p">(</span><span class="n">sampling_problem</span><span class="p">,</span> <span class="n">func</span><span class="p">)</span>
+    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_func</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">func</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">f_type</span><span class="o">=</span><span class="n">function_type</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+                  </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
 
 <div class="doc doc-object doc-class">
 

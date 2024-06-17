@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../../../../../images/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.26">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.27">
     
     
       
@@ -5688,6 +5688,45 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.use_cases.spring_mass_model.discipline.SpringMassModel" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;SpringMassModel
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" SpringMassModel">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.use_cases.spring_mass_model.discipline.SpringMassModel-attributes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Attributes
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Attributes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.use_cases.spring_mass_model.discipline.SpringMassModel.cost" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;cost
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -5957,6 +5996,45 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.use_cases.spring_mass_model.discipline.SpringMassModel" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;SpringMassModel
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" SpringMassModel">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.use_cases.spring_mass_model.discipline.SpringMassModel-attributes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Attributes
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Attributes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.use_cases.spring_mass_model.discipline.SpringMassModel.cost" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;cost
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -6201,6 +6279,195 @@ function of the stiffness of the spring.</p>
   </span>
 
 <a href="#gemseo_umdo.use_cases.spring_mass_model.discipline.SpringMassDiscipline.cost" class="headerlink" title="Permanent link">&para;</a></h6>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">cost</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+      <p>The evaluation cost.</p>
+    </div>
+
+</div>
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="gemseo_umdo.use_cases.spring_mass_model.discipline.SpringMassModel" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">SpringMassModel</span>
+
+
+<a href="#gemseo_umdo.use_cases.spring_mass_model.discipline.SpringMassModel" class="headerlink" title="Permanent link">&para;</a></h4>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">SpringMassModel</span><span class="p">(</span>
+    <span class="n">mass</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></span> <span class="o">=</span> <span class="mf">1.5</span><span class="p">,</span>
+    <span class="n">initial_state</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#tuple">tuple</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+    <span class="n">initial_time</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+    <span class="n">final_time</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></span> <span class="o">=</span> <span class="mf">10.0</span><span class="p">,</span>
+    <span class="n">time_step</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span>
+    <span class="n">gravity</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></span> <span class="o">=</span> <span class="mf">9.8</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+
+      <p>The GEMSEO-free spring-mass model.</p>
+<p>This model computes the time displacement of an object attached to a spring in
+function of the stiffness of the spring.</p>
+<p>It computes also its maximum displacement.</p>
+<p>The ordinary differential equation is</p>
+<div class="arithmatex">\[m\frac{d^2z(t)}{dt^2} = -kz(t) + mg\]</div>
+<p>with <span class="arithmatex">\(\left.\frac{dz(t)}{dt}\right|_{t=0}=z(0)=z_0\)</span>.</p>
+
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code>mass</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></code>, default:
+                  <code>1.5</code>
+)
+          –
+          <div class="doc-md-description">
+            <p>The mass of the object.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>initial_state</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#tuple">tuple</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a>, <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a>]</code>, default:
+                  <code>(0, 0)</code>
+)
+          –
+          <div class="doc-md-description">
+            <p>The initial position and velocity of the object.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>initial_time</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></code>, default:
+                  <code>0.0</code>
+)
+          –
+          <div class="doc-md-description">
+            <p>The initial time.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>final_time</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></code>, default:
+                  <code>10.0</code>
+)
+          –
+          <div class="doc-md-description">
+            <p>The final time.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>time_step</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></code>, default:
+                  <code>0.1</code>
+)
+          –
+          <div class="doc-md-description">
+            <p>The time step.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>gravity</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></code>, default:
+                  <code>9.8</code>
+)
+          –
+          <div class="doc-md-description">
+            <p>The gravity acceleration.</p>
+          </div>
+        </li>
+    </ul>
+
+                  <details class="quote">
+                    <summary>Source code in <code>src/gemseo_umdo/use_cases/spring_mass_model/model.py</code></summary>
+                    <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">mass</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.5</span><span class="p">,</span>
+    <span class="n">initial_state</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+    <span class="n">initial_time</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+    <span class="n">final_time</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">10.0</span><span class="p">,</span>
+    <span class="n">time_step</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span>
+    <span class="n">gravity</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">9.8</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Args:</span>
+<span class="sd">        mass: The mass of the object.</span>
+<span class="sd">        initial_state: The initial position and velocity of the object.</span>
+<span class="sd">        initial_time: The initial time.</span>
+<span class="sd">        final_time: The final time.</span>
+<span class="sd">        time_step: The time step.</span>
+<span class="sd">        gravity: The gravity acceleration.</span>
+<span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: D205 D212 D415</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__mass</span> <span class="o">=</span> <span class="n">mass</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__gravity</span> <span class="o">=</span> <span class="n">gravity</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__initial_state</span> <span class="o">=</span> <span class="n">initial_state</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__time</span> <span class="o">=</span> <span class="n">arange</span><span class="p">(</span><span class="n">initial_time</span><span class="p">,</span> <span class="n">final_time</span><span class="p">,</span> <span class="n">time_step</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__cost</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">time_step</span>
+</code></pre></div></td></tr></table></div>
+                  </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+<h5 id="gemseo_umdo.use_cases.spring_mass_model.discipline.SpringMassModel-attributes">Attributes<a href="#gemseo_umdo.use_cases.spring_mass_model.discipline.SpringMassModel-attributes" class="headerlink" title="Permanent link">&para;</a></h5>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h6 id="gemseo_umdo.use_cases.spring_mass_model.discipline.SpringMassModel.cost" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">cost</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#gemseo_umdo.use_cases.spring_mass_model.discipline.SpringMassModel.cost" class="headerlink" title="Permanent link">&para;</a></h6>
 <div class="doc-signature highlight"><pre><span></span><code><span class="n">cost</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></span>
 </code></pre></div>
 

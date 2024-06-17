@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../../../../../../images/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.26">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.27">
     
     
       
@@ -3555,6 +3555,45 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations._statistics.iterative_sampling.factory.BaseSamplingEstimator" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;BaseSamplingEstimator
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" BaseSamplingEstimator">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations._statistics.iterative_sampling.factory.BaseSamplingEstimator-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Functions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations._statistics.iterative_sampling.factory.BaseSamplingEstimator.reset" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;reset
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#gemseo_umdo.formulations._statistics.iterative_sampling.factory.SamplingEstimatorFactory" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;SamplingEstimatorFactory
@@ -5891,6 +5930,45 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations._statistics.iterative_sampling.factory.BaseSamplingEstimator" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;BaseSamplingEstimator
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" BaseSamplingEstimator">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations._statistics.iterative_sampling.factory.BaseSamplingEstimator-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Functions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations._statistics.iterative_sampling.factory.BaseSamplingEstimator.reset" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;reset
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#gemseo_umdo.formulations._statistics.iterative_sampling.factory.SamplingEstimatorFactory" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;SamplingEstimatorFactory
@@ -5953,6 +6031,91 @@
 
 
 <h3 id="gemseo_umdo.formulations._statistics.iterative_sampling.factory-classes">Classes<a href="#gemseo_umdo.formulations._statistics.iterative_sampling.factory-classes" class="headerlink" title="Permanent link">&para;</a></h3>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="gemseo_umdo.formulations._statistics.iterative_sampling.factory.BaseSamplingEstimator" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">BaseSamplingEstimator</span>
+
+
+<a href="#gemseo_umdo.formulations._statistics.iterative_sampling.factory.BaseSamplingEstimator" class="headerlink" title="Permanent link">&para;</a></h4>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">BaseSamplingEstimator</span><span class="p">()</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="gemseo_umdo.formulations._statistics.base_statistic_estimator.BaseStatisticEstimator" href="../../base_statistic_estimator/#gemseo_umdo.formulations._statistics.base_statistic_estimator.BaseStatisticEstimator">BaseStatisticEstimator</a></code></p>
+
+
+      <p>Base statistic iterative estimator for a U-MDO formulation using sampling.</p>
+<p>This class enables to iteratively compute estimators of an increasing dataset
+without storing any data in memory.</p>
+
+      <p>Initialize self.  See help(type(self)) for accurate signature.</p>
+
+                  <details class="quote">
+                    <summary>Source code in <code>src/gemseo_umdo/formulations/_statistics/iterative_sampling/base_sampling_estimator.py</code></summary>
+                    <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># noqa: D107</span>
+    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_size</span> <span class="o">=</span> <span class="mi">0</span>
+</code></pre></div></td></tr></table></div>
+                  </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<h5 id="gemseo_umdo.formulations._statistics.iterative_sampling.factory.BaseSamplingEstimator-functions">Functions<a href="#gemseo_umdo.formulations._statistics.iterative_sampling.factory.BaseSamplingEstimator-functions" class="headerlink" title="Permanent link">&para;</a></h5>
+
+<div class="doc doc-object doc-function">
+
+
+<h6 id="gemseo_umdo.formulations._statistics.iterative_sampling.factory.BaseSamplingEstimator.reset" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">reset</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-abstractmethod"><code>abstractmethod</code></small>
+  </span>
+
+<a href="#gemseo_umdo.formulations._statistics.iterative_sampling.factory.BaseSamplingEstimator.reset" class="headerlink" title="Permanent link">&para;</a></h6>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">reset</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+      <p>Reset the estimator of the statistic.</p>
+
+            <details class="quote">
+              <summary>Source code in <code>src/gemseo_umdo/formulations/_statistics/iterative_sampling/base_sampling_estimator.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@abstractmethod</span>
+<span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Reset the estimator of the statistic.&quot;&quot;&quot;</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
 
 <div class="doc doc-object doc-class">
 
