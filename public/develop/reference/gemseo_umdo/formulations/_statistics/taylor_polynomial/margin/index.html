@@ -4202,36 +4202,9 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#gemseo_umdo.formulations._statistics.taylor_polynomial.margin.BaseTaylorPolynomialEstimator" class="md-nav__link">
-    <span class="md-ellipsis">
-      <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;BaseTaylorPolynomialEstimator
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#gemseo_umdo.formulations._statistics.taylor_polynomial.margin.Margin" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;Margin
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#gemseo_umdo.formulations._statistics.taylor_polynomial.margin.Mean" class="md-nav__link">
-    <span class="md-ellipsis">
-      <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;Mean
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#gemseo_umdo.formulations._statistics.taylor_polynomial.margin.StandardDeviation" class="md-nav__link">
-    <span class="md-ellipsis">
-      <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;StandardDeviation
     </span>
   </a>
   
@@ -5918,36 +5891,9 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#gemseo_umdo.formulations._statistics.taylor_polynomial.margin.BaseTaylorPolynomialEstimator" class="md-nav__link">
-    <span class="md-ellipsis">
-      <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;BaseTaylorPolynomialEstimator
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#gemseo_umdo.formulations._statistics.taylor_polynomial.margin.Margin" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;Margin
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#gemseo_umdo.formulations._statistics.taylor_polynomial.margin.Mean" class="md-nav__link">
-    <span class="md-ellipsis">
-      <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;Mean
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#gemseo_umdo.formulations._statistics.taylor_polynomial.margin.StandardDeviation" class="md-nav__link">
-    <span class="md-ellipsis">
-      <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;StandardDeviation
     </span>
   </a>
   
@@ -6007,81 +5953,6 @@
 
 
 <h3 id="gemseo_umdo.formulations._statistics.taylor_polynomial.margin-classes">Classes<a href="#gemseo_umdo.formulations._statistics.taylor_polynomial.margin-classes" class="headerlink" title="Permanent link">&para;</a></h3>
-
-<div class="doc doc-object doc-class">
-
-
-
-<h4 id="gemseo_umdo.formulations._statistics.taylor_polynomial.margin.BaseTaylorPolynomialEstimator" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">BaseTaylorPolynomialEstimator</span>
-
-
-<a href="#gemseo_umdo.formulations._statistics.taylor_polynomial.margin.BaseTaylorPolynomialEstimator" class="headerlink" title="Permanent link">&para;</a></h4>
-<div class="doc-signature highlight"><pre><span></span><code><span class="nf">BaseTaylorPolynomialEstimator</span><span class="p">(</span>
-    <span class="n">uncertain_space</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.algos.parameter_space.ParameterSpace" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.algos.parameter_space.html#gemseo.algos.parameter_space.ParameterSpace">ParameterSpace</a></span><span class="p">,</span>
-<span class="p">)</span>
-</code></pre></div>
-
-    <div class="doc doc-contents ">
-            <p class="doc doc-class-bases">
-              Bases: <code><a class="autorefs autorefs-internal" title="gemseo_umdo.formulations._statistics.base_statistic_estimator.BaseStatisticEstimator" href="../../base_statistic_estimator/#gemseo_umdo.formulations._statistics.base_statistic_estimator.BaseStatisticEstimator">BaseStatisticEstimator</a></code></p>
-
-
-      <p>Base statistic estimator for a U-MDO formulation using Taylor polynomials.</p>
-
-      <p>Initialize self.  See help(type(self)) for accurate signature.</p>
-
-
-<p><span class="doc-section-title">Parameters:</span></p>
-    <ul>
-        <li class="doc-section-item field-body">
-          <b><code>uncertain_space</code></b>
-              (<code><a class="autorefs autorefs-external" title="gemseo.algos.parameter_space.ParameterSpace" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.algos.parameter_space.html#gemseo.algos.parameter_space.ParameterSpace">ParameterSpace</a></code>)
-          –
-          <div class="doc-md-description">
-            <p>The uncertain variables
-with their probability distributions.</p>
-          </div>
-        </li>
-    </ul>
-
-                  <details class="quote">
-                    <summary>Source code in <code>src/gemseo_umdo/formulations/_statistics/taylor_polynomial/base_taylor_polynomial_estimator.py</code></summary>
-                    <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">38</span>
-<span class="normal">39</span>
-<span class="normal">40</span>
-<span class="normal">41</span>
-<span class="normal">42</span>
-<span class="normal">43</span>
-<span class="normal">44</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uncertain_space</span><span class="p">:</span> <span class="n">ParameterSpace</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Args:</span>
-<span class="sd">        uncertain_space: The uncertain variables</span>
-<span class="sd">            with their probability distributions.</span>
-<span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: D205 D212 D415</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">_standard_deviations</span> <span class="o">=</span> <span class="n">uncertain_space</span><span class="o">.</span><span class="n">distribution</span><span class="o">.</span><span class="n">standard_deviation</span>
-</code></pre></div></td></tr></table></div>
-                  </details>
-
-
-
-  <div class="doc doc-children">
-
-
-
-
-
-
-
-
-
-
-
-  </div>
-
-    </div>
-
-</div>
 
 <div class="doc doc-object doc-class">
 
@@ -6149,152 +6020,6 @@ with their probability distributions.</p>
     <span class="bp">self</span><span class="o">.</span><span class="n">__mean</span> <span class="o">=</span> <span class="n">Mean</span><span class="p">(</span><span class="n">uncertain_space</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__standard_deviation</span> <span class="o">=</span> <span class="n">StandardDeviation</span><span class="p">(</span><span class="n">uncertain_space</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__factor</span> <span class="o">=</span> <span class="n">factor</span>
-</code></pre></div></td></tr></table></div>
-                  </details>
-
-
-
-  <div class="doc doc-children">
-
-
-
-
-
-
-
-
-
-
-
-  </div>
-
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-class">
-
-
-
-<h4 id="gemseo_umdo.formulations._statistics.taylor_polynomial.margin.Mean" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">Mean</span>
-
-
-<a href="#gemseo_umdo.formulations._statistics.taylor_polynomial.margin.Mean" class="headerlink" title="Permanent link">&para;</a></h4>
-<div class="doc-signature highlight"><pre><span></span><code><span class="nf">Mean</span><span class="p">(</span><span class="n">uncertain_space</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.algos.parameter_space.ParameterSpace" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.algos.parameter_space.html#gemseo.algos.parameter_space.ParameterSpace">ParameterSpace</a></span><span class="p">)</span>
-</code></pre></div>
-
-    <div class="doc doc-contents ">
-            <p class="doc doc-class-bases">
-              Bases: <code><a class="autorefs autorefs-internal" title="gemseo_umdo.formulations._statistics.taylor_polynomial.base_taylor_polynomial_estimator.BaseTaylorPolynomialEstimator" href="../base_taylor_polynomial_estimator/#gemseo_umdo.formulations._statistics.taylor_polynomial.base_taylor_polynomial_estimator.BaseTaylorPolynomialEstimator">BaseTaylorPolynomialEstimator</a></code></p>
-
-
-      <p>Estimator of the expectation.</p>
-
-      <p>Initialize self.  See help(type(self)) for accurate signature.</p>
-
-
-<p><span class="doc-section-title">Parameters:</span></p>
-    <ul>
-        <li class="doc-section-item field-body">
-          <b><code>uncertain_space</code></b>
-              (<code><a class="autorefs autorefs-external" title="gemseo.algos.parameter_space.ParameterSpace" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.algos.parameter_space.html#gemseo.algos.parameter_space.ParameterSpace">ParameterSpace</a></code>)
-          –
-          <div class="doc-md-description">
-            <p>The uncertain variables
-with their probability distributions.</p>
-          </div>
-        </li>
-    </ul>
-
-                  <details class="quote">
-                    <summary>Source code in <code>src/gemseo_umdo/formulations/_statistics/taylor_polynomial/base_taylor_polynomial_estimator.py</code></summary>
-                    <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">38</span>
-<span class="normal">39</span>
-<span class="normal">40</span>
-<span class="normal">41</span>
-<span class="normal">42</span>
-<span class="normal">43</span>
-<span class="normal">44</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uncertain_space</span><span class="p">:</span> <span class="n">ParameterSpace</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Args:</span>
-<span class="sd">        uncertain_space: The uncertain variables</span>
-<span class="sd">            with their probability distributions.</span>
-<span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: D205 D212 D415</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">_standard_deviations</span> <span class="o">=</span> <span class="n">uncertain_space</span><span class="o">.</span><span class="n">distribution</span><span class="o">.</span><span class="n">standard_deviation</span>
-</code></pre></div></td></tr></table></div>
-                  </details>
-
-
-
-  <div class="doc doc-children">
-
-
-
-
-
-
-
-
-
-
-
-  </div>
-
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-class">
-
-
-
-<h4 id="gemseo_umdo.formulations._statistics.taylor_polynomial.margin.StandardDeviation" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">StandardDeviation</span>
-
-
-<a href="#gemseo_umdo.formulations._statistics.taylor_polynomial.margin.StandardDeviation" class="headerlink" title="Permanent link">&para;</a></h4>
-<div class="doc-signature highlight"><pre><span></span><code><span class="nf">StandardDeviation</span><span class="p">(</span><span class="n">uncertain_space</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.algos.parameter_space.ParameterSpace" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.algos.parameter_space.html#gemseo.algos.parameter_space.ParameterSpace">ParameterSpace</a></span><span class="p">)</span>
-</code></pre></div>
-
-    <div class="doc doc-contents ">
-            <p class="doc doc-class-bases">
-              Bases: <code><a class="autorefs autorefs-internal" title="gemseo_umdo.formulations._statistics.taylor_polynomial.variance.Variance" href="../variance/#gemseo_umdo.formulations._statistics.taylor_polynomial.variance.Variance">Variance</a></code></p>
-
-
-      <p>Estimator of the standard deviation.</p>
-
-      <p>Initialize self.  See help(type(self)) for accurate signature.</p>
-
-
-<p><span class="doc-section-title">Parameters:</span></p>
-    <ul>
-        <li class="doc-section-item field-body">
-          <b><code>uncertain_space</code></b>
-              (<code><a class="autorefs autorefs-external" title="gemseo.algos.parameter_space.ParameterSpace" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.algos.parameter_space.html#gemseo.algos.parameter_space.ParameterSpace">ParameterSpace</a></code>)
-          –
-          <div class="doc-md-description">
-            <p>The uncertain variables
-with their probability distributions.</p>
-          </div>
-        </li>
-    </ul>
-
-                  <details class="quote">
-                    <summary>Source code in <code>src/gemseo_umdo/formulations/_statistics/taylor_polynomial/base_taylor_polynomial_estimator.py</code></summary>
-                    <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">38</span>
-<span class="normal">39</span>
-<span class="normal">40</span>
-<span class="normal">41</span>
-<span class="normal">42</span>
-<span class="normal">43</span>
-<span class="normal">44</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uncertain_space</span><span class="p">:</span> <span class="n">ParameterSpace</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Args:</span>
-<span class="sd">        uncertain_space: The uncertain variables</span>
-<span class="sd">            with their probability distributions.</span>
-<span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: D205 D212 D415</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">_standard_deviations</span> <span class="o">=</span> <span class="n">uncertain_space</span><span class="o">.</span><span class="n">distribution</span><span class="o">.</span><span class="n">standard_deviation</span>
 </code></pre></div></td></tr></table></div>
                   </details>
 
