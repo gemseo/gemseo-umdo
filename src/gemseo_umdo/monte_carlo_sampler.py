@@ -54,8 +54,7 @@ class MonteCarloSampler:
         Args:
             input_space: The input space on which to sample the functions.
         """  # noqa:D205 D212 D415
-        self.__algo = OpenTURNS()
-        self.__algo.algo_name = "OT_MONTE_CARLO"
+        self.__algo = OpenTURNS("OT_MONTE_CARLO")
         self.__functions = []
         self.__input_space = input_space
         self.__input_histories = []

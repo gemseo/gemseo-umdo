@@ -67,8 +67,7 @@ def pce_regressor(ishigami_problem) -> PCERegressor:
 
 @pytest.fixture(scope="module")
 def samples(ishigami_problem) -> RealArray:
-    lib = OpenTURNS()
-    lib.algo_name = "OT_HALTON"
+    lib = OpenTURNS("OT_HALTON")
     return lib.compute_doe(ishigami_problem.design_space, 20)
 
 

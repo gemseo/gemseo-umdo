@@ -41,7 +41,6 @@ from typing import TYPE_CHECKING
 from typing import Any
 
 from gemseo.algos.doe.factory import DOELibraryFactory
-from gemseo.algos.doe.lib_openturns import OpenTURNS
 from gemseo.algos.optimization_problem import OptimizationProblem
 from gemseo.core.discipline import MDODiscipline
 from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
@@ -61,7 +60,7 @@ if TYPE_CHECKING:
     from collections.abc import Sequence
 
     from gemseo.algos.design_space import DesignSpace
-    from gemseo.algos.doe.doe_library import DOELibrary
+    from gemseo.algos.doe.base_doe_library import BaseDOELibrary
     from gemseo.algos.parameter_space import ParameterSpace
     from gemseo.formulations.mdo_formulation import MDOFormulation
     from gemseo.typing import RealArray
@@ -77,7 +76,7 @@ class ControlVariate(BaseUMDOFormulation):
         for more information about the available DOE algorithm names and options.
     """
 
-    __doe_algo: DOELibrary
+    __doe_algo: BaseDOELibrary
     """The DOE algorithm to sample the uncertain problem."""
 
     __doe_algo_options: dict[str, Any]
@@ -105,7 +104,7 @@ class ControlVariate(BaseUMDOFormulation):
         objective_statistic_parameters: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
         maximize_objective: bool = False,
         grammar_type: MDODiscipline.GrammarType = MDODiscipline.GrammarType.JSON,
-        algo: str = OpenTURNS.OT_LHSO,
+        algo: str = "OT_OPT_LHS",
         algo_options: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
         seed: int = SEED,
         **options: Any,
@@ -156,7 +155,7 @@ class ControlVariate(BaseUMDOFormulation):
         return self.__linearization_problem
 
     @property
-    def doe_algo(self) -> DOELibrary:
+    def doe_algo(self) -> BaseDOELibrary:
         """The DOE library configured with an algorithm."""
         return self.__doe_algo
 

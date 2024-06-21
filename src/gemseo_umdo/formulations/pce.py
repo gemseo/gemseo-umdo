@@ -43,9 +43,7 @@ from typing import TYPE_CHECKING
 from typing import Any
 from typing import Callable
 
-from gemseo.algos.doe.doe_library import DOELibrary
 from gemseo.algos.doe.factory import DOELibraryFactory
-from gemseo.algos.doe.lib_openturns import OpenTURNS
 from gemseo.core.discipline import MDODiscipline
 from gemseo.mlearning.regression.quality.factory import RegressorQualityFactory
 from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
@@ -65,6 +63,7 @@ if TYPE_CHECKING:
     from collections.abc import Sequence
 
     from gemseo.algos.design_space import DesignSpace
+    from gemseo.algos.doe.base_doe_library import BaseDOELibrary
     from gemseo.algos.optimization_problem import OptimizationProblem
     from gemseo.algos.parameter_space import ParameterSpace
     from gemseo.datasets.io_dataset import IODataset
@@ -85,7 +84,7 @@ class PCE(BaseUMDOFormulation):
         for more information about the available DOE algorithm names and options.
     """
 
-    __doe_algo: DOELibrary
+    __doe_algo: BaseDOELibrary
     """The DOE library to execute the DOE algorithm."""
 
     __doe_algo_options: dict[str, Any]
@@ -137,7 +136,7 @@ class PCE(BaseUMDOFormulation):
         objective_statistic_parameters: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
         maximize_objective: bool = False,
         grammar_type: MDODiscipline.GrammarType = MDODiscipline.GrammarType.JSON,
-        doe_algo: str = OpenTURNS.OT_LHSO,
+        doe_algo: str = "OT_OPT_LHS",
         doe_algo_options: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
         doe_n_samples: int | None = None,
         doe_seed: int = SEED,
@@ -187,17 +186,17 @@ class PCE(BaseUMDOFormulation):
         self._statistic_function_class = StatisticFunctionForPCE
         self.__doe_algo = DOELibraryFactory().create(doe_algo)
         self.__doe_algo_options = dict(doe_algo_options)
-        if DOELibrary.N_SAMPLES in self.__doe_algo.option_grammar:
+        if "n_samples" in self.__doe_algo._option_grammar:
             if doe_n_samples is None:
                 msg = (
                     "The doe_n_samples argument of the U-MDO formulation 'PCE' "
                     "is required."
                 )
                 raise ValueError(msg)
-            self.__doe_algo_options[DOELibrary.N_SAMPLES] = doe_n_samples
+            self.__doe_algo_options["n_samples"] = doe_n_samples
 
-        if DOELibrary.SEED in self.__doe_algo.option_grammar:
-            self.__doe_algo_options[DOELibrary.SEED] = doe_seed
+        if "seed" in self.__doe_algo._option_grammar:
+            self.__doe_algo_options["seed"] = doe_seed
 
         self.__n_samples = doe_n_samples
         self._estimators = []
