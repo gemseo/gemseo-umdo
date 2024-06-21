@@ -41,10 +41,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING
 from typing import Any
 
-from gemseo.algos.doe.doe_library import CallbackType
-from gemseo.algos.doe.doe_library import DOELibrary
 from gemseo.algos.doe.factory import DOELibraryFactory
-from gemseo.algos.doe.lib_openturns import OpenTURNS
 from gemseo.core.discipline import MDODiscipline
 from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
 from gemseo.utils.logging_tools import LoggingContext
@@ -69,6 +66,8 @@ if TYPE_CHECKING:
     from collections.abc import Sequence
 
     from gemseo.algos.design_space import DesignSpace
+    from gemseo.algos.doe.base_doe_library import BaseDOELibrary
+    from gemseo.algos.doe.base_doe_library import CallbackType
     from gemseo.algos.optimization_problem import OptimizationProblem
     from gemseo.algos.parameter_space import ParameterSpace
     from gemseo.formulations.mdo_formulation import MDOFormulation
@@ -88,7 +87,7 @@ class Sampling(BaseUMDOFormulation):
     _estimate_statistics_iteratively: bool
     """Whether to estimate the statistics iteratively."""
 
-    __doe_algo: DOELibrary
+    __doe_algo: BaseDOELibrary
     """The DOE library to execute the DOE algorithm."""
 
     __doe_algo_options: dict[str, Any]
@@ -115,7 +114,7 @@ class Sampling(BaseUMDOFormulation):
         objective_statistic_parameters: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
         maximize_objective: bool = False,
         grammar_type: MDODiscipline.GrammarType = MDODiscipline.GrammarType.JSON,
-        algo: str = OpenTURNS.OT_LHSO,
+        algo: str = "OT_OPT_LHS",
         algo_options: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
         seed: int = SEED,
         estimate_statistics_iteratively: bool = True,
@@ -165,17 +164,15 @@ class Sampling(BaseUMDOFormulation):
 
         self.__doe_algo = DOELibraryFactory().create(algo)
         self.__doe_algo_options = dict(algo_options)
-        self.__doe_algo_options[
-            DOELibrary.USE_DATABASE_OPTION
-        ] = not estimate_statistics_iteratively
-        if DOELibrary.N_SAMPLES in self.__doe_algo.option_grammar:
+        self.__doe_algo_options["use_database"] = not estimate_statistics_iteratively
+        if "n_samples" in self.__doe_algo._option_grammar:
             if n_samples is None:
                 msg = "Sampling: n_samples is required."
                 raise ValueError(msg)
-            self.__doe_algo_options[DOELibrary.N_SAMPLES] = n_samples
+            self.__doe_algo_options["n_samples"] = n_samples
 
-        if DOELibrary.SEED in self.__doe_algo.option_grammar:
-            self.__doe_algo_options[DOELibrary.SEED] = seed
+        if "seed" in self.__doe_algo._option_grammar:
+            self.__doe_algo_options["seed"] = seed
 
         self.__n_samples = n_samples
         self._estimators = []
@@ -198,14 +195,14 @@ class Sampling(BaseUMDOFormulation):
     @property
     def _n_samples(self) -> int | None:
         """The number of samples, if defined."""
-        return self.__doe_algo_options.get(DOELibrary.N_SAMPLES)
+        return self.__doe_algo_options.get("n_samples")
 
     @_n_samples.setter
     def _n_samples(self, value: int) -> None:
-        self.__doe_algo_options[DOELibrary.N_SAMPLES] = value
+        self.__doe_algo_options["n_samples"] = value
 
     @property
-    def _algo(self) -> DOELibrary:
+    def _algo(self) -> BaseDOELibrary:
         """The DOE algorithm."""
         return self.__doe_algo
 
