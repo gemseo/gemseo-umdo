@@ -6266,7 +6266,7 @@ with an optimized Latin hypercube sampling technique.</p>
     <span class="n">disciplines</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="collections.abc.Sequence" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Sequence">Sequence</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" title="gemseo.core.discipline.MDODiscipline" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.core.discipline.html#gemseo.core.discipline.MDODiscipline">MDODiscipline</a></span><span class="p">],</span>
     <span class="n">objective_name</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">,</span>
     <span class="n">design_space</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.algos.design_space.DesignSpace" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.algos.design_space.html#gemseo.algos.design_space.DesignSpace">DesignSpace</a></span><span class="p">,</span>
-    <span class="n">mdo_formulation</span><span class="p">:</span> <span class="n"><span title="gemseo.formulations.mdo_formulation.MDOFormulation">MDOFormulation</span></span><span class="p">,</span>
+    <span class="n">mdo_formulation</span><span class="p">:</span> <span class="n"><span title="gemseo.formulations.base_mdo_formulation.BaseMDOFormulation">BaseMDOFormulation</span></span><span class="p">,</span>
     <span class="n">uncertain_space</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.algos.parameter_space.ParameterSpace" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.algos.parameter_space.html#gemseo.algos.parameter_space.ParameterSpace">ParameterSpace</a></span><span class="p">,</span>
     <span class="n">objective_statistic_name</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">,</span>
     <span class="n">n_samples</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></span><span class="p">,</span>
@@ -6331,7 +6331,7 @@ If multiple names are passed, the objective will be a vector.</p>
         </li>
         <li class="doc-section-item field-body">
           <b><code>mdo_formulation</code></b>
-              (<code><span title="gemseo.formulations.mdo_formulation.MDOFormulation">MDOFormulation</span></code>)
+              (<code><span title="gemseo.formulations.base_mdo_formulation.BaseMDOFormulation">BaseMDOFormulation</span></code>)
           –
           <div class="doc-md-description">
             <p>The class name of the MDO formulation, e.g. "MDF".</p>
@@ -6552,7 +6552,7 @@ whereas it is required by the DOE algorithm.</p>
     <span class="n">disciplines</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">MDODiscipline</span><span class="p">],</span>
     <span class="n">objective_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">design_space</span><span class="p">:</span> <span class="n">DesignSpace</span><span class="p">,</span>
-    <span class="n">mdo_formulation</span><span class="p">:</span> <span class="n">MDOFormulation</span><span class="p">,</span>
+    <span class="n">mdo_formulation</span><span class="p">:</span> <span class="n">BaseMDOFormulation</span><span class="p">,</span>
     <span class="n">uncertain_space</span><span class="p">:</span> <span class="n">ParameterSpace</span><span class="p">,</span>
     <span class="n">objective_statistic_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">n_samples</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
@@ -6690,7 +6690,7 @@ whereas it is required by the DOE algorithm.</p>
   </span>
 
 <a href="#gemseo_umdo.formulations.sequential_sampling.SequentialSampling.mdo_formulation" class="headerlink" title="Permanent link">&para;</a></h6>
-<div class="doc-signature highlight"><pre><span></span><code><span class="n">mdo_formulation</span><span class="p">:</span> <span class="n"><span title="gemseo.formulations.mdo_formulation.MDOFormulation">MDOFormulation</span></span>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">mdo_formulation</span><span class="p">:</span> <span class="n"><span title="gemseo.formulations.base_mdo_formulation.BaseMDOFormulation">BaseMDOFormulation</span></span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -6737,8 +6737,8 @@ whereas it is required by the DOE algorithm.</p>
     <span class="n">output_name</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span> <span class="o">|</span> <span class="n"><a class="autorefs autorefs-external" title="collections.abc.Sequence" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Sequence">Sequence</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">],</span>
     <span class="n">statistic_name</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">,</span>
     <span class="n">constraint_type</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.core.mdofunctions.mdo_function.MDOFunction.ConstraintType" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.core.mdofunctions.mdo_function.html#gemseo.core.mdofunctions.mdo_function.MDOFunction.ConstraintType">ConstraintType</a></span> <span class="o">=</span> <span class="n">MDOFunction</span><span class="o">.</span><span class="n">ConstraintType</span><span class="o">.</span><span class="n">INEQ</span><span class="p">,</span>
-    <span class="n">constraint_name</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">value</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">constraint_name</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">value</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
     <span class="n">positive</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="o">**</span><span class="n">statistic_parameters</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
@@ -6787,8 +6787,8 @@ a single discipline must provide all outputs.</p>
         </li>
         <li class="doc-section-item field-body">
           <b><code>constraint_name</code></b>
-              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a> | None</code>, default:
-                  <code>None</code>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>, default:
+                  <code>&#39;&#39;</code>
 )
           –
           <div class="doc-md-description">
@@ -6800,8 +6800,8 @@ from <code>output_name</code>, <code>constraint_type</code>, <code>value</code> 
         </li>
         <li class="doc-section-item field-body">
           <b><code>value</code></b>
-              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a> | None</code>, default:
-                  <code>None</code>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></code>, default:
+                  <code>0.0</code>
 )
           –
           <div class="doc-md-description">
@@ -6877,8 +6877,8 @@ from <code>output_name</code>, <code>constraint_type</code>, <code>value</code> 
     <span class="n">output_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
     <span class="n">statistic_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">constraint_type</span><span class="p">:</span> <span class="n">MDOFunction</span><span class="o">.</span><span class="n">ConstraintType</span> <span class="o">=</span> <span class="n">MDOFunction</span><span class="o">.</span><span class="n">ConstraintType</span><span class="o">.</span><span class="n">INEQ</span><span class="p">,</span>
-    <span class="n">constraint_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">value</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">constraint_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">value</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
     <span class="n">positive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="o">**</span><span class="n">statistic_parameters</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -6900,12 +6900,12 @@ from <code>output_name</code>, <code>constraint_type</code>, <code>value</code> 
     <span class="p">)</span>
     <span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__compute_name</span><span class="p">(</span><span class="n">output_name</span><span class="p">,</span> <span class="n">statistic_name</span><span class="p">,</span> <span class="o">**</span><span class="n">statistic_parameters</span><span class="p">)</span>
     <span class="n">constraint</span><span class="o">.</span><span class="n">output_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">name</span><span class="p">]</span>
-    <span class="k">if</span> <span class="n">constraint_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">constraint</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-        <span class="n">constraint</span><span class="o">.</span><span class="n">has_default_name</span> <span class="o">=</span> <span class="kc">True</span>
-    <span class="k">else</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">constraint_name</span><span class="p">:</span>
         <span class="n">constraint</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">constraint_name</span>
         <span class="n">constraint</span><span class="o">.</span><span class="n">has_default_name</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">constraint</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="n">constraint</span><span class="o">.</span><span class="n">has_default_name</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">optimization_problem</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span>
         <span class="n">constraint</span><span class="p">,</span>
         <span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">,</span>
