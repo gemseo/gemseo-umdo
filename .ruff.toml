@@ -47,6 +47,8 @@ ignore = [
     "ANN102",
     # Dynamically typed expressions (typing.Any) are disallowed.
     "ANN401",
+    # NumPy 2
+    "NPY201"
 ]
 select = [
     "A",

@@ -67,7 +67,7 @@ if TYPE_CHECKING:
     from gemseo.algos.optimization_problem import OptimizationProblem
     from gemseo.algos.parameter_space import ParameterSpace
     from gemseo.datasets.io_dataset import IODataset
-    from gemseo.formulations.mdo_formulation import MDOFormulation
+    from gemseo.formulations.base_mdo_formulation import BaseMDOFormulation
     from gemseo.mlearning.regression.quality.base_regressor_quality import (
         BaseRegressorQuality,
     )
@@ -130,7 +130,7 @@ class PCE(BaseUMDOFormulation):
         disciplines: Sequence[MDODiscipline],
         objective_name: str,
         design_space: DesignSpace,
-        mdo_formulation: MDOFormulation,
+        mdo_formulation: BaseMDOFormulation,
         uncertain_space: ParameterSpace,
         objective_statistic_name: str,
         objective_statistic_parameters: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
