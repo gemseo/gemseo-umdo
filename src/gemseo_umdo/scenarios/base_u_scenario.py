@@ -39,7 +39,7 @@ if TYPE_CHECKING:
 
     from gemseo.algos.design_space import DesignSpace
     from gemseo.algos.parameter_space import ParameterSpace
-    from gemseo.formulations.mdo_formulation import MDOFormulation
+    from gemseo.formulations.base_mdo_formulation import BaseMDOFormulation
 
 
 class BaseUScenario(Scenario):
@@ -62,7 +62,7 @@ class BaseUScenario(Scenario):
         uncertain_design_variables: Mapping[
             str, str | tuple[str, str]
         ] = READ_ONLY_EMPTY_DICT,
-        name: str | None = None,
+        name: str = "",
         grammar_type: MDODiscipline.GrammarType = MDODiscipline.GrammarType.JSON,
         maximize_objective: bool = False,
         **formulation_options: Any,
@@ -214,8 +214,8 @@ class BaseUScenario(Scenario):
         output_name: str | Sequence[str],
         statistic_name: str,
         constraint_type: MDOFunction.ConstraintType = MDOFunction.ConstraintType.INEQ,
-        constraint_name: str | None = None,
-        value: float | None = None,
+        constraint_name: str = "",
+        value: float = 0,
         positive: bool = False,
         **statistic_parameters: Any,
     ) -> None:
@@ -241,7 +241,7 @@ class BaseUScenario(Scenario):
         self,
         output_names: Sequence[str],
         statistic_name: str,
-        observable_name: Sequence[str] | None = None,
+        observable_name: str = "",
         discipline: MDODiscipline | None = None,
         **statistic_parameters: Any,
     ) -> None:
@@ -283,7 +283,7 @@ class BaseUScenario(Scenario):
         return self.formulation.uncertain_space
 
     @property
-    def mdo_formulation(self) -> MDOFormulation:
+    def mdo_formulation(self) -> BaseMDOFormulation:
         """The MDO formulation."""
         return self.formulation.mdo_formulation
 

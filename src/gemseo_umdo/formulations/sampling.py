@@ -70,7 +70,7 @@ if TYPE_CHECKING:
     from gemseo.algos.doe.base_doe_library import CallbackType
     from gemseo.algos.optimization_problem import OptimizationProblem
     from gemseo.algos.parameter_space import ParameterSpace
-    from gemseo.formulations.mdo_formulation import MDOFormulation
+    from gemseo.formulations.base_mdo_formulation import BaseMDOFormulation
     from gemseo.typing import RealArray
 
 
@@ -107,7 +107,7 @@ class Sampling(BaseUMDOFormulation):
         disciplines: Sequence[MDODiscipline],
         objective_name: str,
         design_space: DesignSpace,
-        mdo_formulation: MDOFormulation,
+        mdo_formulation: BaseMDOFormulation,
         uncertain_space: ParameterSpace,
         objective_statistic_name: str,
         n_samples: int | None = None,
@@ -223,7 +223,7 @@ class Sampling(BaseUMDOFormulation):
 
         if self.__samples_directory_path:
             main_problem = self.optimization_problem
-            iteration = main_problem.current_iter + 1
+            iteration = main_problem.evaluation_counter.current + 1
             dataset = problem.to_dataset(f"Iteration {iteration}", opt_naming=False)
             dataset.misc.update(main_problem.design_space.array_to_dict(input_data))
             dataset.to_pickle(self.__samples_directory_path / f"{iteration}.pkl")

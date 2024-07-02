@@ -65,7 +65,7 @@ class StatisticFunctionForTaylorPolynomial(BaseStatisticFunction[TaylorPolynomia
         problem = formulation.mdo_formulation.optimization_problem
         database = problem.database
         formulation.evaluate_with_mean(problem, True)
-        for function in problem.get_all_functions():
+        for function in problem.functions:
             name = function.name
             output_data[name] = atleast_1d(function.last_eval)
             output_data[database.get_gradient_name(name)] = atleast_2d(
@@ -76,7 +76,7 @@ class StatisticFunctionForTaylorPolynomial(BaseStatisticFunction[TaylorPolynomia
 
         if formulation.second_order:
             formulation.evaluate_with_mean(formulation.hessian_fd_problem, False)
-            for function in problem.get_all_functions():
+            for function in problem.functions:
                 hess_name = database.get_gradient_name(
                     database.get_gradient_name(function.name)
                 )

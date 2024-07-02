@@ -55,7 +55,7 @@ if TYPE_CHECKING:
     from gemseo.algos.design_space import DesignSpace
     from gemseo.algos.optimization_problem import OptimizationProblem
     from gemseo.algos.parameter_space import ParameterSpace
-    from gemseo.formulations.mdo_formulation import MDOFormulation
+    from gemseo.formulations.base_mdo_formulation import BaseMDOFormulation
     from gemseo.typing import RealArray
 
 
@@ -80,7 +80,7 @@ class SequentialSampling(Sampling):
         disciplines: Sequence[MDODiscipline],
         objective_name: str,
         design_space: DesignSpace,
-        mdo_formulation: MDOFormulation,
+        mdo_formulation: BaseMDOFormulation,
         uncertain_space: ParameterSpace,
         objective_statistic_name: str,
         n_samples: int,

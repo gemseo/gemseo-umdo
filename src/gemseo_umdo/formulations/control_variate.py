@@ -62,7 +62,7 @@ if TYPE_CHECKING:
     from gemseo.algos.design_space import DesignSpace
     from gemseo.algos.doe.base_doe_library import BaseDOELibrary
     from gemseo.algos.parameter_space import ParameterSpace
-    from gemseo.formulations.mdo_formulation import MDOFormulation
+    from gemseo.formulations.base_mdo_formulation import BaseMDOFormulation
     from gemseo.typing import RealArray
 
 
@@ -97,7 +97,7 @@ class ControlVariate(BaseUMDOFormulation):
         disciplines: Sequence[MDODiscipline],
         objective_name: str,
         design_space: DesignSpace,
-        mdo_formulation: MDOFormulation,
+        mdo_formulation: BaseMDOFormulation,
         uncertain_space: ParameterSpace,
         objective_statistic_name: str,
         n_samples: int | None,
@@ -184,10 +184,17 @@ class ControlVariate(BaseUMDOFormulation):
 
     def evaluate_with_mean(self) -> None:
         """Evaluate the Taylor polynomials at the mean value of the uncertain vector."""
-        if self.__linearization_problem.nonproc_objective is None:
-            self.__linearization_problem.preprocess_functions(
+        problem = self.__linearization_problem
+        objective = problem.objective
+        if objective is objective.original:
+            problem.preprocess_functions(
                 is_function_input_normalized=False, eval_obs_jac=True
             )
-        self.__linearization_problem.evaluate_functions(
-            self._uncertain_space.distribution.mean, eval_jac=True
+        output_functions, jacobian_functions = problem.get_functions(
+            observable_names=(), jacobian_names=()
+        )
+        problem.evaluate_functions(
+            self._uncertain_space.distribution.mean,
+            output_functions=output_functions,
+            jacobian_functions=jacobian_functions,
         )

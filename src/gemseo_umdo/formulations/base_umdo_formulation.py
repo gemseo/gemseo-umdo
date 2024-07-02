@@ -37,7 +37,7 @@ if TYPE_CHECKING:
     from gemseo.algos.parameter_space import ParameterSpace
     from gemseo.core.base_factory import BaseFactory
     from gemseo.core.execution_sequence import ExecutionSequence
-    from gemseo.formulations.mdo_formulation import MDOFormulation
+    from gemseo.formulations.base_mdo_formulation import BaseMDOFormulation
     from gemseo.typing import RealArray
 
     from gemseo_umdo.formulations._functions.base_statistic_function import (
@@ -53,7 +53,7 @@ class BaseUMDOFormulation(BaseFormulation):
     uncertainty.
     """
 
-    _mdo_formulation: MDOFormulation
+    _mdo_formulation: BaseMDOFormulation
     """The MDO formulation used by the U-MDO formulation over the uncertain space."""
 
     _statistic_factory: BaseFactory
@@ -77,7 +77,7 @@ class BaseUMDOFormulation(BaseFormulation):
         disciplines: Sequence[MDODiscipline],
         objective_name: str,
         design_space: DesignSpace,
-        mdo_formulation: MDOFormulation,
+        mdo_formulation: BaseMDOFormulation,
         uncertain_space: ParameterSpace,
         objective_statistic_name: str,
         objective_statistic_parameters: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
@@ -124,7 +124,7 @@ class BaseUMDOFormulation(BaseFormulation):
         self.optimization_problem.minimize_objective = not maximize_objective
         self.name = f"{self.__class__.__name__}[{mdo_formulation.__class__.__name__}]"
         self.input_data_to_output_data = {}
-        self.optimization_problem.add_callback(self._clear_input_data_to_output_data)
+        self.optimization_problem.add_listener(self._clear_input_data_to_output_data)
 
     def _clear_input_data_to_output_data(self, x_vect: RealArray) -> None:
         """Clear the attribute `input_data_to_output_data`.
@@ -135,7 +135,7 @@ class BaseUMDOFormulation(BaseFormulation):
         self.input_data_to_output_data.clear()
 
     @property
-    def mdo_formulation(self) -> MDOFormulation:
+    def mdo_formulation(self) -> BaseMDOFormulation:
         """The MDO formulation."""
         return self._mdo_formulation
 
@@ -188,8 +188,8 @@ class BaseUMDOFormulation(BaseFormulation):
         output_name: str | Sequence[str],
         statistic_name: str,
         constraint_type: MDOFunction.ConstraintType = MDOFunction.ConstraintType.INEQ,
-        constraint_name: str | None = None,
-        value: float | None = None,
+        constraint_name: str = "",
+        value: float = 0.0,
         positive: bool = False,
         **statistic_parameters: Any,
     ) -> None:
@@ -211,12 +211,12 @@ class BaseUMDOFormulation(BaseFormulation):
         )
         name = self.__compute_name(output_name, statistic_name, **statistic_parameters)
         constraint.output_names = [name]
-        if constraint_name is None:
-            constraint.name = name
-            constraint.has_default_name = True
-        else:
+        if constraint_name:
             constraint.name = constraint_name
             constraint.has_default_name = False
+        else:
+            constraint.name = name
+            constraint.has_default_name = True
         self.optimization_problem.add_constraint(
             constraint,
             value=value,

@@ -59,7 +59,7 @@ if TYPE_CHECKING:
 
     from gemseo.algos.design_space import DesignSpace
     from gemseo.algos.parameter_space import ParameterSpace
-    from gemseo.formulations.mdo_formulation import MDOFormulation
+    from gemseo.formulations.base_mdo_formulation import BaseMDOFormulation
 
 
 class TaylorPolynomial(BaseUMDOFormulation):
@@ -79,7 +79,7 @@ class TaylorPolynomial(BaseUMDOFormulation):
         disciplines: Sequence[MDODiscipline],
         objective_name: str,
         design_space: DesignSpace,
-        mdo_formulation: MDOFormulation,
+        mdo_formulation: BaseMDOFormulation,
         uncertain_space: ParameterSpace,
         objective_statistic_name: str,
         objective_statistic_parameters: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
@@ -112,9 +112,6 @@ class TaylorPolynomial(BaseUMDOFormulation):
         )
 
         self.__hessian_fd_problem = None
-        finite_differences = (
-            self.optimization_problem.ApproximationMode.FINITE_DIFFERENCES
-        )
         if self.__second_order:
             problem = self._mdo_formulation.optimization_problem
             self.__hessian_fd_problem = OptimizationProblem(self.uncertain_space)
@@ -123,7 +120,9 @@ class TaylorPolynomial(BaseUMDOFormulation):
         problem = self._mdo_formulation.optimization_problem
         problem.differentiation_method = differentiation_method
         problem.design_space = problem.design_space.to_design_space()
-        self.optimization_problem.differentiation_method = finite_differences
+        self.optimization_problem.differentiation_method = (
+            self.optimization_problem.ApproximationMode.FINITE_DIFFERENCES
+        )
         self.optimization_problem.fd_step = 1e-6
 
     @property
@@ -141,8 +140,8 @@ class TaylorPolynomial(BaseUMDOFormulation):
         output_name: str | Sequence[str],
         statistic_name: str,
         constraint_type: MDOFunction.ConstraintType = MDOFunction.ConstraintType.INEQ,
-        constraint_name: str | None = None,
-        value: float | None = None,
+        constraint_name: str = "",
+        value: float = 0.0,
         positive: bool = False,
         **statistic_parameters: Any,
     ) -> None:
@@ -166,7 +165,7 @@ class TaylorPolynomial(BaseUMDOFormulation):
         self,
         output_names: Sequence[str],
         statistic_name: str,
-        observable_name: Sequence[str] | None = None,
+        observable_name: Sequence[str] = "",
         discipline: MDODiscipline | None = None,
         **statistic_parameters: Any,
     ) -> None:
@@ -191,10 +190,16 @@ class TaylorPolynomial(BaseUMDOFormulation):
             problem: The problem including the functions.
             eval_jac: Whether to evaluate the Jacobian functions.
         """
-        if problem.nonproc_objective is None:
+        objective = problem.objective
+        if objective is objective.original:
             problem.preprocess_functions(
                 is_function_input_normalized=False, eval_obs_jac=eval_jac
             )
+        output_functions, jacobian_functions = problem.get_functions(
+            observable_names=(), jacobian_names=() if eval_jac else None
+        )
         problem.evaluate_functions(
-            self._uncertain_space.distribution.mean, eval_jac=eval_jac
+            self._uncertain_space.distribution.mean,
+            output_functions=output_functions,
+            jacobian_functions=jacobian_functions,
         )
