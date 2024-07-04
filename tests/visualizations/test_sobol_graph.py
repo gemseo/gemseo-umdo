@@ -115,7 +115,8 @@ def test_threshold(
 
 def test_from_analysis(tmp_wd):
     """Check the image computed from a Sobol' analysis."""
-    analysis = SobolAnalysis([IshigamiDiscipline()], IshigamiSpace(), 100)
+    analysis = SobolAnalysis()
+    analysis.compute_samples([IshigamiDiscipline()], IshigamiSpace(), 100)
     analysis.compute_indices()
     file_name = "from_analysis.png"
     SobolGraph.from_analysis(analysis, "y").visualize(

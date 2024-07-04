@@ -42,7 +42,8 @@ disciplines = [Sellar1(), Sellar2(), SellarSystem()]
 # %%
 # Thirdly,
 # we compute the Sobol' indices for all the outputs of the MDO problem:
-sobol_analysis = SobolAnalysis(disciplines, design_space, 100)
+sobol_analysis = SobolAnalysis()
+sobol_analysis.compute_samples(disciplines, design_space, 100)
 sobol_analysis.compute_indices()
 
 # %%

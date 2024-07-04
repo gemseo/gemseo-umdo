@@ -157,13 +157,11 @@ class SobolGraph(GraphView):
             The Sobol' graph associated with this Sobol' analysis.
         """
         return cls(
-            cls.__preprocess(
-                analysis.first_order_indices[output_name][output_component]
-            ),
+            cls.__preprocess(analysis.indices.first[output_name][output_component]),
             second_order_indices=cls.__preprocess_second_order(
-                analysis.second_order_indices[output_name][output_component]
+                analysis.indices.second[output_name][output_component]
             ),
             total_order_indices=cls.__preprocess(
-                analysis.total_order_indices[output_name][output_component]
+                analysis.indices.total[output_name][output_component]
             ),
         )
