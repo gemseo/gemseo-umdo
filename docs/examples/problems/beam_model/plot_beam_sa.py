@@ -38,7 +38,8 @@ n_y = n_z = 10
 
 mdo_chain = MDOChain([Beam(n_y=n_y, n_z=n_z), BeamConstraints()])
 
-sobol = SobolAnalysis(
+sobol = SobolAnalysis()
+sobol.compute_samples(
     [mdo_chain], uncertain_space, 500, output_names=["c_displ", "c_stress"]
 )
 mesh = mdo_chain.disciplines[0].local_data["yz_grid"].reshape((-1, 2))
