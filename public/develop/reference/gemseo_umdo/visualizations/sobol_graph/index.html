@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../../../../images/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.27">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.28">
     
     
       
@@ -6404,9 +6404,7 @@ and the corresponding edge plotted.</p>
 <span class="normal">164</span>
 <span class="normal">165</span>
 <span class="normal">166</span>
-<span class="normal">167</span>
-<span class="normal">168</span>
-<span class="normal">169</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">167</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">from_analysis</span><span class="p">(</span>
     <span class="bp">cls</span><span class="p">,</span> <span class="n">analysis</span><span class="p">:</span> <span class="n">SobolAnalysis</span><span class="p">,</span> <span class="n">output_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">output_component</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SobolGraph</span><span class="p">:</span>
@@ -6421,14 +6419,12 @@ and the corresponding edge plotted.</p>
 <span class="sd">        The Sobol&#39; graph associated with this Sobol&#39; analysis.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
-        <span class="bp">cls</span><span class="o">.</span><span class="n">__preprocess</span><span class="p">(</span>
-            <span class="n">analysis</span><span class="o">.</span><span class="n">first_order_indices</span><span class="p">[</span><span class="n">output_name</span><span class="p">][</span><span class="n">output_component</span><span class="p">]</span>
-        <span class="p">),</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">__preprocess</span><span class="p">(</span><span class="n">analysis</span><span class="o">.</span><span class="n">indices</span><span class="o">.</span><span class="n">first</span><span class="p">[</span><span class="n">output_name</span><span class="p">][</span><span class="n">output_component</span><span class="p">]),</span>
         <span class="n">second_order_indices</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">__preprocess_second_order</span><span class="p">(</span>
-            <span class="n">analysis</span><span class="o">.</span><span class="n">second_order_indices</span><span class="p">[</span><span class="n">output_name</span><span class="p">][</span><span class="n">output_component</span><span class="p">]</span>
+            <span class="n">analysis</span><span class="o">.</span><span class="n">indices</span><span class="o">.</span><span class="n">second</span><span class="p">[</span><span class="n">output_name</span><span class="p">][</span><span class="n">output_component</span><span class="p">]</span>
         <span class="p">),</span>
         <span class="n">total_order_indices</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">__preprocess</span><span class="p">(</span>
-            <span class="n">analysis</span><span class="o">.</span><span class="n">total_order_indices</span><span class="p">[</span><span class="n">output_name</span><span class="p">][</span><span class="n">output_component</span><span class="p">]</span>
+            <span class="n">analysis</span><span class="o">.</span><span class="n">indices</span><span class="o">.</span><span class="n">total</span><span class="p">[</span><span class="n">output_name</span><span class="p">][</span><span class="n">output_component</span><span class="p">]</span>
         <span class="p">),</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
@@ -6502,7 +6498,7 @@ and the corresponding edge plotted.</p>
     <script id="__config" type="application/json">{"base": "../../../..", "features": ["navigation.tabs", "navigation.instant", "navigation.indexes"], "search": "../../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../../../assets/javascripts/bundle.ad660dcc.min.js"></script>
+      <script src="../../../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
       
         <script src="../../../../javascripts/mathjax.js"></script>
       
