@@ -38,7 +38,7 @@ from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 if TYPE_CHECKING:
     from gemseo.core.discipline import MDODiscipline
 
-AVAILABLE_FORMULATIONS = UMDOFormulationsFactory().formulations
+AVAILABLE_FORMULATIONS = UMDOFormulationsFactory().class_names
 
 
 @pytest.fixture()

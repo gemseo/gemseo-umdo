@@ -63,7 +63,8 @@ disciplines = [
 # %%
 # Thirdly,
 # we compute the Sobol' indices for all the outputs of the MDO problem:
-sobol_analysis = SobolAnalysis(disciplines, uncertain_space, 100)
+sobol_analysis = SobolAnalysis()
+sobol_analysis.compute_samples(disciplines, uncertain_space, 100)
 sobol_analysis.compute_indices()
 
 # %%
