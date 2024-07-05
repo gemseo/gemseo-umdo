@@ -41,7 +41,7 @@ if TYPE_CHECKING:
 AVAILABLE_FORMULATIONS = UMDOFormulationsFactory().class_names
 
 
-@pytest.fixture()
+@pytest.fixture
 def disciplines() -> list[MDODiscipline]:
     """Three simple disciplines."""
     disc0 = AnalyticDiscipline(
@@ -52,7 +52,7 @@ def disciplines() -> list[MDODiscipline]:
     return [disc0, disc1, disc2]
 
 
-@pytest.fixture()
+@pytest.fixture
 def design_space() -> DesignSpace:
     """The space of local and global design variables."""
     space = DesignSpace()
@@ -62,7 +62,7 @@ def design_space() -> DesignSpace:
     return space
 
 
-@pytest.fixture()
+@pytest.fixture
 def uncertain_space() -> ParameterSpace:
     """The space defining the uncertain variable."""
     space = ParameterSpace()
@@ -70,7 +70,7 @@ def uncertain_space() -> ParameterSpace:
     return space
 
 
-@pytest.fixture()
+@pytest.fixture
 def scenario(disciplines, design_space, uncertain_space) -> UMDOScenario:
     """The MDO scenario under uncertainty."""
     scn = UMDOScenario(
