@@ -24,7 +24,7 @@ from gemseo_umdo.disciplines.additive_noiser import AdditiveNoiser
 from gemseo_umdo.disciplines.noiser_factory import NoiserFactory
 
 
-@pytest.fixture()
+@pytest.fixture
 def additive_noiser() -> AdditiveNoiser:
     """An additive noiser."""
     return AdditiveNoiser("foo", "noised_foo", "noise")

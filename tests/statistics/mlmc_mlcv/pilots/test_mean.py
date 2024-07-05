@@ -30,7 +30,7 @@ if TYPE_CHECKING:
     from numpy.typing import NDArray
 
 
-@pytest.fixture()
+@pytest.fixture
 def pilot() -> Mean:
     """The mean-based pilot."""
     return Mean(array([2.0, 2.0, 2.0]), array([1, 2, 3]))

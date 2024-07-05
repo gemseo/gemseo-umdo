@@ -32,7 +32,7 @@ if TYPE_CHECKING:
     from numpy.typing import NDArray
 
 
-@pytest.fixture()
+@pytest.fixture
 def input_space() -> DesignSpace:
     """The input space on which to sample the functions."""
     design_space = DesignSpace()
@@ -40,7 +40,7 @@ def input_space() -> DesignSpace:
     return design_space
 
 
-@pytest.fixture()
+@pytest.fixture
 def functions() -> tuple[FunctionType, FunctionType]:
     """The functions to be sampled."""
 
@@ -56,7 +56,7 @@ def functions() -> tuple[FunctionType, FunctionType]:
     return f, g
 
 
-@pytest.fixture()
+@pytest.fixture
 def sampler(
     input_space: DesignSpace, functions: list[FunctionType]
 ) -> MonteCarloSampler:

@@ -29,7 +29,7 @@ if TYPE_CHECKING:
     from gemseo.core.discipline import MDODiscipline
 
 
-@pytest.fixture()
+@pytest.fixture
 def disciplines() -> list[AnalyticDiscipline]:
     """The coupled disciplines."""
     disc0 = AnalyticDiscipline(
@@ -40,7 +40,7 @@ def disciplines() -> list[AnalyticDiscipline]:
     return [disc0, disc1, disc2]
 
 
-@pytest.fixture()
+@pytest.fixture
 def mdf_discipline() -> MDOChain:
     """A monodisciplinary version of `disciplines`."""
     disc0 = AnalyticDiscipline(
@@ -51,7 +51,7 @@ def mdf_discipline() -> MDOChain:
     return MDOChain([disc1, disc2, disc0])
 
 
-@pytest.fixture()
+@pytest.fixture
 def design_space() -> DesignSpace:
     """The design space."""
     space = DesignSpace()
@@ -61,7 +61,7 @@ def design_space() -> DesignSpace:
     return space
 
 
-@pytest.fixture()
+@pytest.fixture
 def uncertain_space() -> ParameterSpace:
     """The uncertain space."""
     space = ParameterSpace()
@@ -71,7 +71,7 @@ def uncertain_space() -> ParameterSpace:
     return space
 
 
-@pytest.fixture()
+@pytest.fixture
 def mdo_formulation(
     disciplines: Sequence[MDODiscipline], uncertain_space: ParameterSpace
 ) -> MDF:

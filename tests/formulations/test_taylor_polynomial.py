@@ -39,7 +39,7 @@ if TYPE_CHECKING:
     from gemseo.core.discipline import MDODiscipline
 
 
-@pytest.fixture()
+@pytest.fixture
 def umdo_formulation(
     disciplines: Sequence[MDODiscipline],
     design_space: DesignSpace,
@@ -61,7 +61,7 @@ def umdo_formulation(
     return formulation
 
 
-@pytest.fixture()
+@pytest.fixture
 def umdo_formulation_with_hessian(
     disciplines: Sequence[MDODiscipline],
     design_space: DesignSpace,
@@ -84,7 +84,7 @@ def umdo_formulation_with_hessian(
     return formulation
 
 
-@pytest.fixture()
+@pytest.fixture
 def scenario_input_data() -> dict[str, str | dict[str, ndarray]]:
     """The input data of the scenario."""
     return {

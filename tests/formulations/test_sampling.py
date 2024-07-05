@@ -68,7 +68,7 @@ if TYPE_CHECKING:
     )
 
 
-@pytest.fixture()
+@pytest.fixture
 def umdo_formulation(
     disciplines: Sequence[MDODiscipline],
     design_space: DesignSpace,
@@ -92,7 +92,7 @@ def umdo_formulation(
     return formulation
 
 
-@pytest.fixture()
+@pytest.fixture
 def mdo_samples(mdf_discipline) -> list[dict[str, ndarray]]:
     """The samples of the MDO formulations at x = [0,0,0] and x = [1,1,1]."""
     return [
@@ -101,7 +101,7 @@ def mdo_samples(mdf_discipline) -> list[dict[str, ndarray]]:
     ]
 
 
-@pytest.fixture()
+@pytest.fixture
 def scenario_input_data() -> dict[str, str | dict[str, ndarray]]:
     """The input data of the scenario."""
     return {"algo": "CustomDOE", "algo_options": {"samples": array([[0.0] * 3])}}
@@ -125,7 +125,7 @@ def maximize_objective(request) -> int:
     return request.param
 
 
-@pytest.fixture()
+@pytest.fixture
 def scenario(
     estimate_statistics_iteratively,
     n_processes,

@@ -44,7 +44,7 @@ if TYPE_CHECKING:
     from gemseo.core.discipline import MDODiscipline
 
 
-@pytest.fixture()
+@pytest.fixture
 def umdo_formulation(
     disciplines: Sequence[MDODiscipline],
     design_space: DesignSpace,
@@ -75,7 +75,7 @@ def algo_data() -> dict[str, Any]:
     return {"algo": "CustomDOE", "algo_options": {"samples": array([[0.0] * 3])}}
 
 
-@pytest.fixture()
+@pytest.fixture
 def scenario(disciplines, design_space, uncertain_space, algo_data) -> UDOEScenario:
     """A DOE-based u-scenario."""
     scn = UDOEScenario(

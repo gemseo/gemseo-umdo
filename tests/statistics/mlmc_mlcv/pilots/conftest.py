@@ -23,7 +23,7 @@ if TYPE_CHECKING:
     from numpy.typing import NDArray
 
 
-@pytest.fixture()
+@pytest.fixture
 def samples() -> list[NDArray[float]]:
     """The samples used to test MLMC-MLCV methods."""
     return [

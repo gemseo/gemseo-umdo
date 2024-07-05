@@ -35,7 +35,7 @@ if TYPE_CHECKING:
     from gemseo.algos.optimization_problem import OptimizationProblem
 
 
-@pytest.fixture()
+@pytest.fixture
 def disciplines() -> list[AnalyticDiscipline]:
     """Three coupled disciplines, with two strongly coupled ones."""
     disc0 = AnalyticDiscipline(
@@ -46,7 +46,7 @@ def disciplines() -> list[AnalyticDiscipline]:
     return [disc0, disc1, disc2]
 
 
-@pytest.fixture()
+@pytest.fixture
 def design_space() -> DesignSpace:
     """The design space containing the global and local design variables."""
     space = DesignSpace()
@@ -56,7 +56,7 @@ def design_space() -> DesignSpace:
     return space
 
 
-@pytest.fixture()
+@pytest.fixture
 def uncertain_space() -> ParameterSpace:
     """The uncertain space containing the random variable."""
     space = ParameterSpace()
@@ -64,7 +64,7 @@ def uncertain_space() -> ParameterSpace:
     return space
 
 
-@pytest.fixture()
+@pytest.fixture
 def mdf(disciplines, uncertain_space) -> MDF:
     """The MDF formulation."""
     return MDF(disciplines, "f", uncertain_space, inner_mda_name="MDAGaussSeidel")
@@ -96,7 +96,7 @@ class MyUMDOFormulation(BaseUMDOFormulation):
         super().__init__(*args, **kwargs)
 
 
-@pytest.fixture()
+@pytest.fixture
 def formulation(disciplines, design_space, mdf, uncertain_space):
     """A dummy formulation with an observable and a constraint."""
     form = MyUMDOFormulation(

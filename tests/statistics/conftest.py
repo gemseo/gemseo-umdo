@@ -23,7 +23,7 @@ if TYPE_CHECKING:
     from numpy import ndarray
 
 
-@pytest.fixture()
+@pytest.fixture
 def model() -> Callable[[ndarray], ndarray]:
     """The model f."""
 

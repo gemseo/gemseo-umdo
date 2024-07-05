@@ -20,7 +20,7 @@ from gemseo.formulations.factory import MDOFormulationFactory
 from gemseo_umdo.formulations.factory import UMDOFormulationsFactory
 
 
-@pytest.fixture()
+@pytest.fixture
 def factory() -> UMDOFormulationsFactory:
     """The factory of BaseUMDOFormulation."""
     return UMDOFormulationsFactory()
