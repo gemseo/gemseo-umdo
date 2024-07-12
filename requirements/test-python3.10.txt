@@ -22,7 +22,7 @@ docstring-inheritance==2.2.0
     # via gemseo
 et-xmlfile==1.1.0
     # via openpyxl
-exceptiongroup==1.2.1
+exceptiongroup==1.2.2
     # via pytest
 execnet==2.1.1
     # via pytest-xdist
@@ -30,7 +30,7 @@ fastjsonschema==2.20.0
     # via gemseo
 fonttools==4.53.1
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@79ee115e78648fd1d35fd2a0461ad8cbfb4092f7
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@54964da6bb8950fbacfd36724168cc144b4b5e7c
     # via
     #   -c requirements/test-constraints.in
     #   gemseo-umdo (pyproject.toml)
