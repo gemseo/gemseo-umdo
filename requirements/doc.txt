@@ -254,7 +254,7 @@ scipy==1.13.1
     #   gemseo
     #   pydoe3
     #   scikit-learn
-setuptools==71.0.3
+setuptools==71.0.4
     # via mkdocs-bibtex
 six==1.16.0
     # via
