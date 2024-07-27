@@ -208,7 +208,7 @@ pydoe3==1.0.3
     # via gemseo
 pygments==2.18.0
     # via mkdocs-material
-pymdown-extensions==10.8.1
+pymdown-extensions==10.9
     # via
     #   mkdocs-material
     #   mkdocstrings
