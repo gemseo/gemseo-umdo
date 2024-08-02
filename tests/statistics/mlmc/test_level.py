@@ -25,7 +25,7 @@ from gemseo_umdo.statistics.multilevel.mlmc.level import Level
 def test_default(model):
     """Check default configuration."""
     level = Level(model)
-    assert level.model(array([1.0])) == array([2.0])
+    assert level.model.evaluate(array([1.0])) == array([2.0])
     assert isinstance(level.model, MDOFunction)
     assert level.model.name == "f"
     assert level.cost is None

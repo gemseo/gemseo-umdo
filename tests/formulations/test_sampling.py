@@ -259,28 +259,34 @@ def test_mdo_formulation_objective(umdo_formulation, mdf_discipline):
     """Check that the MDO formulation can compute the objective correctly."""
     objective = umdo_formulation.mdo_formulation.optimization_problem.objective
     input_data = {name: array([2.0]) for name in ["u", "u1", "u2"]}
-    assert_equal(objective(array([2.0] * 3)), mdf_discipline.execute(input_data)["f"])
+    assert_equal(
+        objective.evaluate(array([2.0] * 3)), mdf_discipline.execute(input_data)["f"]
+    )
 
 
 def test_mdo_formulation_constraint(umdo_formulation, mdf_discipline):
     """Check that the MDO formulation can compute the constraints correctly."""
     constraint = umdo_formulation.mdo_formulation.optimization_problem.observables[0]
     input_data = {name: array([2.0]) for name in ["u", "u1", "u2"]}
-    assert_equal(constraint(array([2.0] * 3)), mdf_discipline.execute(input_data)["c"])
+    assert_equal(
+        constraint.evaluate(array([2.0] * 3)), mdf_discipline.execute(input_data)["c"]
+    )
 
 
 def test_mdo_formulation_observable(umdo_formulation, mdf_discipline):
     """Check that the MDO formulation can compute the observables correctly."""
     observable = umdo_formulation.mdo_formulation.optimization_problem.observables[1]
     input_data = {name: array([2.0]) for name in ["u", "u1", "u2"]}
-    assert_equal(observable(array([2.0] * 3)), mdf_discipline.execute(input_data)["o"])
+    assert_equal(
+        observable.evaluate(array([2.0] * 3)), mdf_discipline.execute(input_data)["o"]
+    )
 
 
 def test_umdo_formulation_objective(umdo_formulation, mdo_samples):
     """Check that the UMDO formulation can compute the objective correctly."""
     objective = umdo_formulation.optimization_problem.objective
     assert_equal(
-        objective(array([0.0] * 3)),
+        objective.evaluate(array([0.0] * 3)),
         sum(mdo_sample["f"][0] for mdo_sample in mdo_samples) / 2,
     )
 
@@ -289,7 +295,7 @@ def test_umdo_formulation_constraint(umdo_formulation, mdo_samples):
     """Check that the UMDO formulation can compute the constraints correctly."""
     constraint = umdo_formulation.optimization_problem.constraints[0]
     assert_equal(
-        constraint(array([0.0] * 3)),
+        constraint.evaluate(array([0.0] * 3)),
         sum(mdo_sample["c"][0] for mdo_sample in mdo_samples) / 2,
     )
 
@@ -298,7 +304,7 @@ def test_umdo_formulation_observable(umdo_formulation, mdo_samples):
     """Check that the UMDO formulation can compute the observables correctly."""
     observable = umdo_formulation.optimization_problem.observables[0]
     assert_equal(
-        observable(array([0.0] * 3)),
+        observable.evaluate(array([0.0] * 3)),
         sum(mdo_sample["o"][0] for mdo_sample in mdo_samples) / 2,
     )
 
@@ -309,9 +315,11 @@ def test_clear_inner_database(umdo_formulation):
     # when the outer problem changes the values of the design variables
     # to avoid recovering the data stored in the inner database
     # and force new evaluations of the functions attached to the inner problem.
-    obj_value = umdo_formulation.optimization_problem.objective(array([0.0] * 3))
+    obj_value = umdo_formulation.optimization_problem.objective.evaluate(
+        array([0.0] * 3)
+    )
     assert (
-        umdo_formulation.optimization_problem.objective(array([1.0, 0.0, 0.0]))
+        umdo_formulation.optimization_problem.objective.evaluate(array([1.0, 0.0, 0.0]))
         != obj_value
     )
 

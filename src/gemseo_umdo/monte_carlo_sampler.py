@@ -89,7 +89,9 @@ class MonteCarloSampler:
             self.__input_space, n_samples=n_samples, seed=seed
         )
         if self.__all_functions_are_vectorized:
-            output_samples = [function(input_samples) for function in self.__functions]
+            output_samples = [
+                function.evaluate(input_samples) for function in self.__functions
+            ]
         else:
             output_samples = [
                 vstack([function(input_sample) for input_sample in input_samples])
