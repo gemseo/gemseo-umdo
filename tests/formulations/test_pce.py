@@ -154,11 +154,11 @@ def test_formulation(umdo_formulation, pce_regressor):
     problem = umdo_formulation.optimization_problem
     x = array([0])
     mean = pce_regressor.mean
-    assert_equal(problem.objective(x), mean)
+    assert_equal(problem.objective.evaluate(x), mean)
     standard_deviation = pce_regressor.standard_deviation
-    assert_equal(problem.constraints[0](x), standard_deviation)
-    assert_equal(problem.observables[0](x), pce_regressor.variance)
-    assert_equal(problem.observables[1](x), mean + 3 * standard_deviation)
+    assert_equal(problem.constraints[0].evaluate(x), standard_deviation)
+    assert_equal(problem.observables[0].evaluate(x), pce_regressor.variance)
+    assert_equal(problem.observables[1].evaluate(x), mean + 3 * standard_deviation)
 
 
 def test_missing_n_samples(pce_regressor, ishigami_problem):
@@ -194,7 +194,7 @@ def test_quality(caplog, pce_regressor, ishigami_problem):
         doe_algo="OT_HALTON",
         doe_n_samples=20,
     )
-    pce.optimization_problem.objective(array([0]))
+    pce.optimization_problem.objective.evaluate(array([0]))
     module, level, message = caplog.record_tuples[0]
     assert module == "gemseo_umdo.formulations._functions.statistic_function_for_pce"
     assert level == logging.INFO
@@ -230,7 +230,7 @@ def test_quality_cv(caplog, pce_regressor, ishigami_problem, quality_cv_compute,
         quality_name="MSEMeasure",
         quality_cv_compute=quality_cv_compute,
     )
-    pce.optimization_problem.objective(array([0]))
+    pce.optimization_problem.objective.evaluate(array([0]))
     module, level, message = caplog.record_tuples[1]
     assert module == "gemseo_umdo.formulations._functions.statistic_function_for_pce"
     assert level == logging.WARNING
@@ -255,7 +255,7 @@ def test_quality_cv_options(pce_regressor, ishigami_problem):
             quality_cv_seed=12,
         )
         compute.return_value = {"y": array([0])}
-        pce.optimization_problem.objective(array([0]))
+        pce.optimization_problem.objective.evaluate(array([0]))
 
     assert compute.call_args.kwargs == {
         "as_dict": True,
@@ -324,7 +324,7 @@ def test_quality_log_level(
         quality_cv_threshold=cv_threshold,
         quality_cv_compute=cv_compute,
     )
-    pce.optimization_problem.objective(array([0]))
+    pce.optimization_problem.objective.evaluate(array([0]))
     _, level, message = caplog.record_tuples[1]
     assert level == expected_level
     assert re.match(regex, message)

@@ -53,6 +53,9 @@ def functions() -> tuple[FunctionType, FunctionType]:
 
         return array([x.sum(0)])
 
+    f.evaluate = f
+    g.evaluate = g
+
     return f, g
 
 

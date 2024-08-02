@@ -180,21 +180,27 @@ def test_mdo_formulation_objective(umdo_formulation, mdf_discipline):
     """Check that the MDO formulation can compute the objective correctly."""
     objective = umdo_formulation.mdo_formulation.optimization_problem.objective
     input_data = {name: array([2.0]) for name in ["u", "u1", "u2"]}
-    assert_equal(objective(array([2.0] * 3)), mdf_discipline.execute(input_data)["f"])
+    assert_equal(
+        objective.evaluate(array([2.0] * 3)), mdf_discipline.execute(input_data)["f"]
+    )
 
 
 def test_mdo_formulation_constraint(umdo_formulation, mdf_discipline):
     """Check that the MDO formulation can compute the constraints correctly."""
     constraint = umdo_formulation.mdo_formulation.optimization_problem.observables[0]
     input_data = {name: array([2.0]) for name in ["u", "u1", "u2"]}
-    assert_equal(constraint(array([2.0] * 3)), mdf_discipline.execute(input_data)["c"])
+    assert_equal(
+        constraint.evaluate(array([2.0] * 3)), mdf_discipline.execute(input_data)["c"]
+    )
 
 
 def test_mdo_formulation_observable(umdo_formulation, mdf_discipline):
     """Check that the MDO formulation can compute the observables correctly."""
     observable = umdo_formulation.mdo_formulation.optimization_problem.observables[1]
     input_data = {name: array([2.0]) for name in ["u", "u1", "u2"]}
-    assert_equal(observable(array([2.0] * 3)), mdf_discipline.execute(input_data)["o"])
+    assert_equal(
+        observable.evaluate(array([2.0] * 3)), mdf_discipline.execute(input_data)["o"]
+    )
 
 
 def test_umdo_formulation_objective(umdo_formulation, mdf_discipline):
@@ -202,7 +208,9 @@ def test_umdo_formulation_objective(umdo_formulation, mdf_discipline):
     objective = umdo_formulation.optimization_problem.objective
     uncertain_space = umdo_formulation.uncertain_space
     input_data = uncertain_space.array_to_dict(uncertain_space.distribution.mean)
-    assert_equal(objective(array([0.0] * 3)), mdf_discipline.execute(input_data)["f"])
+    assert_equal(
+        objective.evaluate(array([0.0] * 3)), mdf_discipline.execute(input_data)["f"]
+    )
 
 
 def test_umdo_formulation_constraint(umdo_formulation, mdf_discipline):
@@ -210,7 +218,9 @@ def test_umdo_formulation_constraint(umdo_formulation, mdf_discipline):
     constraint = umdo_formulation.optimization_problem.constraints[0]
     uncertain_space = umdo_formulation.uncertain_space
     input_data = uncertain_space.array_to_dict(uncertain_space.distribution.mean)
-    assert_equal(constraint(array([0.0] * 3)), mdf_discipline.execute(input_data)["c"])
+    assert_equal(
+        constraint.evaluate(array([0.0] * 3)), mdf_discipline.execute(input_data)["c"]
+    )
 
 
 def test_umdo_formulation_observable(umdo_formulation, mdf_discipline):
@@ -218,7 +228,9 @@ def test_umdo_formulation_observable(umdo_formulation, mdf_discipline):
     observable = umdo_formulation.optimization_problem.observables[0]
     uncertain_space = umdo_formulation.uncertain_space
     input_data = uncertain_space.array_to_dict(uncertain_space.distribution.mean)
-    assert_equal(observable(array([0.0] * 3)), mdf_discipline.execute(input_data)["o"])
+    assert_equal(
+        observable.evaluate(array([0.0] * 3)), mdf_discipline.execute(input_data)["o"]
+    )
 
 
 def test_second_order_approximation(umdo_formulation_with_hessian):
@@ -226,12 +238,12 @@ def test_second_order_approximation(umdo_formulation_with_hessian):
     problem = umdo_formulation_with_hessian.hessian_fd_problem
     objective = problem.objective
     assert objective.name == "@@f"
-    objective_value = objective(array([0.0] * 3))
+    objective_value = objective.evaluate(array([0.0] * 3))
     assert objective_value.shape == (3, 3)
     assert_equal(objective_value, 0.0)
 
     constraint = problem.observables[0]
     assert constraint.name == "@@c"
-    constraint_value = constraint(array([0.0] * 3))
+    constraint_value = constraint.evaluate(array([0.0] * 3))
     assert constraint_value.shape == (3, 3)
     assert_equal(constraint_value, 0.0)
