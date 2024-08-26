@@ -2,13 +2,11 @@
 #    uv pip compile --extra doc --constraint requirements/test-constraints.in -o requirements/doc.txt --python-version 3.9 pyproject.toml
 annotated-types==0.7.0
     # via pydantic
-babel==2.15.0
+babel==2.16.0
     # via mkdocs-material
-backports-strenum==1.3.1
-    # via griffe
-black==24.4.2
+black==24.8.0
     # via gemseo-umdo (pyproject.toml)
-bracex==2.4
+bracex==2.5
     # via wcmatch
 certifi==2024.7.4
     # via requests
@@ -37,7 +35,7 @@ fastjsonschema==2.20.0
     # via gemseo
 fonttools==4.53.1
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@d9ecae0b5842ace64a15dbdea88cb3e9b2e96de2
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@7fbaca1e298cff98eaf33383731d0e4ca2d8c6ef
     # via
     #   -c requirements/test-constraints.in
     #   gemseo-umdo (pyproject.toml)
@@ -47,24 +45,24 @@ ghp-import==2.1.0
     # via mkdocs
 graphviz==0.20.3
     # via gemseo
-griffe==0.48.0
+griffe==1.2.0
     # via
     #   griffe-inherited-docstrings
     #   mkdocstrings-python
-griffe-inherited-docstrings==1.0.0
+griffe-inherited-docstrings==1.0.1
     # via gemseo-umdo (pyproject.toml)
 h5py==3.11.0
     # via gemseo
-idna==3.7
+idna==3.8
     # via requests
-importlib-metadata==8.2.0
+importlib-metadata==8.4.0
     # via
     #   markdown
     #   mike
     #   mkdocs
     #   mkdocs-get-deps
     #   mkdocstrings
-importlib-resources==6.4.0
+importlib-resources==6.4.4
     # via
     #   matplotlib
     #   mike
@@ -81,7 +79,7 @@ kiwisolver==1.4.5
     # via matplotlib
 latexcodec==3.0.0
     # via pybtex
-markdown==3.6
+markdown==3.7
     # via
     #   mkdocs
     #   mkdocs-autorefs
@@ -94,7 +92,7 @@ markupsafe==2.1.5
     #   mkdocs
     #   mkdocs-autorefs
     #   mkdocstrings
-matplotlib==3.9.1
+matplotlib==3.9.2
     # via
     #   gemseo-umdo (pyproject.toml)
     #   gemseo
@@ -102,7 +100,7 @@ mergedeep==1.3.4
     # via
     #   mkdocs
     #   mkdocs-get-deps
-mike==2.1.2
+mike==2.1.3
     # via gemseo-umdo (pyproject.toml)
 mkdocs==1.6.0
     # via
@@ -116,9 +114,9 @@ mkdocs==1.6.0
     #   mkdocs-material
     #   mkdocs-section-index
     #   mkdocstrings
-mkdocs-autorefs==1.0.1
+mkdocs-autorefs==1.1.0
     # via mkdocstrings
-mkdocs-bibtex==2.16.0
+mkdocs-bibtex==2.16.1
     # via gemseo-umdo (pyproject.toml)
 mkdocs-gallery==0.10.1
     # via gemseo-umdo (pyproject.toml)
@@ -126,11 +124,11 @@ mkdocs-gen-files==0.5.0
     # via gemseo-umdo (pyproject.toml)
 mkdocs-get-deps==0.2.0
     # via mkdocs
-mkdocs-include-markdown-plugin==6.2.1
+mkdocs-include-markdown-plugin==6.2.2
     # via gemseo-umdo (pyproject.toml)
 mkdocs-literate-nav==0.6.1
     # via gemseo-umdo (pyproject.toml)
-mkdocs-material==9.5.30
+mkdocs-material==9.5.33
     # via
     #   gemseo-umdo (pyproject.toml)
     #   mkdocs-gallery
@@ -142,7 +140,7 @@ mkdocstrings==0.25.2
     # via
     #   gemseo-umdo (pyproject.toml)
     #   mkdocstrings-python
-mkdocstrings-python==1.10.7
+mkdocstrings-python==1.10.8
     # via mkdocstrings
 mpmath==1.3.0
     # via sympy
@@ -165,7 +163,7 @@ numpy==1.26.4
     #   pyxdsm
     #   scikit-learn
     #   scipy
-openpyxl==3.1.2
+openpyxl==3.1.5
     # via gemseo
 openturns==1.23
     # via gemseo
@@ -177,7 +175,7 @@ packaging==24.1
     #   mkdocs
     #   mkdocs-gallery
     #   plotly
-paginate==0.5.6
+paginate==0.5.7
     # via mkdocs-material
 pandas==2.2.2
     # via gemseo
@@ -194,7 +192,7 @@ platformdirs==4.2.2
     #   black
     #   mkdocs-get-deps
     #   mkdocstrings
-plotly==5.22.0
+plotly==5.23.0
     # via gemseo
 psutil==6.0.0
     # via openturns
@@ -214,7 +212,7 @@ pymdown-extensions==10.9
     #   mkdocstrings
 pypandoc==1.13
     # via mkdocs-bibtex
-pyparsing==3.1.2
+pyparsing==3.1.4
     # via
     #   matplotlib
     #   mike
@@ -227,7 +225,7 @@ pytz==2024.1
     # via pandas
 pyxdsm==2.3.0
     # via gemseo
-pyyaml==6.0.1
+pyyaml==6.0.2
     # via
     #   mike
     #   mkdocs
@@ -254,7 +252,7 @@ scipy==1.13.1
     #   gemseo
     #   pydoe3
     #   scikit-learn
-setuptools==72.1.0
+setuptools==73.0.1
     # via mkdocs-bibtex
 six==1.16.0
     # via
@@ -262,7 +260,7 @@ six==1.16.0
     #   python-dateutil
 strenum==0.4.15
     # via gemseo
-sympy==1.13.0
+sympy==1.13.1
     # via gemseo
 tenacity==9.0.0
     # via plotly
@@ -270,7 +268,7 @@ threadpoolctl==3.5.0
     # via scikit-learn
 tomli==2.0.1
     # via black
-tqdm==4.66.4
+tqdm==4.66.5
     # via
     #   gemseo
     #   mkdocs-gallery
@@ -289,15 +287,15 @@ validators==0.33.0
     # via mkdocs-bibtex
 verspec==0.1.0
     # via mike
-watchdog==4.0.1
+watchdog==4.0.2
     # via mkdocs
-wcmatch==8.5.2
+wcmatch==9.0
     # via mkdocs-include-markdown-plugin
 xdsmjs==2.0.0
     # via gemseo
 xxhash==3.4.1
     # via gemseo
-zipp==3.19.2
+zipp==3.20.0
     # via
     #   importlib-metadata
     #   importlib-resources

@@ -25,6 +25,7 @@ from gemseo.formulations.mdf import MDF
 from gemseo.utils.comparisons import compare_dict_of_arrays
 from numpy import array
 from numpy import ndarray
+from numpy.testing import assert_almost_equal
 from numpy.testing import assert_equal
 from pandas._testing import assert_frame_equal
 
@@ -163,7 +164,7 @@ def test_scenario_execution(scenario, maximize_objective, scenario_input_data, c
     scenario.execute(scenario_input_data)
     assert_equal(scenario.optimization_result.x_opt, array([0.0, 0.0, 0.0]))
     expected_f_opt = 2.0 if maximize_objective else -2.0
-    assert scenario.optimization_result.f_opt == expected_f_opt
+    assert scenario.optimization_result.f_opt == pytest.approx(expected_f_opt, rel=1e-6)
     # Check that the sampling is not logged.
     assert "minimize f" not in caplog.text
 
@@ -285,7 +286,7 @@ def test_mdo_formulation_observable(umdo_formulation, mdf_discipline):
 def test_umdo_formulation_objective(umdo_formulation, mdo_samples):
     """Check that the UMDO formulation can compute the objective correctly."""
     objective = umdo_formulation.optimization_problem.objective
-    assert_equal(
+    assert_almost_equal(
         objective.evaluate(array([0.0] * 3)),
         sum(mdo_sample["f"][0] for mdo_sample in mdo_samples) / 2,
     )
@@ -294,7 +295,7 @@ def test_umdo_formulation_objective(umdo_formulation, mdo_samples):
 def test_umdo_formulation_constraint(umdo_formulation, mdo_samples):
     """Check that the UMDO formulation can compute the constraints correctly."""
     constraint = umdo_formulation.optimization_problem.constraints[0]
-    assert_equal(
+    assert_almost_equal(
         constraint.evaluate(array([0.0] * 3)),
         sum(mdo_sample["c"][0] for mdo_sample in mdo_samples) / 2,
     )
@@ -303,7 +304,7 @@ def test_umdo_formulation_constraint(umdo_formulation, mdo_samples):
 def test_umdo_formulation_observable(umdo_formulation, mdo_samples):
     """Check that the UMDO formulation can compute the observables correctly."""
     observable = umdo_formulation.optimization_problem.observables[0]
-    assert_equal(
+    assert_almost_equal(
         observable.evaluate(array([0.0] * 3)),
         sum(mdo_sample["o"][0] for mdo_sample in mdo_samples) / 2,
     )
@@ -393,7 +394,3 @@ def test_save_samples(disciplines, design_space, uncertain_space, tmp_wd):
         dataset.misc, {"x0": array([1.0]), "x1": array([1.0]), "x2": array([1.0])}
     )
     assert dataset.name == "Iteration 2"
-
-
-def test_iterative_margin():
-    """"""

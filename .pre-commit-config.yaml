@@ -39,7 +39,7 @@ repos:
       ]
 
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.5.5
+  rev: v0.6.2
   hooks:
     - id: ruff
       args: [
@@ -49,12 +49,12 @@ repos:
       ]
 
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.5.5
+  rev: v0.6.2
   hooks:
     - id: ruff-format
 
 - repo: https://github.com/commitizen-tools/commitizen
-  rev: v3.28.0
+  rev: v3.29.0
   hooks:
     - id: commitizen
       stages: [commit-msg]
@@ -65,7 +65,7 @@ repos:
     - id: nbstripout
 
 - repo: https://github.com/nbQA-dev/nbQA
-  rev: 1.8.5
+  rev: 1.8.7
   hooks:
     - id: nbqa-black
     - id: nbqa-pyupgrade
