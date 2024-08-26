@@ -85,7 +85,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from numpy import abs
+from numpy import abs as np_abs
 from numpy import array
 from numpy import exp
 from numpy import linspace
@@ -166,7 +166,7 @@ class HeatEquationModel:
         Returns:
             The initial temperature for each mesh nodes.
         """
-        G = 50 * (4 * abs(X[:, 4:7]) - 1).T.prod(0)  # noqa: N806
+        G = 50 * (4 * np_abs(X[:, 4:7]) - 1).T.prod(0)  # noqa: N806
         I = 3.5 * (  # noqa: N806, E741
             sin(X[:, 0]) + 7 * sin(X[:, 1]) ** 2 + 0.1 * X[:, 2] ** 4 * sin(X[:, 0])
         )
@@ -294,5 +294,5 @@ class HeatEquationModel:
             - (X[..., [3]] - mu_X[3]) * pi**2 * 0.5 * self.__term3
             + 400
             * self.__term1
-            * (abs(X[..., [4]]) + abs(X[..., [5]]) + abs(X[..., [6]]))
+            * (np_abs(X[..., [4]]) + np_abs(X[..., [5]]) + np_abs(X[..., [6]]))
         )

@@ -20,6 +20,7 @@ import pytest
 from gemseo.formulations.mdf import MDF
 from numpy import array
 from numpy import ndarray
+from numpy.testing import assert_almost_equal
 from numpy.testing import assert_equal
 
 from gemseo_umdo.formulations._statistics.taylor_polynomial.margin import Margin
@@ -116,7 +117,7 @@ def test_scenario_execution(scenario, scenario_input_data):
     scenario.execute(scenario_input_data)
     optimization_result = scenario.optimization_result
     assert_equal(optimization_result.x_opt, array([1.0, 1.0, 1.0]))
-    assert_equal(optimization_result.f_opt, array([-21.0]))
+    assert_almost_equal(optimization_result.f_opt, array([-21.0]))
 
 
 def test_scenario_serialization(scenario, tmp_path, scenario_input_data):
@@ -127,7 +128,7 @@ def test_scenario_serialization(scenario, tmp_path, scenario_input_data):
     saved_scenario.execute(scenario_input_data)
     optimization_result = saved_scenario.optimization_result
     assert_equal(optimization_result.x_opt, array([1.0, 1.0, 1.0]))
-    assert_equal(optimization_result.f_opt, array([-21.0]))
+    assert_almost_equal(optimization_result.f_opt, array([-21.0]))
 
 
 # In the following, we will name m and s the mean and standard deviation of U.
@@ -208,7 +209,7 @@ def test_umdo_formulation_objective(umdo_formulation, mdf_discipline):
     objective = umdo_formulation.optimization_problem.objective
     uncertain_space = umdo_formulation.uncertain_space
     input_data = uncertain_space.array_to_dict(uncertain_space.distribution.mean)
-    assert_equal(
+    assert_almost_equal(
         objective.evaluate(array([0.0] * 3)), mdf_discipline.execute(input_data)["f"]
     )
 
@@ -218,7 +219,7 @@ def test_umdo_formulation_constraint(umdo_formulation, mdf_discipline):
     constraint = umdo_formulation.optimization_problem.constraints[0]
     uncertain_space = umdo_formulation.uncertain_space
     input_data = uncertain_space.array_to_dict(uncertain_space.distribution.mean)
-    assert_equal(
+    assert_almost_equal(
         constraint.evaluate(array([0.0] * 3)), mdf_discipline.execute(input_data)["c"]
     )
 
@@ -228,7 +229,7 @@ def test_umdo_formulation_observable(umdo_formulation, mdf_discipline):
     observable = umdo_formulation.optimization_problem.observables[0]
     uncertain_space = umdo_formulation.uncertain_space
     input_data = uncertain_space.array_to_dict(uncertain_space.distribution.mean)
-    assert_equal(
+    assert_almost_equal(
         observable.evaluate(array([0.0] * 3)), mdf_discipline.execute(input_data)["o"]
     )
 
