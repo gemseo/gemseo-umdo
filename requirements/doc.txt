@@ -35,7 +35,7 @@ fastjsonschema==2.20.0
     # via gemseo
 fonttools==4.53.1
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@7fbaca1e298cff98eaf33383731d0e4ca2d8c6ef
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@f1cffa39c48c3f51c4db848610d49a4422f66437
     # via
     #   -c requirements/test-constraints.in
     #   gemseo-umdo (pyproject.toml)
@@ -287,7 +287,7 @@ validators==0.33.0
     # via mkdocs-bibtex
 verspec==0.1.0
     # via mike
-watchdog==4.0.2
+watchdog==5.0.0
     # via mkdocs
 wcmatch==9.0
     # via mkdocs-include-markdown-plugin
@@ -295,7 +295,7 @@ xdsmjs==2.0.0
     # via gemseo
 xxhash==3.4.1
     # via gemseo
-zipp==3.20.0
+zipp==3.20.1
     # via
     #   importlib-metadata
     #   importlib-resources
