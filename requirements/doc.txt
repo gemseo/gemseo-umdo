@@ -21,7 +21,7 @@ colorama==0.4.6
     # via
     #   griffe
     #   mkdocs-material
-contourpy==1.2.1
+contourpy==1.3.0
     # via matplotlib
 cycler==0.12.1
     # via matplotlib
@@ -35,7 +35,7 @@ fastjsonschema==2.20.0
     # via gemseo
 fonttools==4.53.1
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@f1cffa39c48c3f51c4db848610d49a4422f66437
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@28df98ebbf548b4ea32cf155f403a675f0487ec4
     # via
     #   -c requirements/test-constraints.in
     #   gemseo-umdo (pyproject.toml)
@@ -252,7 +252,7 @@ scipy==1.13.1
     #   gemseo
     #   pydoe3
     #   scikit-learn
-setuptools==73.0.1
+setuptools==74.0.0
     # via mkdocs-bibtex
 six==1.16.0
     # via
