@@ -129,7 +129,7 @@ class BasePilot(metaclass=ABCGoogleDocstringInheritanceMeta):
         """Estimate the statistic associated with this pilot."""
 
     @abstractmethod
-    def _compute_V_l(  # noqa N802
+    def _compute_V_l(  # noqa: N802
         self,
         levels: Iterable[int],
         samples: Sequence[NDArray[float]],

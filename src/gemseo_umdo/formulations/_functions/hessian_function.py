@@ -20,7 +20,7 @@ from typing import TYPE_CHECKING
 from typing import Callable
 
 from gemseo.algos.database import Database
-from gemseo.core.mdofunctions.mdo_function import MDOFunction
+from gemseo.core.mdo_functions.mdo_function import MDOFunction
 from gemseo.utils.derivatives.finite_differences import FirstOrderFD
 
 if TYPE_CHECKING:

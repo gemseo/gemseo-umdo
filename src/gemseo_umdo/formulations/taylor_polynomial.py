@@ -41,7 +41,7 @@ from typing import Any
 
 from gemseo.algos.optimization_problem import OptimizationProblem
 from gemseo.core.discipline import MDODiscipline
-from gemseo.core.mdofunctions.mdo_function import MDOFunction
+from gemseo.core.mdo_functions.mdo_function import MDOFunction
 from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
 
 from gemseo_umdo.formulations._functions.hessian_function import HessianFunction

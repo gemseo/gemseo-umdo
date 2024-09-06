@@ -6,16 +6,17 @@ repo_name: gemseo-umdo
 theme:
   name: material
   favicon: images/favicon.ico
-  logo: images/monogram.png
   features:
     - navigation.tabs
     - navigation.instant
   palette:
     - scheme: default
+      primary: teal
       toggle:
         icon: material/lightbulb-outline
         name: Switch to dark mode
     - scheme: slate
+      primary: teal
       toggle:
         icon: material/lightbulb
         name: Switch to light mode
@@ -24,9 +25,10 @@ theme:
 
 plugins:
 - search
+- markdown-exec
 - gen-files:
     scripts:
-    - docs/gen_ref_pages.py
+    - docs/gen_ref_nav.py
 - literate-nav:
     nav_file: SUMMARY.md
 - section-index
@@ -41,6 +43,7 @@ plugins:
         - https://numpy.org/doc/stable/objects.inv
         - https://docs.scipy.org/doc/scipy/objects.inv
         - https://openturns.github.io/openturns/latest/objects.inv
+        - https://scikit-learn.org/stable/objects.inv
         options:
           extensions:
           - griffe_inherited_docstrings
@@ -125,8 +128,9 @@ extra_javascript:
 - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
 
 watch:
-  # mkdoc serve will rebuild the pages when changes in the docstrings.
   - src/gemseo_umdo
+  - README.md
+  - CHANGELOG.md
 
 extra:
   version:

@@ -8,11 +8,10 @@ Commons, PO Box 1866, Mountain View, CA 94042, USA.
 -->
 # gemseo-umdo
 
-[![PyPI - License](https://img.shields.io/pypi/l/gemseo)](https://www.gnu.org/licenses/lgpl-3.0.en.html)
+[![PyPI - License](https://img.shields.io/pypi/l/gemseo-umdo)](https://www.gnu.org/licenses/lgpl-3.0.en.html)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/gemseo-umdo)](https://pypi.org/project/gemseo-umdo/)
-[![PyPI](https://img.shields.io/pypi/v/gemseo-mlearning)](https://pypi.org/project/gemseo-umdo/)
-[![Codecov branch](https://img.shields.io/codecov/c/gitlab/gemseo:dev/gemseo-umdo/develop
-)](https://app.codecov.io/gl/gemseo:dev/gemseo-umdo)
+[![PyPI](https://img.shields.io/pypi/v/gemseo-umdo)](https://pypi.org/project/gemseo-umdo/)
+[![Codecov branch](https://img.shields.io/codecov/c/gitlab/gemseo:dev/gemseo-umdo/develop)](https://app.codecov.io/gl/gemseo:dev/gemseo-umdo)
 
 `gemseo-umdo` is a plugin of the library [GEMSEO](https://www.gemseo.org),
 dedicated to multidisciplinary optimization (MDO) under uncertainty.

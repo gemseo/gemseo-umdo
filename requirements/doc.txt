@@ -27,7 +27,7 @@ cycler==0.12.1
     # via matplotlib
 dill==0.3.8
     # via openturns
-docstring-inheritance==2.2.0
+docstring-inheritance==2.2.1
     # via gemseo
 et-xmlfile==1.1.0
     # via openpyxl
@@ -35,7 +35,7 @@ fastjsonschema==2.20.0
     # via gemseo
 fonttools==4.53.1
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@9f865f9a76c9e922482d8d095525d7f6b2cbf471
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@515f85422904079d19ceee0c87d15f1c24b5a2c5
     # via
     #   -c requirements/test-constraints.in
     #   gemseo-umdo (pyproject.toml)
@@ -75,7 +75,7 @@ jinja2==3.1.4
     #   mkdocstrings
 joblib==1.4.2
     # via scikit-learn
-kiwisolver==1.4.6
+kiwisolver==1.4.7
     # via matplotlib
 latexcodec==3.0.0
     # via pybtex
@@ -86,6 +86,8 @@ markdown==3.7
     #   mkdocs-material
     #   mkdocstrings
     #   pymdown-extensions
+markdown-exec==1.9.3
+    # via gemseo-umdo (pyproject.toml)
 markupsafe==2.1.5
     # via
     #   jinja2
@@ -120,7 +122,7 @@ mkdocs-autorefs==1.2.0
     #   mkdocstrings-python
 mkdocs-bibtex==2.16.2
     # via gemseo-umdo (pyproject.toml)
-mkdocs-gallery==0.10.1
+mkdocs-gallery==0.10.2
     # via gemseo-umdo (pyproject.toml)
 mkdocs-gen-files==0.5.0
     # via gemseo-umdo (pyproject.toml)
@@ -194,7 +196,7 @@ platformdirs==4.2.2
     #   black
     #   mkdocs-get-deps
     #   mkdocstrings
-plotly==5.23.0
+plotly==5.24.0
     # via gemseo
 psutil==6.0.0
     # via openturns
@@ -204,12 +206,17 @@ pydantic==2.8.2
     # via gemseo
 pydantic-core==2.20.1
     # via pydantic
-pydoe3==1.0.3
+pydoe3==1.0.4
     # via gemseo
 pygments==2.18.0
-    # via mkdocs-material
+    # via
+    #   mkdocs-material
+    #   pygments-ansi-color
+pygments-ansi-color==0.3.0
+    # via markdown-exec
 pymdown-extensions==10.9
     # via
+    #   markdown-exec
     #   mkdocs-material
     #   mkdocstrings
 pypandoc==1.13
@@ -254,7 +261,7 @@ scipy==1.13.1
     #   gemseo
     #   pydoe3
     #   scikit-learn
-setuptools==74.1.1
+setuptools==74.1.2
     # via mkdocs-bibtex
 six==1.16.0
     # via
@@ -262,7 +269,7 @@ six==1.16.0
     #   python-dateutil
 strenum==0.4.15
     # via gemseo
-sympy==1.13.1
+sympy==1.13.2
     # via gemseo
 tenacity==9.0.0
     # via plotly
@@ -295,7 +302,7 @@ wcmatch==9.0
     # via mkdocs-include-markdown-plugin
 xdsmjs==2.0.0
     # via gemseo
-xxhash==3.4.1
+xxhash==3.5.0
     # via gemseo
 zipp==3.20.1
     # via

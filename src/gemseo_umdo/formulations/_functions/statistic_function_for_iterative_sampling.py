@@ -29,7 +29,7 @@ from gemseo_umdo.formulations._functions.iterative_estimation import IterativeEs
 
 if TYPE_CHECKING:
     from gemseo.algos.optimization_problem import OptimizationProblem
-    from gemseo.core.mdofunctions.mdo_function import MDOFunction
+    from gemseo.core.mdo_functions.mdo_function import MDOFunction
     from gemseo.typing import RealArray
 
     from gemseo_umdo.formulations._statistics.iterative_sampling.base_sampling_estimator import (  # noqa: E501

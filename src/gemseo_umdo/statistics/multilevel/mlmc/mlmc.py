@@ -22,7 +22,7 @@ from typing import TYPE_CHECKING
 from typing import Any
 from typing import ClassVar
 
-from gemseo.core.mdofunctions.mdo_function import MDOFunction
+from gemseo.core.mdo_functions.mdo_function import MDOFunction
 from gemseo.utils.matplotlib_figure import save_show_figure
 from gemseo.utils.seeder import SEED
 from gemseo.utils.string_tools import MultiLineString
