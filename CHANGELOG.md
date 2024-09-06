@@ -61,7 +61,7 @@ and this project adheres to
   [NoiserFactory][gemseo_umdo.disciplines.noiser_factory.NoiserFactory]
   is available.
 - [ControlVariate][gemseo_umdo.formulations.control_variate.ControlVariate],
-  a new [BaseUMDOFormulation][gemseo_umdo.base_umdo_formulation.base_umdo_formulation.BaseUMDOFormulation]
+  a new [BaseUMDOFormulation][gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation]
   estimating the statistics with a control variate technique based on Taylor polynomials.
 
 ### Changed
@@ -134,7 +134,7 @@ and this project adheres to
   to compute the statistics iteratively
   and so do not store the samples in a `Database`.
 - The package `gemseo_umdo.formulations.functions` contains the `MDOFunction`s
-  used by a [UMDOFormulation][gemseo_umdo.formulations.formulation.UMDOFormulation]
+  used by a [UMDOFormulation][gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation]
   to compute the statistics of the objective, constraints and observables.
 - The logs of the [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario]
   and [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
@@ -147,7 +147,7 @@ and this project adheres to
   is mandatory for many DOE algorithms
   but optional in the case where
   the DOE algorithm does not consider a `n_samples` argument to generate the samples.
-- The estimator of the [Variance][gemseo_umdo.formulations.statistics.sampling.variance.Variance]
+- The estimator of the `Variance`
   used by the U-MDO formulation [Sampling][gemseo_umdo.formulations.sampling.Sampling]
   with `estimate_statistics_iteratively=False` is now unbiased.
 - API changes:
@@ -187,10 +187,10 @@ and this project adheres to
   and [BeamDesignSpace][gemseo_umdo.use_cases.beam_model.design_space.BeamDesignSpace]
   to benchmark robust optimization algorithms.
 - [TaylorPolynomial][gemseo_umdo.formulations.taylor_polynomial.TaylorPolynomial],
-  a new [UMDOFormulation][gemseo_umdo.formulations.formulation.UMDOFormulation]
+  a new [UMDOFormulation][gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation]
   estimating the statistics with Taylor polynomials.
 - [SequentialSampling][gemseo_umdo.formulations.sequential_sampling.SequentialSampling],
-  a new [UMDOFormulation][gemseo_umdo.formulations.formulation.UMDOFormulation]
+  a new [UMDOFormulation][gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation]
   estimating the statistics with sequential sampling.
 - [UncertainCouplingGraph][gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph]
   to visualize the dispersion of the coupling variables.
@@ -210,7 +210,7 @@ and this project adheres to
 ### Changed
 
 - API change: the argument `statistic_estimation_options`
-  of [UMDOFormulation][gemseo_umdo.formulations.formulation.UMDOFormulation]
+  of [UMDOFormulation][gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation]
   has been renamed to `statistic_estimation_parameters`.
 - API change: `UMDOFormulation._processed_functions` replaces `Sampling.processed_functions`.
 

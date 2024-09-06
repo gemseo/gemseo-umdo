@@ -31,7 +31,7 @@ if TYPE_CHECKING:
     from collections.abc import Sequence
 
     from gemseo.algos.parameter_space import ParameterSpace
-    from gemseo.core.mdofunctions.mdo_function import MDOFunction
+    from gemseo.core.mdo_functions.mdo_function import MDOFunction
 
     from gemseo_umdo.statistics.multilevel.mlmc_mlcv.level import Level
 

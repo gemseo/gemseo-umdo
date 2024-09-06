@@ -22,7 +22,7 @@ from typing import Final
 
 from gemseo.core.chain import MDOChain
 from gemseo.core.discipline import MDODiscipline
-from gemseo.core.mdofunctions.mdo_function import MDOFunction
+from gemseo.core.mdo_functions.mdo_function import MDOFunction
 from gemseo.disciplines.analytic import AnalyticDiscipline
 from gemseo.formulations.factory import MDOFormulationFactory
 from gemseo.scenarios.scenario import Scenario

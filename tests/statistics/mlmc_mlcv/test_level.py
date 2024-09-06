@@ -19,7 +19,7 @@ from __future__ import annotations
 from typing import Callable
 
 import pytest
-from gemseo.core.mdofunctions.mdo_function import MDOFunction
+from gemseo.core.mdo_functions.mdo_function import MDOFunction
 from numpy import array
 from numpy import ndarray
 from numpy.testing import assert_equal

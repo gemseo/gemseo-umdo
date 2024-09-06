@@ -27,7 +27,7 @@ from typing import Generic
 from typing import TypeVar
 
 from gemseo.algos.hashable_ndarray import HashableNdarray
-from gemseo.core.mdofunctions.mdo_function import MDOFunction
+from gemseo.core.mdo_functions.mdo_function import MDOFunction
 
 if TYPE_CHECKING:
     from gemseo.algos.optimization_problem import OptimizationProblem

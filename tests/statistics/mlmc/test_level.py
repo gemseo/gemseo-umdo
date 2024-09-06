@@ -16,7 +16,7 @@
 
 from __future__ import annotations
 
-from gemseo.core.mdofunctions.mdo_function import MDOFunction
+from gemseo.core.mdo_functions.mdo_function import MDOFunction
 from numpy import array
 
 from gemseo_umdo.statistics.multilevel.mlmc.level import Level
