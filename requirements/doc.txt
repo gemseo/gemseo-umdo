@@ -35,7 +35,7 @@ fastjsonschema==2.20.0
     # via gemseo
 fonttools==4.53.1
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@f53ea62c277070d8e737130c6539c5d0e4c2c269
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@ab9814f7bf3a60a41f96e1b451660c98984d571d
     # via
     #   -c requirements/test-constraints.in
     #   gemseo-umdo (pyproject.toml)
@@ -191,7 +191,7 @@ pillow==10.4.0
     # via
     #   gemseo
     #   matplotlib
-platformdirs==4.3.1
+platformdirs==4.3.2
     # via
     #   black
     #   mkdocs-get-deps
