@@ -30,7 +30,7 @@ fastjsonschema==2.20.0
     # via gemseo
 fonttools==4.53.1
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@d45d985a8fccf910f22a22227f580614a35907f6
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@c4702d5a5fc5cc73c25ee64b16e308eaf6610d39
     # via
     #   -c requirements/test-constraints.in
     #   gemseo-umdo (pyproject.toml)
@@ -97,15 +97,15 @@ pluggy==1.5.0
     # via pytest
 psutil==6.0.0
     # via openturns
-pydantic==2.8.2
+pydantic==2.9.0
     # via gemseo
-pydantic-core==2.20.1
+pydantic-core==2.23.2
     # via pydantic
 pydoe3==1.0.4
     # via gemseo
 pyparsing==3.1.4
     # via matplotlib
-pytest==8.3.2
+pytest==8.3.3
     # via
     #   gemseo-umdo (pyproject.toml)
     #   pytest-cov
@@ -154,7 +154,9 @@ typing-extensions==4.12.2
     #   pydantic
     #   pydantic-core
 tzdata==2024.1
-    # via pandas
+    # via
+    #   pandas
+    #   pydantic
 urllib3==2.2.2
     # via requests
 xdsmjs==2.0.0
