@@ -85,22 +85,13 @@ Use the `pce_options` arguments to set the options of the [PCERegressor][gemseo.
 
 This formulation has been implemented for the expectation and variance,
 as well as combinations of these statistics,
-from the coefficients $(\alpha_i)_{1\leq i \leq N\}$ of the PCE
+from the coefficients $(\alpha_i)_{0\leq i \leq N}$ of the PCE
 
-$$\hat{f}_x(U)=\alpha_0 + \sum_{1<i\leq P}\alpha_i\Phi_i(U).$$
+$$\hat{f}_x(U)=\alpha_0 + \sum_{1\leq i\leq P}\alpha_i\Phi_i(U).$$
 
-### Mean
-
-$$\mathbb{E}[\varphi(x,U)] \approx \alpha_0$$
-
-### Variance
-
-$$\mathbb{V}[\varphi(x,U)] \approx \sum_{1<i\leq P}\alpha_i^2$$
-
-### Standard deviation
-
-$$\mathbb{S}[\varphi(x,U)] \approx \sqrt{\sum_{1<i\leq P}\alpha_i^2}$$
-
-### Margin
-
-$$\textrm{Margin}[\varphi(x,U)] \approx \alpha_0 + \kappa \times \sqrt{\sum_{1<i\leq P}\alpha_i^2}$$
+| Statistic          | Notation                        | Estimator                                                                                                                    |
+|--------------------|---------------------------------|------------------------------------------------------------------------------------------------------------------------------|
+| Mean               | $\mathbb{E}[\varphi(x,U)]$      | $E_{\textrm{PCE}}[\varphi(x,U)]=\alpha_0$                                                                                    |
+| Variance           | $\mathbb{V}[\varphi(x,U)]$      | $V_{\textrm{PCE}}[\varphi(x,U)]=\sum_{1\leq i\leq P}\alpha_i^2$                                                              |
+| Standard deviation | $\mathbb{S}[\varphi(x,U)]$      | $S_{\textrm{PCE}}[\varphi(x,U)]=\sqrt{V_{\textrm{PCE}}[\varphi(x,U)]}$                                                      |
+| Margin             | $\textrm{Margin}[\varphi(x,U)]$ | $\textrm{Margin}_{\textrm{PCE}}[\varphi(x,U)]=E_{\textrm{PCE}}[\varphi(x,U)] + \kappa \times S_{\textrm{PCE}}[\varphi(x,U)]$ |

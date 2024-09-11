@@ -85,20 +85,23 @@ nav:
   - Credits: credits.md
   - Licenses: licenses.md
 - User guide:
+  - User guide: user_guide/index.md
   - MDO under uncertainty:
-    - Introduction: user_guide/umdo/index.md
+    - MDO under uncertainty: user_guide/umdo/index.md
     - Sampling: user_guide/umdo/sampling.md
     - Sequential sampling: user_guide/umdo/sequential_sampling.md
     - Taylor polynomial: user_guide/umdo/taylor_polynomial.md
     - Control variate: user_guide/umdo/control_variate.md
+    - Polynomial chaos expansion: user_guide/umdo/pce.md
   - Statistics:
-    - Introduction: user_guide/statistics/index.md
+    - Statistics: user_guide/statistics/index.md
     - Multilevel Monte Carlo: user_guide/statistics/multilevel.md
   - Visualization:
-    - Introduction: user_guide/visualization/index.md
+    - Visualization: user_guide/visualization/index.md
     - Uncertain coupling graph: user_guide/visualization/uncertain_coupling_graph.md
     - Sobol graph: user_guide/visualization/sobol_graph.md
 - Examples:
+  - Examples: generated/examples/index.md
   - Problems: generated/examples/problems
   - U-DOE:  generated/examples/udoe
   - U-MDO: generated/examples/umdo

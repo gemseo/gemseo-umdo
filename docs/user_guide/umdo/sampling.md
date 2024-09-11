@@ -77,34 +77,10 @@ and its options with the dictionary parameter `algo_options`.
 This formulation has been implemented for the expectation, variance and probability,
 as well as combinations of these statistics.
 
-### Mean
-
-$$\mathbb{E}[\varphi(x,U)]
-\approx E_N[\varphi(x,U)]
-=\frac{1}{N}\sum_{i=1}^N\varphi(x,U^{(i)})$$
-
-### Variance
-
-$$\mathbb{V}[\varphi(x,U)]
-\approx V_N[\varphi(x,U)]
-=\frac{1}{N-1}\sum_{i=1}^N\left(
-\varphi(x,U^{(i)})-\frac{1}{N}\sum_{j=1}^N\varphi(x,U^{(j)})
-\right)^2$$
-
-### Standard deviation
-
-$$\mathbb{S}[\varphi(x,U)]
-\approx S_N[\varphi(x,U)]
-=\sqrt{V_N[\varphi(x,U)]}$$
-
-### Margin
-
-$$\textrm{Margin}[\varphi(x,U)]
-\approx \textrm{Margin}_N[\varphi(x,U)]
-=E_N[\varphi(x,U)]+\kappa\times S_N[\varphi(x,U)]$$
-
-### Probability
-
-$$\mathbb{P}[\varphi(x,U)\leq 0]
-\approx P_N[\varphi(x,U)\leq 0]
-=E_N[\mathbb{1}_{\varphi(x,U)\leq 0}]$$
+| Statistic          | Notation                         | Estimator                                                                                                                |
+|--------------------|----------------------------------|--------------------------------------------------------------------------------------------------------------------------|
+| Mean               | $\mathbb{E}[\varphi(x,U)]$       | $E_N[\varphi(x,U)]=\frac{1}{N}\sum_{i=1}^N\varphi(x,U^{(i)})$                                                            |
+| Variance           | $\mathbb{V}[\varphi(x,U)]$       | $V_N[\varphi(x,U)]=\frac{1}{N-1}\sum_{i=1}^N\left(\varphi(x,U^{(i)})-E_N[\varphi(x,U)]\right)^2$ |
+| Standard deviation | $\mathbb{S}[\varphi(x,U)]$       | $S_N[\varphi(x,U)]=\sqrt{V_N[\varphi(x,U)]}$                                                                |
+| Margin             | $\textrm{Margin}[\varphi(x,U)]$  | $\textrm{Margin}_N[\varphi(x,U)]=E_N[\varphi(x,U)]+\kappa\times S_N[\varphi(x,U)]$                                       |
+| Probability        | $\mathbb{P}[\varphi(x,U)\leq 0]$ | $P_N[\varphi(x,U)\leq 0]=E_N[\mathbb{1}_{\varphi(x,U)\leq 0}]$                                                           |
