@@ -5984,13 +5984,12 @@
 -->
 
 <h1 id="sequential-sampling">Sequential sampling<a class="headerlink" href="#sequential-sampling" title="Permanent link">&para;</a></h1>
-<p>The U-MDO formulation <a class="autorefs autorefs-internal" href="../../../reference/gemseo_umdo/formulations/sequential_sampling/#gemseo_umdo.formulations.sequential_sampling.SequentialSampling">SequentialSampling</a>
-can solve an MDO problem
-associated with an [MDOFormulation][gemseo.formulations.mdo_formulation.MDOFormulation]
+<p><a class="autorefs autorefs-internal" href="../../../reference/gemseo_umdo/formulations/sequential_sampling/#gemseo_umdo.formulations.sequential_sampling.SequentialSampling">SequentialSampling</a>
+is a U-MDO formulation that estimates the statistics unbiasedly
 by using Monte Carlo sampling.
 Contrary to <a class="autorefs autorefs-internal" href="../../../reference/gemseo_umdo/formulations/sampling/#gemseo_umdo.formulations.sampling.Sampling">Sampling</a>,
-this U-MDO formulation does not use a constant sampling size
-but a sampling size that increases with the iterations of the optimization loop.</p>
+this U-MDO formulation does not use a constant sample size
+but a sample size that increases with the iterations of the optimization loop.</p>
 <p>The number of samples is mandatory
 and must be set with the parameter <code>n_samples</code>.
 It corresponds to the maximum number of samples
@@ -6017,7 +6016,7 @@ to get a good space-filling design of experiments (DOE).</p>
 <p>Read the <a href="https://gemseo.readthedocs.io/en/stable/doe.html#algorithms">GEMSEO documentation</a>
 for more information about the available DOE algorithms.</p>
 </div>
-<p>The DOE algorithm can be set with the string parameter <code>algo</code>
+<p>The DOE algorithm name can be set with the string parameter <code>algo</code>
 and its options with the dictionary parameter <code>algo_options</code>.</p>
 <div class="admonition note">
 <p class="admonition-title">API</p>
@@ -6046,7 +6045,7 @@ and is incremented by 1 at each iteration of the optimization loop.</p>
 <p>These values can be changed with the statistic estimation parameters
 <code>initial_n_samples</code> and <code>n_samples_increment</code>.</p>
 <h2 id="statistics">Statistics<a class="headerlink" href="#statistics" title="Permanent link">&para;</a></h2>
-<p>This formulation has been implemented for the expectation, variance and probability,
+<p>This U-MDO formulation has been implemented for the expectation, variance and probability,
 as well as combinations of these statistics.
 The estimators are given below at the <span class="arithmatex">\(k\)</span>-th iteration of the optimization loop.</p>
 <table>

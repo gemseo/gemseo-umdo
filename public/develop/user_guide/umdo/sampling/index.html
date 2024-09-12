@@ -5936,12 +5936,9 @@
 -->
 
 <h1 id="sampling">Sampling<a class="headerlink" href="#sampling" title="Permanent link">&para;</a></h1>
-<p>The U-MDO formulation <a class="autorefs autorefs-internal" href="../../../reference/gemseo_umdo/formulations/sampling/#gemseo_umdo.formulations.sampling.Sampling">Sampling</a>
-can solve an MDO problem
-associated with an [MDOFormulation][gemseo.formulations.mdo_formulation.MDOFormulation]
-by using Monte Carlo sampling.
-This U-MDO formulation replaces the statistics
-by their unbiased empirical estimators.</p>
+<p><a class="autorefs autorefs-internal" href="../../../reference/gemseo_umdo/formulations/sampling/#gemseo_umdo.formulations.sampling.Sampling">Sampling</a>
+is a U-MDO formulation that estimates the statistics unbiasedly
+using Monte Carlo sampling.</p>
 <p>This is the default U-MDO formulation.
 So, the argument <code>statistic_estimation</code> does not have to be set to use it.
 However,
@@ -5968,7 +5965,7 @@ Simulated annealing is a global optimization technique that
 starts from an initial LHS
 and improves it to maximize its discrepancy
 and so to get a better space-filling LHS.</p>
-<p>The DOE algorithm can be set with the string parameter <code>algo</code>
+<p>The DOE algorithm name can be set with the string parameter <code>algo</code>
 and its options with the dictionary parameter <code>algo_options</code>.</p>
 <div class="admonition note">
 <p class="admonition-title">API</p>
@@ -5991,7 +5988,7 @@ e.g.</p>
 </code></pre></div>
 </div>
 <h2 id="statistics">Statistics<a class="headerlink" href="#statistics" title="Permanent link">&para;</a></h2>
-<p>This formulation has been implemented for the expectation, variance and probability,
+<p>This U-MDO formulation has been implemented for the expectation, variance and probability,
 as well as combinations of these statistics.</p>
 <table>
 <thead>

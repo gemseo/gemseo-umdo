@@ -5984,10 +5984,9 @@
 -->
 
 <h1 id="taylor-polynomial">Taylor polynomial<a class="headerlink" href="#taylor-polynomial" title="Permanent link">&para;</a></h1>
-<p>The U-MDO formulation <a class="autorefs autorefs-internal" href="../../../reference/gemseo_umdo/formulations/taylor_polynomial/#gemseo_umdo.formulations.taylor_polynomial.TaylorPolynomial">TaylorPolynomial</a>
-can solve an MDO problem
-associated with an [MDOFormulation][gemseo.formulations.mdo_formulation.MDOFormulation]
-with Taylor polynomials.</p>
+<p><a class="autorefs autorefs-internal" href="../../../reference/gemseo_umdo/formulations/taylor_polynomial/#gemseo_umdo.formulations.taylor_polynomial.TaylorPolynomial">TaylorPolynomial</a>
+is a U-MDO formulation that estimates the statistics
+using Taylor polynomials.</p>
 <p>The Taylor polynomials are centered at <span class="arithmatex">\(\mu=\mathbb{E}[U]\)</span>
 where <span class="arithmatex">\(U\)</span> is the random input vector.</p>
 <p>When the derivatives with respect to the uncertain variables are available,
@@ -6052,7 +6051,7 @@ are already finite difference approximations,
 using second-order Taylor polynomials can be very costly.</p>
 </div>
 <h2 id="statistics">Statistics<a class="headerlink" href="#statistics" title="Permanent link">&para;</a></h2>
-<p>This formulation has been implemented for the expectation and variance,
+<p>This U-MDO formulation has been implemented for the expectation and variance,
 as well as combinations of these statistics.</p>
 <p>Here are the expressions when using first-order Taylor polynomials.</p>
 <table>

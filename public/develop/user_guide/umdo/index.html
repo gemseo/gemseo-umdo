@@ -6086,7 +6086,7 @@ called <em>MDO formulation</em> or <em>architecture</em><sup id="fnref:1"><a cla
   and is thus qualified as <em>coupled</em>.</p>
 <div class="arithmatex">\[
 \begin{align}
-&amp;\underset{x\in\mathcal{X}}{\operatorname{Minimize}}&amp;&amp;f(x,y(x))\\
+&amp;\underset{x\in\mathcal{X}}{\operatorname{minimize}}&amp;&amp;f(x,y(x))\\
 &amp;\operatorname{subject\;to}
 &amp; &amp;g(x,y(x)) \leq 0 \\
 &amp;&amp;&amp;h(x,y(x)) = 0 \\
@@ -6104,7 +6104,7 @@ called <em>MDO formulation</em> or <em>architecture</em><sup id="fnref:1"><a cla
   by means of consistency constraints.</p>
 <div class="arithmatex">\[
 \begin{align}
-&amp;\underset{x\in\mathcal{X},\tilde{y}\in\mathcal{Y}}{\operatorname{Minimize}}&amp;&amp;f(x,\tilde{y})\\
+&amp;\underset{x\in\mathcal{X},\tilde{y}\in\mathcal{Y}}{\operatorname{minimize}}&amp;&amp;f(x,\tilde{y})\\
 &amp;\operatorname{subject\;to}
 &amp; &amp;g(x,\tilde{y}) \leq 0 \\
 &amp;&amp;&amp;h(x,\tilde{y}) = 0 \\
@@ -6334,12 +6334,24 @@ and a Monte Carlo estimator of the expectation.</p>
 <p>By default,
 <a class="autorefs autorefs-internal" href="../../reference/gemseo_umdo/scenarios/udoe_scenario/#gemseo_umdo.scenarios.udoe_scenario.UDOEScenario">UDOEScenario</a>
 and <a class="autorefs autorefs-internal" href="../../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>
-estimate the statistics
-by sampling the random function <span class="arithmatex">\(f(x,U)\)</span>, <span class="arithmatex">\(g(x,U)\)</span> and <span class="arithmatex">\(h(x,U)\)</span>.</p>
-<p>GEMSEO-UMDO offers other statistic estimations methods
-and refers to them as U-MDO formulations.
-A <a class="autorefs autorefs-internal" href="../../reference/gemseo_umdo/formulations/base_umdo_formulation/#gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation">BaseUMDOFormulation</a>
-can be combined to any MDO formulation.</p>
+estimate the statistics associated with <span class="arithmatex">\(f(x,U)\)</span>, <span class="arithmatex">\(g(x,U)\)</span> and <span class="arithmatex">\(h(x,U)\)</span>
+by sampling these random variables:</p>
+<div class="arithmatex">\[(f(x,U^{(i)}),g(x,U^{(i)}),h(x,U^{(i)}))_{1\leq i \leq N}.\]</div>
+<p>However,
+as sampling can be expensive,
+GEMSEO-UMDO offers other techniques to reduce the cost of statistics estimation,
+such as
+<a href="control_variate">control variates</a>,
+<a href="taylor_polynomial">Taylor polynomials</a>
+and
+<a href="pce">polynomial chaos expansions</a>.
+The choice of an estimation technique is made
+via the string argument <code>estimation_technique</code> of <a class="autorefs autorefs-internal" href="../../reference/gemseo_umdo/scenarios/udoe_scenario/#gemseo_umdo.scenarios.udoe_scenario.UDOEScenario">UDOEScenario</a>
+(or <a class="autorefs autorefs-internal" href="../../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>),
+representing the class name of an
+<a class="autorefs autorefs-internal" href="../../reference/gemseo_umdo/formulations/base_umdo_formulation/#gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation">BaseUMDOFormulation</a>,
+<em>e.g.</em> <code>"ControlVariate"</code>, <code>"TaylorPolynomial"</code> or <code>"PCE"</code>.</p>
+<p>The rest of the <strong>MDO under uncertainty</strong> section of the user guide presents the different U-MDO formulations.</p>
 <details class="info">
 <summary>Implementation</summary>
 <p>Given a
