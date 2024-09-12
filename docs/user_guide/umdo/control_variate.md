@@ -9,11 +9,9 @@
 
 # Control variate
 
-The U-MDO formulation [ControlVariate]
-[gemseo_umdo.formulations.control_variate.ControlVariate]
-can solve an MDO problem
-associated with an [MDOFormulation][gemseo.formulations.mdo_formulation.MDOFormulation]
-by using control variates based on first-order Taylor polynomials.
+[ControlVariate][gemseo_umdo.formulations.control_variate.ControlVariate]
+is a U-MDO formulation that estimates the statistics
+using control variates based on first-order Taylor polynomials.
 
 !!! note "Control variates (CVs) method"
 
@@ -51,7 +49,7 @@ starts from an initial LHS
 and improves it to maximize its discrepancy
 and so to get a better space-filling LHS.
 
-The DOE algorithm can be set with the string parameter `algo`
+The DOE algorithm name can be set with the string parameter `algo`
 and its options with the dictionary parameter `algo_options`.
 
 !!! note "API"
@@ -78,7 +76,7 @@ and its options with the dictionary parameter `algo_options`.
 
 ## Statistics
 
-This formulation has been implemented for the expectation, variance and probability,
+This U-MDO formulation has been implemented for the expectation, variance and probability,
 as well as combinations of these statistics.
 
 Only the average formula is noted here, for simplicity's sake

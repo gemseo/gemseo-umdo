@@ -9,11 +9,9 @@
 
 # Taylor polynomial
 
-The U-MDO formulation [TaylorPolynomial]
-[gemseo_umdo.formulations.taylor_polynomial.TaylorPolynomial]
-can solve an MDO problem
-associated with an [MDOFormulation][gemseo.formulations.mdo_formulation.MDOFormulation]
-with Taylor polynomials.
+[TaylorPolynomial][gemseo_umdo.formulations.taylor_polynomial.TaylorPolynomial]
+is a U-MDO formulation that estimates the statistics
+using Taylor polynomials.
 
 The Taylor polynomials are centered at $\mu=\mathbb{E}[U]$
 where $U$ is the random input vector.
@@ -91,7 +89,7 @@ by setting the statistic estimation parameter `second_order` to `True`.
 
 ## Statistics
 
-This formulation has been implemented for the expectation and variance,
+This U-MDO formulation has been implemented for the expectation and variance,
 as well as combinations of these statistics.
 
 Here are the expressions when using first-order Taylor polynomials.

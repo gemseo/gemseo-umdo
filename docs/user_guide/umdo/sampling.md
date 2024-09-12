@@ -9,12 +9,9 @@
 
 # Sampling
 
-The U-MDO formulation [Sampling][gemseo_umdo.formulations.sampling.Sampling]
-can solve an MDO problem
-associated with an [MDOFormulation][gemseo.formulations.mdo_formulation.MDOFormulation]
-by using Monte Carlo sampling.
-This U-MDO formulation replaces the statistics
-by their unbiased empirical estimators.
+[Sampling][gemseo_umdo.formulations.sampling.Sampling]
+is a U-MDO formulation that estimates the statistics unbiasedly
+using Monte Carlo sampling.
 
 This is the default U-MDO formulation.
 So, the argument `statistic_estimation` does not have to be set to use it.
@@ -48,7 +45,7 @@ starts from an initial LHS
 and improves it to maximize its discrepancy
 and so to get a better space-filling LHS.
 
-The DOE algorithm can be set with the string parameter `algo`
+The DOE algorithm name can be set with the string parameter `algo`
 and its options with the dictionary parameter `algo_options`.
 
 !!! note "API"
@@ -74,7 +71,7 @@ and its options with the dictionary parameter `algo_options`.
 
 ## Statistics
 
-This formulation has been implemented for the expectation, variance and probability,
+This U-MDO formulation has been implemented for the expectation, variance and probability,
 as well as combinations of these statistics.
 
 | Statistic          | Notation                         | Estimator                                                                                                                |
