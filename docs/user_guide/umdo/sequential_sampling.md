@@ -9,14 +9,12 @@
 
 # Sequential sampling
 
-The U-MDO formulation [SequentialSampling]
-[gemseo_umdo.formulations.sequential_sampling.SequentialSampling]
-can solve an MDO problem
-associated with an [MDOFormulation][gemseo.formulations.mdo_formulation.MDOFormulation]
+[SequentialSampling][gemseo_umdo.formulations.sequential_sampling.SequentialSampling]
+is a U-MDO formulation that estimates the statistics unbiasedly
 by using Monte Carlo sampling.
 Contrary to [Sampling][gemseo_umdo.formulations.sampling.Sampling],
-this U-MDO formulation does not use a constant sampling size
-but a sampling size that increases with the iterations of the optimization loop.
+this U-MDO formulation does not use a constant sample size
+but a sample size that increases with the iterations of the optimization loop.
 
 The number of samples is mandatory
 and must be set with the parameter `n_samples`.
@@ -50,7 +48,7 @@ to get a good space-filling design of experiments (DOE).
     Read the [GEMSEO documentation](https://gemseo.readthedocs.io/en/stable/doe.html#algorithms)
     for more information about the available DOE algorithms.
 
-The DOE algorithm can be set with the string parameter `algo`
+The DOE algorithm name can be set with the string parameter `algo`
 and its options with the dictionary parameter `algo_options`.
 
 !!! note "API"
@@ -85,7 +83,7 @@ These values can be changed with the statistic estimation parameters
 
 ## Statistics
 
-This formulation has been implemented for the expectation, variance and probability,
+This U-MDO formulation has been implemented for the expectation, variance and probability,
 as well as combinations of these statistics.
 The estimators are given below at the $k$-th iteration of the optimization loop.
 

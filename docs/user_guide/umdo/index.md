@@ -159,7 +159,7 @@ called *MDO formulation* or *architecture*[@MartinsSurvey].
 
     $$
     \begin{align}
-    &\underset{x\in\mathcal{X}}{\operatorname{Minimize}}&&f(x,y(x))\\
+    &\underset{x\in\mathcal{X}}{\operatorname{minimize}}&&f(x,y(x))\\
     &\operatorname{subject\;to}
     & &g(x,y(x)) \leq 0 \\
     &&&h(x,y(x)) = 0 \\
@@ -177,7 +177,7 @@ called *MDO formulation* or *architecture*[@MartinsSurvey].
 
     $$
     \begin{align}
-    &\underset{x\in\mathcal{X},\tilde{y}\in\mathcal{Y}}{\operatorname{Minimize}}&&f(x,\tilde{y})\\
+    &\underset{x\in\mathcal{X},\tilde{y}\in\mathcal{Y}}{\operatorname{minimize}}&&f(x,\tilde{y})\\
     &\operatorname{subject\;to}
     & &g(x,\tilde{y}) \leq 0 \\
     &&&h(x,\tilde{y}) = 0 \\
@@ -430,13 +430,27 @@ to solve the MDO problem under uncertainty.
 By default,
 [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario]
 and [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
-estimate the statistics
-by sampling the random function $f(x,U)$, $g(x,U)$ and $h(x,U)$.
+estimate the statistics associated with $f(x,U)$, $g(x,U)$ and $h(x,U)$
+by sampling these random variables:
 
-GEMSEO-UMDO offers other statistic estimations methods
-and refers to them as U-MDO formulations.
-A [BaseUMDOFormulation][gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation]
-can be combined to any MDO formulation.
+$$(f(x,U^{(i)}),g(x,U^{(i)}),h(x,U^{(i)}))_{1\leq i \leq N}.$$
+
+However,
+as sampling can be expensive,
+GEMSEO-UMDO offers other techniques to reduce the cost of statistics estimation,
+such as
+[control variates](control_variate),
+[Taylor polynomials](taylor_polynomial)
+and
+[polynomial chaos expansions](pce).
+The choice of an estimation technique is made
+via the string argument `estimation_technique` of [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario]
+(or [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]),
+representing the class name of an
+[BaseUMDOFormulation][gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation],
+*e.g.* `"ControlVariate"`, `"TaylorPolynomial"` or `"PCE"`.
+
+The rest of the **MDO under uncertainty** section of the user guide presents the different U-MDO formulations.
 
 ??? info "Implementation"
 

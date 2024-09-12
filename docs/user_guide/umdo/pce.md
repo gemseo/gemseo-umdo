@@ -9,10 +9,9 @@
 
 # Polynomial chaos expansion
 
-The U-MDO formulation [PCE][gemseo_umdo.formulations.pce.PCE]
-can solve an MDO problem
-associated with an [MDOFormulation][gemseo.formulations.mdo_formulation.MDOFormulation]
-with polynomial chaos expansions (PCEs).
+[PCE][gemseo_umdo.formulations.pce.PCE]
+is a U-MDO formulation that estimates the statistics
+using polynomial chaos expansions (PCEs).
 
 At each iteration of the optimization loop,
 a PCE is built over the uncertain space
@@ -42,17 +41,27 @@ scenario = UMDOScenario(
 ### DOE algorithm
 
 By default,
-the formulation uses the DOE algorithm `OT_OPT_LHS`:
-the Latin hypercube sampling (LHS)
-enhanced by simulated annealing
-of OpenTURNS.
-Simulated annealing is a global optimization technique that
+the formulation uses the [OpenTURNS](https://openturns.github.io)' DOE algorithm `OT_OPT_LHS`,
+which is a Latin hypercube sampling (LHS) technique enhanced by simulated annealing,
+a global optimization technique that
 starts from an initial LHS
 and improves it to maximize its discrepancy
 and so to get a better space-filling LHS.
 
-The DOE algorithm can be set with the string parameter `doe_algo`
+The DOE algorithm name can be set with the string option `doe_algo`
 and its options with the dictionary parameter `doe_algo_options`.
+When the DOE algorithm uses a random number generator,
+the integer option `doe_seed` can be used for reproducibility purposes.
+
+### PCE options
+
+This U-MDO formulation is based on the [PCERegressor][gemseo.mlearning.regression.algos.pce.PCERegressor] available in GEMSEO,
+which wraps the [OpenTURNS' PCE algorithm](https://openturns.github.io/openturns/latest/user_manual/response_surface/_generated/openturns.FunctionalChaosAlgorithm.html).
+Use the `pce_options` arguments to set the options of the [PCERegressor][gemseo.mlearning.regression.algos.pce.PCERegressor].
+For example,
+set `use_lars` to `True` to obtain a more sparse PCE and avoid overfitting
+([more details](https://openturns.github.io/openturns/latest/theory/meta_modeling/polynomial_sparse_least_squares.html))
+and `degree` to `3` for a maximum degree of 3.
 
 !!! note "API"
     Use `statistic_estimation_parameters`
@@ -70,20 +79,32 @@ and its options with the dictionary parameter `doe_algo_options`.
         statistic_estimation_parameters={
             "doe_algo": "OT_MONTE_CARLO",
             "doe_n_samples": 20,
-            "doe_algo_options": {"n_processes": 2}
+            "doe_algo_options": {"n_processes": 2},
+            "pce_options": {"use_lars": True, "degree": 3}
         }
     )
     ```
 
-### PCE options
+### Quality options
 
-This U-MDO formulation is based on the [PCERegressor][gemseo.mlearning.regression.algos.pce.PCERegressor] available in GEMSEO,
-which wraps the [OpenTURNS' PCE algorithm](https://openturns.github.io/openturns/latest/user_manual/response_surface/_generated/openturns.FunctionalChaosAlgorithm.html).
-Use the `pce_options` arguments to set the options of the [PCERegressor][gemseo.mlearning.regression.algos.pce.PCERegressor].
+Finally,
+many options can be used
+to adjust the log verbosity
+providing information on the PCEs built at each optimization iteration:
+
+| Name                 | Description                                                                                   |
+|----------------------|-----------------------------------------------------------------------------------------------|
+| quality_threshold    | The learning quality threshold below which a warning is logged.                               |
+| quality_name         | The name of the measure to assess the quality of the PCE regressor.                           |
+| quality_cv_compute   | Whether to estimate the quality by cross-validation (CV).                                     |
+| quality_n_folds      | The number of folds in the case of the CV technique.                                          |
+| quality_cv_randomize | Whether to shuffle the samples before dividing them in folds in the case of the CV technique. |
+| quality_cv_seed      | The seed of the pseudo-random number generator.                                               |
+| quality_cv_threshold | The CV quality threshold below which a warning is logged.                                     |
 
 ## Statistics
 
-This formulation has been implemented for the expectation and variance,
+This U-MDO formulation has been implemented for the expectation and variance,
 as well as combinations of these statistics,
 from the coefficients $(\alpha_i)_{0\leq i \leq N}$ of the PCE
 
