@@ -107,6 +107,8 @@ nav:
   - U-MDO: generated/examples/umdo
   - Visualization: generated/examples/visualizations
 - API documentation: reference/gemseo_umdo/
+- Developer guide:
+  - U-MDO: developer_guide/umdo.md
 
 markdown_extensions:
 - admonition

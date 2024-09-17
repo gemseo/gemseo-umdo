@@ -439,10 +439,10 @@ However,
 as sampling can be expensive,
 GEMSEO-UMDO offers other techniques to reduce the cost of statistics estimation,
 such as
-[control variates](control_variate),
-[Taylor polynomials](taylor_polynomial)
+[control variates](control_variate.md),
+[Taylor polynomials](taylor_polynomial.md)
 and
-[polynomial chaos expansions](pce).
+[polynomial chaos expansions](pce.md).
 The choice of an estimation technique is made
 via the string argument `estimation_technique` of [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario]
 (or [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]),
