@@ -13,7 +13,21 @@
 # FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-"""# Robust OPT - Control variate - Quadratic function."""
+r"""# A quadratic mono-disciplinary problem
+
+In this example, we consider the quadratic mono-disciplinary optimization problem
+
+$$\min_{x\in[-1,1]} \mathbb{E}[(x+U)^2]$$
+
+where $U\sim\mathcal{N}(0,1)$ is a standard Gaussian variable and $\mathbb{E}$ is the
+expectation operator.
+
+The objective can be rewritten as $x^2+1$ and then the solution is obvious, namely
+
+$$(x^*,\mathbb{E}[(x^*+U)^2])=(0,1).$$
+
+In the following, we will call $f$ the function computing $(x+U)^2$ given $x$ and $U$.
+"""
 
 from __future__ import annotations
 
@@ -29,24 +43,25 @@ configure_logger()
 # %%
 # Firstly,
 # we define an [AnalyticDiscipline][gemseo.disciplines.analytic.AnalyticDiscipline]
-# implementing the random function $f(x,U)=(x+U)^2$:
-discipline = AnalyticDiscipline({"y": "(x+u)**2"}, name="quadratic_function")
+# implementing the function $f$:
+discipline = AnalyticDiscipline({"y": "(x+u)**2"}, name="f")
 
 # %%
-# where $x$ belongs to the interval $[-1,1]$:
+# as well as the design space:
 design_space = DesignSpace()
 design_space.add_variable("x", l_b=-1, u_b=1.0, value=0.5)
 
 # %%
-# and $U$ is a standard Gaussian variable:
+# and the uncertain space:
 uncertain_space = ParameterSpace()
 uncertain_space.add_random_variable("u", "OTNormalDistribution")
 
 # %%
 # Then,
-# we build a [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
-# to minimize a control variate-based estimation
-# of the expectation $\mathbb{E}[Y]$ where $Y=f(x,U)$:
+# we define a [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
+# to minimize the statistic $\mathbb{E}[(x+U)^2]$
+# estimated using a crude Monte Carlo sampling strategy
+# with 50 samples at each iteration of the optimization loop:
 scenario = UMDOScenario(
     [discipline],
     "DisciplinaryOpt",
@@ -54,18 +69,20 @@ scenario = UMDOScenario(
     design_space,
     uncertain_space,
     "Mean",
-    statistic_estimation="ControlVariate",
     statistic_estimation_parameters={"n_samples": 50},
 )
 
 # %%
-# We execute it with a gradient-free optimizer:
+# We execute this scenario using the gradient-free optimizer COBYLA:
 scenario.execute({"algo": "NLOPT_COBYLA", "max_iter": 100})
 
 # %%
-# and plot the history:
-scenario.post_process("OptHistoryView", save=True, show=True)
+# and plot the optimization history:
+scenario.post_process("OptHistoryView", save=False, show=True)
 
 # %%
-# Notice that the numerical solution is equal to $(x^*,f^*)=(0,1)$ as expected
-# from the expression of the statistic: $\mathbb{E}[Y]=\mathbb{E}[(x+U)^2]=x^2+1$.
+# Notice that the numerical solution
+(scenario.optimization_result.x_opt[0], scenario.optimization_result.f_opt)
+
+# %%
+# is close to the theoretical solution $(x^*,\mathbb{E}[(x^*+U)^2])=(0,1)$.

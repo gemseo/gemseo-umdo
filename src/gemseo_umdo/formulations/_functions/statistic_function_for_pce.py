@@ -119,10 +119,10 @@ class StatisticFunctionForPCE(BaseStatisticFunction[PCET]):
                         output_name,
                         index,
                         train_value,
-                        quality_operators[train_is_bad],
+                        quality_operators[int(train_is_bad)],
                         thresh[index],
                         test_value,
-                        quality_operators[cv_is_bad],
+                        quality_operators[int(cv_is_bad)],
                         cv_thresh[index],
                     )
         else:

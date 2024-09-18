@@ -101,11 +101,9 @@ nav:
     - Uncertain coupling graph: user_guide/visualization/uncertain_coupling_graph.md
     - Sobol graph: user_guide/visualization/sobol_graph.md
 - Examples:
-  - Examples: generated/examples/index.md
-  - Problems: generated/examples/problems
-  - U-DOE:  generated/examples/udoe
-  - U-MDO: generated/examples/umdo
+  - MDO under uncertainty: generated/examples/umdo
   - Visualization: generated/examples/visualizations
+  - Problems: generated/examples/problems
 - API documentation: reference/gemseo_umdo/
 - Developer guide:
   - U-MDO: developer_guide/umdo.md

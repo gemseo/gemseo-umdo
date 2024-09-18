@@ -13,9 +13,7 @@
 # FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-"""
-# Robust MDO - Sampling - Sobieski
-"""
+"""# The Sobieski's SSBJ MDO problem"""
 
 from __future__ import annotations
 
@@ -72,7 +70,6 @@ scenario = UMDOScenario(
     design_space,
     uncertain_space,
     "Mean",
-    statistic_estimation="Sampling",
     statistic_estimation_parameters={"n_samples": 10},
     maximize_objective=True,
     uncertain_design_variables={"x_2": "{}+u_x_2"},

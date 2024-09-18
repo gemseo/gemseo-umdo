@@ -13,9 +13,7 @@
 # FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-# Copyright 2022 IRT Saint Exupéry, https://www.irt-saintexupery.com
-# All rights reserved.
-"""# Robust OPT - Control variate vs Sampling - Rosenbrock function."""
+"""# Control variate vs Sampling"""
 
 from __future__ import annotations
 

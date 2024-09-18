@@ -13,8 +13,17 @@
 # FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-"""
-# Robust OPT - Sampling - Rosenbrock function
+r"""# The Rosenbrock mono-disciplinary problem
+
+In this example, we consider the Rosenbrock mono-disciplinary optimization problem
+
+$$\min_{x,y\in[-2,2]} \mathbb{E}[(U-x)^2+100(y-x^2)^2]$$
+
+where $U\sim\mathcal{N}(0,0.0025)$ is a Gaussian variable and $\mathbb{E}$ is the
+expectation operator.
+
+In the following, we will call $f$ the function computing $(U-x)^2+100(y-x^2)^2$ given
+$x$, $y$ and $U$.
 """
 
 from __future__ import annotations
@@ -30,10 +39,8 @@ configure_logger()
 
 # %%
 # Firstly,
-# we define an [AnalyticDiscipline][gemseo.disciplines.analytic.AnalyticDiscipline]
-# implementing a random version of the Rosenbrock function
-# $f(x,y,U)=(U-x)^2+100(y-x^2)^2$:
-discipline = AnalyticDiscipline({"z": "(u-x)**2+100*(y-x**2)**2"}, name="Rosenbrock")
+# we define the discipline implementing the Rosenbrock function $f$:
+discipline = AnalyticDiscipline({"z": "(u-x)**2+100*(y-x**2)**2"}, name="f")
 
 # %%
 # where $x,y$ belongs to the interval $[-2,2]$:
@@ -49,9 +56,10 @@ uncertain_space.add_random_variable("u", "OTNormalDistribution", mu=1.0, sigma=0
 
 # %%
 # Then,
-# we build a [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
-# to minimize a sampling-based estimation
-# of the expectation $\mathbb{E}[Y]$ where $Y=f(x,y,U)$:
+# we define a [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
+# to minimize the statistic $\mathbb{E}[(U-x)^2+100(y-x^2)^2]$
+# estimated using a first-order Taylor polynomial of $f$ at $\mathbb{E}[U]=0.2$
+# at each iteration of the optimization loop:
 scenario = UMDOScenario(
     [discipline],
     "DisciplinaryOpt",
@@ -59,20 +67,29 @@ scenario = UMDOScenario(
     design_space,
     uncertain_space,
     "Mean",
-    statistic_estimation="Sampling",
-    statistic_estimation_parameters={"n_samples": 10},
+    statistic_estimation_parameters={"n_samples": 30},
 )
 
 # %%
-# and execute it with a gradient-based optimizer:
+# We execute it with the gradient-based optimizer SLSQP:
+#
+# !!! warning
+#     The implementation of statistic estimators do not allow for the moment
+#     to use analytical derivatives.
+#     Please use finite differences or complex step to approximate the gradients.
 scenario.set_differentiation_method("finite_differences")
-# %%
-# .. note::
-#    The statistics do not allow for the moment to use analytical derivatives.
-#    Please use finite differences or complex step to approximate the gradients.
 scenario.execute({"algo": "NLOPT_SLSQP", "max_iter": 100})
 
 # %%
+# and plot the optimization history:
+scenario.post_process("OptHistoryView", save=False, show=True)
+
+# %%
 # Lastly,
-# we can plot the optimization history view:
-scenario.post_process("OptHistoryView", save=True, show=True)
+# we can compare the numerical solution of this Rosenbrock problem under uncertainty
+(scenario.optimization_result.x_opt, scenario.optimization_result.f_opt)
+
+# %%
+# to the solution of the Rosenbrock problem without uncertainty,
+# namely
+# $(x^*,f^*)=([1, 1], 0)$.
