@@ -7,3 +7,7 @@
  Commons, PO Box 1866, Mountain View, CA 94042, USA.
 -->
 # MDO under uncertainty
+
+These examples show
+how to use the different U-MDO formulations presented in the [user guide](../../../user_guide/umdo/index.md)
+by considering toy functions and state-of-the-art use cases.

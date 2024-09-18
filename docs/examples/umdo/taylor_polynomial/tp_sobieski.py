@@ -13,9 +13,7 @@
 # FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-"""
-# Robust MDO - First-order Taylor polynomial - Sobieski
-"""
+"""# The Sobieski's SSBJ MDO problem"""
 
 from __future__ import annotations
 
@@ -73,6 +71,7 @@ scenario = UMDOScenario(
     uncertain_space,
     "Mean",
     statistic_estimation="TaylorPolynomial",
+    # statistic_estimation_parameters={"second_order": True},
     maximize_objective=True,
     uncertain_design_variables={"x_2": "{}+u_x_2"},
 )

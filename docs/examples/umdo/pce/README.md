@@ -6,4 +6,8 @@
  http://creativecommons.org/licenses/by-sa/4.0/ or send a letter to Creative
  Commons, PO Box 1866, Mountain View, CA 94042, USA.
 -->
-# MDO under uncertainty | Sellar
+# ... using polynomial chaos expansions (PCEs)
+
+The statistics are estimated using a PCE built over the uncertain space.
+
+Read more in the [user guide](../../../user_guide/umdo/pce.md).
