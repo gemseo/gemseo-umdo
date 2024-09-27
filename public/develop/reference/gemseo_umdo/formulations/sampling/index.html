@@ -7232,7 +7232,9 @@ If <code>None</code>, the discipline is detected from inner disciplines.</p>
 <span class="normal">226</span>
 <span class="normal">227</span>
 <span class="normal">228</span>
-<span class="normal">229</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">compute_samples</span><span class="p">(</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">compute_samples</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span> <span class="n">problem</span><span class="p">:</span> <span class="n">OptimizationProblem</span><span class="p">,</span> <span class="n">input_data</span><span class="p">:</span> <span class="n">RealArray</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Evaluate the functions of a problem with a DOE algorithm.</span>
@@ -7251,7 +7253,9 @@ If <code>None</code>, the discipline is detected from inner disciplines.</p>
         <span class="n">main_problem</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimization_problem</span>
         <span class="n">iteration</span> <span class="o">=</span> <span class="n">main_problem</span><span class="o">.</span><span class="n">evaluation_counter</span><span class="o">.</span><span class="n">current</span> <span class="o">+</span> <span class="mi">1</span>
         <span class="n">dataset</span> <span class="o">=</span> <span class="n">problem</span><span class="o">.</span><span class="n">to_dataset</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Iteration </span><span class="si">{</span><span class="n">iteration</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">opt_naming</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-        <span class="n">dataset</span><span class="o">.</span><span class="n">misc</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">main_problem</span><span class="o">.</span><span class="n">design_space</span><span class="o">.</span><span class="n">array_to_dict</span><span class="p">(</span><span class="n">input_data</span><span class="p">))</span>
+        <span class="n">dataset</span><span class="o">.</span><span class="n">misc</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+            <span class="n">main_problem</span><span class="o">.</span><span class="n">design_space</span><span class="o">.</span><span class="n">convert_array_to_dict</span><span class="p">(</span><span class="n">input_data</span><span class="p">)</span>
+        <span class="p">)</span>
         <span class="n">dataset</span><span class="o">.</span><span class="n">to_pickle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__samples_directory_path</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">iteration</span><span class="si">}</span><span class="s2">.pkl&quot;</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>

@@ -44,8 +44,8 @@ for name, value in optimum_design.items():
     uncertain_space.add_variable(
         name,
         size=value.size,
-        l_b=value * 0.95,
-        u_b=value * 1.05,
+        lower_bound=value * 0.95,
+        upper_bound=value * 1.05,
         value=value,
     )
 
