@@ -37,7 +37,7 @@ fastjsonschema==2.20.0
     # via gemseo
 fonttools==4.54.1
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@2f02c9a6c876f8e91eb6dfa9644655afa0b40d63
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@10c3c7eb67d352ca6ff97f712f199f6226428be8
     # via
     #   -c requirements/test-constraints.in
     #   gemseo-umdo (pyproject.toml)
@@ -135,7 +135,7 @@ mkdocs-include-markdown-plugin==6.2.2
     # via gemseo-umdo (pyproject.toml)
 mkdocs-literate-nav==0.6.1
     # via gemseo-umdo (pyproject.toml)
-mkdocs-material==9.5.36
+mkdocs-material==9.5.38
     # via
     #   gemseo-umdo (pyproject.toml)
     #   mkdocs-gallery
@@ -217,7 +217,7 @@ pygments==2.18.0
     #   pygments-ansi-color
 pygments-ansi-color==0.3.0
     # via markdown-exec
-pymdown-extensions==10.10.1
+pymdown-extensions==10.11
     # via
     #   markdown-exec
     #   mkdocs-material
@@ -299,9 +299,9 @@ validators==0.34.0
     # via mkdocs-bibtex
 verspec==0.1.0
     # via mike
-watchdog==5.0.2
+watchdog==5.0.3
     # via mkdocs
-wcmatch==9.0
+wcmatch==10.0
     # via mkdocs-include-markdown-plugin
 xdsmjs==2.0.0
     # via gemseo
