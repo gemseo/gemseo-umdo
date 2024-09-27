@@ -61,4 +61,6 @@ def test_uncertain_space(nu_bounds):
 
     assert he_uncertain_space.variable_names == uncertain_space.variable_names
     for name in he_uncertain_space.variable_names:
-        assert he_uncertain_space[name] == uncertain_space[name]
+        assert repr(he_uncertain_space.distributions[name]) == repr(
+            uncertain_space.distributions[name]
+        )

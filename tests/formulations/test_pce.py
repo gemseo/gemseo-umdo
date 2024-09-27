@@ -335,7 +335,7 @@ def test_scenario():
     discipline = AnalyticDiscipline({"y": "(x+u)**2"}, name="quadratic_function")
 
     design_space = DesignSpace()
-    design_space.add_variable("x", l_b=-1, u_b=1.0, value=0.5)
+    design_space.add_variable("x", lower_bound=-1, upper_bound=1.0, value=0.5)
 
     uncertain_space = ParameterSpace()
     uncertain_space.add_random_variable("u", "OTNormalDistribution")

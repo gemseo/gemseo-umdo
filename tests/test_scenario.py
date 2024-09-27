@@ -57,8 +57,8 @@ def design_space() -> DesignSpace:
     """The space of local and global design variables."""
     space = DesignSpace()
     for name in ["x0", "x1", "x2"]:
-        space.add_variable(name, l_b=0.0, u_b=1.0, value=0.5)
-    space.add_variable("y1", l_b=0.0, u_b=1.0, value=0.5)
+        space.add_variable(name, lower_bound=0.0, upper_bound=1.0, value=0.5)
+    space.add_variable("y1", lower_bound=0.0, upper_bound=1.0, value=0.5)
     return space
 
 
@@ -310,7 +310,7 @@ def test_log(
     discipline = AnalyticDiscipline({"y": "x**2+u"}, name="f")
 
     design_space = DesignSpace()
-    design_space.add_variable("x", l_b=-1, u_b=1.0, value=0.5)
+    design_space.add_variable("x", lower_bound=-1, upper_bound=1.0, value=0.5)
 
     uncertain_space = ParameterSpace()
     uncertain_space.add_random_variable("u", "OTNormalDistribution")

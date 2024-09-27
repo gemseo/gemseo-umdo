@@ -36,7 +36,7 @@ if TYPE_CHECKING:
 def input_space() -> DesignSpace:
     """The input space on which to sample the functions."""
     design_space = DesignSpace()
-    design_space.add_variable("x", size=2, l_b=0.0, u_b=1.0)
+    design_space.add_variable("x", size=2, lower_bound=0.0, upper_bound=1.0)
     return design_space
 
 

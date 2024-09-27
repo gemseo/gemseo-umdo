@@ -42,103 +42,21 @@ def test_nominal_values():
 
 
 @pytest.mark.parametrize(
-    ("name", "distribution_class_name", "parameters"),
+    ("name", "repr_"),
     [
-        (
-            "b",
-            "OTUniformDistribution",
-            {"maximum": 501.0, "minimum": 499.0},
-        ),
-        (
-            "h",
-            "OTUniformDistribution",
-            {"maximum": 801.0, "minimum": 799.0},
-        ),
-        (
-            "t",
-            "OTUniformDistribution",
-            {"maximum": 3.5, "minimum": 1.5},
-        ),
-        (
-            "L",
-            "OTUniformDistribution",
-            {"maximum": 5001.0, "minimum": 4999.0},
-        ),
-        (
-            "alpha",
-            "OTNormalDistribution",
-            {
-                "lower_bound": -1.0,
-                "mu": 0.0,
-                "sigma": 0.3333333333333333,
-                "upper_bound": 1.0,
-            },
-        ),
-        (
-            "beta",
-            "OTNormalDistribution",
-            {
-                "lower_bound": -1.0,
-                "mu": 0.0,
-                "sigma": 0.3333333333333333,
-                "upper_bound": 1.0,
-            },
-        ),
-        (
-            "dy",
-            "OTNormalDistribution",
-            {
-                "lower_bound": -1.0,
-                "mu": 0.0,
-                "sigma": 0.3333333333333333,
-                "upper_bound": 1.0,
-            },
-        ),
-        (
-            "dz",
-            "OTNormalDistribution",
-            {
-                "lower_bound": -1.0,
-                "mu": 0.0,
-                "sigma": 0.3333333333333333,
-                "upper_bound": 1.0,
-            },
-        ),
-        (
-            "E",
-            "OTNormalDistribution",
-            {
-                "lower_bound": 73499.0,
-                "mu": 73500.0,
-                "sigma": 0.3333333333333333,
-                "upper_bound": 73501.0,
-            },
-        ),
-        (
-            "Rd",
-            "OTNormalDistribution",
-            {
-                "lower_bound": 179.0,
-                "mu": 180.0,
-                "sigma": 0.3333333333333333,
-                "upper_bound": 181.0,
-            },
-        ),
-        (
-            "Ry",
-            "OTNormalDistribution",
-            {
-                "lower_bound": 599.0,
-                "mu": 600.0,
-                "sigma": 0.3333333333333333,
-                "upper_bound": 601.0,
-            },
-        ),
+        ("b", "Uniform(lower=499.0, upper=501.0)"),
+        ("h", "Uniform(lower=799.0, upper=801.0)"),
+        ("t", "Uniform(lower=1.5, upper=3.5)"),
+        ("L", "Uniform(lower=4999.0, upper=5001.0)"),
+        ("alpha", "Normal(mu=0.0, sigma=0.3333333333333333)"),
+        ("beta", "Normal(mu=0.0, sigma=0.3333333333333333)"),
+        ("dy", "Normal(mu=0.0, sigma=0.3333333333333333)"),
+        ("dz", "Normal(mu=0.0, sigma=0.3333333333333333)"),
+        ("E", "Normal(mu=73500.0, sigma=0.3333333333333333)"),
+        ("Rd", "Normal(mu=180.0, sigma=0.3333333333333333)"),
+        ("Ry", "Normal(mu=600.0, sigma=0.3333333333333333)"),
     ],
 )
-def test_variables(uncertain_space, name, distribution_class_name, parameters):
+def test_variables(uncertain_space, name, repr_):
     """Check the probability distributions of the random variables."""
-    distribution = uncertain_space[name]
-    assert distribution.size == 1
-    assert distribution.distribution == distribution_class_name
-    assert distribution.parameters == pytest.approx(parameters)
+    assert repr(uncertain_space.distributions[name]) == repr_

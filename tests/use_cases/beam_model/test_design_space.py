@@ -17,8 +17,8 @@
 from __future__ import annotations
 
 import pytest
-from gemseo.algos.design_space import DesignSpace
 from numpy import array
+from numpy.testing import assert_equal
 
 from gemseo_umdo.use_cases.beam_model.core.design_space import BeamDesignVariables
 from gemseo_umdo.use_cases.beam_model.design_space import BeamDesignSpace
@@ -38,10 +38,9 @@ def test_dimension(design_space):
 @pytest.mark.parametrize("variable", [BeamDesignVariables.h, BeamDesignVariables.t])
 def test_variables(design_space, variable):
     """Check the properties of the design variables."""
-    assert design_space[variable.value.name] == DesignSpace.DesignVariable(
-        1,
-        "float",
-        array([variable.value.l_b]),
-        array([variable.value.u_b]),
-        array([variable.value.value]),
-    )
+    name = variable.value.name
+    assert design_space.get_size(name) == 1
+    assert design_space.get_type(name) == design_space.DesignVariableType.FLOAT
+    assert_equal(design_space.get_lower_bound(name), variable.value.l_b)
+    assert_equal(design_space.get_upper_bound(name), variable.value.u_b)
+    assert_equal(design_space.get_current_value([name]), array([variable.value.value]))

@@ -85,7 +85,7 @@ can be reduced to this standard optimization problem:
         from gemseo.core.mdofunctions.mdo_function import MDOFunction
 
         design_space = DesignSpace()
-        design_space.add_variable("x", l_b=-1., u_b=1.)
+        design_space.add_variable("x", lower_bound=-1., upper_bound=1.)
 
         problem = OptimizationProblem(design_space)
         problem.objective = MDOFunction(lambda x: x**2, "f")
@@ -218,9 +218,9 @@ called *MDO formulation* or *architecture*[@MartinsSurvey].
           ]
 
           design_space = DesignSpace()
-          design_space.add_variable("x", l_b=0.0, u_b=10.0, value=1)
-          design_space.add_variable("z1", l_b=-10, u_b=10.0, value=4.0)
-          design_space.add_variable("z2", l_b=0.0, u_b=10.0, value=3.0)
+          design_space.add_variable("x", lower_bound=0.0, upper_bound=10.0, value=1)
+          design_space.add_variable("z1", lower_bound=-10, upper_bound=10.0, value=4.0)
+          design_space.add_variable("z2", lower_bound=0.0, upper_bound=10.0, value=3.0)
 
           scenario = create_scenario(disciplines, "MDF", "f", design_space)
           scenario.add_constraint("c1", "ineq")
@@ -410,8 +410,8 @@ to solve the MDO problem under uncertainty.
     from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 
     design_space = DesignSpace()
-    design_space.add_variable("x1", l_b=-1., u_b=1.)
-    design_space.add_variable("x2", l_b=-1, u_b=1.)
+    design_space.add_variable("x1", lower_bound=-1., upper_bound=1.)
+    design_space.add_variable("x2", lower_bound=-1, upper_bound=1.)
 
     scenario = UMDOScenario(
         [discipline],

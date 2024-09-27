@@ -64,8 +64,8 @@ def test_finite_differences(
     })
 
     design_space = DesignSpace()
-    design_space.add_variable("x1", l_b=-1, u_b=1.0, value=0.5)
-    design_space.add_variable("x2", l_b=-1, u_b=1.0, value=0.5)
+    design_space.add_variable("x1", lower_bound=-1, upper_bound=1.0, value=0.5)
+    design_space.add_variable("x2", lower_bound=-1, upper_bound=1.0, value=0.5)
 
     uncertain_space = ParameterSpace()
     uncertain_space.add_random_variable("u", "OTNormalDistribution")
