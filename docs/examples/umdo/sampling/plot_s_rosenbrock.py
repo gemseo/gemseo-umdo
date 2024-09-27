@@ -45,8 +45,8 @@ discipline = AnalyticDiscipline({"z": "(u-x)**2+100*(y-x**2)**2"}, name="f")
 # %%
 # where $x,y$ belongs to the interval $[-2,2]$:
 design_space = DesignSpace()
-design_space.add_variable("x", l_b=-2, u_b=2.0, value=-2.0)
-design_space.add_variable("y", l_b=-2, u_b=2.0, value=-2.0)
+design_space.add_variable("x", lower_bound=-2, upper_bound=2.0, value=-2.0)
+design_space.add_variable("y", lower_bound=-2, upper_bound=2.0, value=-2.0)
 
 # %%
 # and $U$ is a Gaussian variable with unit mean

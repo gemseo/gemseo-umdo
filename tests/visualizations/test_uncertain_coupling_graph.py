@@ -47,8 +47,8 @@ def uncertain_space() -> DesignSpace:
         space.add_variable(
             name,
             size=value.size,
-            l_b=value * 0.95,
-            u_b=value * 1.05,
+            lower_bound=value * 0.95,
+            upper_bound=value * 1.05,
             value=value,
         )
     return space
@@ -151,7 +151,7 @@ def test_self_coupled(tmp_wd):
         AnalyticDiscipline({"z": "y"}, name="D2"),
     ]
     uncertain_space = DesignSpace()
-    uncertain_space.add_variable("u", l_b=0.0, u_b=1)
+    uncertain_space.add_variable("u", lower_bound=0.0, upper_bound=1)
     uncertain_coupling_graph = UncertainCouplingGraph(disciplines, uncertain_space)
     uncertain_coupling_graph.sample(10)
     uncertain_coupling_graph.visualize(

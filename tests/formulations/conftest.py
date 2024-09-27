@@ -55,9 +55,9 @@ def mdf_discipline() -> MDOChain:
 def design_space() -> DesignSpace:
     """The design space."""
     space = DesignSpace()
-    space.add_variable("x0", l_b=0.0, u_b=1.0, value=0.5)
-    space.add_variable("x1", l_b=0.0, u_b=2.0, value=0.5)
-    space.add_variable("x2", l_b=0.0, u_b=3.0, value=0.5)
+    space.add_variable("x0", lower_bound=0.0, upper_bound=1.0, value=0.5)
+    space.add_variable("x1", lower_bound=0.0, upper_bound=2.0, value=0.5)
+    space.add_variable("x2", lower_bound=0.0, upper_bound=3.0, value=0.5)
     return space
 
 

@@ -208,7 +208,9 @@ def test_umdo_formulation_objective(umdo_formulation, mdf_discipline):
     """Check that the UMDO formulation can compute the objective correctly."""
     objective = umdo_formulation.optimization_problem.objective
     uncertain_space = umdo_formulation.uncertain_space
-    input_data = uncertain_space.array_to_dict(uncertain_space.distribution.mean)
+    input_data = uncertain_space.convert_array_to_dict(
+        uncertain_space.distribution.mean
+    )
     assert_almost_equal(
         objective.evaluate(array([0.0] * 3)), mdf_discipline.execute(input_data)["f"]
     )
@@ -218,7 +220,9 @@ def test_umdo_formulation_constraint(umdo_formulation, mdf_discipline):
     """Check that the UMDO formulation can compute the constraints correctly."""
     constraint = umdo_formulation.optimization_problem.constraints[0]
     uncertain_space = umdo_formulation.uncertain_space
-    input_data = uncertain_space.array_to_dict(uncertain_space.distribution.mean)
+    input_data = uncertain_space.convert_array_to_dict(
+        uncertain_space.distribution.mean
+    )
     assert_almost_equal(
         constraint.evaluate(array([0.0] * 3)), mdf_discipline.execute(input_data)["c"]
     )
@@ -228,7 +232,9 @@ def test_umdo_formulation_observable(umdo_formulation, mdf_discipline):
     """Check that the UMDO formulation can compute the observables correctly."""
     observable = umdo_formulation.optimization_problem.observables[0]
     uncertain_space = umdo_formulation.uncertain_space
-    input_data = uncertain_space.array_to_dict(uncertain_space.distribution.mean)
+    input_data = uncertain_space.convert_array_to_dict(
+        uncertain_space.distribution.mean
+    )
     assert_almost_equal(
         observable.evaluate(array([0.0] * 3)), mdf_discipline.execute(input_data)["o"]
     )

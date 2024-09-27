@@ -225,5 +225,7 @@ class Sampling(BaseUMDOFormulation):
             main_problem = self.optimization_problem
             iteration = main_problem.evaluation_counter.current + 1
             dataset = problem.to_dataset(f"Iteration {iteration}", opt_naming=False)
-            dataset.misc.update(main_problem.design_space.array_to_dict(input_data))
+            dataset.misc.update(
+                main_problem.design_space.convert_array_to_dict(input_data)
+            )
             dataset.to_pickle(self.__samples_directory_path / f"{iteration}.pkl")
