@@ -16,7 +16,7 @@ coverage==7.6.1
     #   pytest-cov
 cycler==0.12.1
     # via matplotlib
-dill==0.3.8
+dill==0.3.9
     # via openturns
 docstring-inheritance==2.2.1
     # via gemseo
@@ -28,7 +28,7 @@ fastjsonschema==2.20.0
     # via gemseo
 fonttools==4.54.1
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@9d95374227263e165606c5df2064a57ef4c97e98
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@a91cbb6135bc05cadbed03c297ec05d512c6e116
     # via
     #   -c requirements/test-constraints.in
     #   gemseo-umdo (pyproject.toml)
