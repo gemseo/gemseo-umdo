@@ -57,8 +57,12 @@ class BaseControlVariateEstimator(BaseStatisticEstimator):
         self._uncertain_space = uncertain_space
 
     @abstractmethod
-    def __call__(
-        self, samples: RealArray, u_samples: RealArray, mean: RealArray, jac: RealArray
+    def estimate_statistic(
+        self,
+        samples: RealArray,
+        u_samples: RealArray,
+        mean: RealArray,
+        jac: RealArray,
     ) -> RealArray:
         """
         Args:

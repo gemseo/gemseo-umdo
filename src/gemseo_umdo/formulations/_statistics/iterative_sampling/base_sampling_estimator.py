@@ -16,7 +16,6 @@
 
 from __future__ import annotations
 
-from abc import abstractmethod
 from typing import TYPE_CHECKING
 
 from gemseo_umdo.formulations._statistics.base_statistic_estimator import (
@@ -29,42 +28,73 @@ if TYPE_CHECKING:
 
 
 class BaseSamplingEstimator(BaseStatisticEstimator):
-    """Base statistic iterative estimator for a U-MDO formulation using sampling.
+    """Base statistic iterative estimator for a U-MDO formulation using sampling."""
 
-    This class enables to iteratively compute estimators of an increasing dataset
-    without storing any data in memory.
+    _estimator: IterativeAlgorithmImplementation | None
+    """The iterative estimator of the statistic.
+
+    `None` before the first call to `estimate_statistic`.
     """
 
-    _estimator: IterativeAlgorithmImplementation
-    """The iterative estimator of the statistic."""
+    _jac_estimator: IterativeAlgorithmImplementation | None
+    """The iterative estimator of the Jacobian of the statistic.
 
-    _size: int
-    """The size of the output of interest."""
+    `None` before the first call to `compute_jacobian`.
+    """
+
+    shape: tuple[int] | None
+    """The shape of the output of interest, if known."""
+
+    jac_shape: tuple[int, int] | None
+    """The shape of the Jacobian, if known."""
 
     def __init__(self) -> None:  # noqa: D107
         super().__init__()
-        self._size = 0
+        self.shape = None
+        self.jac_shape = None
+        self._estimator = None
+        self._jac_estimator = None
 
-    @abstractmethod
-    def reset(self) -> None:
+    def reset(self, size: int) -> None:
         """Reset the estimator of the statistic."""
 
-    def _get_statistic(self) -> RealArray | None:
-        """Return the statistic.
+    def _get_estimation(self) -> RealArray | None:
+        """Return the current estimation of the statistic.
 
         Returns:
             The current estimation of the statistic if required;
             otherwise ``None``.
         """
 
-    def __call__(self, value: RealArray) -> RealArray:
+    def _get_estimation_jacobian(self) -> RealArray | None:
+        """Return the Jacobian of the current estimation of the statistic.
+
+        Returns:
+            The Jacobian of the current estimation of the statistic if required;
+            otherwise ``None``.
+        """
+
+    def estimate_statistic(self, value: RealArray) -> RealArray:
         """
         Args:
-            value: The value to update the estimation of the statistic.
-        """  # noqa: D205 D212 D415
-        if self._size == 0:
-            self._size = value.size
-            self.reset()
+            value: The value of the function output.
+        """  # noqa: D205 D212
+        if self.shape is None:
+            self.shape = value.shape
+            self.reset(value.size)
 
-        self._estimator.increment(value)
-        return self._get_statistic()
+        self._estimator.increment(value.ravel())
+        return self._get_estimation()
+
+    def compute_jacobian(self, value: RealArray, jac_value: RealArray) -> RealArray:
+        """
+        Args:
+            value: The value of the function output.
+            jac_value: The value of the Jacobian.
+        """  # noqa: D205 D212
+        if self.jac_shape is None:
+            self.jac_shape = jac_value.shape
+            self.reset(value.size)
+
+        self._jac_estimator.increment(jac_value.ravel())
+        return self._get_estimation_jacobian()

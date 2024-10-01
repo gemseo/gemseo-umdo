@@ -40,16 +40,28 @@ class StatisticFunctionForStandardSampling(BaseStatisticFunctionForSampling[Samp
     def _compute_statistic_estimation(
         self, output_data: dict[str, RealArray]
     ) -> RealArray:
-        return self._estimate_statistic(output_data[self._function_name])
+        return self._statistic_estimator.estimate_statistic(
+            output_data[self._function_name]
+        )
+
+    def _compute_statistic_jacobian_estimation(
+        self, output_data: dict[str, RealArray]
+    ) -> RealArray:
+        return self._statistic_estimator.compute_jacobian(
+            output_data[self._function_name], output_data[self._function_jac_name]
+        )
 
     def _compute_output_data(
-        self, input_data: RealArray, output_data: dict[str, RealArray]
+        self,
+        input_data: RealArray,
+        output_data: dict[str, RealArray],
+        compute_jacobian: bool = False,
     ) -> None:
-        formulation = self._formulation
+        formulation = self._umdo_formulation
         problem = formulation.mdo_formulation.optimization_problem
         database = problem.database
-        formulation.compute_samples(problem, input_data)
-        for output_name in database.get_function_names():
+        formulation.compute_samples(
+            problem, input_data, compute_jacobian=compute_jacobian
+        )
+        for output_name in database.get_function_names(skip_grad=False):
             output_data[output_name] = database.get_function_history(output_name)
-
-        problem.reset(preprocessing=False)

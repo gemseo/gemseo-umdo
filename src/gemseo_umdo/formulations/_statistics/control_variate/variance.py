@@ -27,8 +27,12 @@ from gemseo_umdo.formulations._statistics.control_variate.base_control_variate_e
 class Variance(BaseControlVariateEstimator):
     """Estimator of the variance."""
 
-    def __call__(  # noqa: D102
-        self, samples: RealArray, u_samples: RealArray, mean: RealArray, jac: RealArray
+    def estimate_statistic(  # noqa: D102
+        self,
+        samples: RealArray,
+        u_samples: RealArray,
+        mean: RealArray,
+        jac: RealArray,
     ) -> RealArray:
         cv_samples = self._compute_control_variate_samples(u_samples, mean, jac)
         diff2 = (samples - samples.mean()) ** 2

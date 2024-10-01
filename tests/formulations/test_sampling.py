@@ -195,10 +195,10 @@ def estimate(
     """
     statistic = statistic_class(**options)
     if issubclass(statistic_class, BaseSamplingEstimator):
-        return statistic(samples)
+        return statistic.estimate_statistic(samples)
 
     for sample in samples:
-        result = statistic(sample)
+        result = statistic.estimate_statistic(sample)
 
     return result
 

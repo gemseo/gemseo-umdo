@@ -31,11 +31,7 @@ if TYPE_CHECKING:
 
 
 class Margin(BaseSamplingEstimator):
-    """Iterative estimator of a margin, i.e. mean + factor * deviation.
-
-    This class iteratively computes a margin of an increasing dataset without storing
-    any data in memory.
-    """
+    """Iterative estimator of a margin, i.e. mean + factor * deviation."""
 
     __factor: float
     """The factor related to the standard deviation."""
@@ -56,9 +52,19 @@ class Margin(BaseSamplingEstimator):
         self.__standard_deviation = StandardDeviation()
         self.__factor = factor
 
-    def __call__(self, value: RealArray) -> RealArray:  # noqa: D102
-        return self.__mean(value) + self.__factor * self.__standard_deviation(value)
+    def estimate_statistic(self, value: RealArray) -> RealArray:
+        self.shape = value.shape
+        return self.__mean.estimate_statistic(
+            value
+        ) + self.__factor * self.__standard_deviation.estimate_statistic(value)
 
-    def reset(self) -> None:  # noqa: D102
-        self.__mean.reset()
-        self.__standard_deviation.reset()
+    def compute_jacobian(self, value: RealArray, jac_value: RealArray) -> RealArray:
+        self.jac_shape = jac_value.shape
+        dmean_dx = self.__mean.compute_jacobian(value, jac_value)
+        dstd_dx = self.__standard_deviation.compute_jacobian(value, jac_value)
+        return dmean_dx + self.__factor * dstd_dx
+
+    def reset(self, size: int) -> None:  # noqa: D102
+        super().reset(size)
+        self.__mean.reset(size)
+        self.__standard_deviation.reset(size)

@@ -16,7 +16,6 @@
 
 from __future__ import annotations
 
-from abc import abstractmethod
 from typing import TYPE_CHECKING
 
 from gemseo_umdo.formulations._statistics.base_statistic_estimator import (
@@ -26,8 +25,6 @@ from gemseo_umdo.formulations._statistics.base_statistic_estimator import (
 if TYPE_CHECKING:
     from typing import ClassVar
     from typing import Final
-
-    from gemseo.typing import RealArray
 
 
 class BasePCEEstimator(BaseStatisticEstimator):
@@ -44,10 +41,3 @@ class BasePCEEstimator(BaseStatisticEstimator):
 
     ARG_NAMES: ClassVar[tuple[str]] = ()
     """The names of the arguments to be used for the estimator."""
-
-    @abstractmethod
-    def __call__(self, *args: RealArray) -> RealArray:
-        """
-        Args:
-            *args: The statistics estimated from the coefficients of the PCE regressor.
-        """  # noqa: D205, D212

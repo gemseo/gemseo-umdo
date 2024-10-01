@@ -100,7 +100,10 @@ class Sampling(BaseUMDOFormulation):
     """The path to the directory where the samples are saved."""
 
     callbacks: list[CallbackType]
-    """The callback functions for the DOE algorithm."""
+    """The callback functions for the DOE algorithm when computing the output data."""
+
+    jacobian_callbacks: list[CallbackType]
+    """The callback functions for the DOE algorithm when computing the Jacobian."""
 
     def __init__(
         self,
@@ -119,6 +122,7 @@ class Sampling(BaseUMDOFormulation):
         seed: int = SEED,
         estimate_statistics_iteratively: bool = True,
         samples_directory_path: str | Path = "",
+        mdo_formulation_options: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
         **options: Any,
     ) -> None:
         """
@@ -146,6 +150,7 @@ class Sampling(BaseUMDOFormulation):
                 whereas it is required by the DOE algorithm.
         """  # noqa: D205 D212 D415
         self.callbacks = []
+        self.jacobian_callbacks = []
         self.input_data_to_output_samples = {}
         if samples_directory_path:
             self.__samples_directory_path = Path(samples_directory_path)
@@ -175,7 +180,6 @@ class Sampling(BaseUMDOFormulation):
             self.__doe_algo_options["seed"] = seed
 
         self.__n_samples = n_samples
-        self._estimators = []
         super().__init__(
             disciplines,
             objective_name,
@@ -186,6 +190,7 @@ class Sampling(BaseUMDOFormulation):
             objective_statistic_options=objective_statistic_parameters,
             maximize_objective=maximize_objective,
             grammar_type=grammar_type,
+            mdo_formulation_options=mdo_formulation_options,
             **options,
         )
         mdo_formulation = self._mdo_formulation.__class__.__name__
@@ -207,19 +212,28 @@ class Sampling(BaseUMDOFormulation):
         return self.__doe_algo
 
     def compute_samples(
-        self, problem: OptimizationProblem, input_data: RealArray
+        self,
+        problem: OptimizationProblem,
+        input_data: RealArray,
+        compute_jacobian: bool = False,
     ) -> None:
         """Evaluate the functions of a problem with a DOE algorithm.
 
         Args:
             problem: The sampling problem.
             input_data: The input point at which to estimate the statistic.
+            compute_jacobian: Whether to compute the Jacobian of the objective.
         """
-        self.__doe_algo_options["callbacks"] = set.union(
-            set(self.__doe_algo_options.get("callbacks", set())), set(self.callbacks)
-        )
+        callbacks_1 = list(self.__doe_algo_options.get("callbacks", []))
+        callbacks_2 = self.jacobian_callbacks if compute_jacobian else self.callbacks
+        self.__doe_algo_options["callbacks"] = callbacks_1 + callbacks_2
         with LoggingContext(logging.getLogger("gemseo")):
-            self.__doe_algo.execute(problem, **self.__doe_algo_options)
+            self.__doe_algo.execute(
+                problem,
+                eval_jac=compute_jacobian,
+                eval_obs_jac=compute_jacobian,
+                **self.__doe_algo_options,
+            )
 
         if self.__samples_directory_path:
             main_problem = self.optimization_problem

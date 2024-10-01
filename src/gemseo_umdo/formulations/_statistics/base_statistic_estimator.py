@@ -30,7 +30,7 @@ class BaseStatisticEstimator(metaclass=ABCGoogleDocstringInheritanceMeta):
     """The base statistic estimator for U-MDO formulations."""
 
     @abstractmethod
-    def __call__(self, *args: Any, **kwargs: Any) -> RealArray:  # noqa: D102
+    def estimate_statistic(self, *args: Any, **kwargs: Any) -> RealArray:  # noqa: D102
         """Estimate the statistic.
 
         Args:
@@ -40,3 +40,15 @@ class BaseStatisticEstimator(metaclass=ABCGoogleDocstringInheritanceMeta):
         Returns:
             The estimation of the statistic.
         """
+
+    def compute_jacobian(self, *args: Any, **kwargs: Any) -> RealArray:  # noqa: D102
+        """Compute the Jacobian of the statistic estimation.
+
+        Args:
+            *args: The mandatory arguments.
+            **kwargs: The optional arguments.
+
+        Returns:
+            The Jacobian of the statistic estimation.
+        """
+        raise NotImplementedError

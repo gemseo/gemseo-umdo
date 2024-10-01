@@ -53,9 +53,9 @@ class Margin(BaseTaylorPolynomialEstimator):
         self.__standard_deviation = StandardDeviation(uncertain_space)
         self.__factor = factor
 
-    def __call__(  # noqa: D102
+    def estimate_statistic(  # noqa: D102
         self, func: RealArray, jac: RealArray, hess: RealArray
     ) -> RealArray:
-        return self.__mean(func, jac, hess) + self.__factor * self.__standard_deviation(
-            func, jac, hess
-        )
+        mean = self.__mean.estimate_statistic(func, jac, hess)
+        std = self.__standard_deviation.estimate_statistic(func, jac, hess)
+        return mean + self.__factor * std

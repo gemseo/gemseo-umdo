@@ -48,9 +48,13 @@ class Margin(BaseControlVariateEstimator):
         self.__standard_deviation = StandardDeviation(uncertain_space)
         self.__factor = factor
 
-    def __call__(  # noqa: D102
-        self, samples: RealArray, u_samples: RealArray, mean: RealArray, jac: RealArray
+    def estimate_statistic(  # noqa: D102
+        self,
+        samples: RealArray,
+        u_samples: RealArray,
+        mean: RealArray,
+        jac: RealArray,
     ) -> RealArray:
-        return self.__mean(
-            samples, u_samples, mean, jac
-        ) + self.__factor * self.__standard_deviation(samples, u_samples, mean, jac)
+        m = self.__mean.estimate_statistic(samples, u_samples, mean, jac)
+        s = self.__standard_deviation.estimate_statistic(samples, u_samples, mean, jac)
+        return m + self.__factor * s

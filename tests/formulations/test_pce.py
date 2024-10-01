@@ -121,30 +121,30 @@ def variance() -> NumberArray:
 
 def test_mean(pce_regressor, mean):
     """Check the PCE-based estimator of the mean."""
-    assert_equal(Mean()(mean), mean)
+    assert_equal(Mean().estimate_statistic(mean), mean)
 
 
 def test_standard_deviation(pce_regressor, standard_deviation):
     """Check the PCE-based estimator of the standard deviation."""
     assert_equal(
-        StandardDeviation()(standard_deviation),
+        StandardDeviation().estimate_statistic(standard_deviation),
         standard_deviation,
     )
 
 
 def test_variance(pce_regressor, variance):
     """Check the PCE-based estimator of the variance."""
-    assert_equal(Variance()(variance), variance)
+    assert_equal(Variance().estimate_statistic(variance), variance)
 
 
 def test_margin(pce_regressor, mean, standard_deviation):
     """Check the PCE-based estimator of the margin."""
     assert_equal(
-        Margin()(mean, standard_deviation),
+        Margin().estimate_statistic(mean, standard_deviation),
         mean + 2 * standard_deviation,
     )
     assert_equal(
-        Margin(3)(mean, standard_deviation),
+        Margin(3).estimate_statistic(mean, standard_deviation),
         mean + 3 * standard_deviation,
     )
 
@@ -164,6 +164,7 @@ def test_formulation(umdo_formulation, pce_regressor):
 def test_missing_n_samples(pce_regressor, ishigami_problem):
     """Check that an error is raised when the number of samples is missing."""
     discipline = IshigamiDiscipline()
+    design_space = ishigami_problem.design_space
     with pytest.raises(
         ValueError,
         match=re.escape(
@@ -175,7 +176,7 @@ def test_missing_n_samples(pce_regressor, ishigami_problem):
             "y",
             DesignSpace(),
             DisciplinaryOpt([discipline], "y", ishigami_problem.design_space),
-            ishigami_problem.design_space,
+            design_space,
             "Mean",
             doe_algo="OT_HALTON",
         )
@@ -184,12 +185,13 @@ def test_missing_n_samples(pce_regressor, ishigami_problem):
 def test_quality(caplog, pce_regressor, ishigami_problem):
     """Check that the PCE quality is logged."""
     discipline = IshigamiDiscipline()
+    design_space = ishigami_problem.design_space
     pce = PCE(
         [discipline],
         "y",
         DesignSpace(),
-        DisciplinaryOpt([discipline], "y", ishigami_problem.design_space),
-        ishigami_problem.design_space,
+        DisciplinaryOpt([discipline], "y", design_space),
+        design_space,
         "Mean",
         doe_algo="OT_HALTON",
         doe_n_samples=20,
@@ -218,12 +220,13 @@ def test_quality(caplog, pce_regressor, ishigami_problem):
 def test_quality_cv(caplog, pce_regressor, ishigami_problem, quality_cv_compute, regex):
     """Check that the PCE quality with and without cross-validation and custom name."""
     discipline = IshigamiDiscipline()
+    design_space = ishigami_problem.design_space
     pce = PCE(
         [discipline],
         "y",
         DesignSpace(),
-        DisciplinaryOpt([discipline], "y", ishigami_problem.design_space),
-        ishigami_problem.design_space,
+        DisciplinaryOpt([discipline], "y", design_space),
+        design_space,
         "Mean",
         doe_algo="OT_HALTON",
         doe_n_samples=20,
@@ -240,13 +243,14 @@ def test_quality_cv(caplog, pce_regressor, ishigami_problem, quality_cv_compute,
 def test_quality_cv_options(pce_regressor, ishigami_problem):
     """Check that the PCE quality options."""
     discipline = IshigamiDiscipline()
+    design_space = ishigami_problem.design_space
     with mock.patch.object(R2Measure, "compute_cross_validation_measure") as compute:
         pce = PCE(
             [discipline],
             "y",
             DesignSpace(),
-            DisciplinaryOpt([discipline], "y", ishigami_problem.design_space),
-            ishigami_problem.design_space,
+            DisciplinaryOpt([discipline], "y", design_space),
+            design_space,
             "Mean",
             doe_algo="OT_HALTON",
             doe_n_samples=20,
@@ -311,12 +315,13 @@ def test_quality_log_level(
 ):
     """Check that the log level of the PCE quality."""
     discipline = IshigamiDiscipline()
+    design_space = ishigami_problem.design_space
     pce = PCE(
         [discipline],
         "y",
         DesignSpace(),
-        DisciplinaryOpt([discipline], "y", ishigami_problem.design_space),
-        ishigami_problem.design_space,
+        DisciplinaryOpt([discipline], "y", design_space),
+        design_space,
         "Mean",
         doe_algo="OT_HALTON",
         doe_n_samples=20,

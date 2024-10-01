@@ -16,38 +16,28 @@
 
 from __future__ import annotations
 
-from abc import abstractmethod
-from typing import TYPE_CHECKING
 from typing import ClassVar
 
-from numpy import array
 from openturns import IterativeMoments
-from openturns import Point
 
 from gemseo_umdo.formulations._statistics.iterative_sampling.base_sampling_estimator import (  # noqa: E501
     BaseSamplingEstimator,
 )
 
-if TYPE_CHECKING:
-    from gemseo.typing import RealArray
-
 
 class BaseCentralMoment(BaseSamplingEstimator):
-    """Base iterative estimator of a central moment, e.g. expectation or variance.
+    """Base iterative estimator of a central moment, e.g. expectation or variance."""
 
-    This class iteratively computes a central moment of an increasing dataset without
-    storing any data in memory.
-    """
+    _estimator: IterativeMoments | None
+    _jac_estimator: IterativeMoments | None
 
     _ORDER: ClassVar[int]
     """The order of the central moment."""
 
-    def _get_statistic(self) -> RealArray:
-        return array(self._get_central_moment())
-
-    @abstractmethod
-    def _get_central_moment(self) -> Point:
-        """Return the current value of the central moment estimated iteratively."""
-
-    def reset(self) -> None:  # noqa: D102
-        self._estimator = IterativeMoments(self._ORDER, self._size)
+    def reset(self, size: int) -> None:  # noqa: D102
+        super().reset(size)
+        self._estimator = IterativeMoments(self._ORDER, size)
+        if self.jac_shape is not None:
+            self._jac_estimator = IterativeMoments(
+                self._ORDER, self.jac_shape[0] * self.jac_shape[1]
+            )

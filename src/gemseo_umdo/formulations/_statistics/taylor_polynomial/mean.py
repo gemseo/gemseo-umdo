@@ -32,8 +32,8 @@ if TYPE_CHECKING:
 class Mean(BaseTaylorPolynomialEstimator):
     """Estimator of the expectation."""
 
-    def __call__(  # noqa: D102
-        self, func: RealArray, jac: RealArray, hess: RealArray
+    def estimate_statistic(  # noqa: D102
+        self, func: RealArray, jac: RealArray, hess: RealArray | None
     ) -> RealArray:
         if hess is None:
             return func

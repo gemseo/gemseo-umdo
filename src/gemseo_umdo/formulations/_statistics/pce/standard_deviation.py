@@ -31,8 +31,5 @@ class StandardDeviation(BasePCEEstimator):
 
     ARG_NAMES: ClassVar[tuple[str]] = (BasePCEEstimator.STD_ARG_NAME,)
 
-    def __call__(  # noqa: D102
-        self,
-        standard_deviation: RealArray,
-    ) -> RealArray:
+    def estimate_statistic(self, standard_deviation: RealArray) -> RealArray:
         return standard_deviation

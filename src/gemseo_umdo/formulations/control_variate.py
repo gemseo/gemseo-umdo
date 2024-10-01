@@ -39,9 +39,9 @@ from __future__ import annotations
 import logging
 from typing import TYPE_CHECKING
 from typing import Any
+from typing import ClassVar
 
 from gemseo.algos.doe.factory import DOELibraryFactory
-from gemseo.algos.optimization_problem import OptimizationProblem
 from gemseo.core.discipline import MDODiscipline
 from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
 from gemseo.utils.logging_tools import LoggingContext
@@ -61,9 +61,9 @@ if TYPE_CHECKING:
 
     from gemseo.algos.design_space import DesignSpace
     from gemseo.algos.doe.base_doe_library import BaseDOELibrary
+    from gemseo.algos.optimization_problem import OptimizationProblem
     from gemseo.algos.parameter_space import ParameterSpace
     from gemseo.formulations.base_mdo_formulation import BaseMDOFormulation
-    from gemseo.typing import RealArray
 
 
 class ControlVariate(BaseUMDOFormulation):
@@ -76,15 +76,13 @@ class ControlVariate(BaseUMDOFormulation):
         for more information about the available DOE algorithm names and options.
     """
 
+    _USE_AUXILIARY_MDO_FORMULATION: ClassVar[bool] = True
+
     __doe_algo: BaseDOELibrary
     """The DOE algorithm to sample the uncertain problem."""
 
     __doe_algo_options: dict[str, Any]
     """The options of the DOE algorithm."""
-
-    __linearization_problem: OptimizationProblem
-    """The problem related to the linearization of the functions used as control
-    variates."""
 
     __n_samples: int
     """The number of samples."""
@@ -107,6 +105,7 @@ class ControlVariate(BaseUMDOFormulation):
         algo: str = "OT_OPT_LHS",
         algo_options: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
         seed: int = SEED,
+        mdo_formulation_options: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
         **options: Any,
     ) -> None:
         """
@@ -137,12 +136,8 @@ class ControlVariate(BaseUMDOFormulation):
             objective_statistic_parameters=objective_statistic_parameters,
             maximize_objective=maximize_objective,
             grammar_type=grammar_type,
+            mdo_formulation_options=mdo_formulation_options,
             **options,
-        )
-        mdo_formulation = self._mdo_formulation
-        self.__linearization_problem = OptimizationProblem(self.uncertain_space)
-        self.__linearization_problem.objective = (
-            mdo_formulation.optimization_problem.objective
         )
         self.name = (
             f"{self.__class__.__name__}"
@@ -150,33 +145,15 @@ class ControlVariate(BaseUMDOFormulation):
         )
 
     @property
-    def linearization_problem(self) -> OptimizationProblem:
-        """The problem related to the linearization of the functions."""
-        return self.__linearization_problem
-
-    @property
     def doe_algo(self) -> BaseDOELibrary:
         """The DOE library configured with an algorithm."""
         return self.__doe_algo
 
-    def _post_add_constraint(self) -> None:
-        self.__linearization_problem.add_observable(
-            self._mdo_formulation.optimization_problem.observables[-1]
-        )
-
-    def _post_add_observable(self) -> None:
-        self.__linearization_problem.add_observable(
-            self._mdo_formulation.optimization_problem.observables[-1]
-        )
-
-    def compute_samples(
-        self, problem: OptimizationProblem, input_data: RealArray
-    ) -> None:
+    def compute_samples(self, problem: OptimizationProblem) -> None:
         """Evaluate the functions of a problem with a DOE algorithm.
 
         Args:
             problem: The problem.
-            input_data: The input point at which to estimate the statistic.
         """
         with LoggingContext(logging.getLogger("gemseo")):
             self.__doe_algo.seed = self.__seed
@@ -184,7 +161,7 @@ class ControlVariate(BaseUMDOFormulation):
 
     def evaluate_with_mean(self) -> None:
         """Evaluate the Taylor polynomials at the mean value of the uncertain vector."""
-        problem = self.__linearization_problem
+        problem = self.auxiliary_mdo_formulation.optimization_problem
         objective = problem.objective
         if objective is objective.original:
             problem.preprocess_functions(

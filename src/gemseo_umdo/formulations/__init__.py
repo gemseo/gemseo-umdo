@@ -24,11 +24,12 @@ The objective can be either minimized (default) or maximized.
 In the context of deterministic MDO,
 the [OptimizationProblem][gemseo.algos.optimization_problem.OptimizationProblem]
 is handled by a driver
-(see [DriverLibrary][gemseo.algos.driver_library.DriverLibrary]),
+(see [DriverLibrary][gemseo.algos.base_driver_library.BaseDriverLibrary]),
 typically an optimizer
-(see [OptimizationLibrary][gemseo.algos.opt.optimization_library.OptimizationLibrary]),
+(see
+[OptimizationLibrary][gemseo.algos.opt.base_optimization_library.BaseOptimizationLibrary]),
 or a design of experiments
-(DOE, see [DOELibrary][gemseo.algos.doe.doe_library.DOELibrary]).
+(DOE, see [DOELibrary][gemseo.algos.doe.base_doe_library.BaseDOELibrary]).
 
 In the frame of U-MDO,
 the

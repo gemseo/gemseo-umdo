@@ -27,11 +27,13 @@ if TYPE_CHECKING:
 class StandardDeviation(Variance):
     """Estimator of the standard deviation."""
 
-    def __call__(self, func: RealArray, jac: RealArray, hess: RealArray) -> RealArray:
+    def estimate_statistic(
+        self, func: RealArray, jac: RealArray, hess: RealArray
+    ) -> RealArray:
         """
         Args:
             func: The output value at the mean value of the uncertain variables.
             jac: The Jacobian value at the mean value of the uncertain variables.
             hess: The Hessian value at the mean value of the uncertain variables.
         """  # noqa: D205 D212 D415
-        return super().__call__(func, jac, hess) ** 0.5
+        return super().estimate_statistic(func, jac, hess) ** 0.5

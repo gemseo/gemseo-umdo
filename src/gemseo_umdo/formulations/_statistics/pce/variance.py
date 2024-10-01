@@ -31,8 +31,5 @@ class Variance(BasePCEEstimator):
 
     ARG_NAMES: ClassVar[tuple[str]] = (BasePCEEstimator.VAR_ARG_NAME,)
 
-    def __call__(  # noqa: D102
-        self,
-        variance: RealArray,
-    ) -> RealArray:
+    def estimate_statistic(self, variance: RealArray) -> RealArray:
         return variance

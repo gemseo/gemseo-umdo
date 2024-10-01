@@ -22,6 +22,8 @@ from typing import TYPE_CHECKING
 from typing import Any
 from typing import Callable
 
+from numpy import atleast_1d
+
 from gemseo_umdo.formulations._statistics.sampling.base_sampling_estimator import (
     BaseSamplingEstimator,
 )
@@ -49,5 +51,5 @@ class Probability(BaseSamplingEstimator):
         self.__threshold = threshold
         self.__compare = ge if greater else le
 
-    def _compute(self, samples: RealArray) -> RealArray:  # noqa: D102
-        return self.__compare(samples, self.__threshold).mean(0)
+    def estimate_statistic(self, samples: RealArray) -> RealArray:
+        return atleast_1d(self.__compare(samples, self.__threshold).mean(0))

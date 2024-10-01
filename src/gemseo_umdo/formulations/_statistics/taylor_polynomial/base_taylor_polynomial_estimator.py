@@ -44,7 +44,9 @@ class BaseTaylorPolynomialEstimator(BaseStatisticEstimator):
         self._standard_deviations = uncertain_space.distribution.standard_deviation
 
     @abstractmethod
-    def __call__(self, func: RealArray, jac: RealArray, hess: RealArray) -> RealArray:
+    def estimate_statistic(
+        self, func: RealArray, jac: RealArray, hess: RealArray | None
+    ) -> RealArray:
         """
         Args:
             func: The output value at the mean value of the uncertain variables.

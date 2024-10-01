@@ -49,15 +49,18 @@ class StatisticFunctionForPCE(BaseStatisticFunction[PCET]):
         self, output_data: dict[str, PCERegressor]
     ) -> RealArray:
         name = self._function_name
-        estimator = self._estimate_statistic
-        return estimator(*[output_data[key][name] for key in estimator.ARG_NAMES])
+        estimator = self._statistic_estimator
+        return estimator.estimate_statistic(*[
+            output_data[key][name] for key in estimator.ARG_NAMES
+        ])
 
     def _compute_output_data(
         self,
         input_data: RealArray,
         output_data: dict[str, PCERegressor | dict[str, NumberArray]],
+        compute_jacobian: bool = False,
     ) -> None:
-        pce_formulation = self._formulation
+        pce_formulation = self._umdo_formulation
         problem = pce_formulation.mdo_formulation.optimization_problem
         samples = pce_formulation.compute_samples(problem)
         pce_regressor = PCERegressor(
@@ -79,7 +82,6 @@ class StatisticFunctionForPCE(BaseStatisticFunction[PCET]):
         output_data[BasePCEEstimator.VAR_ARG_NAME] = array_to_dict(
             pce_regressor.variance, sizes, output_names
         )
-        problem.reset(preprocessing=False)
         self.__log_pce_quality(pce_regressor)
 
     def __log_pce_quality(self, pce: PCERegressor) -> None:
@@ -88,7 +90,7 @@ class StatisticFunctionForPCE(BaseStatisticFunction[PCET]):
         Args:
             pce: The PCE regressor.
         """
-        pce_formulation = self._formulation
+        pce_formulation = self._umdo_formulation
         quality = pce_formulation.quality(pce)
         train = quality.compute_learning_measure(as_dict=True)
         LOGGER.info("        %s", quality.__class__.__name__)

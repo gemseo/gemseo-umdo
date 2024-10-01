@@ -155,9 +155,6 @@ def test_uncertainty_free(
     - PCE because a PCE regressor cannot be trained with constant inputs,
     - ControlVariate because control variate estimators require non-constant inputs.
     """
-    if statistic_estimation in ["PCE", "ControlVariate"]:
-        return
-
     u_doe_scenario = UDOEScenario(
         disciplines,
         "MDF",

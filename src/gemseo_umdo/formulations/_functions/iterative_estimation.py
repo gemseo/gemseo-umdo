@@ -37,33 +37,47 @@ class IterativeEstimation:
     and access the last evaluation with :attr:`.last_evaluation`.
 
     The [Sampling][gemseo_umdo.formulations.sampling.Sampling] U-MDO formulation
-    passes such functors to a [DOELibrary][gemseo.algos.doe.doe_library.DOELibrary]
+    passes such functors to a
+    [DOELibrary][gemseo.algos.doe.base_doe_library.BaseDOELibrary]
     as callback functions
     to update the statistics of the objective, constraints and observables.
     """
 
-    _update_estimation: BaseSamplingEstimator
+    statistic_estimator: BaseSamplingEstimator
     """The function to update the estimation of the statistic."""
 
-    _name: str
+    output_name: str
     """The name of the output."""
 
-    _last_estimation: RealArray
+    output_statistic_name: str
+    """The name of the statistic of the output."""
+
+    last_estimation: RealArray
     """The last estimation of the statistic."""
+
+    return_statistic_jacobian: bool
+    """Whether the functor returns the Jacobian of the statistic estimation."""
 
     def __init__(
         self,
-        name: str,
-        update_estimation: BaseSamplingEstimator,
+        output_name: str,
+        output_statistic_name: str,
+        statistic_estimator: BaseSamplingEstimator,
+        return_statistic_jacobian: bool = False,
     ) -> None:
         """
         Args:
-            name: The name of the output for which to estimate the statistic.
-            update_estimation: The function to update the estimation of the statistic.
+            output_name: The name of the output for which to estimate the statistic.
+            output_statistic_name: The name of the statistic of the output.
+            statistic_estimator: The function to update the estimation of the statistic.
+            return_statistic_jacobian: Whether to return
+                the Jacobian of the statistic estimation.
         """  # noqa: D202 D205 D212 D415
-        self._name = name
-        self._last_estimation = array([])
-        self._update_estimation = update_estimation
+        self.output_name = output_name
+        self.output_statistic_name = output_statistic_name
+        self.last_estimation = array([])
+        self.statistic_estimator = statistic_estimator
+        self.return_statistic_jacobian = return_statistic_jacobian
 
     def __call__(self, index: int, evaluation: EvaluationType) -> RealArray:
         """
@@ -73,14 +87,16 @@ class IterativeEstimation:
                 and the values of their Jacobian.
 
         Returns:
-            The new estimation of the statistic.
+            The new estimation of the statistic or its Jacobian.
         """  # noqa: D205, D212
-        self._last_estimation = self._update_estimation(
-            atleast_1d(evaluation[0][self._name])
-        )
-        return self._last_estimation
+        if self.return_statistic_jacobian:
+            self.last_estimation = self.statistic_estimator.compute_jacobian(
+                atleast_1d(evaluation[0].get(self.output_name)),
+                atleast_1d(evaluation[1].get(self.output_name)),
+            ).reshape(self.statistic_estimator.jac_shape)
+        else:
+            self.last_estimation = self.statistic_estimator.estimate_statistic(
+                atleast_1d(evaluation[0].get(self.output_name))
+            ).reshape(self.statistic_estimator.shape)
 
-    @property
-    def last_estimation(self) -> RealArray:
-        """The last estimation of the statistic."""
-        return self._last_estimation
+        return self.last_estimation

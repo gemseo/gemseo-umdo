@@ -22,7 +22,11 @@ from gemseo_umdo.formulations._statistics.control_variate.variance import Varian
 class StandardDeviation(Variance):
     """Estimator of the standard deviation."""
 
-    def __call__(  # noqa: D102
-        self, samples: RealArray, u_samples: RealArray, mean: RealArray, jac: RealArray
+    def estimate_statistic(  # noqa: D102
+        self,
+        samples: RealArray,
+        u_samples: RealArray,
+        mean: RealArray,
+        jac: RealArray,
     ) -> RealArray:
-        return super().__call__(samples, u_samples, mean, jac) ** 0.5
+        return super().estimate_statistic(samples, u_samples, mean, jac) ** 0.5

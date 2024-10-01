@@ -18,6 +18,9 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from numpy import nan_to_num
+from numpy import newaxis
+
 from gemseo_umdo.formulations._statistics.sampling.variance import Variance
 
 if TYPE_CHECKING:
@@ -27,5 +30,11 @@ if TYPE_CHECKING:
 class StandardDeviation(Variance):
     """Estimator of the standard deviation."""
 
-    def _compute(self, samples: RealArray) -> RealArray:  # noqa: D102
-        return super()._compute(samples) ** 0.5
+    def estimate_statistic(self, samples: RealArray) -> RealArray:
+        return super().estimate_statistic(samples) ** 0.5
+
+    def compute_jacobian(self, samples: RealArray, jac_samples: RealArray) -> RealArray:
+        std = self.estimate_statistic(samples)
+        return nan_to_num(
+            super().compute_jacobian(samples, jac_samples) / std[:, newaxis] / 2
+        )

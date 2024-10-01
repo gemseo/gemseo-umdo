@@ -94,6 +94,7 @@ class SequentialSampling(Sampling):
         seed: int = SEED,
         estimate_statistics_iteratively: bool = True,
         samples_directory_path: str | Path = "",
+        mdo_formulation_options: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
         **options: Any,
     ) -> None:
         """
@@ -117,15 +118,19 @@ class SequentialSampling(Sampling):
             seed=seed,
             estimate_statistics_iteratively=estimate_statistics_iteratively,
             samples_directory_path=samples_directory_path,
+            mdo_formulation_options=mdo_formulation_options,
             **options,
         )
         self.__final_n_samples = n_samples
         self.__n_samples_increment = n_samples_increment
 
     def compute_samples(  # noqa: D102
-        self, problem: OptimizationProblem, input_data: RealArray
+        self,
+        problem: OptimizationProblem,
+        input_data: RealArray,
+        compute_jacobian: bool = False,
     ) -> None:
-        super().compute_samples(problem, input_data)
+        super().compute_samples(problem, input_data, compute_jacobian=compute_jacobian)
         if self._n_samples < self.__final_n_samples:
             self._n_samples = min(
                 self.__final_n_samples, self._n_samples + self.__n_samples_increment
