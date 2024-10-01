@@ -14,7 +14,6 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
 from typing import Any
 
 import pytest
@@ -30,9 +29,6 @@ from gemseo_umdo.formulations._statistics.sampling.factory import (
     SamplingEstimatorFactory,
 )
 from gemseo_umdo.formulations.base_umdo_formulation import BaseUMDOFormulation
-
-if TYPE_CHECKING:
-    from gemseo.algos.optimization_problem import OptimizationProblem
 
 
 @pytest.fixture
@@ -79,7 +75,6 @@ class StatisticFunction(MDOFunction):
         func: MDOFunction,
         function_type: str,
         name: str,
-        sub_opt_problem: OptimizationProblem,
         **parameters: Any,
     ) -> None:
         super().__init__(lambda u: array([1.0]), name="func")

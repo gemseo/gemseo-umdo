@@ -19,22 +19,23 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 from typing import ClassVar
 
+from numpy import array
+
 from gemseo_umdo.formulations._statistics.iterative_sampling.base_central_moment import (  # noqa: E501
     BaseCentralMoment,
 )
 
 if TYPE_CHECKING:
-    from openturns import Point
+    from gemseo.typing import RealArray
 
 
 class Mean(BaseCentralMoment):
-    """Iterative estimator of the expectation.
-
-    This class iteratively computes the mean of an increasing dataset without storing
-    any data in memory.
-    """
+    """Iterative estimator of the expectation."""
 
     _ORDER: ClassVar[int] = 1
 
-    def _get_central_moment(self) -> Point:
-        return self._estimator.getMean()
+    def _get_estimation(self) -> RealArray:
+        return array(self._estimator.getMean())
+
+    def _get_estimation_jacobian(self) -> RealArray:
+        return array(self._jac_estimator.getMean())

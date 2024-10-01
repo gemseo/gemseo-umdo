@@ -12,6 +12,10 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-"""Iterative estimators of statistics for sampling-based U-MDO formulations."""
+"""Iterative estimators of statistics for sampling-based U-MDO formulations.
+
+These estimators iteratively estimate statistics from an increasing dataset without
+storing any data in memory.
+"""
 
 from __future__ import annotations

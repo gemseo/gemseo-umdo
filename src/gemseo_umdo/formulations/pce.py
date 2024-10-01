@@ -148,6 +148,7 @@ class PCE(BaseUMDOFormulation):
         quality_cv_randomize: bool = True,
         quality_cv_seed: int | None = None,
         quality_cv_threshold: float | Mapping[str, float | Iterable[float]] = 0.8,
+        mdo_formulation_options: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
         **options: Any,
     ) -> None:
         """
@@ -223,6 +224,7 @@ class PCE(BaseUMDOFormulation):
             objective_statistic_options=objective_statistic_parameters,
             maximize_objective=maximize_objective,
             grammar_type=grammar_type,
+            mdo_formulation_options=mdo_formulation_options,
             **options,
         )
         mdo_formulation = self._mdo_formulation.__class__.__name__

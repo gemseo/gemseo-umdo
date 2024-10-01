@@ -20,6 +20,7 @@ See also [Sampling][gemseo_umdo.formulations.sampling.Sampling].
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
+from typing import Any
 from typing import TypeVar
 
 from gemseo_umdo.formulations._functions.base_statistic_function_for_sampling import (
@@ -28,7 +29,6 @@ from gemseo_umdo.formulations._functions.base_statistic_function_for_sampling im
 from gemseo_umdo.formulations._functions.iterative_estimation import IterativeEstimation
 
 if TYPE_CHECKING:
-    from gemseo.algos.optimization_problem import OptimizationProblem
     from gemseo.core.mdo_functions.mdo_function import MDOFunction
     from gemseo.typing import RealArray
 
@@ -45,17 +45,44 @@ class StatisticFunctionForIterativeSampling(
 ):
     """A function to compute a statistic from `Sampling`."""
 
-    _estimate_statistic: BaseSamplingEstimator
+    _statistic_estimator: BaseSamplingEstimator
 
-    def _update_sampling_problem(
-        self, sampling_problem: OptimizationProblem, function: MDOFunction
+    def __init__(
+        self,
+        umdo_formulation: SamplingT,
+        function: MDOFunction,
+        function_type: MDOFunction.FunctionType,
+        name: str,
+        **statistic_options: Any,
     ) -> None:
-        self._formulation._estimators.append((
-            self._observable_name,
-            self._estimate_statistic,
-        ))
-        self._formulation.callbacks.append(
-            IterativeEstimation(function.name, self._estimate_statistic)
+        super().__init__(
+            umdo_formulation, function, function_type, name, **statistic_options
+        )
+        self._umdo_formulation.callbacks.append(
+            IterativeEstimation(
+                function.name, self._observable_name, self._statistic_estimator
+            )
+        )
+        self._umdo_formulation.jacobian_callbacks.append(
+            IterativeEstimation(
+                function.name,
+                self._observable_jac_name,
+                self._statistic_estimator,
+                return_statistic_jacobian=True,
+            )
+        )
+
+    @property
+    def _iterative_estimations(self) -> tuple[IterativeEstimation, ...]:
+        """The iterative estimation objects from OpenTURNS."""
+        return tuple(
+            callback
+            for callbacks in zip(
+                self._umdo_formulation.callbacks,
+                self._umdo_formulation.jacobian_callbacks,
+            )
+            for callback in callbacks
+            if isinstance(callback, IterativeEstimation)
         )
 
     def _compute_statistic_estimation(
@@ -63,16 +90,26 @@ class StatisticFunctionForIterativeSampling(
     ) -> RealArray:
         return output_data[self._observable_name]
 
-    def _compute_output_data(
-        self, input_data: RealArray, output_data: dict[str, RealArray]
-    ) -> None:
-        formulation = self._formulation
-        problem = formulation.mdo_formulation.optimization_problem
-        formulation.compute_samples(problem, input_data)
-        for (estimator_name, estimate_statistic), iterative_estimation in zip(
-            formulation._estimators, formulation.callbacks
-        ):
-            output_data[estimator_name] = iterative_estimation.last_estimation
-            estimate_statistic.reset()
+    def _compute_statistic_jacobian_estimation(
+        self, output_data: dict[str, RealArray]
+    ) -> RealArray:
+        return output_data[self._observable_jac_name]
 
-        problem.reset(preprocessing=False)
+    def _compute_output_data(
+        self,
+        input_data: RealArray,
+        output_data: dict[str, RealArray],
+        compute_jacobian: bool = False,
+    ) -> None:
+        formulation = self._umdo_formulation
+        formulation.compute_samples(
+            formulation.mdo_formulation.optimization_problem,
+            input_data,
+            compute_jacobian=compute_jacobian,
+        )
+        for estimation in self._iterative_estimations:
+            if estimation.return_statistic_jacobian and not compute_jacobian:
+                continue
+
+            output_data[estimation.output_statistic_name] = estimation.last_estimation
+            estimation.statistic_estimator.reset(estimation.last_estimation.size)

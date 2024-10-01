@@ -33,7 +33,9 @@ if TYPE_CHECKING:
 class Variance(BaseTaylorPolynomialEstimator):
     """Estimator of the variance."""
 
-    def __call__(self, func: RealArray, jac: RealArray, hess: RealArray) -> RealArray:
+    def estimate_statistic(
+        self, func: RealArray, jac: RealArray, hess: RealArray
+    ) -> RealArray:
         """
         Args:
             func: The output value at the mean value of the uncertain variables.

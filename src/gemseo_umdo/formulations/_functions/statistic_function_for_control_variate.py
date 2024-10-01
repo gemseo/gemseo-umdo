@@ -51,17 +51,22 @@ class StatisticFunctionForControlVariate(BaseStatisticFunction[ControlVariateT])
 
     @property
     def _statistic_estimator_parameters(self) -> tuple[ParameterSpace]:
-        return (self._formulation.uncertain_space,)
+        return (self._umdo_formulation.uncertain_space,)
 
     def _compute_output_data(
-        self, input_data: RealArray, output_data: dict[str, RealArray]
+        self,
+        input_data: RealArray,
+        output_data: dict[str, RealArray],
+        compute_jacobian: bool = False,
+        reset_problems: bool = False,
     ) -> None:
-        formulation = self._formulation
+        formulation = self._umdo_formulation
+        linearization_database = (
+            formulation.auxiliary_mdo_formulation.optimization_problem.database
+        )
         problem = formulation.mdo_formulation.optimization_problem
-        linearization_problem = formulation.linearization_problem
         database = problem.database
-        linearization_database = linearization_problem.database
-        formulation.compute_samples(problem, input_data)
+        formulation.compute_samples(problem)
         formulation.evaluate_with_mean()
         for output_name in database.get_function_names():
             output_data[output_name] = database.get_function_history(output_name)
@@ -72,8 +77,6 @@ class StatisticFunctionForControlVariate(BaseStatisticFunction[ControlVariateT])
             output_data[self.__GRAD_TEMPLATE.format(output_name)] = atleast_2d(
                 last_item[linearization_database.get_gradient_name(output_name)]
             )
-        problem.reset(preprocessing=False)
-        linearization_problem.reset(preprocessing=False)
 
     def _compute_statistic_estimation(
         self, output_data: dict[str, RealArray]
@@ -82,9 +85,9 @@ class StatisticFunctionForControlVariate(BaseStatisticFunction[ControlVariateT])
         samples = output_data[output_name]
         if samples.ndim == 1:
             samples = samples[:, newaxis]
-        return self._estimate_statistic(
+        return self._statistic_estimator.estimate_statistic(
             samples,
-            self._formulation.doe_algo.samples,
+            self._umdo_formulation.doe_algo.samples,
             output_data[self.__FUNC_TEMPLATE.format(output_name)],
             output_data[self.__GRAD_TEMPLATE.format(output_name)],
         )

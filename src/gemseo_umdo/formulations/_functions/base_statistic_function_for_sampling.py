@@ -27,8 +27,3 @@ from gemseo_umdo.formulations._functions.base_statistic_function import UMDOForm
 
 class BaseStatisticFunctionForSampling(BaseStatisticFunction[UMDOFormulationT]):
     """A function to compute a statistic from `Sampling`."""
-
-    @property
-    def _observable_name(self) -> str:
-        """The name of the observable."""
-        return f"{self._estimate_statistic.__class__.__name__}[{self._function_name}]"

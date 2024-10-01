@@ -44,9 +44,7 @@ class Margin(BasePCEEstimator):
         """  # noqa: D205 D212 D415
         self.__factor = factor
 
-    def __call__(  # noqa: D102
-        self,
-        mean: RealArray,
-        standard_deviation: RealArray,
+    def estimate_statistic(
+        self, mean: RealArray, standard_deviation: RealArray
     ) -> RealArray:
         return mean + self.__factor * standard_deviation

@@ -62,8 +62,12 @@ class Probability(BaseControlVariateEstimator):
         self.__compare = ge if greater else le
         self.__n_samples = n_samples
 
-    def __call__(  # noqa: D102
-        self, samples: RealArray, u_samples: RealArray, mean: RealArray, jac: RealArray
+    def estimate_statistic(  # noqa: D102
+        self,
+        samples: RealArray,
+        u_samples: RealArray,
+        mean: RealArray,
+        jac: RealArray,
     ) -> RealArray:
         cv_samples = self._compute_control_variate_samples(u_samples, mean, jac)
         ref_cv_samples = (

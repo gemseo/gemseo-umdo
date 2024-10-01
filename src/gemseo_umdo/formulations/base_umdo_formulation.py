@@ -18,6 +18,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 from typing import Any
+from typing import ClassVar
 
 from gemseo.core.discipline import MDODiscipline
 from gemseo.core.mdo_functions.mdo_function import MDOFunction
@@ -53,8 +54,26 @@ class BaseUMDOFormulation(BaseFormulation):
     uncertainty.
     """
 
+    _USE_AUXILIARY_MDO_FORMULATION: ClassVar[bool] = False
+    """Whether the U-MDO formulation uses an auxiliary MDO formulation.
+
+    For this auxiliary formulation, the functions are evaluable over the uncertain space
+    and differentiable with respect to the uncertain variables.
+    """
+
     _mdo_formulation: BaseMDOFormulation
-    """The MDO formulation used by the U-MDO formulation over the uncertain space."""
+    """The MDO formulation.
+
+    The functions are evaluable over the uncertain space and differentiable with respect
+    to the design variables.
+    """
+
+    _auxiliary_mdo_formulation: BaseMDOFormulation | None
+    """The auxiliary MDO formulation if :attr:`._USE_AUXILIARY_MDO_FORMULATION`.
+
+    For this auxiliary formulation, the functions are evaluable over the uncertain space
+    and differentiable with respect to the uncertain variables.
+    """
 
     _statistic_factory: BaseFactory
     """A factory of statistics."""
@@ -83,25 +102,43 @@ class BaseUMDOFormulation(BaseFormulation):
         objective_statistic_parameters: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
         maximize_objective: bool = False,
         grammar_type: MDODiscipline.GrammarType = MDODiscipline.GrammarType.JSON,
+        mdo_formulation_options: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
         **options: Any,
     ) -> None:
         """
         Args:
-            mdo_formulation: The class name of the MDO formulation, e.g. "MDF".
+            mdo_formulation: The MDO formulation
+                generating functions evaluable over the uncertain space
+                and differentiable with respect to the design variables.
             uncertain_space: The uncertain variables
                 with their probability distributions.
             objective_statistic_name: The name of the statistic
                 to be applied to the objective.
             objective_statistic_parameters: The values of the parameters
                 of the statistic to be applied to the objective, if any.
+            mdo_formulation_options: The options of the MDO formulation.
         """  # noqa: D205 D212 D415
+        self.__available_statistics = self._statistic_factory.class_names
+        self._mdo_formulation = mdo_formulation
+        self._uncertain_space = uncertain_space
+
+        # Create the auxiliary MDO formulation if required.
+        self._auxiliary_mdo_formulation = None
+        if self._USE_AUXILIARY_MDO_FORMULATION:
+            self._auxiliary_mdo_formulation = mdo_formulation.__class__(
+                disciplines,
+                objective_name,
+                uncertain_space,
+                grammar_type=mdo_formulation._grammar_type,
+                **mdo_formulation_options,
+            )
+
+        # Create the objective name.
         objective_name = self.__compute_name(
             objective_name,
             objective_statistic_name,
             **objective_statistic_parameters,
         )
-        self._uncertain_space = uncertain_space
-        self._mdo_formulation = mdo_formulation
         super().__init__(
             disciplines,
             objective_name,
@@ -109,20 +146,22 @@ class BaseUMDOFormulation(BaseFormulation):
             grammar_type=grammar_type,
             **options,
         )
-        self.__available_statistics = self._statistic_factory.class_names
-        sub_opt_problem = self._mdo_formulation.optimization_problem
+        self.name = f"{self.__class__.__name__}[{mdo_formulation.__class__.__name__}]"
+
+        # Replace the objective function by a statistic function.
+        sub_opt_problem = mdo_formulation.optimization_problem
         objective = self._statistic_function_class(
             self,
             sub_opt_problem.objective,
             MDOFunction.FunctionType.OBJ,
             objective_statistic_name,
-            sub_opt_problem,
             **objective_statistic_parameters,
         )
         objective.name = objective_name
         self.optimization_problem.objective = objective
         self.optimization_problem.minimize_objective = not maximize_objective
-        self.name = f"{self.__class__.__name__}[{mdo_formulation.__class__.__name__}]"
+
+        # Initialize the cache mechanism.
         self.input_data_to_output_data = {}
         self.optimization_problem.add_listener(self._clear_input_data_to_output_data)
 
@@ -136,8 +175,21 @@ class BaseUMDOFormulation(BaseFormulation):
 
     @property
     def mdo_formulation(self) -> BaseMDOFormulation:
-        """The MDO formulation."""
+        """The MDO formulation.
+
+        The functions are evaluable over the uncertain space and differentiable with
+        respect to the design variables.
+        """
         return self._mdo_formulation
+
+    @property
+    def auxiliary_mdo_formulation(self) -> BaseMDOFormulation:
+        """The auxiliary MDO formulation.
+
+        The functions are evaluable over the uncertain space and differentiable with
+        respect to the uncertain variables.
+        """
+        return self._auxiliary_mdo_formulation
 
     @property
     def uncertain_space(self) -> ParameterSpace:
@@ -163,6 +215,13 @@ class BaseUMDOFormulation(BaseFormulation):
             statistic_parameters: The values of the parameters
                 of the statistic to be applied to the observable, if any.
         """  # noqa: D205 D212 D415
+        if self._auxiliary_mdo_formulation is not None:
+            self._auxiliary_mdo_formulation.add_observable(
+                output_names,
+                observable_name=observable_name,
+                discipline=discipline,
+            )
+
         self._mdo_formulation.add_observable(
             output_names,
             observable_name=observable_name,
@@ -174,7 +233,6 @@ class BaseUMDOFormulation(BaseFormulation):
             sub_opt_problem.observables[-1],
             MDOFunction.FunctionType.NONE,
             statistic_name,
-            sub_opt_problem,
             **statistic_parameters,
         )
         observable.name = self.__compute_name(
@@ -199,14 +257,15 @@ class BaseUMDOFormulation(BaseFormulation):
             statistic_parameters: The values of the parameters of the statistic
                 to be applied to the constraint, if any.
         """  # noqa: D205 D212 D415
+        if self._auxiliary_mdo_formulation is not None:
+            self._auxiliary_mdo_formulation.add_observable(output_name)
+
         self._mdo_formulation.add_observable(output_name)
-        sub_opt_problem = self._mdo_formulation.optimization_problem
         constraint = self._statistic_function_class(
             self,
-            sub_opt_problem.observables[-1],
+            self._mdo_formulation.optimization_problem.observables[-1],
             MDOFunction.FunctionType.NONE,
             statistic_name,
-            sub_opt_problem,
             **statistic_parameters,
         )
         name = self.__compute_name(output_name, statistic_name, **statistic_parameters)
@@ -270,10 +329,16 @@ class BaseUMDOFormulation(BaseFormulation):
             self.design_space.variable_sizes,
             self.design_space.variable_names,
         )
-        for discipline in self._mdo_formulation.get_top_level_disc():
-            discipline.default_inputs.update({
-                k: v for k, v in design_values.items() if k in discipline.input_grammar
-            })
+        for formulation in [self._mdo_formulation, self._auxiliary_mdo_formulation]:
+            if formulation is None:
+                continue
+
+            for discipline in formulation.get_top_level_disc():
+                discipline.default_inputs.update({
+                    k: v
+                    for k, v in design_values.items()
+                    if k in discipline.input_grammar
+                })
 
     def get_top_level_disc(self) -> list[MDODiscipline]:  # noqa: D102
         return self._mdo_formulation.get_top_level_disc()

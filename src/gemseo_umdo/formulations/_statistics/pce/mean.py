@@ -31,8 +31,5 @@ class Mean(BasePCEEstimator):
 
     ARG_NAMES: ClassVar[tuple[str]] = (BasePCEEstimator.MEAN_ARG_NAME,)
 
-    def __call__(  # noqa: D102
-        self,
-        mean: RealArray,
-    ) -> RealArray:
+    def estimate_statistic(self, mean: RealArray) -> RealArray:
         return mean

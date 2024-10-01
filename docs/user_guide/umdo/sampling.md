@@ -81,3 +81,12 @@ as well as combinations of these statistics.
 | Standard deviation | $\mathbb{S}[\varphi(x,U)]$       | $S_N[\varphi(x,U)]=\sqrt{V_N[\varphi(x,U)]}$                                                                |
 | Margin             | $\textrm{Margin}[\varphi(x,U)]$  | $\textrm{Margin}_N[\varphi(x,U)]=E_N[\varphi(x,U)]+\kappa\times S_N[\varphi(x,U)]$                                       |
 | Probability        | $\mathbb{P}[\varphi(x,U)\leq 0]$ | $P_N[\varphi(x,U)\leq 0]=E_N[\mathbb{1}_{\varphi(x,U)\leq 0}]$                                                           |
+
+## Gradient-based optimization
+
+When the multidisciplinary process is differentiable,
+and a gradient-based optimizer is used,
+analytical derivatives are implemented with the following statistics:
+mean, standard deviation, variance and margin.
+For probability statistics,
+only derivatives approximated by finite differences are currently available.

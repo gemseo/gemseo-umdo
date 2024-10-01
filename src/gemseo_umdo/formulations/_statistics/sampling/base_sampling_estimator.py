@@ -19,8 +19,6 @@ from __future__ import annotations
 from abc import abstractmethod
 from typing import TYPE_CHECKING
 
-from numpy import atleast_1d
-
 from gemseo_umdo.formulations._statistics.base_statistic_estimator import (
     BaseStatisticEstimator,
 )
@@ -32,20 +30,17 @@ if TYPE_CHECKING:
 class BaseSamplingEstimator(BaseStatisticEstimator):
     """Base statistic estimator for a U-MDO formulation using sampling."""
 
-    def __call__(self, samples: RealArray) -> RealArray:
+    @abstractmethod
+    def estimate_statistic(self, samples: RealArray) -> RealArray:
         """
         Args:
             samples: The samples to estimate the statistic.
-        """  # noqa: D205 D212 D415 E112
-        return atleast_1d(self._compute(samples))
+        """  # noqa: D205 D212
 
-    @abstractmethod
-    def _compute(self, samples: RealArray) -> RealArray:
-        """Estimate the statistic from samples.
-
-        Args:
-            samples: The samples.
-
-        Returns:
-            The estimation of the statistic.
+    def compute_jacobian(self, samples: RealArray, jac_samples: RealArray) -> RealArray:
         """
+        Args:
+            samples: The samples to estimate the statistic.
+            jac_samples: The samples to estimate the Jacobian of the statistic.
+        """  # noqa: D205 D212
+        raise NotImplementedError

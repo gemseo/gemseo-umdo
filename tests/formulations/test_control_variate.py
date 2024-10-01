@@ -185,7 +185,9 @@ def test_estimate_mean(umdo_formulation):
     """Check the estimation of the mean."""
     statistic_function = Mean(umdo_formulation.uncertain_space)
     assert_almost_equal(
-        statistic_function(array([[0.0, 0.0], [1.0, 2.0]]), U_SAMPLES, MEAN, JAC),
+        statistic_function.estimate_statistic(
+            array([[0.0, 0.0], [1.0, 2.0]]), U_SAMPLES, MEAN, JAC
+        ),
         array([-0.5, -1.0]),
     )
 
@@ -194,7 +196,9 @@ def test_estimate_variance(umdo_formulation):
     """Check the estimation of the variance."""
     statistic_function = Variance(umdo_formulation.uncertain_space)
     assert_almost_equal(
-        statistic_function(array([[0.0, 0.0], [1.0, 2.0]]), U_SAMPLES, MEAN, JAC),
+        statistic_function.estimate_statistic(
+            array([[0.0, 0.0], [1.0, 2.0]]), U_SAMPLES, MEAN, JAC
+        ),
         array([0.263655, 1.267923]),
         decimal=6,
     )
@@ -204,7 +208,9 @@ def test_estimate_standard_derivation(umdo_formulation):
     """Check the estimation of the standard deviation."""
     statistic_function = StandardDeviation(umdo_formulation.uncertain_space)
     assert_almost_equal(
-        statistic_function(array([[0.0, 0.0], [1.0, 2.0]]), U_SAMPLES, MEAN, JAC),
+        statistic_function.estimate_statistic(
+            array([[0.0, 0.0], [1.0, 2.0]]), U_SAMPLES, MEAN, JAC
+        ),
         array([0.263655, 1.267923]) ** 0.5,
         decimal=6,
     )
@@ -214,7 +220,9 @@ def test_estimate_margin(umdo_formulation):
     """Check the estimation of the margin."""
     statistic_function = Margin(umdo_formulation.uncertain_space, factor=3)
     assert_almost_equal(
-        statistic_function(array([[0.0, 0.0], [1.0, 2.0]]), U_SAMPLES, MEAN, JAC),
+        statistic_function.estimate_statistic(
+            array([[0.0, 0.0], [1.0, 2.0]]), U_SAMPLES, MEAN, JAC
+        ),
         array([-0.5, -1.0]) + 3 * array([0.263655, 1.267923]) ** 0.5,
         decimal=6,
     )
@@ -229,6 +237,8 @@ def test_estimate_probability(umdo_formulation, greater, result):
         umdo_formulation.uncertain_space, threshold=1.5, greater=greater
     )
     assert_equal(
-        statistic_function(array([[0.0, 0.0], [1.0, 2.0]]), U_SAMPLES, MEAN, JAC),
+        statistic_function.estimate_statistic(
+            array([[0.0, 0.0], [1.0, 2.0]]), U_SAMPLES, MEAN, JAC
+        ),
         result,
     )

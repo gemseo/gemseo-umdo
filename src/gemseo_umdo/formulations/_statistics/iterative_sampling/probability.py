@@ -30,11 +30,9 @@ if TYPE_CHECKING:
 
 
 class Probability(BaseSamplingEstimator):
-    """Iterative estimator of a probability.
+    """Iterative estimator of a probability."""
 
-    This class iteratively computes a probability on an increasing dataset without
-    storing any data in memory.
-    """
+    _estimator: IterativeThresholdExceedance | None
 
     __greater: bool
     """Whether the probability is linked to exceeding the threshold."""
@@ -56,12 +54,13 @@ class Probability(BaseSamplingEstimator):
         self.__threshold = threshold
         self.__greater = greater
 
-    def _get_statistic(self) -> RealArray:
+    def _get_estimation(self) -> RealArray:
         result = array(
             self._estimator.getThresholdExceedance()
             / self._estimator.getIterationNumber()
         )
         return result if self.__greater else 1 - result
 
-    def reset(self) -> None:  # noqa: D102
-        self._estimator = IterativeThresholdExceedance(self._size, self.__threshold)
+    def reset(self, size: int) -> None:  # noqa: D102
+        super().reset(size)
+        self._estimator = IterativeThresholdExceedance(size, self.__threshold)
