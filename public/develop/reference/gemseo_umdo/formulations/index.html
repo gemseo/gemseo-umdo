@@ -5883,11 +5883,12 @@ The objective can be either minimized (default) or maximized.</p>
 <p>In the context of deterministic MDO,
 the [OptimizationProblem][gemseo.algos.optimization_problem.OptimizationProblem]
 is handled by a driver
-(see <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.algos.driver_library.html#gemseo.algos.driver_library.DriverLibrary">DriverLibrary</a>),
+(see [DriverLibrary][gemseo.algos.base_driver_library.BaseDriverLibrary]),
 typically an optimizer
-(see <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.algos.opt.optimization_library.html#gemseo.algos.opt.optimization_library.OptimizationLibrary">OptimizationLibrary</a>),
+(see
+[OptimizationLibrary][gemseo.algos.opt.base_optimization_library.BaseOptimizationLibrary]),
 or a design of experiments
-(DOE, see <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.algos.doe.doe_library.html#gemseo.algos.doe.doe_library.DOELibrary">DOELibrary</a>).</p>
+(DOE, see [DOELibrary][gemseo.algos.doe.base_doe_library.BaseDOELibrary]).</p>
 <p>In the frame of U-MDO,
 the
 <a class="autorefs autorefs-internal" href="base_umdo_formulation/#gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation">BaseUMDOFormulation</a>

@@ -2802,6 +2802,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations.sampling.Sampling.auxiliary_mdo_formulation" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;auxiliary_mdo_formulation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#gemseo_umdo.formulations.sampling.Sampling.available_statistics" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;available_statistics
@@ -2823,6 +2832,15 @@
   <a href="#gemseo_umdo.formulations.sampling.Sampling.input_data_to_output_data" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;input_data_to_output_data
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations.sampling.Sampling.jacobian_callbacks" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;jacobian_callbacks
     </span>
   </a>
   
@@ -6092,6 +6110,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations.sampling.Sampling.auxiliary_mdo_formulation" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;auxiliary_mdo_formulation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#gemseo_umdo.formulations.sampling.Sampling.available_statistics" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;available_statistics
@@ -6113,6 +6140,15 @@
   <a href="#gemseo_umdo.formulations.sampling.Sampling.input_data_to_output_data" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;input_data_to_output_data
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations.sampling.Sampling.jacobian_callbacks" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;jacobian_callbacks
     </span>
   </a>
   
@@ -6319,6 +6355,9 @@ obtained with an optimized Latin hypercube sampling technique.</p>
     <span class="n">seed</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></span> <span class="o">=</span> <span class="n">SEED</span><span class="p">,</span>
     <span class="n">estimate_statistics_iteratively</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">samples_directory_path</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span> <span class="o">|</span> <span class="n"><a class="autorefs autorefs-external" title="pathlib.Path" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path">Path</a></span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">mdo_formulation_options</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="collections.abc.Mapping" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping">Mapping</a></span><span class="p">[</span>
+        <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></span>
+    <span class="p">]</span> <span class="o">=</span> <span class="n">READ_ONLY_EMPTY_DICT</span><span class="p">,</span>
     <span class="o">**</span><span class="n">options</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></span>
 <span class="p">)</span>
 </code></pre></div>
@@ -6371,7 +6410,9 @@ If multiple names are passed, the objective will be a vector.</p>
               (<code><span title="gemseo.formulations.base_mdo_formulation.BaseMDOFormulation">BaseMDOFormulation</span></code>)
           –
           <div class="doc-md-description">
-            <p>The class name of the MDO formulation, e.g. "MDF".</p>
+            <p>The MDO formulation
+generating functions evaluable over the uncertain space
+and differentiable with respect to the design variables.</p>
           </div>
         </li>
         <li class="doc-section-item field-body">
@@ -6495,6 +6536,16 @@ If empty, do not save the samples.</p>
           </div>
         </li>
         <li class="doc-section-item field-body">
+          <b><code>mdo_formulation_options</code></b>
+              (<code><a class="autorefs autorefs-external" title="collections.abc.Mapping" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping">Mapping</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>, <a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a>]</code>, default:
+                  <code><a class="autorefs autorefs-external" title="gemseo.utils.constants.READ_ONLY_EMPTY_DICT" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.utils.constants.html#gemseo.utils.constants.READ_ONLY_EMPTY_DICT">READ_ONLY_EMPTY_DICT</a></code>
+)
+          –
+          <div class="doc-md-description">
+            <p>The options of the MDO formulation.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
           <b><code>**options</code></b>
               (<code><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></code>, default:
                   <code>{}</code>
@@ -6521,10 +6572,7 @@ whereas it is required by the DOE algorithm.</p>
 
                   <details class="quote">
                     <summary>Source code in <code>src/gemseo_umdo/formulations/sampling.py</code></summary>
-                    <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">105</span>
-<span class="normal">106</span>
-<span class="normal">107</span>
-<span class="normal">108</span>
+                    <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">108</span>
 <span class="normal">109</span>
 <span class="normal">110</span>
 <span class="normal">111</span>
@@ -6609,7 +6657,12 @@ whereas it is required by the DOE algorithm.</p>
 <span class="normal">190</span>
 <span class="normal">191</span>
 <span class="normal">192</span>
-<span class="normal">193</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">disciplines</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">MDODiscipline</span><span class="p">],</span>
     <span class="n">objective_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -6626,6 +6679,7 @@ whereas it is required by the DOE algorithm.</p>
     <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">SEED</span><span class="p">,</span>
     <span class="n">estimate_statistics_iteratively</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">samples_directory_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">mdo_formulation_options</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">READ_ONLY_EMPTY_DICT</span><span class="p">,</span>
     <span class="o">**</span><span class="n">options</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -6653,6 +6707,7 @@ whereas it is required by the DOE algorithm.</p>
 <span class="sd">            whereas it is required by the DOE algorithm.</span>
 <span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: D205 D212 D415</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">callbacks</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">jacobian_callbacks</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">input_data_to_output_samples</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">if</span> <span class="n">samples_directory_path</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__samples_directory_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">samples_directory_path</span><span class="p">)</span>
@@ -6682,7 +6737,6 @@ whereas it is required by the DOE algorithm.</p>
         <span class="bp">self</span><span class="o">.</span><span class="n">__doe_algo_options</span><span class="p">[</span><span class="s2">&quot;seed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">seed</span>
 
     <span class="bp">self</span><span class="o">.</span><span class="n">__n_samples</span> <span class="o">=</span> <span class="n">n_samples</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">_estimators</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
         <span class="n">disciplines</span><span class="p">,</span>
         <span class="n">objective_name</span><span class="p">,</span>
@@ -6693,6 +6747,7 @@ whereas it is required by the DOE algorithm.</p>
         <span class="n">objective_statistic_options</span><span class="o">=</span><span class="n">objective_statistic_parameters</span><span class="p">,</span>
         <span class="n">maximize_objective</span><span class="o">=</span><span class="n">maximize_objective</span><span class="p">,</span>
         <span class="n">grammar_type</span><span class="o">=</span><span class="n">grammar_type</span><span class="p">,</span>
+        <span class="n">mdo_formulation_options</span><span class="o">=</span><span class="n">mdo_formulation_options</span><span class="p">,</span>
         <span class="o">**</span><span class="n">options</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">mdo_formulation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mdo_formulation</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
@@ -6710,6 +6765,31 @@ whereas it is required by the DOE algorithm.</p>
 
 
 <h5 id="gemseo_umdo.formulations.sampling.Sampling-attributes">Attributes<a href="#gemseo_umdo.formulations.sampling.Sampling-attributes" class="headerlink" title="Permanent link">&para;</a></h5>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h6 id="gemseo_umdo.formulations.sampling.Sampling.auxiliary_mdo_formulation" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">auxiliary_mdo_formulation</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#gemseo_umdo.formulations.sampling.Sampling.auxiliary_mdo_formulation" class="headerlink" title="Permanent link">&para;</a></h6>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">auxiliary_mdo_formulation</span><span class="p">:</span> <span class="n"><span title="gemseo.formulations.base_mdo_formulation.BaseMDOFormulation">BaseMDOFormulation</span></span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>The auxiliary MDO formulation.</p>
+<p>The functions are evaluable over the uncertain space and differentiable with
+respect to the uncertain variables.</p>
+    </div>
+
+</div>
 
 <div class="doc doc-object doc-attribute">
 
@@ -6752,7 +6832,7 @@ whereas it is required by the DOE algorithm.</p>
 
     <div class="doc doc-contents ">
 
-        <p>The callback functions for the DOE algorithm.</p>
+        <p>The callback functions for the DOE algorithm when computing the output data.</p>
     </div>
 
 </div>
@@ -6786,6 +6866,29 @@ whereas it is required by the DOE algorithm.</p>
 
 
 
+<h6 id="gemseo_umdo.formulations.sampling.Sampling.jacobian_callbacks" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">jacobian_callbacks</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#gemseo_umdo.formulations.sampling.Sampling.jacobian_callbacks" class="headerlink" title="Permanent link">&para;</a></h6>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">jacobian_callbacks</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#list">list</a></span><span class="p">[</span><span class="n"><span title="gemseo.algos.doe.base_doe_library.CallbackType">CallbackType</span></span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>The callback functions for the DOE algorithm when computing the Jacobian.</p>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
 <h6 id="gemseo_umdo.formulations.sampling.Sampling.mdo_formulation" class="doc doc-heading">
 <code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">mdo_formulation</span>
 
@@ -6801,6 +6904,8 @@ whereas it is required by the DOE algorithm.</p>
     <div class="doc doc-contents ">
 
         <p>The MDO formulation.</p>
+<p>The functions are evaluable over the uncertain space and differentiable with
+respect to the design variables.</p>
     </div>
 
 </div>
@@ -6937,47 +7042,48 @@ from <code>output_name</code>, <code>constraint_type</code>, <code>value</code> 
 
             <details class="quote">
               <summary>Source code in <code>src/gemseo_umdo/formulations/base_umdo_formulation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">186</span>
-<span class="normal">187</span>
-<span class="normal">188</span>
-<span class="normal">189</span>
-<span class="normal">190</span>
-<span class="normal">191</span>
-<span class="normal">192</span>
-<span class="normal">193</span>
-<span class="normal">194</span>
-<span class="normal">195</span>
-<span class="normal">196</span>
-<span class="normal">197</span>
-<span class="normal">198</span>
-<span class="normal">199</span>
-<span class="normal">200</span>
-<span class="normal">201</span>
-<span class="normal">202</span>
-<span class="normal">203</span>
-<span class="normal">204</span>
-<span class="normal">205</span>
-<span class="normal">206</span>
-<span class="normal">207</span>
-<span class="normal">208</span>
-<span class="normal">209</span>
-<span class="normal">210</span>
-<span class="normal">211</span>
-<span class="normal">212</span>
-<span class="normal">213</span>
-<span class="normal">214</span>
-<span class="normal">215</span>
-<span class="normal">216</span>
-<span class="normal">217</span>
-<span class="normal">218</span>
-<span class="normal">219</span>
-<span class="normal">220</span>
-<span class="normal">221</span>
-<span class="normal">222</span>
-<span class="normal">223</span>
-<span class="normal">224</span>
-<span class="normal">225</span>
-<span class="normal">226</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">add_constraint</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span>
+<span class="normal">249</span>
+<span class="normal">250</span>
+<span class="normal">251</span>
+<span class="normal">252</span>
+<span class="normal">253</span>
+<span class="normal">254</span>
+<span class="normal">255</span>
+<span class="normal">256</span>
+<span class="normal">257</span>
+<span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span>
+<span class="normal">263</span>
+<span class="normal">264</span>
+<span class="normal">265</span>
+<span class="normal">266</span>
+<span class="normal">267</span>
+<span class="normal">268</span>
+<span class="normal">269</span>
+<span class="normal">270</span>
+<span class="normal">271</span>
+<span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span>
+<span class="normal">275</span>
+<span class="normal">276</span>
+<span class="normal">277</span>
+<span class="normal">278</span>
+<span class="normal">279</span>
+<span class="normal">280</span>
+<span class="normal">281</span>
+<span class="normal">282</span>
+<span class="normal">283</span>
+<span class="normal">284</span>
+<span class="normal">285</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">add_constraint</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">output_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
     <span class="n">statistic_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -6993,14 +7099,15 @@ from <code>output_name</code>, <code>constraint_type</code>, <code>value</code> 
 <span class="sd">        statistic_parameters: The values of the parameters of the statistic</span>
 <span class="sd">            to be applied to the constraint, if any.</span>
 <span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: D205 D212 D415</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_auxiliary_mdo_formulation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_auxiliary_mdo_formulation</span><span class="o">.</span><span class="n">add_observable</span><span class="p">(</span><span class="n">output_name</span><span class="p">)</span>
+
     <span class="bp">self</span><span class="o">.</span><span class="n">_mdo_formulation</span><span class="o">.</span><span class="n">add_observable</span><span class="p">(</span><span class="n">output_name</span><span class="p">)</span>
-    <span class="n">sub_opt_problem</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mdo_formulation</span><span class="o">.</span><span class="n">optimization_problem</span>
     <span class="n">constraint</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_statistic_function_class</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">sub_opt_problem</span><span class="o">.</span><span class="n">observables</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_mdo_formulation</span><span class="o">.</span><span class="n">optimization_problem</span><span class="o">.</span><span class="n">observables</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
         <span class="n">MDOFunction</span><span class="o">.</span><span class="n">FunctionType</span><span class="o">.</span><span class="n">NONE</span><span class="p">,</span>
         <span class="n">statistic_name</span><span class="p">,</span>
-        <span class="n">sub_opt_problem</span><span class="p">,</span>
         <span class="o">**</span><span class="n">statistic_parameters</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__compute_name</span><span class="p">(</span><span class="n">output_name</span><span class="p">,</span> <span class="n">statistic_name</span><span class="p">,</span> <span class="o">**</span><span class="n">statistic_parameters</span><span class="p">)</span>
@@ -7101,39 +7208,45 @@ If <code>None</code>, the discipline is detected from inner disciplines.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/gemseo_umdo/formulations/base_umdo_formulation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">152</span>
-<span class="normal">153</span>
-<span class="normal">154</span>
-<span class="normal">155</span>
-<span class="normal">156</span>
-<span class="normal">157</span>
-<span class="normal">158</span>
-<span class="normal">159</span>
-<span class="normal">160</span>
-<span class="normal">161</span>
-<span class="normal">162</span>
-<span class="normal">163</span>
-<span class="normal">164</span>
-<span class="normal">165</span>
-<span class="normal">166</span>
-<span class="normal">167</span>
-<span class="normal">168</span>
-<span class="normal">169</span>
-<span class="normal">170</span>
-<span class="normal">171</span>
-<span class="normal">172</span>
-<span class="normal">173</span>
-<span class="normal">174</span>
-<span class="normal">175</span>
-<span class="normal">176</span>
-<span class="normal">177</span>
-<span class="normal">178</span>
-<span class="normal">179</span>
-<span class="normal">180</span>
-<span class="normal">181</span>
-<span class="normal">182</span>
-<span class="normal">183</span>
-<span class="normal">184</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">add_observable</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span>
+<span class="normal">226</span>
+<span class="normal">227</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span>
+<span class="normal">232</span>
+<span class="normal">233</span>
+<span class="normal">234</span>
+<span class="normal">235</span>
+<span class="normal">236</span>
+<span class="normal">237</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span>
+<span class="normal">241</span>
+<span class="normal">242</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">add_observable</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">output_names</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
     <span class="n">statistic_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -7147,6 +7260,13 @@ If <code>None</code>, the discipline is detected from inner disciplines.</p>
 <span class="sd">        statistic_parameters: The values of the parameters</span>
 <span class="sd">            of the statistic to be applied to the observable, if any.</span>
 <span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: D205 D212 D415</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_auxiliary_mdo_formulation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_auxiliary_mdo_formulation</span><span class="o">.</span><span class="n">add_observable</span><span class="p">(</span>
+            <span class="n">output_names</span><span class="p">,</span>
+            <span class="n">observable_name</span><span class="o">=</span><span class="n">observable_name</span><span class="p">,</span>
+            <span class="n">discipline</span><span class="o">=</span><span class="n">discipline</span><span class="p">,</span>
+        <span class="p">)</span>
+
     <span class="bp">self</span><span class="o">.</span><span class="n">_mdo_formulation</span><span class="o">.</span><span class="n">add_observable</span><span class="p">(</span>
         <span class="n">output_names</span><span class="p">,</span>
         <span class="n">observable_name</span><span class="o">=</span><span class="n">observable_name</span><span class="p">,</span>
@@ -7158,7 +7278,6 @@ If <code>None</code>, the discipline is detected from inner disciplines.</p>
         <span class="n">sub_opt_problem</span><span class="o">.</span><span class="n">observables</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
         <span class="n">MDOFunction</span><span class="o">.</span><span class="n">FunctionType</span><span class="o">.</span><span class="n">NONE</span><span class="p">,</span>
         <span class="n">statistic_name</span><span class="p">,</span>
-        <span class="n">sub_opt_problem</span><span class="p">,</span>
         <span class="o">**</span><span class="n">statistic_parameters</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">observable</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__compute_name</span><span class="p">(</span>
@@ -7181,7 +7300,9 @@ If <code>None</code>, the discipline is detected from inner disciplines.</p>
 
 <a href="#gemseo_umdo.formulations.sampling.Sampling.compute_samples" class="headerlink" title="Permanent link">&para;</a></h6>
 <div class="doc-signature highlight"><pre><span></span><code><span class="nf">compute_samples</span><span class="p">(</span>
-    <span class="n">problem</span><span class="p">:</span> <span class="n"><span title="gemseo.algos.optimization_problem.OptimizationProblem">OptimizationProblem</span></span><span class="p">,</span> <span class="n">input_data</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.typing.RealArray" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.typing.html#gemseo.typing.RealArray">RealArray</a></span>
+    <span class="n">problem</span><span class="p">:</span> <span class="n"><span title="gemseo.algos.optimization_problem.OptimizationProblem">OptimizationProblem</span></span><span class="p">,</span>
+    <span class="n">input_data</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.typing.RealArray" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.typing.html#gemseo.typing.RealArray">RealArray</a></span><span class="p">,</span>
+    <span class="n">compute_jacobian</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
 
@@ -7208,16 +7329,21 @@ If <code>None</code>, the discipline is detected from inner disciplines.</p>
             <p>The input point at which to estimate the statistic.</p>
           </div>
         </li>
+        <li class="doc-section-item field-body">
+          <b><code>compute_jacobian</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>, default:
+                  <code>False</code>
+)
+          –
+          <div class="doc-md-description">
+            <p>Whether to compute the Jacobian of the objective.</p>
+          </div>
+        </li>
     </ul>
 
             <details class="quote">
               <summary>Source code in <code>src/gemseo_umdo/formulations/sampling.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">209</span>
-<span class="normal">210</span>
-<span class="normal">211</span>
-<span class="normal">212</span>
-<span class="normal">213</span>
-<span class="normal">214</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">214</span>
 <span class="normal">215</span>
 <span class="normal">216</span>
 <span class="normal">217</span>
@@ -7234,20 +7360,43 @@ If <code>None</code>, the discipline is detected from inner disciplines.</p>
 <span class="normal">228</span>
 <span class="normal">229</span>
 <span class="normal">230</span>
-<span class="normal">231</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">compute_samples</span><span class="p">(</span>
-    <span class="bp">self</span><span class="p">,</span> <span class="n">problem</span><span class="p">:</span> <span class="n">OptimizationProblem</span><span class="p">,</span> <span class="n">input_data</span><span class="p">:</span> <span class="n">RealArray</span>
+<span class="normal">231</span>
+<span class="normal">232</span>
+<span class="normal">233</span>
+<span class="normal">234</span>
+<span class="normal">235</span>
+<span class="normal">236</span>
+<span class="normal">237</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span>
+<span class="normal">241</span>
+<span class="normal">242</span>
+<span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">compute_samples</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">problem</span><span class="p">:</span> <span class="n">OptimizationProblem</span><span class="p">,</span>
+    <span class="n">input_data</span><span class="p">:</span> <span class="n">RealArray</span><span class="p">,</span>
+    <span class="n">compute_jacobian</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Evaluate the functions of a problem with a DOE algorithm.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        problem: The sampling problem.</span>
 <span class="sd">        input_data: The input point at which to estimate the statistic.</span>
+<span class="sd">        compute_jacobian: Whether to compute the Jacobian of the objective.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">__doe_algo_options</span><span class="p">[</span><span class="s2">&quot;callbacks&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="o">.</span><span class="n">union</span><span class="p">(</span>
-        <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__doe_algo_options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;callbacks&quot;</span><span class="p">,</span> <span class="nb">set</span><span class="p">())),</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">callbacks</span><span class="p">)</span>
-    <span class="p">)</span>
+    <span class="n">callbacks_1</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__doe_algo_options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;callbacks&quot;</span><span class="p">,</span> <span class="p">[]))</span>
+    <span class="n">callbacks_2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">jacobian_callbacks</span> <span class="k">if</span> <span class="n">compute_jacobian</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">callbacks</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__doe_algo_options</span><span class="p">[</span><span class="s2">&quot;callbacks&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">callbacks_1</span> <span class="o">+</span> <span class="n">callbacks_2</span>
     <span class="k">with</span> <span class="n">LoggingContext</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;gemseo&quot;</span><span class="p">)):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__doe_algo</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">__doe_algo_options</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__doe_algo</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+            <span class="n">problem</span><span class="p">,</span>
+            <span class="n">eval_jac</span><span class="o">=</span><span class="n">compute_jacobian</span><span class="p">,</span>
+            <span class="n">eval_obs_jac</span><span class="o">=</span><span class="n">compute_jacobian</span><span class="p">,</span>
+            <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">__doe_algo_options</span><span class="p">,</span>
+        <span class="p">)</span>
 
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__samples_directory_path</span><span class="p">:</span>
         <span class="n">main_problem</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimization_problem</span>
@@ -7298,10 +7447,10 @@ the ending discipline and the coupling variables.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/gemseo_umdo/formulations/base_umdo_formulation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">286</span>
-<span class="normal">287</span>
-<span class="normal">288</span>
-<span class="normal">289</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_expected_dataflow</span><span class="p">(</span>  <span class="c1"># noqa: D102</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">351</span>
+<span class="normal">352</span>
+<span class="normal">353</span>
+<span class="normal">354</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_expected_dataflow</span><span class="p">(</span>  <span class="c1"># noqa: D102</span>
     <span class="bp">self</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="n">MDODiscipline</span><span class="p">,</span> <span class="n">MDODiscipline</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]:</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mdo_formulation</span><span class="o">.</span><span class="n">get_expected_dataflow</span><span class="p">()</span>
@@ -7355,10 +7504,10 @@ or a tuple of :class:<code>.ExecutionSequence</code> for concurrent execution.</
 
             <details class="quote">
               <summary>Source code in <code>src/gemseo_umdo/formulations/base_umdo_formulation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">281</span>
-<span class="normal">282</span>
-<span class="normal">283</span>
-<span class="normal">284</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_expected_workflow</span><span class="p">(</span>  <span class="c1"># noqa: D102</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">346</span>
+<span class="normal">347</span>
+<span class="normal">348</span>
+<span class="normal">349</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_expected_workflow</span><span class="p">(</span>  <span class="c1"># noqa: D102</span>
     <span class="bp">self</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">ExecutionSequence</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">ExecutionSequence</span><span class="p">]]:</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mdo_formulation</span><span class="o">.</span><span class="n">get_expected_workflow</span><span class="p">()</span>
@@ -7404,8 +7553,8 @@ This method can be overloaded by subclasses.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/gemseo_umdo/formulations/base_umdo_formulation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">278</span>
-<span class="normal">279</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_top_level_disc</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">MDODiscipline</span><span class="p">]:</span>  <span class="c1"># noqa: D102</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">343</span>
+<span class="normal">344</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_top_level_disc</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">MDODiscipline</span><span class="p">]:</span>  <span class="c1"># noqa: D102</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mdo_formulation</span><span class="o">.</span><span class="n">get_top_level_disc</span><span class="p">()</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -7446,22 +7595,28 @@ to update the default input values of the top-level disciplines.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/gemseo_umdo/formulations/base_umdo_formulation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">261</span>
-<span class="normal">262</span>
-<span class="normal">263</span>
-<span class="normal">264</span>
-<span class="normal">265</span>
-<span class="normal">266</span>
-<span class="normal">267</span>
-<span class="normal">268</span>
-<span class="normal">269</span>
-<span class="normal">270</span>
-<span class="normal">271</span>
-<span class="normal">272</span>
-<span class="normal">273</span>
-<span class="normal">274</span>
-<span class="normal">275</span>
-<span class="normal">276</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">update_top_level_disciplines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">design_values</span><span class="p">:</span> <span class="n">RealArray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">320</span>
+<span class="normal">321</span>
+<span class="normal">322</span>
+<span class="normal">323</span>
+<span class="normal">324</span>
+<span class="normal">325</span>
+<span class="normal">326</span>
+<span class="normal">327</span>
+<span class="normal">328</span>
+<span class="normal">329</span>
+<span class="normal">330</span>
+<span class="normal">331</span>
+<span class="normal">332</span>
+<span class="normal">333</span>
+<span class="normal">334</span>
+<span class="normal">335</span>
+<span class="normal">336</span>
+<span class="normal">337</span>
+<span class="normal">338</span>
+<span class="normal">339</span>
+<span class="normal">340</span>
+<span class="normal">341</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">update_top_level_disciplines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">design_values</span><span class="p">:</span> <span class="n">RealArray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Update the default input values of the top-level disciplines.</span>
 
 <span class="sd">    Args:</span>
@@ -7473,10 +7628,16 @@ to update the default input values of the top-level disciplines.</p>
         <span class="bp">self</span><span class="o">.</span><span class="n">design_space</span><span class="o">.</span><span class="n">variable_sizes</span><span class="p">,</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">design_space</span><span class="o">.</span><span class="n">variable_names</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="k">for</span> <span class="n">discipline</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mdo_formulation</span><span class="o">.</span><span class="n">get_top_level_disc</span><span class="p">():</span>
-        <span class="n">discipline</span><span class="o">.</span><span class="n">default_inputs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
-            <span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">design_values</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">discipline</span><span class="o">.</span><span class="n">input_grammar</span>
-        <span class="p">})</span>
+    <span class="k">for</span> <span class="n">formulation</span> <span class="ow">in</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_mdo_formulation</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_auxiliary_mdo_formulation</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">formulation</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+        <span class="k">for</span> <span class="n">discipline</span> <span class="ow">in</span> <span class="n">formulation</span><span class="o">.</span><span class="n">get_top_level_disc</span><span class="p">():</span>
+            <span class="n">discipline</span><span class="o">.</span><span class="n">default_inputs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+                <span class="n">k</span><span class="p">:</span> <span class="n">v</span>
+                <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">design_values</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">discipline</span><span class="o">.</span><span class="n">input_grammar</span>
+            <span class="p">})</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>

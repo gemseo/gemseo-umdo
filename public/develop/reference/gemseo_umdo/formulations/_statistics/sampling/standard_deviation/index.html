@@ -4027,6 +4027,45 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label=" StandardDeviation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations._statistics.sampling.standard_deviation.StandardDeviation-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Functions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations._statistics.sampling.standard_deviation.StandardDeviation.compute_jacobian" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;compute_jacobian
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations._statistics.sampling.standard_deviation.StandardDeviation.estimate_statistic" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;estimate_statistic
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
       </ul>
@@ -5938,6 +5977,45 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label=" StandardDeviation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations._statistics.sampling.standard_deviation.StandardDeviation-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Functions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations._statistics.sampling.standard_deviation.StandardDeviation.compute_jacobian" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;compute_jacobian
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations._statistics.sampling.standard_deviation.StandardDeviation.estimate_statistic" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;estimate_statistic
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
       </ul>
@@ -6024,7 +6102,125 @@
 
 
 
+<h5 id="gemseo_umdo.formulations._statistics.sampling.standard_deviation.StandardDeviation-functions">Functions<a href="#gemseo_umdo.formulations._statistics.sampling.standard_deviation.StandardDeviation-functions" class="headerlink" title="Permanent link">&para;</a></h5>
 
+<div class="doc doc-object doc-function">
+
+
+<h6 id="gemseo_umdo.formulations._statistics.sampling.standard_deviation.StandardDeviation.compute_jacobian" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">compute_jacobian</span>
+
+
+<a href="#gemseo_umdo.formulations._statistics.sampling.standard_deviation.StandardDeviation.compute_jacobian" class="headerlink" title="Permanent link">&para;</a></h6>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">compute_jacobian</span><span class="p">(</span>
+    <span class="n">samples</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.typing.RealArray" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.typing.html#gemseo.typing.RealArray">RealArray</a></span><span class="p">,</span> <span class="n">jac_samples</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.typing.RealArray" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.typing.html#gemseo.typing.RealArray">RealArray</a></span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.typing.RealArray" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.typing.html#gemseo.typing.RealArray">RealArray</a></span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Compute the Jacobian of the statistic estimation.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code>samples</code></b>
+              (<code><a class="autorefs autorefs-external" title="gemseo.typing.RealArray" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.typing.html#gemseo.typing.RealArray">RealArray</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>The samples to estimate the statistic.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>jac_samples</code></b>
+              (<code><a class="autorefs autorefs-external" title="gemseo.typing.RealArray" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.typing.html#gemseo.typing.RealArray">RealArray</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>The samples to estimate the Jacobian of the statistic.</p>
+          </div>
+        </li>
+    </ul>
+
+
+<p><span class="doc-section-title">Returns:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+              <code><a class="autorefs autorefs-external" title="gemseo.typing.RealArray" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.typing.html#gemseo.typing.RealArray">RealArray</a></code>
+          –
+          <div class="doc-md-description">
+            <p>The Jacobian of the statistic estimation.</p>
+          </div>
+        </li>
+    </ul>
+
+            <details class="quote">
+              <summary>Source code in <code>src/gemseo_umdo/formulations/_statistics/sampling/standard_deviation.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">compute_jacobian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">samples</span><span class="p">:</span> <span class="n">RealArray</span><span class="p">,</span> <span class="n">jac_samples</span><span class="p">:</span> <span class="n">RealArray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RealArray</span><span class="p">:</span>
+    <span class="n">std</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">estimate_statistic</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">nan_to_num</span><span class="p">(</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">compute_jacobian</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">jac_samples</span><span class="p">)</span> <span class="o">/</span> <span class="n">std</span><span class="p">[:,</span> <span class="n">newaxis</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h6 id="gemseo_umdo.formulations._statistics.sampling.standard_deviation.StandardDeviation.estimate_statistic" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">estimate_statistic</span>
+
+
+<a href="#gemseo_umdo.formulations._statistics.sampling.standard_deviation.StandardDeviation.estimate_statistic" class="headerlink" title="Permanent link">&para;</a></h6>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">estimate_statistic</span><span class="p">(</span><span class="n">samples</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.typing.RealArray" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.typing.html#gemseo.typing.RealArray">RealArray</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.typing.RealArray" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.typing.html#gemseo.typing.RealArray">RealArray</a></span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Estimate the statistic.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code>samples</code></b>
+              (<code><a class="autorefs autorefs-external" title="gemseo.typing.RealArray" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.typing.html#gemseo.typing.RealArray">RealArray</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>The samples to estimate the statistic.</p>
+          </div>
+        </li>
+    </ul>
+
+
+<p><span class="doc-section-title">Returns:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+              <code><a class="autorefs autorefs-external" title="gemseo.typing.RealArray" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.typing.html#gemseo.typing.RealArray">RealArray</a></code>
+          –
+          <div class="doc-md-description">
+            <p>The estimation of the statistic.</p>
+          </div>
+        </li>
+    </ul>
+
+            <details class="quote">
+              <summary>Source code in <code>src/gemseo_umdo/formulations/_statistics/sampling/standard_deviation.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">33</span>
+<span class="normal">34</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">estimate_statistic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">samples</span><span class="p">:</span> <span class="n">RealArray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RealArray</span><span class="p">:</span>
+    <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">estimate_statistic</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span> <span class="o">**</span> <span class="mf">0.5</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
 
 
 

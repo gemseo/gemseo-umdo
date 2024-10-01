@@ -3004,6 +3004,42 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations._functions.iterative_estimation.IterativeEstimation.output_name" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;output_name
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations._functions.iterative_estimation.IterativeEstimation.output_statistic_name" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;output_statistic_name
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations._functions.iterative_estimation.IterativeEstimation.return_statistic_jacobian" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;return_statistic_jacobian
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations._functions.iterative_estimation.IterativeEstimation.statistic_estimator" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;statistic_estimator
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -5988,6 +6024,42 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations._functions.iterative_estimation.IterativeEstimation.output_name" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;output_name
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations._functions.iterative_estimation.IterativeEstimation.output_statistic_name" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;output_statistic_name
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations._functions.iterative_estimation.IterativeEstimation.return_statistic_jacobian" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;return_statistic_jacobian
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations._functions.iterative_estimation.IterativeEstimation.statistic_estimator" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;statistic_estimator
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -6063,7 +6135,10 @@
 
 <a href="#gemseo_umdo.formulations._functions.iterative_estimation.IterativeEstimation" class="headerlink" title="Permanent link">&para;</a></h4>
 <div class="doc-signature highlight"><pre><span></span><code><span class="nf">IterativeEstimation</span><span class="p">(</span>
-    <span class="n">name</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">,</span> <span class="n">update_estimation</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="gemseo_umdo.formulations._statistics.iterative_sampling.base_sampling_estimator.BaseSamplingEstimator" href="../../_statistics/iterative_sampling/base_sampling_estimator/#gemseo_umdo.formulations._statistics.iterative_sampling.base_sampling_estimator.BaseSamplingEstimator">BaseSamplingEstimator</a></span>
+    <span class="n">output_name</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">,</span>
+    <span class="n">output_statistic_name</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">,</span>
+    <span class="n">statistic_estimator</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="gemseo_umdo.formulations._statistics.iterative_sampling.base_sampling_estimator.BaseSamplingEstimator" href="../../_statistics/iterative_sampling/base_sampling_estimator/#gemseo_umdo.formulations._statistics.iterative_sampling.base_sampling_estimator.BaseSamplingEstimator">BaseSamplingEstimator</a></span><span class="p">,</span>
+    <span class="n">return_statistic_jacobian</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span>
 </code></pre></div>
 
@@ -6074,7 +6149,8 @@
 <p>Call this functor to update the estimation of the statistic
 and access the last evaluation with :attr:<code>.last_evaluation</code>.</p>
 <p>The <a class="autorefs autorefs-internal" href="../../sampling/#gemseo_umdo.formulations.sampling.Sampling">Sampling</a> U-MDO formulation
-passes such functors to a <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.algos.doe.doe_library.html#gemseo.algos.doe.doe_library.DOELibrary">DOELibrary</a>
+passes such functors to a
+[DOELibrary][gemseo.algos.doe.base_doe_library.BaseDOELibrary]
 as callback functions
 to update the statistics of the objective, constraints and observables.</p>
 
@@ -6083,7 +6159,7 @@ to update the statistics of the objective, constraints and observables.</p>
 <p><span class="doc-section-title">Parameters:</span></p>
     <ul>
         <li class="doc-section-item field-body">
-          <b><code>name</code></b>
+          <b><code>output_name</code></b>
               (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>)
           –
           <div class="doc-md-description">
@@ -6091,42 +6167,75 @@ to update the statistics of the objective, constraints and observables.</p>
           </div>
         </li>
         <li class="doc-section-item field-body">
-          <b><code>update_estimation</code></b>
+          <b><code>output_statistic_name</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>The name of the statistic of the output.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>statistic_estimator</code></b>
               (<code><a class="autorefs autorefs-internal" title="gemseo_umdo.formulations._statistics.iterative_sampling.base_sampling_estimator.BaseSamplingEstimator" href="../../_statistics/iterative_sampling/base_sampling_estimator/#gemseo_umdo.formulations._statistics.iterative_sampling.base_sampling_estimator.BaseSamplingEstimator">BaseSamplingEstimator</a></code>)
           –
           <div class="doc-md-description">
             <p>The function to update the estimation of the statistic.</p>
           </div>
         </li>
+        <li class="doc-section-item field-body">
+          <b><code>return_statistic_jacobian</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>, default:
+                  <code>False</code>
+)
+          –
+          <div class="doc-md-description">
+            <p>Whether to return
+the Jacobian of the statistic estimation.</p>
+          </div>
+        </li>
     </ul>
 
                   <details class="quote">
                     <summary>Source code in <code>src/gemseo_umdo/formulations/_functions/iterative_estimation.py</code></summary>
-                    <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">54</span>
-<span class="normal">55</span>
-<span class="normal">56</span>
-<span class="normal">57</span>
-<span class="normal">58</span>
-<span class="normal">59</span>
-<span class="normal">60</span>
-<span class="normal">61</span>
+                    <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">61</span>
 <span class="normal">62</span>
 <span class="normal">63</span>
 <span class="normal">64</span>
 <span class="normal">65</span>
-<span class="normal">66</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
-    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-    <span class="n">update_estimation</span><span class="p">:</span> <span class="n">BaseSamplingEstimator</span><span class="p">,</span>
+    <span class="n">output_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">output_statistic_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">statistic_estimator</span><span class="p">:</span> <span class="n">BaseSamplingEstimator</span><span class="p">,</span>
+    <span class="n">return_statistic_jacobian</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Args:</span>
-<span class="sd">        name: The name of the output for which to estimate the statistic.</span>
-<span class="sd">        update_estimation: The function to update the estimation of the statistic.</span>
+<span class="sd">        output_name: The name of the output for which to estimate the statistic.</span>
+<span class="sd">        output_statistic_name: The name of the statistic of the output.</span>
+<span class="sd">        statistic_estimator: The function to update the estimation of the statistic.</span>
+<span class="sd">        return_statistic_jacobian: Whether to return</span>
+<span class="sd">            the Jacobian of the statistic estimation.</span>
 <span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: D202 D205 D212 D415</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">name</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">_last_estimation</span> <span class="o">=</span> <span class="n">array</span><span class="p">([])</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">_update_estimation</span> <span class="o">=</span> <span class="n">update_estimation</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">output_name</span> <span class="o">=</span> <span class="n">output_name</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">output_statistic_name</span> <span class="o">=</span> <span class="n">output_statistic_name</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">last_estimation</span> <span class="o">=</span> <span class="n">array</span><span class="p">([])</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">statistic_estimator</span> <span class="o">=</span> <span class="n">statistic_estimator</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">return_statistic_jacobian</span> <span class="o">=</span> <span class="n">return_statistic_jacobian</span>
 </code></pre></div></td></tr></table></div>
                   </details>
 
@@ -6149,16 +6258,110 @@ to update the statistics of the objective, constraints and observables.</p>
 
 
   <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-property"><code>property</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
   </span>
 
 <a href="#gemseo_umdo.formulations._functions.iterative_estimation.IterativeEstimation.last_estimation" class="headerlink" title="Permanent link">&para;</a></h6>
-<div class="doc-signature highlight"><pre><span></span><code><span class="n">last_estimation</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.typing.RealArray" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.typing.html#gemseo.typing.RealArray">RealArray</a></span>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">last_estimation</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.typing.RealArray" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.typing.html#gemseo.typing.RealArray">RealArray</a></span> <span class="o">=</span> <span class="n"><a class="autorefs autorefs-external" title="numpy.array" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array">array</a></span><span class="p">([])</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
 
         <p>The last estimation of the statistic.</p>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h6 id="gemseo_umdo.formulations._functions.iterative_estimation.IterativeEstimation.output_name" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">output_name</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#gemseo_umdo.formulations._functions.iterative_estimation.IterativeEstimation.output_name" class="headerlink" title="Permanent link">&para;</a></h6>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">output_name</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span> <span class="o">=</span> <span class="n"><a class="autorefs autorefs-internal" title="gemseo_umdo.formulations._functions.iterative_estimation.IterativeEstimation.output_name" href="#gemseo_umdo.formulations._functions.iterative_estimation.IterativeEstimation.output_name">output_name</a></span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>The name of the output.</p>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h6 id="gemseo_umdo.formulations._functions.iterative_estimation.IterativeEstimation.output_statistic_name" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">output_statistic_name</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#gemseo_umdo.formulations._functions.iterative_estimation.IterativeEstimation.output_statistic_name" class="headerlink" title="Permanent link">&para;</a></h6>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">output_statistic_name</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span> <span class="o">=</span> <span class="n"><a class="autorefs autorefs-internal" title="gemseo_umdo.formulations._functions.iterative_estimation.IterativeEstimation.output_statistic_name" href="#gemseo_umdo.formulations._functions.iterative_estimation.IterativeEstimation.output_statistic_name">output_statistic_name</a></span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>The name of the statistic of the output.</p>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h6 id="gemseo_umdo.formulations._functions.iterative_estimation.IterativeEstimation.return_statistic_jacobian" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">return_statistic_jacobian</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#gemseo_umdo.formulations._functions.iterative_estimation.IterativeEstimation.return_statistic_jacobian" class="headerlink" title="Permanent link">&para;</a></h6>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">return_statistic_jacobian</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></span> <span class="o">=</span> <span class="n"><a class="autorefs autorefs-internal" title="gemseo_umdo.formulations._functions.iterative_estimation.IterativeEstimation.return_statistic_jacobian" href="#gemseo_umdo.formulations._functions.iterative_estimation.IterativeEstimation.return_statistic_jacobian">return_statistic_jacobian</a></span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Whether the functor returns the Jacobian of the statistic estimation.</p>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h6 id="gemseo_umdo.formulations._functions.iterative_estimation.IterativeEstimation.statistic_estimator" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">statistic_estimator</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#gemseo_umdo.formulations._functions.iterative_estimation.IterativeEstimation.statistic_estimator" class="headerlink" title="Permanent link">&para;</a></h6>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">statistic_estimator</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="gemseo_umdo.formulations._statistics.iterative_sampling.base_sampling_estimator.BaseSamplingEstimator" href="../../_statistics/iterative_sampling/base_sampling_estimator/#gemseo_umdo.formulations._statistics.iterative_sampling.base_sampling_estimator.BaseSamplingEstimator">BaseSamplingEstimator</a></span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n"><a class="autorefs autorefs-internal" title="gemseo_umdo.formulations._functions.iterative_estimation.IterativeEstimation.statistic_estimator" href="#gemseo_umdo.formulations._functions.iterative_estimation.IterativeEstimation.statistic_estimator">statistic_estimator</a></span>
+<span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>The function to update the estimation of the statistic.</p>
     </div>
 
 </div>
