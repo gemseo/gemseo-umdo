@@ -19,7 +19,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 from typing import Callable
 
-from gemseo.algos.doe.lib_openturns import OpenTURNS
+from gemseo.algos.doe.openturns.openturns import OpenTURNS
 from numpy import array
 from numpy import hstack
 from numpy import vstack

@@ -187,7 +187,8 @@ class PCE(BaseUMDOFormulation):
         self._statistic_function_class = StatisticFunctionForPCE
         self.__doe_algo = DOELibraryFactory().create(doe_algo)
         self.__doe_algo_options = dict(doe_algo_options)
-        if "n_samples" in self.__doe_algo._option_grammar:
+        model_fields = self.__doe_algo.ALGORITHM_INFOS[doe_algo].settings.model_fields
+        if "n_samples" in model_fields:
             if doe_n_samples is None:
                 msg = (
                     "The doe_n_samples argument of the U-MDO formulation 'PCE' "
@@ -196,7 +197,7 @@ class PCE(BaseUMDOFormulation):
                 raise ValueError(msg)
             self.__doe_algo_options["n_samples"] = doe_n_samples
 
-        if "seed" in self.__doe_algo._option_grammar:
+        if "seed" in model_fields:
             self.__doe_algo_options["seed"] = doe_seed
 
         self.__n_samples = doe_n_samples

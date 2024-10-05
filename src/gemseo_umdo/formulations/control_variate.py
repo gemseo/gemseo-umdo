@@ -123,7 +123,8 @@ class ControlVariate(BaseUMDOFormulation):
         self._statistic_factory = ControlVariateEstimatorFactory()
         self.__doe_algo = DOELibraryFactory().create(algo)
         self.__doe_algo_options = dict(algo_options)
-        self.__doe_algo_options["n_samples"] = n_samples
+        if "n_samples" in self.__doe_algo.ALGORITHM_INFOS[algo].settings.model_fields:
+            self.__doe_algo_options["n_samples"] = n_samples
         self.__n_samples = n_samples
         self.__seed = seed
         super().__init__(

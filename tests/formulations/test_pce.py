@@ -22,7 +22,7 @@ from unittest import mock
 import pytest
 from gemseo import execute_algo
 from gemseo.algos.design_space import DesignSpace
-from gemseo.algos.doe.lib_openturns import OpenTURNS
+from gemseo.algos.doe.openturns.openturns import OpenTURNS
 from gemseo.algos.parameter_space import ParameterSpace
 from gemseo.disciplines.analytic import AnalyticDiscipline
 from gemseo.formulations.disciplinary_opt import DisciplinaryOpt
