@@ -170,13 +170,14 @@ class Sampling(BaseUMDOFormulation):
         self.__doe_algo = DOELibraryFactory().create(algo)
         self.__doe_algo_options = dict(algo_options)
         self.__doe_algo_options["use_database"] = not estimate_statistics_iteratively
-        if "n_samples" in self.__doe_algo._option_grammar:
+        model_fields = self.__doe_algo.ALGORITHM_INFOS[algo].settings.model_fields
+        if "n_samples" in model_fields:
             if n_samples is None:
                 msg = "Sampling: n_samples is required."
                 raise ValueError(msg)
             self.__doe_algo_options["n_samples"] = n_samples
 
-        if "seed" in self.__doe_algo._option_grammar:
+        if "seed" in model_fields:
             self.__doe_algo_options["seed"] = seed
 
         self.__n_samples = n_samples
