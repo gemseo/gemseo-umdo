@@ -6877,7 +6877,8 @@ whereas it is required by the DOE algorithm.</p>
 <span class="normal">234</span>
 <span class="normal">235</span>
 <span class="normal">236</span>
-<span class="normal">237</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<span class="normal">237</span>
+<span class="normal">238</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">disciplines</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">MDODiscipline</span><span class="p">],</span>
     <span class="n">objective_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -6939,7 +6940,8 @@ whereas it is required by the DOE algorithm.</p>
     <span class="bp">self</span><span class="o">.</span><span class="n">_statistic_function_class</span> <span class="o">=</span> <span class="n">StatisticFunctionForPCE</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__doe_algo</span> <span class="o">=</span> <span class="n">DOELibraryFactory</span><span class="p">()</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">doe_algo</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__doe_algo_options</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">doe_algo_options</span><span class="p">)</span>
-    <span class="k">if</span> <span class="s2">&quot;n_samples&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__doe_algo</span><span class="o">.</span><span class="n">_option_grammar</span><span class="p">:</span>
+    <span class="n">model_fields</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__doe_algo</span><span class="o">.</span><span class="n">ALGORITHM_INFOS</span><span class="p">[</span><span class="n">doe_algo</span><span class="p">]</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">model_fields</span>
+    <span class="k">if</span> <span class="s2">&quot;n_samples&quot;</span> <span class="ow">in</span> <span class="n">model_fields</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">doe_n_samples</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
                 <span class="s2">&quot;The doe_n_samples argument of the U-MDO formulation &#39;PCE&#39; &quot;</span>
@@ -6948,7 +6950,7 @@ whereas it is required by the DOE algorithm.</p>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__doe_algo_options</span><span class="p">[</span><span class="s2">&quot;n_samples&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">doe_n_samples</span>
 
-    <span class="k">if</span> <span class="s2">&quot;seed&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__doe_algo</span><span class="o">.</span><span class="n">_option_grammar</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s2">&quot;seed&quot;</span> <span class="ow">in</span> <span class="n">model_fields</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__doe_algo_options</span><span class="p">[</span><span class="s2">&quot;seed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">doe_seed</span>
 
     <span class="bp">self</span><span class="o">.</span><span class="n">__n_samples</span> <span class="o">=</span> <span class="n">doe_n_samples</span>
@@ -7729,8 +7731,7 @@ If <code>None</code>, the discipline is detected from inner disciplines.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/gemseo_umdo/formulations/pce.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">239</span>
-<span class="normal">240</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">240</span>
 <span class="normal">241</span>
 <span class="normal">242</span>
 <span class="normal">243</span>
@@ -7753,7 +7754,8 @@ If <code>None</code>, the discipline is detected from inner disciplines.</p>
 <span class="normal">260</span>
 <span class="normal">261</span>
 <span class="normal">262</span>
-<span class="normal">263</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">compute_samples</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">problem</span><span class="p">:</span> <span class="n">OptimizationProblem</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IODataset</span><span class="p">:</span>
+<span class="normal">263</span>
+<span class="normal">264</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">compute_samples</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">problem</span><span class="p">:</span> <span class="n">OptimizationProblem</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IODataset</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Evaluate the functions of a problem with a DOE algorithm.</span>
 
 <span class="sd">    Args:</span>
