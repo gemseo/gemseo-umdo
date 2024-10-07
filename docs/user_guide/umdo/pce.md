@@ -53,11 +53,11 @@ and its options with the dictionary parameter `doe_algo_options`.
 When the DOE algorithm uses a random number generator,
 the integer option `doe_seed` can be used for reproducibility purposes.
 
-### PCE options
+### PCE's options
 
 This U-MDO formulation is based on the [PCERegressor][gemseo.mlearning.regression.algos.pce.PCERegressor] available in GEMSEO,
 which wraps the [OpenTURNS' PCE algorithm](https://openturns.github.io/openturns/latest/user_manual/response_surface/_generated/openturns.FunctionalChaosAlgorithm.html).
-Use the `pce_options` arguments to set the options of the [PCERegressor][gemseo.mlearning.regression.algos.pce.PCERegressor].
+Use the `pce_options` argument to set the options of the [PCERegressor][gemseo.mlearning.regression.algos.pce.PCERegressor].
 For example,
 set `use_lars` to `True` to obtain a more sparse PCE and avoid overfitting
 ([more details](https://openturns.github.io/openturns/latest/theory/meta_modeling/polynomial_sparse_least_squares.html))
@@ -65,7 +65,7 @@ and `degree` to `3` for a maximum degree of 3.
 
 !!! note "API"
     Use `statistic_estimation_parameters`
-    to set the algorithm name and options,
+    to set the DOE algorithm and the PCE's options,
     e.g.
 
     ``` py
@@ -104,8 +104,8 @@ providing information on the PCEs built at each optimization iteration:
 
 ## Statistics
 
-This U-MDO formulation has been implemented for the expectation and variance,
-as well as combinations of these statistics,
+This U-MDO formulation has been implemented
+for the expectation, the standard deviation, the variance and the margin,
 from the coefficients $(\alpha_i)_{0\leq i \leq N}$ of the PCE
 
 $$\hat{f}_x(U)=\alpha_0 + \sum_{1\leq i\leq P}\alpha_i\Phi_i(U).$$

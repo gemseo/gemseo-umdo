@@ -90,6 +90,14 @@ class ControlVariate(BaseUMDOFormulation):
     __seed: int
     """The seed for reproducibility."""
 
+    _STATISTIC_FACTORY: ClassVar[ControlVariateEstimatorFactory] = (
+        ControlVariateEstimatorFactory()
+    )
+
+    _STATISTIC_FUNCTION_CLASS: ClassVar[
+        type[StatisticFunctionForControlVariate] | None
+    ] = StatisticFunctionForControlVariate
+
     def __init__(
         self,
         disciplines: Sequence[MDODiscipline],
@@ -119,8 +127,6 @@ class ControlVariate(BaseUMDOFormulation):
             algo_options: The options of the DOE algorithm.
             seed: The seed for reproducibility.
         """  # noqa: D205 D212 D415
-        self._statistic_function_class = StatisticFunctionForControlVariate
-        self._statistic_factory = ControlVariateEstimatorFactory()
         self.__doe_algo = DOELibraryFactory().create(algo)
         self.__doe_algo_options = dict(algo_options)
         if "n_samples" in self.__doe_algo.ALGORITHM_INFOS[algo].settings.model_fields:

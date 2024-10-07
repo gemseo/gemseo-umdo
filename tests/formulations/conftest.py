@@ -77,3 +77,17 @@ def mdo_formulation(
 ) -> MDF:
     """The MDO formulation."""
     return MDF(disciplines, "f", uncertain_space)
+
+
+@pytest.fixture
+def quadratic_problem() -> tuple[AnalyticDiscipline, DesignSpace, ParameterSpace]:
+    """The discipline, design space and uncertain space of a quadratic problem."""
+    discipline = AnalyticDiscipline({"y": "(x+u)**2"}, name="quadratic_function")
+
+    design_space = DesignSpace()
+    design_space.add_variable("x", lower_bound=-1, upper_bound=1.0, value=0.5)
+
+    uncertain_space = ParameterSpace()
+    uncertain_space.add_random_variable("u", "OTNormalDistribution")
+
+    return discipline, design_space, uncertain_space

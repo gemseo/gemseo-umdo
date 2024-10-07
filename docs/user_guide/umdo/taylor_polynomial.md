@@ -89,8 +89,8 @@ by setting the statistic estimation parameter `second_order` to `True`.
 
 ## Statistics
 
-This U-MDO formulation has been implemented for the expectation and variance,
-as well as combinations of these statistics.
+This U-MDO formulation has been implemented
+for the expectation, the standard deviation, the variance and the margin.
 
 Here are the expressions when using first-order Taylor polynomials.
 

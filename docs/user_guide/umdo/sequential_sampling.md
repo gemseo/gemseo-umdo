@@ -83,8 +83,8 @@ These values can be changed with the statistic estimation parameters
 
 ## Statistics
 
-This U-MDO formulation has been implemented for the expectation, variance and probability,
-as well as combinations of these statistics.
+This U-MDO formulation has been implemented
+for the expectation, the standard deviation, the variance, the margin and the probability,
 The estimators are given below at the $k$-th iteration of the optimization loop.
 
 | Statistic          | Notation                         | Estimator                                                                                                      |

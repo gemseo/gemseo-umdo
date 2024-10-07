@@ -92,6 +92,7 @@ nav:
     - Sequential sampling: user_guide/umdo/sequential_sampling.md
     - Taylor polynomial: user_guide/umdo/taylor_polynomial.md
     - Control variate: user_guide/umdo/control_variate.md
+    - Surrogate model: user_guide/umdo/surrogate.md
     - Polynomial chaos expansion: user_guide/umdo/pce.md
   - Statistics:
     - Statistics: user_guide/statistics/index.md
