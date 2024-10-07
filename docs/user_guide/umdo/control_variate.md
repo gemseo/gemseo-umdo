@@ -76,8 +76,8 @@ and its options with the dictionary parameter `algo_options`.
 
 ## Statistics
 
-This U-MDO formulation has been implemented for the expectation, variance and probability,
-as well as combinations of these statistics.
+This U-MDO formulation has been implemented
+for the expectation, the standard deviation, the variance and the margin.
 
 Only the average formula is noted here, for simplicity's sake
 

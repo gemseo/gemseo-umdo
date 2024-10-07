@@ -33,6 +33,9 @@ and this project adheres to
 - The U-MDO formulation [PCE][gemseo_umdo.formulations.pce.PCE] creates a polynomial chaos expansion (PCE)
   over the uncertain space at each iteration of the optimization loop and uses the coefficients of the PCE
   to estimate the following statistics: `Mean`, `StandardDeviation`, `Margin` and `Variance`.
+- The U-MDO formulation [Surrogate][gemseo_umdo.formulations.surrogate.Surrogate] creates a surrogate model
+  over the uncertain space at each iteration of the optimization loop and uses Monte Carlo sampling
+  to estimate the following statistics: `Mean`, `StandardDeviation`, `Margin`, `Probability` and `Variance`.
 - The U-MDO formulations
   [Sampling][gemseo_umdo.formulations.sampling.Sampling] and
   [SequentialSampling][gemseo_umdo.formulations.sequential_sampling.SequentialSampling]

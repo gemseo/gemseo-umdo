@@ -23,8 +23,6 @@ import pytest
 from gemseo import execute_algo
 from gemseo.algos.design_space import DesignSpace
 from gemseo.algos.doe.openturns.openturns import OpenTURNS
-from gemseo.algos.parameter_space import ParameterSpace
-from gemseo.disciplines.analytic import AnalyticDiscipline
 from gemseo.formulations.disciplinary_opt import DisciplinaryOpt
 from gemseo.mlearning.regression.algos.pce import PCERegressor
 from gemseo.mlearning.regression.quality.r2_measure import R2Measure
@@ -43,9 +41,10 @@ from gemseo_umdo.formulations._statistics.pce.standard_deviation import (
 )
 from gemseo_umdo.formulations._statistics.pce.variance import Variance
 from gemseo_umdo.formulations.pce import PCE
-from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
+from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
 
 if TYPE_CHECKING:
+    from gemseo.core.mdo_functions.collections.observables import Observables
     from gemseo.typing import NumberArray
     from gemseo.typing import RealArray
 
@@ -119,12 +118,12 @@ def variance() -> NumberArray:
     return full(2, 0.3)
 
 
-def test_mean(pce_regressor, mean):
+def test_mean(mean):
     """Check the PCE-based estimator of the mean."""
     assert_equal(Mean().estimate_statistic(mean), mean)
 
 
-def test_standard_deviation(pce_regressor, standard_deviation):
+def test_standard_deviation(standard_deviation):
     """Check the PCE-based estimator of the standard deviation."""
     assert_equal(
         StandardDeviation().estimate_statistic(standard_deviation),
@@ -132,12 +131,12 @@ def test_standard_deviation(pce_regressor, standard_deviation):
     )
 
 
-def test_variance(pce_regressor, variance):
+def test_variance(variance):
     """Check the PCE-based estimator of the variance."""
     assert_equal(Variance().estimate_statistic(variance), variance)
 
 
-def test_margin(pce_regressor, mean, standard_deviation):
+def test_margin(mean, standard_deviation):
     """Check the PCE-based estimator of the margin."""
     assert_equal(
         Margin().estimate_statistic(mean, standard_deviation),
@@ -149,16 +148,38 @@ def test_margin(pce_regressor, mean, standard_deviation):
     )
 
 
-def test_formulation(umdo_formulation, pce_regressor):
-    """Check the estimation of statistics from a PCE-based UMDO formulation."""
-    problem = umdo_formulation.optimization_problem
-    x = array([0])
+@pytest.fixture(scope="module")
+def observables(umdo_formulation) -> Observables:
+    """The observable functions."""
+    return umdo_formulation.optimization_problem.observables
+
+
+_X = array([0.0])
+
+
+def test_mean_from_formulation(umdo_formulation, pce_regressor):
+    """Check the estimation of the mean from a PCE-based UMDO formulation."""
     mean = pce_regressor.mean
-    assert_equal(problem.objective.evaluate(x), mean)
-    standard_deviation = pce_regressor.standard_deviation
-    assert_equal(problem.constraints[0].evaluate(x), standard_deviation)
-    assert_equal(problem.observables[0].evaluate(x), pce_regressor.variance)
-    assert_equal(problem.observables[1].evaluate(x), mean + 3 * standard_deviation)
+    assert_equal(umdo_formulation.optimization_problem.objective.evaluate(_X), mean)
+
+
+def test_std_from_formulation(umdo_formulation, pce_regressor):
+    """Check the estimation of the std from a PCE-based UMDO formulation."""
+    std = pce_regressor.standard_deviation
+    assert_equal(umdo_formulation.optimization_problem.constraints[0].evaluate(_X), std)
+
+
+def test_variance_from_formulation(observables, pce_regressor):
+    """Check the estimation of the variance from a PCE-based UMDO formulation."""
+    var = pce_regressor.variance
+    assert_equal(observables[0].evaluate(_X), var)
+
+
+def test_margin_from_formulation(observables, pce_regressor):
+    """Check the estimation of a margin from a PCE-based UMDO formulation."""
+    mean = pce_regressor.mean
+    std = pce_regressor.standard_deviation
+    assert_equal(observables[1].evaluate(_X), mean + 3 * std)
 
 
 def test_missing_n_samples(pce_regressor, ishigami_problem):
@@ -196,15 +217,19 @@ def test_quality(caplog, pce_regressor, ishigami_problem):
         doe_algo="OT_HALTON",
         doe_n_samples=20,
     )
-    pce.optimization_problem.objective.evaluate(array([0]))
+    pce.optimization_problem.objective.evaluate(array([0.0]))
     module, level, message = caplog.record_tuples[0]
-    assert module == "gemseo_umdo.formulations._functions.statistic_function_for_pce"
+    assert (
+        module == "gemseo_umdo.formulations._functions.statistic_function_for_surrogate"
+    )
     assert level == logging.INFO
     regex = r" {8}R2Measure"
     assert re.compile(regex).match(message)
 
     module, level, message = caplog.record_tuples[1]
-    assert module == "gemseo_umdo.formulations._functions.statistic_function_for_pce"
+    assert (
+        module == "gemseo_umdo.formulations._functions.statistic_function_for_surrogate"
+    )
     assert level == logging.WARNING
     regex = r" {12}y\[0\]: \d+\.\d+<0\.9 \(train\) - -\d+\.\d+<0\.8 \(test\)"
     assert re.match(regex, message)
@@ -233,9 +258,11 @@ def test_quality_cv(caplog, pce_regressor, ishigami_problem, quality_cv_compute,
         quality_name="MSEMeasure",
         quality_cv_compute=quality_cv_compute,
     )
-    pce.optimization_problem.objective.evaluate(array([0]))
+    pce.optimization_problem.objective.evaluate(array([0.0]))
     module, level, message = caplog.record_tuples[1]
-    assert module == "gemseo_umdo.formulations._functions.statistic_function_for_pce"
+    assert (
+        module == "gemseo_umdo.formulations._functions.statistic_function_for_surrogate"
+    )
     assert level == logging.WARNING
     assert re.match(regex, message)
 
@@ -258,8 +285,8 @@ def test_quality_cv_options(pce_regressor, ishigami_problem):
             quality_cv_randomize=False,
             quality_cv_seed=12,
         )
-        compute.return_value = {"y": array([0])}
-        pce.optimization_problem.objective.evaluate(array([0]))
+        compute.return_value = {"y": array([0.0])}
+        pce.optimization_problem.objective.evaluate(array([0.0]))
 
     assert compute.call_args.kwargs == {
         "as_dict": True,
@@ -329,23 +356,23 @@ def test_quality_log_level(
         quality_cv_threshold=cv_threshold,
         quality_cv_compute=cv_compute,
     )
-    pce.optimization_problem.objective.evaluate(array([0]))
+    pce.optimization_problem.objective.evaluate(array([0.0]))
     _, level, message = caplog.record_tuples[1]
     assert level == expected_level
     assert re.match(regex, message)
 
 
-def test_scenario():
+@pytest.mark.parametrize(
+    ("statistic_estimation_parameters", "y_opt"),
+    [
+        ({"doe_n_samples": 20}, 2.0),
+        ({"doe_n_samples": 20, "pce_options": {"degree": 1}}, 1.9972399330987038),
+    ],
+)
+def test_scenario(quadratic_problem, statistic_estimation_parameters, y_opt):
     """Check the PCE-based U-MDO formulation in a scenario with a toy case."""
-    discipline = AnalyticDiscipline({"y": "(x+u)**2"}, name="quadratic_function")
-
-    design_space = DesignSpace()
-    design_space.add_variable("x", lower_bound=-1, upper_bound=1.0, value=0.5)
-
-    uncertain_space = ParameterSpace()
-    uncertain_space.add_random_variable("u", "OTNormalDistribution")
-
-    scenario = UMDOScenario(
+    discipline, design_space, uncertain_space = quadratic_problem
+    scenario = UDOEScenario(
         [discipline],
         "DisciplinaryOpt",
         "y",
@@ -353,8 +380,8 @@ def test_scenario():
         uncertain_space,
         "Mean",
         statistic_estimation="PCE",
-        statistic_estimation_parameters={"doe_n_samples": 20},
+        statistic_estimation_parameters=statistic_estimation_parameters,
     )
-    scenario.execute({"algo": "NLOPT_COBYLA", "max_iter": 100})
-    assert_almost_equal(scenario.optimization_result.x_opt, array([0.0]))
-    assert_almost_equal(scenario.optimization_result.f_opt, array([1.0]))
+    scenario.execute({"algo": "CustomDOE", "algo_options": {"samples": array([[1.0]])}})
+    assert_almost_equal(scenario.optimization_result.x_opt, array([1.0]))
+    assert_almost_equal(scenario.optimization_result.f_opt, y_opt)

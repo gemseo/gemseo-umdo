@@ -179,6 +179,7 @@ def test_uncertainty_free(
         *statistic_estimation_settings,
         ("ControlVariate", {"n_samples": 10}),
         ("PCE", {"doe_n_samples": 20}),
+        ("Surrogate", {"doe_n_samples": 20}),
     ],
 )
 def test_weak_uncertainties(

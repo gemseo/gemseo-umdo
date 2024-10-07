@@ -77,6 +77,14 @@ class TaylorPolynomial(BaseUMDOFormulation):
     Otherwise first-order Taylor polynomials.
     """
 
+    _STATISTIC_FACTORY: ClassVar[TaylorPolynomialEstimatorFactory] = (
+        TaylorPolynomialEstimatorFactory()
+    )
+
+    _STATISTIC_FUNCTION_CLASS: ClassVar[
+        type[StatisticFunctionForTaylorPolynomial] | None
+    ] = StatisticFunctionForTaylorPolynomial
+
     def __init__(  # noqa: D107
         self,
         disciplines: Sequence[MDODiscipline],
@@ -100,8 +108,6 @@ class TaylorPolynomial(BaseUMDOFormulation):
                 instead of first-order Taylor polynomials.
         """  # noqa: D205 D212 D415
         self.__second_order = second_order
-        self._statistic_function_class = StatisticFunctionForTaylorPolynomial
-        self._statistic_factory = TaylorPolynomialEstimatorFactory()
         super().__init__(
             disciplines,
             objective_name,

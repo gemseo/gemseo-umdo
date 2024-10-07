@@ -76,11 +76,40 @@ class BaseUMDOFormulation(BaseFormulation):
     """
 
     _statistic_factory: BaseFactory
-    """A factory of statistics."""
+    """A factory of statistics.
 
-    _statistic_function_class: type[BaseStatisticFunction]
-    """A subclass of [MDOFunction][gemseo.core.mdofunctions.mdo_function.MDOFunction] to
-    compute a statistic."""
+    Used only when `_STATISTIC_FACTORY` is `None`.
+
+    To be used when a U-MDO formulation has several ways to estimate statistics
+    and the choice is done at instantiation.
+    For example, Sampling can estimate statistics in one go or iteratively.
+    """
+
+    _STATISTIC_FACTORY: ClassVar[BaseFactory]
+    """A factory of statistics.
+
+    If `None`, use `_statistic_factory`.
+
+    To be used when a U-MDO formulation has only one way to estimate statistics.
+    """
+
+    _statistic_function_class: type[BaseStatisticFunction] | None
+    """A subclass of `MDOFunction` to compute a statistic.
+
+    Used only when `_STATISTIC_FUNCTION_CLASS` is `None`.
+
+    To be used when a U-MDO formulation has several ways to estimate statistics
+    and the choice is done at instantiation.
+    For example, Sampling can estimate statistics in one go or iteratively.
+    """
+
+    _STATISTIC_FUNCTION_CLASS: ClassVar[type[BaseStatisticFunction] | None] = None
+    """A subclass of `MDOFunction` to compute a statistic.
+
+    If `None`, use `_statistic_function_class`.
+
+    To be used when a U-MDO formulation has only one way to estimate statistics.
+    """
 
     _uncertain_space: ParameterSpace
     """The uncertain space."""
@@ -118,6 +147,10 @@ class BaseUMDOFormulation(BaseFormulation):
                 of the statistic to be applied to the objective, if any.
             mdo_formulation_options: The options of the MDO formulation.
         """  # noqa: D205 D212 D415
+        if self._STATISTIC_FUNCTION_CLASS is not None:
+            self._statistic_function_class = self._STATISTIC_FUNCTION_CLASS
+            self._statistic_factory = self._STATISTIC_FACTORY
+
         self.__available_statistics = self._statistic_factory.class_names
         self._mdo_formulation = mdo_formulation
         self._uncertain_space = uncertain_space
