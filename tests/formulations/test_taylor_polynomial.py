@@ -17,6 +17,8 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 import pytest
+from gemseo import from_pickle
+from gemseo import to_pickle
 from gemseo.formulations.mdf import MDF
 from numpy import array
 from numpy import ndarray
@@ -37,12 +39,12 @@ if TYPE_CHECKING:
 
     from gemseo.algos.design_space import DesignSpace
     from gemseo.algos.parameter_space import ParameterSpace
-    from gemseo.core.discipline import MDODiscipline
+    from gemseo.core.discipline.discipline import Discipline
 
 
 @pytest.fixture
 def umdo_formulation(
-    disciplines: Sequence[MDODiscipline],
+    disciplines: Sequence[Discipline],
     design_space: DesignSpace,
     mdo_formulation: MDF,
     uncertain_space: ParameterSpace,
@@ -64,7 +66,7 @@ def umdo_formulation(
 
 @pytest.fixture
 def umdo_formulation_with_hessian(
-    disciplines: Sequence[MDODiscipline],
+    disciplines: Sequence[Discipline],
     design_space: DesignSpace,
     mdo_formulation: MDF,
     uncertain_space: ParameterSpace,
@@ -114,7 +116,7 @@ def scenario(disciplines, design_space, uncertain_space, request):
 
 def test_scenario_execution(scenario, scenario_input_data):
     """Check the execution of an UMDOScenario with the TaylorPolynomial formulation."""
-    scenario.execute(scenario_input_data)
+    scenario.execute(**scenario_input_data)
     optimization_result = scenario.optimization_result
     assert_equal(optimization_result.x_opt, array([1.0, 1.0, 1.0]))
     assert_almost_equal(optimization_result.f_opt, array([-21.0]))
@@ -123,9 +125,9 @@ def test_scenario_execution(scenario, scenario_input_data):
 def test_scenario_serialization(scenario, tmp_path, scenario_input_data):
     """Check the serialization of an UMDOScenario with Sampling U-MDO formulation."""
     file_path = tmp_path / "scenario.h5"
-    scenario.to_pickle(file_path)
-    saved_scenario = UDOEScenario.from_pickle(file_path)
-    saved_scenario.execute(scenario_input_data)
+    to_pickle(scenario, file_path)
+    saved_scenario = from_pickle(file_path)
+    saved_scenario.execute(**scenario_input_data)
     optimization_result = saved_scenario.optimization_result
     assert_equal(optimization_result.x_opt, array([1.0, 1.0, 1.0]))
     assert_almost_equal(optimization_result.f_opt, array([-21.0]))

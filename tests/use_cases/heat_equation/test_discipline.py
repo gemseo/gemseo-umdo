@@ -32,18 +32,18 @@ def heat_equation() -> HeatEquation:
 
 def test_input_names(heat_equation):
     """Check the input names."""
-    assert set(heat_equation.get_input_data_names()) == {f"X_{i}" for i in range(1, 8)}
+    assert set(heat_equation.io.input_grammar.names) == {f"X_{i}" for i in range(1, 8)}
 
 
 def test_output_names(heat_equation):
     """Check the output names."""
-    assert set(heat_equation.get_output_data_names()) == {"u", "u_mesh"}
+    assert set(heat_equation.io.output_grammar.names) == {"u", "u_mesh"}
 
 
 def test_default_inputs(heat_equation):
     """Check the default inputs."""
     assert_equal(
-        dict(heat_equation.default_inputs),
+        dict(heat_equation.default_input_data),
         {
             "X_1": array([0.0]),
             "X_2": array([0.0]),
@@ -59,7 +59,8 @@ def test_default_inputs(heat_equation):
 def test_output_data(heat_equation):
     """Check the output values and sizes."""
     heat_equation.execute()
-    u, u_mesh = heat_equation.get_local_data_by_name(["u", "u_mesh"])
+    u = heat_equation.io.data["u"]
+    u_mesh = heat_equation.io.data["u_mesh"]
     assert u.shape == (1,)
     assert u_mesh.shape == (heat_equation.configuration.mesh_size,)
     assert_almost_equal(u, -31.052594621006744)

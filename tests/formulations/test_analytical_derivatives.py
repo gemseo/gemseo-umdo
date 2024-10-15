@@ -19,7 +19,7 @@ from __future__ import annotations
 import pytest
 from gemseo.algos.design_space import DesignSpace
 from gemseo.algos.parameter_space import ParameterSpace
-from gemseo.core.discipline import MDODiscipline
+from gemseo.core.discipline.discipline import Discipline
 from numpy import array
 from numpy import diag
 from numpy import hstack
@@ -30,7 +30,7 @@ from numpy.testing import assert_almost_equal
 from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
 
 
-class A(MDODiscipline):
+class A(Discipline):
     def __init__(self, n_x: int, n_u: int):
         super().__init__()
         self.m = diag(linspace(1, n_x + n_u, n_x + n_u))
@@ -42,12 +42,12 @@ class A(MDODiscipline):
         self.n_u = n_u
 
     def _run(self) -> None:
-        x = self.local_data["x"]
-        u = self.local_data["u"]
-        self.store_local_data(y=self.m @ hstack((x * u.sum(), u)))
+        x = self.io.data["x"]
+        u = self.io.data["u"]
+        self.io.update_output_data({"y": self.m @ hstack((x * u.sum(), u))})
 
     def _compute_jacobian(self, inputs=None, outputs=None) -> None:
-        u = self.local_data["u"]
+        u = self.io.data["u"]
         self.jac = {"y": {"x": self.m_x * u.sum(), "u": self.m_u}}
 
 
@@ -217,13 +217,13 @@ def test_sampling(
             "estimate_statistics_iteratively": estimate_statistics_iteratively,
         },
     )
-    scenario.execute({
-        "algo": "CustomDOE",
-        "algo_options": {
+    scenario.execute(
+        algo="CustomDOE",
+        algo_options={
             "samples": linspace(1, n_x, n_x)[newaxis, :],
             "eval_jac": True,
         },
-    })
+    )
     last_item = scenario.formulation.optimization_problem.database.last_item
     assert_almost_equal(last_item[f"{symbol}[y]"], statistic_estimation)
     assert_almost_equal(last_item[f"@{symbol}[y]"], statistic_estimation_jacobian)

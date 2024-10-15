@@ -61,10 +61,7 @@ as well as the interaction between the uncertain input variables.
 
 ## Installation
 
-Install the latest stable version with `pip install gemseo-umdo`.
-
-Install the development version with
-`pip install gemseo-umdo@git+https://gitlab.com/gemseo/dev/gemseo-umdo.git@develop`.
+Install the latest version with `pip install gemseo-umdo`.
 
 See [pip](https://pip.pypa.io/en/stable/getting-started/) for more information.
 

@@ -225,7 +225,7 @@ called *MDO formulation* or *architecture*[@MartinsSurvey].
           scenario = create_scenario(disciplines, "MDF", "f", design_space)
           scenario.add_constraint("c1", "ineq")
           scenario.add_constraint("c2", "ineq")
-          scenario.execute({"algo": "SLSQP", "max_iter": 100})
+          scenario.execute(**{"algo": "SLSQP", "max_iter": 100})
         ```
 
 ### Optimization problem under uncertainty
@@ -330,7 +330,7 @@ can change their values.
     with different values of the uncertain variable $U$:
     ``` py
     discipline.execute()  # default value, i.e. U=0.5
-    discipline.execute({"U": array([0.2])})  # custom value: U=0.2
+    discipline.execute(**{"U": array([0.2])})  # custom value: U=0.2
     ```
 
 ### Uncertain space
@@ -422,7 +422,7 @@ to solve the MDO problem under uncertainty.
         "Mean",
         statistic_estimation_parameters={"n_samples": 100},
     )
-    scenario.execute({"algo": "NLOPT_COBYLA", "max_iter": 50})
+    scenario.execute(**{"algo": "NLOPT_COBYLA", "max_iter": 50})
     ```
 
 ### U-MDO formulations

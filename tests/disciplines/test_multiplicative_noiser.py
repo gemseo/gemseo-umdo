@@ -49,7 +49,7 @@ def test_short_name():
 def test_execute(multiplicative_noiser, foo, noise, noised_foo):
     """Check the execution."""
     multiplicative_noiser.execute({"foo": foo, "noise": noise})
-    assert_equal(multiplicative_noiser.local_data["noised_foo"], noised_foo)
+    assert_equal(multiplicative_noiser.io.data["noised_foo"], noised_foo)
 
 
 @pytest.mark.parametrize(

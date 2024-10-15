@@ -18,13 +18,13 @@ from __future__ import annotations
 
 from typing import Final
 
-from gemseo.core.discipline import MDODiscipline
+from gemseo.core.discipline.discipline import Discipline
 from numpy import array
 
 from gemseo_umdo.use_cases.spring_mass_model.model import SpringMassModel
 
 
-class SpringMassDiscipline(MDODiscipline):
+class SpringMassDiscipline(Discipline):
     r"""The GEMSEO-based spring-mass model $m\frac{d^2z(t)}{dt^2} = -kz(t) + mg$.
 
     This model computes the time displacement of an object attached to a spring in
@@ -69,12 +69,12 @@ class SpringMassDiscipline(MDODiscipline):
             time_step=time_step,
             gravity=gravity,
         )
-        self.default_inputs = {self.__STIFFNESS: array([2.25])}
+        self.default_input_data = {self.__STIFFNESS: array([2.25])}
 
     def _run(self) -> None:
-        disp, max_disp = self.__model(self.local_data[self.__STIFFNESS][0])
-        self._local_data[self.__DISPLACEMENT] = disp
-        self._local_data[self.__MAX_DISPLACEMENT] = array([max_disp])
+        disp, max_disp = self.__model(self.io.data[self.__STIFFNESS][0])
+        self.io.data[self.__DISPLACEMENT] = disp
+        self.io.data[self.__MAX_DISPLACEMENT] = array([max_disp])
 
     @property
     def cost(self) -> float:

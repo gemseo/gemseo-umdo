@@ -42,7 +42,6 @@ from typing import Any
 from typing import ClassVar
 
 from gemseo.algos.doe.factory import DOELibraryFactory
-from gemseo.core.discipline import MDODiscipline
 from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
 from gemseo.utils.logging_tools import LoggingContext
 from gemseo.utils.seeder import SEED
@@ -63,6 +62,7 @@ if TYPE_CHECKING:
     from gemseo.algos.doe.base_doe_library import BaseDOELibrary
     from gemseo.algos.optimization_problem import OptimizationProblem
     from gemseo.algos.parameter_space import ParameterSpace
+    from gemseo.core.discipline.discipline import Discipline
     from gemseo.formulations.base_mdo_formulation import BaseMDOFormulation
 
 
@@ -100,7 +100,7 @@ class ControlVariate(BaseUMDOFormulation):
 
     def __init__(
         self,
-        disciplines: Sequence[MDODiscipline],
+        disciplines: Sequence[Discipline],
         objective_name: str,
         design_space: DesignSpace,
         mdo_formulation: BaseMDOFormulation,
@@ -109,7 +109,6 @@ class ControlVariate(BaseUMDOFormulation):
         n_samples: int | None,
         objective_statistic_parameters: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
         maximize_objective: bool = False,
-        grammar_type: MDODiscipline.GrammarType = MDODiscipline.GrammarType.JSON,
         algo: str = "OT_OPT_LHS",
         algo_options: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
         seed: int = SEED,
@@ -129,7 +128,7 @@ class ControlVariate(BaseUMDOFormulation):
         """  # noqa: D205 D212 D415
         self.__doe_algo = DOELibraryFactory().create(algo)
         self.__doe_algo_options = dict(algo_options)
-        if "n_samples" in self.__doe_algo.ALGORITHM_INFOS[algo].settings.model_fields:
+        if "n_samples" in self.__doe_algo.ALGORITHM_INFOS[algo].Settings.model_fields:
             self.__doe_algo_options["n_samples"] = n_samples
         self.__n_samples = n_samples
         self.__seed = seed
@@ -142,7 +141,6 @@ class ControlVariate(BaseUMDOFormulation):
             objective_statistic_name,
             objective_statistic_parameters=objective_statistic_parameters,
             maximize_objective=maximize_objective,
-            grammar_type=grammar_type,
             mdo_formulation_options=mdo_formulation_options,
             **options,
         )

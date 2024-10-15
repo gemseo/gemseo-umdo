@@ -32,7 +32,7 @@ def discipline() -> SpringMassDiscipline:
 
 def test_default_inputs(discipline):
     """Check the default inputs of the spring-mass discipline."""
-    assert_equal(dict(discipline.default_inputs), {"stiffness": array([2.25])})
+    assert_equal(dict(discipline.default_input_data), {"stiffness": array([2.25])})
 
 
 def test_name(discipline):
@@ -42,12 +42,12 @@ def test_name(discipline):
 
 def test_input_names(discipline):
     """Check the input names of the spring-mass discipline."""
-    assert set(discipline.get_input_data_names()) == {"stiffness"}
+    assert set(discipline.io.input_grammar.names) == {"stiffness"}
 
 
 def test_output_names(discipline):
     """Check the output names of the spring-mass discipline."""
-    assert set(discipline.get_output_data_names()) == {
+    assert set(discipline.io.output_grammar.names) == {
         "displacement",
         "max_displacement",
     }
@@ -61,7 +61,8 @@ def test_cost(discipline):
 def test_output_data_with_default_settings(discipline):
     """Check the data outputted by the spring-mass discipline with default settings."""
     discipline.execute()
-    d, max_d = discipline.get_local_data_by_name(["displacement", "max_displacement"])
+    d = discipline.io.data["displacement"]
+    max_d = discipline.io.data["max_displacement"]
     assert max_d.size == 1
     assert d.size == 100
     assert_almost_equal(max_d, 13.07, decimal=2)
@@ -85,7 +86,8 @@ def test_output_data_with_custom_settings(name, value, size, max_d, mean, std, c
     discipline = SpringMassDiscipline(**{name: value})
     assert discipline.cost == cost
     discipline.execute()
-    d, d_max = discipline.get_local_data_by_name(["displacement", "max_displacement"])
+    d = discipline.io.data["displacement"]
+    d_max = discipline.io.data["max_displacement"]
     assert d_max.size == 1
     assert d.size == size
     assert_almost_equal(max_d, array([d_max]), decimal=2)
@@ -96,7 +98,8 @@ def test_output_data_with_custom_settings(name, value, size, max_d, mean, std, c
 def test_output_data_with_custom_stiffness(discipline):
     """Check the data outputted by the spring-mass discipline with custom stiffness."""
     discipline.execute({"stiffness": array([2.5])})
-    d, d_max = discipline.get_local_data_by_name(["displacement", "max_displacement"])
+    d = discipline.io.data["displacement"]
+    d_max = discipline.io.data["max_displacement"]
     assert_almost_equal(d_max, array([11.76]), decimal=2)
     assert_almost_equal(d.mean(), 5.73, decimal=2)
     assert_almost_equal(d.std(), 4.21, decimal=2)

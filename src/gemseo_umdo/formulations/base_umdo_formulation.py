@@ -20,7 +20,6 @@ from typing import TYPE_CHECKING
 from typing import Any
 from typing import ClassVar
 
-from gemseo.core.discipline import MDODiscipline
 from gemseo.core.mdo_functions.mdo_function import MDOFunction
 from gemseo.formulations.base_formulation import BaseFormulation
 from gemseo.uncertainty.statistics.base_statistics import BaseStatistics
@@ -37,7 +36,7 @@ if TYPE_CHECKING:
     from gemseo.algos.hashable_ndarray import HashableNdarray
     from gemseo.algos.parameter_space import ParameterSpace
     from gemseo.core.base_factory import BaseFactory
-    from gemseo.core.execution_sequence import ExecutionSequence
+    from gemseo.core.discipline.discipline import Discipline
     from gemseo.formulations.base_mdo_formulation import BaseMDOFormulation
     from gemseo.typing import RealArray
 
@@ -122,7 +121,7 @@ class BaseUMDOFormulation(BaseFormulation):
 
     def __init__(
         self,
-        disciplines: Sequence[MDODiscipline],
+        disciplines: Sequence[Discipline],
         objective_name: str,
         design_space: DesignSpace,
         mdo_formulation: BaseMDOFormulation,
@@ -130,7 +129,6 @@ class BaseUMDOFormulation(BaseFormulation):
         objective_statistic_name: str,
         objective_statistic_parameters: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
         maximize_objective: bool = False,
-        grammar_type: MDODiscipline.GrammarType = MDODiscipline.GrammarType.JSON,
         mdo_formulation_options: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
         **options: Any,
     ) -> None:
@@ -162,7 +160,6 @@ class BaseUMDOFormulation(BaseFormulation):
                 disciplines,
                 objective_name,
                 uncertain_space,
-                grammar_type=mdo_formulation._grammar_type,
                 **mdo_formulation_options,
             )
 
@@ -176,7 +173,6 @@ class BaseUMDOFormulation(BaseFormulation):
             disciplines,
             objective_name,
             design_space,
-            grammar_type=grammar_type,
             **options,
         )
         self.name = f"{self.__class__.__name__}[{mdo_formulation.__class__.__name__}]"
@@ -239,7 +235,7 @@ class BaseUMDOFormulation(BaseFormulation):
         output_names: Sequence[str],
         statistic_name: str,
         observable_name: str = "",
-        discipline: MDODiscipline | None = None,
+        discipline: Discipline | None = None,
         **statistic_parameters: Any,
     ) -> None:
         """
@@ -366,22 +362,12 @@ class BaseUMDOFormulation(BaseFormulation):
             if formulation is None:
                 continue
 
-            for discipline in formulation.get_top_level_disc():
-                discipline.default_inputs.update({
+            for discipline in formulation.get_top_level_disciplines():
+                discipline.default_input_data.update({
                     k: v
                     for k, v in design_values.items()
                     if k in discipline.input_grammar
                 })
 
-    def get_top_level_disc(self) -> list[MDODiscipline]:  # noqa: D102
-        return self._mdo_formulation.get_top_level_disc()
-
-    def get_expected_workflow(  # noqa: D102
-        self,
-    ) -> list[ExecutionSequence, tuple[ExecutionSequence]]:
-        return self._mdo_formulation.get_expected_workflow()
-
-    def get_expected_dataflow(  # noqa: D102
-        self,
-    ) -> list[tuple[MDODiscipline, MDODiscipline, list[str]]]:
-        return self._mdo_formulation.get_expected_dataflow()
+    def get_top_level_disciplines(self) -> list[Discipline]:  # noqa: D102
+        return self._mdo_formulation.get_top_level_disciplines()

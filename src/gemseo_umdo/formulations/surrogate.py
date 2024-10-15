@@ -49,7 +49,6 @@ from typing import ClassVar
 
 from gemseo.algos.doe.factory import DOELibraryFactory
 from gemseo.algos.doe.scipy.scipy_doe import SciPyDOE
-from gemseo.core.discipline import MDODiscipline
 from gemseo.mlearning.regression.quality.factory import RegressorQualityFactory
 from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
 from gemseo.utils.logging_tools import LoggingContext
@@ -73,6 +72,7 @@ if TYPE_CHECKING:
     from gemseo.algos.doe.base_doe_library import BaseDOELibrary
     from gemseo.algos.optimization_problem import OptimizationProblem
     from gemseo.algos.parameter_space import ParameterSpace
+    from gemseo.core.discipline.discipline import Discipline
     from gemseo.datasets.io_dataset import IODataset
     from gemseo.formulations.base_mdo_formulation import BaseMDOFormulation
     from gemseo.mlearning.regression.quality.base_regressor_quality import (
@@ -153,7 +153,7 @@ class Surrogate(BaseUMDOFormulation):
 
     def __init__(
         self,
-        disciplines: Sequence[MDODiscipline],
+        disciplines: Sequence[Discipline],
         objective_name: str,
         design_space: DesignSpace,
         mdo_formulation: BaseMDOFormulation,
@@ -161,7 +161,6 @@ class Surrogate(BaseUMDOFormulation):
         objective_statistic_name: str,
         objective_statistic_parameters: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
         maximize_objective: bool = False,
-        grammar_type: MDODiscipline.GrammarType = MDODiscipline.GrammarType.JSON,
         doe_algo: str = "OT_OPT_LHS",
         doe_algo_options: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
         doe_n_samples: int | None = None,
@@ -215,7 +214,7 @@ class Surrogate(BaseUMDOFormulation):
         self.input_data_to_output_samples = {}
         self.__doe_algo = DOELibraryFactory().create(doe_algo)
         self.__doe_algo_options = dict(doe_algo_options)
-        model_fields = self.__doe_algo.ALGORITHM_INFOS[doe_algo].settings.model_fields
+        model_fields = self.__doe_algo.ALGORITHM_INFOS[doe_algo].Settings.model_fields
         if "n_samples" in model_fields:
             if doe_n_samples is None:
                 msg = (
@@ -262,7 +261,6 @@ class Surrogate(BaseUMDOFormulation):
             objective_statistic_name,
             objective_statistic_options=objective_statistic_parameters,
             maximize_objective=maximize_objective,
-            grammar_type=grammar_type,
             **options,
         )
         mdo_formulation = self._mdo_formulation.__class__.__name__

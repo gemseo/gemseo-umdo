@@ -177,6 +177,6 @@ def test_scenario(quadratic_problem, statistic_estimation_parameters, y_opt):
         statistic_estimation="Surrogate",
         statistic_estimation_parameters=statistic_estimation_parameters,
     )
-    scenario.execute({"algo": "CustomDOE", "algo_options": {"samples": array([[1.0]])}})
+    scenario.execute(algo="CustomDOE", algo_options={"samples": array([[1.0]])})
     assert_almost_equal(scenario.optimization_result.x_opt, array([1.0]))
     assert_almost_equal(scenario.optimization_result.f_opt, y_opt)

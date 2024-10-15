@@ -81,7 +81,7 @@ def reference_data(
     )
     doe_scenario.add_constraint("c_1", "ineq")
     doe_scenario.add_constraint("c_2", "ineq")
-    doe_scenario.execute(scenario_input_data)
+    doe_scenario.execute(**scenario_input_data)
     return doe_scenario.to_dataset().to_numpy()
 
 
@@ -169,7 +169,7 @@ def test_uncertainty_free(
     )
     u_doe_scenario.add_constraint("c_1", "Mean")
     u_doe_scenario.add_constraint("c_2", "Mean")
-    u_doe_scenario.execute(scenario_input_data)
+    u_doe_scenario.execute(**scenario_input_data)
     assert_almost_equal(u_doe_scenario.to_dataset().to_numpy(), reference_data)
 
 
@@ -211,6 +211,6 @@ def test_weak_uncertainties(
     )
     u_doe_scenario.add_constraint("c_1", "Mean")
     u_doe_scenario.add_constraint("c_2", "Mean")
-    u_doe_scenario.execute(scenario_input_data)
+    u_doe_scenario.execute(**scenario_input_data)
     data = u_doe_scenario.to_dataset().to_numpy()
     assert_almost_equal(data, reference_data, decimal=5)

@@ -41,7 +41,6 @@ from typing import Any
 from typing import ClassVar
 
 from gemseo.algos.optimization_problem import OptimizationProblem
-from gemseo.core.discipline import MDODiscipline
 from gemseo.core.mdo_functions.mdo_function import MDOFunction
 from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
 
@@ -60,6 +59,7 @@ if TYPE_CHECKING:
 
     from gemseo.algos.design_space import DesignSpace
     from gemseo.algos.parameter_space import ParameterSpace
+    from gemseo.core.discipline.discipline import Discipline
     from gemseo.formulations.base_mdo_formulation import BaseMDOFormulation
 
 
@@ -87,7 +87,7 @@ class TaylorPolynomial(BaseUMDOFormulation):
 
     def __init__(  # noqa: D107
         self,
-        disciplines: Sequence[MDODiscipline],
+        disciplines: Sequence[Discipline],
         objective_name: str,
         design_space: DesignSpace,
         mdo_formulation: BaseMDOFormulation,
@@ -95,7 +95,6 @@ class TaylorPolynomial(BaseUMDOFormulation):
         objective_statistic_name: str,
         objective_statistic_parameters: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
         maximize_objective: bool = False,
-        grammar_type: MDODiscipline.GrammarType = MDODiscipline.GrammarType.JSON,
         differentiation_method: OptimizationProblem.DifferentiationMethod = OptimizationProblem.DifferentiationMethod.USER_GRAD,  # noqa: E501
         second_order: bool = False,
         mdo_formulation_options: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
@@ -117,7 +116,6 @@ class TaylorPolynomial(BaseUMDOFormulation):
             objective_statistic_name,
             objective_statistic_parameters=objective_statistic_parameters,
             maximize_objective=maximize_objective,
-            grammar_type=grammar_type,
             mdo_formulation_options=mdo_formulation_options,
             **options,
         )
@@ -176,7 +174,7 @@ class TaylorPolynomial(BaseUMDOFormulation):
         output_names: Sequence[str],
         statistic_name: str,
         observable_name: Sequence[str] = "",
-        discipline: MDODiscipline | None = None,
+        discipline: Discipline | None = None,
         **statistic_parameters: Any,
     ) -> None:
         super().add_observable(

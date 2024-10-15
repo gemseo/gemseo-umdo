@@ -20,6 +20,8 @@ from typing import TYPE_CHECKING
 from typing import Any
 
 import pytest
+from gemseo import from_pickle
+from gemseo import to_pickle
 from gemseo.datasets.io_dataset import IODataset
 from gemseo.formulations.mdf import MDF
 from gemseo.utils.comparisons import compare_dict_of_arrays
@@ -62,7 +64,7 @@ if TYPE_CHECKING:
 
     from gemseo.algos.design_space import DesignSpace
     from gemseo.algos.parameter_space import ParameterSpace
-    from gemseo.core.discipline import MDODiscipline
+    from gemseo.core.discipline.discipline import Discipline
 
     from gemseo_umdo.formulations._statistics.iterative_sampling.sampling_estimator import (  # noqa: E501
         SamplingEstimator as IterativeSamplingEstimator,
@@ -71,7 +73,7 @@ if TYPE_CHECKING:
 
 @pytest.fixture
 def umdo_formulation(
-    disciplines: Sequence[MDODiscipline],
+    disciplines: Sequence[Discipline],
     design_space: DesignSpace,
     mdo_formulation: MDF,
     uncertain_space: ParameterSpace,
@@ -161,7 +163,7 @@ def scenario(
 
 def test_scenario_execution(scenario, maximize_objective, scenario_input_data, caplog):
     """Check the execution of an UMDOScenario with the Sampling U-MDO formulation."""
-    scenario.execute(scenario_input_data)
+    scenario.execute(**scenario_input_data)
     assert_equal(scenario.optimization_result.x_opt, array([0.0, 0.0, 0.0]))
     expected_f_opt = 2.0 if maximize_objective else -2.0
     assert scenario.optimization_result.f_opt == pytest.approx(expected_f_opt, rel=1e-6)
@@ -172,9 +174,9 @@ def test_scenario_execution(scenario, maximize_objective, scenario_input_data, c
 def test_scenario_serialization(scenario, tmp_path, scenario_input_data):
     """Check the serialization of an UMDOScenario with Sampling U-MDO formulation."""
     file_path = tmp_path / "scenario.h5"
-    scenario.to_pickle(file_path)
-    saved_scenario = UDOEScenario.from_pickle(file_path)
-    saved_scenario.execute(scenario_input_data)
+    to_pickle(scenario, file_path)
+    saved_scenario = from_pickle(file_path)
+    saved_scenario.execute(**scenario_input_data)
     assert_equal(saved_scenario.optimization_result.x_opt, array([0.0, 0.0, 0.0]))
 
 
@@ -355,12 +357,12 @@ def test_save_samples(disciplines, design_space, uncertain_space, tmp_wd):
     )
     scenario.add_constraint("c", "Margin", factor=3.0)
     scenario.add_observable("o", "Variance")
-    scenario.execute({
-        "algo": "CustomDOE",
-        "algo_options": {
+    scenario.execute(
+        algo="CustomDOE",
+        algo_options={
             "samples": array([[0.0, 0.0, 0.0], [1.0, 1.0, 1.0]]),
         },
-    })
+    )
     assert set(Path("foo").iterdir()) == {Path("foo") / "1.pkl", Path("foo") / "2.pkl"}
 
     expected_dataset = IODataset()

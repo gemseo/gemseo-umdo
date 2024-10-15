@@ -41,8 +41,8 @@ from pathlib import Path
 from typing import TYPE_CHECKING
 from typing import Any
 
+from gemseo import to_pickle
 from gemseo.algos.doe.factory import DOELibraryFactory
-from gemseo.core.discipline import MDODiscipline
 from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
 from gemseo.utils.logging_tools import LoggingContext
 from gemseo.utils.seeder import SEED
@@ -70,6 +70,7 @@ if TYPE_CHECKING:
     from gemseo.algos.doe.base_doe_library import CallbackType
     from gemseo.algos.optimization_problem import OptimizationProblem
     from gemseo.algos.parameter_space import ParameterSpace
+    from gemseo.core.discipline.discipline import Discipline
     from gemseo.formulations.base_mdo_formulation import BaseMDOFormulation
     from gemseo.typing import RealArray
 
@@ -107,7 +108,7 @@ class Sampling(BaseUMDOFormulation):
 
     def __init__(
         self,
-        disciplines: Sequence[MDODiscipline],
+        disciplines: Sequence[Discipline],
         objective_name: str,
         design_space: DesignSpace,
         mdo_formulation: BaseMDOFormulation,
@@ -116,7 +117,6 @@ class Sampling(BaseUMDOFormulation):
         n_samples: int | None = None,
         objective_statistic_parameters: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
         maximize_objective: bool = False,
-        grammar_type: MDODiscipline.GrammarType = MDODiscipline.GrammarType.JSON,
         algo: str = "OT_OPT_LHS",
         algo_options: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
         seed: int = SEED,
@@ -170,7 +170,7 @@ class Sampling(BaseUMDOFormulation):
         self.__doe_algo = DOELibraryFactory().create(algo)
         self.__doe_algo_options = dict(algo_options)
         self.__doe_algo_options["use_database"] = not estimate_statistics_iteratively
-        model_fields = self.__doe_algo.ALGORITHM_INFOS[algo].settings.model_fields
+        model_fields = self.__doe_algo.ALGORITHM_INFOS[algo].Settings.model_fields
         if "n_samples" in model_fields:
             if n_samples is None:
                 msg = "Sampling: n_samples is required."
@@ -190,7 +190,6 @@ class Sampling(BaseUMDOFormulation):
             objective_statistic_name,
             objective_statistic_options=objective_statistic_parameters,
             maximize_objective=maximize_objective,
-            grammar_type=grammar_type,
             mdo_formulation_options=mdo_formulation_options,
             **options,
         )
@@ -243,4 +242,4 @@ class Sampling(BaseUMDOFormulation):
             dataset.misc.update(
                 main_problem.design_space.convert_array_to_dict(input_data)
             )
-            dataset.to_pickle(self.__samples_directory_path / f"{iteration}.pkl")
+            to_pickle(dataset, self.__samples_directory_path / f"{iteration}.pkl")

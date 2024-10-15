@@ -36,7 +36,7 @@ if TYPE_CHECKING:
     from pathlib import Path
 
     from gemseo.algos.parameter_space import ParameterSpace
-    from gemseo.core.discipline import MDODiscipline
+    from gemseo.core.discipline.discipline import Discipline
     from numpy.typing import NDArray
 
 
@@ -94,7 +94,7 @@ class UncertainCouplingGraph:
 
     def __init__(
         self,
-        disciplines: Sequence[MDODiscipline],
+        disciplines: Sequence[Discipline],
         uncertain_space: ParameterSpace,
         variable_names: Iterable[str] | None = None,
     ) -> None:
@@ -126,11 +126,9 @@ class UncertainCouplingGraph:
             algo_name: The name of the DOE algorithm.
             **algo_options: The options of the DOE algorithm.
         """
-        self.__scenario.execute({
-            "algo": algo_name,
-            "n_samples": n_samples,
-            "algo_options": algo_options,
-        })
+        self.__scenario.execute(
+            algo=algo_name, n_samples=n_samples, algo_options=algo_options
+        )
 
     def visualize(
         self,
@@ -191,8 +189,8 @@ class UncertainCouplingGraph:
                     )
 
         for discipline in dependency_graph.nodes:
-            coupling_names = set(discipline.get_input_data_names()).intersection(
-                discipline.get_output_data_names()
+            coupling_names = set(discipline.io.input_grammar.names).intersection(
+                discipline.io.output_grammar.names
             )
             discipline_name = discipline.name
             variable_names = set(coupling_names).intersection(set(all_output_names))
