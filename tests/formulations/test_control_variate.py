@@ -20,6 +20,8 @@ from typing import TYPE_CHECKING
 from typing import Any
 
 import pytest
+from gemseo import from_pickle
+from gemseo import to_pickle
 from gemseo.formulations.mdf import MDF
 from numpy import array
 from numpy.testing import assert_allclose
@@ -41,12 +43,12 @@ if TYPE_CHECKING:
 
     from gemseo.algos.design_space import DesignSpace
     from gemseo.algos.parameter_space import ParameterSpace
-    from gemseo.core.discipline import MDODiscipline
+    from gemseo.core.discipline.discipline import Discipline
 
 
 @pytest.fixture
 def umdo_formulation(
-    disciplines: Sequence[MDODiscipline],
+    disciplines: Sequence[Discipline],
     design_space: DesignSpace,
     mdo_formulation: MDF,
     uncertain_space: ParameterSpace,
@@ -94,7 +96,7 @@ def scenario(disciplines, design_space, uncertain_space, algo_data) -> UDOEScena
     )
     scn.add_constraint("c", "Margin", factor=3.0)
     scn.add_observable("o", "Variance")
-    scn.execute(algo_data)
+    scn.execute(**algo_data)
     return scn
 
 
@@ -107,9 +109,9 @@ def test_scenario_optimum(scenario):
 def test_scenario_serialization(scenario, tmp_path, algo_data):
     """Check the serialization of a UDOEScenario."""
     file_path = tmp_path / "scenario.h5"
-    scenario.to_pickle(file_path)
-    saved_scn = UDOEScenario.from_pickle(file_path)
-    saved_scn.execute(algo_data)
+    to_pickle(scenario, file_path)
+    saved_scn = from_pickle(file_path)
+    saved_scn.execute(**algo_data)
     assert_equal(scenario.optimization_result.x_opt, array([0.0] * 3))
     assert_allclose(scenario.optimization_result.f_opt, array([-12.0]), atol=1e-6)
     assert_equal(saved_scn.optimization_result.x_opt, array([0.0] * 3))

@@ -35,10 +35,10 @@ class MultiplicativeNoiser(BaseNoiser):
     SHORT_NAME: ClassVar[str] = "*"
 
     def _run(self) -> None:
-        self.store_local_data(**{
+        self.io.update_output_data({
             self._noised_variable_name: (
-                self.local_data[self._variable_name]
-                * (1 + self.local_data[self._uncertain_variable_name])
+                self.io.data[self._variable_name]
+                * (1 + self.io.data[self._uncertain_variable_name])
             )
         })
 
@@ -47,8 +47,8 @@ class MultiplicativeNoiser(BaseNoiser):
         inputs: Iterable[str] | None = None,
         outputs: Iterable[str] | None = None,
     ) -> None:
-        uncertain_variable_value = self.local_data[self._uncertain_variable_name]
-        variable_value = self.local_data[self._variable_name]
+        uncertain_variable_value = self.io.data[self._uncertain_variable_name]
+        variable_value = self.io.data[self._variable_name]
         if uncertain_variable_value.size == 1:
             x_jacobian = eye(variable_value.size) * (1 + uncertain_variable_value)
             u_jacobian = variable_value[:, newaxis]

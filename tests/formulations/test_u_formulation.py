@@ -19,7 +19,6 @@ from typing import Any
 import pytest
 from gemseo.algos.design_space import DesignSpace
 from gemseo.algos.parameter_space import ParameterSpace
-from gemseo.core.execution_sequence import SerialExecSequence
 from gemseo.core.mdo_functions.mdo_function import MDOFunction
 from gemseo.disciplines.analytic import AnalyticDiscipline
 from gemseo.formulations.mdf import MDF
@@ -176,10 +175,10 @@ def test_available_statistics(formulation):
 def test_update_top_level_disciplines(formulation):
     """Check the update of the top-level discipline."""
     formulation.update_top_level_disciplines(array([1, 2, 3]))
-    for discipline in formulation.get_top_level_disc():
-        assert discipline.default_inputs["x0"] == array([1])
-        assert discipline.default_inputs["x1"] == array([2])
-        assert discipline.default_inputs["x2"] == array([3])
+    for discipline in formulation.get_top_level_disciplines():
+        assert discipline.default_input_data["x0"] == array([1])
+        assert discipline.default_input_data["x1"] == array([2])
+        assert discipline.default_input_data["x2"] == array([3])
 
 
 def test_init_sub_formulation(formulation):
@@ -192,20 +191,6 @@ def test_init_sub_formulation(formulation):
     assert sub_form.optimization_problem.observables[0].name == "c"
     assert sub_form.optimization_problem.observables[1].name == "o"
     assert sub_form.design_space.variable_names == ["u"]
-
-
-def test_get_expected_workflow(formulation):
-    """Check the expected workflow."""
-    expected_workflow = formulation.get_expected_workflow()
-    # The expected workflow of a MDF with a MDAChain as main MDA
-    # is a SerialExecSequence.
-    assert isinstance(expected_workflow, SerialExecSequence)
-
-
-def test_get_expected_dataflow(formulation):
-    """Check the expected dataflow."""
-    expected_dataflow = formulation.get_expected_dataflow()
-    assert expected_dataflow == formulation._mdo_formulation.get_expected_dataflow()
 
 
 def test_multiobjective(disciplines, design_space, mdf, uncertain_space):

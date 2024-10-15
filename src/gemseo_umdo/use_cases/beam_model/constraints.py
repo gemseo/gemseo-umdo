@@ -18,13 +18,13 @@ from __future__ import annotations
 
 from typing import Final
 
-from gemseo.core.discipline import MDODiscipline
+from gemseo.core.discipline.discipline import Discipline
 from numpy import array
 
 from gemseo_umdo.use_cases.beam_model.core.variables import sigma_all
 
 
-class BeamConstraints(MDODiscipline):
+class BeamConstraints(Discipline):
     r"""The discipline computing the constraints of the beam problem.
 
     More particularly,
@@ -47,14 +47,14 @@ class BeamConstraints(MDODiscipline):
             sigma_all.name,
         ])
         self.output_grammar.update_from_names([self.__C_DISPL, self.__C_STRESS])
-        self.default_inputs = {
+        self.default_input_data = {
             sigma_all.name: array([sigma_all.value]),
             self.__SIGMA_VM: array([300.0]),
             self.__DISPL: array([100.0]),
         }
 
     def _run(self) -> None:
-        self._local_data[self.__C_STRESS] = (
-            self._local_data[self.__SIGMA_VM] / self._local_data[sigma_all.name]
+        self.io.data[self.__C_STRESS] = (
+            self.io.data[self.__SIGMA_VM] / self.io.data[sigma_all.name]
         )
-        self._local_data[self.__C_DISPL] = self._local_data[self.__DISPL] / 100.0
+        self.io.data[self.__C_DISPL] = self.io.data[self.__DISPL] / 100.0

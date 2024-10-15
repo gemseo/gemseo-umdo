@@ -20,12 +20,10 @@ from typing import TYPE_CHECKING
 from typing import Any
 from typing import Final
 
-from gemseo.core.chain import MDOChain
-from gemseo.core.discipline import MDODiscipline
+from gemseo.core.chains.chain import MDOChain
 from gemseo.core.mdo_functions.mdo_function import MDOFunction
 from gemseo.disciplines.analytic import AnalyticDiscipline
 from gemseo.formulations.factory import MDOFormulationFactory
-from gemseo.scenarios.scenario import Scenario
 from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
 from gemseo.utils.string_tools import MultiLineString
 from gemseo.utils.string_tools import pretty_str
@@ -39,12 +37,13 @@ if TYPE_CHECKING:
 
     from gemseo.algos.design_space import DesignSpace
     from gemseo.algos.parameter_space import ParameterSpace
+    from gemseo.core.discipline.discipline import Discipline
     from gemseo.formulations.base_mdo_formulation import BaseMDOFormulation
 
     from gemseo_umdo.formulations.base_umdo_formulation import BaseUMDOFormulation
 
 
-class BaseUScenario(Scenario):
+class BaseUScenario:
     """Base scenario for multidisciplinary design problems under uncertainty."""
 
     __DV_TAG: Final[str] = "{}"
@@ -53,7 +52,7 @@ class BaseUScenario(Scenario):
 
     def __init__(
         self,
-        disciplines: Sequence[MDODiscipline],
+        disciplines: Sequence[Discipline],
         formulation: str,
         objective_name: str,
         design_space: DesignSpace,
@@ -66,7 +65,6 @@ class BaseUScenario(Scenario):
             str, str | tuple[str, str]
         ] = READ_ONLY_EMPTY_DICT,
         name: str = "",
-        grammar_type: MDODiscipline.GrammarType = MDODiscipline.GrammarType.JSON,
         maximize_objective: bool = False,
         **formulation_options: Any,
     ) -> None:
@@ -139,7 +137,6 @@ class BaseUScenario(Scenario):
             disciplines,
             objective_name,
             uncertain_space,
-            grammar_type=grammar_type,
             differentiated_input_names_substitute=mdo_formulation_design_space.variable_names,  # noqa:E501
             **formulation_options,
         )
@@ -163,7 +160,7 @@ class BaseUScenario(Scenario):
 
     def __add_noising_discipline_chain(
         self,
-        disciplines: list[MDODiscipline],
+        disciplines: list[Discipline],
         design_space: DesignSpace,
         uncertain_design_variables: Mapping[str, str | tuple[str, str]],
     ) -> None:
@@ -250,7 +247,7 @@ class BaseUScenario(Scenario):
         output_names: Sequence[str],
         statistic_name: str,
         observable_name: str = "",
-        discipline: MDODiscipline | None = None,
+        discipline: Discipline | None = None,
         **statistic_parameters: Any,
     ) -> None:
         """

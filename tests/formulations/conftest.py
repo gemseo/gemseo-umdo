@@ -19,14 +19,14 @@ from typing import TYPE_CHECKING
 import pytest
 from gemseo.algos.design_space import DesignSpace
 from gemseo.algos.parameter_space import ParameterSpace
-from gemseo.core.chain import MDOChain
+from gemseo.core.chains.chain import MDOChain
 from gemseo.disciplines.analytic import AnalyticDiscipline
 from gemseo.formulations.mdf import MDF
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
 
-    from gemseo.core.discipline import MDODiscipline
+    from gemseo.core.discipline.discipline import Discipline
 
 
 @pytest.fixture
@@ -73,7 +73,7 @@ def uncertain_space() -> ParameterSpace:
 
 @pytest.fixture
 def mdo_formulation(
-    disciplines: Sequence[MDODiscipline], uncertain_space: ParameterSpace
+    disciplines: Sequence[Discipline], uncertain_space: ParameterSpace
 ) -> MDF:
     """The MDO formulation."""
     return MDF(disciplines, "f", uncertain_space)

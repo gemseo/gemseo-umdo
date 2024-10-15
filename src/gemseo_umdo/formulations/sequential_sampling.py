@@ -41,7 +41,6 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 from typing import Any
 
-from gemseo.core.discipline import MDODiscipline
 from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
 from gemseo.utils.seeder import SEED
 
@@ -55,6 +54,7 @@ if TYPE_CHECKING:
     from gemseo.algos.design_space import DesignSpace
     from gemseo.algos.optimization_problem import OptimizationProblem
     from gemseo.algos.parameter_space import ParameterSpace
+    from gemseo.core.discipline.discipline import Discipline
     from gemseo.formulations.base_mdo_formulation import BaseMDOFormulation
     from gemseo.typing import RealArray
 
@@ -77,7 +77,7 @@ class SequentialSampling(Sampling):
 
     def __init__(
         self,
-        disciplines: Sequence[MDODiscipline],
+        disciplines: Sequence[Discipline],
         objective_name: str,
         design_space: DesignSpace,
         mdo_formulation: BaseMDOFormulation,
@@ -88,7 +88,6 @@ class SequentialSampling(Sampling):
         n_samples_increment: int = 1,
         objective_statistic_parameters: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
         maximize_objective: bool = False,
-        grammar_type: MDODiscipline.GrammarType = MDODiscipline.GrammarType.JSON,
         algo: str = "OT_OPT_LHS",
         algo_options: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
         seed: int = SEED,
@@ -112,7 +111,6 @@ class SequentialSampling(Sampling):
             initial_n_samples,
             objective_statistic_parameters=objective_statistic_parameters,
             maximize_objective=maximize_objective,
-            grammar_type=grammar_type,
             algo=algo,
             algo_options=algo_options,
             seed=seed,

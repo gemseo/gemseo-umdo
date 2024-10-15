@@ -39,7 +39,6 @@ from typing import TYPE_CHECKING
 from typing import Any
 from typing import ClassVar
 
-from gemseo.core.discipline import MDODiscipline
 from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
 
 from gemseo_umdo.formulations._functions.statistic_function_for_pce import (
@@ -55,6 +54,7 @@ if TYPE_CHECKING:
 
     from gemseo.algos.design_space import DesignSpace
     from gemseo.algos.parameter_space import ParameterSpace
+    from gemseo.core.discipline.discipline import Discipline
     from gemseo.formulations.base_mdo_formulation import BaseMDOFormulation
 
 
@@ -76,7 +76,7 @@ class PCE(Surrogate):
 
     def __init__(
         self,
-        disciplines: Sequence[MDODiscipline],
+        disciplines: Sequence[Discipline],
         objective_name: str,
         design_space: DesignSpace,
         mdo_formulation: BaseMDOFormulation,
@@ -84,7 +84,6 @@ class PCE(Surrogate):
         objective_statistic_name: str,
         objective_statistic_parameters: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
         maximize_objective: bool = False,
-        grammar_type: MDODiscipline.GrammarType = MDODiscipline.GrammarType.JSON,
         doe_algo: str = "OT_OPT_LHS",
         doe_algo_options: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
         doe_n_samples: int | None = None,
@@ -113,7 +112,6 @@ class PCE(Surrogate):
             objective_statistic_name,
             objective_statistic_parameters=objective_statistic_parameters,
             maximize_objective=maximize_objective,
-            grammar_type=grammar_type,
             mdo_formulation_options=mdo_formulation_options,
             doe_algo=doe_algo,
             doe_algo_options=doe_algo_options,

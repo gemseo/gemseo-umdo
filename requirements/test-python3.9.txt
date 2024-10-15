@@ -4,13 +4,13 @@ annotated-types==0.7.0
     # via pydantic
 certifi==2024.8.30
     # via requests
-charset-normalizer==3.3.2
+charset-normalizer==3.4.0
     # via requests
 contourpy==1.3.0
     # via matplotlib
 covdefaults==2.3.0
     # via gemseo-umdo (pyproject.toml)
-coverage==7.6.1
+coverage==7.6.3
     # via
     #   covdefaults
     #   pytest-cov
@@ -32,7 +32,7 @@ fastjsonschema==2.20.0
     # via gemseo
 fonttools==4.54.1
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@df9910078a69258948b5c711d366340ece055396
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@77a24f0e1e70929bf8e4b94bfb9e29f0d5fe0cf1
     # via
     #   -c requirements/test-constraints.in
     #   gemseo-umdo (pyproject.toml)
@@ -56,7 +56,7 @@ joblib==1.4.2
     # via scikit-learn
 kiwisolver==1.4.7
     # via matplotlib
-markupsafe==2.1.5
+markupsafe==3.0.1
     # via jinja2
 matplotlib==3.9.2
     # via
@@ -109,7 +109,7 @@ pydantic-core==2.23.3
     # via pydantic
 pydoe3==1.0.4
     # via gemseo
-pyparsing==3.1.4
+pyparsing==3.2.0
     # via matplotlib
 pytest==8.3.3
     # via

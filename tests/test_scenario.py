@@ -20,7 +20,7 @@ from typing import TYPE_CHECKING
 import pytest
 from gemseo.algos.design_space import DesignSpace
 from gemseo.algos.parameter_space import ParameterSpace
-from gemseo.core.chain import MDOChain
+from gemseo.core.chains.chain import MDOChain
 from gemseo.disciplines.analytic import AnalyticDiscipline
 from gemseo.disciplines.auto_py import AutoPyDiscipline
 from numpy import array
@@ -36,13 +36,13 @@ from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 
 if TYPE_CHECKING:
-    from gemseo.core.discipline import MDODiscipline
+    from gemseo.core.discipline.discipline import Discipline
 
 AVAILABLE_FORMULATIONS = UMDOFormulationsFactory().class_names
 
 
 @pytest.fixture
-def disciplines() -> list[MDODiscipline]:
+def disciplines() -> list[Discipline]:
     """Three simple disciplines."""
     disc0 = AnalyticDiscipline(
         {"f": "x0+y1+y2", "c": "x0+y1+y2", "o": "x0+y1+y2"}, name="D0"
@@ -256,10 +256,7 @@ def test_uncertain_design_variables_values(x, u1, u2):
         },
         uncertain_design_variables={"x": ("+", "u")},
     )
-    scenario.execute({
-        "algo": "CustomDOE",
-        "algo_options": {"samples": atleast_2d(x)},
-    })
+    scenario.execute(algo="CustomDOE", algo_options={"samples": atleast_2d(x)})
     assert scenario.optimization_result.f_opt == (f(x + u1) + f(x + u2)) / 2
 
 
@@ -339,7 +336,7 @@ def test_log(
         constraint_name=constraint_name,
     )
     scenario.use_standardized_objective = use_standardized_objective
-    scenario.execute({"algo": "CustomDOE", "algo_options": {"samples": array([[1.0]])}})
+    scenario.execute(algo="CustomDOE", algo_options={"samples": array([[1.0]])})
     assert objective_expr in caplog.text
     assert constraint_expr in caplog.text
     assert constraint_res in caplog.text

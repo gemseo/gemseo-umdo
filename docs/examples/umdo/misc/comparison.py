@@ -76,7 +76,7 @@ for i in range(20):
             },
         )
         scenario.set_differentiation_method("finite_differences")
-        scenario.execute({"algo": "NLOPT_SLSQP", "max_iter": 100})
+        scenario.execute(algo="NLOPT_SLSQP", max_iter=100)
         method_to_x_opt[method].append(scenario.optimization_result.x_opt.tolist())
 
 

@@ -18,10 +18,10 @@ from __future__ import annotations
 
 from typing import ClassVar
 
-from gemseo.core.discipline import MDODiscipline
+from gemseo.core.discipline.discipline import Discipline
 
 
-class BaseNoiser(MDODiscipline):
+class BaseNoiser(Discipline):
     """A discipline noising a variable.
 
     [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario]

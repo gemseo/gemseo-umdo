@@ -91,7 +91,7 @@ def test_output_names(discipline):
 def test_default_inputs(discipline):
     """Check the default values of the inputs."""
     assert compare_dict_of_arrays(
-        discipline.default_inputs,
+        discipline.default_input_data,
         {
             variable.name: array([variable.value])
             for variable in [b, h, t, L, E, alpha, beta, dy, dz, rho, F, nu]
@@ -109,5 +109,5 @@ def test_default_outputs(discipline):
 
 def test_ny_nz(custom_discipline):
     """Check the use of a custom grid size."""
-    for name, value in custom_discipline.local_data.items():
+    for name, value in custom_discipline.io.data.items():
         assert value.shape == (16,) if name == "yz_grid" else (8,)
