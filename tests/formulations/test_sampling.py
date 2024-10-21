@@ -107,7 +107,7 @@ def mdo_samples(mdf_discipline) -> list[dict[str, ndarray]]:
 @pytest.fixture
 def scenario_input_data() -> dict[str, str | dict[str, ndarray]]:
     """The input data of the scenario."""
-    return {"algo": "CustomDOE", "algo_options": {"samples": array([[0.0] * 3])}}
+    return {"algo_name": "CustomDOE", "samples": array([[0.0] * 3])}
 
 
 @pytest.fixture(params=[False, True])
@@ -358,10 +358,7 @@ def test_save_samples(disciplines, design_space, uncertain_space, tmp_wd):
     scenario.add_constraint("c", "Margin", factor=3.0)
     scenario.add_observable("o", "Variance")
     scenario.execute(
-        algo="CustomDOE",
-        algo_options={
-            "samples": array([[0.0, 0.0, 0.0], [1.0, 1.0, 1.0]]),
-        },
+        algo_name="CustomDOE", samples=array([[0.0, 0.0, 0.0], [1.0, 1.0, 1.0]])
     )
     assert set(Path("foo").iterdir()) == {Path("foo") / "1.pkl", Path("foo") / "2.pkl"}
 

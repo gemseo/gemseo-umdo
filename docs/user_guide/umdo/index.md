@@ -225,7 +225,7 @@ called *MDO formulation* or *architecture*[@MartinsSurvey].
           scenario = create_scenario(disciplines, "MDF", "f", design_space)
           scenario.add_constraint("c1", "ineq")
           scenario.add_constraint("c2", "ineq")
-          scenario.execute(**{"algo": "SLSQP", "max_iter": 100})
+          scenario.execute(algo_name="SLSQP", max_iter=100)
         ```
 
 ### Optimization problem under uncertainty
@@ -306,31 +306,33 @@ can change their values.
 
 !!! example
 
-    Let us implement an [MDODiscipline][gemseo.core.discipline.MDODiscipline]
+    Let us implement an [Discipline][gemseo.core.discipline.discipline.Discipline]
     outputting $f(x,U)=(x_1+U)^2+(x_2+U)^2$:
     ``` py
     from numpy import array
-    from gemseo.core.discipline import MDODiscipline
+    from gemseo.core.discipline.discipline import Discipline
 
 
-    class MyDiscipline(MDODiscipline):
+    class MyDiscipline(Discipline):
 
         def __init__(self):
             super().__init__()
             self.input_grammar.update_from_names(["x1", "x2", "U"])
-            self.default_inputs = {"x1": array([0.]), "x2": array([0.]), "U": array([0.5])}
+            self.default_input_data = {"x1": array([0.]), "x2": array([0.]), "U": array([0.5])}
 
         def _run(self):
-            x1, x2, U = self.get_local_data_by_name(["x1", "x2", "U"])
+            x1 = self.io.data["x1"]
+            x2 = self.io.data["x2"]
+            U = self.io.data["U"]
             y = (x1+U)**2 + (x2+U)**2
-            self.store_local_data(y=y)
+            self.io.update_output_data({"y": y})
     ```
 
     This discipline can be executed
     with different values of the uncertain variable $U$:
     ``` py
     discipline.execute()  # default value, i.e. U=0.5
-    discipline.execute(**{"U": array([0.2])})  # custom value: U=0.2
+    discipline.execute({"U": array([0.2])})  # custom value: U=0.2
     ```
 
 ### Uncertain space
@@ -422,7 +424,7 @@ to solve the MDO problem under uncertainty.
         "Mean",
         statistic_estimation_parameters={"n_samples": 100},
     )
-    scenario.execute(**{"algo": "NLOPT_COBYLA", "max_iter": 50})
+    scenario.execute(algo_name="NLOPT_COBYLA", max_iter=50)
     ```
 
 ### U-MDO formulations
@@ -464,7 +466,7 @@ The rest of the **MDO under uncertainty** section of the user guide presents the
     Given a
     [DesignSpace][gemseo.algos.design_space.DesignSpace]
     and a collection of
-    [MDODisciplines][gemseo.core.discipline.MDODiscipline],
+    [Disciplines][gemseo.core.discipline.discipline.Discipline],
     a [DOEScenario][gemseo.scenarios.doe_scenario.DOEScenario]
     generates and solves an
     [OptimizationProblem][gemseo.algos.optimization_problem.OptimizationProblem]

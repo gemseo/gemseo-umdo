@@ -63,7 +63,7 @@ class StatisticFunctionForPCE(StatisticFunctionForSurrogate[PCET]):
         samples = pce_formulation.compute_samples(problem)
         pce_regressor = PCERegressor(
             samples,
-            pce_formulation.mdo_formulation.design_space,
+            probability_space=pce_formulation.mdo_formulation.design_space,
             **pce_formulation.regressor_options,
         )
         pce_regressor.learn()

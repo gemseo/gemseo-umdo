@@ -256,7 +256,7 @@ def test_uncertain_design_variables_values(x, u1, u2):
         },
         uncertain_design_variables={"x": ("+", "u")},
     )
-    scenario.execute(algo="CustomDOE", algo_options={"samples": atleast_2d(x)})
+    scenario.execute(algo_name="CustomDOE", samples=atleast_2d(x))
     assert scenario.optimization_result.f_opt == (f(x + u1) + f(x + u2)) / 2
 
 
@@ -336,7 +336,7 @@ def test_log(
         constraint_name=constraint_name,
     )
     scenario.use_standardized_objective = use_standardized_objective
-    scenario.execute(algo="CustomDOE", algo_options={"samples": array([[1.0]])})
+    scenario.execute(algo_name="CustomDOE", samples=array([[1.0]]))
     assert objective_expr in caplog.text
     assert constraint_expr in caplog.text
     assert constraint_res in caplog.text

@@ -218,11 +218,7 @@ def test_sampling(
         },
     )
     scenario.execute(
-        algo="CustomDOE",
-        algo_options={
-            "samples": linspace(1, n_x, n_x)[newaxis, :],
-            "eval_jac": True,
-        },
+        algo_name="CustomDOE", samples=linspace(1, n_x, n_x)[newaxis, :], eval_jac=True
     )
     last_item = scenario.formulation.optimization_problem.database.last_item
     assert_almost_equal(last_item[f"{symbol}[y]"], statistic_estimation)

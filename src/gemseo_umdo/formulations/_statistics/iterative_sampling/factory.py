@@ -27,4 +27,4 @@ class SamplingEstimatorFactory(BaseFactory):
     """The factory of iterative sampling estimators."""
 
     _CLASS = BaseSamplingEstimator
-    _MODULE_NAMES = ("gemseo_umdo.formulations._statistics.iterative_sampling",)
+    _PACKAGE_NAMES = ("gemseo_umdo.formulations._statistics.iterative_sampling",)

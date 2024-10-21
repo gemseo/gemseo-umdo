@@ -83,10 +83,7 @@ def test_finite_differences(
     scenario.add_constraint("c", "Mean")
     scenario.add_observable("o", "Mean")
     scenario.set_differentiation_method("finite_differences")
-    scenario.execute(
-        algo="CustomDOE",
-        algo_options={"samples": array([[1.0, 1.0]]), "eval_jac": True},
-    )
+    scenario.execute(algo_name="CustomDOE", samples=array([[1.0, 1.0]]), eval_jac=True)
     # The database storing the samples is cleared after each sampling.
     assert not scenario.mdo_formulation.optimization_problem.database
 

@@ -46,5 +46,5 @@ def test_scenario(estimate_statistics_iteratively):
             "estimate_statistics_iteratively": estimate_statistics_iteratively,
         },
     )
-    scenario.execute(algo="fullfact", n_samples=5)
+    scenario.execute(algo_name="fullfact", n_samples=5)
     assert discipline.execution_statistics.n_calls == (3 + 5 + 7 + 7 + 7)

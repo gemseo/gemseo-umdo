@@ -74,7 +74,7 @@ def umdo_formulation(
 @pytest.fixture(scope="module")
 def algo_data() -> dict[str, Any]:
     """Input data for a DOE-based u-scenario."""
-    return {"algo": "CustomDOE", "algo_options": {"samples": array([[0.0] * 3])}}
+    return {"algo_name": "CustomDOE", "samples": array([[0.0] * 3])}
 
 
 @pytest.fixture

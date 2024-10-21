@@ -25,4 +25,4 @@ class UMDOFormulationsFactory(MDOFormulationFactory):
     """The factory of U-MDO formulations."""
 
     _CLASS = BaseUMDOFormulation
-    _MODULE_NAMES = ("gemseo_umdo.formulations",)
+    _PACKAGE_NAMES = ("gemseo_umdo.formulations",)

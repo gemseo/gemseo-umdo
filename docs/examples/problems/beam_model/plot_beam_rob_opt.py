@@ -51,6 +51,6 @@ scenario.add_constraint(
 scenario.add_constraint(
     "c_displ", "Probability", greater=True, threshold=1.0, positive=True, value=0.9
 )
-scenario.execute(algo="NLOPT_COBYLA", max_iter=30)
+scenario.execute(algo_name="NLOPT_COBYLA", max_iter=30)
 
 scenario.post_process("OptHistoryView", save=False, show=True)

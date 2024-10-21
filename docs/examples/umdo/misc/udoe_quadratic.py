@@ -60,7 +60,7 @@ scenario = UDOEScenario(
 
 # %%
 # We execute it with a full-factorial design of experiments:
-scenario.execute(algo="fullfact", n_samples=100)
+scenario.execute(algo_name="fullfact", n_samples=100)
 
 # %%
 # and plot the history:

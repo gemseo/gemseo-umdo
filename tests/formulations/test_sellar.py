@@ -48,7 +48,7 @@ def maximize_objective(request) -> bool:
 @pytest.fixture(scope="module")
 def scenario_input_data() -> dict[str, str | int]:
     """The input data of the scenario."""
-    return {"algo": "OT_MONTE_CARLO", "n_samples": 4}
+    return {"algo_name": "OT_MONTE_CARLO", "n_samples": 4}
 
 
 @pytest.fixture(scope="module")

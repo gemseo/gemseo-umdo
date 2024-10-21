@@ -85,7 +85,7 @@ scenario.add_constraint("g_3", "Margin", factor=3.0)
 
 # %%
 # and execute it with a gradient-free optimizer:
-scenario.execute(algo="NLOPT_COBYLA", max_iter=100)
+scenario.execute(algo_name="NLOPT_COBYLA", max_iter=100)
 
 # %%
 # Lastly,

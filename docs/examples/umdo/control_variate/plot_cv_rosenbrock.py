@@ -79,7 +79,7 @@ scenario = UMDOScenario(
 #     to use analytical derivatives.
 #     Please use finite differences or complex step to approximate the gradients.
 scenario.set_differentiation_method("finite_differences")
-scenario.execute(algo="NLOPT_SLSQP", max_iter=100)
+scenario.execute(algo_name="NLOPT_SLSQP", max_iter=100)
 
 # %%
 # and plot the optimization history:

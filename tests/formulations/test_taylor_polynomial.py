@@ -91,8 +91,8 @@ def umdo_formulation_with_hessian(
 def scenario_input_data() -> dict[str, str | dict[str, ndarray]]:
     """The input data of the scenario."""
     return {
-        "algo": "CustomDOE",
-        "algo_options": {"samples": array([[0.0, 0.0, 0.0], [1.0, 1.0, 1.0]])},
+        "algo_name": "CustomDOE",
+        "samples": array([[0.0, 0.0, 0.0], [1.0, 1.0, 1.0]]),
     }
 
 
