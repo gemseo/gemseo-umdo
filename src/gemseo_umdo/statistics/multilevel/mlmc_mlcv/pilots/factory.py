@@ -27,4 +27,4 @@ class MLMCMLCVPilotFactory(BaseFactory):
     """A factory of pilots for the MLMC-MLCV algorithm."""
 
     _CLASS = BaseMLMCMLCVPilot
-    _MODULE_NAMES = ("gemseo_umdo.statistics.multilevel.mlmc_mlcv.pilots",)
+    _PACKAGE_NAMES = ("gemseo_umdo.statistics.multilevel.mlmc_mlcv.pilots",)

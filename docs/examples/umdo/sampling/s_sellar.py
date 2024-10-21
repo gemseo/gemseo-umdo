@@ -109,7 +109,7 @@ scenario.add_constraint("c2", "Margin", factor=3.0)
 
 # %%
 # We execute this scenario using the gradient-free optimizer COBYLA:
-scenario.execute(algo="NLOPT_COBYLA", max_iter=200)
+scenario.execute(algo_name="NLOPT_COBYLA", max_iter=200)
 
 # %%
 # and plot the optimization history:

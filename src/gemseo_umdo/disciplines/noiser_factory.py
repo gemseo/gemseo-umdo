@@ -25,7 +25,7 @@ class NoiserFactory(DisciplineFactory):
     """A factory of noising disciplines."""
 
     _CLASS = BaseNoiser
-    _MODULE_NAMES = ("gemseo_umdo.disciplines",)
+    _PACKAGE_NAMES = ("gemseo_umdo.disciplines",)
 
     __short_names_to_class_names: dict[str, str]
     """The {short name: class_name} mapping."""

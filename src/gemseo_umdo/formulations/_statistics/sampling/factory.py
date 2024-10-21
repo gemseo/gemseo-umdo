@@ -27,4 +27,4 @@ class SamplingEstimatorFactory(BaseFactory):
     """The factory of sampling-based statistic estimators."""
 
     _CLASS = BaseSamplingEstimator
-    _MODULE_NAMES = ("gemseo_umdo.formulations._statistics.sampling",)
+    _PACKAGE_NAMES = ("gemseo_umdo.formulations._statistics.sampling",)

@@ -25,4 +25,4 @@ class PCEEstimatorFactory(BaseFactory):
     """The factory of statistic estimators based on PCE."""
 
     _CLASS = BasePCEEstimator
-    _MODULE_NAMES = ("gemseo_umdo.formulations._statistics.pce",)
+    _PACKAGE_NAMES = ("gemseo_umdo.formulations._statistics.pce",)

@@ -177,6 +177,6 @@ class ControlVariate(BaseUMDOFormulation):
         )
         problem.evaluate_functions(
             self._uncertain_space.distribution.mean,
-            output_functions=output_functions,
-            jacobian_functions=jacobian_functions,
+            output_functions=output_functions or None,
+            jacobian_functions=jacobian_functions or None,
         )

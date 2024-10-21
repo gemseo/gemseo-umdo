@@ -25,4 +25,4 @@ class ControlVariateEstimatorFactory(BaseFactory):
     """The factory of statistic estimators based on control variates."""
 
     _CLASS = BaseControlVariateEstimator
-    _MODULE_NAMES = ("gemseo_umdo.formulations._statistics.control_variate",)
+    _PACKAGE_NAMES = ("gemseo_umdo.formulations._statistics.control_variate",)
