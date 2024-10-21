@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../../../../../images/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.41">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.42">
     
     
       
@@ -6089,7 +6089,7 @@ and repeat it 20 times to get statistics on the results:</p>
             <span class="p">},</span>
         <span class="p">)</span>
         <span class="n">scenario</span><span class="o">.</span><span class="n">set_differentiation_method</span><span class="p">(</span><span class="s2">&quot;finite_differences&quot;</span><span class="p">)</span>
-        <span class="n">scenario</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">algo</span><span class="o">=</span><span class="s2">&quot;NLOPT_SLSQP&quot;</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+        <span class="n">scenario</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">algo_name</span><span class="o">=</span><span class="s2">&quot;NLOPT_SLSQP&quot;</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
         <span class="n">method_to_x_opt</span><span class="p">[</span><span class="n">method</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">scenario</span><span class="o">.</span><span class="n">optimization_result</span><span class="o">.</span><span class="n">x_opt</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
 </code></pre></div>
 <!-- GENERATED FROM PYTHON SOURCE LINES 84-87 -->

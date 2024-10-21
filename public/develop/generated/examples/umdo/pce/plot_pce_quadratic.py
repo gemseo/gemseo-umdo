@@ -75,7 +75,7 @@ scenario = UMDOScenario(
 
 # %%
 # We execute this scenario using the gradient-free optimizer COBYLA:
-scenario.execute(algo="NLOPT_COBYLA", max_iter=100)
+scenario.execute(algo_name="NLOPT_COBYLA", max_iter=100)
 
 # %%
 # and plot the optimization history:

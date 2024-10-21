@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../../images/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.41">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.42">
     
     
       
@@ -6296,7 +6296,7 @@ and <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en
   <span class="n">scenario</span> <span class="o">=</span> <span class="n">create_scenario</span><span class="p">(</span><span class="n">disciplines</span><span class="p">,</span> <span class="s2">&quot;MDF&quot;</span><span class="p">,</span> <span class="s2">&quot;f&quot;</span><span class="p">,</span> <span class="n">design_space</span><span class="p">)</span>
   <span class="n">scenario</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s2">&quot;c1&quot;</span><span class="p">,</span> <span class="s2">&quot;ineq&quot;</span><span class="p">)</span>
   <span class="n">scenario</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s2">&quot;c2&quot;</span><span class="p">,</span> <span class="s2">&quot;ineq&quot;</span><span class="p">)</span>
-  <span class="n">scenario</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s2">&quot;algo&quot;</span><span class="p">:</span> <span class="s2">&quot;SLSQP&quot;</span><span class="p">,</span> <span class="s2">&quot;max_iter&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">})</span>
+  <span class="n">scenario</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">algo_name</span><span class="o">=</span><span class="s2">&quot;SLSQP&quot;</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
 </code></pre></div>
 </details>
 </div>
@@ -6368,28 +6368,30 @@ and
 can change their values.</p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
-<p>Let us implement an <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.core.discipline.html#gemseo.core.discipline.MDODiscipline">MDODiscipline</a>
+<p>Let us implement an [Discipline][gemseo.core.discipline.discipline.Discipline]
 outputting <span class="arithmatex">\(f(x,U)=(x_1+U)^2+(x_2+U)^2\)</span>:
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">array</span>
-<span class="kn">from</span> <span class="nn">gemseo.core.discipline</span> <span class="kn">import</span> <span class="n">MDODiscipline</span>
+<span class="kn">from</span> <span class="nn">gemseo.core.discipline.discipline</span> <span class="kn">import</span> <span class="n">Discipline</span>
 
 
-<span class="k">class</span> <span class="nc">MyDiscipline</span><span class="p">(</span><span class="n">MDODiscipline</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">MyDiscipline</span><span class="p">(</span><span class="n">Discipline</span><span class="p">):</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">input_grammar</span><span class="o">.</span><span class="n">update_from_names</span><span class="p">([</span><span class="s2">&quot;x1&quot;</span><span class="p">,</span> <span class="s2">&quot;x2&quot;</span><span class="p">,</span> <span class="s2">&quot;U&quot;</span><span class="p">])</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">default_inputs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;x1&quot;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="mf">0.</span><span class="p">]),</span> <span class="s2">&quot;x2&quot;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="mf">0.</span><span class="p">]),</span> <span class="s2">&quot;U&quot;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="mf">0.5</span><span class="p">])}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">default_input_data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;x1&quot;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="mf">0.</span><span class="p">]),</span> <span class="s2">&quot;x2&quot;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="mf">0.</span><span class="p">]),</span> <span class="s2">&quot;U&quot;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="mf">0.5</span><span class="p">])}</span>
 
     <span class="k">def</span> <span class="nf">_run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">U</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_local_data_by_name</span><span class="p">([</span><span class="s2">&quot;x1&quot;</span><span class="p">,</span> <span class="s2">&quot;x2&quot;</span><span class="p">,</span> <span class="s2">&quot;U&quot;</span><span class="p">])</span>
+        <span class="n">x1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;x1&quot;</span><span class="p">]</span>
+        <span class="n">x2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;x2&quot;</span><span class="p">]</span>
+        <span class="n">U</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;U&quot;</span><span class="p">]</span>
         <span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="n">x1</span><span class="o">+</span><span class="n">U</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">x2</span><span class="o">+</span><span class="n">U</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">store_local_data</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">update_output_data</span><span class="p">({</span><span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="n">y</span><span class="p">})</span>
 </code></pre></div></p>
 <p>This discipline can be executed
 with different values of the uncertain variable <span class="arithmatex">\(U\)</span>:
 <div class="highlight"><pre><span></span><code><span class="n">discipline</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>  <span class="c1"># default value, i.e. U=0.5</span>
-<span class="n">discipline</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s2">&quot;U&quot;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="mf">0.2</span><span class="p">])})</span>  <span class="c1"># custom value: U=0.2</span>
+<span class="n">discipline</span><span class="o">.</span><span class="n">execute</span><span class="p">({</span><span class="s2">&quot;U&quot;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="mf">0.2</span><span class="p">])})</span>  <span class="c1"># custom value: U=0.2</span>
 </code></pre></div></p>
 </div>
 <h3 id="uncertain-space">Uncertain space<a class="headerlink" href="#uncertain-space" title="Permanent link">&para;</a></h3>
@@ -6471,7 +6473,7 @@ and a Monte Carlo estimator of the expectation.</p>
     <span class="s2">&quot;Mean&quot;</span><span class="p">,</span>
     <span class="n">statistic_estimation_parameters</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;n_samples&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">},</span>
 <span class="p">)</span>
-<span class="n">scenario</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s2">&quot;algo&quot;</span><span class="p">:</span> <span class="s2">&quot;NLOPT_COBYLA&quot;</span><span class="p">,</span> <span class="s2">&quot;max_iter&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">})</span>
+<span class="n">scenario</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">algo_name</span><span class="o">=</span><span class="s2">&quot;NLOPT_COBYLA&quot;</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
 </code></pre></div>
 </div>
 <h3 id="u-mdo-formulations">U-MDO formulations<a class="headerlink" href="#u-mdo-formulations" title="Permanent link">&para;</a></h3>
@@ -6507,7 +6509,7 @@ what can be expensive according to the dimension of the design space.</p>
 <p>Given a
 <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.algos.design_space.html#gemseo.algos.design_space.DesignSpace">DesignSpace</a>
 and a collection of
-<a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.core.discipline.html#gemseo.core.discipline.MDODiscipline">MDODisciplines</a>,
+[Disciplines][gemseo.core.discipline.discipline.Discipline],
 a [DOEScenario][gemseo.scenarios.doe_scenario.DOEScenario]
 generates and solves an
 [OptimizationProblem][gemseo.algos.optimization_problem.OptimizationProblem]
