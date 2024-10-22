@@ -131,7 +131,7 @@ mkdocs-gen-files==0.5.0
     # via gemseo-umdo (pyproject.toml)
 mkdocs-get-deps==0.2.0
     # via mkdocs
-mkdocs-include-markdown-plugin==6.2.2
+mkdocs-include-markdown-plugin==7.0.0
     # via gemseo-umdo (pyproject.toml)
 mkdocs-literate-nav==0.6.1
     # via gemseo-umdo (pyproject.toml)
