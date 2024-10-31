@@ -40,14 +40,17 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 from typing import Any
+from typing import ClassVar
 
 from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
 from gemseo.utils.seeder import SEED
 
 from gemseo_umdo.formulations.sampling import Sampling
+from gemseo_umdo.formulations.sequential_sampling_settings import (
+    SequentialSamplingSettings,
+)
 
 if TYPE_CHECKING:
-    from collections.abc import Mapping
     from collections.abc import Sequence
     from pathlib import Path
 
@@ -57,6 +60,7 @@ if TYPE_CHECKING:
     from gemseo.core.discipline.discipline import Discipline
     from gemseo.formulations.base_mdo_formulation import BaseMDOFormulation
     from gemseo.typing import RealArray
+    from gemseo.typing import StrKeyMapping
 
 
 class SequentialSampling(Sampling):
@@ -68,6 +72,8 @@ class SequentialSampling(Sampling):
         [GEMSEO documentation](https://gemseo.readthedocs.io/en/stable/algorithms/doe_algos.html).
         for more information about the available DOE algorithm names and options.
     """
+
+    Settings: ClassVar[type[SequentialSamplingSettings]] = SequentialSamplingSettings
 
     __final_n_samples: int
     """The maximum number of samples when evaluating the U-MDO formulation."""
@@ -86,15 +92,14 @@ class SequentialSampling(Sampling):
         n_samples: int,
         initial_n_samples: int = 2,
         n_samples_increment: int = 1,
-        objective_statistic_parameters: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
-        maximize_objective: bool = False,
+        objective_statistic_parameters: StrKeyMapping = READ_ONLY_EMPTY_DICT,
         algo: str = "OT_OPT_LHS",
-        algo_options: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
+        algo_options: StrKeyMapping = READ_ONLY_EMPTY_DICT,
         seed: int = SEED,
         estimate_statistics_iteratively: bool = True,
         samples_directory_path: str | Path = "",
-        mdo_formulation_options: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
-        **options: Any,
+        mdo_formulation_settings: StrKeyMapping = READ_ONLY_EMPTY_DICT,
+        **settings: Any,
     ) -> None:
         """
         Args:
@@ -110,14 +115,13 @@ class SequentialSampling(Sampling):
             objective_statistic_name,
             initial_n_samples,
             objective_statistic_parameters=objective_statistic_parameters,
-            maximize_objective=maximize_objective,
             algo=algo,
             algo_options=algo_options,
             seed=seed,
             estimate_statistics_iteratively=estimate_statistics_iteratively,
             samples_directory_path=samples_directory_path,
-            mdo_formulation_options=mdo_formulation_options,
-            **options,
+            mdo_formulation_settings=mdo_formulation_settings,
+            **settings,
         )
         self.__final_n_samples = n_samples
         self.__n_samples_increment = n_samples_increment

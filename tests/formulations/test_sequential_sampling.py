@@ -33,11 +33,11 @@ def test_scenario(estimate_statistics_iteratively):
     uncertain_space.add_random_variable("u", "OTNormalDistribution")
     scenario = UDOEScenario(
         [discipline],
-        "DisciplinaryOpt",
         "y",
         design_space,
         uncertain_space,
         "Mean",
+        formulation_name="DisciplinaryOpt",
         statistic_estimation="SequentialSampling",
         statistic_estimation_parameters={
             "n_samples": 7,
@@ -46,5 +46,5 @@ def test_scenario(estimate_statistics_iteratively):
             "estimate_statistics_iteratively": estimate_statistics_iteratively,
         },
     )
-    scenario.execute(algo_name="fullfact", n_samples=5)
+    scenario.execute(algo_name="PYDOE_FULLFACT", n_samples=5)
     assert discipline.execution_statistics.n_calls == (3 + 5 + 7 + 7 + 7)

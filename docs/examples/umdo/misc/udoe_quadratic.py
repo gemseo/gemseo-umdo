@@ -60,11 +60,11 @@ scenario = UDOEScenario(
 
 # %%
 # We execute it with a full-factorial design of experiments:
-scenario.execute(algo_name="fullfact", n_samples=100)
+scenario.execute(algo_name="PYDOE_FULLFACT", n_samples=100)
 
 # %%
 # and plot the history:
-scenario.post_process("OptHistoryView", save=True, show=True)
+scenario.post_process(post_name="OptHistoryView", save=True, show=True)
 
 # %%
 # Notice that the numerical solution is close to $(x^*,f^*)=(0,1)$ as expected

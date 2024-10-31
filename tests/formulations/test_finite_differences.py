@@ -72,11 +72,11 @@ def test_finite_differences(
 
     scenario = UDOEScenario(
         [discipline],
-        "DisciplinaryOpt",
         "f",
         design_space,
         uncertain_space,
         "Mean",
+        formulation_name="DisciplinaryOpt",
         statistic_estimation=statistic_estimation,
         statistic_estimation_parameters=statistic_estimation_parameters,
     )

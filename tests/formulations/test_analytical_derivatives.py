@@ -201,11 +201,11 @@ def test_sampling(
 
     scenario = UDOEScenario(
         [discipline],
-        "DisciplinaryOpt",
         "y",
         design_space,
         uncertain_space,
         statistic,
+        formulation_name="DisciplinaryOpt",
         statistic_estimation_parameters={
             "algo": "CustomDOE",
             "algo_options": {

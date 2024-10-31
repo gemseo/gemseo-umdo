@@ -47,7 +47,7 @@ def ishigami_problem() -> IshigamiProblem:
 @pytest.fixture(scope="module")
 def rbf_regressor(ishigami_problem) -> RBFRegressor:
     """A RBF regressor for the Ishigami function."""
-    execute_algo(ishigami_problem, "OT_HALTON", algo_type="doe", n_samples=20)
+    execute_algo(ishigami_problem, algo_name="OT_HALTON", algo_type="doe", n_samples=20)
     learning_dataset = ishigami_problem.to_dataset(opt_naming=False)
     learning_dataset.rename_variable("Ishigami", "y")
     regressor = RBFRegressor(learning_dataset)
@@ -58,7 +58,7 @@ def rbf_regressor(ishigami_problem) -> RBFRegressor:
 @pytest.fixture(scope="module")
 def samples(ishigami_problem) -> RealArray:
     lib = OpenTURNS("OT_HALTON")
-    return lib.compute_doe(ishigami_problem.design_space, 20)
+    return lib.compute_doe(ishigami_problem.design_space, n_samples=20)
 
 
 @pytest.fixture(scope="module", params=("CustomDOE", "OT_HALTON"))
@@ -99,7 +99,7 @@ def output_samples(umdo_formulation, rbf_regressor) -> RealArray:
     uncertain_space = umdo_formulation.uncertain_space
     convert_array_to_dict = uncertain_space.convert_array_to_dict
     doe_algo = DOELibraryFactory().create("MC")
-    input_samples = doe_algo.compute_doe(uncertain_space, 10, seed=SEED)
+    input_samples = doe_algo.compute_doe(uncertain_space, n_samples=10, seed=SEED)
     return rbf_regressor.predict(convert_array_to_dict(input_samples))["y"]
 
 
@@ -169,11 +169,11 @@ def test_scenario(quadratic_problem, statistic_estimation_parameters, y_opt):
     discipline, design_space, uncertain_space = quadratic_problem
     scenario = UDOEScenario(
         [discipline],
-        "DisciplinaryOpt",
         "y",
         design_space,
         uncertain_space,
         "Mean",
+        formulation_name="DisciplinaryOpt",
         statistic_estimation="Surrogate",
         statistic_estimation_parameters=statistic_estimation_parameters,
     )

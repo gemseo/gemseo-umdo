@@ -91,7 +91,7 @@ can be reduced to this standard optimization problem:
         problem.objective = MDOFunction(lambda x: x**2, "f")
         problem.add_constraint(MDOFunction(lambda x: x**3, "g"), positive=True, value=0.1)
 
-        execute_algo(problem, "fullfact", n_samples=10, algo_type="doe")
+        execute_algo(problem, algo_name="PYDOE_FULLFACT", n_samples=10, algo_type="doe")
         ```
 
 ### Multidisciplinary optimization (MDO) problem

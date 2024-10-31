@@ -40,6 +40,7 @@ import logging
 from pathlib import Path
 from typing import TYPE_CHECKING
 from typing import Any
+from typing import ClassVar
 
 from gemseo import to_pickle
 from gemseo.algos.doe.factory import DOELibraryFactory
@@ -60,9 +61,9 @@ from gemseo_umdo.formulations._statistics.sampling.factory import (
     SamplingEstimatorFactory,
 )
 from gemseo_umdo.formulations.base_umdo_formulation import BaseUMDOFormulation
+from gemseo_umdo.formulations.sampling_settings import SamplingSettings
 
 if TYPE_CHECKING:
-    from collections.abc import Mapping
     from collections.abc import Sequence
 
     from gemseo.algos.design_space import DesignSpace
@@ -73,6 +74,7 @@ if TYPE_CHECKING:
     from gemseo.core.discipline.discipline import Discipline
     from gemseo.formulations.base_mdo_formulation import BaseMDOFormulation
     from gemseo.typing import RealArray
+    from gemseo.typing import StrKeyMapping
 
 
 class Sampling(BaseUMDOFormulation):
@@ -84,6 +86,8 @@ class Sampling(BaseUMDOFormulation):
         [GEMSEO documentation](https://gemseo.readthedocs.io/en/stable/algorithms/doe_algos.html).
         for more information about the available DOE algorithm names and options.
     """
+
+    Settings: ClassVar[type[SamplingSettings]] = SamplingSettings
 
     _estimate_statistics_iteratively: bool
     """Whether to estimate the statistics iteratively."""
@@ -115,15 +119,14 @@ class Sampling(BaseUMDOFormulation):
         uncertain_space: ParameterSpace,
         objective_statistic_name: str,
         n_samples: int | None = None,
-        objective_statistic_parameters: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
-        maximize_objective: bool = False,
+        objective_statistic_parameters: StrKeyMapping = READ_ONLY_EMPTY_DICT,
         algo: str = "OT_OPT_LHS",
-        algo_options: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
+        algo_options: StrKeyMapping = READ_ONLY_EMPTY_DICT,
         seed: int = SEED,
         estimate_statistics_iteratively: bool = True,
         samples_directory_path: str | Path = "",
-        mdo_formulation_options: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
-        **options: Any,
+        mdo_formulation_settings: StrKeyMapping = READ_ONLY_EMPTY_DICT,
+        **settings: Any,
     ) -> None:
         """
         Args:
@@ -188,10 +191,9 @@ class Sampling(BaseUMDOFormulation):
             mdo_formulation,
             uncertain_space,
             objective_statistic_name,
-            objective_statistic_options=objective_statistic_parameters,
-            maximize_objective=maximize_objective,
-            mdo_formulation_options=mdo_formulation_options,
-            **options,
+            objective_statistic_parameters=objective_statistic_parameters,
+            mdo_formulation_settings=mdo_formulation_settings,
+            **settings,
         )
         mdo_formulation = self._mdo_formulation.__class__.__name__
         formulation = self.__class__.__name__

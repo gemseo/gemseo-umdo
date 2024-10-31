@@ -140,11 +140,11 @@ def scenario(
     """A scenario of interest."""
     scn = UDOEScenario(
         disciplines,
-        "MDF",
         "f",
         design_space,
         uncertain_space,
         "Mean",
+        formulation_name="MDF",
         statistic_estimation="Sampling",
         statistic_estimation_parameters={
             "algo": "CustomDOE",
@@ -344,11 +344,11 @@ def test_read_write_n_samples(umdo_formulation):
 def test_save_samples(disciplines, design_space, uncertain_space, tmp_wd):
     scenario = UDOEScenario(
         disciplines,
-        "MDF",
         "f",
         design_space,
         uncertain_space,
         "Mean",
+        formulation_name="MDF",
         statistic_estimation_parameters={
             "samples_directory_path": "foo",
             "algo": "CustomDOE",

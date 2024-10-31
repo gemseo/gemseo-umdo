@@ -82,11 +82,11 @@ def scenario(disciplines, design_space, uncertain_space, algo_data) -> UDOEScena
     """A DOE-based u-scenario."""
     scn = UDOEScenario(
         disciplines,
-        "MDF",
         "f",
         design_space,
         uncertain_space,
         "Mean",
+        formulation_name="MDF",
         statistic_estimation="ControlVariate",
         statistic_estimation_parameters={
             "algo": "CustomDOE",

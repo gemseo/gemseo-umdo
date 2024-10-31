@@ -101,11 +101,11 @@ def scenario(disciplines, design_space, uncertain_space, request):
     """A scenario of interest."""
     scn = UDOEScenario(
         disciplines,
-        "MDF",
         "f",
         design_space,
         uncertain_space,
         "Mean",
+        formulation_name="MDF",
         statistic_estimation="TaylorPolynomial",
         statistic_estimation_parameters={"second_order": request.param},
     )

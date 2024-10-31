@@ -73,11 +73,11 @@ def reference_data(
     """
     doe_scenario = DOEScenario(
         disciplines,
-        "MDF",
         "obj",
         design_space,
+        formulation_name="MDF",
         maximize_objective=maximize_objective,
-        max_mda_iter=3,
+        main_mda_settings={"max_mda_iter": 3},
     )
     doe_scenario.add_constraint("c_1", "ineq")
     doe_scenario.add_constraint("c_2", "ineq")
@@ -157,15 +157,15 @@ def test_uncertainty_free(
     """
     u_doe_scenario = UDOEScenario(
         disciplines,
-        "MDF",
         "obj",
         design_space,
         dirac_uncertain_space,
         "Mean",
+        formulation_name="MDF",
         maximize_objective=maximize_objective,
         statistic_estimation=statistic_estimation,
         statistic_estimation_parameters=statistic_estimation_parameters,
-        max_mda_iter=3,
+        main_mda_settings={"max_mda_iter": 3},
     )
     u_doe_scenario.add_constraint("c_1", "Mean")
     u_doe_scenario.add_constraint("c_2", "Mean")
@@ -199,15 +199,15 @@ def test_weak_uncertainties(
     """
     u_doe_scenario = UDOEScenario(
         disciplines,
-        "MDF",
         "obj",
         design_space,
         normal_uncertain_space,
         "Mean",
+        formulation_name="MDF",
         maximize_objective=maximize_objective,
         statistic_estimation=statistic_estimation,
         statistic_estimation_parameters=statistic_estimation_parameters,
-        max_mda_iter=3,
+        main_mda_settings={"max_mda_iter": 3},
     )
     u_doe_scenario.add_constraint("c_1", "Mean")
     u_doe_scenario.add_constraint("c_2", "Mean")

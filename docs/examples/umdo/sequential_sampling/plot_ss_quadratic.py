@@ -86,7 +86,7 @@ scenario.execute(algo_name="NLOPT_COBYLA", max_iter=100)
 
 # %%
 # and plot the optimization history:
-scenario.post_process("OptHistoryView", save=False, show=True)
+scenario.post_process(post_name="OptHistoryView", save=False, show=True)
 
 # %%
 # Notice that the numerical solution
