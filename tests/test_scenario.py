@@ -75,14 +75,14 @@ def scenario(disciplines, design_space, uncertain_space) -> UMDOScenario:
     """The MDO scenario under uncertainty."""
     scn = UMDOScenario(
         disciplines,
-        "MDF",
         "f",
         design_space,
         uncertain_space,
         "Mean",
+        formulation_name="MDF",
         statistic_estimation="Sampling",
         statistic_estimation_parameters={"algo": "OT_OPT_LHS", "n_samples": 3},
-        inner_mda_name="MDAGaussSeidel",
+        main_mda_settings={"inner_mda_name": "MDAGaussSeidel"},
     )
     scn.add_constraint("c", "Margin", factor=3.0)
     scn.add_observable("o", "Mean")
@@ -162,11 +162,11 @@ def test_maximize_objective(
         kwargs = {"maximize_objective": maximize_objective}
     scn = UMDOScenario(
         disciplines,
-        "MDF",
         "f",
         design_space,
         uncertain_space,
         "Mean",
+        formulation_name="MDF",
         statistic_estimation="Sampling",
         statistic_estimation_parameters={"algo": "OT_OPT_LHS", "n_samples": 3},
         **kwargs,
@@ -185,11 +185,11 @@ def test_uncertain_design_variables(disciplines, design_space, uncertain_space):
     """
     scn = UMDOScenario(
         disciplines,
-        "MDF",
         "f",
         design_space,
         uncertain_space,
         "Mean",
+        formulation_name="MDF",
         uncertain_design_variables={
             "x0": ("+", "v0"),
             "x1": "{}+v1",
@@ -245,11 +245,11 @@ def test_uncertain_design_variables_values(x, u1, u2):
     discipline = AutoPyDiscipline(f)
     scenario = UDOEScenario(
         [discipline],
-        "DisciplinaryOpt",
         "y",
         design_space,
         uncertain_space,
         "Mean",
+        formulation_name="DisciplinaryOpt",
         statistic_estimation_parameters={
             "algo": "CustomDOE",
             "algo_options": {"samples": vstack((u1, u2))},
@@ -269,11 +269,11 @@ def test_statistic_no_estimation_parameters(disciplines, design_space, uncertain
     with pytest.raises(ValueError, match=re.escape("Sampling: n_samples is required.")):
         UMDOScenario(
             disciplines,
-            "MDF",
             "f",
             design_space,
             uncertain_space,
             "Mean",
+            formulation_name="MDF",
             maximize_objective=True,
         )
 
@@ -314,11 +314,11 @@ def test_log(
 
     scenario = UDOEScenario(
         [discipline],
-        "DisciplinaryOpt",
         "y",
         design_space,
         uncertain_space,
         "Mean",
+        formulation_name="DisciplinaryOpt",
         statistic_estimation="Sampling",
         statistic_estimation_parameters={
             "algo": "CustomDOE",

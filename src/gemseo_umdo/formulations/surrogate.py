@@ -62,6 +62,7 @@ from gemseo_umdo.formulations._statistics.sampling.factory import (
     SamplingEstimatorFactory,
 )
 from gemseo_umdo.formulations.base_umdo_formulation import BaseUMDOFormulation
+from gemseo_umdo.formulations.surrogate_settings import SurrogateSettings
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -79,6 +80,7 @@ if TYPE_CHECKING:
         BaseRegressorQuality,
     )
     from gemseo.typing import RealArray
+    from gemseo.typing import StrKeyMapping
 
 
 class Surrogate(BaseUMDOFormulation):
@@ -96,6 +98,8 @@ class Surrogate(BaseUMDOFormulation):
         [GEMSEO documentation](https://gemseo.readthedocs.io/en/stable/algorithms/surrogate_algos.html).
         for more information about the available regression algorithm names and options.
     """
+
+    Settings: ClassVar[type[SurrogateSettings]] = SurrogateSettings
 
     __doe_algo: BaseDOELibrary
     """The DOE library to execute the DOE algorithm."""
@@ -118,7 +122,7 @@ class Surrogate(BaseUMDOFormulation):
     regressor_name: str
     """The regressor class name."""
 
-    regressor_options: Mapping[str, Any]
+    regressor_options: StrKeyMapping
     """The
     [BaseRegressor][gemseo.mlearning.regression.algos.base_regressor.BaseRegressor]."""
 
@@ -159,13 +163,12 @@ class Surrogate(BaseUMDOFormulation):
         mdo_formulation: BaseMDOFormulation,
         uncertain_space: ParameterSpace,
         objective_statistic_name: str,
-        objective_statistic_parameters: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
-        maximize_objective: bool = False,
+        objective_statistic_parameters: StrKeyMapping = READ_ONLY_EMPTY_DICT,
         doe_algo: str = "OT_OPT_LHS",
-        doe_algo_options: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
+        doe_algo_options: StrKeyMapping = READ_ONLY_EMPTY_DICT,
         doe_n_samples: int | None = None,
         regressor_name: str = "RBFRegressor",
-        regressor_options: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
+        regressor_options: StrKeyMapping = READ_ONLY_EMPTY_DICT,
         regressor_n_samples: int = 10000,
         regressor_sampling_seed: int = SEED,
         quality_name: str = "R2Measure",
@@ -175,7 +178,8 @@ class Surrogate(BaseUMDOFormulation):
         quality_cv_randomize: bool = True,
         quality_cv_seed: int | None = None,
         quality_cv_threshold: float | Mapping[str, float | Iterable[float]] = 0.8,
-        **options: Any,
+        mdo_formulation_settings: StrKeyMapping = READ_ONLY_EMPTY_DICT,
+        **settings: Any,
     ) -> None:
         """
         Args:
@@ -236,7 +240,7 @@ class Surrogate(BaseUMDOFormulation):
         self.input_samples = uncertain_space.convert_array_to_dict(
             SciPyDOE("MC").compute_doe(
                 uncertain_space,
-                regressor_n_samples,
+                n_samples=regressor_n_samples,
                 seed=regressor_sampling_seed,
             )
         )
@@ -259,9 +263,9 @@ class Surrogate(BaseUMDOFormulation):
             mdo_formulation,
             uncertain_space,
             objective_statistic_name,
-            objective_statistic_options=objective_statistic_parameters,
-            maximize_objective=maximize_objective,
-            **options,
+            objective_statistic_parameters=objective_statistic_parameters,
+            mdo_formulation_settings=mdo_formulation_settings,
+            **settings,
         )
         mdo_formulation = self._mdo_formulation.__class__.__name__
         formulation = self.__class__.__name__

@@ -52,19 +52,22 @@ from gemseo_umdo.formulations._statistics.taylor_polynomial.factory import (  # 
     TaylorPolynomialEstimatorFactory,
 )
 from gemseo_umdo.formulations.base_umdo_formulation import BaseUMDOFormulation
+from gemseo_umdo.formulations.taylor_polynomial_settings import TaylorPolynomialSettings
 
 if TYPE_CHECKING:
-    from collections.abc import Mapping
     from collections.abc import Sequence
 
     from gemseo.algos.design_space import DesignSpace
     from gemseo.algos.parameter_space import ParameterSpace
     from gemseo.core.discipline.discipline import Discipline
     from gemseo.formulations.base_mdo_formulation import BaseMDOFormulation
+    from gemseo.typing import StrKeyMapping
 
 
 class TaylorPolynomial(BaseUMDOFormulation):
     """U-MDO formulation based on Taylor polynomials."""
+
+    Settings: ClassVar[type[TaylorPolynomialSettings]] = TaylorPolynomialSettings
 
     _USE_AUXILIARY_MDO_FORMULATION: ClassVar[bool] = True
 
@@ -93,12 +96,11 @@ class TaylorPolynomial(BaseUMDOFormulation):
         mdo_formulation: BaseMDOFormulation,
         uncertain_space: ParameterSpace,
         objective_statistic_name: str,
-        objective_statistic_parameters: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
-        maximize_objective: bool = False,
+        objective_statistic_parameters: StrKeyMapping = READ_ONLY_EMPTY_DICT,
         differentiation_method: OptimizationProblem.DifferentiationMethod = OptimizationProblem.DifferentiationMethod.USER_GRAD,  # noqa: E501
         second_order: bool = False,
-        mdo_formulation_options: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
-        **options: Any,
+        mdo_formulation_settings: StrKeyMapping = READ_ONLY_EMPTY_DICT,
+        **settings: Any,
     ) -> None:  # noqa: D205 D212 D415
         """
         Args:
@@ -115,9 +117,8 @@ class TaylorPolynomial(BaseUMDOFormulation):
             uncertain_space,
             objective_statistic_name,
             objective_statistic_parameters=objective_statistic_parameters,
-            maximize_objective=maximize_objective,
-            mdo_formulation_options=mdo_formulation_options,
-            **options,
+            mdo_formulation_settings=mdo_formulation_settings,
+            **settings,
         )
 
         self.__hessian_fd_problem = None

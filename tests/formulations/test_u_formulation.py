@@ -28,6 +28,7 @@ from gemseo_umdo.formulations._statistics.sampling.factory import (
     SamplingEstimatorFactory,
 )
 from gemseo_umdo.formulations.base_umdo_formulation import BaseUMDOFormulation
+from gemseo_umdo.formulations.sampling_settings import SamplingSettings
 
 
 @pytest.fixture
@@ -62,7 +63,12 @@ def uncertain_space() -> ParameterSpace:
 @pytest.fixture
 def mdf(disciplines, uncertain_space) -> MDF:
     """The MDF formulation."""
-    return MDF(disciplines, "f", uncertain_space, inner_mda_name="MDAGaussSeidel")
+    return MDF(
+        disciplines,
+        "f",
+        uncertain_space,
+        main_mda_settings={"inner_mda_name": "MDAGaussSeidel"},
+    )
 
 
 class StatisticFunction(MDOFunction):
@@ -83,6 +89,8 @@ class StatisticFunction(MDOFunction):
 
 class MyUMDOFormulation(BaseUMDOFormulation):
     """A dummy BaseUMDOFormulation."""
+
+    Settings = SamplingSettings
 
     def __init__(self, *args, **kwargs):  # noqa: D107
         self._statistic_function_class = StatisticFunction
@@ -120,32 +128,6 @@ def test_objective(formulation):
     """Check the objective function is correctly set."""
     assert formulation.optimization_problem.objective.mock == "f_statistics"
     assert formulation.optimization_problem.objective.name == "E[f]"
-
-
-@pytest.mark.parametrize("maximize_objective", [None, False, True])
-def test_maximize_objective(
-    disciplines, design_space, mdf, uncertain_space, maximize_objective
-):
-    """Check that the argument maximize_objective is correctly used."""
-    if maximize_objective is None:
-        kwargs = {}
-    else:
-        kwargs = {"maximize_objective": maximize_objective}
-
-    formulation = MyUMDOFormulation(
-        disciplines,
-        "f",
-        design_space,
-        mdf,
-        uncertain_space,
-        "Mean",
-        **kwargs,
-    )
-    maximize = bool(maximize_objective)
-    assert formulation.mdo_formulation.optimization_problem.minimize_objective
-    assert formulation.optimization_problem.minimize_objective is not maximize
-    expected_name = "-E[f]" if maximize else "E[f]"
-    assert formulation.optimization_problem.objective.name == expected_name
 
 
 def test_observable(formulation):

@@ -29,7 +29,6 @@ from gemseo.utils.file_path_manager import FilePathManager
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
-    from collections.abc import Mapping
     from collections.abc import Sequence
 
     from gemseo.algos.design_space import DesignSpace
@@ -39,6 +38,7 @@ if TYPE_CHECKING:
     from gemseo.core.discipline.discipline import Discipline
     from gemseo.formulations.base_mdo_formulation import BaseMDOFormulation
     from gemseo.typing import RealArray
+    from gemseo.typing import StrKeyMapping
 
     from gemseo_umdo.formulations._functions.base_statistic_function import (
         BaseStatisticFunction,
@@ -127,10 +127,9 @@ class BaseUMDOFormulation(BaseFormulation):
         mdo_formulation: BaseMDOFormulation,
         uncertain_space: ParameterSpace,
         objective_statistic_name: str,
-        objective_statistic_parameters: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
-        maximize_objective: bool = False,
-        mdo_formulation_options: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
-        **options: Any,
+        objective_statistic_parameters: StrKeyMapping = READ_ONLY_EMPTY_DICT,
+        mdo_formulation_settings: StrKeyMapping = READ_ONLY_EMPTY_DICT,
+        **settings: Any,
     ) -> None:
         """
         Args:
@@ -143,7 +142,7 @@ class BaseUMDOFormulation(BaseFormulation):
                 to be applied to the objective.
             objective_statistic_parameters: The values of the parameters
                 of the statistic to be applied to the objective, if any.
-            mdo_formulation_options: The options of the MDO formulation.
+            mdo_formulation_settings: The settings of the MDO formulation.
         """  # noqa: D205 D212 D415
         if self._STATISTIC_FUNCTION_CLASS is not None:
             self._statistic_function_class = self._STATISTIC_FUNCTION_CLASS
@@ -160,7 +159,7 @@ class BaseUMDOFormulation(BaseFormulation):
                 disciplines,
                 objective_name,
                 uncertain_space,
-                **mdo_formulation_options,
+                **mdo_formulation_settings,
             )
 
         # Create the objective name.
@@ -169,12 +168,7 @@ class BaseUMDOFormulation(BaseFormulation):
             objective_statistic_name,
             **objective_statistic_parameters,
         )
-        super().__init__(
-            disciplines,
-            objective_name,
-            design_space,
-            **options,
-        )
+        super().__init__(disciplines, objective_name, design_space, **settings)
         self.name = f"{self.__class__.__name__}[{mdo_formulation.__class__.__name__}]"
 
         # Replace the objective function by a statistic function.
@@ -188,7 +182,9 @@ class BaseUMDOFormulation(BaseFormulation):
         )
         objective.name = objective_name
         self.optimization_problem.objective = objective
-        self.optimization_problem.minimize_objective = not maximize_objective
+        self.optimization_problem.minimize_objective = (
+            mdo_formulation.optimization_problem.minimize_objective
+        )
 
         # Initialize the cache mechanism.
         self.input_data_to_output_data = {}

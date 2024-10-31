@@ -45,6 +45,7 @@ from gemseo_umdo.formulations._functions.statistic_function_for_pce import (
     StatisticFunctionForPCE,
 )
 from gemseo_umdo.formulations._statistics.pce.factory import PCEEstimatorFactory
+from gemseo_umdo.formulations.pce_settings import PCESettings
 from gemseo_umdo.formulations.surrogate import Surrogate
 
 if TYPE_CHECKING:
@@ -56,6 +57,7 @@ if TYPE_CHECKING:
     from gemseo.algos.parameter_space import ParameterSpace
     from gemseo.core.discipline.discipline import Discipline
     from gemseo.formulations.base_mdo_formulation import BaseMDOFormulation
+    from gemseo.typing import StrKeyMapping
 
 
 class PCE(Surrogate):
@@ -67,6 +69,8 @@ class PCE(Surrogate):
         [GEMSEO documentation](https://gemseo.readthedocs.io/en/stable/algorithms/doe_algos.html).
         for more information about the available DOE algorithm names and options.
     """
+
+    Settings: ClassVar[type[PCESettings]] = PCESettings
 
     _STATISTIC_FACTORY: ClassVar[PCEEstimatorFactory] = PCEEstimatorFactory()
 
@@ -82,12 +86,11 @@ class PCE(Surrogate):
         mdo_formulation: BaseMDOFormulation,
         uncertain_space: ParameterSpace,
         objective_statistic_name: str,
-        objective_statistic_parameters: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
-        maximize_objective: bool = False,
+        objective_statistic_parameters: StrKeyMapping = READ_ONLY_EMPTY_DICT,
         doe_algo: str = "OT_OPT_LHS",
-        doe_algo_options: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
+        doe_algo_options: StrKeyMapping = READ_ONLY_EMPTY_DICT,
         doe_n_samples: int | None = None,
-        pce_options: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
+        pce_options: StrKeyMapping = READ_ONLY_EMPTY_DICT,
         quality_name: str = "R2Measure",
         quality_threshold: float | Mapping[str, float | Iterable[float]] = 0.9,
         quality_cv_compute: bool = True,
@@ -95,8 +98,8 @@ class PCE(Surrogate):
         quality_cv_randomize: bool = True,
         quality_cv_seed: int | None = None,
         quality_cv_threshold: float | Mapping[str, float | Iterable[float]] = 0.8,
-        mdo_formulation_options: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
-        **options: Any,
+        mdo_formulation_settings: StrKeyMapping = READ_ONLY_EMPTY_DICT,
+        **settings: Any,
     ) -> None:
         """
         Args:
@@ -111,8 +114,7 @@ class PCE(Surrogate):
             uncertain_space,
             objective_statistic_name,
             objective_statistic_parameters=objective_statistic_parameters,
-            maximize_objective=maximize_objective,
-            mdo_formulation_options=mdo_formulation_options,
+            mdo_formulation_settings=mdo_formulation_settings,
             doe_algo=doe_algo,
             doe_algo_options=doe_algo_options,
             doe_n_samples=doe_n_samples,
@@ -125,5 +127,5 @@ class PCE(Surrogate):
             quality_cv_randomize=quality_cv_randomize,
             quality_cv_seed=quality_cv_seed,
             quality_cv_threshold=quality_cv_threshold,
-            **options,
+            **settings,
         )

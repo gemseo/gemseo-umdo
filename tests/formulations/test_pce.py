@@ -57,7 +57,7 @@ def ishigami_problem() -> IshigamiProblem:
 @pytest.fixture(scope="module")
 def pce_regressor(ishigami_problem) -> PCERegressor:
     """A PCE regressor for the Ishigami function."""
-    execute_algo(ishigami_problem, "OT_HALTON", algo_type="doe", n_samples=20)
+    execute_algo(ishigami_problem, algo_name="OT_HALTON", algo_type="doe", n_samples=20)
     learning_dataset = ishigami_problem.to_dataset(opt_naming=False)
     regressor = PCERegressor(
         learning_dataset, probability_space=ishigami_problem.design_space
@@ -69,7 +69,7 @@ def pce_regressor(ishigami_problem) -> PCERegressor:
 @pytest.fixture(scope="module")
 def samples(ishigami_problem) -> RealArray:
     lib = OpenTURNS("OT_HALTON")
-    return lib.compute_doe(ishigami_problem.design_space, 20)
+    return lib.compute_doe(ishigami_problem.design_space, n_samples=20)
 
 
 @pytest.fixture(scope="module", params=("CustomDOE", "OT_HALTON"))
@@ -376,11 +376,11 @@ def test_scenario(quadratic_problem, statistic_estimation_parameters, y_opt):
     discipline, design_space, uncertain_space = quadratic_problem
     scenario = UDOEScenario(
         [discipline],
-        "DisciplinaryOpt",
         "y",
         design_space,
         uncertain_space,
         "Mean",
+        formulation_name="DisciplinaryOpt",
         statistic_estimation="PCE",
         statistic_estimation_parameters=statistic_estimation_parameters,
     )

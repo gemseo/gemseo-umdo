@@ -53,9 +53,9 @@ from gemseo_umdo.formulations._statistics.control_variate.factory import (  # no
     ControlVariateEstimatorFactory,
 )
 from gemseo_umdo.formulations.base_umdo_formulation import BaseUMDOFormulation
+from gemseo_umdo.formulations.control_variate_settings import ControlVariateSettings
 
 if TYPE_CHECKING:
-    from collections.abc import Mapping
     from collections.abc import Sequence
 
     from gemseo.algos.design_space import DesignSpace
@@ -64,6 +64,7 @@ if TYPE_CHECKING:
     from gemseo.algos.parameter_space import ParameterSpace
     from gemseo.core.discipline.discipline import Discipline
     from gemseo.formulations.base_mdo_formulation import BaseMDOFormulation
+    from gemseo.typing import StrKeyMapping
 
 
 class ControlVariate(BaseUMDOFormulation):
@@ -75,6 +76,8 @@ class ControlVariate(BaseUMDOFormulation):
         [GEMSEO documentation](https://gemseo.readthedocs.io/en/stable/algorithms/doe_algos.html).
         for more information about the available DOE algorithm names and options.
     """
+
+    Settings: ClassVar[type[ControlVariateSettings]] = ControlVariateSettings
 
     _USE_AUXILIARY_MDO_FORMULATION: ClassVar[bool] = True
 
@@ -107,13 +110,12 @@ class ControlVariate(BaseUMDOFormulation):
         uncertain_space: ParameterSpace,
         objective_statistic_name: str,
         n_samples: int | None,
-        objective_statistic_parameters: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
-        maximize_objective: bool = False,
+        objective_statistic_parameters: StrKeyMapping = READ_ONLY_EMPTY_DICT,
         algo: str = "OT_OPT_LHS",
-        algo_options: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
+        algo_options: StrKeyMapping = READ_ONLY_EMPTY_DICT,
         seed: int = SEED,
-        mdo_formulation_options: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
-        **options: Any,
+        mdo_formulation_settings: StrKeyMapping = READ_ONLY_EMPTY_DICT,
+        **settings: Any,
     ) -> None:
         """
         Args:
@@ -140,9 +142,8 @@ class ControlVariate(BaseUMDOFormulation):
             uncertain_space,
             objective_statistic_name,
             objective_statistic_parameters=objective_statistic_parameters,
-            maximize_objective=maximize_objective,
-            mdo_formulation_options=mdo_formulation_options,
-            **options,
+            mdo_formulation_settings=mdo_formulation_settings,
+            **settings,
         )
         self.name = (
             f"{self.__class__.__name__}"
