@@ -299,7 +299,7 @@ validators==0.34.0
     # via mkdocs-bibtex
 verspec==0.1.0
     # via mike
-watchdog==5.0.3
+watchdog==6.0.0
     # via mkdocs
 wcmatch==10.0
     # via mkdocs-include-markdown-plugin
