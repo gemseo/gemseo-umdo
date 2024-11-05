@@ -37,11 +37,11 @@ configure_logger()
 
 scenario = UMDOScenario(
     [Beam(), BeamConstraints()],
-    "MDF",
     "w",
     BeamDesignSpace(),
     BeamUncertainSpace(uniform=False),
     "Mean",
+    formulation_name="MDF",
     statistic_estimation="Sampling",
     statistic_estimation_parameters={"n_samples": 200},
 )

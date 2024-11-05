@@ -65,11 +65,11 @@ uncertain_space.add_random_variable(
 # of the expectation $\mathbb{E}[y_4]$:
 scenario = UMDOScenario(
     [mission, structure, propulsion, aerodynamics],
-    "MDF",
     "y_4",
     design_space,
     uncertain_space,
     "Mean",
+    formulation_name="MDF",
     statistic_estimation_parameters={"n_samples": 10},
     maximize_objective=True,
     uncertain_design_variables={"x_2": "{}+u_x_2"},

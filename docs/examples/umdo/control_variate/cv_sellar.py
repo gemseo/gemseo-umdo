@@ -91,11 +91,11 @@ uncertain_space.add_random_variable(
 # based on Taylor polynomials and 50 samples at each iteration of the optimization loop:
 scenario = UMDOScenario(
     [system, disc1, disc2],
-    "MDF",
     "obj",
     design_space,
     uncertain_space,
     "Mean",
+    formulation_name="MDF",
     statistic_estimation="ControlVariate",
     statistic_estimation_parameters={"n_samples": 100},
 )

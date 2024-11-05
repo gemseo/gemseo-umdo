@@ -63,11 +63,11 @@ for i in range(20):
     for method in ["Sampling", "ControlVariate"]:
         scenario = UMDOScenario(
             [discipline],
-            "DisciplinaryOpt",
             "z",
             design_space,
             uncertain_space,
             "Mean",
+            formulation_name="DisciplinaryOpt",
             statistic_estimation=method,
             statistic_estimation_parameters={
                 "algo": "OT_MONTE_CARLO",

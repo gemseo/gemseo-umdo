@@ -62,11 +62,11 @@ uncertain_space.add_random_variable("u", "OTNormalDistribution", mu=1.0, sigma=0
 # at each iteration of the optimization loop:
 scenario = UMDOScenario(
     [discipline],
-    "DisciplinaryOpt",
     "z",
     design_space,
     uncertain_space,
     "Mean",
+    formulation_name="DisciplinaryOpt",
     statistic_estimation_parameters={"n_samples": 30},
 )
 

@@ -64,11 +64,11 @@ uncertain_space.add_random_variable("u", "OTNormalDistribution")
 # based on Taylor polynomials and 50 samples at each iteration of the optimization loop:
 scenario = UMDOScenario(
     [discipline],
-    "DisciplinaryOpt",
     "y",
     design_space,
     uncertain_space,
     "Mean",
+    formulation_name="DisciplinaryOpt",
     statistic_estimation="ControlVariate",
     statistic_estimation_parameters={"n_samples": 25},
 )
