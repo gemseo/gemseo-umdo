@@ -18,6 +18,7 @@ from __future__ import annotations
 
 from dataclasses import asdict
 from dataclasses import fields
+from typing import TYPE_CHECKING
 
 from gemseo.core.discipline.discipline import Discipline
 from numpy import array
@@ -36,6 +37,9 @@ from gemseo_umdo.use_cases.beam_model.core.variables import h
 from gemseo_umdo.use_cases.beam_model.core.variables import nu
 from gemseo_umdo.use_cases.beam_model.core.variables import rho
 from gemseo_umdo.use_cases.beam_model.core.variables import t
+
+if TYPE_CHECKING:
+    from gemseo.typing import StrKeyMapping
 
 
 class Beam(Discipline):
@@ -65,7 +69,7 @@ class Beam(Discipline):
         }
         self.__beam_model = BeamModel(n_y, n_z)
 
-    def _run(self) -> None:
+    def _run(self, input_data: StrKeyMapping) -> None:
         input_data = {key: val[0] for key, val in self.get_input_data().items()}
         for name, value in asdict(self.__beam_model(**input_data)).items():
             self.io.data[name] = value.ravel()

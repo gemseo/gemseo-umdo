@@ -320,7 +320,7 @@ can change their values.
             self.input_grammar.update_from_names(["x1", "x2", "U"])
             self.default_input_data = {"x1": array([0.]), "x2": array([0.]), "U": array([0.5])}
 
-        def _run(self):
+        def _run(self, input_data):
             x1 = self.io.data["x1"]
             x2 = self.io.data["x2"]
             U = self.io.data["U"]
