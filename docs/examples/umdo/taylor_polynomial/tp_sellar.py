@@ -91,11 +91,11 @@ uncertain_space.add_random_variable(
 # at each iteration of the optimization loop:
 scenario = UMDOScenario(
     [system, disc1, disc2],
-    "MDF",
     "obj",
     design_space,
     uncertain_space,
     "Mean",
+    formulation_name="MDF",
     statistic_estimation="TaylorPolynomial",
 )
 
