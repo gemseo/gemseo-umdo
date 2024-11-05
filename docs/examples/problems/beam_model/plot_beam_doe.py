@@ -36,7 +36,7 @@ disciplines = [Beam(), BeamConstraints()]
 
 design_space = BeamDesignSpace()
 
-scenario = DOEScenario(disciplines, "MDF", "w", design_space)
+scenario = DOEScenario(disciplines, "w", design_space, formulation_name="MDF")
 scenario.add_constraint("c_stress", constraint_type="ineq", value=1.0)
 scenario.add_constraint("c_displ", constraint_type="ineq", positive=True, value=1.0)
 scenario.execute(algo_name="PYDOE_FULLFACT", n_samples=10**2)
