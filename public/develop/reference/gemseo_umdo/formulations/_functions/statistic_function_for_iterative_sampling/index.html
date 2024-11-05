@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../../../../../images/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.43">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.44">
     
     
       
@@ -6326,6 +6326,57 @@
 
 
         <p>A function to compute a statistic from <code>Sampling</code>.</p>
+
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+            <b><code>umdo_formulation</code></b>
+              (<code><span title="gemseo_umdo.formulations._functions.base_statistic_function.UMDOFormulationT">UMDOFormulationT</span></code>)
+          –
+          <div class="doc-md-description">
+            <p>The U-MDO formulation
+to which the
+<a class="autorefs autorefs-internal" href="../base_statistic_function/#gemseo_umdo.formulations._functions.base_statistic_function.BaseStatisticFunction">BaseStatisticFunction</a>
+is attached.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+            <b><code>function</code></b>
+              (<code><span title="gemseo.core.mdo_functions.mdo_function.MDOFunction">MDOFunction</span></code>)
+          –
+          <div class="doc-md-description">
+            <p>The function for which we want to estimate an output statistic.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+            <b><code>function_type</code></b>
+              (<code><span title="gemseo.core.mdo_functions.mdo_function.MDOFunction.FunctionType">FunctionType</span></code>)
+          –
+          <div class="doc-md-description">
+            <p>The type of function.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+            <b><code>name</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>The name of the statistic.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+            <b><code>**statistic_options</code></b>
+              (<code><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></code>, default:
+                  <code>{}</code>
+)
+          –
+          <div class="doc-md-description">
+            <p>The options of the statistic.</p>
+          </div>
+        </li>
+    </ul>
 
 
 
