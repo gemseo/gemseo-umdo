@@ -91,11 +91,11 @@ uncertain_space.add_random_variable(
 # with 100 samples at each iteration of the optimization loop:
 scenario = UMDOScenario(
     [system, disc1, disc2],
-    "MDF",
     "obj",
     design_space,
     uncertain_space,
     "Mean",
+    formulation_name="MDF",
     statistic_estimation_parameters={"n_samples": 100},
 )
 
@@ -113,7 +113,7 @@ scenario.execute(algo_name="NLOPT_COBYLA", max_iter=200)
 
 # %%
 # and plot the optimization history:
-scenario.post_process("OptHistoryView", save=True, show=False)
+scenario.post_process(post_name="OptHistoryView", save=True, show=False)
 
 # %%
 # Lastly,

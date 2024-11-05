@@ -65,11 +65,11 @@ uncertain_space.add_random_variable(
 # of the expectation $\mathbb{E}[y_4]$:
 scenario = UMDOScenario(
     [mission, structure, propulsion, aerodynamics],
-    "MDF",
     "y_4",
     design_space,
     uncertain_space,
     "Mean",
+    formulation_name="MDF",
     statistic_estimation="TaylorPolynomial",
     # statistic_estimation_parameters={"second_order": True},
     maximize_objective=True,
@@ -90,4 +90,4 @@ scenario.execute(algo_name="NLOPT_COBYLA", max_iter=100)
 # %%
 # Lastly,
 # we can plot the optimization history view:
-scenario.post_process("OptHistoryView", save=False, show=True)
+scenario.post_process(post_name="OptHistoryView", save=False, show=True)

@@ -62,11 +62,11 @@ uncertain_space.add_random_variable("u", "OTNormalDistribution", mu=1.0, sigma=0
 # at each iteration of the optimization loop:
 scenario = UMDOScenario(
     [discipline],
-    "DisciplinaryOpt",
     "z",
     design_space,
     uncertain_space,
     "Mean",
+    formulation_name="DisciplinaryOpt",
     statistic_estimation_parameters={"n_samples": 30},
 )
 
@@ -82,7 +82,7 @@ scenario.execute(algo_name="NLOPT_SLSQP", max_iter=100)
 
 # %%
 # and plot the optimization history:
-scenario.post_process("OptHistoryView", save=False, show=True)
+scenario.post_process(post_name="OptHistoryView", save=False, show=True)
 
 # %%
 # Lastly,

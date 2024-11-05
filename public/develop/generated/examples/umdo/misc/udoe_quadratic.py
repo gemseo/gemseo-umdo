@@ -49,22 +49,22 @@ uncertain_space.add_random_variable("u", "OTNormalDistribution")
 # of the expectation $\mathbb{E}[Y]$ where $Y=f(x,U)$:
 scenario = UDOEScenario(
     [discipline],
-    "DisciplinaryOpt",
     "y",
     design_space,
     uncertain_space,
     "Mean",
+    formulation_name="DisciplinaryOpt",
     statistic_estimation="Sampling",
     statistic_estimation_parameters={"n_samples": 100},
 )
 
 # %%
 # We execute it with a full-factorial design of experiments:
-scenario.execute(algo_name="fullfact", n_samples=100)
+scenario.execute(algo_name="PYDOE_FULLFACT", n_samples=100)
 
 # %%
 # and plot the history:
-scenario.post_process("OptHistoryView", save=True, show=True)
+scenario.post_process(post_name="OptHistoryView", save=True, show=True)
 
 # %%
 # Notice that the numerical solution is close to $(x^*,f^*)=(0,1)$ as expected

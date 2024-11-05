@@ -37,11 +37,11 @@ configure_logger()
 
 scenario = UMDOScenario(
     [Beam(), BeamConstraints()],
-    "MDF",
     "w",
     BeamDesignSpace(),
     BeamUncertainSpace(uniform=False),
     "Mean",
+    formulation_name="MDF",
     statistic_estimation="Sampling",
     statistic_estimation_parameters={"n_samples": 200},
 )
@@ -53,4 +53,4 @@ scenario.add_constraint(
 )
 scenario.execute(algo_name="NLOPT_COBYLA", max_iter=30)
 
-scenario.post_process("OptHistoryView", save=False, show=True)
+scenario.post_process(post_name="OptHistoryView", save=False, show=True)

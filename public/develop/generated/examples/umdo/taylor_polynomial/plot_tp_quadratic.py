@@ -64,11 +64,11 @@ uncertain_space.add_random_variable("u", "OTNormalDistribution")
 # at each iteration of the optimization loop:
 scenario = UMDOScenario(
     [discipline],
-    "DisciplinaryOpt",
     "y",
     design_space,
     uncertain_space,
     "Mean",
+    formulation_name="DisciplinaryOpt",
     statistic_estimation="TaylorPolynomial",
 )
 
@@ -78,7 +78,7 @@ scenario.execute(algo_name="NLOPT_COBYLA", max_iter=100)
 
 # %%
 # and plot the optimization history:
-scenario.post_process("OptHistoryView", save=False, show=True)
+scenario.post_process(post_name="OptHistoryView", save=False, show=True)
 
 # %%
 # Notice that the numerical solution
@@ -95,11 +95,11 @@ scenario.post_process("OptHistoryView", save=False, show=True)
 # we can use a second-order Taylor polynomial
 scenario = UMDOScenario(
     [discipline],
-    "DisciplinaryOpt",
     "y",
     design_space,
     uncertain_space,
     "Mean",
+    formulation_name="DisciplinaryOpt",
     statistic_estimation="TaylorPolynomial",
     statistic_estimation_parameters={"second_order": True},
 )
