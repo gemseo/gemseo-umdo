@@ -75,11 +75,11 @@ for i in range(10):
     print(i)
     scenario = UMDOScenario(
         [system, disc1, disc2],
-        "MDF",
         "obj",
         create_design_space(),
         uncertain_space,
         "Mean",
+        formulation_name="MDF",
         statistic_estimation="Sampling",
         statistic_estimation_parameters={
             "algo": "OT_LHS",
