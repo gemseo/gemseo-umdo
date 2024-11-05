@@ -16,12 +16,16 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
 from typing import Final
 
 from gemseo.core.discipline.discipline import Discipline
 from numpy import array
 
 from gemseo_umdo.use_cases.beam_model.core.variables import sigma_all
+
+if TYPE_CHECKING:
+    from gemseo.typing import StrKeyMapping
 
 
 class BeamConstraints(Discipline):
@@ -53,7 +57,7 @@ class BeamConstraints(Discipline):
             self.__DISPL: array([100.0]),
         }
 
-    def _run(self) -> None:
+    def _run(self, input_data: StrKeyMapping) -> None:
         self.io.data[self.__C_STRESS] = (
             self.io.data[self.__SIGMA_VM] / self.io.data[sigma_all.name]
         )

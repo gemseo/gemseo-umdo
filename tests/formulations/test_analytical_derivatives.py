@@ -16,6 +16,8 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 import pytest
 from gemseo.algos.design_space import DesignSpace
 from gemseo.algos.parameter_space import ParameterSpace
@@ -29,6 +31,9 @@ from numpy.testing import assert_almost_equal
 
 from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
 
+if TYPE_CHECKING:
+    from gemseo.typing import StrKeyMapping
+
 
 class A(Discipline):
     def __init__(self, n_x: int, n_u: int):
@@ -41,7 +46,7 @@ class A(Discipline):
         self.n_x = n_x
         self.n_u = n_u
 
-    def _run(self) -> None:
+    def _run(self, input_data: StrKeyMapping) -> None:
         x = self.io.data["x"]
         u = self.io.data["u"]
         self.io.update_output_data({"y": self.m @ hstack((x * u.sum(), u))})

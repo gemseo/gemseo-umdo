@@ -27,13 +27,15 @@ from gemseo_umdo.disciplines.base_noiser import BaseNoiser
 if TYPE_CHECKING:
     from collections.abc import Iterable
 
+    from gemseo.typing import StrKeyMapping
+
 
 class AdditiveNoiser(BaseNoiser):
     """A discipline adding a random variable to a variable."""
 
     SHORT_NAME: ClassVar[str] = "+"
 
-    def _run(self) -> None:
+    def _run(self, input_data: StrKeyMapping) -> None:
         self.io.update_output_data({
             self._noised_variable_name: (
                 self.io.data[self._variable_name]

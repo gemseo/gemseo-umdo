@@ -30,6 +30,8 @@ from numpy import concatenate
 from gemseo_umdo.use_cases.heat_equation.model import HeatEquationModel
 
 if TYPE_CHECKING:
+    from gemseo.typing import StrKeyMapping
+
     from gemseo_umdo.use_cases.heat_equation.configuration import (
         HeatEquationConfiguration,
     )
@@ -79,7 +81,7 @@ class HeatEquation(Discipline):
         """The configuration."""
         return self.__heat_equation_model.configuration
 
-    def _run(self) -> None:
+    def _run(self, input_data: StrKeyMapping) -> None:
         """Compute the temperature at final time with a truncated Fourier expansion.
 
         From Geraci et al., 2015 (Equation 5.4).
