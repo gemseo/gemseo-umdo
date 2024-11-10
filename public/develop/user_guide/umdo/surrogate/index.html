@@ -6342,17 +6342,17 @@ and its options with the dictionary parameter <code>doe_algo_options</code>.
 When the DOE algorithm uses a random number generator,
 the integer option <code>doe_seed</code> can be used for reproducibility purposes.</p>
 <h3 id="surrogates-options">Surrogate's options<a class="headerlink" href="#surrogates-options" title="Permanent link">&para;</a></h3>
-<p>This U-MDO formulation is based on a [BaseRegressor][gemseo.mlearning.regression.algos.base_regressor.BaseRegressor].
+<p>This U-MDO formulation is based on a <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.mlearning.regression.algos.base_regressor.html#gemseo.mlearning.regression.algos.base_regressor.BaseRegressor">BaseRegressor</a>.
 By default,
-this surrogate model is the [RBFRegressor][gemseo.mlearning.regression.algos.rbf.RBFRegressor] available in GEMSEO,
+this surrogate model is the <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.mlearning.regression.algos.rbf.html#gemseo.mlearning.regression.algos.rbf.RBFRegressor">RBFRegressor</a> available in GEMSEO,
 which wraps the <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.Rbf.html">SciPy's RBF algorithm</a>.
 Use the <code>regressor_name</code> to change the kind of regressor
-(use the name of a subclass of [BaseRegressor][gemseo.mlearning.regression.algos.base_regressor.BaseRegressor])
-and the <code>regressor_options</code> argument to set the options of the [BaseRegressor][gemseo.mlearning.regression.algos.base_regressor.BaseRegressor].
+(use the name of a subclass of <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.mlearning.regression.algos.base_regressor.html#gemseo.mlearning.regression.algos.base_regressor.BaseRegressor">BaseRegressor</a>)
+and the <code>regressor_options</code> argument to set the options of the <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.mlearning.regression.algos.base_regressor.html#gemseo.mlearning.regression.algos.base_regressor.BaseRegressor">BaseRegressor</a>.
 For example,
 set <code>regressor_name</code> to <code>"LinearRegressor"</code> to use a linear regressor,
 <code>regressor_options</code> to <code>{"function": "cubic"}</code> for a
-[RBFRegressor][gemseo.mlearning.regression.algos.rbf.RBFRegressor] based on a cubic function
+<a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.mlearning.regression.algos.rbf.html#gemseo.mlearning.regression.algos.rbf.RBFRegressor">RBFRegressor</a> based on a cubic function
 and <code>regressor_n_samples</code> to <code>100</code> to estimate the statistics with 100 Monte Carlo simulations instead of 10000.</p>
 <div class="admonition note">
 <p class="admonition-title">API</p>

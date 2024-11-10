@@ -6178,31 +6178,31 @@
 
         <p>Formulations for multidisciplinary design problems under uncertainty.</p>
 <p>An [MDOFormulation][gemseo.formulations.mdo_formulation.MDOFormulation]
-defines an [OptimizationProblem][gemseo.algos.optimization_problem.OptimizationProblem]
-from one or several <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.core.discipline.html#gemseo.core.discipline.MDODiscipline">MDODiscipline</a>s,
-a <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.algos.design_space.html#gemseo.algos.design_space.DesignSpace">DesignSpace</a>,
+defines an <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.optimization_problem.html#gemseo.algos.optimization_problem.OptimizationProblem">OptimizationProblem</a>
+from one or several [MDODiscipline][gemseo.core.discipline.MDODiscipline]s,
+a <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.design_space.html#gemseo.algos.design_space.DesignSpace">DesignSpace</a>,
 an objective and constraints.
 The objective can be either minimized (default) or maximized.</p>
 <p>In the context of deterministic MDO,
-the [OptimizationProblem][gemseo.algos.optimization_problem.OptimizationProblem]
+the <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.optimization_problem.html#gemseo.algos.optimization_problem.OptimizationProblem">OptimizationProblem</a>
 is handled by a driver
-(see [DriverLibrary][gemseo.algos.base_driver_library.BaseDriverLibrary]),
+(see <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.base_driver_library.html#gemseo.algos.base_driver_library.BaseDriverLibrary">DriverLibrary</a>),
 typically an optimizer
 (see
-[OptimizationLibrary][gemseo.algos.opt.base_optimization_library.BaseOptimizationLibrary]),
+<a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.opt.base_optimization_library.html#gemseo.algos.opt.base_optimization_library.BaseOptimizationLibrary">OptimizationLibrary</a>),
 or a design of experiments
-(DOE, see [DOELibrary][gemseo.algos.doe.base_doe_library.BaseDOELibrary]).</p>
+(DOE, see <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.doe.base_doe_library.html#gemseo.algos.doe.base_doe_library.BaseDOELibrary">DOELibrary</a>).</p>
 <p>In the frame of U-MDO,
 the
 <a class="autorefs autorefs-internal" href="base_umdo_formulation/#gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation">BaseUMDOFormulation</a>
 uses an [MDOFormulation][gemseo.formulations.mdo_formulation.MDOFormulation]
-with a <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.algos.parameter_space.html#gemseo.algos.parameter_space.ParameterSpace">ParameterSpace</a>
+with a <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.parameter_space.html#gemseo.algos.parameter_space.ParameterSpace">ParameterSpace</a>
 defining the uncertain variables
 and executes the corresponding
-[OptimizationProblem][gemseo.algos.optimization_problem.OptimizationProblem]
+<a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.optimization_problem.html#gemseo.algos.optimization_problem.OptimizationProblem">OptimizationProblem</a>
 with a particular DOE.
 Then,
-it post-processed the associated <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/data_persistence/database.html#gemseo.algos.database.Database">Database</a>
+it post-processed the associated <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.database.html#gemseo.algos.database.Database">Database</a>
 to estimate the statistics applied to the objective and constraints.</p>
 <p>The most common
 <a class="autorefs autorefs-internal" href="base_umdo_formulation/#gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation">BaseUMDOFormulation</a>

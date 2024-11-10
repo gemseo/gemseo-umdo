@@ -6774,20 +6774,20 @@ obtained with an optimized Latin hypercube sampling technique.</p>
 
 <a href="#gemseo_umdo.formulations.surrogate.Surrogate" class="headerlink" title="Permanent link">&para;</a></h4>
 <div class="doc-signature highlight"><pre><span></span><code><span class="nf">Surrogate</span><span class="p">(</span>
-    <span class="n">disciplines</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="collections.abc.Sequence" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Sequence">Sequence</a></span><span class="p">[</span><span class="n"><span title="gemseo.core.discipline.discipline.Discipline">Discipline</span></span><span class="p">],</span>
+    <span class="n">disciplines</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="collections.abc.Sequence" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Sequence">Sequence</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" title="gemseo.core.discipline.discipline.Discipline" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.core.discipline.discipline.html#gemseo.core.discipline.discipline.Discipline">Discipline</a></span><span class="p">],</span>
     <span class="n">objective_name</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">,</span>
-    <span class="n">design_space</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.algos.design_space.DesignSpace" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.algos.design_space.html#gemseo.algos.design_space.DesignSpace">DesignSpace</a></span><span class="p">,</span>
-    <span class="n">mdo_formulation</span><span class="p">:</span> <span class="n"><span title="gemseo.formulations.base_mdo_formulation.BaseMDOFormulation">BaseMDOFormulation</span></span><span class="p">,</span>
-    <span class="n">uncertain_space</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.algos.parameter_space.ParameterSpace" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.algos.parameter_space.html#gemseo.algos.parameter_space.ParameterSpace">ParameterSpace</a></span><span class="p">,</span>
+    <span class="n">design_space</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.algos.design_space.DesignSpace" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.design_space.html#gemseo.algos.design_space.DesignSpace">DesignSpace</a></span><span class="p">,</span>
+    <span class="n">mdo_formulation</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.formulations.base_mdo_formulation.BaseMDOFormulation" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.formulations.base_mdo_formulation.html#gemseo.formulations.base_mdo_formulation.BaseMDOFormulation">BaseMDOFormulation</a></span><span class="p">,</span>
+    <span class="n">uncertain_space</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.algos.parameter_space.ParameterSpace" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.parameter_space.html#gemseo.algos.parameter_space.ParameterSpace">ParameterSpace</a></span><span class="p">,</span>
     <span class="n">objective_statistic_name</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">,</span>
-    <span class="n">objective_statistic_parameters</span><span class="p">:</span> <span class="n"><span title="gemseo.typing.StrKeyMapping">StrKeyMapping</span></span> <span class="o">=</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.utils.constants.READ_ONLY_EMPTY_DICT" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.utils.constants.html#gemseo.utils.constants.READ_ONLY_EMPTY_DICT">READ_ONLY_EMPTY_DICT</a></span><span class="p">,</span>
+    <span class="n">objective_statistic_parameters</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.typing.StrKeyMapping" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.typing.html#gemseo.typing.StrKeyMapping">StrKeyMapping</a></span> <span class="o">=</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.utils.constants.READ_ONLY_EMPTY_DICT" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.utils.constants.html#gemseo.utils.constants.READ_ONLY_EMPTY_DICT">READ_ONLY_EMPTY_DICT</a></span><span class="p">,</span>
     <span class="n">doe_algo</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span> <span class="o">=</span> <span class="s2">&quot;OT_OPT_LHS&quot;</span><span class="p">,</span>
-    <span class="n">doe_algo_options</span><span class="p">:</span> <span class="n"><span title="gemseo.typing.StrKeyMapping">StrKeyMapping</span></span> <span class="o">=</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.utils.constants.READ_ONLY_EMPTY_DICT" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.utils.constants.html#gemseo.utils.constants.READ_ONLY_EMPTY_DICT">READ_ONLY_EMPTY_DICT</a></span><span class="p">,</span>
+    <span class="n">doe_algo_options</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.typing.StrKeyMapping" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.typing.html#gemseo.typing.StrKeyMapping">StrKeyMapping</a></span> <span class="o">=</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.utils.constants.READ_ONLY_EMPTY_DICT" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.utils.constants.html#gemseo.utils.constants.READ_ONLY_EMPTY_DICT">READ_ONLY_EMPTY_DICT</a></span><span class="p">,</span>
     <span class="n">doe_n_samples</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">regressor_name</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span> <span class="o">=</span> <span class="s2">&quot;RBFRegressor&quot;</span><span class="p">,</span>
-    <span class="n">regressor_options</span><span class="p">:</span> <span class="n"><span title="gemseo.typing.StrKeyMapping">StrKeyMapping</span></span> <span class="o">=</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.utils.constants.READ_ONLY_EMPTY_DICT" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.utils.constants.html#gemseo.utils.constants.READ_ONLY_EMPTY_DICT">READ_ONLY_EMPTY_DICT</a></span><span class="p">,</span>
+    <span class="n">regressor_options</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.typing.StrKeyMapping" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.typing.html#gemseo.typing.StrKeyMapping">StrKeyMapping</a></span> <span class="o">=</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.utils.constants.READ_ONLY_EMPTY_DICT" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.utils.constants.html#gemseo.utils.constants.READ_ONLY_EMPTY_DICT">READ_ONLY_EMPTY_DICT</a></span><span class="p">,</span>
     <span class="n">regressor_n_samples</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></span> <span class="o">=</span> <span class="mi">10000</span><span class="p">,</span>
-    <span class="n">regressor_sampling_seed</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></span> <span class="o">=</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.utils.seeder.SEED" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.utils.seeder.html#gemseo.utils.seeder.SEED">SEED</a></span><span class="p">,</span>
+    <span class="n">regressor_sampling_seed</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></span> <span class="o">=</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.utils.seeder.SEED" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.utils.seeder.html#gemseo.utils.seeder.SEED">SEED</a></span><span class="p">,</span>
     <span class="n">quality_name</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span> <span class="o">=</span> <span class="s2">&quot;R2Measure&quot;</span><span class="p">,</span>
     <span class="n">quality_threshold</span><span class="p">:</span> <span class="p">(</span>
         <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></span> <span class="o">|</span> <span class="n"><a class="autorefs autorefs-external" title="collections.abc.Mapping" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping">Mapping</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></span> <span class="o">|</span> <span class="n"><a class="autorefs autorefs-external" title="collections.abc.Iterable" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable">Iterable</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></span><span class="p">]]</span>
@@ -6799,7 +6799,7 @@ obtained with an optimized Latin hypercube sampling technique.</p>
     <span class="n">quality_cv_threshold</span><span class="p">:</span> <span class="p">(</span>
         <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></span> <span class="o">|</span> <span class="n"><a class="autorefs autorefs-external" title="collections.abc.Mapping" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping">Mapping</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></span> <span class="o">|</span> <span class="n"><a class="autorefs autorefs-external" title="collections.abc.Iterable" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable">Iterable</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></span><span class="p">]]</span>
     <span class="p">)</span> <span class="o">=</span> <span class="mf">0.8</span><span class="p">,</span>
-    <span class="n">mdo_formulation_settings</span><span class="p">:</span> <span class="n"><span title="gemseo.typing.StrKeyMapping">StrKeyMapping</span></span> <span class="o">=</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.utils.constants.READ_ONLY_EMPTY_DICT" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.utils.constants.html#gemseo.utils.constants.READ_ONLY_EMPTY_DICT">READ_ONLY_EMPTY_DICT</a></span><span class="p">,</span>
+    <span class="n">mdo_formulation_settings</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.typing.StrKeyMapping" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.typing.html#gemseo.typing.StrKeyMapping">StrKeyMapping</a></span> <span class="o">=</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.utils.constants.READ_ONLY_EMPTY_DICT" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.utils.constants.html#gemseo.utils.constants.READ_ONLY_EMPTY_DICT">READ_ONLY_EMPTY_DICT</a></span><span class="p">,</span>
     <span class="o">**</span><span class="n">settings</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></span>
 <span class="p">)</span>
 </code></pre></div>
@@ -6832,7 +6832,7 @@ for more information about the available regression algorithm names and options.
     <ul>
         <li class="doc-section-item field-body">
             <b><code>disciplines</code></b>
-              (<code><a class="autorefs autorefs-external" title="collections.abc.Sequence" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Sequence">Sequence</a>[<span title="gemseo.core.discipline.discipline.Discipline">Discipline</span>]</code>)
+              (<code><a class="autorefs autorefs-external" title="collections.abc.Sequence" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Sequence">Sequence</a>[<a class="autorefs autorefs-external" title="gemseo.core.discipline.discipline.Discipline" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.core.discipline.discipline.html#gemseo.core.discipline.discipline.Discipline">Discipline</a>]</code>)
           –
           <div class="doc-md-description">
             <p>The disciplines.</p>
@@ -6849,7 +6849,7 @@ If multiple names are passed, the objective will be a vector.</p>
         </li>
         <li class="doc-section-item field-body">
             <b><code>design_space</code></b>
-              (<code><a class="autorefs autorefs-external" title="gemseo.algos.design_space.DesignSpace" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.algos.design_space.html#gemseo.algos.design_space.DesignSpace">DesignSpace</a></code>)
+              (<code><a class="autorefs autorefs-external" title="gemseo.algos.design_space.DesignSpace" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.design_space.html#gemseo.algos.design_space.DesignSpace">DesignSpace</a></code>)
           –
           <div class="doc-md-description">
             <p>The design space.</p>
@@ -6857,7 +6857,7 @@ If multiple names are passed, the objective will be a vector.</p>
         </li>
         <li class="doc-section-item field-body">
             <b><code>mdo_formulation</code></b>
-              (<code><span title="gemseo.formulations.base_mdo_formulation.BaseMDOFormulation">BaseMDOFormulation</span></code>)
+              (<code><a class="autorefs autorefs-external" title="gemseo.formulations.base_mdo_formulation.BaseMDOFormulation" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.formulations.base_mdo_formulation.html#gemseo.formulations.base_mdo_formulation.BaseMDOFormulation">BaseMDOFormulation</a></code>)
           –
           <div class="doc-md-description">
             <p>The MDO formulation
@@ -6867,7 +6867,7 @@ and differentiable with respect to the design variables.</p>
         </li>
         <li class="doc-section-item field-body">
             <b><code>uncertain_space</code></b>
-              (<code><a class="autorefs autorefs-external" title="gemseo.algos.parameter_space.ParameterSpace" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.algos.parameter_space.html#gemseo.algos.parameter_space.ParameterSpace">ParameterSpace</a></code>)
+              (<code><a class="autorefs autorefs-external" title="gemseo.algos.parameter_space.ParameterSpace" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.parameter_space.html#gemseo.algos.parameter_space.ParameterSpace">ParameterSpace</a></code>)
           –
           <div class="doc-md-description">
             <p>The uncertain variables
@@ -6885,8 +6885,8 @@ to be applied to the objective.</p>
         </li>
         <li class="doc-section-item field-body">
             <b><code>objective_statistic_parameters</code></b>
-              (<code><span title="gemseo.typing.StrKeyMapping">StrKeyMapping</span></code>, default:
-                  <code><a class="autorefs autorefs-external" title="gemseo.utils.constants.READ_ONLY_EMPTY_DICT" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.utils.constants.html#gemseo.utils.constants.READ_ONLY_EMPTY_DICT">READ_ONLY_EMPTY_DICT</a></code>
+              (<code><a class="autorefs autorefs-external" title="gemseo.typing.StrKeyMapping" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.typing.html#gemseo.typing.StrKeyMapping">StrKeyMapping</a></code>, default:
+                  <code><a class="autorefs autorefs-external" title="gemseo.utils.constants.READ_ONLY_EMPTY_DICT" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.utils.constants.html#gemseo.utils.constants.READ_ONLY_EMPTY_DICT">READ_ONLY_EMPTY_DICT</a></code>
 )
           –
           <div class="doc-md-description">
@@ -6906,8 +6906,8 @@ of the statistic to be applied to the objective, if any.</p>
         </li>
         <li class="doc-section-item field-body">
             <b><code>doe_algo_options</code></b>
-              (<code><span title="gemseo.typing.StrKeyMapping">StrKeyMapping</span></code>, default:
-                  <code><a class="autorefs autorefs-external" title="gemseo.utils.constants.READ_ONLY_EMPTY_DICT" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.utils.constants.html#gemseo.utils.constants.READ_ONLY_EMPTY_DICT">READ_ONLY_EMPTY_DICT</a></code>
+              (<code><a class="autorefs autorefs-external" title="gemseo.typing.StrKeyMapping" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.typing.html#gemseo.typing.StrKeyMapping">StrKeyMapping</a></code>, default:
+                  <code><a class="autorefs autorefs-external" title="gemseo.utils.constants.READ_ONLY_EMPTY_DICT" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.utils.constants.html#gemseo.utils.constants.READ_ONLY_EMPTY_DICT">READ_ONLY_EMPTY_DICT</a></code>
 )
           –
           <div class="doc-md-description">
@@ -6940,13 +6940,13 @@ but potentially a mandatory argument to be defined in <code>doe_algo_options</co
         </li>
         <li class="doc-section-item field-body">
             <b><code>regressor_options</code></b>
-              (<code><span title="gemseo.typing.StrKeyMapping">StrKeyMapping</span></code>, default:
-                  <code><a class="autorefs autorefs-external" title="gemseo.utils.constants.READ_ONLY_EMPTY_DICT" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.utils.constants.html#gemseo.utils.constants.READ_ONLY_EMPTY_DICT">READ_ONLY_EMPTY_DICT</a></code>
+              (<code><a class="autorefs autorefs-external" title="gemseo.typing.StrKeyMapping" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.typing.html#gemseo.typing.StrKeyMapping">StrKeyMapping</a></code>, default:
+                  <code><a class="autorefs autorefs-external" title="gemseo.utils.constants.READ_ONLY_EMPTY_DICT" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.utils.constants.html#gemseo.utils.constants.READ_ONLY_EMPTY_DICT">READ_ONLY_EMPTY_DICT</a></code>
 )
           –
           <div class="doc-md-description">
             <p>The options of the
-[BaseRegressor][gemseo.mlearning.regression.algos.base_regressor.BaseRegressor].</p>
+<a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.mlearning.regression.algos.base_regressor.html#gemseo.mlearning.regression.algos.base_regressor.BaseRegressor">BaseRegressor</a>.</p>
           </div>
         </li>
         <li class="doc-section-item field-body">
@@ -6963,7 +6963,7 @@ to estimate the statistics from the regressor.</p>
         <li class="doc-section-item field-body">
             <b><code>regressor_sampling_seed</code></b>
               (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>, default:
-                  <code><a class="autorefs autorefs-external" title="gemseo.utils.seeder.SEED" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.utils.seeder.html#gemseo.utils.seeder.SEED">SEED</a></code>
+                  <code><a class="autorefs autorefs-external" title="gemseo.utils.seeder.SEED" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.utils.seeder.html#gemseo.utils.seeder.SEED">SEED</a></code>
 )
           –
           <div class="doc-md-description">
@@ -7049,8 +7049,8 @@ below which a warning is logged.</p>
         </li>
         <li class="doc-section-item field-body">
             <b><code>mdo_formulation_settings</code></b>
-              (<code><span title="gemseo.typing.StrKeyMapping">StrKeyMapping</span></code>, default:
-                  <code><a class="autorefs autorefs-external" title="gemseo.utils.constants.READ_ONLY_EMPTY_DICT" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.utils.constants.html#gemseo.utils.constants.READ_ONLY_EMPTY_DICT">READ_ONLY_EMPTY_DICT</a></code>
+              (<code><a class="autorefs autorefs-external" title="gemseo.typing.StrKeyMapping" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.typing.html#gemseo.typing.StrKeyMapping">StrKeyMapping</a></code>, default:
+                  <code><a class="autorefs autorefs-external" title="gemseo.utils.constants.READ_ONLY_EMPTY_DICT" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.utils.constants.html#gemseo.utils.constants.READ_ONLY_EMPTY_DICT">READ_ONLY_EMPTY_DICT</a></code>
 )
           –
           <div class="doc-md-description">
@@ -7355,7 +7355,7 @@ whereas it is required by the DOE algorithm.</p>
   </span>
 
 <a href="#gemseo_umdo.formulations.surrogate.Surrogate.auxiliary_mdo_formulation" class="headerlink" title="Permanent link">&para;</a></h6>
-<div class="doc-signature highlight"><pre><span></span><code><span class="n">auxiliary_mdo_formulation</span><span class="p">:</span> <span class="n"><span title="gemseo.formulations.base_mdo_formulation.BaseMDOFormulation">BaseMDOFormulation</span></span>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">auxiliary_mdo_formulation</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.formulations.base_mdo_formulation.BaseMDOFormulation" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.formulations.base_mdo_formulation.html#gemseo.formulations.base_mdo_formulation.BaseMDOFormulation">BaseMDOFormulation</a></span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -7403,7 +7403,7 @@ respect to the uncertain variables.</p>
   </span>
 
 <a href="#gemseo_umdo.formulations.surrogate.Surrogate.cv_threshold" class="headerlink" title="Permanent link">&para;</a></h6>
-<div class="doc-signature highlight"><pre><span></span><code><span class="n">cv_threshold</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#dict">dict</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.typing.RealArray" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.typing.html#gemseo.typing.RealArray">RealArray</a></span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">cv_threshold</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#dict">dict</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.typing.RealArray" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.typing.html#gemseo.typing.RealArray">RealArray</a></span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -7427,7 +7427,7 @@ respect to the uncertain variables.</p>
 
 <a href="#gemseo_umdo.formulations.surrogate.Surrogate.input_data_to_output_data" class="headerlink" title="Permanent link">&para;</a></h6>
 <div class="doc-signature highlight"><pre><span></span><code><span class="n">input_data_to_output_data</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#dict">dict</a></span><span class="p">[</span>
-    <span class="n"><a class="autorefs autorefs-external" title="gemseo.algos.hashable_ndarray.HashableNdarray" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.algos.hashable_ndarray.html#gemseo.algos.hashable_ndarray.HashableNdarray">HashableNdarray</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#dict">dict</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></span><span class="p">]</span>
+    <span class="n"><a class="autorefs autorefs-external" title="gemseo.algos.hashable_ndarray.HashableNdarray" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.hashable_ndarray.html#gemseo.algos.hashable_ndarray.HashableNdarray">HashableNdarray</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#dict">dict</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></span><span class="p">]</span>
 <span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 </code></pre></div>
 
@@ -7451,7 +7451,7 @@ respect to the uncertain variables.</p>
   </span>
 
 <a href="#gemseo_umdo.formulations.surrogate.Surrogate.input_samples" class="headerlink" title="Permanent link">&para;</a></h6>
-<div class="doc-signature highlight"><pre><span></span><code><span class="n">input_samples</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#dict">dict</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.typing.RealArray" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.typing.html#gemseo.typing.RealArray">RealArray</a></span><span class="p">]</span> <span class="o">=</span> <span class="n"><span title="uncertain_space.convert_array_to_dict">convert_array_to_dict</span></span><span class="p">(</span>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">input_samples</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#dict">dict</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.typing.RealArray" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.typing.html#gemseo.typing.RealArray">RealArray</a></span><span class="p">]</span> <span class="o">=</span> <span class="n"><span title="uncertain_space.convert_array_to_dict">convert_array_to_dict</span></span><span class="p">(</span>
     <span class="n">compute_doe</span><span class="p">(</span>
         <span class="n">uncertain_space</span><span class="p">,</span>
         <span class="n"><span title="compute_doe(n_samples)">n_samples</span></span><span class="o">=</span><span class="n">regressor_n_samples</span><span class="p">,</span>
@@ -7505,7 +7505,7 @@ respect to the uncertain variables.</p>
   </span>
 
 <a href="#gemseo_umdo.formulations.surrogate.Surrogate.mdo_formulation" class="headerlink" title="Permanent link">&para;</a></h6>
-<div class="doc-signature highlight"><pre><span></span><code><span class="n">mdo_formulation</span><span class="p">:</span> <span class="n"><span title="gemseo.formulations.base_mdo_formulation.BaseMDOFormulation">BaseMDOFormulation</span></span>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">mdo_formulation</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.formulations.base_mdo_formulation.BaseMDOFormulation" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.formulations.base_mdo_formulation.html#gemseo.formulations.base_mdo_formulation.BaseMDOFormulation">BaseMDOFormulation</a></span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -7530,7 +7530,7 @@ respect to the design variables.</p>
   </span>
 
 <a href="#gemseo_umdo.formulations.surrogate.Surrogate.quality" class="headerlink" title="Permanent link">&para;</a></h6>
-<div class="doc-signature highlight"><pre><span></span><code><span class="n">quality</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#type">type</a></span><span class="p">[</span><span class="n"><span title="gemseo.mlearning.regression.quality.base_regressor_quality.BaseRegressorQuality">BaseRegressorQuality</span></span><span class="p">]</span> <span class="o">=</span> <span class="n">get_class</span><span class="p">(</span>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">quality</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#type">type</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" title="gemseo.mlearning.regression.quality.base_regressor_quality.BaseRegressorQuality" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.mlearning.regression.quality.base_regressor_quality.html#gemseo.mlearning.regression.quality.base_regressor_quality.BaseRegressorQuality">BaseRegressorQuality</a></span><span class="p">]</span> <span class="o">=</span> <span class="n">get_class</span><span class="p">(</span>
     <span class="n">quality_name</span>
 <span class="p">)</span>
 </code></pre></div>
@@ -7679,13 +7679,13 @@ than B.</p>
   </span>
 
 <a href="#gemseo_umdo.formulations.surrogate.Surrogate.regressor_options" class="headerlink" title="Permanent link">&para;</a></h6>
-<div class="doc-signature highlight"><pre><span></span><code><span class="n">regressor_options</span><span class="p">:</span> <span class="n"><span title="gemseo.typing.StrKeyMapping">StrKeyMapping</span></span> <span class="o">=</span> <span class="n"><a class="autorefs autorefs-internal" title="gemseo_umdo.formulations.surrogate.Surrogate.regressor_options" href="#gemseo_umdo.formulations.surrogate.Surrogate.regressor_options">regressor_options</a></span>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">regressor_options</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.typing.StrKeyMapping" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.typing.html#gemseo.typing.StrKeyMapping">StrKeyMapping</a></span> <span class="o">=</span> <span class="n"><a class="autorefs autorefs-internal" title="gemseo_umdo.formulations.surrogate.Surrogate.regressor_options" href="#gemseo_umdo.formulations.surrogate.Surrogate.regressor_options">regressor_options</a></span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
 
         <p>The
-[BaseRegressor][gemseo.mlearning.regression.algos.base_regressor.BaseRegressor].</p>
+<a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.mlearning.regression.algos.base_regressor.html#gemseo.mlearning.regression.algos.base_regressor.BaseRegressor">BaseRegressor</a>.</p>
     </div>
 
 </div>
@@ -7703,7 +7703,7 @@ than B.</p>
   </span>
 
 <a href="#gemseo_umdo.formulations.surrogate.Surrogate.threshold" class="headerlink" title="Permanent link">&para;</a></h6>
-<div class="doc-signature highlight"><pre><span></span><code><span class="n">threshold</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#dict">dict</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.typing.RealArray" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.typing.html#gemseo.typing.RealArray">RealArray</a></span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">threshold</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#dict">dict</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.typing.RealArray" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.typing.html#gemseo.typing.RealArray">RealArray</a></span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -7726,7 +7726,7 @@ than B.</p>
   </span>
 
 <a href="#gemseo_umdo.formulations.surrogate.Surrogate.uncertain_space" class="headerlink" title="Permanent link">&para;</a></h6>
-<div class="doc-signature highlight"><pre><span></span><code><span class="n">uncertain_space</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.algos.parameter_space.ParameterSpace" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.algos.parameter_space.html#gemseo.algos.parameter_space.ParameterSpace">ParameterSpace</a></span>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">uncertain_space</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.algos.parameter_space.ParameterSpace" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.parameter_space.html#gemseo.algos.parameter_space.ParameterSpace">ParameterSpace</a></span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -7749,7 +7749,7 @@ than B.</p>
 <div class="doc-signature highlight"><pre><span></span><code><span class="nf">add_constraint</span><span class="p">(</span>
     <span class="n">output_name</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span> <span class="o">|</span> <span class="n"><a class="autorefs autorefs-external" title="collections.abc.Sequence" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Sequence">Sequence</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">],</span>
     <span class="n">statistic_name</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">,</span>
-    <span class="n">constraint_type</span><span class="p">:</span> <span class="n"><span title="gemseo.core.mdo_functions.mdo_function.MDOFunction.ConstraintType">ConstraintType</span></span> <span class="o">=</span> <span class="n"><span title="gemseo.core.mdo_functions.mdo_function.MDOFunction.ConstraintType.INEQ">INEQ</span></span><span class="p">,</span>
+    <span class="n">constraint_type</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.core.mdo_functions.mdo_function.MDOFunction.ConstraintType" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.core.mdo_functions.mdo_function.html#gemseo.core.mdo_functions.mdo_function.MDOFunction.ConstraintType">ConstraintType</a></span> <span class="o">=</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.core.mdo_functions.mdo_function.MDOFunction.ConstraintType.INEQ" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.core.mdo_functions.mdo_function.html#gemseo.core.mdo_functions.mdo_function.MDOFunction.ConstraintType.INEQ">INEQ</a></span><span class="p">,</span>
     <span class="n">constraint_name</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
     <span class="n">value</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
     <span class="n">positive</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -7790,8 +7790,8 @@ a single discipline must provide all outputs.</p>
         </li>
         <li class="doc-section-item field-body">
             <b><code>constraint_type</code></b>
-              (<code><span title="gemseo.core.mdo_functions.mdo_function.MDOFunction.ConstraintType">ConstraintType</span></code>, default:
-                  <code><span title="gemseo.core.mdo_functions.mdo_function.MDOFunction.ConstraintType.INEQ">INEQ</span></code>
+              (<code><a class="autorefs autorefs-external" title="gemseo.core.mdo_functions.mdo_function.MDOFunction.ConstraintType" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.core.mdo_functions.mdo_function.html#gemseo.core.mdo_functions.mdo_function.MDOFunction.ConstraintType">ConstraintType</a></code>, default:
+                  <code><a class="autorefs autorefs-external" title="gemseo.core.mdo_functions.mdo_function.MDOFunction.ConstraintType.INEQ" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.core.mdo_functions.mdo_function.html#gemseo.core.mdo_functions.mdo_function.MDOFunction.ConstraintType.INEQ">INEQ</a></code>
 )
           –
           <div class="doc-md-description">
@@ -7946,7 +7946,7 @@ from <code>output_name</code>, <code>constraint_type</code>, <code>value</code> 
     <span class="n">output_names</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="collections.abc.Sequence" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Sequence">Sequence</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">],</span>
     <span class="n">statistic_name</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">,</span>
     <span class="n">observable_name</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-    <span class="n">discipline</span><span class="p">:</span> <span class="n"><span title="gemseo.core.discipline.discipline.Discipline">Discipline</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">discipline</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.core.discipline.discipline.Discipline" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.core.discipline.discipline.html#gemseo.core.discipline.discipline.Discipline">Discipline</a></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="o">**</span><span class="n">statistic_parameters</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
@@ -7988,7 +7988,7 @@ If empty, the output name is used by default.</p>
         </li>
         <li class="doc-section-item field-body">
             <b><code>discipline</code></b>
-              (<code><span title="gemseo.core.discipline.discipline.Discipline">Discipline</span> | None</code>, default:
+              (<code><a class="autorefs autorefs-external" title="gemseo.core.discipline.discipline.Discipline" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.core.discipline.discipline.html#gemseo.core.discipline.discipline.Discipline">Discipline</a> | None</code>, default:
                   <code>None</code>
 )
           –
@@ -8102,7 +8102,7 @@ If <code>None</code>, the discipline is detected from inner disciplines.</p>
 
 
 <a href="#gemseo_umdo.formulations.surrogate.Surrogate.compute_samples" class="headerlink" title="Permanent link">&para;</a></h6>
-<div class="doc-signature highlight"><pre><span></span><code><span class="nf">compute_samples</span><span class="p">(</span><span class="n">problem</span><span class="p">:</span> <span class="n"><span title="gemseo.algos.optimization_problem.OptimizationProblem">OptimizationProblem</span></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.datasets.io_dataset.IODataset" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.datasets.io_dataset_.html#gemseo.datasets.io_dataset.IODataset">IODataset</a></span>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">compute_samples</span><span class="p">(</span><span class="n">problem</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.algos.optimization_problem.OptimizationProblem" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.optimization_problem.html#gemseo.algos.optimization_problem.OptimizationProblem">OptimizationProblem</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.datasets.io_dataset.IODataset" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.datasets.io_dataset.html#gemseo.datasets.io_dataset.IODataset">IODataset</a></span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -8114,7 +8114,7 @@ If <code>None</code>, the discipline is detected from inner disciplines.</p>
     <ul>
         <li class="doc-section-item field-body">
             <b><code>problem</code></b>
-              (<code><span title="gemseo.algos.optimization_problem.OptimizationProblem">OptimizationProblem</span></code>)
+              (<code><a class="autorefs autorefs-external" title="gemseo.algos.optimization_problem.OptimizationProblem" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.optimization_problem.html#gemseo.algos.optimization_problem.OptimizationProblem">OptimizationProblem</a></code>)
           –
           <div class="doc-md-description">
             <p>The problem.</p>
@@ -8187,7 +8187,7 @@ If <code>None</code>, the discipline is detected from inner disciplines.</p>
 
 
 <a href="#gemseo_umdo.formulations.surrogate.Surrogate.get_top_level_disciplines" class="headerlink" title="Permanent link">&para;</a></h6>
-<div class="doc-signature highlight"><pre><span></span><code><span class="nf">get_top_level_disciplines</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#list">list</a></span><span class="p">[</span><span class="n"><span title="gemseo.core.discipline.discipline.Discipline">Discipline</span></span><span class="p">]</span>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">get_top_level_disciplines</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#list">list</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" title="gemseo.core.discipline.discipline.Discipline" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.core.discipline.discipline.html#gemseo.core.discipline.discipline.Discipline">Discipline</a></span><span class="p">]</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -8205,7 +8205,7 @@ This method can be overloaded by subclasses.</p>
 <p><span class="doc-section-title">Returns:</span></p>
     <ul>
         <li class="doc-section-item field-body">
-              <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#list">list</a>[<span title="gemseo.core.discipline.discipline.Discipline">Discipline</span>]</code>
+              <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#list">list</a>[<a class="autorefs autorefs-external" title="gemseo.core.discipline.discipline.Discipline" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.core.discipline.discipline.html#gemseo.core.discipline.discipline.Discipline">Discipline</a>]</code>
           –
           <div class="doc-md-description">
             <p>The top level disciplines.</p>
@@ -8233,7 +8233,7 @@ This method can be overloaded by subclasses.</p>
 
 <a href="#gemseo_umdo.formulations.surrogate.Surrogate.update_top_level_disciplines" class="headerlink" title="Permanent link">&para;</a></h6>
 <div class="doc-signature highlight"><pre><span></span><code><span class="nf">update_top_level_disciplines</span><span class="p">(</span>
-    <span class="n">design_values</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.typing.RealArray" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.typing.html#gemseo.typing.RealArray">RealArray</a></span><span class="p">,</span>
+    <span class="n">design_values</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.typing.RealArray" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.typing.html#gemseo.typing.RealArray">RealArray</a></span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
 
@@ -8246,7 +8246,7 @@ This method can be overloaded by subclasses.</p>
     <ul>
         <li class="doc-section-item field-body">
             <b><code>design_values</code></b>
-              (<code><a class="autorefs autorefs-external" title="gemseo.typing.RealArray" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.typing.html#gemseo.typing.RealArray">RealArray</a></code>)
+              (<code><a class="autorefs autorefs-external" title="gemseo.typing.RealArray" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.typing.html#gemseo.typing.RealArray">RealArray</a></code>)
           –
           <div class="doc-md-description">
             <p>The values of the design variables

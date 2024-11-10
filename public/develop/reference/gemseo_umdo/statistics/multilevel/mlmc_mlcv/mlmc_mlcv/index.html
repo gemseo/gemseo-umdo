@@ -6596,11 +6596,11 @@
 <a href="#gemseo_umdo.statistics.multilevel.mlmc_mlcv.mlmc_mlcv.MLMCMLCV" class="headerlink" title="Permanent link">&para;</a></h4>
 <div class="doc-signature highlight"><pre><span></span><code><span class="nf">MLMCMLCV</span><span class="p">(</span>
     <span class="n">levels</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="collections.abc.Sequence" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Sequence">Sequence</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="gemseo_umdo.statistics.multilevel.mlmc_mlcv.level.Level" href="../level/#gemseo_umdo.statistics.multilevel.mlmc_mlcv.level.Level">Level</a></span><span class="p">],</span>
-    <span class="n">uncertain_space</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.algos.parameter_space.ParameterSpace" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.algos.parameter_space.html#gemseo.algos.parameter_space.ParameterSpace">ParameterSpace</a></span><span class="p">,</span>
+    <span class="n">uncertain_space</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.algos.parameter_space.ParameterSpace" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.parameter_space.html#gemseo.algos.parameter_space.ParameterSpace">ParameterSpace</a></span><span class="p">,</span>
     <span class="n">n_samples</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></span><span class="p">,</span>
     <span class="n">pilot</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span> <span class="o">=</span> <span class="s2">&quot;Mean&quot;</span><span class="p">,</span>
     <span class="n">variant</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="gemseo_umdo.statistics.multilevel.mlmc_mlcv.mlmc_mlcv.MLMCMLCV.Variant" href="#gemseo_umdo.statistics.multilevel.mlmc_mlcv.mlmc_mlcv.MLMCMLCV.Variant">Variant</a></span> <span class="o">=</span> <span class="n"><span title="gemseo_umdo.statistics.multilevel.mlmc_mlcv.mlmc_mlcv.MLMCMLCV.Variant.MLMC_MLCV">MLMC_MLCV</span></span><span class="p">,</span>
-    <span class="n">seed</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></span> <span class="o">=</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.utils.seeder.SEED" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.utils.seeder.html#gemseo.utils.seeder.SEED">SEED</a></span><span class="p">,</span>
+    <span class="n">seed</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></span> <span class="o">=</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.utils.seeder.SEED" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.utils.seeder.html#gemseo.utils.seeder.SEED">SEED</a></span><span class="p">,</span>
 <span class="p">)</span>
 </code></pre></div>
 
@@ -6626,7 +6626,7 @@ defined in terms of model, evaluation cost and initial number of calls.</p>
         </li>
         <li class="doc-section-item field-body">
             <b><code>uncertain_space</code></b>
-              (<code><a class="autorefs autorefs-external" title="gemseo.algos.parameter_space.ParameterSpace" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.algos.parameter_space.html#gemseo.algos.parameter_space.ParameterSpace">ParameterSpace</a></code>)
+              (<code><a class="autorefs autorefs-external" title="gemseo.algos.parameter_space.ParameterSpace" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.parameter_space.html#gemseo.algos.parameter_space.ParameterSpace">ParameterSpace</a></code>)
           –
           <div class="doc-md-description">
             <p>The uncertain space on which to sample the functions.</p>
@@ -6660,7 +6660,7 @@ then <code>n_samples=1.5</code> can correspond to
         <li class="doc-section-item field-body">
             <b><code>seed</code></b>
               (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>, default:
-                  <code><a class="autorefs autorefs-external" title="gemseo.utils.seeder.SEED" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.utils.seeder.html#gemseo.utils.seeder.SEED">SEED</a></code>
+                  <code><a class="autorefs autorefs-external" title="gemseo.utils.seeder.SEED" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.utils.seeder.html#gemseo.utils.seeder.SEED">SEED</a></code>
 )
           –
           <div class="doc-md-description">
