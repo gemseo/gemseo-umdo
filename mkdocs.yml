@@ -1,22 +1,34 @@
 site_name: gemseo-umdo
 site_url: https://gemseo.gitlab.io/gemseo-umdo
+repo_url: https://gitlab.com/gemseo/dev/gemseo-umdo
+repo_name: gemseo-umdo
 
 theme:
   name: material
-  custom_dir: docs/overrides
   favicon: images/favicon.ico
-  logo: images/logo.png
   features:
     - navigation.tabs
     - navigation.instant
   palette:
-    primary: custom
+    - scheme: default
+      primary: teal
+      toggle:
+        icon: material/lightbulb-outline
+        name: Switch to dark mode
+    - scheme: slate
+      primary: teal
+      toggle:
+        icon: material/lightbulb
+        name: Switch to light mode
+  icon:
+    repo: fontawesome/brands/gitlab
 
 plugins:
 - search
+- markdown-exec
 - gen-files:
     scripts:
-    - docs/gen_ref_pages.py
+    - docs/gen_ref_nav.py
 - literate-nav:
     nav_file: SUMMARY.md
 - section-index
@@ -31,16 +43,18 @@ plugins:
         - https://numpy.org/doc/stable/objects.inv
         - https://docs.scipy.org/doc/scipy/objects.inv
         - https://openturns.github.io/openturns/latest/objects.inv
+        - https://scikit-learn.org/stable/objects.inv
         options:
           extensions:
-          - docs/docstring_inheritance.py:DocstringInheritance
+          - griffe_inherited_docstrings
+          - docstring_inheritance.griffe
           filters:
           - "!^_"
           docstring_options:
-          #   ignore_init_summary: true
+#            ignore_init_summary: true
             returns_multiple_items: False
           docstring_section_style: list
-          heading_level: 1
+          # heading_level: 1
           inherited_members: true
 #          preload_modules:
 #          - gemseo
@@ -49,44 +63,79 @@ plugins:
           show_root_heading: true
           show_root_full_path: false
           show_signature_annotations: true
-          # show_symbol_type_heading: true
+          show_symbol_type_heading: true
           show_symbol_type_toc: true
-          # signature_crossrefs: true
+          show_category_heading: true
+          signature_crossrefs: true
 - gallery:
     conf_script: docs/gallery_conf.py
     default_thumb_file: docs/images/monogram.png
 - include-markdown
 - bibtex:
     bib_file: "docs/references.bib"
+- mike:
+    canonical_version: latest
+    # Gitlab pages expects the docs in this directory.
+    deploy_prefix: public
 
 nav:
-- Home: index.md
-- User guide: user_guide/
-- Examples: generated/examples/
-- Code: reference/gemseo_umdo/
-- More:
+- Home:
+  - Overview: index.md
   - Changelog: changelog.md
-  - Getting started: getting_started.md
-  - Modules: reference/SUMMARY.md
+  - Credits: credits.md
+  - Licenses: licenses.md
+- User guide:
+  - User guide: user_guide/index.md
+  - MDO under uncertainty:
+    - MDO under uncertainty: user_guide/umdo/index.md
+    - Sampling: user_guide/umdo/sampling.md
+    - Sequential sampling: user_guide/umdo/sequential_sampling.md
+    - Taylor polynomial: user_guide/umdo/taylor_polynomial.md
+    - Control variate: user_guide/umdo/control_variate.md
+    - Surrogate model: user_guide/umdo/surrogate.md
+    - Polynomial chaos expansion: user_guide/umdo/pce.md
+  - Statistics:
+    - Statistics: user_guide/statistics/index.md
+    - Multilevel Monte Carlo: user_guide/statistics/multilevel.md
+  - Visualization:
+    - Visualization: user_guide/visualization/index.md
+    - Uncertain coupling graph: user_guide/visualization/uncertain_coupling_graph.md
+    - Sobol graph: user_guide/visualization/sobol_graph.md
+- Examples:
+  - MDO under uncertainty: generated/examples/umdo
+  - Visualization: generated/examples/visualizations
+  - Problems: generated/examples/problems
+- API documentation: reference/gemseo_umdo/
+- Developer guide:
+  - U-MDO: developer_guide/umdo.md
 
 markdown_extensions:
 - admonition
 - pymdownx.details
 - pymdownx.arithmatex:
     generic: true
+- pymdownx.superfences:
+    custom_fences:
+      - name: mermaid
+        class: mermaid
 - footnotes
 - toc:
     permalink: true
 - pymdownx.snippets
+- pymdownx.emoji:
+    emoji_index: !!python/name:material.extensions.emoji.twemoji
+    emoji_generator: !!python/name:material.extensions.emoji.to_svg
 
 extra_javascript:
 - javascripts/mathjax.js
 - https://polyfill.io/v3/polyfill.min.js?features=es6
 - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
 
-# extra_css:
-#   - css/extra.css
-
 watch:
-  # mkdoc serve will rebuild the pages when changes in the docstrings.
   - src/gemseo_umdo
+  - README.md
+  - CHANGELOG.md
+
+extra:
+  version:
+    provider: mike

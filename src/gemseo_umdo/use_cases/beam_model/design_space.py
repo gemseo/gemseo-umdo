@@ -29,7 +29,7 @@ class BeamDesignSpace(DesignSpace):
         for variable in BeamDesignVariables:
             self.add_variable(
                 variable.value.name,
-                l_b=variable.value.l_b,
-                u_b=variable.value.u_b,
+                lower_bound=variable.value.l_b,
+                upper_bound=variable.value.u_b,
                 value=variable.value.value,
             )

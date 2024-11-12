@@ -13,12 +13,12 @@
 # FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-r"""# Robust optimization problem
+r"""# Robust optimization problem.
 
 Minimize the expectation of the weight $w(h,t)$ w.r.t. the height $h\in[500, 800]$ and
 the thickness $t\in[2,10]$ while satisfying $c_{\text{stress}}(h,t)\geq 1.0$ and
 $c_{\text{displacement}}(h,t)\leq 1.0$ with probability 90\% where $F$, $E$ and
-$\sigma_{\text{all}}$ are random variables defined by ``BeamUncertainSpace``.
+$\sigma_{\text{all}}$ are random variables defined by `BeamUncertainSpace`.
 """
 
 from __future__ import annotations
@@ -37,20 +37,20 @@ configure_logger()
 
 scenario = UMDOScenario(
     [Beam(), BeamConstraints()],
-    "MDF",
     "w",
     BeamDesignSpace(),
     BeamUncertainSpace(uniform=False),
     "Mean",
+    formulation_name="MDF",
     statistic_estimation="Sampling",
     statistic_estimation_parameters={"n_samples": 200},
 )
 scenario.add_constraint(
-    "c_stress", "Probability", greater=True, threshold=1.0, positive=True, value=0.9
+    "c_stress", "Probability", greater=False, threshold=1.0, positive=True, value=0.9
 )
 scenario.add_constraint(
-    "c_displ", "Probability", greater=False, threshold=1.0, positive=True, value=0.9
+    "c_displ", "Probability", greater=True, threshold=1.0, positive=True, value=0.9
 )
-scenario.execute({"algo": "NLOPT_COBYLA", "max_iter": 30})
+scenario.execute(algo_name="NLOPT_COBYLA", max_iter=30)
 
-scenario.post_process("OptHistoryView", save=False, show=True)
+scenario.post_process(post_name="OptHistoryView", save=False, show=True)

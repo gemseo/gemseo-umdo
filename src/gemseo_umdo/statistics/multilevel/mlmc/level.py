@@ -18,7 +18,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from gemseo.core.mdofunctions.mdo_function import MDOFunction
+from gemseo.core.mdo_functions.mdo_function import MDOFunction
 
 
 @dataclass
@@ -38,7 +38,7 @@ class Level:
     n_cost_estimation_samples: int = 1
     r"""The number of $f_\ell$ calls to estimate $\mathcal{C}_\ell$.
 
-    It will be used only if ``cost`` is ``None``.
+    It will be used only if `cost` is `None`.
     """
 
     n_initial_samples: int = 10

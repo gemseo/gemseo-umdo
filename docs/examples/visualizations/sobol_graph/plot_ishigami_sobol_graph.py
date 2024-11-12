@@ -13,19 +13,19 @@
 # FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-"""# Sobol' graph for the Ishigami use case"""
+"""# Sobol' graph for the Ishigami use case."""
 
 from __future__ import annotations
 
-from gemseo.uncertainty.use_cases.ishigami.statistics import SOBOL_1
-from gemseo.uncertainty.use_cases.ishigami.statistics import SOBOL_2
-from gemseo.uncertainty.use_cases.ishigami.statistics import SOBOL_3
-from gemseo.uncertainty.use_cases.ishigami.statistics import SOBOL_12
-from gemseo.uncertainty.use_cases.ishigami.statistics import SOBOL_13
-from gemseo.uncertainty.use_cases.ishigami.statistics import SOBOL_23
-from gemseo.uncertainty.use_cases.ishigami.statistics import TOTAL_SOBOL_1
-from gemseo.uncertainty.use_cases.ishigami.statistics import TOTAL_SOBOL_2
-from gemseo.uncertainty.use_cases.ishigami.statistics import TOTAL_SOBOL_3
+from gemseo.problems.uncertainty.ishigami.statistics import SOBOL_1
+from gemseo.problems.uncertainty.ishigami.statistics import SOBOL_2
+from gemseo.problems.uncertainty.ishigami.statistics import SOBOL_3
+from gemseo.problems.uncertainty.ishigami.statistics import SOBOL_12
+from gemseo.problems.uncertainty.ishigami.statistics import SOBOL_13
+from gemseo.problems.uncertainty.ishigami.statistics import SOBOL_23
+from gemseo.problems.uncertainty.ishigami.statistics import TOTAL_SOBOL_1
+from gemseo.problems.uncertainty.ishigami.statistics import TOTAL_SOBOL_2
+from gemseo.problems.uncertainty.ishigami.statistics import TOTAL_SOBOL_3
 
 from gemseo_umdo.visualizations.sobol_graph import SobolGraph
 
@@ -52,7 +52,7 @@ sobol_graph = SobolGraph(
 sobol_graph
 
 # %%
-# Sphinx Gallery and Jupyter Notebook can display ``sobol_graph`` in the web browser.
-# You can also use ``sobol_graph.visualize()``
+# Sphinx Gallery and Jupyter Notebook can display `sobol_graph` in the web browser.
+# You can also use `sobol_graph.visualize()`
 # to save it on the disk
 # or display it with a dedicated program.

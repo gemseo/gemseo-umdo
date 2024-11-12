@@ -24,7 +24,7 @@ from numpy import nanmean
 from numpy import nansum
 from numpy import nanvar
 
-from gemseo_umdo.statistics.multilevel.mlmc.pilots.pilot import MLMCPilot
+from gemseo_umdo.statistics.multilevel.mlmc.pilots.base_mlmc_pilot import BaseMLMCPilot
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -33,7 +33,7 @@ if TYPE_CHECKING:
     from numpy.typing import NDArray
 
 
-class Mean(MLMCPilot):
+class Mean(BaseMLMCPilot):
     """The mean-based pilot for the MLMC algorithm."""
 
     __delta: list[NDArray[float]]

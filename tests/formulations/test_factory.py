@@ -15,26 +15,26 @@
 from __future__ import annotations
 
 import pytest
-from gemseo.formulations.formulations_factory import MDOFormulationsFactory
+from gemseo.formulations.factory import MDOFormulationFactory
 
 from gemseo_umdo.formulations.factory import UMDOFormulationsFactory
 
 
-@pytest.fixture()
+@pytest.fixture
 def factory() -> UMDOFormulationsFactory:
-    """The factory of UMDOFormulation."""
+    """The factory of BaseUMDOFormulation."""
     return UMDOFormulationsFactory()
 
 
 def test_inheritance(factory):
     """Check that the factory is also a MDOFormulationsFactory."""
-    assert isinstance(factory, MDOFormulationsFactory)
+    assert isinstance(factory, MDOFormulationFactory)
 
 
 def test_mdo_formulation(factory):
     """Check that UMDOFormulationsFactory does not contain MDO formulations."""
-    mdo_formulations = MDOFormulationsFactory().formulations
-    assert not set(mdo_formulations).intersection(set(factory.formulations))
+    mdo_formulations = MDOFormulationFactory().class_names
+    assert not set(mdo_formulations).intersection(set(factory.class_names))
 
 
 def test_u_formulation(factory):

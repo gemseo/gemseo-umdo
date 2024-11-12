@@ -23,18 +23,21 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from gemseo.core.discipline import MDODiscipline
+from gemseo.core.discipline.discipline import Discipline
 from numpy import array
+from numpy import concatenate
 
 from gemseo_umdo.use_cases.heat_equation.model import HeatEquationModel
 
 if TYPE_CHECKING:
+    from gemseo.typing import StrKeyMapping
+
     from gemseo_umdo.use_cases.heat_equation.configuration import (
         HeatEquationConfiguration,
     )
 
 
-class HeatEquation(MDODiscipline):
+class HeatEquation(Discipline):
     """The discipline computing the temperature averaged over the rod at final time."""
 
     def __init__(
@@ -63,7 +66,7 @@ class HeatEquation(MDODiscipline):
             nu_bounds=nu_bounds,
             rod_length=rod_length,
         )
-        self.default_inputs = {
+        self.default_input_data = {
             "X_1": array([0.0]),
             "X_2": array([0.0]),
             "X_3": array([0.0]),
@@ -78,11 +81,14 @@ class HeatEquation(MDODiscipline):
         """The configuration."""
         return self.__heat_equation_model.configuration
 
-    def _run(self) -> None:
+    def _run(self, input_data: StrKeyMapping) -> None:
         """Compute the temperature at final time with a truncated Fourier expansion.
 
         From Geraci et al., 2015 (Equation 5.4).
         """
-        u, u_mesh = self.__heat_equation_model(self.get_inputs_asarray())
-        self.local_data["u_mesh"] = u_mesh
-        self.local_data["u"] = array([u])
+        inputs_array = concatenate([
+            self.io.data[name] for name in self.io.input_grammar
+        ])
+        u, u_mesh = self.__heat_equation_model(inputs_array)
+        self.io.data["u_mesh"] = u_mesh
+        self.io.data["u"] = array([u])

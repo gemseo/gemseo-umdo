@@ -1,8 +1,0 @@
-{
-  "name": "UDOEScenario_output",
-  "required": [],
-  "properties": {},
-  "$schema": "http://json-schema.org/draft-04/schema",
-  "type": "object",
-  "id": "#UDOEScenario_output"
-}

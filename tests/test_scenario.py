@@ -20,22 +20,29 @@ from typing import TYPE_CHECKING
 import pytest
 from gemseo.algos.design_space import DesignSpace
 from gemseo.algos.parameter_space import ParameterSpace
+from gemseo.core.chains.chain import MDOChain
 from gemseo.disciplines.analytic import AnalyticDiscipline
+from gemseo.disciplines.auto_py import AutoPyDiscipline
 from numpy import array
+from numpy import atleast_2d
+from numpy import vstack
+from numpy.linalg import norm
 
+from gemseo_umdo.disciplines.additive_noiser import AdditiveNoiser
+from gemseo_umdo.disciplines.multiplicative_noiser import MultiplicativeNoiser
 from gemseo_umdo.formulations.factory import UMDOFormulationsFactory
 from gemseo_umdo.formulations.sampling import Sampling
 from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 
 if TYPE_CHECKING:
-    from gemseo.core.discipline import MDODiscipline
+    from gemseo.core.discipline.discipline import Discipline
 
-AVAILABLE_FORMULATIONS = UMDOFormulationsFactory().formulations
+AVAILABLE_FORMULATIONS = UMDOFormulationsFactory().class_names
 
 
-@pytest.fixture()
-def disciplines() -> list[MDODiscipline]:
+@pytest.fixture
+def disciplines() -> list[Discipline]:
     """Three simple disciplines."""
     disc0 = AnalyticDiscipline(
         {"f": "x0+y1+y2", "c": "x0+y1+y2", "o": "x0+y1+y2"}, name="D0"
@@ -45,17 +52,17 @@ def disciplines() -> list[MDODiscipline]:
     return [disc0, disc1, disc2]
 
 
-@pytest.fixture()
+@pytest.fixture
 def design_space() -> DesignSpace:
     """The space of local and global design variables."""
     space = DesignSpace()
     for name in ["x0", "x1", "x2"]:
-        space.add_variable(name, l_b=0.0, u_b=1.0, value=0.5)
-    space.add_variable("y1", l_b=0.0, u_b=1.0, value=0.5)
+        space.add_variable(name, lower_bound=0.0, upper_bound=1.0, value=0.5)
+    space.add_variable("y1", lower_bound=0.0, upper_bound=1.0, value=0.5)
     return space
 
 
-@pytest.fixture()
+@pytest.fixture
 def uncertain_space() -> ParameterSpace:
     """The space defining the uncertain variable."""
     space = ParameterSpace()
@@ -63,19 +70,19 @@ def uncertain_space() -> ParameterSpace:
     return space
 
 
-@pytest.fixture()
+@pytest.fixture
 def scenario(disciplines, design_space, uncertain_space) -> UMDOScenario:
     """The MDO scenario under uncertainty."""
     scn = UMDOScenario(
         disciplines,
-        "MDF",
         "f",
         design_space,
         uncertain_space,
         "Mean",
+        formulation_name="MDF",
         statistic_estimation="Sampling",
         statistic_estimation_parameters={"algo": "OT_OPT_LHS", "n_samples": 3},
-        inner_mda_name="MDAGaussSeidel",
+        main_mda_settings={"inner_mda_name": "MDAGaussSeidel"},
     )
     scn.add_constraint("c", "Margin", factor=3.0)
     scn.add_observable("o", "Mean")
@@ -83,7 +90,7 @@ def scenario(disciplines, design_space, uncertain_space) -> UMDOScenario:
 
 
 def test_disciplines_copy(scenario, disciplines):
-    """Check that the _UScenario works on a copy of the sequence of disciplines."""
+    """Check that the BaseUScenario works on a copy of the sequence of disciplines."""
     assert id(scenario.disciplines) != id(disciplines)
 
 
@@ -135,18 +142,12 @@ def test_repr(scenario):
 def test_mdo_formulation(scenario):
     """Check the content of the MDO formulation."""
     mdo_formulation = scenario.mdo_formulation
-    opt_problem = mdo_formulation.opt_problem
+    opt_problem = mdo_formulation.optimization_problem
     assert mdo_formulation.__class__.__name__ == "MDF"
     assert mdo_formulation.mda.inner_mdas[0].name == "MDAGaussSeidel"
     assert mdo_formulation.disciplines == scenario.disciplines
     assert opt_problem.objective.name == "f"
-    assert [o.name for o in opt_problem.observables] == [
-        "Mean[f]",
-        "c",
-        "Margin[c]",
-        "o",
-        "Mean[o]",
-    ]
+    assert [o.name for o in opt_problem.observables] == ["c", "o"]
     assert scenario.mdo_formulation.design_space.variable_names == ["u"]
 
 
@@ -161,60 +162,118 @@ def test_maximize_objective(
         kwargs = {"maximize_objective": maximize_objective}
     scn = UMDOScenario(
         disciplines,
-        "MDF",
         "f",
         design_space,
         uncertain_space,
         "Mean",
+        formulation_name="MDF",
         statistic_estimation="Sampling",
         statistic_estimation_parameters={"algo": "OT_OPT_LHS", "n_samples": 3},
         **kwargs,
     )
     maximize = bool(maximize_objective)
-    assert scn.formulation.mdo_formulation.opt_problem.minimize_objective
-    assert scn.formulation.opt_problem.minimize_objective is not maximize
+    assert scn.formulation.mdo_formulation.optimization_problem.minimize_objective
+    assert scn.formulation.optimization_problem.minimize_objective is not maximize
     expected_name = "-E[f]" if maximize else "E[f]"
-    assert scn.formulation.opt_problem.objective.name == expected_name
+    assert scn.formulation.optimization_problem.objective.name == expected_name
 
 
 def test_uncertain_design_variables(disciplines, design_space, uncertain_space):
-    """Check that a design variable can be noised."""
+    """Check that a design variable can be noised.
+
+    Here we check the disciplines created by the BaseUScenario.
+    """
     scn = UMDOScenario(
         disciplines,
-        "MDF",
         "f",
         design_space,
         uncertain_space,
         "Mean",
-        uncertain_design_variables={"x0": "{}+v"},
+        formulation_name="MDF",
+        uncertain_design_variables={
+            "x0": ("+", "v0"),
+            "x1": "{}+v1",
+            "x2": ("*", "v2"),
+        },
         statistic_estimation="Sampling",
         statistic_estimation_parameters={"algo": "OT_OPT_LHS", "n_samples": 3},
     )
     design_space = scn.design_space
-    assert "x0" not in design_space
-    assert "dv_x0" in design_space
-    discipline = scn.mdo_formulation.disciplines[-1]
-    assert discipline.name == "Design Uncertainties"
-    assert discipline.expressions == {"x0": "dv_x0+v"}
+    for i in range(3):
+        assert f"x{i}" not in design_space
+        assert f"dv_x{i}" in design_space
+
     assert len(scn.disciplines) == len(disciplines) + 1
-    for index, discipline in enumerate(disciplines):
-        assert id(scn.disciplines[index]) == id(discipline)
+    mdo_chain = scn.disciplines[0]
+    assert isinstance(mdo_chain, MDOChain)
+
+    discipline = mdo_chain.disciplines[0]
+    assert isinstance(discipline, AnalyticDiscipline)
+    assert discipline.expressions == {"x1": "dv_x1+v1"}
+
+    discipline = mdo_chain.disciplines[1]
+    assert isinstance(discipline, AdditiveNoiser)
+    assert set(discipline.input_grammar.names) == {"dv_x0", "v0"}
+    assert set(discipline.output_grammar.names) == {"x0"}
+
+    discipline = mdo_chain.disciplines[2]
+    assert isinstance(discipline, MultiplicativeNoiser)
+    assert set(discipline.input_grammar.names) == {"dv_x2", "v2"}
+    assert set(discipline.output_grammar.names) == {"x2"}
+
+
+@pytest.mark.parametrize("x", [array([1, 2]), array([1])])
+@pytest.mark.parametrize(
+    ("u1", "u2"),
+    [(array([1.0]), array([-1.0])), (array([1.0, -1.0]), array([-1.0, 1.0]))],
+)
+def test_uncertain_design_variables_values(x, u1, u2):
+    """Check that a design variable can be noised.
+
+    Here we check the disciplines.
+    """
+    uncertain_space = ParameterSpace()
+    uncertain_space.add_random_vector("u", "OTNormalDistribution", size=len(u1))
+
+    def f(x):
+        y = norm(x) ** 2
+        return y  # noqa: RET504
+
+    design_space = DesignSpace()
+    design_space.add_variable("x", size=len(x), value=0)
+
+    discipline = AutoPyDiscipline(f)
+    scenario = UDOEScenario(
+        [discipline],
+        "y",
+        design_space,
+        uncertain_space,
+        "Mean",
+        formulation_name="DisciplinaryOpt",
+        statistic_estimation_parameters={
+            "algo": "CustomDOE",
+            "algo_options": {"samples": vstack((u1, u2))},
+        },
+        uncertain_design_variables={"x": ("+", "u")},
+    )
+    scenario.execute(algo_name="CustomDOE", samples=atleast_2d(x))
+    assert scenario.optimization_result.f_opt == (f(x + u1) + f(x + u2)) / 2
 
 
 def test_statistic_no_estimation_parameters(disciplines, design_space, uncertain_space):
     """Check that a TypeError is raised when estimation parameters are missing.
 
-    The default UMDOFormulation is "Sampling" whose "n_samples" argument is mandatory
-    for most of the DOE algorithms, including the default one.
+    The default BaseUMDOFormulation is "Sampling" whose "n_samples" argument is
+    mandatory for most of the DOE algorithms, including the default one.
     """
     with pytest.raises(ValueError, match=re.escape("Sampling: n_samples is required.")):
         UMDOScenario(
             disciplines,
-            "MDF",
             "f",
             design_space,
             uncertain_space,
             "Mean",
+            formulation_name="MDF",
             maximize_objective=True,
         )
 
@@ -248,18 +307,18 @@ def test_log(
     discipline = AnalyticDiscipline({"y": "x**2+u"}, name="f")
 
     design_space = DesignSpace()
-    design_space.add_variable("x", l_b=-1, u_b=1.0, value=0.5)
+    design_space.add_variable("x", lower_bound=-1, upper_bound=1.0, value=0.5)
 
     uncertain_space = ParameterSpace()
     uncertain_space.add_random_variable("u", "OTNormalDistribution")
 
     scenario = UDOEScenario(
         [discipline],
-        "DisciplinaryOpt",
         "y",
         design_space,
         uncertain_space,
         "Mean",
+        formulation_name="DisciplinaryOpt",
         statistic_estimation="Sampling",
         statistic_estimation_parameters={
             "algo": "CustomDOE",
@@ -277,7 +336,7 @@ def test_log(
         constraint_name=constraint_name,
     )
     scenario.use_standardized_objective = use_standardized_objective
-    scenario.execute({"algo": "CustomDOE", "algo_options": {"samples": array([[1.0]])}})
+    scenario.execute(algo_name="CustomDOE", samples=array([[1.0]]))
     assert objective_expr in caplog.text
     assert constraint_expr in caplog.text
     assert constraint_res in caplog.text

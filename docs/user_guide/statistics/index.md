@@ -8,5 +8,3 @@
 -->
 
 # Statistics
-
-[MLMC](multilevel.md){ .md-button }

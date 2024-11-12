@@ -36,7 +36,7 @@ class DesignVariable(NamedTuple):
     """The upper bound of the design variable."""
 
     value: float
-    """The current vaue of the design variable."""
+    """The current value of the design variable."""
 
 
 class BeamDesignVariables(Enum):

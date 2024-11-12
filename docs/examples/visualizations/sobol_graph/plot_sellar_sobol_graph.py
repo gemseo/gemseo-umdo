@@ -13,15 +13,15 @@
 # FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-"""# Sobol' graph for the Sellar use case"""
+"""# Sobol' graph for the Sellar use case."""
 
 from __future__ import annotations
 
-from gemseo.problems.sellar.sellar import Sellar1
-from gemseo.problems.sellar.sellar import Sellar2
-from gemseo.problems.sellar.sellar import SellarSystem
-from gemseo.problems.sellar.sellar_design_space import SellarDesignSpace
-from gemseo.uncertainty.sensitivity.sobol.analysis import SobolAnalysis
+from gemseo.problems.mdo.sellar.sellar_1 import Sellar1
+from gemseo.problems.mdo.sellar.sellar_2 import Sellar2
+from gemseo.problems.mdo.sellar.sellar_design_space import SellarDesignSpace
+from gemseo.problems.mdo.sellar.sellar_system import SellarSystem
+from gemseo.uncertainty.sensitivity.sobol_analysis import SobolAnalysis
 
 from gemseo_umdo.visualizations.sobol_graph import SobolGraph
 
@@ -42,7 +42,8 @@ disciplines = [Sellar1(), Sellar2(), SellarSystem()]
 # %%
 # Thirdly,
 # we compute the Sobol' indices for all the outputs of the MDO problem:
-sobol_analysis = SobolAnalysis(disciplines, design_space, 100)
+sobol_analysis = SobolAnalysis()
+sobol_analysis.compute_samples(disciplines, design_space, 100)
 sobol_analysis.compute_indices()
 
 # %%
@@ -52,7 +53,7 @@ sobol_graph = SobolGraph.from_analysis(sobol_analysis, output_name="obj")
 sobol_graph
 
 # %%
-# Sphinx Gallery and Jupyter Notebook can display ``sobol_graph`` in the web browser.
-# You can also use ``sobol_graph.visualize()``
+# Sphinx Gallery and Jupyter Notebook can display `sobol_graph` in the web browser.
+# You can also use `sobol_graph.visualize()`
 # to save it on the disk
 # or display it with a dedicated program.

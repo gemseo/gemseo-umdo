@@ -16,19 +16,26 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
 from typing import Final
 
-from gemseo.core.discipline import MDODiscipline
+from gemseo.core.discipline.discipline import Discipline
 from numpy import array
 
 from gemseo_umdo.use_cases.beam_model.core.variables import sigma_all
 
+if TYPE_CHECKING:
+    from gemseo.typing import StrKeyMapping
 
-class BeamConstraints(MDODiscipline):
+
+class BeamConstraints(Discipline):
     r"""The discipline computing the constraints of the beam problem.
 
-    - Stress constraints: $\sigma_{\mathrm{all}}/(\sigma_{\mathrm{VM}}+1)$.
-    - Displacements constraints: $\Delta_{\mathrm{min}}/(\Delta+0.1)$.
+    More particularly,
+    the left-hand sides of
+
+    - the stress constraints $\sigma_{\mathrm{VM}}/\sigma_{\mathrm{all}} \leq 1$,
+    - the displacements constraints $\Delta/\Delta_{\mathrm{min}} \geq 1$.
     """
 
     __C_STRESS: Final[str] = "c_stress"
@@ -44,16 +51,14 @@ class BeamConstraints(MDODiscipline):
             sigma_all.name,
         ])
         self.output_grammar.update_from_names([self.__C_DISPL, self.__C_STRESS])
-        self.default_inputs = {
+        self.default_input_data = {
             sigma_all.name: array([sigma_all.value]),
             self.__SIGMA_VM: array([300.0]),
             self.__DISPL: array([100.0]),
         }
 
-    def _run(self) -> None:
-        self._local_data[self.__C_STRESS] = self._local_data[sigma_all.name] / (
-            self._local_data[self.__SIGMA_VM] + 1.0
+    def _run(self, input_data: StrKeyMapping) -> None:
+        self.io.data[self.__C_STRESS] = (
+            self.io.data[self.__SIGMA_VM] / self.io.data[sigma_all.name]
         )
-        self._local_data[self.__C_DISPL] = 100.0 / (
-            self._local_data[self.__DISPL] + 0.1
-        )
+        self.io.data[self.__C_DISPL] = self.io.data[self.__DISPL] / 100.0

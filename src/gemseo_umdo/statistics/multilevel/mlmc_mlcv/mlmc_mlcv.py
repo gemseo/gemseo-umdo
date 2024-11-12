@@ -18,6 +18,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from gemseo.utils.seeder import SEED
 from numpy import array
 from strenum import StrEnum
 
@@ -30,7 +31,7 @@ if TYPE_CHECKING:
     from collections.abc import Sequence
 
     from gemseo.algos.parameter_space import ParameterSpace
-    from gemseo.core.mdofunctions.mdo_function import MDOFunction
+    from gemseo.core.mdo_functions.mdo_function import MDOFunction
 
     from gemseo_umdo.statistics.multilevel.mlmc_mlcv.level import Level
 
@@ -70,7 +71,7 @@ class MLMCMLCV(MLMC):
         n_samples: float,
         pilot: str = "Mean",
         variant: Variant = Variant.MLMC_MLCV,
-        seed: int = 0,
+        seed: int = SEED,
     ) -> None:
         self.__g_l = tuple(level.surrogate_model[0] for level in levels)
         for l, g_l in enumerate(self.__g_l):  # noqa: E741
@@ -141,18 +142,22 @@ class MLMCMLCV(MLMC):
         if level == 0:
             if variant == cls.Variant.MLMC_MLCV:
                 return slice(0, n_levels)
+
             if variant == cls.Variant.MLMC_CV:
                 return slice(0, 1)
+
             if variant == cls.Variant.MLMC_MLCV_0:
                 return slice(0, 2)
-            if variant == cls.Variant.MLMC_CV_0:
-                return slice(0, 1)
-        else:
-            if variant == cls.Variant.MLMC_MLCV:
-                return slice(0, n_levels - 1)
-            if variant == cls.Variant.MLMC_CV:
-                return slice(level - 1, level)
-            if variant == cls.Variant.MLMC_MLCV_0:
-                return slice(0, 1)
+
+            return slice(0, 1)
+
+        if variant == cls.Variant.MLMC_MLCV:
+            return slice(0, n_levels - 1)
+
+        if variant == cls.Variant.MLMC_CV:
+            return slice(level - 1, level)
+
+        if variant == cls.Variant.MLMC_MLCV_0:
+            return slice(0, 1)
 
         return slice(0, 0)

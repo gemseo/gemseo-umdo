@@ -35,35 +35,30 @@ def test_dimension(uncertain_space):
 
 @pytest.mark.parametrize("uncertain_space", [False, True], indirect=True)
 @pytest.mark.parametrize(
-    ("name", "parameters"),
+    ("name", "repr_"),
     [
         (
             "F",
             (
-                {"mu": -200000.0, "sigma": 6666.67},
-                {"maximum": -180000.0, "minimum": -220000.00000000003},
+                "Normal(mu=-200000.0, sigma=6666.666666666667)",
+                "Uniform(lower=-220000.00000000003, upper=-180000.0)",
             ),
         ),
         (
             "E",
             (
-                {"mu": 73500.0, "sigma": 1225.0},
-                {"maximum": 77175.0, "minimum": 69825.0},
+                "Normal(mu=73500.0, sigma=1225.0)",
+                "Uniform(lower=69825.0, upper=77175.0)",
             ),
         ),
         (
             "sigma_all",
-            ({"mu": 300.0, "sigma": 5.0}, {"maximum": 315.0, "minimum": 285.0}),
+            ("Normal(mu=300.0, sigma=5.0)", "Uniform(lower=285.0, upper=315.0)"),
         ),
     ],
 )
-def test_variables(uncertain_space, name, parameters):
+def test_variables(uncertain_space, name, repr_):
     """Check the probability distributions of the random variables."""
-    distribution = uncertain_space[0][name]
-    assert distribution.size == 1
-    if uncertain_space[1]:
-        assert distribution.distribution == "OTUniformDistribution"
-        assert distribution.parameters == pytest.approx(parameters[1])
-    else:
-        assert distribution.distribution == "OTNormalDistribution"
-        assert distribution.parameters == pytest.approx(parameters[0])
+    joint_distribution = uncertain_space[0].distributions[name]
+    assert joint_distribution.dimension == 1
+    assert repr(joint_distribution) == repr_[int(bool(uncertain_space[1]))]

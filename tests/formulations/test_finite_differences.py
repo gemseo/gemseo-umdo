@@ -64,31 +64,28 @@ def test_finite_differences(
     })
 
     design_space = DesignSpace()
-    design_space.add_variable("x1", l_b=-1, u_b=1.0, value=0.5)
-    design_space.add_variable("x2", l_b=-1, u_b=1.0, value=0.5)
+    design_space.add_variable("x1", lower_bound=-1, upper_bound=1.0, value=0.5)
+    design_space.add_variable("x2", lower_bound=-1, upper_bound=1.0, value=0.5)
 
     uncertain_space = ParameterSpace()
     uncertain_space.add_random_variable("u", "OTNormalDistribution")
 
     scenario = UDOEScenario(
         [discipline],
-        "DisciplinaryOpt",
         "f",
         design_space,
         uncertain_space,
         "Mean",
+        formulation_name="DisciplinaryOpt",
         statistic_estimation=statistic_estimation,
         statistic_estimation_parameters=statistic_estimation_parameters,
     )
     scenario.add_constraint("c", "Mean")
     scenario.add_observable("o", "Mean")
     scenario.set_differentiation_method("finite_differences")
-    scenario.execute({
-        "algo": "CustomDOE",
-        "algo_options": {"samples": array([[1.0, 1.0]]), "eval_jac": True},
-    })
+    scenario.execute(algo_name="CustomDOE", samples=array([[1.0, 1.0]]), eval_jac=True)
     # The database storing the samples is cleared after each sampling.
-    assert not scenario.mdo_formulation.opt_problem.database
+    assert not scenario.mdo_formulation.optimization_problem.database
 
     # input_data_to_output_samples stores the samples
     # at points (x1, x2), (x1+dx1, x2) and (x1, x2+dx2)
@@ -106,7 +103,9 @@ def test_finite_differences(
     ):
         assert key == expected_key
 
-    get_history = scenario.formulation.opt_problem.database.get_gradient_history
+    get_history = (
+        scenario.formulation.optimization_problem.database.get_gradient_history
+    )
 
     grad_history = get_history("E[f]")
     assert_allclose(grad_history, array([[expected]]), atol=1e-3)

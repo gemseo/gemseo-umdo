@@ -13,17 +13,17 @@
 # FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-"""# Sobol' graph for the Sobieski's SSBJ use case"""
+"""# Sobol' graph for the Sobieski's SSBJ use case."""
 
 from __future__ import annotations
 
 from gemseo.algos.design_space import DesignSpace
-from gemseo.problems.sobieski.core.problem import SobieskiProblem
-from gemseo.problems.sobieski.disciplines import SobieskiAerodynamics
-from gemseo.problems.sobieski.disciplines import SobieskiMission
-from gemseo.problems.sobieski.disciplines import SobieskiPropulsion
-from gemseo.problems.sobieski.disciplines import SobieskiStructure
-from gemseo.uncertainty.sensitivity.sobol.analysis import SobolAnalysis
+from gemseo.problems.mdo.sobieski.core.problem import SobieskiProblem
+from gemseo.problems.mdo.sobieski.disciplines import SobieskiAerodynamics
+from gemseo.problems.mdo.sobieski.disciplines import SobieskiMission
+from gemseo.problems.mdo.sobieski.disciplines import SobieskiPropulsion
+from gemseo.problems.mdo.sobieski.disciplines import SobieskiStructure
+from gemseo.uncertainty.sensitivity.sobol_analysis import SobolAnalysis
 from gemseo.utils.data_conversion import split_array_to_dict_of_arrays
 
 from gemseo_umdo.visualizations.sobol_graph import SobolGraph
@@ -45,8 +45,8 @@ for name, value in optimum_design.items():
     uncertain_space.add_variable(
         name,
         size=value.size,
-        l_b=value * 0.95,
-        u_b=value * 1.05,
+        lower_bound=value * 0.95,
+        upper_bound=value * 1.05,
         value=value,
     )
 
@@ -63,7 +63,8 @@ disciplines = [
 # %%
 # Thirdly,
 # we compute the Sobol' indices for all the outputs of the MDO problem:
-sobol_analysis = SobolAnalysis(disciplines, uncertain_space, 100)
+sobol_analysis = SobolAnalysis()
+sobol_analysis.compute_samples(disciplines, uncertain_space, 100)
 sobol_analysis.compute_indices()
 
 # %%
@@ -73,7 +74,7 @@ sobol_graph = SobolGraph.from_analysis(sobol_analysis, output_name="y_4")
 sobol_graph
 
 # %%
-# Sphinx Gallery and Jupyter Notebook can display ``sobol_graph`` in the web browser.
-# You can also use ``sobol_graph.visualize()``
+# Sphinx Gallery and Jupyter Notebook can display `sobol_graph` in the web browser.
+# You can also use `sobol_graph.visualize()`
 # to save it on the disk
 # or display it with a dedicated program.

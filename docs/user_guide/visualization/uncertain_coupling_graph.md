@@ -121,12 +121,12 @@ of the method
 [sample()][gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph.sample].
 
 At the visualization stage,
-the string argument ``dispersion_measure``
+the string argument `dispersion_measure`
 allows to change the dispersion measure (QCD by default).
 
 It is also possible to filter some coupling variables
-with the argument ``variable_names`` (all coupling variables are displayed by default).
+with the argument `variable_names` (all coupling variables are displayed by default).
 
 Lastly,
-the float argument ``maximum_thickness`` can be used
+the float argument `maximum_thickness` can be used
 to set the maximum edge thickness.

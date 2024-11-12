@@ -1,14 +1,15 @@
 repos:
 
 - repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v4.5.0
+  rev: v5.0.0
   hooks:
     - id: trailing-whitespace
     - id: end-of-file-fixer
       exclude: LICENSES/headers
     - id: check-yaml
       # !reference is specific to gitlab
-      exclude: \.gitlab-ci.yml
+      # !! prefix is specific to mkdocs
+      exclude: \.gitlab-ci.yml|mkdocs.yml
     - id: check-added-large-files
     - id: check-json
     - id: pretty-format-json
@@ -16,6 +17,7 @@ repos:
         --autofix,
         --no-sort-keys,
       ]
+      exclude: \.ipynb
     - id: check-toml
     - id: destroyed-symlinks
     - id: check-symlinks
@@ -27,57 +29,38 @@ repos:
     - id: rst-directive-colons
     - id: rst-inline-touching-normal
 
-- repo: https://github.com/myint/docformatter
-  rev: v1.7.5
-  hooks:
-    - id: docformatter
-      args: [
-        --in-place,
-        --black,
-      ]
-
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.1.11
+  rev: v0.7.3
   hooks:
     - id: ruff
-      args: [
-        --fix,
-        --preview,
-        --exit-non-zero-on-fix,
-      ]
-
-- repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.1.11
-  hooks:
+      types_or: [ python, pyi, jupyter ]
+      args: [ --exit-non-zero-on-fix ]
     - id: ruff-format
+      types_or: [ python, pyi, jupyter ]
 
 - repo: https://github.com/commitizen-tools/commitizen
-  rev: v3.13.0
+  rev: v3.30.0
   hooks:
     - id: commitizen
       stages: [commit-msg]
 
 - repo: https://github.com/kynan/nbstripout
-  rev: 0.6.1
+  rev: 0.8.0
   hooks:
     - id: nbstripout
 
-- repo: https://github.com/nbQA-dev/nbQA
-  rev: 1.7.1
-  hooks:
-    - id: nbqa-black
-    - id: nbqa-pyupgrade
-      args: [ "--py38-plus" ]
-    - id: nbqa-autopep8
-
 - repo: https://github.com/igorshubovych/markdownlint-cli
-  rev: v0.38.0
+  rev: v0.42.0
   hooks:
   - id: markdownlint
-    args: ["--fix"]
+    args: [
+      --fix,
+      --disable,
+      MD024,
+      ]
 
 - repo: https://github.com/Lucas-C/pre-commit-hooks
-  rev: v1.5.4
+  rev: v1.5.5
   hooks:
     - id: insert-license
       name: insert LGPL license
@@ -103,7 +86,6 @@ repos:
     - id: insert-license
       name: insert CC BY-SA license for md files
       files: \.md$
-      exclude: ^docs/index.md
       args:
         - --license-filepath
         - LICENSES/headers/CC-BY-SA-4.0.txt

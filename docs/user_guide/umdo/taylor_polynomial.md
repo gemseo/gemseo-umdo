@@ -9,11 +9,9 @@
 
 # Taylor polynomial
 
-The U-MDO formulation [TaylorPolynomial]
-[gemseo_umdo.formulations.taylor_polynomial.TaylorPolynomial]
-can solve an MDO problem
-associated with an [MDOFormulation][gemseo.core.formulation.MDOFormulation]
-with Taylor polynomials.
+[TaylorPolynomial][gemseo_umdo.formulations.taylor_polynomial.TaylorPolynomial]
+is a U-MDO formulation that estimates the statistics
+using Taylor polynomials.
 
 The Taylor polynomials are centered at $\mu=\mathbb{E}[U]$
 where $U$ is the random input vector.
@@ -24,7 +22,7 @@ associated with taking the uncertainties into account.
 Otherwise,
 finite differences are computed
 and so the additional cost is $d+1$ evaluations of the process
-associated with the [MDOFormulation][gemseo.core.formulation.MDOFormulation]
+associated with the [MDOFormulation][gemseo.formulations.mdo_formulation.MDOFormulation]
 where $d$ is the dimension of the uncertain space.
 
 This U-MDO formulation has no mandatory parameters.
@@ -49,7 +47,7 @@ scenario = UMDOScenario(
 
 When the derivatives with respect to the uncertain variables are missing
 or when the process
-resulting from the [MDOFormulation][gemseo.core.formulation.MDOFormulation]
+resulting from the [MDOFormulation][gemseo.formulations.mdo_formulation.MDOFormulation]
 cannot be differentiated with respect to these variables,
 this U-MDO formulation uses finite difference approximations.
 One can also force the use of finite difference approximations
@@ -91,22 +89,17 @@ by setting the statistic estimation parameter `second_order` to `True`.
 
 ## Statistics
 
-This formulation has been implemented for the expectation and variance,
-as well as combinations of these statistics.
+This U-MDO formulation has been implemented
+for the expectation, the standard deviation, the variance and the margin.
 
 Here are the expressions when using first-order Taylor polynomials.
 
-### Mean
-
-$$\mathbb{E}[\varphi(x,U)]
-\approx E_{\textrm{TP}_1}[\varphi(x,U)]
-=\varphi(x,\mu)$$
-
-### Variance
-
-$$\mathbb{V}[\varphi(x,U)]
-\approx V_{\textrm{TP}_1}[\varphi(x,U)]
-=\nabla\varphi(x,\mu)^T\Sigma \nabla\varphi(x,\mu)$$
+| Statistic          | Notation                         | Estimator                                                                                                                    |
+|--------------------|----------------------------------|------------------------------------------------------------------------------------------------------------------------------|
+| Mean               | $\mathbb{E}[\varphi(x,U)]$       | $E_{\textrm{TP}_1}[\varphi(x,U)]=\varphi(x,\mu)$                                                                             |
+| Variance           | $\mathbb{V}[\varphi(x,U)]$       | $V_{\textrm{TP}_1}[\varphi(x,U)]=\nabla\varphi(x,\mu)^T\Sigma \nabla\varphi(x,\mu)$                                          |
+| Standard deviation | $\mathbb{S}[\varphi(x,U)]$       | $S_{\textrm{TP}_1}[\varphi(x,U)]=\sqrt{V_{\textrm{TP}_1}[\varphi(x,U)]}$                                                     |
+| Margin             | $\textrm{Margin}[\varphi(x,U)]$  | $\textrm{Margin}_{\textrm{TP}_1}[\varphi(x,U)]=E_{\textrm{TP}_1}[\varphi(x,U)]+\kappa\times S_{\textrm{TP}_1}[\varphi(x,U)]$ |
 
 where
 $\Sigma=\left(\textrm{cov}(U_i,U_j)\right)_{1\leq i,j\leq d}$
@@ -116,15 +109,3 @@ $\nabla\varphi(x,\mu)=
 \left(\frac{\partial\varphi(x,\mu)}{\partial u_i}\right)_{1\leq i \leq d}$
 is the column-vector of the partial derivatives of $\varphi$
 with respect to the uncertain variables.
-
-### Standard deviation
-
-$$\mathbb{S}[\varphi(x,U)]
-\approx S_{\textrm{TP}_1}[\varphi(x,U)]
-=\sqrt{V_{\textrm{TP}_1}[\varphi(x,U)]}$$
-
-### Margin
-
-$$\textrm{Margin}[\varphi(x,U)]
-\approx \textrm{Margin}_{\textrm{TP}_1}[\varphi(x,U)]
-=E_{\textrm{TP}_1}[\varphi(x,U)]+\kappa\times S_{\textrm{TP}_1}[\varphi(x,U)]$$

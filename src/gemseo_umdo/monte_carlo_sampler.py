@@ -19,7 +19,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 from typing import Callable
 
-from gemseo.algos.doe.lib_openturns import OpenTURNS
+from gemseo.algos.doe.openturns.openturns import OpenTURNS
 from numpy import array
 from numpy import hstack
 from numpy import vstack
@@ -54,8 +54,7 @@ class MonteCarloSampler:
         Args:
             input_space: The input space on which to sample the functions.
         """  # noqa:D205 D212 D415
-        self.__algo = OpenTURNS()
-        self.__algo.algo_name = "OT_MONTE_CARLO"
+        self.__algo = OpenTURNS("OT_MONTE_CARLO")
         self.__functions = []
         self.__input_space = input_space
         self.__input_histories = []
@@ -80,17 +79,19 @@ class MonteCarloSampler:
         Args:
             n_samples: The number of samples.
             seed: The seed value.
-                If ``None``,
+                If `None`,
                 use the [OpenTURNS.seed][gemseo.algos.doe.lib_openturns.OpenTURNS.seed].
 
         Returns:
             The input and output samples.
         """
         input_samples = self.__algo.compute_doe(
-            self.__input_space, size=n_samples, seed=seed
+            self.__input_space, n_samples=n_samples, seed=seed
         )
         if self.__all_functions_are_vectorized:
-            output_samples = [function(input_samples) for function in self.__functions]
+            output_samples = [
+                function.evaluate(input_samples) for function in self.__functions
+            ]
         else:
             output_samples = [
                 vstack([function(input_sample) for input_sample in input_samples])

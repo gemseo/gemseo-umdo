@@ -3,7 +3,7 @@ name = "gemseo-umdo"
 authors = [
     {name = "Matthias De Lozzo", email = "contact@gemseo.org"}
 ]
-description = "Capability for MDO under uncertainty."
+description = "Robust MDO and advanced UQ with GEMSEO."
 license = {text = "GNU Lesser General Public License v3"}
 classifiers = [
     "License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)",
@@ -16,11 +16,12 @@ classifiers = [
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
 ]
 dynamic = ["version"]
-requires-python = ">=3.9, <3.12"
+requires-python = ">=3.9, <3.13"
 dependencies = [
-    "gemseo[all] >=5",
+    "gemseo[all] >=6,<7",
     "matplotlib",
     "numpy",
     "scipy",
@@ -29,20 +30,23 @@ dependencies = [
 [project.optional-dependencies]
 test = [
     "covdefaults",
-    "pytest",
+    "pytest <9",
     "pytest-cov",
     "pytest-xdist",
 ]
 doc = [
     "black",
-    "mkdocs-gallery",
-    "mkdocs-section-index",
-    "mkdocs-literate-nav",
-    "mkdocs-gen-files",
-    "mkdocstrings[python]",
-    "mkdocs-material",
-    "mkdocs-include-markdown-plugin",
+    "griffe-inherited-docstrings",
+    "markdown-exec[ansi]",
+    "mike",
     "mkdocs-bibtex",
+    "mkdocs-gallery",
+    "mkdocs-gen-files",
+    "mkdocs-include-markdown-plugin",
+    "mkdocs-literate-nav",
+    "mkdocs-material",
+    "mkdocs-section-index",
+    "mkdocstrings[python]",
 ]
 
 [project.urls]

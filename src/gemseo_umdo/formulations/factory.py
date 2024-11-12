@@ -12,17 +12,17 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-"""Formulate a multidisciplinary design problem under uncertainty."""
+"""Factory of U-MDO formulations."""
 
 from __future__ import annotations
 
-from gemseo.formulations.formulations_factory import MDOFormulationsFactory
+from gemseo.formulations.factory import MDOFormulationFactory
 
-from gemseo_umdo.formulations.formulation import UMDOFormulation
+from gemseo_umdo.formulations.base_umdo_formulation import BaseUMDOFormulation
 
 
-class UMDOFormulationsFactory(MDOFormulationsFactory):
+class UMDOFormulationsFactory(MDOFormulationFactory):
     """The factory of U-MDO formulations."""
 
-    _CLASS = UMDOFormulation
-    _MODULE_NAMES = ("gemseo_umdo.formulations",)
+    _CLASS = BaseUMDOFormulation
+    _PACKAGE_NAMES = ("gemseo_umdo.formulations",)

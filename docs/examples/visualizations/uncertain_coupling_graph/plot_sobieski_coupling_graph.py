@@ -13,16 +13,16 @@
 # FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-"""# The uncertain coupling graph for the Sobieski's SSBJ use case"""
+"""# The uncertain coupling graph for the Sobieski's SSBJ use case."""
 
 from __future__ import annotations
 
 from gemseo.algos.design_space import DesignSpace
-from gemseo.problems.sobieski.core.problem import SobieskiProblem
-from gemseo.problems.sobieski.disciplines import SobieskiAerodynamics
-from gemseo.problems.sobieski.disciplines import SobieskiMission
-from gemseo.problems.sobieski.disciplines import SobieskiPropulsion
-from gemseo.problems.sobieski.disciplines import SobieskiStructure
+from gemseo.problems.mdo.sobieski.core.problem import SobieskiProblem
+from gemseo.problems.mdo.sobieski.disciplines import SobieskiAerodynamics
+from gemseo.problems.mdo.sobieski.disciplines import SobieskiMission
+from gemseo.problems.mdo.sobieski.disciplines import SobieskiPropulsion
+from gemseo.problems.mdo.sobieski.disciplines import SobieskiStructure
 from gemseo.utils.data_conversion import split_array_to_dict_of_arrays
 
 from gemseo_umdo.visualizations.uncertain_coupling_graph import UncertainCouplingGraph
@@ -44,8 +44,8 @@ for name, value in optimum_design.items():
     uncertain_space.add_variable(
         name,
         size=value.size,
-        l_b=value * 0.95,
-        u_b=value * 1.05,
+        lower_bound=value * 0.95,
+        upper_bound=value * 1.05,
         value=value,
     )
 
@@ -75,6 +75,6 @@ uncertain_coupling_graph.visualize(save=False, show=True)
 
 # %%
 # In this example designed for Sphinx Gallery and Jupyter Notebook,
-# we do not save the graph on the disk (``save=False``)
-# or display it with a dedicated program (``save=True``)
+# we do not save the graph on the disk (`save=False`)
+# or display it with a dedicated program (`save=True`)
 # but display it in the web browser.

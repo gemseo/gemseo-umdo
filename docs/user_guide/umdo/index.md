@@ -56,7 +56,7 @@ can be reduced to this standard optimization problem:
 
     In [GEMSEO](https://www.gemseo.org),
     the user instantiates an
-    [OptimizationProblem][gemseo.algos.opt_problem.OptimizationProblem]
+    [OptimizationProblem][gemseo.algos.optimization_problem.OptimizationProblem]
     from a [DesignSpace][gemseo.algos.design_space.DesignSpace],
     defines its objective functions and constraints
     with
@@ -80,18 +80,18 @@ can be reduced to this standard optimization problem:
 
         ``` py
         from gemseo import execute_algo
-        from gemseo.algos.opt_problem import Optimization
+        from gemseo.algos.optimization_problem import Optimization
         from gemseo.algos.design_space import DesignSpace
         from gemseo.core.mdofunctions.mdo_function import MDOFunction
 
         design_space = DesignSpace()
-        design_space.add_variable("x", l_b=-1., u_b=1.)
+        design_space.add_variable("x", lower_bound=-1., upper_bound=1.)
 
         problem = OptimizationProblem(design_space)
         problem.objective = MDOFunction(lambda x: x**2, "f")
         problem.add_constraint(MDOFunction(lambda x: x**3, "g"), positive=True, value=0.1)
 
-        execute_algo(problem, "fullfact", n_samples=10, algo_type="doe")
+        execute_algo(problem, algo_name="PYDOE_FULLFACT", n_samples=10, algo_type="doe")
         ```
 
 ### Multidisciplinary optimization (MDO) problem
@@ -159,7 +159,7 @@ called *MDO formulation* or *architecture*[@MartinsSurvey].
 
     $$
     \begin{align}
-    &\underset{x\in\mathcal{X}}{\operatorname{Minimize}}&&f(x,y(x))\\
+    &\underset{x\in\mathcal{X}}{\operatorname{minimize}}&&f(x,y(x))\\
     &\operatorname{subject\;to}
     & &g(x,y(x)) \leq 0 \\
     &&&h(x,y(x)) = 0 \\
@@ -177,7 +177,7 @@ called *MDO formulation* or *architecture*[@MartinsSurvey].
 
     $$
     \begin{align}
-    &\underset{x\in\mathcal{X},\tilde{y}\in\mathcal{Y}}{\operatorname{Minimize}}&&f(x,\tilde{y})\\
+    &\underset{x\in\mathcal{X},\tilde{y}\in\mathcal{Y}}{\operatorname{minimize}}&&f(x,\tilde{y})\\
     &\operatorname{subject\;to}
     & &g(x,\tilde{y}) \leq 0 \\
     &&&h(x,\tilde{y}) = 0 \\
@@ -218,14 +218,14 @@ called *MDO formulation* or *architecture*[@MartinsSurvey].
           ]
 
           design_space = DesignSpace()
-          design_space.add_variable("x", l_b=0.0, u_b=10.0, value=1)
-          design_space.add_variable("z1", l_b=-10, u_b=10.0, value=4.0)
-          design_space.add_variable("z2", l_b=0.0, u_b=10.0, value=3.0)
+          design_space.add_variable("x", lower_bound=0.0, upper_bound=10.0, value=1)
+          design_space.add_variable("z1", lower_bound=-10, upper_bound=10.0, value=4.0)
+          design_space.add_variable("z2", lower_bound=0.0, upper_bound=10.0, value=3.0)
 
           scenario = create_scenario(disciplines, "MDF", "f", design_space)
           scenario.add_constraint("c1", "ineq")
           scenario.add_constraint("c2", "ineq")
-          scenario.execute({"algo": "SLSQP", "max_iter": 100})
+          scenario.execute(algo_name="SLSQP", max_iter=100)
         ```
 
 ### Optimization problem under uncertainty
@@ -306,24 +306,26 @@ can change their values.
 
 !!! example
 
-    Let us implement an [MDODiscipline][gemseo.core.discipline.MDODiscipline]
+    Let us implement an [Discipline][gemseo.core.discipline.discipline.Discipline]
     outputting $f(x,U)=(x_1+U)^2+(x_2+U)^2$:
     ``` py
     from numpy import array
-    from gemseo.core.discipline import MDODiscipline
+    from gemseo.core.discipline.discipline import Discipline
 
 
-    class MyDiscipline(MDODiscipline):
+    class MyDiscipline(Discipline):
 
         def __init__(self):
             super().__init__()
             self.input_grammar.update_from_names(["x1", "x2", "U"])
-            self.default_inputs = {"x1": array([0.]), "x2": array([0.]), "U": array([0.5])}
+            self.default_input_data = {"x1": array([0.]), "x2": array([0.]), "U": array([0.5])}
 
-        def _run(self):
-            x1, x2, U = self.get_local_data_by_name(["x1", "x2", "U"])
+        def _run(self, input_data):
+            x1 = self.io.data["x1"]
+            x2 = self.io.data["x2"]
+            U = self.io.data["U"]
             y = (x1+U)**2 + (x2+U)**2
-            self.store_local_data(y=y)
+            self.io.update_output_data({"y": y})
     ```
 
     This discipline can be executed
@@ -363,9 +365,9 @@ the MDO problem can be set up.
 In the case of MDO *without* uncertainty,
 there are two scenarios to set up the MDO problem:
 
-- [DOEScenario][gemseo.core.doe_scenario.DOEScenario]
+- [DOEScenario][gemseo.scenarios.doe_scenario.DOEScenario]
   to solve it with a DOE,
-- [MDOScenario][gemseo.core.mdo_scenario.MDOScenario]
+- [MDOScenario][gemseo.scenarios.mdo_scenario.MDOScenario]
   to solve it with an optimizer.
 
 Both need knowledge of objective and constraint functions
@@ -388,11 +390,11 @@ to solve the MDO problem under uncertainty.
 
     The API of [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario]
     is deliberately similar to
-    the API of [DOEScenario][gemseo.core.doe_scenario.DOEScenario].
+    the API of [DOEScenario][gemseo.scenarios.doe_scenario.DOEScenario].
     And the same for
     [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
     and
-    [MDOScenario][gemseo.core.mdo_scenario.MDOScenario].
+    [MDOScenario][gemseo.scenarios.mdo_scenario.MDOScenario].
     This choice was made not only to simplify the user's life,
     but also because an MDO problem under uncertainty
     is first and foremost an MDO problem.
@@ -410,8 +412,8 @@ to solve the MDO problem under uncertainty.
     from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 
     design_space = DesignSpace()
-    design_space.add_variable("x1", l_b=-1., u_b=1.)
-    design_space.add_variable("x2", l_b=-1, u_b=1.)
+    design_space.add_variable("x1", lower_bound=-1., upper_bound=1.)
+    design_space.add_variable("x2", lower_bound=-1, upper_bound=1.)
 
     scenario = UMDOScenario(
         [discipline],
@@ -422,7 +424,7 @@ to solve the MDO problem under uncertainty.
         "Mean",
         statistic_estimation_parameters={"n_samples": 100},
     )
-    scenario.execute({"algo": "NLOPT_COBYLA", "max_iter": 50})
+    scenario.execute(algo_name="NLOPT_COBYLA", max_iter=50)
     ```
 
 ### U-MDO formulations
@@ -430,25 +432,46 @@ to solve the MDO problem under uncertainty.
 By default,
 [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario]
 and [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
-estimate the statistics
-by sampling the random function $f(x,U)$, $g(x,U)$ and $h(x,U)$.
+estimate the statistics associated with $f(x,U)$, $g(x,U)$ and $h(x,U)$
+by sampling these random variables:
 
-GEMSEO-UMDO offers other statistic estimations methods
-and refers to them as U-MDO formulations.
-A [UMDOFormulation][gemseo_umdo.formulations.formulation.UMDOFormulation]
-can be combined to any MDO formulation.
+$$(f(x,U^{(i)}),g(x,U^{(i)}),h(x,U^{(i)}))_{1\leq i \leq N}.$$
+
+However,
+as sampling can be expensive,
+GEMSEO-UMDO offers other techniques to reduce the cost of statistics estimation,
+such as
+[control variates](control_variate.md),
+[Taylor polynomials](taylor_polynomial.md)
+and
+[polynomial chaos expansions](pce.md).
+The choice of an estimation technique is made
+via the string argument `estimation_technique` of [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario]
+(or [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]),
+representing the class name of an
+[BaseUMDOFormulation][gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation],
+*e.g.* `"ControlVariate"`, `"TaylorPolynomial"` or `"PCE"`.
+
+As of now,
+only the [``Sampling`` U-MDO formulation](sampling.md) provides analytical derivatives of the statistics
+when the disciplines and the multidisciplinary process generated by the MDO formulation are differentiable.
+Therefore,
+the other U-MDO formulations require gradient approximation to use gradient-based optimizers,
+what can be expensive according to the dimension of the design space.
+
+The rest of the **MDO under uncertainty** section of the user guide presents the different U-MDO formulations.
 
 ??? info "Implementation"
 
     Given a
     [DesignSpace][gemseo.algos.design_space.DesignSpace]
     and a collection of
-    [MDODisciplines][gemseo.core.discipline.MDODiscipline],
-    a [DOEScenario][gemseo.core.doe_scenario.DOEScenario]
+    [Disciplines][gemseo.core.discipline.discipline.Discipline],
+    a [DOEScenario][gemseo.scenarios.doe_scenario.DOEScenario]
     generates and solves an
-    [OptimizationProblem][gemseo.algos.opt_problem.OptimizationProblem]
+    [OptimizationProblem][gemseo.algos.optimization_problem.OptimizationProblem]
     that corresponds to an
-    [MDOFormulation][gemseo.core.formulation.MDOFormulation].
+    [MDOFormulation][gemseo.formulations.mdo_formulation.MDOFormulation].
     The resolution consists in sampling the objective and constraints
     over the [DesignSpace][gemseo.algos.design_space.DesignSpace],
     i.e. $(x^{(i)},f(x^{(i)},U),g(x^{(i)},U),h(x^{(i)},U))_{1\leq i \leq N}$,
@@ -473,7 +496,7 @@ can be combined to any MDO formulation.
     $\hat{\mathbb{K}}_g[g(x,U)]$ and
     $\hat{\mathbb{K}}_h[h(x,U)]$
     are then used to build a new
-    [OptimizationProblem][gemseo.algos.opt_problem.OptimizationProblem]
+    [OptimizationProblem][gemseo.algos.optimization_problem.OptimizationProblem]
     over the [DesignSpace][gemseo.algos.design_space.DesignSpace]:
 
     $$
@@ -489,7 +512,7 @@ can be combined to any MDO formulation.
     Thus implemented,
     GEMSEO-UMDO should be able
     to set up any MDO problem under uncertainty
-    from any [MDOFormulation][gemseo.core.formulation.MDOFormulation]
+    from any [MDOFormulation][gemseo.formulations.mdo_formulation.MDOFormulation]
     and any statistic estimation technique.
     This vision may be theoretical at the moment,
     but the ambition of GEMSEO-UMDO is to be

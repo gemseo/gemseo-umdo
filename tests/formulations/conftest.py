@@ -19,17 +19,17 @@ from typing import TYPE_CHECKING
 import pytest
 from gemseo.algos.design_space import DesignSpace
 from gemseo.algos.parameter_space import ParameterSpace
-from gemseo.core.chain import MDOChain
+from gemseo.core.chains.chain import MDOChain
 from gemseo.disciplines.analytic import AnalyticDiscipline
 from gemseo.formulations.mdf import MDF
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
 
-    from gemseo.core.discipline import MDODiscipline
+    from gemseo.core.discipline.discipline import Discipline
 
 
-@pytest.fixture()
+@pytest.fixture
 def disciplines() -> list[AnalyticDiscipline]:
     """The coupled disciplines."""
     disc0 = AnalyticDiscipline(
@@ -40,9 +40,9 @@ def disciplines() -> list[AnalyticDiscipline]:
     return [disc0, disc1, disc2]
 
 
-@pytest.fixture()
+@pytest.fixture
 def mdf_discipline() -> MDOChain:
-    """A monodisciplinary version of ``disciplines``."""
+    """A monodisciplinary version of `disciplines`."""
     disc0 = AnalyticDiscipline(
         {"f": "x0+y1+y2+u", "c": "x0+y1+y2+2*u", "o": "x0+y1+y2+3*u"}, name="D0"
     )
@@ -51,17 +51,17 @@ def mdf_discipline() -> MDOChain:
     return MDOChain([disc1, disc2, disc0])
 
 
-@pytest.fixture()
+@pytest.fixture
 def design_space() -> DesignSpace:
     """The design space."""
     space = DesignSpace()
-    space.add_variable("x0", l_b=0.0, u_b=1.0, value=0.5)
-    space.add_variable("x1", l_b=0.0, u_b=2.0, value=0.5)
-    space.add_variable("x2", l_b=0.0, u_b=3.0, value=0.5)
+    space.add_variable("x0", lower_bound=0.0, upper_bound=1.0, value=0.5)
+    space.add_variable("x1", lower_bound=0.0, upper_bound=2.0, value=0.5)
+    space.add_variable("x2", lower_bound=0.0, upper_bound=3.0, value=0.5)
     return space
 
 
-@pytest.fixture()
+@pytest.fixture
 def uncertain_space() -> ParameterSpace:
     """The uncertain space."""
     space = ParameterSpace()
@@ -71,9 +71,23 @@ def uncertain_space() -> ParameterSpace:
     return space
 
 
-@pytest.fixture()
+@pytest.fixture
 def mdo_formulation(
-    disciplines: Sequence[MDODiscipline], uncertain_space: ParameterSpace
+    disciplines: Sequence[Discipline], uncertain_space: ParameterSpace
 ) -> MDF:
     """The MDO formulation."""
     return MDF(disciplines, "f", uncertain_space)
+
+
+@pytest.fixture
+def quadratic_problem() -> tuple[AnalyticDiscipline, DesignSpace, ParameterSpace]:
+    """The discipline, design space and uncertain space of a quadratic problem."""
+    discipline = AnalyticDiscipline({"y": "(x+u)**2"}, name="quadratic_function")
+
+    design_space = DesignSpace()
+    design_space.add_variable("x", lower_bound=-1, upper_bound=1.0, value=0.5)
+
+    uncertain_space = ParameterSpace()
+    uncertain_space.add_random_variable("u", "OTNormalDistribution")
+
+    return discipline, design_space, uncertain_space

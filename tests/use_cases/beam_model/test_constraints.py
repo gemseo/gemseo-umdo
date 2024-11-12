@@ -49,16 +49,17 @@ def test_default_inputs(discipline):
         "sigma_vm": array([300.0]),
         "displ": array([100.0]),
     }
-    assert compare_dict_of_arrays(discipline.default_inputs, expected, tolerance=0.01)
+    assert compare_dict_of_arrays(
+        discipline.default_input_data, expected, tolerance=0.01
+    )
 
 
 def test_default_outputs(discipline):
     """Check the default values of the outputs."""
     assert_almost_equal(
-        discipline.local_data["c_stress"],
-        discipline.local_data["sigma_all"] / (discipline.local_data["sigma_vm"] + 1.0),
+        discipline.io.data["c_stress"],
+        discipline.io.data["sigma_vm"] / discipline.io.data["sigma_all"],
     )
     assert_almost_equal(
-        discipline.local_data["c_displ"],
-        100.0 / (discipline.local_data["displ"] + 0.1),
+        discipline.io.data["c_displ"], discipline.io.data["displ"] / 100.0
     )

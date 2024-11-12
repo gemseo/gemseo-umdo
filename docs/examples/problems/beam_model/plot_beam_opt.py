@@ -13,7 +13,7 @@
 # FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-r"""# Optimization problem
+r"""# Optimization problem.
 
 Minimize the weight $w(h,t)$ w.r.t. the height $h\in[500, 800]$ and the thickness
 $t\in[2,10]$ while satisfying $c_{\text{stress}}(h,t)\geq 1.0$ and
@@ -23,7 +23,7 @@ $c_{\text{displacement}}(h,t)\leq 1.0$.
 from __future__ import annotations
 
 from gemseo import configure_logger
-from gemseo.core.mdo_scenario import MDOScenario
+from gemseo.scenarios.mdo_scenario import MDOScenario
 
 from gemseo_umdo.use_cases.beam_model.constraints import BeamConstraints
 from gemseo_umdo.use_cases.beam_model.design_space import BeamDesignSpace
@@ -35,9 +35,9 @@ disciplines = [Beam(), BeamConstraints()]
 
 design_space = BeamDesignSpace()
 
-scenario = MDOScenario(disciplines, "MDF", "w", design_space)
-scenario.add_constraint("c_stress", constraint_type="ineq", positive=True, value=1.0)
-scenario.add_constraint("c_displ", constraint_type="ineq", value=1.0)
-scenario.execute({"algo": "NLOPT_COBYLA", "max_iter": 1000})
+scenario = MDOScenario(disciplines, "w", design_space, formulation_name="MDF")
+scenario.add_constraint("c_stress", constraint_type="ineq", value=1.0)
+scenario.add_constraint("c_displ", constraint_type="ineq", positive=True, value=1.0)
+scenario.execute(algo_name="NLOPT_COBYLA", max_iter=1000)
 
-scenario.post_process("OptHistoryView", save=False, show=True)
+scenario.post_process(post_name="OptHistoryView", save=False, show=True)

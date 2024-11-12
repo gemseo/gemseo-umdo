@@ -22,9 +22,9 @@ from typing import Callable
 from typing import Final
 
 from gemseo.core.dependency_graph import DependencyGraph
-from gemseo.core.doe_scenario import DOEScenario
 from gemseo.disciplines.utils import get_all_outputs
 from gemseo.post._graph_view import GraphView
+from gemseo.scenarios.doe_scenario import DOEScenario
 from gemseo.utils.string_tools import repr_variable
 from numpy import atleast_1d
 from numpy import quantile
@@ -36,7 +36,7 @@ if TYPE_CHECKING:
     from pathlib import Path
 
     from gemseo.algos.parameter_space import ParameterSpace
-    from gemseo.core.discipline import MDODiscipline
+    from gemseo.core.discipline.discipline import Discipline
     from numpy.typing import NDArray
 
 
@@ -94,7 +94,7 @@ class UncertainCouplingGraph:
 
     def __init__(
         self,
-        disciplines: Sequence[MDODiscipline],
+        disciplines: Sequence[Discipline],
         uncertain_space: ParameterSpace,
         variable_names: Iterable[str] | None = None,
     ) -> None:
@@ -103,7 +103,7 @@ class UncertainCouplingGraph:
             disciplines: The coupled disciplines.
             uncertain_space: The space of the uncertain variables.
             variable_names: The names of the coupling variables of interest.
-                If ``None``, use all the coupling variables.
+                If `None`, use all the coupling variables.
         """  # noqa: D205 D212 D415
         if variable_names is None:
             self.__output_names = get_all_outputs(disciplines)
@@ -111,7 +111,7 @@ class UncertainCouplingGraph:
             self.__output_names = variable_names
 
         self.__scenario = DOEScenario(
-            disciplines, "MDF", self.__output_names[0], uncertain_space
+            disciplines, self.__output_names[0], uncertain_space, formulation_name="MDF"
         )
         for output_name in self.__output_names:
             self.__scenario.add_observable(output_name)
@@ -126,11 +126,9 @@ class UncertainCouplingGraph:
             algo_name: The name of the DOE algorithm.
             **algo_options: The options of the DOE algorithm.
         """
-        self.__scenario.execute({
-            "algo": algo_name,
-            "n_samples": n_samples,
-            "algo_options": algo_options,
-        })
+        self.__scenario.execute(
+            algo_name=algo_name, n_samples=n_samples, **algo_options
+        )
 
     def visualize(
         self,
@@ -148,13 +146,13 @@ class UncertainCouplingGraph:
             maximum_thickness: The maximum thickness of a line.
             dispersion_measure: A standardized measure of dispersion.
             variable_names: The names of the coupling variables of interest.
-                If ``None``,
+                If `None`,
                 use all the coupling variables of interest defined at instantiation.
             show: Whether to display the graph
                 with the default application associated to the file extension.
             save: Whether to save the graph on the disk.
             file_path: The file path with extension to save the graph.
-                If ``""``, use the class name with PNG format.
+                If `""`, use the class name with PNG format.
             clean_up: Whether to remove the source files.
 
         Returns:
@@ -165,7 +163,7 @@ class UncertainCouplingGraph:
         else:
             all_output_names = variable_names
 
-        database = self.__scenario.formulation.opt_problem.database
+        database = self.__scenario.formulation.optimization_problem.database
         output_names_to_measures = {
             output_name: self.__DISP_MEAS_TO_FUNCTION[dispersion_measure](
                 database.get_function_history(output_name)
@@ -191,8 +189,8 @@ class UncertainCouplingGraph:
                     )
 
         for discipline in dependency_graph.nodes:
-            coupling_names = set(discipline.get_input_data_names()).intersection(
-                discipline.get_output_data_names()
+            coupling_names = set(discipline.io.input_grammar.names).intersection(
+                discipline.io.output_grammar.names
             )
             discipline_name = discipline.name
             variable_names = set(coupling_names).intersection(set(all_output_names))

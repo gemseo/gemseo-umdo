@@ -19,7 +19,7 @@ from __future__ import annotations
 from typing import Callable
 
 import pytest
-from gemseo.core.mdofunctions.mdo_function import MDOFunction
+from gemseo.core.mdo_functions.mdo_function import MDOFunction
 from numpy import array
 from numpy import ndarray
 from numpy.testing import assert_equal
@@ -72,7 +72,7 @@ def test_default(model, surrogate_model, difference_surrogate_model):
     g = level.surrogate_model[0]
     assert isinstance(g, MDOFunction)
     assert g.name == "g"
-    assert g(array([2.0])) == array([3.6])
+    assert g.evaluate(array([2.0])) == array([3.6])
     assert level.surrogate_model[1] == 0.0
 
     assert isinstance(level.difference_surrogate_model, tuple)
@@ -80,12 +80,12 @@ def test_default(model, surrogate_model, difference_surrogate_model):
     h = level.difference_surrogate_model[0]
     assert isinstance(h, MDOFunction)
     assert h.name == "h"
-    assert h(array([2.0])) == array([0.1])
+    assert h.evaluate(array([2.0])) == array([0.1])
     assert level.difference_surrogate_model[1] == 0.0
 
     assert isinstance(level.model, MDOFunction)
     assert level.model.name == "f"
-    assert level.model(array([1.0])) == array([2.0])
+    assert level.model.evaluate(array([1.0])) == array([2.0])
 
     assert level.cost is None
     assert level.n_cost_estimation_samples == 1

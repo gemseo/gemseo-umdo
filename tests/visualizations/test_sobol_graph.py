@@ -17,18 +17,18 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
-from gemseo.uncertainty.sensitivity.sobol.analysis import SobolAnalysis
-from gemseo.uncertainty.use_cases.ishigami.ishigami_discipline import IshigamiDiscipline
-from gemseo.uncertainty.use_cases.ishigami.ishigami_space import IshigamiSpace
-from gemseo.uncertainty.use_cases.ishigami.statistics import SOBOL_1
-from gemseo.uncertainty.use_cases.ishigami.statistics import SOBOL_2
-from gemseo.uncertainty.use_cases.ishigami.statistics import SOBOL_3
-from gemseo.uncertainty.use_cases.ishigami.statistics import SOBOL_12
-from gemseo.uncertainty.use_cases.ishigami.statistics import SOBOL_13
-from gemseo.uncertainty.use_cases.ishigami.statistics import SOBOL_23
-from gemseo.uncertainty.use_cases.ishigami.statistics import TOTAL_SOBOL_1
-from gemseo.uncertainty.use_cases.ishigami.statistics import TOTAL_SOBOL_2
-from gemseo.uncertainty.use_cases.ishigami.statistics import TOTAL_SOBOL_3
+from gemseo.problems.uncertainty.ishigami.ishigami_discipline import IshigamiDiscipline
+from gemseo.problems.uncertainty.ishigami.ishigami_space import IshigamiSpace
+from gemseo.problems.uncertainty.ishigami.statistics import SOBOL_1
+from gemseo.problems.uncertainty.ishigami.statistics import SOBOL_2
+from gemseo.problems.uncertainty.ishigami.statistics import SOBOL_3
+from gemseo.problems.uncertainty.ishigami.statistics import SOBOL_12
+from gemseo.problems.uncertainty.ishigami.statistics import SOBOL_13
+from gemseo.problems.uncertainty.ishigami.statistics import SOBOL_23
+from gemseo.problems.uncertainty.ishigami.statistics import TOTAL_SOBOL_1
+from gemseo.problems.uncertainty.ishigami.statistics import TOTAL_SOBOL_2
+from gemseo.problems.uncertainty.ishigami.statistics import TOTAL_SOBOL_3
+from gemseo.uncertainty.sensitivity.sobol_analysis import SobolAnalysis
 
 from gemseo_umdo.visualizations.sobol_graph import SobolGraph
 
@@ -115,7 +115,8 @@ def test_threshold(
 
 def test_from_analysis(tmp_wd):
     """Check the image computed from a Sobol' analysis."""
-    analysis = SobolAnalysis([IshigamiDiscipline()], IshigamiSpace(), 100)
+    analysis = SobolAnalysis()
+    analysis.compute_samples([IshigamiDiscipline()], IshigamiSpace(), 100)
     analysis.compute_indices()
     file_name = "from_analysis.png"
     SobolGraph.from_analysis(analysis, "y").visualize(

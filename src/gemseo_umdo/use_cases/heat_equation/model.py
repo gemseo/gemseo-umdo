@@ -68,12 +68,12 @@ $H_k=\frac{2}{k^3\pi^3T}
 
 The [HeatEquationModel][gemseo_umdo.use_cases.heat_equation.model.HeatEquationModel]
 computes the temperature at final time
-from instances of the random variables ``"X_1"``, ..., ``"X_7"``
+from instances of the random variables `"X_1"`, ..., `"X_7"`
 defined over the
 [HeatEquationUncertainSpace]
 [gemseo_umdo.use_cases.heat_equation.uncertain_space.HeatEquationUncertainSpace].
-The temperature ``"u_mesh"`` is computed at each mesh node
-while the temperature ``"u"`` is an integral over the rod.
+The temperature `"u_mesh"` is computed at each mesh node
+while the temperature `"u"` is an integral over the rod.
 
 See Also:
     Geraci et al., A multifidelity control variate approach
@@ -85,15 +85,17 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-import numpy as np
-from numpy import abs
+from numpy import abs as np_abs
 from numpy import array
+from numpy import exp
 from numpy import linspace
 from numpy import meshgrid
 from numpy import newaxis
 from numpy import pi
 from numpy import sin
+from numpy import sum as np_sum
 from numpy import trapz
+from numpy import zeros
 
 from gemseo_umdo.use_cases.heat_equation.configuration import HeatEquationConfiguration
 
@@ -136,7 +138,7 @@ class HeatEquationModel:
         self.__nu_delta = nu_bounds[1] - nu_bounds[0]
         self.__modes = linspace(1, n_modes, n_modes)
         xx, nn = meshgrid(self.configuration.mesh, self.__modes, copy=False)
-        self.__sinus = np.sin(xx * nn * pi)[:, :, newaxis]
+        self.__sinus = sin(xx * nn * pi)[:, :, newaxis]
         self.__default_input_value = array([0.0, 0.0, 0.0, 0.005, 0.0, 0.0, 0.0])
         pi_mesh = pi * self.configuration.mesh
         self.__F1 = sin(pi_mesh)  # noqa: N806
@@ -159,12 +161,12 @@ class HeatEquationModel:
 
         Args:
             X: The input samples
-                shaped as ``(sample_size, input_dimension)``.
+                shaped as `(sample_size, input_dimension)`.
 
         Returns:
             The initial temperature for each mesh nodes.
         """
-        G = 50 * (4 * abs(X[:, 4:7]) - 1).T.prod(0)  # noqa: N806
+        G = 50 * (4 * np_abs(X[:, 4:7]) - 1).T.prod(0)  # noqa: N806
         I = 3.5 * (  # noqa: N806, E741
             sin(X[:, 0]) + 7 * sin(X[:, 1]) ** 2 + 0.1 * X[:, 2] ** 4 * sin(X[:, 0])
         )
@@ -180,13 +182,13 @@ class HeatEquationModel:
 
         Args:
             input_samples: The input samples
-                shaped as ``(sample_size, input_dimension)`` or ``(input_dimension, )``.
+                shaped as `(sample_size, input_dimension)` or `(input_dimension, )`.
             batch_size: The maximum number of samples per batch.
 
         Returns:
-            - The integrated temperature shaped as ``(sample_size, )`` or ``()``.
+            - The integrated temperature shaped as `(sample_size, )` or `()`.
             - The temperature at the different nodes
-                shaped as ``(sample_size, n_nodes)`` or ``(n_nodes, )``.
+                shaped as `(sample_size, n_nodes)` or `(n_nodes, )`.
         """
         if input_samples is None:
             input_samples = self.__default_input_value
@@ -201,8 +203,8 @@ class HeatEquationModel:
         if n_samples <= batch_size:
             u, u_mesh = self.__evaluate(input_samples)
         else:
-            u = np.zeros(n_samples)
-            u_mesh = np.zeros((n_samples, self.configuration.mesh_size))
+            u = zeros(n_samples)
+            u_mesh = zeros((n_samples, self.configuration.mesh_size))
             i_start = 0
             while n_samples > 0:
                 n_samples_batch = min(batch_size, n_samples)
@@ -226,22 +228,22 @@ class HeatEquationModel:
 
         Args:
             X: The input samples
-                shaped as ``(sample_size, input_dimension)``.
+                shaped as `(sample_size, input_dimension)`.
 
         Returns:
-            The integrated temperature shaped as ``(sample_size, )``,
-            the temperature at the different nodes shaped as ``(sample_size, n_nodes)``.
+            The integrated temperature shaped as `(sample_size, )`,
+            the temperature at the different nodes shaped as `(sample_size, n_nodes)`.
         """
-        term = np.trapz(
+        term = trapz(
             self.__sinus * self.__compute_initial_temperature(X)[newaxis, :, :],
             x=self.configuration.mesh,
             axis=1,
-        ) * np.exp(
+        ) * exp(
             -X[:, 3][newaxis, :]
             * (self.__modes[:, newaxis] * pi) ** 2
             * self.configuration.final_time
         )
-        u_mesh = 2 * np.sum(self.__sinus * term[:, newaxis, :], axis=0)
+        u_mesh = 2 * np_sum(self.__sinus * term[:, newaxis, :], axis=0)
         return trapz(u_mesh, x=self.configuration.mesh, axis=0), u_mesh.T
 
     def __compute_taylor_materials(self) -> None:
@@ -258,19 +260,19 @@ class HeatEquationModel:
         snF1 = sn[:, :, 0] * self.__F1[None, :]  # noqa: N806 -> (n_modes, nx)
         snF2 = sn[:, :, 0] * self.__F2[None, :]  # noqa: N806 -> (n_modes, nx)
 
-        sn_quad = np.trapz(sn, x=x, axis=1).ravel()  # -> (n_modes,)
-        snF1_quad = np.trapz(snF1, x=x, axis=1)  # noqa: N806 -> (n_modes,)
-        snF2_quad = np.trapz(snF2, x=x, axis=1)  # noqa: N806 -> (n_modes,)
-        A_n_at_mu_X_quad = 2 * np.trapz(snu0_at_mu_X, x=x, axis=1)  # noqa: N806
+        sn_quad = trapz(sn, x=x, axis=1).ravel()  # -> (n_modes,)
+        snF1_quad = trapz(snF1, x=x, axis=1)  # noqa: N806 -> (n_modes,)
+        snF2_quad = trapz(snF2, x=x, axis=1)  # noqa: N806 -> (n_modes,)
+        A_n_at_mu_X_quad = 2 * trapz(snu0_at_mu_X, x=x, axis=1)  # noqa: N806
         # -> (n_modes,)
         B_n_at_mu_X_quad = (  # noqa: N806
-            np.exp(-mu_X[3] * (n * np.pi) ** 2 * 0.5) * sn_quad
+            exp(-mu_X[3] * (n * pi) ** 2 * 0.5) * sn_quad
         )  # -> (n_modes,)
 
-        self.__term1 = np.sum(B_n_at_mu_X_quad * snF1_quad)  # (scalar)
-        self.__term2 = np.sum(B_n_at_mu_X_quad * snF2_quad)  # (scalar)
-        self.__term3 = np.sum(  # (scalar)
-            A_n_at_mu_X_quad * sn_quad * n**2 * np.exp(-mu_X[3] * n**2 * np.pi**2 * 0.5)
+        self.__term1 = np_sum(B_n_at_mu_X_quad * snF1_quad)  # (scalar)
+        self.__term2 = np_sum(B_n_at_mu_X_quad * snF2_quad)  # (scalar)
+        self.__term3 = np_sum(  # (scalar)
+            A_n_at_mu_X_quad * sn_quad * n**2 * exp(-mu_X[3] * n**2 * pi**2 * 0.5)
         )
         self.__f_at_mu_X = self(mu_X)[0]  # -> (1,) => (scalar)
 
@@ -279,18 +281,18 @@ class HeatEquationModel:
 
         Args:
             input_samples: The input samples
-                shaped as ``(sample_size, input_dimension)`` or ``(input_dimension, )``.
+                shaped as `(sample_size, input_dimension)` or `(input_dimension, )`.
 
         Returns:
             The output samples of the first-order Taylor polynomial
-            shaped as ``(sample_size, n_nodes)`` or ``(n_nodes, )``.
+            shaped as `(sample_size, n_nodes)` or `(n_nodes, )`.
         """
         X = input_samples  # noqa: N806
         mu_X = self.__default_input_value  # noqa: N806
         return self.__f_at_mu_X + (
             7 * X[..., [0]] * self.__term2
-            - (X[..., [3]] - mu_X[3]) * np.pi**2 * 0.5 * self.__term3
+            - (X[..., [3]] - mu_X[3]) * pi**2 * 0.5 * self.__term3
             + 400
             * self.__term1
-            * (np.abs(X[..., [4]]) + np.abs(X[..., [5]]) + np.abs(X[..., [6]]))
+            * (np_abs(X[..., [4]]) + np_abs(X[..., [5]]) + np_abs(X[..., [6]]))
         )

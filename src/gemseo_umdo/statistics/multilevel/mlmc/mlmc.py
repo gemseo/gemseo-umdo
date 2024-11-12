@@ -22,8 +22,9 @@ from typing import TYPE_CHECKING
 from typing import Any
 from typing import ClassVar
 
-from gemseo.core.mdofunctions.mdo_function import MDOFunction
+from gemseo.core.mdo_functions.mdo_function import MDOFunction
 from gemseo.utils.matplotlib_figure import save_show_figure
+from gemseo.utils.seeder import SEED
 from gemseo.utils.string_tools import MultiLineString
 from gemseo.utils.timer import Timer
 from matplotlib import pyplot as plt
@@ -44,8 +45,8 @@ if TYPE_CHECKING:
     from gemseo.core.base_factory import BaseFactory
     from numpy.typing import NDArray
 
+    from gemseo_umdo.statistics.multilevel.base_pilot import BasePilot
     from gemseo_umdo.statistics.multilevel.mlmc.level import Level
-    from gemseo_umdo.statistics.multilevel.pilot import Pilot
 
 LOGGER = logging.getLogger(__name__)
 
@@ -58,7 +59,7 @@ class MLMC:
     and a few evaluations for the finest one.
 
     This adaptive sampling is guided
-    by a [Pilot][gemseo_umdo.statistics.multilevel.pilot.Pilot].
+    by a [BasePilot][gemseo_umdo.statistics.multilevel.base_pilot.BasePilot].
 
     This algorithm depends on the execution cost ratio between two consecutive levels,
     that can be estimated from the models,
@@ -121,7 +122,7 @@ class MLMC:
     __pilot_statistic_estimation: NDArray[float]
     """The estimation of the pilot statistic."""
 
-    __pilot_statistic_estimator: Pilot
+    __pilot_statistic_estimator: BasePilot
     """The estimator of the pilot statistic."""
 
     _pilot_statistic_estimator_parameters: list[Any]
@@ -155,7 +156,7 @@ class MLMC:
         uncertain_space: ParameterSpace,
         n_samples: float,
         pilot_statistic_name: str = "Mean",
-        seed: int = 0,
+        seed: int = SEED,
     ) -> None:
         r"""
         Args:
@@ -168,7 +169,7 @@ class MLMC:
                 This number is not necessarily an integer;
                 for instance,
                 if $f_L$ is twice as expensive as $f_{L-1}$,
-                then ``n_samples=1.5`` can correspond to
+                then `n_samples=1.5` can correspond to
                 1 evaluation of $f_L$ and 1 evaluation of $f_{L-1}$.
             pilot_statistic_name: The name of the statistic used to drive the algorithm.
             seed: The initial random seed for reproducibility.
@@ -226,10 +227,11 @@ class MLMC:
         self.__budget_history = []
         self.__use_empirical_C_l = isnan(self.__minimum_budget)
         if not self.__use_empirical_C_l and self.__minimum_budget > n_samples:
-            raise ValueError(
+            msg = (
                 f"The minimum budget {self.__minimum_budget} is greater "
                 f"than the total budget {n_samples}."
             )
+            raise ValueError(msg)
 
         # Set the estimator of the pilot statistic and initialize its estimation.
         self.__pilot_statistic_estimation = array([])
@@ -289,8 +291,8 @@ class MLMC:
     def sampling_history(self) -> NDArray[int]:
         """The history of the numbers of samples of each level of the telescopic sum.
 
-        ``algo.sampling_size_history[i, l]`` is the number of samples
-        at iteration ``i+1`` and level ``l``.
+        `algo.sampling_size_history[i, l]` is the number of samples
+        at iteration `i+1` and level `l`.
         """
         return array(self.__n_samples_history)
 
@@ -298,7 +300,7 @@ class MLMC:
     def budget_history(self) -> NDArray[float]:
         """The history of the budget.
 
-        ``algo.budget_history[i]`` is the budget at iteration ``i+1``.
+        `algo.budget_history[i]` is the budget at iteration `i+1`.
         """
         return array(self.__budget_history)
 
@@ -306,7 +308,7 @@ class MLMC:
     def n_total_samples(self) -> NDArray[int]:
         """The total numbers of samples per level.
 
-        ``algo.n_total_samples[l]`` is the total number of samples at level ``l``.
+        `algo.n_total_samples[l]` is the total number of samples at level `l`.
         """
         return self.__n_l
 
@@ -314,7 +316,7 @@ class MLMC:
     def model_costs(self) -> NDArray[float]:
         """The evaluation costs of the different models.
 
-        ``algo.model_costs[l]`` is the cost of one evaluation of the ``l``-th model.
+        `algo.model_costs[l]` is the cost of one evaluation of the `l`-th model.
         """
         return self.__C_l
 
@@ -322,7 +324,7 @@ class MLMC:
     def level_costs(self) -> NDArray[float]:
         """The evaluation costs of the different levels.
 
-        ``algo.level_costs[l]`` is the cost of one evaluation of the ``l``-th level.
+        `algo.level_costs[l]` is the cost of one evaluation of the `l`-th level.
         """
         return self.__costs
 
@@ -345,11 +347,11 @@ class MLMC:
 
         Args:
             x: The input value,
-                shaped as ``(n_features,)`` or ``(n_samples, n_features)``.
+                shaped as `(n_features,)` or `(n_samples, n_features)`.
 
         Returns:
             The output value,
-            shaped as ``(1,)`` or ``(n_samples, 1)``.
+            shaped as `(1,)` or `(n_samples, 1)`.
         """
         return array([0.0] if x.ndim == 1 else [[0.0]] * len(x))
 

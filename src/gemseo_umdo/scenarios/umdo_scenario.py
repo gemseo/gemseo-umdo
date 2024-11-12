@@ -16,15 +16,10 @@
 
 from __future__ import annotations
 
-from pathlib import Path
-from typing import ClassVar
+from gemseo.scenarios.mdo_scenario import MDOScenario
 
-from gemseo.core.mdo_scenario import MDOScenario
-
-from gemseo_umdo.scenarios._scenario import _UScenario
+from gemseo_umdo.scenarios.base_u_scenario import BaseUScenario
 
 
-class UMDOScenario(_UScenario, MDOScenario):
+class UMDOScenario(BaseUScenario, MDOScenario):
     """An optimizer-based scenario for multidisciplinary design under uncertainty."""
-
-    GRAMMAR_DIRECTORY: ClassVar[Path] = Path(__file__) / "umdo"
