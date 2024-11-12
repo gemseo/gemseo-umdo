@@ -21,7 +21,7 @@ classifiers = [
 dynamic = ["version"]
 requires-python = ">=3.9, <3.13"
 dependencies = [
-    "gemseo[all] >=5,<6",
+    "gemseo[all] >=6,<7",
     "matplotlib",
     "numpy",
     "scipy",

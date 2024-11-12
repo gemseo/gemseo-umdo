@@ -26,10 +26,12 @@ The format is based on
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Develop
+## Version 3.0.0 (November 2024)
 
 ### Added
 
+- Support GEMSEO v6.
+- Support for Python 3.12.
 - The U-MDO formulation [PCE][gemseo_umdo.formulations.pce.PCE] creates a polynomial chaos expansion (PCE)
   over the uncertain space at each iteration of the optimization loop and uses the coefficients of the PCE
   to estimate the following statistics: `Mean`, `StandardDeviation`, `Margin` and `Variance`.
@@ -217,6 +219,6 @@ and this project adheres to
   has been renamed to `statistic_estimation_parameters`.
 - API change: `UMDOFormulation._processed_functions` replaces `Sampling.processed_functions`.
 
-### Version 1.0.0 (July 2022)
+## Version 1.0.0 (July 2022)
 
 First release.
