@@ -100,7 +100,6 @@ def _render_credits() -> str:
             *project["optional-dependencies"].values(),
             (
                 "commitizen",
-                "docformatter",
                 "pre-commit",
                 "ruff",
                 "setuptools",
