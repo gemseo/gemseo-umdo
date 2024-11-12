@@ -13,12 +13,10 @@ Commons, PO Box 1866, Mountain View, CA 94042, USA.
 [![PyPI](https://img.shields.io/pypi/v/gemseo-umdo)](https://pypi.org/project/gemseo-umdo/)
 [![Codecov branch](https://img.shields.io/codecov/c/gitlab/gemseo:dev/gemseo-umdo/develop)](https://app.codecov.io/gl/gemseo:dev/gemseo-umdo)
 
+## Overview
+
 `gemseo-umdo` is a plugin of the library [GEMSEO](https://www.gemseo.org),
 dedicated to multidisciplinary optimization (MDO) under uncertainty.
-This package is open-source,
-under the [LGPL v3 license](https://www.gnu.org/licenses/lgpl-3.0.en.html).
-
-## Overview
 
 ### MDO under uncertainty
 
