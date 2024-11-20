@@ -47,4 +47,4 @@ def test_scenario(estimate_statistics_iteratively):
         },
     )
     scenario.execute(algo_name="PYDOE_FULLFACT", n_samples=5)
-    assert discipline.execution_statistics.n_calls == (3 + 5 + 7 + 7 + 7)
+    assert discipline.execution_statistics.n_executions == (3 + 5 + 7 + 7 + 7)
