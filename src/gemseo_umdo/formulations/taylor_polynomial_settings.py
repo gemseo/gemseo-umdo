@@ -14,12 +14,28 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 """Settings for the U-MDO formulation based on Taylor polynomials."""
 
+from __future__ import annotations
+
+from gemseo.algos.optimization_problem import OptimizationProblem
+from pydantic import Field
+
 from gemseo_umdo.formulations.base_umdo_formulation_settings import (
     BaseUMDOFormulationSettings,
 )
 
 
-class TaylorPolynomialSettings(BaseUMDOFormulationSettings):
+class TaylorPolynomial_Settings(BaseUMDOFormulationSettings):  # noqa: N801
     """The settings for the U-MDO formulation based on Taylor polynomials."""
 
     _TARGET_CLASS_NAME = "TaylorPolynomial"
+
+    differentiation_method: OptimizationProblem.DifferentiationMethod = Field(
+        default=OptimizationProblem.DifferentiationMethod.USER_GRAD,
+        description="The type of method to compute the gradients.",
+    )
+
+    second_order: bool = Field(
+        default=False,
+        description="Whether to use second-order Taylor polynomials "
+        "instead of first-order Taylor polynomials.",
+    )

@@ -26,6 +26,36 @@ The format is based on
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Develop
+
+### Added
+
+- Each [BaseUMDOFormulation][gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation]
+  has a Pydantic model to define its settings.
+  For example,
+  [Sampling_Settings][gemseo_umdo.formulations.sampling_settings.Sampling_Settings]
+  is the Pydantic model for the [Sampling][gemseo_umdo.formulations.sampling.Sampling] U-MDO formulation.
+
+### Changed
+
+- API CHANGE:
+  [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario]
+  and [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
+  no longer have a default statistic estimation technique.
+  The `statistic_estimation_settings` argument must be defined.
+- API CHANGE:
+  The statistic estimation settings of
+  a [BaseUMDOFormulation][gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation]
+  passed as positional and keyword arguments
+  have been replaced by the unique positional argument `settings_model`,
+  which is a Pydantic model.
+- API CHANGE:
+  The `statistic_estimation` and `statistic_estimation_parameters` keyword arguments of
+  [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario]
+  and [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
+  have been replaced by the positional argument `statistic_estimation_settings`,
+  which is a Pydantic model.
+
 ## Version 3.0.0 (November 2024)
 
 ### Added

@@ -52,7 +52,9 @@ from gemseo_umdo.formulations._statistics.taylor_polynomial.factory import (  # 
     TaylorPolynomialEstimatorFactory,
 )
 from gemseo_umdo.formulations.base_umdo_formulation import BaseUMDOFormulation
-from gemseo_umdo.formulations.taylor_polynomial_settings import TaylorPolynomialSettings
+from gemseo_umdo.formulations.taylor_polynomial_settings import (
+    TaylorPolynomial_Settings,
+)
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
@@ -67,18 +69,12 @@ if TYPE_CHECKING:
 class TaylorPolynomial(BaseUMDOFormulation):
     """U-MDO formulation based on Taylor polynomials."""
 
-    Settings: ClassVar[type[TaylorPolynomialSettings]] = TaylorPolynomialSettings
+    Settings: ClassVar[type[TaylorPolynomial_Settings]] = TaylorPolynomial_Settings
 
     _USE_AUXILIARY_MDO_FORMULATION: ClassVar[bool] = True
 
     __hessian_fd_problem: OptimizationProblem | None
     """The problem related to the approximation of the Hessian if any."""
-
-    __second_order: bool
-    """Whether the formulation uses second-order Taylor polynomials.
-
-    Otherwise first-order Taylor polynomials.
-    """
 
     _STATISTIC_FACTORY: ClassVar[TaylorPolynomialEstimatorFactory] = (
         TaylorPolynomialEstimatorFactory()
@@ -96,19 +92,10 @@ class TaylorPolynomial(BaseUMDOFormulation):
         mdo_formulation: BaseMDOFormulation,
         uncertain_space: ParameterSpace,
         objective_statistic_name: str,
+        settings_model: TaylorPolynomial_Settings,
         objective_statistic_parameters: StrKeyMapping = READ_ONLY_EMPTY_DICT,
-        differentiation_method: OptimizationProblem.DifferentiationMethod = OptimizationProblem.DifferentiationMethod.USER_GRAD,  # noqa: E501
-        second_order: bool = False,
         mdo_formulation_settings: StrKeyMapping = READ_ONLY_EMPTY_DICT,
-        **settings: Any,
-    ) -> None:  # noqa: D205 D212 D415
-        """
-        Args:
-            differentiation_method: The type of method to compute the gradients.
-            second_order: Whether to use second-order Taylor polynomials
-                instead of first-order Taylor polynomials.
-        """  # noqa: D205 D212 D415
-        self.__second_order = second_order
+    ) -> None:
         super().__init__(
             disciplines,
             objective_name,
@@ -116,18 +103,18 @@ class TaylorPolynomial(BaseUMDOFormulation):
             mdo_formulation,
             uncertain_space,
             objective_statistic_name,
+            settings_model,
             objective_statistic_parameters=objective_statistic_parameters,
             mdo_formulation_settings=mdo_formulation_settings,
-            **settings,
         )
 
         self.__hessian_fd_problem = None
         problem = self._auxiliary_mdo_formulation.optimization_problem
-        if self.__second_order:
+        if settings_model.second_order:
             self.__hessian_fd_problem = OptimizationProblem(self.uncertain_space)
             self.__hessian_fd_problem.objective = HessianFunction(problem.objective)
 
-        problem.differentiation_method = differentiation_method
+        problem.differentiation_method = settings_model.differentiation_method
         problem.design_space = problem.design_space.to_design_space()
         self.optimization_problem.differentiation_method = (
             self.optimization_problem.ApproximationMode.FINITE_DIFFERENCES
@@ -142,7 +129,7 @@ class TaylorPolynomial(BaseUMDOFormulation):
     @property
     def second_order(self) -> bool:
         """Whether to use a second order approximation."""
-        return self.__second_order
+        return self._settings.second_order
 
     def add_constraint(  # noqa: D102
         self,

@@ -20,6 +20,7 @@ from typing import TYPE_CHECKING
 
 import pytest
 from gemseo.algos.design_space import DesignSpace
+from gemseo.algos.doe.custom_doe.settings.custom_doe_settings import CustomDOE_Settings
 from gemseo.algos.parameter_space import ParameterSpace
 from gemseo.core.discipline.discipline import Discipline
 from numpy import array
@@ -29,6 +30,7 @@ from numpy import linspace
 from numpy import newaxis
 from numpy.testing import assert_almost_equal
 
+from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
 from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
 
 if TYPE_CHECKING:
@@ -211,16 +213,15 @@ def test_sampling(
         uncertain_space,
         statistic,
         formulation_name="DisciplinaryOpt",
-        statistic_estimation_parameters={
-            "algo": "CustomDOE",
-            "algo_options": {
-                "samples": array([
+        statistic_estimation_settings=Sampling_Settings(
+            doe_algo_settings=CustomDOE_Settings(
+                samples=array([
                     linspace(1, n_u, n_u).tolist(),
                     linspace(2, n_u + 1, n_u).tolist(),
                 ])
-            },
-            "estimate_statistics_iteratively": estimate_statistics_iteratively,
-        },
+            ),
+            estimate_statistics_iteratively=estimate_statistics_iteratively,
+        ),
     )
     scenario.execute(
         algo_name="CustomDOE", samples=linspace(1, n_x, n_x)[newaxis, :], eval_jac=True

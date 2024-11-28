@@ -32,6 +32,9 @@ from gemseo_umdo.formulations._statistics.taylor_polynomial.standard_deviation i
 )
 from gemseo_umdo.formulations._statistics.taylor_polynomial.variance import Variance
 from gemseo_umdo.formulations.taylor_polynomial import TaylorPolynomial
+from gemseo_umdo.formulations.taylor_polynomial_settings import (
+    TaylorPolynomial_Settings,
+)
 from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
 
 if TYPE_CHECKING:
@@ -58,6 +61,7 @@ def umdo_formulation(
         mdo_formulation,
         uncertain_space,
         "Mean",
+        TaylorPolynomial_Settings(),
     )
     formulation.add_constraint("c", "Mean")
     formulation.add_observable("o", "Mean")
@@ -80,7 +84,7 @@ def umdo_formulation_with_hessian(
         mdo_formulation,
         uncertain_space,
         "Mean",
-        second_order=True,
+        TaylorPolynomial_Settings(second_order=True),
     )
     formulation.add_constraint("c", "Mean")
     formulation.add_observable("o", "Mean")
@@ -106,8 +110,9 @@ def scenario(disciplines, design_space, uncertain_space, request):
         uncertain_space,
         "Mean",
         formulation_name="MDF",
-        statistic_estimation="TaylorPolynomial",
-        statistic_estimation_parameters={"second_order": request.param},
+        statistic_estimation_settings=TaylorPolynomial_Settings(
+            second_order=request.param
+        ),
     )
     scn.add_constraint("c", "Margin", factor=3.0)
     scn.add_observable("o", "Variance")

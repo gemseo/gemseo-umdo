@@ -28,7 +28,7 @@ from gemseo_umdo.visualizations.sobol_graph import SobolGraph
 # %%
 # First,
 # we consider the
-# [SellarDesignSpace][gemseo.problems.sellar.sellar_design_space.SellarDesignSpace]
+# [SellarDesignSpace][gemseo.problems.mdo.sellar.sellar_design_space.SellarDesignSpace]
 # as the uncertain space,
 # which means that the uncertain variables are the design variables
 # uniformly distributed between their lower and upper bounds:

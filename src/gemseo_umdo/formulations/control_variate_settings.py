@@ -14,12 +14,12 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 """Settings for the control variate-based U-MDO formulation."""
 
-from gemseo_umdo.formulations.base_umdo_formulation_settings import (
-    BaseUMDOFormulationSettings,
-)
+from __future__ import annotations
+
+from gemseo_umdo.formulations.base_sampling_settings import BaseSamplingSettings
 
 
-class ControlVariateSettings(BaseUMDOFormulationSettings):
+class ControlVariate_Settings(BaseSamplingSettings):  # noqa: N801
     """The settings for the control variate-based U-MDO formulation."""
 
     _TARGET_CLASS_NAME = "ControlVariate"

@@ -36,6 +36,7 @@ from gemseo.algos.design_space import DesignSpace
 from gemseo.algos.parameter_space import ParameterSpace
 from gemseo.disciplines.analytic import AnalyticDiscipline
 
+from gemseo_umdo.formulations.pce_settings import PCE_Settings
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 
 configure_logger()
@@ -69,8 +70,7 @@ scenario = UMDOScenario(
     uncertain_space,
     "Mean",
     formulation_name="DisciplinaryOpt",
-    statistic_estimation="PCE",
-    statistic_estimation_parameters={"doe_n_samples": 20},
+    statistic_estimation_settings=PCE_Settings(n_samples=20),
 )
 
 # %%

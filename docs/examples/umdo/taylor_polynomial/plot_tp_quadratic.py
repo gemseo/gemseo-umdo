@@ -36,6 +36,9 @@ from gemseo.algos.design_space import DesignSpace
 from gemseo.algos.parameter_space import ParameterSpace
 from gemseo.disciplines.analytic import AnalyticDiscipline
 
+from gemseo_umdo.formulations.taylor_polynomial_settings import (
+    TaylorPolynomial_Settings,
+)
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 
 configure_logger()
@@ -69,7 +72,7 @@ scenario = UMDOScenario(
     uncertain_space,
     "Mean",
     formulation_name="DisciplinaryOpt",
-    statistic_estimation="TaylorPolynomial",
+    statistic_estimation_settings=TaylorPolynomial_Settings(),
 )
 
 # %%
@@ -100,8 +103,7 @@ scenario = UMDOScenario(
     uncertain_space,
     "Mean",
     formulation_name="DisciplinaryOpt",
-    statistic_estimation="TaylorPolynomial",
-    statistic_estimation_parameters={"second_order": True},
+    statistic_estimation_settings=TaylorPolynomial_Settings(second_order=True),
 )
 scenario.execute(algo_name="NLOPT_COBYLA", max_iter=100)
 

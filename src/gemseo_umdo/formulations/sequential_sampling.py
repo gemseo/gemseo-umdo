@@ -39,20 +39,17 @@ with an optimized Latin hypercube sampling technique.
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
-from typing import Any
 from typing import ClassVar
 
 from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
-from gemseo.utils.seeder import SEED
 
 from gemseo_umdo.formulations.sampling import Sampling
 from gemseo_umdo.formulations.sequential_sampling_settings import (
-    SequentialSamplingSettings,
+    SequentialSampling_Settings,
 )
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
-    from pathlib import Path
 
     from gemseo.algos.design_space import DesignSpace
     from gemseo.algos.optimization_problem import OptimizationProblem
@@ -73,15 +70,12 @@ class SequentialSampling(Sampling):
         for more information about the available DOE algorithm names and options.
     """
 
-    Settings: ClassVar[type[SequentialSamplingSettings]] = SequentialSamplingSettings
+    Settings: ClassVar[type[SequentialSampling_Settings]] = SequentialSampling_Settings
 
     __final_n_samples: int
     """The maximum number of samples when evaluating the U-MDO formulation."""
 
-    __n_samples_increment: int
-    """The increment of the sampling size."""
-
-    def __init__(
+    def __init__(  # noqa: D107
         self,
         disciplines: Sequence[Discipline],
         objective_name: str,
@@ -89,23 +83,12 @@ class SequentialSampling(Sampling):
         mdo_formulation: BaseMDOFormulation,
         uncertain_space: ParameterSpace,
         objective_statistic_name: str,
-        n_samples: int,
-        initial_n_samples: int = 2,
-        n_samples_increment: int = 1,
+        settings_model: SequentialSampling_Settings,
         objective_statistic_parameters: StrKeyMapping = READ_ONLY_EMPTY_DICT,
-        algo: str = "OT_OPT_LHS",
-        algo_options: StrKeyMapping = READ_ONLY_EMPTY_DICT,
-        seed: int = SEED,
-        estimate_statistics_iteratively: bool = True,
-        samples_directory_path: str | Path = "",
         mdo_formulation_settings: StrKeyMapping = READ_ONLY_EMPTY_DICT,
-        **settings: Any,
     ) -> None:
-        """
-        Args:
-            initial_n_samples: The initial sampling size.
-            n_samples_increment: The increment of the sampling size.
-        """  # noqa: D205 D212 D415
+        self.__final_n_samples = settings_model.doe_algo_settings.n_samples
+        settings_model.doe_algo_settings.n_samples = settings_model.initial_n_samples
         super().__init__(
             disciplines,
             objective_name,
@@ -113,18 +96,10 @@ class SequentialSampling(Sampling):
             mdo_formulation,
             uncertain_space,
             objective_statistic_name,
-            initial_n_samples,
+            settings_model,
             objective_statistic_parameters=objective_statistic_parameters,
-            algo=algo,
-            algo_options=algo_options,
-            seed=seed,
-            estimate_statistics_iteratively=estimate_statistics_iteratively,
-            samples_directory_path=samples_directory_path,
             mdo_formulation_settings=mdo_formulation_settings,
-            **settings,
         )
-        self.__final_n_samples = n_samples
-        self.__n_samples_increment = n_samples_increment
 
     def compute_samples(  # noqa: D102
         self,
@@ -133,7 +108,9 @@ class SequentialSampling(Sampling):
         compute_jacobian: bool = False,
     ) -> None:
         super().compute_samples(problem, input_data, compute_jacobian=compute_jacobian)
-        if self._n_samples < self.__final_n_samples:
-            self._n_samples = min(
-                self.__final_n_samples, self._n_samples + self.__n_samples_increment
+        doe_algo_settings = self._settings.doe_algo_settings
+        if doe_algo_settings.n_samples < self.__final_n_samples:
+            doe_algo_settings.n_samples = min(
+                self.__final_n_samples,
+                doe_algo_settings.n_samples + self._settings.n_samples_increment,
             )

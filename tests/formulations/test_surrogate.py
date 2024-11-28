@@ -19,10 +19,14 @@ from typing import TYPE_CHECKING
 import pytest
 from gemseo import execute_algo
 from gemseo.algos.design_space import DesignSpace
+from gemseo.algos.doe.custom_doe.settings.custom_doe_settings import CustomDOE_Settings
 from gemseo.algos.doe.factory import DOELibraryFactory
 from gemseo.algos.doe.openturns.openturns import OpenTURNS
+from gemseo.algos.doe.openturns.settings.ot_halton import OT_HALTON_Settings
 from gemseo.formulations.disciplinary_opt import DisciplinaryOpt
+from gemseo.mlearning.regression.algos.linreg_settings import LinearRegressor_Settings
 from gemseo.mlearning.regression.algos.rbf import RBFRegressor
+from gemseo.mlearning.regression.algos.rbf_settings import RBFRegressor_Settings
 from gemseo.problems.uncertainty.ishigami.ishigami_discipline import IshigamiDiscipline
 from gemseo.problems.uncertainty.ishigami.ishigami_problem import IshigamiProblem
 from gemseo.problems.uncertainty.ishigami.ishigami_space import IshigamiSpace
@@ -32,9 +36,11 @@ from numpy.testing import assert_almost_equal
 from numpy.testing import assert_equal
 
 from gemseo_umdo.formulations.surrogate import Surrogate
+from gemseo_umdo.formulations.surrogate_settings import Surrogate_Settings
 from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
 
 if TYPE_CHECKING:
+    from gemseo.algos.doe.base_doe_settings import BaseDOESettings
     from gemseo.core.mdo_functions.collections.observables import Observables
     from gemseo.typing import RealArray
 
@@ -62,14 +68,11 @@ def samples(ishigami_problem) -> RealArray:
 
 
 @pytest.fixture(scope="module", params=("CustomDOE", "OT_HALTON"))
-def doe_settings(request, samples) -> dict[str, str | int | dict[str, RealArray]]:
+def doe_settings(request, samples) -> BaseDOESettings:
     if request.param == "CustomDOE":
-        return {
-            "doe_algo": "CustomDOE",
-            "doe_algo_options": {"samples": samples},
-        }
+        return CustomDOE_Settings(samples=samples)
 
-    return {"doe_algo": "OT_HALTON", "doe_n_samples": 20}
+    return OT_HALTON_Settings(n_samples=20)
 
 
 @pytest.fixture(scope="module")
@@ -83,8 +86,7 @@ def umdo_formulation(ishigami_problem, doe_settings):
         DisciplinaryOpt([discipline], "y", ishigami_problem.design_space),
         ishigami_problem.design_space,
         "Mean",
-        regressor_n_samples=10,
-        **doe_settings,
+        Surrogate_Settings(regressor_n_samples=10, doe_algo_settings=doe_settings),
     )
     formulation.add_constraint("y", "StandardDeviation")
     formulation.add_observable("y", "Variance")
@@ -152,14 +154,17 @@ def test_probability(observables, output_samples):
 @pytest.mark.parametrize(
     ("statistic_estimation_parameters", "y_opt"),
     [
-        ({"doe_n_samples": 20}, 1.9689592736443002),
-        ({"doe_n_samples": 20, "regressor_n_samples": 10}, 2.4695858515160123),
+        ({"n_samples": 20}, 1.9689592736443002),
+        ({"n_samples": 20, "regressor_n_samples": 10}, 2.4695858515160123),
         (
-            {"doe_n_samples": 20, "regressor_options": {"function": "cubic"}},
+            {
+                "n_samples": 20,
+                "regressor_settings": RBFRegressor_Settings(function="cubic"),
+            },
             2.017745497698664,
         ),
         (
-            {"doe_n_samples": 20, "regressor_name": "LinearRegressor"},
+            {"n_samples": 20, "regressor_settings": LinearRegressor_Settings()},
             1.9935244102531822,
         ),
     ],
@@ -174,8 +179,9 @@ def test_scenario(quadratic_problem, statistic_estimation_parameters, y_opt):
         uncertain_space,
         "Mean",
         formulation_name="DisciplinaryOpt",
-        statistic_estimation="Surrogate",
-        statistic_estimation_parameters=statistic_estimation_parameters,
+        statistic_estimation_settings=Surrogate_Settings(
+            **statistic_estimation_parameters
+        ),
     )
     scenario.execute(algo_name="CustomDOE", samples=array([[1.0]]))
     assert_almost_equal(scenario.optimization_result.x_opt, array([1.0]))

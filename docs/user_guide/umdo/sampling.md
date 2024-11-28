@@ -13,12 +13,6 @@
 is a U-MDO formulation that estimates the statistics unbiasedly
 using Monte Carlo sampling.
 
-This is the default U-MDO formulation.
-So, the argument `statistic_estimation` does not have to be set to use it.
-However,
-the number of samples is mandatory
-and must be set with the parameter `n_samples`.
-
 Here is a typical scenario template:
 
 ``` py
@@ -29,14 +23,14 @@ scenario = UMDOScenario(
     design_space,
     uncertain_space,
     statistic_name,
-    statistic_estimation_parameters={"n_samples": n_samples}
+    statistic_estimation_settings=Sampling_Settings(n_samples=20),
 )
 ```
 
-## Options
+## Settings
 
 By default,
-the formulation uses the DOE algorithm `OT_OPT_LHS`:
+the formulation uses the DOE algorithm `OT_OPT_LHS` with 10 samples:
 the Latin hypercube sampling (LHS)
 enhanced by simulated annealing
 of OpenTURNS.
@@ -45,15 +39,21 @@ starts from an initial LHS
 and improves it to maximize its discrepancy
 and so to get a better space-filling LHS.
 
-The DOE algorithm name can be set with the string parameter `algo`
-and its options with the dictionary parameter `algo_options`.
+The number of samples can be changed with the parameter `n_samples`
+and the DOE algorithm name can be changed with the parameter `doe_algo_settings`,
+which is a Pydantic model deriving from [BaseDOESettings][gemseo.algos.doe.base_doe_settings.BaseDOESettings].
+When `n_samples` is `None` (default) and `doe_algo_settings` has a field `n_samples`,
+then this field is considered.
+When `doe_algo_settings` has a field `seed` and its value is `None`,
+then the U-MDO formulation will use [SEED][gemseo.utils.seeder.SEED].
 
 !!! note "API"
-    Use `statistic_estimation_parameters`
-    to set the algorithm name and parameters,
-    e.g.
+    Use `statistic_estimation_settings`
+    to set the DOE algorithm name and settings,
+    _e.g._
 
     ``` py
+    settings = Sampling_Settings(doe_algo_settings=OT_MONTE_CARLO(n_samples=20, n_processes=2)
     scenario = UMDOScenario(
         disciplines,
         mdo_formulation_name,
@@ -61,11 +61,7 @@ and its options with the dictionary parameter `algo_options`.
         design_space,
         uncertain_space,
         statistic_name,
-        statistic_estimation_parameters={
-            "algo": "OT_MONTE_CARLO",
-            "n_samples": 20,
-            "algo_options": {"n_processes": 2}
-        }
+        statistic_estimation_settings=settings),
     )
     ```
 

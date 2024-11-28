@@ -21,6 +21,7 @@ import numpy as np
 from gemseo.algos.design_space import DesignSpace
 from gemseo.algos.parameter_space import ParameterSpace
 from gemseo.disciplines.analytic import AnalyticDiscipline
+from gemseo.settings.doe import OT_MONTE_CARLO_Settings
 from gemseo.utils.string_tools import MultiLineString
 from matplotlib import pyplot as plt
 from numpy import array
@@ -28,6 +29,8 @@ from numpy import ndarray
 from numpy import quantile
 from scipy.spatial.distance import cdist
 
+from gemseo_umdo.formulations.control_variate_settings import ControlVariate_Settings
+from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 
 # %%
@@ -60,7 +63,10 @@ uncertain_space.add_random_variable("a", "OTNormalDistribution", mu=1.0, sigma=0
 # and repeat it 20 times to get statistics on the results:
 method_to_x_opt = {"Sampling": [], "ControlVariate": []}
 for i in range(20):
-    for method in ["Sampling", "ControlVariate"]:
+    for name, cls in {
+        "Sampling": Sampling_Settings,
+        "ControlVariate": ControlVariate_Settings,
+    }:
         scenario = UMDOScenario(
             [discipline],
             "z",
@@ -68,16 +74,13 @@ for i in range(20):
             uncertain_space,
             "Mean",
             formulation_name="DisciplinaryOpt",
-            statistic_estimation=method,
-            statistic_estimation_parameters={
-                "algo": "OT_MONTE_CARLO",
-                "n_samples": 10,
-                "seed": i + 1,
-            },
+            statistic_estimation_settings=cls(
+                doe_algo_settings=OT_MONTE_CARLO_Settings(n_samples=10, seed=i + 1)
+            ),
         )
         scenario.set_differentiation_method("finite_differences")
         scenario.execute(algo_name="NLOPT_SLSQP", max_iter=100)
-        method_to_x_opt[method].append(scenario.optimization_result.x_opt.tolist())
+        method_to_x_opt[name].append(scenario.optimization_result.x_opt.tolist())
 
 
 # %%

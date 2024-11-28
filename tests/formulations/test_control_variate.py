@@ -22,6 +22,7 @@ from typing import Any
 import pytest
 from gemseo import from_pickle
 from gemseo import to_pickle
+from gemseo.algos.doe.custom_doe.settings.custom_doe_settings import CustomDOE_Settings
 from gemseo.formulations.mdf import MDF
 from numpy import array
 from numpy.testing import assert_allclose
@@ -36,6 +37,7 @@ from gemseo_umdo.formulations._statistics.control_variate.standard_deviation imp
 )
 from gemseo_umdo.formulations._statistics.control_variate.variance import Variance
 from gemseo_umdo.formulations.control_variate import ControlVariate
+from gemseo_umdo.formulations.control_variate_settings import ControlVariate_Settings
 from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
 
 if TYPE_CHECKING:
@@ -62,9 +64,9 @@ def umdo_formulation(
         mdo_formulation,
         uncertain_space,
         "Mean",
-        n_samples=None,
-        algo="CustomDOE",
-        algo_options={"samples": array([[0.0] * 3, [1.0] * 3])},
+        settings_model=ControlVariate_Settings(
+            doe_algo_settings=CustomDOE_Settings(samples=array([[0.0] * 3, [1.0] * 3]))
+        ),
     )
     formulation.add_constraint("c", "Mean")
     formulation.add_observable("o", "Mean")
@@ -87,12 +89,9 @@ def scenario(disciplines, design_space, uncertain_space, algo_data) -> UDOEScena
         uncertain_space,
         "Mean",
         formulation_name="MDF",
-        statistic_estimation="ControlVariate",
-        statistic_estimation_parameters={
-            "algo": "CustomDOE",
-            "n_samples": None,
-            "algo_options": {"samples": array([[0.0] * 3, [1.0] * 3])},
-        },
+        statistic_estimation_settings=ControlVariate_Settings(
+            doe_algo_settings=CustomDOE_Settings(samples=array([[0.0] * 3, [1.0] * 3])),
+        ),
     )
     scn.add_constraint("c", "Margin", factor=3.0)
     scn.add_observable("o", "Variance")
