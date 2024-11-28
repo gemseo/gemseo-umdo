@@ -16,9 +16,13 @@ from __future__ import annotations
 
 import pytest
 from gemseo.algos.design_space import DesignSpace
+from gemseo.algos.doe.openturns.settings.ot_opt_lhs import OT_OPT_LHS_Settings
 from gemseo.algos.parameter_space import ParameterSpace
 from gemseo.disciplines.analytic import AnalyticDiscipline
 
+from gemseo_umdo.formulations.sequential_sampling_settings import (
+    SequentialSampling_Settings,
+)
 from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
 
 
@@ -38,13 +42,12 @@ def test_scenario(estimate_statistics_iteratively):
         uncertain_space,
         "Mean",
         formulation_name="DisciplinaryOpt",
-        statistic_estimation="SequentialSampling",
-        statistic_estimation_parameters={
-            "n_samples": 7,
-            "initial_n_samples": 3,
-            "n_samples_increment": 2,
-            "estimate_statistics_iteratively": estimate_statistics_iteratively,
-        },
+        statistic_estimation_settings=SequentialSampling_Settings(
+            doe_algo_settings=OT_OPT_LHS_Settings(n_samples=7),
+            initial_n_samples=3,
+            n_samples_increment=2,
+            estimate_statistics_iteratively=estimate_statistics_iteratively,
+        ),
     )
     scenario.execute(algo_name="PYDOE_FULLFACT", n_samples=5)
     assert discipline.execution_statistics.n_executions == (3 + 5 + 7 + 7 + 7)

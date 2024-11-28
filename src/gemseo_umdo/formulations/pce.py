@@ -36,21 +36,19 @@ built at $x$ over the uncertain space.
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
-from typing import Any
 from typing import ClassVar
 
+from gemseo.mlearning.regression.algos.pce_settings import PCERegressor_Settings
 from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
 
 from gemseo_umdo.formulations._functions.statistic_function_for_pce import (
     StatisticFunctionForPCE,
 )
 from gemseo_umdo.formulations._statistics.pce.factory import PCEEstimatorFactory
-from gemseo_umdo.formulations.pce_settings import PCESettings
+from gemseo_umdo.formulations.pce_settings import PCE_Settings
 from gemseo_umdo.formulations.surrogate import Surrogate
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable
-    from collections.abc import Mapping
     from collections.abc import Sequence
 
     from gemseo.algos.design_space import DesignSpace
@@ -70,7 +68,7 @@ class PCE(Surrogate):
         for more information about the available DOE algorithm names and options.
     """
 
-    Settings: ClassVar[type[PCESettings]] = PCESettings
+    Settings: ClassVar[type[PCE_Settings]] = PCE_Settings
 
     _STATISTIC_FACTORY: ClassVar[PCEEstimatorFactory] = PCEEstimatorFactory()
 
@@ -78,7 +76,7 @@ class PCE(Surrogate):
         StatisticFunctionForPCE
     )
 
-    def __init__(
+    def __init__(  # noqa: D107
         self,
         disciplines: Sequence[Discipline],
         objective_name: str,
@@ -86,26 +84,10 @@ class PCE(Surrogate):
         mdo_formulation: BaseMDOFormulation,
         uncertain_space: ParameterSpace,
         objective_statistic_name: str,
+        settings_model: PCE_Settings,
         objective_statistic_parameters: StrKeyMapping = READ_ONLY_EMPTY_DICT,
-        doe_algo: str = "OT_OPT_LHS",
-        doe_algo_options: StrKeyMapping = READ_ONLY_EMPTY_DICT,
-        doe_n_samples: int | None = None,
-        pce_options: StrKeyMapping = READ_ONLY_EMPTY_DICT,
-        quality_name: str = "R2Measure",
-        quality_threshold: float | Mapping[str, float | Iterable[float]] = 0.9,
-        quality_cv_compute: bool = True,
-        quality_cv_n_folds: int = 5,
-        quality_cv_randomize: bool = True,
-        quality_cv_seed: int | None = None,
-        quality_cv_threshold: float | Mapping[str, float | Iterable[float]] = 0.8,
         mdo_formulation_settings: StrKeyMapping = READ_ONLY_EMPTY_DICT,
-        **settings: Any,
     ) -> None:
-        """
-        Args:
-            pce_options: The options of the
-                [PCERegressor][gemseo.mlearning.regression.algos.pce.PCERegressor].
-        """  # noqa: D205 D212 D415
         super().__init__(
             disciplines,
             objective_name,
@@ -113,19 +95,10 @@ class PCE(Surrogate):
             mdo_formulation,
             uncertain_space,
             objective_statistic_name,
+            settings_model,
             objective_statistic_parameters=objective_statistic_parameters,
             mdo_formulation_settings=mdo_formulation_settings,
-            doe_algo=doe_algo,
-            doe_algo_options=doe_algo_options,
-            doe_n_samples=doe_n_samples,
-            regressor_name="PCERegressor",
-            regressor_options=pce_options,
-            quality_name=quality_name,
-            quality_threshold=quality_threshold,
-            quality_cv_compute=quality_cv_compute,
-            quality_cv_n_folds=quality_cv_n_folds,
-            quality_cv_randomize=quality_cv_randomize,
-            quality_cv_seed=quality_cv_seed,
-            quality_cv_threshold=quality_cv_threshold,
-            **settings,
         )
+        regressor_settings = self._settings.regressor_settings.model_dump()
+        regressor_settings["probability_space"] = uncertain_space
+        self._settings.regressor_settings = PCERegressor_Settings(**regressor_settings)

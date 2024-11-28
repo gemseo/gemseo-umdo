@@ -22,9 +22,12 @@ from unittest import mock
 import pytest
 from gemseo import execute_algo
 from gemseo.algos.design_space import DesignSpace
+from gemseo.algos.doe.custom_doe.settings.custom_doe_settings import CustomDOE_Settings
 from gemseo.algos.doe.openturns.openturns import OpenTURNS
+from gemseo.algos.doe.openturns.settings.ot_halton import OT_HALTON_Settings
 from gemseo.formulations.disciplinary_opt import DisciplinaryOpt
 from gemseo.mlearning.regression.algos.pce import PCERegressor
+from gemseo.mlearning.regression.algos.pce_settings import PCERegressor_Settings
 from gemseo.mlearning.regression.quality.r2_measure import R2Measure
 from gemseo.problems.uncertainty.ishigami.ishigami_discipline import IshigamiDiscipline
 from gemseo.problems.uncertainty.ishigami.ishigami_problem import IshigamiProblem
@@ -41,9 +44,11 @@ from gemseo_umdo.formulations._statistics.pce.standard_deviation import (
 )
 from gemseo_umdo.formulations._statistics.pce.variance import Variance
 from gemseo_umdo.formulations.pce import PCE
+from gemseo_umdo.formulations.pce_settings import PCE_Settings
 from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
 
 if TYPE_CHECKING:
+    from gemseo.algos.doe.base_doe_settings import BaseDOESettings
     from gemseo.core.mdo_functions.collections.observables import Observables
     from gemseo.typing import NumberArray
     from gemseo.typing import RealArray
@@ -73,14 +78,11 @@ def samples(ishigami_problem) -> RealArray:
 
 
 @pytest.fixture(scope="module", params=("CustomDOE", "OT_HALTON"))
-def doe_settings(request, samples) -> dict[str, str | int | dict[str, RealArray]]:
+def doe_settings(request, samples) -> BaseDOESettings:
     if request.param == "CustomDOE":
-        return {
-            "doe_algo": "CustomDOE",
-            "doe_algo_options": {"samples": samples},
-        }
+        return CustomDOE_Settings(samples=samples)
 
-    return {"doe_algo": "OT_HALTON", "doe_n_samples": 20}
+    return OT_HALTON_Settings(n_samples=20)
 
 
 @pytest.fixture(scope="module")
@@ -94,7 +96,7 @@ def umdo_formulation(pce_regressor, ishigami_problem, doe_settings):
         DisciplinaryOpt([discipline], "y", ishigami_problem.design_space),
         ishigami_problem.design_space,
         "Mean",
-        **doe_settings,
+        PCE_Settings(doe_algo_settings=doe_settings),
     )
     formulation.add_constraint("y", "StandardDeviation")
     formulation.add_observable("y", "Variance")
@@ -184,27 +186,6 @@ def test_margin_from_formulation(observables, pce_regressor):
     assert_equal(observables[1].evaluate(_X), mean + 3 * std)
 
 
-def test_missing_n_samples(pce_regressor, ishigami_problem):
-    """Check that an error is raised when the number of samples is missing."""
-    discipline = IshigamiDiscipline()
-    design_space = ishigami_problem.design_space
-    with pytest.raises(
-        ValueError,
-        match=re.escape(
-            "The doe_n_samples argument of the U-MDO formulation 'PCE' is required."
-        ),
-    ):
-        PCE(
-            [discipline],
-            "y",
-            DesignSpace(),
-            DisciplinaryOpt([discipline], "y", ishigami_problem.design_space),
-            design_space,
-            "Mean",
-            doe_algo="OT_HALTON",
-        )
-
-
 def test_quality(caplog, pce_regressor, ishigami_problem):
     """Check that the PCE quality is logged."""
     discipline = IshigamiDiscipline()
@@ -216,8 +197,7 @@ def test_quality(caplog, pce_regressor, ishigami_problem):
         DisciplinaryOpt([discipline], "y", design_space),
         design_space,
         "Mean",
-        doe_algo="OT_HALTON",
-        doe_n_samples=20,
+        settings_model=PCE_Settings(doe_algo_settings=OT_HALTON_Settings(n_samples=20)),
     )
     pce.optimization_problem.objective.evaluate(array([0.0]))
     module, level, message = caplog.record_tuples[0]
@@ -255,10 +235,11 @@ def test_quality_cv(caplog, pce_regressor, ishigami_problem, quality_cv_compute,
         DisciplinaryOpt([discipline], "y", design_space),
         design_space,
         "Mean",
-        doe_algo="OT_HALTON",
-        doe_n_samples=20,
-        quality_name="MSEMeasure",
-        quality_cv_compute=quality_cv_compute,
+        settings_model=PCE_Settings(
+            doe_algo_settings=OT_HALTON_Settings(n_samples=20),
+            quality_name="MSEMeasure",
+            quality_cv_compute=quality_cv_compute,
+        ),
     )
     pce.optimization_problem.objective.evaluate(array([0.0]))
     module, level, message = caplog.record_tuples[1]
@@ -281,11 +262,12 @@ def test_quality_cv_options(pce_regressor, ishigami_problem):
             DisciplinaryOpt([discipline], "y", design_space),
             design_space,
             "Mean",
-            doe_algo="OT_HALTON",
-            doe_n_samples=20,
-            quality_cv_n_folds=3,
-            quality_cv_randomize=False,
-            quality_cv_seed=12,
+            settings_model=PCE_Settings(
+                doe_algo_settings=OT_HALTON_Settings(n_samples=20),
+                quality_cv_n_folds=3,
+                quality_cv_randomize=False,
+                quality_cv_seed=12,
+            ),
         )
         compute.return_value = {"y": array([0.0])}
         pce.optimization_problem.objective.evaluate(array([0.0]))
@@ -352,11 +334,12 @@ def test_quality_log_level(
         DisciplinaryOpt([discipline], "y", design_space),
         design_space,
         "Mean",
-        doe_algo="OT_HALTON",
-        doe_n_samples=20,
-        quality_threshold=threshold,
-        quality_cv_threshold=cv_threshold,
-        quality_cv_compute=cv_compute,
+        settings_model=PCE_Settings(
+            doe_algo_settings=OT_HALTON_Settings(n_samples=20),
+            quality_threshold=threshold,
+            quality_cv_threshold=cv_threshold,
+            quality_cv_compute=cv_compute,
+        ),
     )
     pce.optimization_problem.objective.evaluate(array([0.0]))
     _, level, message = caplog.record_tuples[1]
@@ -365,13 +348,13 @@ def test_quality_log_level(
 
 
 @pytest.mark.parametrize(
-    ("statistic_estimation_parameters", "y_opt"),
+    ("pce_settings", "y_opt"),
     [
-        ({"doe_n_samples": 20}, 2.0),
-        ({"doe_n_samples": 20, "pce_options": {"degree": 1}}, 1.9972399330987038),
+        ({}, 2.0),
+        ({"degree": 1}, 1.9972399330987038),
     ],
 )
-def test_scenario(quadratic_problem, statistic_estimation_parameters, y_opt):
+def test_scenario(quadratic_problem, pce_settings, y_opt):
     """Check the PCE-based U-MDO formulation in a scenario with a toy case."""
     discipline, design_space, uncertain_space = quadratic_problem
     scenario = UDOEScenario(
@@ -381,8 +364,12 @@ def test_scenario(quadratic_problem, statistic_estimation_parameters, y_opt):
         uncertain_space,
         "Mean",
         formulation_name="DisciplinaryOpt",
-        statistic_estimation="PCE",
-        statistic_estimation_parameters=statistic_estimation_parameters,
+        statistic_estimation_settings=PCE_Settings(
+            n_samples=20,
+            regressor_settings=PCERegressor_Settings(
+                probability_space=uncertain_space, **pce_settings
+            ),
+        ),
     )
     scenario.execute(algo_name="CustomDOE", samples=array([[1.0]]))
     assert_almost_equal(scenario.optimization_result.x_opt, array([1.0]))

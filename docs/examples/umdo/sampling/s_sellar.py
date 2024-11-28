@@ -50,6 +50,7 @@ from gemseo.algos.design_space import DesignSpace
 from gemseo.algos.parameter_space import ParameterSpace
 from gemseo.disciplines.analytic import AnalyticDiscipline
 
+from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 
 configure_logger()
@@ -96,7 +97,7 @@ scenario = UMDOScenario(
     uncertain_space,
     "Mean",
     formulation_name="MDF",
-    statistic_estimation_parameters={"n_samples": 100},
+    statistic_estimation_settings=Sampling_Settings(n_samples=100),
 )
 
 # %%

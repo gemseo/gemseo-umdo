@@ -17,7 +17,7 @@ used to define and solve an MDO problem under uncertainty.
 
 !!! info
 
-    Open the [user guide](../user_guide/umdo/index.md) for general information, *e.g.* concepts, API, examples, etc.
+    Open the [user guide](../user_guide/umdo/index.md) for general information, _e.g._ concepts, API, examples, etc.
 
 ## Tree structure
 
@@ -32,10 +32,15 @@ gemseo_umdo
     factory.py # Factory of U-MDO formulations
     base_umdo_formulation.py # Base class for U-MDO formulations
     control_variate.py # U-MDO formulation estimating statistics using Taylor-based control variates
+    control_variate_settings.py # Settings for ControlVariate
     pce.py # U-MDO formulation estimating statistics using polynomial chaos expansions (PCE)
+    pce_settings.py # Settings for PCE
     sampling.py # U-MDO formulation estimating statistics using Monte Carlo sampling
+    sampling_settings.py # Settings for Sampling
     sequential_sampling.py # U-MDO formulation estimating statistics using Monte Carlo sampling
+    sequential_sampling_settings.py # SequentialSettings for Sampling
     taylor_polynomial.py # U-MDO formulation estimating statistics using Taylor polynomials
+    taylor_polynomial_settings.py # Settings for TaylorPolynomial
     _functions # Subpackage of statistic estimation functions to be used with EvaluationProblem
       base_statistic_function.py # Base class for statistic estimation functions
       statistic_function_for_a_specific_u_mdo_formulation.py # Statistic estimation functions for a U-MDO formulation
@@ -61,11 +66,8 @@ with an API adapted to the definition of the uncertain space, statistics and the
 
 A `BaseUScenario` is made of
 
-- a `BaseUMDOFormulation`, which is an `MDOFormulation` depending on a standard `MDOFormulation`, e.g. `MDF`,
-- a specific statistics estimation technique,
-  *e.g.* sampling,
-  whose class name corresponds to this technique,
-  e.g. `Sampling`.
+- a `BaseUMDOFormulation`, which is an `MDOFormulation` depending on a standard `MDOFormulation`, _e.g._ `MDF`,
+- the settings of a specific statistics estimation technique, _e.g._ `Sampling_Settings` for sampling.
 
 The standard `MDOFormulation` is in charge to define the multidisciplinary process
 for a specific design value and a specific uncertainty value
@@ -82,6 +84,7 @@ So,
 adding a new U-MDO formulation `Foo` implies to
 
 - subclass `BaseUMDOFormulation` to `Foo`,
+- subclass `BaseUMDOFormulationSettings` to `Foo_Settings`,
 - subclass `BaseStatisticFunction` to `StasticFunctionForFoo`,
 - subclass `BaseStatisticEstimator` to `BaseFooEstimator`,
 - subclass `BaseFooEstimator` to `Mean`, `Variance`, etc.
@@ -129,6 +132,8 @@ classDiagram
    StatisticFunctionForStandardSampling *-- BaseSamplingEstimator
    BaseStatisticEstimator <|-- BaseSamplingEstimator
    BaseSamplingEstimator <|-- Mean
+
+   BaseUMDOFormulation *-- BaseUMDOFormulationSettings
 
    BaseUMDOFormulation *-- OptimizationProblem
    OptimizationProblem "1" o-- "n" BaseStatisticFunction

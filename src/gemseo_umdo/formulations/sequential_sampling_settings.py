@@ -14,12 +14,33 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 """Settings for the sequential sampling-based U-MDO formulation."""
 
-from gemseo_umdo.formulations.base_umdo_formulation_settings import (
-    BaseUMDOFormulationSettings,
+from __future__ import annotations
+
+from gemseo.algos.doe.base_n_samples_based_doe_settings import (
+    BaseNSamplesBasedDOESettings,  # noqa: TC002
 )
+from gemseo.algos.doe.openturns.settings.ot_opt_lhs import OT_OPT_LHS_Settings
+from gemseo.utils.seeder import SEED
+from pydantic import Field
+from pydantic import PositiveInt
+
+from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
 
 
-class SequentialSamplingSettings(BaseUMDOFormulationSettings):
+class SequentialSampling_Settings(Sampling_Settings):  # noqa: N801
     """The settings for the sequential sampling-based U-MDO formulation."""
 
     _TARGET_CLASS_NAME = "SequentialSampling"
+
+    doe_algo_settings: BaseNSamplesBasedDOESettings = Field(
+        default=OT_OPT_LHS_Settings(n_samples=10, seed=SEED),
+        description="The DOE settings.",
+    )
+
+    initial_n_samples: PositiveInt = Field(
+        default=2, description="""The initial sampling size."""
+    )
+
+    n_samples_increment: PositiveInt = Field(
+        default=1, description="""The increment of the sampling size."""
+    )

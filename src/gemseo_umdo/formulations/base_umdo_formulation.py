@@ -43,6 +43,9 @@ if TYPE_CHECKING:
     from gemseo_umdo.formulations._functions.base_statistic_function import (
         BaseStatisticFunction,
     )
+    from gemseo_umdo.formulations.base_umdo_formulation_settings import (
+        BaseUMDOFormulationSettings,
+    )
 
 
 class BaseUMDOFormulation(BaseFormulation):
@@ -127,9 +130,9 @@ class BaseUMDOFormulation(BaseFormulation):
         mdo_formulation: BaseMDOFormulation,
         uncertain_space: ParameterSpace,
         objective_statistic_name: str,
+        settings_model: BaseUMDOFormulationSettings,
         objective_statistic_parameters: StrKeyMapping = READ_ONLY_EMPTY_DICT,
         mdo_formulation_settings: StrKeyMapping = READ_ONLY_EMPTY_DICT,
-        **settings: Any,
     ) -> None:
         """
         Args:
@@ -168,7 +171,9 @@ class BaseUMDOFormulation(BaseFormulation):
             objective_statistic_name,
             **objective_statistic_parameters,
         )
-        super().__init__(disciplines, objective_name, design_space, **settings)
+        super().__init__(
+            disciplines, objective_name, design_space, settings_model=settings_model
+        )
         self.name = f"{self.__class__.__name__}[{mdo_formulation.__class__.__name__}]"
 
         # Replace the objective function by a statistic function.

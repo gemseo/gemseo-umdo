@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import pytest
 from gemseo.algos.design_space import DesignSpace
+from gemseo.algos.doe.custom_doe.settings.custom_doe_settings import CustomDOE_Settings
 from gemseo.algos.hashable_ndarray import HashableNdarray
 from gemseo.algos.parameter_space import ParameterSpace
 from gemseo.disciplines.analytic import AnalyticDiscipline
@@ -25,37 +26,35 @@ from gemseo.utils.derivatives.finite_differences import FirstOrderFD
 from numpy import array
 from numpy.testing import assert_allclose
 
+from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
+from gemseo_umdo.formulations.taylor_polynomial_settings import (
+    TaylorPolynomial_Settings,
+)
 from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
 
 
 @pytest.mark.parametrize(
-    ("statistic_estimation", "statistic_estimation_parameters", "expected"),
+    ("statistic_estimation_settings", "expected"),
     [
         (
-            "Sampling",
-            {
-                "algo": "CustomDOE",
-                "algo_options": {"samples": array([[1.0]])},
-                "estimate_statistics_iteratively": False,
-            },
+            Sampling_Settings(
+                doe_algo_settings=CustomDOE_Settings(samples=array([[1.0]])),
+                estimate_statistics_iteratively=False,
+            ),
             [8.0, 16.0],
         ),
         (
-            "Sampling",
-            {
-                "algo": "CustomDOE",
-                "algo_options": {"samples": array([[1.0]])},
-                "estimate_statistics_iteratively": True,
-            },
+            Sampling_Settings(
+                doe_algo_settings=CustomDOE_Settings(samples=array([[1.0]])),
+                estimate_statistics_iteratively=True,
+            ),
             [8.0, 16.0],
         ),
-        ("TaylorPolynomial", {"second_order": False}, [6.0, 12.0]),
-        ("TaylorPolynomial", {"second_order": True}, [6.0, 12.0]),
+        (TaylorPolynomial_Settings(second_order=False), [6.0, 12.0]),
+        (TaylorPolynomial_Settings(second_order=True), [6.0, 12.0]),
     ],
 )
-def test_finite_differences(
-    statistic_estimation, statistic_estimation_parameters, expected
-):
+def test_finite_differences(statistic_estimation_settings, expected):
     """Check that the finite-difference approximation of derivatives are ok."""
     discipline = AnalyticDiscipline({
         "f": "(x1+2*x2+u)**2",
@@ -77,8 +76,7 @@ def test_finite_differences(
         uncertain_space,
         "Mean",
         formulation_name="DisciplinaryOpt",
-        statistic_estimation=statistic_estimation,
-        statistic_estimation_parameters=statistic_estimation_parameters,
+        statistic_estimation_settings=statistic_estimation_settings,
     )
     scenario.add_constraint("c", "Mean")
     scenario.add_observable("o", "Mean")

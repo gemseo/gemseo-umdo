@@ -18,9 +18,6 @@ a surrogate model is built over the uncertain space
 and Monte Carlo sampling is used to estimate specific statistics,
 namely mean, standard deviation, variance, probability and margin.
 
-The number of samples to build the surrogate model is mandatory
-and must be set with the parameter `doe_n_samples`.
-
 Here is a typical scenario template:
 
 ``` py
@@ -31,12 +28,11 @@ scenario = UMDOScenario(
     design_space,
     uncertain_space,
     statistic_name,
-    statistic_estimation="Surrogate",
-    statistic_estimation_parameters={"doe_n_samples": 20}
+    statistic_estimation_settings=Surrogate_Settings(doe_n_samples=20),
 )
 ```
 
-## Options
+## Settings
 
 ### DOE algorithm
 
@@ -48,10 +44,14 @@ starts from an initial LHS
 and improves it to maximize its discrepancy
 and so to get a better space-filling LHS.
 
-The DOE algorithm name can be set with the string option `doe_algo`
-and its options with the dictionary parameter `doe_algo_options`.
-When the DOE algorithm uses a random number generator,
-the integer option `doe_seed` can be used for reproducibility purposes.
+The default number samples is 10.
+It can be changed with the parameter `n_samples`
+and the DOE algorithm name can be changed with the parameter `doe_algo_settings`,
+which is a Pydantic model deriving from [BaseDOESettings][gemseo.algos.doe.base_doe_settings.BaseDOESettings].
+When `n_samples` is `None` (default) and `doe_algo_settings` has a field `n_samples`,
+then this field is considered.
+When `doe_algo_settings` has a field `seed` and its value is `None`,
+then the U-MDO formulation will use [SEED][gemseo.utils.seeder.SEED].
 
 ### Surrogate's options
 
@@ -59,21 +59,25 @@ This U-MDO formulation is based on a [BaseRegressor][gemseo.mlearning.regression
 By default,
 this surrogate model is the [RBFRegressor][gemseo.mlearning.regression.algos.rbf.RBFRegressor] available in GEMSEO,
 which wraps the [SciPy's RBF algorithm](https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.Rbf.html).
-Use the `regressor_name` to change the kind of regressor
-(use the name of a subclass of [BaseRegressor][gemseo.mlearning.regression.algos.base_regressor.BaseRegressor])
-and the `regressor_options` argument to set the options of the [BaseRegressor][gemseo.mlearning.regression.algos.base_regressor.BaseRegressor].
+The kind of regressor can be changed
+by setting the `regressor_settings` parameter with a Pydantic model defining the settings of a regressor
 For example,
-set `regressor_name` to `"LinearRegressor"` to use a linear regressor,
-`regressor_options` to `{"function": "cubic"}` for a
+set `regressor_settings` to `"LinearRegressor_Settings()"` to use a linear regressor,
+`regressor_settings` to `RBFRegressor_Settings(function="cubic")` for a
 [RBFRegressor][gemseo.mlearning.regression.algos.rbf.RBFRegressor] based on a cubic function
 and `regressor_n_samples` to `100` to estimate the statistics with 100 Monte Carlo simulations instead of 10000.
 
 !!! note "API"
-    Use `statistic_estimation_parameters`
+    Use `statistic_estimation_settings`
     to set the DOE algorithm and the surrogate's options,
-    e.g.
+    _e.g._
 
     ``` py
+    settings = Surrogate_Settings(
+        doe_algo_settings=OT_MONTE_CARLO_Settings(n_samples=20, n_processes=2),
+        regressor_settings=PolynomialRegressor_Settings(degree=3),
+        regressor_n_samples=100,
+    )
     scenario = UMDOScenario(
         disciplines,
         mdo_formulation_name,
@@ -81,14 +85,7 @@ and `regressor_n_samples` to `100` to estimate the statistics with 100 Monte Car
         design_space,
         uncertain_space,
         statistic_name,
-        statistic_estimation_parameters={
-            "doe_algo": "OT_MONTE_CARLO",
-            "doe_n_samples": 20,
-            "doe_algo_options": {"n_processes": 2},
-            "regressor_name": "PolynomialRegressor",
-            "regressor_n_samples": 100,
-            "regressor_options": {"degree": 3}
-        }
+        statistic_estimation_parameters=settings,
     )
     ```
 
@@ -97,7 +94,7 @@ and `regressor_n_samples` to `100` to estimate the statistics with 100 Monte Car
 Finally,
 many options can be used
 to adjust the log verbosity
-providing information on the PCEs built at each optimization iteration:
+providing information on the surrogates built at each optimization iteration:
 
 | Name                 | Description                                                                                   |
 |----------------------|-----------------------------------------------------------------------------------------------|

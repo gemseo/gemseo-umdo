@@ -60,9 +60,9 @@ can be reduced to this standard optimization problem:
     from a [DesignSpace][gemseo.algos.design_space.DesignSpace],
     defines its objective functions and constraints
     with
-    [MDOFunction][gemseo.core.mdofunctions.mdo_function.MDOFunction] objects
+    [MDOFunction][gemseo.core.mdo_functions.mdo_function.MDOFunction] objects
     and solves it with an algorithm
-    from a [DriverLibrary][gemseo.algos.driver_library.DriverLibrary].
+    from a [BaseDriverLibrary][gemseo.algos.base_driver_library.BaseDriverLibrary].
     This algorithm can be either an optimizer or a design of experiments (DOE).
 
     ??? example
@@ -82,7 +82,7 @@ can be reduced to this standard optimization problem:
         from gemseo import execute_algo
         from gemseo.algos.optimization_problem import Optimization
         from gemseo.algos.design_space import DesignSpace
-        from gemseo.core.mdofunctions.mdo_function import MDOFunction
+        from gemseo.core.mdo_functions.mdo_function import MDOFunction
 
         design_space = DesignSpace()
         design_space.add_variable("x", lower_bound=-1., upper_bound=1.)
@@ -409,6 +409,7 @@ to solve the MDO problem under uncertainty.
 
     ``` py
     from gemseo.algos.design_space import DesignSpace
+    from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
     from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 
     design_space = DesignSpace()
@@ -422,17 +423,16 @@ to solve the MDO problem under uncertainty.
         design_space,
         uncertain_space,
         "Mean",
-        statistic_estimation_parameters={"n_samples": 100},
+        statistic_estimation_settings=Sampling_Settings(n_samples=100),
     )
     scenario.execute(algo_name="NLOPT_COBYLA", max_iter=50)
     ```
 
 ### U-MDO formulations
 
-By default,
 [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario]
 and [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
-estimate the statistics associated with $f(x,U)$, $g(x,U)$ and $h(x,U)$
+can estimate the statistics associated with $f(x,U)$, $g(x,U)$ and $h(x,U)$
 by sampling these random variables:
 
 $$(f(x,U^{(i)}),g(x,U^{(i)}),h(x,U^{(i)}))_{1\leq i \leq N}.$$
@@ -446,11 +446,14 @@ such as
 and
 [polynomial chaos expansions](pce.md).
 The choice of an estimation technique is made
-via the string argument `estimation_technique` of [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario]
+via the argument `statistic_estimation_settings`
+of [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario]
 (or [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]),
-representing the class name of an
-[BaseUMDOFormulation][gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation],
-*e.g.* `"ControlVariate"`, `"TaylorPolynomial"` or `"PCE"`.
+which is a Pydantic model of U-MDO settings,
+_e.g._
+[ControlVariate_Settings][gemseo_umdo.formulations.control_variate_settings.ControlVariate_Settings],
+[TaylorPolynomial_Settings][gemseo_umdo.formulations.taylor_polynomial_settings.TaylorPolynomial_Settings]
+or [PCE_Settings][gemseo_umdo.formulations.pce_settings.PCE_Settings].
 
 As of now,
 only the [``Sampling`` U-MDO formulation](sampling.md) provides analytical derivatives of the statistics
@@ -470,8 +473,8 @@ The rest of the **MDO under uncertainty** section of the user guide presents the
     a [DOEScenario][gemseo.scenarios.doe_scenario.DOEScenario]
     generates and solves an
     [OptimizationProblem][gemseo.algos.optimization_problem.OptimizationProblem]
-    that corresponds to an
-    [MDOFormulation][gemseo.formulations.mdo_formulation.MDOFormulation].
+    that corresponds to a
+    [BaseMDOFormulation][gemseo.formulations.base_mdo_formulation.BaseMDOFormulation].
     The resolution consists in sampling the objective and constraints
     over the [DesignSpace][gemseo.algos.design_space.DesignSpace],
     i.e. $(x^{(i)},f(x^{(i)},U),g(x^{(i)},U),h(x^{(i)},U))_{1\leq i \leq N}$,
@@ -512,7 +515,7 @@ The rest of the **MDO under uncertainty** section of the user guide presents the
     Thus implemented,
     GEMSEO-UMDO should be able
     to set up any MDO problem under uncertainty
-    from any [MDOFormulation][gemseo.formulations.mdo_formulation.MDOFormulation]
+    from any [BaseMDOFormulation][gemseo.formulations.base_mdo_formulation.BaseMDOFormulation]
     and any statistic estimation technique.
     This vision may be theoretical at the moment,
     but the ambition of GEMSEO-UMDO is to be

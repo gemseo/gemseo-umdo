@@ -28,7 +28,7 @@ from gemseo_umdo.formulations._statistics.sampling.factory import (
     SamplingEstimatorFactory,
 )
 from gemseo_umdo.formulations.base_umdo_formulation import BaseUMDOFormulation
-from gemseo_umdo.formulations.sampling_settings import SamplingSettings
+from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
 
 
 @pytest.fixture
@@ -90,7 +90,7 @@ class StatisticFunction(MDOFunction):
 class MyUMDOFormulation(BaseUMDOFormulation):
     """A dummy BaseUMDOFormulation."""
 
-    Settings = SamplingSettings
+    Settings = Sampling_Settings
 
     def __init__(self, *args, **kwargs):  # noqa: D107
         self._statistic_function_class = StatisticFunction
@@ -108,6 +108,7 @@ def formulation(disciplines, design_space, mdf, uncertain_space):
         mdf,
         uncertain_space,
         "Mean",
+        Sampling_Settings(n_samples=10),
     )
     form.add_constraint("c", "Margin", factor=3.0)
     form.add_observable("o", "Mean")
@@ -184,5 +185,6 @@ def test_multiobjective(disciplines, design_space, mdf, uncertain_space):
         mdf,
         uncertain_space,
         "Mean",
+        Sampling_Settings(n_samples=10),
     )
     assert formulation.optimization_problem.objective.name == "E[f_o]"

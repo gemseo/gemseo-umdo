@@ -26,6 +26,7 @@ from __future__ import annotations
 from gemseo import configure
 from gemseo import configure_logger
 
+from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 from gemseo_umdo.use_cases.beam_model.constraints import BeamConstraints
 from gemseo_umdo.use_cases.beam_model.design_space import BeamDesignSpace
@@ -42,8 +43,7 @@ scenario = UMDOScenario(
     BeamUncertainSpace(uniform=False),
     "Mean",
     formulation_name="MDF",
-    statistic_estimation="Sampling",
-    statistic_estimation_parameters={"n_samples": 200},
+    statistic_estimation_settings=Sampling_Settings(n_samples=200),
 )
 scenario.add_constraint(
     "c_stress", "Probability", greater=False, threshold=1.0, positive=True, value=0.9

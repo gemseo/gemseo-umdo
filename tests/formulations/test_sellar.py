@@ -27,6 +27,16 @@ from gemseo.problems.mdo.sellar.sellar_system import SellarSystem
 from gemseo.scenarios.doe_scenario import DOEScenario
 from numpy.testing import assert_almost_equal
 
+from gemseo_umdo.formulations.control_variate_settings import ControlVariate_Settings
+from gemseo_umdo.formulations.pce_settings import PCE_Settings
+from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
+from gemseo_umdo.formulations.sequential_sampling_settings import (
+    SequentialSampling_Settings,
+)
+from gemseo_umdo.formulations.surrogate_settings import Surrogate_Settings
+from gemseo_umdo.formulations.taylor_polynomial_settings import (
+    TaylorPolynomial_Settings,
+)
 from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
 
 if TYPE_CHECKING:
@@ -118,20 +128,20 @@ def normal_uncertain_space() -> ParameterSpace:
 
 
 statistic_estimation_settings = [
-    ("Sampling", {"n_samples": 10}),
-    ("Sampling", {"n_samples": 10, "estimate_statistics_iteratively": False}),
-    ("SequentialSampling", {"n_samples": 10}),
+    (Sampling_Settings, {"n_samples": 10}),
+    (Sampling_Settings, {"n_samples": 10, "estimate_statistics_iteratively": False}),
+    (SequentialSampling_Settings, {"n_samples": 10}),
     (
-        "SequentialSampling",
+        SequentialSampling_Settings,
         {"n_samples": 10, "estimate_statistics_iteratively": False},
     ),
-    ("TaylorPolynomial", {}),
-    ("TaylorPolynomial", {"second_order": True}),
+    (TaylorPolynomial_Settings, {}),
+    (TaylorPolynomial_Settings, {"second_order": True}),
 ]
 
 
 @pytest.mark.parametrize(
-    ("statistic_estimation", "statistic_estimation_parameters"),
+    "statistic_estimation_settings",
     statistic_estimation_settings,
 )
 def test_uncertainty_free(
@@ -139,8 +149,7 @@ def test_uncertainty_free(
     design_space,
     dirac_uncertain_space,
     reference_data,
-    statistic_estimation,
-    statistic_estimation_parameters,
+    statistic_estimation_settings,
     maximize_objective,
     scenario_input_data,
 ):
@@ -155,6 +164,7 @@ def test_uncertainty_free(
     - PCE because a PCE regressor cannot be trained with constant inputs,
     - ControlVariate because control variate estimators require non-constant inputs.
     """
+    cls, kwargs = statistic_estimation_settings
     u_doe_scenario = UDOEScenario(
         disciplines,
         "obj",
@@ -163,8 +173,7 @@ def test_uncertainty_free(
         "Mean",
         formulation_name="MDF",
         maximize_objective=maximize_objective,
-        statistic_estimation=statistic_estimation,
-        statistic_estimation_parameters=statistic_estimation_parameters,
+        statistic_estimation_settings=cls(**kwargs),
         main_mda_settings={"max_mda_iter": 3},
     )
     u_doe_scenario.add_constraint("c_1", "Mean")
@@ -174,12 +183,12 @@ def test_uncertainty_free(
 
 
 @pytest.mark.parametrize(
-    ("statistic_estimation", "statistic_estimation_parameters"),
+    "statistic_estimation_settings",
     [
         *statistic_estimation_settings,
-        ("ControlVariate", {"n_samples": 10}),
-        ("PCE", {"doe_n_samples": 20}),
-        ("Surrogate", {"doe_n_samples": 20}),
+        (ControlVariate_Settings, {"n_samples": 10}),
+        (PCE_Settings, {"n_samples": 20}),
+        (Surrogate_Settings, {"n_samples": 20}),
     ],
 )
 def test_weak_uncertainties(
@@ -187,8 +196,7 @@ def test_weak_uncertainties(
     design_space,
     normal_uncertain_space,
     reference_data,
-    statistic_estimation,
-    statistic_estimation_parameters,
+    statistic_estimation_settings,
     maximize_objective,
     scenario_input_data,
 ):
@@ -197,6 +205,7 @@ def test_weak_uncertainties(
     For that, we model alpha, beta and gamma as random variables distributed according
     to normal distributions with a small variance.
     """
+    cls, kwargs = statistic_estimation_settings
     u_doe_scenario = UDOEScenario(
         disciplines,
         "obj",
@@ -205,8 +214,7 @@ def test_weak_uncertainties(
         "Mean",
         formulation_name="MDF",
         maximize_objective=maximize_objective,
-        statistic_estimation=statistic_estimation,
-        statistic_estimation_parameters=statistic_estimation_parameters,
+        statistic_estimation_settings=cls(**kwargs),
         main_mda_settings={"max_mda_iter": 3},
     )
     u_doe_scenario.add_constraint("c_1", "Mean")
