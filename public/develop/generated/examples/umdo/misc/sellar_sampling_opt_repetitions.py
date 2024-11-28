@@ -21,12 +21,14 @@ from gemseo import configure_logger
 from gemseo.algos.design_space import DesignSpace
 from gemseo.algos.parameter_space import ParameterSpace
 from gemseo.disciplines.analytic import AnalyticDiscipline
+from gemseo.settings.doe import OT_LHS_Settings
 from matplotlib import pyplot as plt
 from numpy import load
 from numpy import save
 from numpy import stack
 from numpy import vstack
 
+from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 
 configure_logger()
@@ -80,12 +82,9 @@ for i in range(10):
         uncertain_space,
         "Mean",
         formulation_name="MDF",
-        statistic_estimation="Sampling",
-        statistic_estimation_parameters={
-            "algo": "OT_LHS",
-            "n_samples": 100,
-            "seed": i + 1,
-        },
+        statistic_estimation_settings=Sampling_Settings(
+            doe_algo_settings=OT_LHS_Settings(n_samples=100, seed=i + 1)
+        ),
     )
     scenario.add_constraint("c1", "Margin", factor=3.0)
     scenario.add_constraint("c2", "Margin", factor=3.0)

@@ -36,6 +36,7 @@ from gemseo.algos.design_space import DesignSpace
 from gemseo.algos.parameter_space import ParameterSpace
 from gemseo.disciplines.analytic import AnalyticDiscipline
 
+from gemseo_umdo.formulations.control_variate_settings import ControlVariate_Settings
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 
 configure_logger()
@@ -69,8 +70,7 @@ scenario = UMDOScenario(
     uncertain_space,
     "Mean",
     formulation_name="DisciplinaryOpt",
-    statistic_estimation="ControlVariate",
-    statistic_estimation_parameters={"n_samples": 25},
+    statistic_estimation_settings=ControlVariate_Settings(n_samples=25),
 )
 
 # %%

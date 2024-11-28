@@ -8,28 +8,28 @@
       
       
       
-        <link rel="canonical" href="https://gemseo.gitlab.io/gemseo-umdo/latest/generated/examples/umdo/">
+        <link rel="canonical" href="https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/base_sampling_settings/">
       
       
-        <link rel="prev" href="../../../user_guide/visualization/sobol_graph/">
+        <link rel="prev" href="../">
       
       
-        <link rel="next" href="control_variate/plot_cv_quadratic/">
+        <link rel="next" href="../base_umdo_formulation/">
       
       
-      <link rel="icon" href="../../../images/favicon.ico">
+      <link rel="icon" href="../../../../images/favicon.ico">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.46">
     
     
       
-        <title>MDO under uncertainty - gemseo-umdo</title>
+        <title>Base sampling settings - gemseo-umdo</title>
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.6f8fc17f.min.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.6f8fc17f.min.css">
       
         
-        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.06af60db.min.css">
       
       
 
@@ -48,21 +48,21 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/_markdown_exec_pyodide.css">
+      <link rel="stylesheet" href="../../../../assets/_markdown_exec_pyodide.css">
     
-      <link rel="stylesheet" href="../../../assets/_markdown_exec_ansi.css">
+      <link rel="stylesheet" href="../../../../assets/_markdown_exec_ansi.css">
     
-      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../../../../assets/_mkdocstrings.css">
     
-      <link rel="stylesheet" href="../../../sg_gallery-binder.css">
+      <link rel="stylesheet" href="../../../../sg_gallery-binder.css">
     
-      <link rel="stylesheet" href="../../../sg_gallery.css">
+      <link rel="stylesheet" href="../../../../sg_gallery.css">
     
-      <link rel="stylesheet" href="../../../sg_gallery-rendered-html.css">
+      <link rel="stylesheet" href="../../../../sg_gallery-rendered-html.css">
     
-      <link rel="stylesheet" href="../../../sg_gallery-dataframe.css">
+      <link rel="stylesheet" href="../../../../sg_gallery-dataframe.css">
     
-    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -88,7 +88,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#mdo-under-uncertainty" class="md-skip">
+        <a href="#gemseo_umdo.formulations.base_sampling_settings" class="md-skip">
           Skip to content
         </a>
       
@@ -106,7 +106,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../.." title="gemseo-umdo" class="md-header__button md-logo" aria-label="gemseo-umdo" data-md-component="logo">
+    <a href="../../../.." title="gemseo-umdo" class="md-header__button md-logo" aria-label="gemseo-umdo" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -126,7 +126,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              MDO under uncertainty
+              Base sampling settings
             
           </span>
         </div>
@@ -235,7 +235,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../.." class="md-tabs__link">
+        <a href="../../../.." class="md-tabs__link">
           
   
     
@@ -255,7 +255,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../user_guide/" class="md-tabs__link">
+        <a href="../../../../user_guide/" class="md-tabs__link">
           
   
     
@@ -271,21 +271,17 @@
         
   
   
-    
-  
   
     
     
       
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="./" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../../../generated/examples/umdo/" class="md-tabs__link">
           
   
     
@@ -304,9 +300,11 @@
         
   
   
+    
   
-    <li class="md-tabs__item">
-      <a href="../../../reference/gemseo_umdo/" class="md-tabs__link">
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="../../" class="md-tabs__link">
         
   
     
@@ -325,7 +323,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../developer_guide/umdo/" class="md-tabs__link">
+        <a href="../../../../developer_guide/umdo/" class="md-tabs__link">
           
   
     
@@ -360,7 +358,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../.." title="gemseo-umdo" class="md-nav__button md-logo" aria-label="gemseo-umdo" data-md-component="logo">
+    <a href="../../../.." title="gemseo-umdo" class="md-nav__button md-logo" aria-label="gemseo-umdo" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -417,7 +415,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../.." class="md-nav__link ">
+            <a href="../../../.." class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -450,7 +448,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../changelog/" class="md-nav__link">
+      <a href="../../../../changelog/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -471,7 +469,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../credits/" class="md-nav__link">
+      <a href="../../../../credits/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -492,7 +490,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../licenses/" class="md-nav__link">
+      <a href="../../../../licenses/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -547,7 +545,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../user_guide/" class="md-nav__link ">
+            <a href="../../../../user_guide/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -613,7 +611,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../user_guide/umdo/" class="md-nav__link ">
+            <a href="../../../../user_guide/umdo/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -646,7 +644,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../user_guide/umdo/sampling/" class="md-nav__link">
+      <a href="../../../../user_guide/umdo/sampling/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -667,7 +665,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../user_guide/umdo/sequential_sampling/" class="md-nav__link">
+      <a href="../../../../user_guide/umdo/sequential_sampling/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -688,7 +686,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../user_guide/umdo/taylor_polynomial/" class="md-nav__link">
+      <a href="../../../../user_guide/umdo/taylor_polynomial/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -709,7 +707,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../user_guide/umdo/control_variate/" class="md-nav__link">
+      <a href="../../../../user_guide/umdo/control_variate/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -730,7 +728,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../user_guide/umdo/surrogate/" class="md-nav__link">
+      <a href="../../../../user_guide/umdo/surrogate/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -751,7 +749,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../user_guide/umdo/pce/" class="md-nav__link">
+      <a href="../../../../user_guide/umdo/pce/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -803,7 +801,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../user_guide/statistics/" class="md-nav__link ">
+            <a href="../../../../user_guide/statistics/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -836,7 +834,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../user_guide/statistics/multilevel/" class="md-nav__link">
+      <a href="../../../../user_guide/statistics/multilevel/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -890,7 +888,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../user_guide/visualization/" class="md-nav__link ">
+            <a href="../../../../user_guide/visualization/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -923,7 +921,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../user_guide/visualization/uncertain_coupling_graph/" class="md-nav__link">
+      <a href="../../../../user_guide/visualization/uncertain_coupling_graph/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -944,7 +942,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../user_guide/visualization/sobol_graph/" class="md-nav__link">
+      <a href="../../../../user_guide/visualization/sobol_graph/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -977,10 +975,8 @@
       
   
   
-    
   
   
-  
     
     
       
@@ -993,20 +989,17 @@
     
     
       
-        
-        
-      
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
             
   
   <span class="md-ellipsis">
@@ -1017,7 +1010,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             Examples
@@ -1028,8 +1021,6 @@
                 
   
   
-    
-  
   
   
     
@@ -1059,16 +1050,16 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" >
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="./" class="md-nav__link md-nav__link--active">
+            <a href="../../../../generated/examples/umdo/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1079,13 +1070,13 @@
             </a>
             
               
-              <label class="md-nav__link md-nav__link--active" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3_1">
             <span class="md-nav__icon md-icon"></span>
             MDO under uncertainty
@@ -1147,7 +1138,7 @@
   
   
     <li class="md-nav__item">
-      <a href="control_variate/plot_cv_quadratic/" class="md-nav__link">
+      <a href="../../../../generated/examples/umdo/control_variate/plot_cv_quadratic/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1168,7 +1159,7 @@
   
   
     <li class="md-nav__item">
-      <a href="control_variate/plot_cv_rosenbrock/" class="md-nav__link">
+      <a href="../../../../generated/examples/umdo/control_variate/plot_cv_rosenbrock/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1189,7 +1180,7 @@
   
   
     <li class="md-nav__item">
-      <a href="control_variate/cv_sellar/" class="md-nav__link">
+      <a href="../../../../generated/examples/umdo/control_variate/cv_sellar/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1264,7 +1255,7 @@
   
   
     <li class="md-nav__item">
-      <a href="misc/udoe_quadratic/" class="md-nav__link">
+      <a href="../../../../generated/examples/umdo/misc/udoe_quadratic/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1285,7 +1276,7 @@
   
   
     <li class="md-nav__item">
-      <a href="misc/sellar_sampling_opt_repetitions/" class="md-nav__link">
+      <a href="../../../../generated/examples/umdo/misc/sellar_sampling_opt_repetitions/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1306,7 +1297,7 @@
   
   
     <li class="md-nav__item">
-      <a href="misc/comparison/" class="md-nav__link">
+      <a href="../../../../generated/examples/umdo/misc/comparison/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1377,7 +1368,7 @@
   
   
     <li class="md-nav__item">
-      <a href="pce/plot_pce_quadratic/" class="md-nav__link">
+      <a href="../../../../generated/examples/umdo/pce/plot_pce_quadratic/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1454,7 +1445,7 @@
   
   
     <li class="md-nav__item">
-      <a href="sampling/plot_s_quadratic/" class="md-nav__link">
+      <a href="../../../../generated/examples/umdo/sampling/plot_s_quadratic/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1475,7 +1466,7 @@
   
   
     <li class="md-nav__item">
-      <a href="sampling/plot_s_rosenbrock/" class="md-nav__link">
+      <a href="../../../../generated/examples/umdo/sampling/plot_s_rosenbrock/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1496,7 +1487,7 @@
   
   
     <li class="md-nav__item">
-      <a href="sampling/s_sellar/" class="md-nav__link">
+      <a href="../../../../generated/examples/umdo/sampling/s_sellar/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1517,7 +1508,7 @@
   
   
     <li class="md-nav__item">
-      <a href="sampling/s_sobieski/" class="md-nav__link">
+      <a href="../../../../generated/examples/umdo/sampling/s_sobieski/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1588,7 +1579,7 @@
   
   
     <li class="md-nav__item">
-      <a href="sequential_sampling/plot_ss_quadratic/" class="md-nav__link">
+      <a href="../../../../generated/examples/umdo/sequential_sampling/plot_ss_quadratic/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1659,7 +1650,7 @@
   
   
     <li class="md-nav__item">
-      <a href="surrogate/plot_surrogate/" class="md-nav__link">
+      <a href="../../../../generated/examples/umdo/surrogate/plot_surrogate/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1734,7 +1725,7 @@
   
   
     <li class="md-nav__item">
-      <a href="taylor_polynomial/plot_tp_quadratic/" class="md-nav__link">
+      <a href="../../../../generated/examples/umdo/taylor_polynomial/plot_tp_quadratic/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1755,7 +1746,7 @@
   
   
     <li class="md-nav__item">
-      <a href="taylor_polynomial/tp_sellar/" class="md-nav__link">
+      <a href="../../../../generated/examples/umdo/taylor_polynomial/tp_sellar/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1776,7 +1767,7 @@
   
   
     <li class="md-nav__item">
-      <a href="taylor_polynomial/tp_sobieski/" class="md-nav__link">
+      <a href="../../../../generated/examples/umdo/taylor_polynomial/tp_sobieski/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1838,7 +1829,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../visualizations/" class="md-nav__link ">
+            <a href="../../../../generated/examples/visualizations/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1917,7 +1908,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../visualizations/sobol_graph/plot_sellar_sobol_graph/" class="md-nav__link">
+      <a href="../../../../generated/examples/visualizations/sobol_graph/plot_sellar_sobol_graph/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1938,7 +1929,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../visualizations/sobol_graph/plot_ishigami_sobol_graph/" class="md-nav__link">
+      <a href="../../../../generated/examples/visualizations/sobol_graph/plot_ishigami_sobol_graph/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1959,7 +1950,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../visualizations/sobol_graph/plot_sobieski_sobol_graph/" class="md-nav__link">
+      <a href="../../../../generated/examples/visualizations/sobol_graph/plot_sobieski_sobol_graph/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2030,7 +2021,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../visualizations/uncertain_coupling_graph/plot_sobieski_coupling_graph/" class="md-nav__link">
+      <a href="../../../../generated/examples/visualizations/uncertain_coupling_graph/plot_sobieski_coupling_graph/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2090,7 +2081,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../problems/" class="md-nav__link ">
+            <a href="../../../../generated/examples/problems/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -2171,7 +2162,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../problems/beam_model/plot_beam_opt/" class="md-nav__link">
+      <a href="../../../../generated/examples/problems/beam_model/plot_beam_opt/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2192,7 +2183,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../problems/beam_model/plot_beam_sa/" class="md-nav__link">
+      <a href="../../../../generated/examples/problems/beam_model/plot_beam_sa/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2213,7 +2204,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../problems/beam_model/plot_beam_doe/" class="md-nav__link">
+      <a href="../../../../generated/examples/problems/beam_model/plot_beam_doe/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2234,7 +2225,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../problems/beam_model/plot_beam_rob_opt/" class="md-nav__link">
+      <a href="../../../../generated/examples/problems/beam_model/plot_beam_rob_opt/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2275,8 +2266,10 @@
       
   
   
+    
   
   
+  
     
     
       
@@ -2313,19 +2306,22 @@
     
     
       
+        
+        
+      
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../reference/gemseo_umdo/" class="md-nav__link ">
+            <a href="../../" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -2336,13 +2332,13 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             API documentation
@@ -2356,7 +2352,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/monte_carlo_sampler/" class="md-nav__link">
+      <a href="../../monte_carlo_sampler/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2398,7 +2394,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../reference/gemseo_umdo/_utils/" class="md-nav__link ">
+            <a href="../../_utils/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -2448,7 +2444,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../reference/gemseo_umdo/_utils/compatibility/" class="md-nav__link ">
+            <a href="../../_utils/compatibility/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -2479,7 +2475,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/_utils/compatibility/openturns/" class="md-nav__link">
+      <a href="../../_utils/compatibility/openturns/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2541,7 +2537,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../reference/gemseo_umdo/disciplines/" class="md-nav__link ">
+            <a href="../../disciplines/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -2572,7 +2568,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/disciplines/additive_noiser/" class="md-nav__link">
+      <a href="../../disciplines/additive_noiser/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2593,7 +2589,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/disciplines/base_noiser/" class="md-nav__link">
+      <a href="../../disciplines/base_noiser/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2614,7 +2610,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/disciplines/multiplicative_noiser/" class="md-nav__link">
+      <a href="../../disciplines/multiplicative_noiser/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2635,7 +2631,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/disciplines/noiser_factory/" class="md-nav__link">
+      <a href="../../disciplines/noiser_factory/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2661,6 +2657,8 @@
                 
   
   
+    
+  
   
   
     
@@ -2712,16 +2710,16 @@
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" checked>
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../reference/gemseo_umdo/formulations/" class="md-nav__link ">
+            <a href="../" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -2738,7 +2736,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_4_4">
             <span class="md-nav__icon md-icon"></span>
             Formulations
@@ -2749,10 +2747,28 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/base_sampling_settings/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Base sampling settings
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -2761,6 +2777,63 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations.base_sampling_settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;base_sampling_settings
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" base_sampling_settings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations.base_sampling_settings-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Classes
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Classes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations.base_sampling_settings.BaseSamplingSettings" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;BaseSamplingSettings
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -2773,7 +2846,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/base_umdo_formulation/" class="md-nav__link">
+      <a href="../base_umdo_formulation/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2794,7 +2867,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/base_umdo_formulation_settings/" class="md-nav__link">
+      <a href="../base_umdo_formulation_settings/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2815,7 +2888,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/control_variate/" class="md-nav__link">
+      <a href="../control_variate/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2836,7 +2909,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/control_variate_settings/" class="md-nav__link">
+      <a href="../control_variate_settings/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2857,7 +2930,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/factory/" class="md-nav__link">
+      <a href="../factory/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2878,7 +2951,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/pce/" class="md-nav__link">
+      <a href="../pce/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2899,7 +2972,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/pce_settings/" class="md-nav__link">
+      <a href="../pce_settings/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2920,7 +2993,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/sampling/" class="md-nav__link">
+      <a href="../sampling/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2941,7 +3014,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/sampling_settings/" class="md-nav__link">
+      <a href="../sampling_settings/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2962,7 +3035,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/sequential_sampling/" class="md-nav__link">
+      <a href="../sequential_sampling/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2983,7 +3056,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/sequential_sampling_settings/" class="md-nav__link">
+      <a href="../sequential_sampling_settings/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3004,7 +3077,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/surrogate/" class="md-nav__link">
+      <a href="../surrogate/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3025,7 +3098,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/surrogate_settings/" class="md-nav__link">
+      <a href="../surrogate_settings/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3046,7 +3119,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/taylor_polynomial/" class="md-nav__link">
+      <a href="../taylor_polynomial/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3067,7 +3140,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/taylor_polynomial_settings/" class="md-nav__link">
+      <a href="../taylor_polynomial_settings/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3125,7 +3198,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../reference/gemseo_umdo/formulations/_functions/" class="md-nav__link ">
+            <a href="../_functions/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -3156,7 +3229,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/_functions/base_statistic_function/" class="md-nav__link">
+      <a href="../_functions/base_statistic_function/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3177,7 +3250,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/_functions/base_statistic_function_for_sampling/" class="md-nav__link">
+      <a href="../_functions/base_statistic_function_for_sampling/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3198,7 +3271,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/_functions/hessian_function/" class="md-nav__link">
+      <a href="../_functions/hessian_function/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3219,7 +3292,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/_functions/iterative_estimation/" class="md-nav__link">
+      <a href="../_functions/iterative_estimation/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3240,7 +3313,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/_functions/statistic_function_for_control_variate/" class="md-nav__link">
+      <a href="../_functions/statistic_function_for_control_variate/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3261,7 +3334,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/_functions/statistic_function_for_iterative_sampling/" class="md-nav__link">
+      <a href="../_functions/statistic_function_for_iterative_sampling/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3282,7 +3355,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/_functions/statistic_function_for_pce/" class="md-nav__link">
+      <a href="../_functions/statistic_function_for_pce/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3303,7 +3376,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/_functions/statistic_function_for_standard_sampling/" class="md-nav__link">
+      <a href="../_functions/statistic_function_for_standard_sampling/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3324,7 +3397,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/_functions/statistic_function_for_surrogate/" class="md-nav__link">
+      <a href="../_functions/statistic_function_for_surrogate/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3345,7 +3418,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/_functions/statistic_function_for_taylor_polynomial/" class="md-nav__link">
+      <a href="../_functions/statistic_function_for_taylor_polynomial/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3413,7 +3486,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../reference/gemseo_umdo/formulations/_statistics/" class="md-nav__link ">
+            <a href="../_statistics/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -3444,7 +3517,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/_statistics/base_statistic_estimator/" class="md-nav__link">
+      <a href="../_statistics/base_statistic_estimator/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3496,7 +3569,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../reference/gemseo_umdo/formulations/_statistics/control_variate/" class="md-nav__link ">
+            <a href="../_statistics/control_variate/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -3527,7 +3600,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/_statistics/control_variate/base_control_variate_estimator/" class="md-nav__link">
+      <a href="../_statistics/control_variate/base_control_variate_estimator/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3548,7 +3621,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/_statistics/control_variate/factory/" class="md-nav__link">
+      <a href="../_statistics/control_variate/factory/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3569,7 +3642,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/_statistics/control_variate/margin/" class="md-nav__link">
+      <a href="../_statistics/control_variate/margin/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3590,7 +3663,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/_statistics/control_variate/mean/" class="md-nav__link">
+      <a href="../_statistics/control_variate/mean/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3611,7 +3684,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/_statistics/control_variate/probability/" class="md-nav__link">
+      <a href="../_statistics/control_variate/probability/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3632,7 +3705,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/_statistics/control_variate/standard_deviation/" class="md-nav__link">
+      <a href="../_statistics/control_variate/standard_deviation/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3653,7 +3726,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/_statistics/control_variate/variance/" class="md-nav__link">
+      <a href="../_statistics/control_variate/variance/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3715,7 +3788,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../reference/gemseo_umdo/formulations/_statistics/iterative_sampling/" class="md-nav__link ">
+            <a href="../_statistics/iterative_sampling/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -3746,7 +3819,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/_statistics/iterative_sampling/base_central_moment/" class="md-nav__link">
+      <a href="../_statistics/iterative_sampling/base_central_moment/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3767,7 +3840,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/_statistics/iterative_sampling/base_sampling_estimator/" class="md-nav__link">
+      <a href="../_statistics/iterative_sampling/base_sampling_estimator/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3788,7 +3861,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/_statistics/iterative_sampling/factory/" class="md-nav__link">
+      <a href="../_statistics/iterative_sampling/factory/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3809,7 +3882,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/_statistics/iterative_sampling/margin/" class="md-nav__link">
+      <a href="../_statistics/iterative_sampling/margin/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3830,7 +3903,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/_statistics/iterative_sampling/mean/" class="md-nav__link">
+      <a href="../_statistics/iterative_sampling/mean/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3851,7 +3924,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/_statistics/iterative_sampling/probability/" class="md-nav__link">
+      <a href="../_statistics/iterative_sampling/probability/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3872,7 +3945,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/_statistics/iterative_sampling/standard_deviation/" class="md-nav__link">
+      <a href="../_statistics/iterative_sampling/standard_deviation/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3893,7 +3966,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/_statistics/iterative_sampling/variance/" class="md-nav__link">
+      <a href="../_statistics/iterative_sampling/variance/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3951,7 +4024,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../reference/gemseo_umdo/formulations/_statistics/pce/" class="md-nav__link ">
+            <a href="../_statistics/pce/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -3982,7 +4055,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/_statistics/pce/base_pce_estimator/" class="md-nav__link">
+      <a href="../_statistics/pce/base_pce_estimator/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -4003,7 +4076,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/_statistics/pce/factory/" class="md-nav__link">
+      <a href="../_statistics/pce/factory/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -4024,7 +4097,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/_statistics/pce/margin/" class="md-nav__link">
+      <a href="../_statistics/pce/margin/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -4045,7 +4118,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/_statistics/pce/mean/" class="md-nav__link">
+      <a href="../_statistics/pce/mean/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -4066,7 +4139,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/_statistics/pce/standard_deviation/" class="md-nav__link">
+      <a href="../_statistics/pce/standard_deviation/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -4087,7 +4160,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/_statistics/pce/variance/" class="md-nav__link">
+      <a href="../_statistics/pce/variance/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -4147,7 +4220,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../reference/gemseo_umdo/formulations/_statistics/sampling/" class="md-nav__link ">
+            <a href="../_statistics/sampling/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -4178,7 +4251,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/_statistics/sampling/base_sampling_estimator/" class="md-nav__link">
+      <a href="../_statistics/sampling/base_sampling_estimator/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -4199,7 +4272,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/_statistics/sampling/factory/" class="md-nav__link">
+      <a href="../_statistics/sampling/factory/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -4220,7 +4293,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/_statistics/sampling/margin/" class="md-nav__link">
+      <a href="../_statistics/sampling/margin/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -4241,7 +4314,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/_statistics/sampling/mean/" class="md-nav__link">
+      <a href="../_statistics/sampling/mean/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -4262,7 +4335,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/_statistics/sampling/probability/" class="md-nav__link">
+      <a href="../_statistics/sampling/probability/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -4283,7 +4356,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/_statistics/sampling/standard_deviation/" class="md-nav__link">
+      <a href="../_statistics/sampling/standard_deviation/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -4304,7 +4377,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/_statistics/sampling/variance/" class="md-nav__link">
+      <a href="../_statistics/sampling/variance/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -4362,7 +4435,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../reference/gemseo_umdo/formulations/_statistics/taylor_polynomial/" class="md-nav__link ">
+            <a href="../_statistics/taylor_polynomial/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -4393,7 +4466,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/_statistics/taylor_polynomial/base_taylor_polynomial_estimator/" class="md-nav__link">
+      <a href="../_statistics/taylor_polynomial/base_taylor_polynomial_estimator/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -4414,7 +4487,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/_statistics/taylor_polynomial/factory/" class="md-nav__link">
+      <a href="../_statistics/taylor_polynomial/factory/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -4435,7 +4508,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/_statistics/taylor_polynomial/margin/" class="md-nav__link">
+      <a href="../_statistics/taylor_polynomial/margin/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -4456,7 +4529,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/_statistics/taylor_polynomial/mean/" class="md-nav__link">
+      <a href="../_statistics/taylor_polynomial/mean/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -4477,7 +4550,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/_statistics/taylor_polynomial/standard_deviation/" class="md-nav__link">
+      <a href="../_statistics/taylor_polynomial/standard_deviation/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -4498,7 +4571,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/formulations/_statistics/taylor_polynomial/variance/" class="md-nav__link">
+      <a href="../_statistics/taylor_polynomial/variance/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -4566,7 +4639,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../reference/gemseo_umdo/scenarios/" class="md-nav__link ">
+            <a href="../../scenarios/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -4597,7 +4670,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/scenarios/base_u_scenario/" class="md-nav__link">
+      <a href="../../scenarios/base_u_scenario/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -4618,7 +4691,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/scenarios/udoe_scenario/" class="md-nav__link">
+      <a href="../../scenarios/udoe_scenario/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -4639,7 +4712,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/scenarios/umdo_scenario/" class="md-nav__link">
+      <a href="../../scenarios/umdo_scenario/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -4689,7 +4762,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../reference/gemseo_umdo/statistics/" class="md-nav__link ">
+            <a href="../../statistics/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -4747,7 +4820,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../reference/gemseo_umdo/statistics/multilevel/" class="md-nav__link ">
+            <a href="../../statistics/multilevel/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -4778,7 +4851,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/statistics/multilevel/base_pilot/" class="md-nav__link">
+      <a href="../../statistics/multilevel/base_pilot/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -4824,7 +4897,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../reference/gemseo_umdo/statistics/multilevel/mlmc/" class="md-nav__link ">
+            <a href="../../statistics/multilevel/mlmc/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -4855,7 +4928,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/statistics/multilevel/mlmc/level/" class="md-nav__link">
+      <a href="../../statistics/multilevel/mlmc/level/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -4876,7 +4949,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/statistics/multilevel/mlmc/mlmc/" class="md-nav__link">
+      <a href="../../statistics/multilevel/mlmc/mlmc/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -4922,7 +4995,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../reference/gemseo_umdo/statistics/multilevel/mlmc/pilots/" class="md-nav__link ">
+            <a href="../../statistics/multilevel/mlmc/pilots/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -4953,7 +5026,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/statistics/multilevel/mlmc/pilots/base_mlmc_pilot/" class="md-nav__link">
+      <a href="../../statistics/multilevel/mlmc/pilots/base_mlmc_pilot/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -4974,7 +5047,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/statistics/multilevel/mlmc/pilots/factory/" class="md-nav__link">
+      <a href="../../statistics/multilevel/mlmc/pilots/factory/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -4995,7 +5068,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/statistics/multilevel/mlmc/pilots/mean/" class="md-nav__link">
+      <a href="../../statistics/multilevel/mlmc/pilots/mean/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -5016,7 +5089,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/statistics/multilevel/mlmc/pilots/variance/" class="md-nav__link">
+      <a href="../../statistics/multilevel/mlmc/pilots/variance/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -5078,7 +5151,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../reference/gemseo_umdo/statistics/multilevel/mlmc_mlcv/" class="md-nav__link ">
+            <a href="../../statistics/multilevel/mlmc_mlcv/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -5109,7 +5182,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/statistics/multilevel/mlmc_mlcv/level/" class="md-nav__link">
+      <a href="../../statistics/multilevel/mlmc_mlcv/level/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -5130,7 +5203,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/statistics/multilevel/mlmc_mlcv/mlmc_mlcv/" class="md-nav__link">
+      <a href="../../statistics/multilevel/mlmc_mlcv/mlmc_mlcv/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -5174,7 +5247,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../reference/gemseo_umdo/statistics/multilevel/mlmc_mlcv/pilots/" class="md-nav__link ">
+            <a href="../../statistics/multilevel/mlmc_mlcv/pilots/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -5205,7 +5278,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/statistics/multilevel/mlmc_mlcv/pilots/base_mlmc_mlcv_pilot/" class="md-nav__link">
+      <a href="../../statistics/multilevel/mlmc_mlcv/pilots/base_mlmc_mlcv_pilot/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -5226,7 +5299,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/statistics/multilevel/mlmc_mlcv/pilots/factory/" class="md-nav__link">
+      <a href="../../statistics/multilevel/mlmc_mlcv/pilots/factory/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -5247,7 +5320,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/statistics/multilevel/mlmc_mlcv/pilots/mean/" class="md-nav__link">
+      <a href="../../statistics/multilevel/mlmc_mlcv/pilots/mean/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -5329,7 +5402,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../reference/gemseo_umdo/use_cases/" class="md-nav__link ">
+            <a href="../../use_cases/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -5391,7 +5464,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../reference/gemseo_umdo/use_cases/beam_model/" class="md-nav__link ">
+            <a href="../../use_cases/beam_model/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -5422,7 +5495,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/use_cases/beam_model/advanced_uncertain_space/" class="md-nav__link">
+      <a href="../../use_cases/beam_model/advanced_uncertain_space/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -5443,7 +5516,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/use_cases/beam_model/constraints/" class="md-nav__link">
+      <a href="../../use_cases/beam_model/constraints/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -5464,7 +5537,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/use_cases/beam_model/design_space/" class="md-nav__link">
+      <a href="../../use_cases/beam_model/design_space/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -5485,7 +5558,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/use_cases/beam_model/discipline/" class="md-nav__link">
+      <a href="../../use_cases/beam_model/discipline/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -5506,7 +5579,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/use_cases/beam_model/uncertain_space/" class="md-nav__link">
+      <a href="../../use_cases/beam_model/uncertain_space/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -5552,7 +5625,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../reference/gemseo_umdo/use_cases/beam_model/core/" class="md-nav__link ">
+            <a href="../../use_cases/beam_model/core/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -5583,7 +5656,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/use_cases/beam_model/core/design_space/" class="md-nav__link">
+      <a href="../../use_cases/beam_model/core/design_space/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -5604,7 +5677,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/use_cases/beam_model/core/model/" class="md-nav__link">
+      <a href="../../use_cases/beam_model/core/model/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -5625,7 +5698,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/use_cases/beam_model/core/output_data/" class="md-nav__link">
+      <a href="../../use_cases/beam_model/core/output_data/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -5646,7 +5719,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/use_cases/beam_model/core/variables/" class="md-nav__link">
+      <a href="../../use_cases/beam_model/core/variables/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -5708,7 +5781,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../reference/gemseo_umdo/use_cases/heat_equation/" class="md-nav__link ">
+            <a href="../../use_cases/heat_equation/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -5739,7 +5812,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/use_cases/heat_equation/configuration/" class="md-nav__link">
+      <a href="../../use_cases/heat_equation/configuration/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -5760,7 +5833,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/use_cases/heat_equation/discipline/" class="md-nav__link">
+      <a href="../../use_cases/heat_equation/discipline/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -5781,7 +5854,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/use_cases/heat_equation/model/" class="md-nav__link">
+      <a href="../../use_cases/heat_equation/model/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -5802,7 +5875,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/use_cases/heat_equation/uncertain_space/" class="md-nav__link">
+      <a href="../../use_cases/heat_equation/uncertain_space/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -5854,7 +5927,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../reference/gemseo_umdo/use_cases/spring_mass_model/" class="md-nav__link ">
+            <a href="../../use_cases/spring_mass_model/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -5885,7 +5958,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/use_cases/spring_mass_model/discipline/" class="md-nav__link">
+      <a href="../../use_cases/spring_mass_model/discipline/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -5906,7 +5979,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/use_cases/spring_mass_model/model/" class="md-nav__link">
+      <a href="../../use_cases/spring_mass_model/model/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -5927,7 +6000,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/use_cases/spring_mass_model/uncertain_space/" class="md-nav__link">
+      <a href="../../use_cases/spring_mass_model/uncertain_space/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -5985,7 +6058,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../reference/gemseo_umdo/visualizations/" class="md-nav__link ">
+            <a href="../../visualizations/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -6016,7 +6089,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/visualizations/sobol_graph/" class="md-nav__link">
+      <a href="../../visualizations/sobol_graph/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -6037,7 +6110,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/gemseo_umdo/visualizations/uncertain_coupling_graph/" class="md-nav__link">
+      <a href="../../visualizations/uncertain_coupling_graph/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -6115,7 +6188,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../developer_guide/umdo/" class="md-nav__link">
+      <a href="../../../../developer_guide/umdo/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -6153,8 +6226,53 @@
   
   
   
-    
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations.base_sampling_settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;base_sampling_settings
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" base_sampling_settings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations.base_sampling_settings-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Classes
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Classes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations.base_sampling_settings.BaseSamplingSettings" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;BaseSamplingSettings
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -6172,356 +6290,90 @@
   
 
 
-<!--
- Copyright 2021 IRT Saint Exupéry, https://www.irt-saintexupery.com
+  <h1>Base sampling settings</h1>
 
- This work is licensed under the Creative Commons Attribution-ShareAlike 4.0
- International License. To view a copy of this license, visit
- http://creativecommons.org/licenses/by-sa/4.0/ or send a letter to Creative
- Commons, PO Box 1866, Mountain View, CA 94042, USA.
--->
-<h1 id="mdo-under-uncertainty">MDO under uncertainty<a class="headerlink" href="#mdo-under-uncertainty" title="Permanent link">&para;</a></h1>
-<p>These examples show
-how to use the different U-MDO formulations presented in the <a href="../../../user_guide/umdo/">user guide</a>
-by considering toy functions and state-of-the-art use cases.</p>
-<div class="mkd-glr-clear"></div>
+<div class="doc doc-object doc-module">
 
-<!-- docs_generated_examples_umdo -->
 
-<!--
- Copyright 2021 IRT Saint Exupéry, https://www.irt-saintexupery.com
 
- This work is licensed under the Creative Commons Attribution-ShareAlike 4.0
- International License. To view a copy of this license, visit
- http://creativecommons.org/licenses/by-sa/4.0/ or send a letter to Creative
- Commons, PO Box 1866, Mountain View, CA 94042, USA.
--->
-<h1 id="using-control-variates">... using control variates<a class="headerlink" href="#using-control-variates" title="Permanent link">&para;</a></h1>
-<p>The statistics are estimated using the control variates technique
-where the control variates are based on Taylor polynomials of the quantities of interest.</p>
-<p>Read more in the <a href="../../../user_guide/umdo/control_variate/">user guide</a>.</p>
-<div class="mkd-glr-thumbcontainer" tooltip="In this example, we consider the quadratic mono-disciplinary optimization problem">
-    <!--div class="figure align-default" id="id1"-->
-        <img alt="A quadratic mono-disciplinary problem" src="control_variate/images/thumb/mkd_glr_plot_cv_quadratic_thumb.png" />
-        <p class="caption">
-            <span class="caption-text">
-                <a class="reference internal" href="control_variate/plot_cv_quadratic">
-                    <span class="std std-ref">A quadratic mono-disciplinary problem</span>
-                </a>
-            </span>
-            <!--a class="headerlink" href="#id1" title="Permalink to this image"></a-->
-        </p>
-    <!--/div-->
+<h2 id="gemseo_umdo.formulations.base_sampling_settings" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>            <span class="doc doc-object-name doc-module-name">base_sampling_settings</span>
+
+
+<a href="#gemseo_umdo.formulations.base_sampling_settings" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents first">
+
+        <p>The base class for the settings of U-MDO formulations using a DOE.</p>
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+<h3 id="gemseo_umdo.formulations.base_sampling_settings-classes">Classes<a href="#gemseo_umdo.formulations.base_sampling_settings-classes" class="headerlink" title="Permanent link">&para;</a></h3>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="gemseo_umdo.formulations.base_sampling_settings.BaseSamplingSettings" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">BaseSamplingSettings</span>
+
+
+<a href="#gemseo_umdo.formulations.base_sampling_settings.BaseSamplingSettings" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="gemseo_umdo.formulations.base_umdo_formulation_settings.BaseUMDOFormulationSettings" href="../base_umdo_formulation_settings/#gemseo_umdo.formulations.base_umdo_formulation_settings.BaseUMDOFormulationSettings">BaseUMDOFormulationSettings</a></code></p>
+
+
+        <p>The base class for the settings of U-MDO formulations using a DOE.</p>
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
 </div>
 
-<div class="mkd-glr-thumbcontainer" tooltip="In this example, we consider the Rosenbrock mono-disciplinary optimization problem">
-    <!--div class="figure align-default" id="id1"-->
-        <img alt="The Rosenbrock mono-disciplinary problem" src="control_variate/images/thumb/mkd_glr_plot_cv_rosenbrock_thumb.png" />
-        <p class="caption">
-            <span class="caption-text">
-                <a class="reference internal" href="control_variate/plot_cv_rosenbrock">
-                    <span class="std std-ref">The Rosenbrock mono-disciplinary problem</span>
-                </a>
-            </span>
-            <!--a class="headerlink" href="#id1" title="Permalink to this image"></a-->
-        </p>
-    <!--/div-->
+
+
+
+  </div>
+
+    </div>
+
 </div>
-
-<div class="mkd-glr-thumbcontainer" tooltip="In this example, we consider the Sellar&#x27;s MDO problem under uncertainty">
-    <!--div class="figure align-default" id="id1"-->
-        <img alt="The Sellar's MDO problem" src="control_variate/images/thumb/mkd_glr_cv_sellar_thumb.png" />
-        <p class="caption">
-            <span class="caption-text">
-                <a class="reference internal" href="control_variate/cv_sellar">
-                    <span class="std std-ref">The Sellar's MDO problem</span>
-                </a>
-            </span>
-            <!--a class="headerlink" href="#id1" title="Permalink to this image"></a-->
-        </p>
-    <!--/div-->
-</div>
-
-<div class="mkd-glr-clear"></div>
-
-<!-- docs_generated_examples_umdo_control_variate -->
-
-<!--
- Copyright 2021 IRT Saint Exupéry, https://www.irt-saintexupery.com
-
- This work is licensed under the Creative Commons Attribution-ShareAlike 4.0
- International License. To view a copy of this license, visit
- http://creativecommons.org/licenses/by-sa/4.0/ or send a letter to Creative
- Commons, PO Box 1866, Mountain View, CA 94042, USA.
--->
-<h1 id="miscellaneous">Miscellaneous<a class="headerlink" href="#miscellaneous" title="Permanent link">&para;</a></h1>
-<div class="mkd-glr-thumbcontainer" tooltip="DOE">
-    <!--div class="figure align-default" id="id1"-->
-        <img alt="DOE" src="misc/images/thumb/mkd_glr_udoe_quadratic_thumb.png" />
-        <p class="caption">
-            <span class="caption-text">
-                <a class="reference internal" href="misc/udoe_quadratic">
-                    <span class="std std-ref">DOE</span>
-                </a>
-            </span>
-            <!--a class="headerlink" href="#id1" title="Permalink to this image"></a-->
-        </p>
-    <!--/div-->
-</div>
-
-<div class="mkd-glr-thumbcontainer" tooltip="Sampling with repetitions">
-    <!--div class="figure align-default" id="id1"-->
-        <img alt="Sampling with repetitions" src="misc/images/thumb/mkd_glr_sellar_sampling_opt_repetitions_thumb.png" />
-        <p class="caption">
-            <span class="caption-text">
-                <a class="reference internal" href="misc/sellar_sampling_opt_repetitions">
-                    <span class="std std-ref">Sampling with repetitions</span>
-                </a>
-            </span>
-            <!--a class="headerlink" href="#id1" title="Permalink to this image"></a-->
-        </p>
-    <!--/div-->
-</div>
-
-<div class="mkd-glr-thumbcontainer" tooltip="Control variate vs Sampling">
-    <!--div class="figure align-default" id="id1"-->
-        <img alt="Control variate vs Sampling" src="misc/images/thumb/mkd_glr_comparison_thumb.png" />
-        <p class="caption">
-            <span class="caption-text">
-                <a class="reference internal" href="misc/comparison">
-                    <span class="std std-ref">Control variate vs Sampling</span>
-                </a>
-            </span>
-            <!--a class="headerlink" href="#id1" title="Permalink to this image"></a-->
-        </p>
-    <!--/div-->
-</div>
-
-<div class="mkd-glr-clear"></div>
-
-<!-- docs_generated_examples_umdo_misc -->
-
-<!--
- Copyright 2021 IRT Saint Exupéry, https://www.irt-saintexupery.com
-
- This work is licensed under the Creative Commons Attribution-ShareAlike 4.0
- International License. To view a copy of this license, visit
- http://creativecommons.org/licenses/by-sa/4.0/ or send a letter to Creative
- Commons, PO Box 1866, Mountain View, CA 94042, USA.
--->
-<h1 id="using-polynomial-chaos-expansions-pces">... using polynomial chaos expansions (PCEs)<a class="headerlink" href="#using-polynomial-chaos-expansions-pces" title="Permanent link">&para;</a></h1>
-<p>The statistics are estimated using a PCE built over the uncertain space.</p>
-<p>Read more in the <a href="../../../user_guide/umdo/pce/">user guide</a>.</p>
-<div class="mkd-glr-thumbcontainer" tooltip="In this example, we consider the quadratic mono-disciplinary optimization problem">
-    <!--div class="figure align-default" id="id1"-->
-        <img alt="A quadratic mono-disciplinary problem" src="pce/images/thumb/mkd_glr_plot_pce_quadratic_thumb.png" />
-        <p class="caption">
-            <span class="caption-text">
-                <a class="reference internal" href="pce/plot_pce_quadratic">
-                    <span class="std std-ref">A quadratic mono-disciplinary problem</span>
-                </a>
-            </span>
-            <!--a class="headerlink" href="#id1" title="Permalink to this image"></a-->
-        </p>
-    <!--/div-->
-</div>
-
-<div class="mkd-glr-clear"></div>
-
-<!-- docs_generated_examples_umdo_pce -->
-
-<!--
- Copyright 2021 IRT Saint Exupéry, https://www.irt-saintexupery.com
-
- This work is licensed under the Creative Commons Attribution-ShareAlike 4.0
- International License. To view a copy of this license, visit
- http://creativecommons.org/licenses/by-sa/4.0/ or send a letter to Creative
- Commons, PO Box 1866, Mountain View, CA 94042, USA.
--->
-<h1 id="using-sampling">... using sampling<a class="headerlink" href="#using-sampling" title="Permanent link">&para;</a></h1>
-<p>The statistics are estimated using crude Monte Carlo sampling.</p>
-<p>Read more in the <a href="../../../user_guide/umdo/sampling/">user guide</a></p>
-<div class="mkd-glr-thumbcontainer" tooltip="In this example, we consider the quadratic mono-disciplinary optimization problem">
-    <!--div class="figure align-default" id="id1"-->
-        <img alt="A quadratic mono-disciplinary problem" src="sampling/images/thumb/mkd_glr_plot_s_quadratic_thumb.png" />
-        <p class="caption">
-            <span class="caption-text">
-                <a class="reference internal" href="sampling/plot_s_quadratic">
-                    <span class="std std-ref">A quadratic mono-disciplinary problem</span>
-                </a>
-            </span>
-            <!--a class="headerlink" href="#id1" title="Permalink to this image"></a-->
-        </p>
-    <!--/div-->
-</div>
-
-<div class="mkd-glr-thumbcontainer" tooltip="In this example, we consider the Rosenbrock mono-disciplinary optimization problem">
-    <!--div class="figure align-default" id="id1"-->
-        <img alt="The Rosenbrock mono-disciplinary problem" src="sampling/images/thumb/mkd_glr_plot_s_rosenbrock_thumb.png" />
-        <p class="caption">
-            <span class="caption-text">
-                <a class="reference internal" href="sampling/plot_s_rosenbrock">
-                    <span class="std std-ref">The Rosenbrock mono-disciplinary problem</span>
-                </a>
-            </span>
-            <!--a class="headerlink" href="#id1" title="Permalink to this image"></a-->
-        </p>
-    <!--/div-->
-</div>
-
-<div class="mkd-glr-thumbcontainer" tooltip="In this example, we consider the Sellar&#x27;s MDO problem under uncertainty">
-    <!--div class="figure align-default" id="id1"-->
-        <img alt="The Sellar's MDO problem" src="sampling/images/thumb/mkd_glr_s_sellar_thumb.png" />
-        <p class="caption">
-            <span class="caption-text">
-                <a class="reference internal" href="sampling/s_sellar">
-                    <span class="std std-ref">The Sellar's MDO problem</span>
-                </a>
-            </span>
-            <!--a class="headerlink" href="#id1" title="Permalink to this image"></a-->
-        </p>
-    <!--/div-->
-</div>
-
-<div class="mkd-glr-thumbcontainer" tooltip="The Sobieski&#x27;s SSBJ MDO problem.">
-    <!--div class="figure align-default" id="id1"-->
-        <img alt="The Sobieski's SSBJ MDO problem." src="sampling/images/thumb/mkd_glr_s_sobieski_thumb.png" />
-        <p class="caption">
-            <span class="caption-text">
-                <a class="reference internal" href="sampling/s_sobieski">
-                    <span class="std std-ref">The Sobieski's SSBJ MDO problem.</span>
-                </a>
-            </span>
-            <!--a class="headerlink" href="#id1" title="Permalink to this image"></a-->
-        </p>
-    <!--/div-->
-</div>
-
-<div class="mkd-glr-clear"></div>
-
-<!-- docs_generated_examples_umdo_sampling -->
-
-<!--
- Copyright 2021 IRT Saint Exupéry, https://www.irt-saintexupery.com
-
- This work is licensed under the Creative Commons Attribution-ShareAlike 4.0
- International License. To view a copy of this license, visit
- http://creativecommons.org/licenses/by-sa/4.0/ or send a letter to Creative
- Commons, PO Box 1866, Mountain View, CA 94042, USA.
--->
-<h1 id="using-sequential-sampling">... using sequential sampling<a class="headerlink" href="#using-sequential-sampling" title="Permanent link">&para;</a></h1>
-<p>The statistics are estimated using crude Monte Carlo sampling
-by increasing the sample size sequentially as the optimisation process progresses.</p>
-<p>Read more in the <a href="../../../user_guide/umdo/sequential_sampling/">user guide</a>.</p>
-<div class="mkd-glr-thumbcontainer" tooltip="In this example, we consider the quadratic mono-disciplinary optimization problem">
-    <!--div class="figure align-default" id="id1"-->
-        <img alt="A quadratic mono-disciplinary problem" src="sequential_sampling/images/thumb/mkd_glr_plot_ss_quadratic_thumb.png" />
-        <p class="caption">
-            <span class="caption-text">
-                <a class="reference internal" href="sequential_sampling/plot_ss_quadratic">
-                    <span class="std std-ref">A quadratic mono-disciplinary problem</span>
-                </a>
-            </span>
-            <!--a class="headerlink" href="#id1" title="Permalink to this image"></a-->
-        </p>
-    <!--/div-->
-</div>
-
-<div class="mkd-glr-clear"></div>
-
-<!-- docs_generated_examples_umdo_sequential_sampling -->
-
-<!--
- Copyright 2021 IRT Saint Exupéry, https://www.irt-saintexupery.com
-
- This work is licensed under the Creative Commons Attribution-ShareAlike 4.0
- International License. To view a copy of this license, visit
- http://creativecommons.org/licenses/by-sa/4.0/ or send a letter to Creative
- Commons, PO Box 1866, Mountain View, CA 94042, USA.
--->
-<h1 id="using-surrogate-models">... using surrogate models<a class="headerlink" href="#using-surrogate-models" title="Permanent link">&para;</a></h1>
-<p>The statistics are estimated using a surrogate model built over the uncertain space.</p>
-<p>Read more in the <a href="../../../user_guide/umdo/surrogate/">user guide</a>.</p>
-<div class="mkd-glr-thumbcontainer" tooltip="In this example, we consider the quadratic mono-disciplinary optimization problem">
-    <!--div class="figure align-default" id="id1"-->
-        <img alt="A quadratic mono-disciplinary problem" src="surrogate/images/thumb/mkd_glr_plot_surrogate_thumb.png" />
-        <p class="caption">
-            <span class="caption-text">
-                <a class="reference internal" href="surrogate/plot_surrogate">
-                    <span class="std std-ref">A quadratic mono-disciplinary problem</span>
-                </a>
-            </span>
-            <!--a class="headerlink" href="#id1" title="Permalink to this image"></a-->
-        </p>
-    <!--/div-->
-</div>
-
-<div class="mkd-glr-clear"></div>
-
-<!-- docs_generated_examples_umdo_surrogate -->
-
-<!--
- Copyright 2021 IRT Saint Exupéry, https://www.irt-saintexupery.com
-
- This work is licensed under the Creative Commons Attribution-ShareAlike 4.0
- International License. To view a copy of this license, visit
- http://creativecommons.org/licenses/by-sa/4.0/ or send a letter to Creative
- Commons, PO Box 1866, Mountain View, CA 94042, USA.
--->
-<h1 id="using-taylor-polynomials">... using Taylor polynomials<a class="headerlink" href="#using-taylor-polynomials" title="Permanent link">&para;</a></h1>
-<p>The statistics are estimated using Taylor polynomials of the quantities of interest.</p>
-<p>Read more in the <a href="../../../user_guide/umdo/taylor_polynomial/">user guide</a>.</p>
-<div class="mkd-glr-thumbcontainer" tooltip="In this example, we consider the quadratic mono-disciplinary optimization problem">
-    <!--div class="figure align-default" id="id1"-->
-        <img alt="A quadratic mono-disciplinary problem" src="taylor_polynomial/images/thumb/mkd_glr_plot_tp_quadratic_thumb.png" />
-        <p class="caption">
-            <span class="caption-text">
-                <a class="reference internal" href="taylor_polynomial/plot_tp_quadratic">
-                    <span class="std std-ref">A quadratic mono-disciplinary problem</span>
-                </a>
-            </span>
-            <!--a class="headerlink" href="#id1" title="Permalink to this image"></a-->
-        </p>
-    <!--/div-->
-</div>
-
-<div class="mkd-glr-thumbcontainer" tooltip="In this example, we consider the Sellar&#x27;s MDO problem under uncertainty">
-    <!--div class="figure align-default" id="id1"-->
-        <img alt="The Sellar's MDO problem" src="taylor_polynomial/images/thumb/mkd_glr_tp_sellar_thumb.png" />
-        <p class="caption">
-            <span class="caption-text">
-                <a class="reference internal" href="taylor_polynomial/tp_sellar">
-                    <span class="std std-ref">The Sellar's MDO problem</span>
-                </a>
-            </span>
-            <!--a class="headerlink" href="#id1" title="Permalink to this image"></a-->
-        </p>
-    <!--/div-->
-</div>
-
-<div class="mkd-glr-thumbcontainer" tooltip="The Sobieski&#x27;s SSBJ MDO problem">
-    <!--div class="figure align-default" id="id1"-->
-        <img alt="The Sobieski's SSBJ MDO problem" src="taylor_polynomial/images/thumb/mkd_glr_tp_sobieski_thumb.png" />
-        <p class="caption">
-            <span class="caption-text">
-                <a class="reference internal" href="taylor_polynomial/tp_sobieski">
-                    <span class="std std-ref">The Sobieski's SSBJ MDO problem</span>
-                </a>
-            </span>
-            <!--a class="headerlink" href="#id1" title="Permalink to this image"></a-->
-        </p>
-    <!--/div-->
-</div>
-
-<div class="mkd-glr-clear"></div>
-
-<!-- docs_generated_examples_umdo_taylor_polynomial -->
-
-<div id="download_links"></div>
-
-<p><a class="md-button center" href="umdo_python.zip"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32v242.7l-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7zM64 352c-35.3 0-64 28.7-64 64v32c0 35.3 28.7 64 64 64h384c35.3 0 64-28.7 64-64v-32c0-35.3-28.7-64-64-64H346.5l-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48"/></svg></span> Download all examples in Python source code: umdo_python.zip</a></p>
-<p><a class="md-button center" href="umdo_jupyter.zip"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32v242.7l-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7zM64 352c-35.3 0-64 28.7-64 64v32c0 35.3 28.7 64 64 64h384c35.3 0 64-28.7 64-64v-32c0-35.3-28.7-64-64-64H346.5l-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48"/></svg></span> Download all examples in Jupyter notebooks: umdo_jupyter.zip</a></p>
-<p><a class="mkd-glr-signature" href="https://smarie.github.io/mkdocs-gallery">Gallery generated by mkdocs-gallery</a></p>
 
 
 
@@ -6568,14 +6420,14 @@ by increasing the sample size sequentially as the optimisation process progresse
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.instant", "navigation.indexes"], "search": "../../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    <script id="__config" type="application/json">{"base": "../../../..", "features": ["navigation.tabs", "navigation.instant", "navigation.indexes"], "search": "../../../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.83f73b43.min.js"></script>
+      <script src="../../../../assets/javascripts/bundle.83f73b43.min.js"></script>
       
-        <script src="../../../assets/_markdown_exec_pyodide.js"></script>
+        <script src="../../../../assets/_markdown_exec_pyodide.js"></script>
       
-        <script src="../../../javascripts/mathjax.js"></script>
+        <script src="../../../../javascripts/mathjax.js"></script>
       
         <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
       

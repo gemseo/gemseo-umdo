@@ -25,6 +25,9 @@ from gemseo.problems.mdo.sobieski.disciplines import SobieskiMission
 from gemseo.problems.mdo.sobieski.disciplines import SobieskiPropulsion
 from gemseo.problems.mdo.sobieski.disciplines import SobieskiStructure
 
+from gemseo_umdo.formulations.taylor_polynomial_settings import (
+    TaylorPolynomial_Settings,
+)
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 
 configure_logger()
@@ -70,8 +73,8 @@ scenario = UMDOScenario(
     uncertain_space,
     "Mean",
     formulation_name="MDF",
-    statistic_estimation="TaylorPolynomial",
-    # statistic_estimation_parameters={"second_order": True},
+    statistic_estimation_settings=TaylorPolynomial_Settings(),
+    # statistic_estimation_settings=TaylorPolynomialSettings(second_order=True),
     maximize_objective=True,
     uncertain_design_variables={"x_2": "{}+u_x_2"},
 )
