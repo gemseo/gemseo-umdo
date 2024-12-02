@@ -139,7 +139,7 @@ classDiagram
    OptimizationProblem "1" o-- "n" BaseStatisticFunction
 
    BaseUMDOFormulation "1" *-- "n" BaseNoiser
-   BaseNoiser --|> MDODiscipline
+   BaseNoiser --|> Discipline
 
    <<abstract>> BaseUScenario
    <<abstract>> BaseMDOFormulation
@@ -157,9 +157,11 @@ classDiagram
    }
 
    namespace gemseo {
-     class MDODiscipline
+     class BaseMDOFormulation
+     class Discipline
      class MDOFunction
      class MDOScenario
+     class OptimizationProblem
      class ParameterSpace
      class Scenario
    }

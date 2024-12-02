@@ -58,7 +58,7 @@ then the U-MDO formulation will use [SEED][gemseo.utils.seeder.SEED].
 This U-MDO formulation is based on the [PCERegressor][gemseo.mlearning.regression.algos.pce.PCERegressor] available in GEMSEO,
 which wraps the [OpenTURNS' PCE algorithm](https://openturns.github.io/openturns/latest/user_manual/response_surface/_generated/openturns.FunctionalChaosAlgorithm.html).
 Use the `regressor_settings` parameter to set the options of the [PCERegressor][gemseo.mlearning.regression.algos.pce.PCERegressor],
-using the Pydantic model [PCERegressorSettings][gemseo_umdo.formulations.pce_settings.PCE_Settings.PCERegressor_Settings].
+using the Pydantic model [PCERegressorSettings][gemseo.mlearning.regression.algos.pce_settings.PCERegressor_Settings].
 For example,
 set `use_lars` to `True` to obtain a more sparse PCE and avoid overfitting
 ([more details](https://openturns.github.io/openturns/latest/theory/meta_modeling/polynomial_sparse_least_squares.html))
