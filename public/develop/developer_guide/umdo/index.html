@@ -6382,7 +6382,7 @@ adding a new U-MDO formulation <code>Foo</code> implies to</p>
    OptimizationProblem "1" o-- "n" BaseStatisticFunction
 
    BaseUMDOFormulation "1" *-- "n" BaseNoiser
-   BaseNoiser --|&gt; MDODiscipline
+   BaseNoiser --|&gt; Discipline
 
    &lt;&lt;abstract&gt;&gt; BaseUScenario
    &lt;&lt;abstract&gt;&gt; BaseMDOFormulation
@@ -6400,9 +6400,11 @@ adding a new U-MDO formulation <code>Foo</code> implies to</p>
    }
 
    namespace gemseo {
-     class MDODiscipline
+     class BaseMDOFormulation
+     class Discipline
      class MDOFunction
      class MDOScenario
+     class OptimizationProblem
      class ParameterSpace
      class Scenario
    }</code></pre>
