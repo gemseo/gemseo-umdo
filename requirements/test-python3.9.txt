@@ -30,9 +30,9 @@ execnet==2.1.1
     # via pytest-xdist
 fastjsonschema==2.20.0
     # via gemseo
-fonttools==4.55.0
+fonttools==4.55.1
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@8bd155685a76dc01452a6c1b93a83985c7b66235
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@d87f3afad7038180895ed38201101c2e37193503
     # via
     #   -c requirements/test-constraints.in
     #   gemseo-umdo (pyproject.toml)
