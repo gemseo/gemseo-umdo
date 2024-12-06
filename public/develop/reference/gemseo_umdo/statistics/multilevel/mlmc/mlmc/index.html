@@ -7127,9 +7127,7 @@ at iteration <code>i+1</code> and level <code>l</code>.</p>
 <span class="normal">459</span>
 <span class="normal">460</span>
 <span class="normal">461</span>
-<span class="normal">462</span>
-<span class="normal">463</span>
-<span class="normal">464</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">462</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Execute the algorithm.&quot;&quot;&quot;</span>
     <span class="c1"># The current version of the algorithm samples only one level at a time,</span>
     <span class="c1"># except at the first iteration where it samples them all.</span>
@@ -7174,9 +7172,7 @@ at iteration <code>i+1</code> and level <code>l</code>.</p>
         <span class="n">levels_to_be_sampled</span> <span class="o">=</span> <span class="p">[</span><span class="n">l_star</span><span class="p">]</span>
 
         <span class="c1"># Define the corresponding sample size.</span>
-        <span class="n">delta_n_l_star</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span>
-            <span class="n">math</span><span class="o">.</span><span class="n">floor</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">__r_l</span><span class="p">[</span><span class="n">l_star</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">__n_l</span><span class="p">[</span><span class="n">l_star</span><span class="p">])</span>
-        <span class="p">)</span>
+        <span class="n">delta_n_l_star</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">floor</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">__r_l</span><span class="p">[</span><span class="n">l_star</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">__n_l</span><span class="p">[</span><span class="n">l_star</span><span class="p">])</span>
         <span class="n">n_l_star</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__n_l</span><span class="p">[</span><span class="n">l_star</span><span class="p">]</span> <span class="o">+</span> <span class="n">delta_n_l_star</span>
         <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;      Find the next level to sample&quot;</span><span class="p">)</span>
         <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;         l_star = </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">l_star</span><span class="p">)</span>
@@ -7309,7 +7305,9 @@ at iteration <code>i+1</code> and level <code>l</code>.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/gemseo_umdo/statistics/multilevel/mlmc/mlmc.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">501</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">499</span>
+<span class="normal">500</span>
+<span class="normal">501</span>
 <span class="normal">502</span>
 <span class="normal">503</span>
 <span class="normal">504</span>
@@ -7355,9 +7353,7 @@ at iteration <code>i+1</code> and level <code>l</code>.</p>
 <span class="normal">544</span>
 <span class="normal">545</span>
 <span class="normal">546</span>
-<span class="normal">547</span>
-<span class="normal">548</span>
-<span class="normal">549</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">plot_evaluation_history</span><span class="p">(</span>
+<span class="normal">547</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">plot_evaluation_history</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">show</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
