@@ -400,9 +400,7 @@ class MLMC:
             levels_to_be_sampled = [l_star]
 
             # Define the corresponding sample size.
-            delta_n_l_star = int(
-                math.floor((self.__r_l[l_star] - 1) * self.__n_l[l_star])
-            )
+            delta_n_l_star = math.floor((self.__r_l[l_star] - 1) * self.__n_l[l_star])
             n_l_star = self.__n_l[l_star] + delta_n_l_star
             LOGGER.info("      Find the next level to sample")
             LOGGER.info("         l_star = %s", l_star)
