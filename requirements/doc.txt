@@ -135,7 +135,7 @@ mkdocs-include-markdown-plugin==7.1.2
     # via gemseo-umdo (pyproject.toml)
 mkdocs-literate-nav==0.6.1
     # via gemseo-umdo (pyproject.toml)
-mkdocs-material==9.5.47
+mkdocs-material==9.5.48
     # via
     #   gemseo-umdo (pyproject.toml)
     #   mkdocs-gallery
