@@ -30,7 +30,7 @@ execnet==2.1.1
     # via pytest-xdist
 fastjsonschema==2.20.0
     # via gemseo
-fonttools==4.55.2
+fonttools==4.55.3
     # via matplotlib
 gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@f5e66ac5550234d39850a52747c7755d52aa2be9
     # via
