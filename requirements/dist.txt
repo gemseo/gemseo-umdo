@@ -6,7 +6,7 @@ attrs==24.2.0
     # via check-wheel-contents
 build==1.2.2.post1
     # via -r requirements/dist.in
-certifi==2024.8.30
+certifi==2024.12.14
     # via requests
 cffi==1.17.1
     # via cryptography

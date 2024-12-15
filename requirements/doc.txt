@@ -8,7 +8,7 @@ black==24.10.0
     # via gemseo-umdo (pyproject.toml)
 bracex==2.5.post1
     # via wcmatch
-certifi==2024.8.30
+certifi==2024.12.14
     # via requests
 charset-normalizer==3.4.0
     # via requests
