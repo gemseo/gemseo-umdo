@@ -203,7 +203,7 @@ plotly==5.24.0
     # via gemseo
 prettytable==3.12.0
     # via gemseo
-psutil==6.1.0
+psutil==6.1.1
     # via openturns
 pybtex==0.24.0
     # via mkdocs-bibtex
