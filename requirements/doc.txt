@@ -226,7 +226,7 @@ pymdown-extensions==10.13
     #   mkdocstrings
 pypandoc==1.14
     # via mkdocs-bibtex
-pyparsing==3.2.0
+pyparsing==3.2.1
     # via
     #   matplotlib
     #   mike
