@@ -6200,18 +6200,18 @@ to download the full example code</p>
 <h1 id="the-sobieskis-ssbj-mdo-problem">The Sobieski's SSBJ MDO problem.<a class="headerlink" href="#the-sobieskis-ssbj-mdo-problem" title="Permanent link">&para;</a></h1>
 <!-- GENERATED FROM PYTHON SOURCE LINES 17-33 -->
 
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">from</span> <span class="nn">gemseo</span> <span class="kn">import</span> <span class="n">configure_logger</span>
-<span class="kn">from</span> <span class="nn">gemseo.algos.parameter_space</span> <span class="kn">import</span> <span class="n">ParameterSpace</span>
-<span class="kn">from</span> <span class="nn">gemseo.problems.mdo.sobieski.core.problem</span> <span class="kn">import</span> <span class="n">SobieskiProblem</span>
-<span class="kn">from</span> <span class="nn">gemseo.problems.mdo.sobieski.disciplines</span> <span class="kn">import</span> <span class="n">SobieskiAerodynamics</span>
-<span class="kn">from</span> <span class="nn">gemseo.problems.mdo.sobieski.disciplines</span> <span class="kn">import</span> <span class="n">SobieskiMission</span>
-<span class="kn">from</span> <span class="nn">gemseo.problems.mdo.sobieski.disciplines</span> <span class="kn">import</span> <span class="n">SobieskiPropulsion</span>
-<span class="kn">from</span> <span class="nn">gemseo.problems.mdo.sobieski.disciplines</span> <span class="kn">import</span> <span class="n">SobieskiStructure</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo</span><span class="w"> </span><span class="kn">import</span> <span class="n">configure_logger</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.algos.parameter_space</span><span class="w"> </span><span class="kn">import</span> <span class="n">ParameterSpace</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.problems.mdo.sobieski.core.problem</span><span class="w"> </span><span class="kn">import</span> <span class="n">SobieskiProblem</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.problems.mdo.sobieski.disciplines</span><span class="w"> </span><span class="kn">import</span> <span class="n">SobieskiAerodynamics</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.problems.mdo.sobieski.disciplines</span><span class="w"> </span><span class="kn">import</span> <span class="n">SobieskiMission</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.problems.mdo.sobieski.disciplines</span><span class="w"> </span><span class="kn">import</span> <span class="n">SobieskiPropulsion</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.problems.mdo.sobieski.disciplines</span><span class="w"> </span><span class="kn">import</span> <span class="n">SobieskiStructure</span>
 
-<span class="kn">from</span> <span class="nn">gemseo_umdo.formulations.sampling_settings</span> <span class="kn">import</span> <span class="n">Sampling_Settings</span>
-<span class="kn">from</span> <span class="nn">gemseo_umdo.scenarios.umdo_scenario</span> <span class="kn">import</span> <span class="n">UMDOScenario</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo_umdo.formulations.sampling_settings</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sampling_Settings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo_umdo.scenarios.umdo_scenario</span><span class="w"> </span><span class="kn">import</span> <span class="n">UMDOScenario</span>
 
 <span class="n">configure_logger</span><span class="p">()</span>
 </code></pre></div>

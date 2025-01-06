@@ -6339,10 +6339,10 @@ This algorithm can be either an optimizer or a design of experiments (DOE).</p>
 \end{align}
 \]</div>
 <p>can be solved with the Python lines</p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">gemseo</span> <span class="kn">import</span> <span class="n">execute_algo</span>
-<span class="kn">from</span> <span class="nn">gemseo.algos.optimization_problem</span> <span class="kn">import</span> <span class="n">Optimization</span>
-<span class="kn">from</span> <span class="nn">gemseo.algos.design_space</span> <span class="kn">import</span> <span class="n">DesignSpace</span>
-<span class="kn">from</span> <span class="nn">gemseo.core.mdo_functions.mdo_function</span> <span class="kn">import</span> <span class="n">MDOFunction</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">gemseo</span><span class="w"> </span><span class="kn">import</span> <span class="n">execute_algo</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.algos.optimization_problem</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optimization</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.algos.design_space</span><span class="w"> </span><span class="kn">import</span> <span class="n">DesignSpace</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.core.mdo_functions.mdo_function</span><span class="w"> </span><span class="kn">import</span> <span class="n">MDOFunction</span>
 
 <span class="n">design_space</span> <span class="o">=</span> <span class="n">DesignSpace</span><span class="p">()</span>
 <span class="n">design_space</span><span class="o">.</span><span class="n">add_variable</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">lower_bound</span><span class="o">=-</span><span class="mf">1.</span><span class="p">,</span> <span class="n">upper_bound</span><span class="o">=</span><span class="mf">1.</span><span class="p">)</span>
@@ -6455,9 +6455,9 @@ called <em>MDO formulation</em> or <em>architecture</em><sup id="fnref:1"><a cla
 and <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.formulations.bilevel.html#gemseo.formulations.bilevel.BiLevel">BiLevel</a> formulations.</p>
 <details class="example">
 <summary>Example: MDF applied to the Sellar problem</summary>
-<div class="highlight"><pre><span></span><code>  <span class="kn">from</span> <span class="nn">gemseo</span> <span class="kn">import</span> <span class="n">create_scenario</span>
-  <span class="kn">from</span> <span class="nn">gemseo.algos.design_space</span> <span class="kn">import</span> <span class="n">DesignSpace</span>
-  <span class="kn">from</span> <span class="nn">gemseo.disciplines.analytic</span> <span class="kn">import</span> <span class="n">AnalyticDiscipline</span>
+<div class="highlight"><pre><span></span><code>  <span class="kn">from</span><span class="w"> </span><span class="nn">gemseo</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_scenario</span>
+  <span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.algos.design_space</span><span class="w"> </span><span class="kn">import</span> <span class="n">DesignSpace</span>
+  <span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.disciplines.analytic</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnalyticDiscipline</span>
 
   <span class="n">disciplines</span> <span class="o">=</span> <span class="p">[</span>
       <span class="n">AnalyticDiscipline</span><span class="p">({</span><span class="s2">&quot;y_1&quot;</span><span class="p">:</span> <span class="s2">&quot;(z1**2+z2+x-0.2*y2)**0.5&quot;</span><span class="p">},</span> <span class="s2">&quot;Sellar1&quot;</span><span class="p">),</span>
@@ -6554,18 +6554,18 @@ can change their values.</p>
 <p class="admonition-title">Example</p>
 <p>Let us implement an <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.core.discipline.discipline.html#gemseo.core.discipline.discipline.Discipline">Discipline</a>
 outputting <span class="arithmatex">\(f(x,U)=(x_1+U)^2+(x_2+U)^2\)</span>:
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">array</span>
-<span class="kn">from</span> <span class="nn">gemseo.core.discipline.discipline</span> <span class="kn">import</span> <span class="n">Discipline</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="kn">import</span> <span class="n">array</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.core.discipline.discipline</span><span class="w"> </span><span class="kn">import</span> <span class="n">Discipline</span>
 
 
-<span class="k">class</span> <span class="nc">MyDiscipline</span><span class="p">(</span><span class="n">Discipline</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">MyDiscipline</span><span class="p">(</span><span class="n">Discipline</span><span class="p">):</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">input_grammar</span><span class="o">.</span><span class="n">update_from_names</span><span class="p">([</span><span class="s2">&quot;x1&quot;</span><span class="p">,</span> <span class="s2">&quot;x2&quot;</span><span class="p">,</span> <span class="s2">&quot;U&quot;</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">default_input_data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;x1&quot;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="mf">0.</span><span class="p">]),</span> <span class="s2">&quot;x2&quot;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="mf">0.</span><span class="p">]),</span> <span class="s2">&quot;U&quot;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="mf">0.5</span><span class="p">])}</span>
 
-    <span class="k">def</span> <span class="nf">_run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_data</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_data</span><span class="p">):</span>
         <span class="n">x1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;x1&quot;</span><span class="p">]</span>
         <span class="n">x2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;x2&quot;</span><span class="p">]</span>
         <span class="n">U</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;U&quot;</span><span class="p">]</span>
@@ -6588,7 +6588,7 @@ with the method <a class="autorefs autorefs-external" href="https://gemseo.readt
 we could model the uncertain variable <span class="arithmatex">\(U\)</span> as a random variable
 distributed according to a triangular distribution
 between 0.2 and 0.7 with a mode of 0.4:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">gemseo.algos.parameter_space</span> <span class="kn">import</span> <span class="n">ParameterSpace</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.algos.parameter_space</span><span class="w"> </span><span class="kn">import</span> <span class="n">ParameterSpace</span>
 
 <span class="n">uncertain_space</span> <span class="o">=</span> <span class="n">ParameterSpace</span><span class="p">()</span>
 <span class="n">uncertan_space</span><span class="o">.</span><span class="n">add_random_variable</span><span class="p">(</span>
@@ -6641,9 +6641,9 @@ we seek to minimize <span class="arithmatex">\(\mathbf{E}[(x_1+U)^2+(x_2+U)^2]\)
 over the domain <span class="arithmatex">\([-1,1]^2\)</span>
 with the gradient-free optimization algorithm COBYLA
 and a Monte Carlo estimator of the expectation.</p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">gemseo.algos.design_space</span> <span class="kn">import</span> <span class="n">DesignSpace</span>
-<span class="kn">from</span> <span class="nn">gemseo_umdo.formulations.sampling_settings</span> <span class="kn">import</span> <span class="n">Sampling_Settings</span>
-<span class="kn">from</span> <span class="nn">gemseo_umdo.scenarios.umdo_scenario</span> <span class="kn">import</span> <span class="n">UMDOScenario</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.algos.design_space</span><span class="w"> </span><span class="kn">import</span> <span class="n">DesignSpace</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo_umdo.formulations.sampling_settings</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sampling_Settings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo_umdo.scenarios.umdo_scenario</span><span class="w"> </span><span class="kn">import</span> <span class="n">UMDOScenario</span>
 
 <span class="n">design_space</span> <span class="o">=</span> <span class="n">DesignSpace</span><span class="p">()</span>
 <span class="n">design_space</span><span class="o">.</span><span class="n">add_variable</span><span class="p">(</span><span class="s2">&quot;x1&quot;</span><span class="p">,</span> <span class="n">lower_bound</span><span class="o">=-</span><span class="mf">1.</span><span class="p">,</span> <span class="n">upper_bound</span><span class="o">=</span><span class="mf">1.</span><span class="p">)</span>

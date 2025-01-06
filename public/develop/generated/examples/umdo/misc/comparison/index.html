@@ -6200,23 +6200,23 @@ to download the full example code</p>
 <h1 id="control-variate-vs-sampling">Control variate vs Sampling<a class="headerlink" href="#control-variate-vs-sampling" title="Permanent link">&para;</a></h1>
 <!-- GENERATED FROM PYTHON SOURCE LINES 17-36 -->
 
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">gemseo.algos.design_space</span> <span class="kn">import</span> <span class="n">DesignSpace</span>
-<span class="kn">from</span> <span class="nn">gemseo.algos.parameter_space</span> <span class="kn">import</span> <span class="n">ParameterSpace</span>
-<span class="kn">from</span> <span class="nn">gemseo.disciplines.analytic</span> <span class="kn">import</span> <span class="n">AnalyticDiscipline</span>
-<span class="kn">from</span> <span class="nn">gemseo.settings.doe</span> <span class="kn">import</span> <span class="n">OT_MONTE_CARLO_Settings</span>
-<span class="kn">from</span> <span class="nn">gemseo.utils.string_tools</span> <span class="kn">import</span> <span class="n">MultiLineString</span>
-<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">array</span>
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">ndarray</span>
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">quantile</span>
-<span class="kn">from</span> <span class="nn">scipy.spatial.distance</span> <span class="kn">import</span> <span class="n">cdist</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.algos.design_space</span><span class="w"> </span><span class="kn">import</span> <span class="n">DesignSpace</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.algos.parameter_space</span><span class="w"> </span><span class="kn">import</span> <span class="n">ParameterSpace</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.disciplines.analytic</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnalyticDiscipline</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.settings.doe</span><span class="w"> </span><span class="kn">import</span> <span class="n">OT_MONTE_CARLO_Settings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.utils.string_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">MultiLineString</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="kn">import</span> <span class="n">array</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="kn">import</span> <span class="n">ndarray</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="kn">import</span> <span class="n">quantile</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.spatial.distance</span><span class="w"> </span><span class="kn">import</span> <span class="n">cdist</span>
 
-<span class="kn">from</span> <span class="nn">gemseo_umdo.formulations.control_variate_settings</span> <span class="kn">import</span> <span class="n">ControlVariate_Settings</span>
-<span class="kn">from</span> <span class="nn">gemseo_umdo.formulations.sampling_settings</span> <span class="kn">import</span> <span class="n">Sampling_Settings</span>
-<span class="kn">from</span> <span class="nn">gemseo_umdo.scenarios.umdo_scenario</span> <span class="kn">import</span> <span class="n">UMDOScenario</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo_umdo.formulations.control_variate_settings</span><span class="w"> </span><span class="kn">import</span> <span class="n">ControlVariate_Settings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo_umdo.formulations.sampling_settings</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sampling_Settings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo_umdo.scenarios.umdo_scenario</span><span class="w"> </span><span class="kn">import</span> <span class="n">UMDOScenario</span>
 </code></pre></div>
 <!-- GENERATED FROM PYTHON SOURCE LINES 37-41 -->
 
@@ -6286,7 +6286,7 @@ we print and plot the comparison
 in terms of distance to the theoretical solution <span class="arithmatex">\(x^*=(1,1)\)</span>:</p>
 <!-- GENERATED FROM PYTHON SOURCE LINES 90-122 -->
 
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">ecdf</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">ndarray</span><span class="p">]:</span>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">ecdf</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Empirical cumulative distribution function.</span>
 
 <span class="sd">    Args:</span>

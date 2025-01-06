@@ -6200,19 +6200,19 @@ to download the full example code</p>
 <h1 id="sobol-graph-for-the-ishigami-use-case">Sobol' graph for the Ishigami use case.<a class="headerlink" href="#sobol-graph-for-the-ishigami-use-case" title="Permanent link">&para;</a></h1>
 <!-- GENERATED FROM PYTHON SOURCE LINES 17-32 -->
 
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">from</span> <span class="nn">gemseo.problems.uncertainty.ishigami.statistics</span> <span class="kn">import</span> <span class="n">SOBOL_1</span>
-<span class="kn">from</span> <span class="nn">gemseo.problems.uncertainty.ishigami.statistics</span> <span class="kn">import</span> <span class="n">SOBOL_2</span>
-<span class="kn">from</span> <span class="nn">gemseo.problems.uncertainty.ishigami.statistics</span> <span class="kn">import</span> <span class="n">SOBOL_3</span>
-<span class="kn">from</span> <span class="nn">gemseo.problems.uncertainty.ishigami.statistics</span> <span class="kn">import</span> <span class="n">SOBOL_12</span>
-<span class="kn">from</span> <span class="nn">gemseo.problems.uncertainty.ishigami.statistics</span> <span class="kn">import</span> <span class="n">SOBOL_13</span>
-<span class="kn">from</span> <span class="nn">gemseo.problems.uncertainty.ishigami.statistics</span> <span class="kn">import</span> <span class="n">SOBOL_23</span>
-<span class="kn">from</span> <span class="nn">gemseo.problems.uncertainty.ishigami.statistics</span> <span class="kn">import</span> <span class="n">TOTAL_SOBOL_1</span>
-<span class="kn">from</span> <span class="nn">gemseo.problems.uncertainty.ishigami.statistics</span> <span class="kn">import</span> <span class="n">TOTAL_SOBOL_2</span>
-<span class="kn">from</span> <span class="nn">gemseo.problems.uncertainty.ishigami.statistics</span> <span class="kn">import</span> <span class="n">TOTAL_SOBOL_3</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.problems.uncertainty.ishigami.statistics</span><span class="w"> </span><span class="kn">import</span> <span class="n">SOBOL_1</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.problems.uncertainty.ishigami.statistics</span><span class="w"> </span><span class="kn">import</span> <span class="n">SOBOL_2</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.problems.uncertainty.ishigami.statistics</span><span class="w"> </span><span class="kn">import</span> <span class="n">SOBOL_3</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.problems.uncertainty.ishigami.statistics</span><span class="w"> </span><span class="kn">import</span> <span class="n">SOBOL_12</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.problems.uncertainty.ishigami.statistics</span><span class="w"> </span><span class="kn">import</span> <span class="n">SOBOL_13</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.problems.uncertainty.ishigami.statistics</span><span class="w"> </span><span class="kn">import</span> <span class="n">SOBOL_23</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.problems.uncertainty.ishigami.statistics</span><span class="w"> </span><span class="kn">import</span> <span class="n">TOTAL_SOBOL_1</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.problems.uncertainty.ishigami.statistics</span><span class="w"> </span><span class="kn">import</span> <span class="n">TOTAL_SOBOL_2</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.problems.uncertainty.ishigami.statistics</span><span class="w"> </span><span class="kn">import</span> <span class="n">TOTAL_SOBOL_3</span>
 
-<span class="kn">from</span> <span class="nn">gemseo_umdo.visualizations.sobol_graph</span> <span class="kn">import</span> <span class="n">SobolGraph</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo_umdo.visualizations.sobol_graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">SobolGraph</span>
 </code></pre></div>
 <!-- GENERATED FROM PYTHON SOURCE LINES 33-36 -->
 

@@ -6539,7 +6539,7 @@
 <span class="normal">50</span>
 <span class="normal">51</span>
 <span class="normal">52</span>
-<span class="normal">53</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">factor</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">53</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">factor</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Args:</span>
 <span class="sd">        factor: The factor related to the standard deviation.</span>
@@ -6665,7 +6665,7 @@
 <span class="normal">62</span>
 <span class="normal">63</span>
 <span class="normal">64</span>
-<span class="normal">65</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">compute_jacobian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">RealArray</span><span class="p">,</span> <span class="n">jac_value</span><span class="p">:</span> <span class="n">RealArray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RealArray</span><span class="p">:</span>
+<span class="normal">65</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_jacobian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">RealArray</span><span class="p">,</span> <span class="n">jac_value</span><span class="p">:</span> <span class="n">RealArray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RealArray</span><span class="p">:</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">jac_shape</span> <span class="o">=</span> <span class="n">jac_value</span><span class="o">.</span><span class="n">shape</span>
     <span class="n">dmean_dx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__mean</span><span class="o">.</span><span class="n">compute_jacobian</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">jac_value</span><span class="p">)</span>
     <span class="n">dstd_dx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__standard_deviation</span><span class="o">.</span><span class="n">compute_jacobian</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">jac_value</span><span class="p">)</span>
@@ -6722,7 +6722,7 @@
 <span class="normal">56</span>
 <span class="normal">57</span>
 <span class="normal">58</span>
-<span class="normal">59</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">estimate_statistic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">RealArray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RealArray</span><span class="p">:</span>
+<span class="normal">59</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">estimate_statistic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">RealArray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RealArray</span><span class="p">:</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">shape</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">shape</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__mean</span><span class="o">.</span><span class="n">estimate_statistic</span><span class="p">(</span>
         <span class="n">value</span>
@@ -6766,7 +6766,7 @@
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">67</span>
 <span class="normal">68</span>
 <span class="normal">69</span>
-<span class="normal">70</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># noqa: D102</span>
+<span class="normal">70</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># noqa: D102</span>
     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__mean</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__standard_deviation</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
