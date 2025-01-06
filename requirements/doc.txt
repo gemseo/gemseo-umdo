@@ -213,7 +213,7 @@ pydantic-core==2.23.3
     # via pydantic
 pydoe3==1.0.4
     # via gemseo
-pygments==2.18.0
+pygments==2.19.0
     # via
     #   mkdocs-material
     #   pygments-ansi-color
@@ -266,7 +266,7 @@ scipy==1.13.1
     #   gemseo
     #   pydoe3
     #   scikit-learn
-setuptools==75.6.0
+setuptools==75.7.0
     # via mkdocs-bibtex
 six==1.17.0
     # via
