@@ -6281,7 +6281,7 @@ whose variance is <span class="arithmatex">\(\mathcal{O}(N^{-1})\)</span>.
 <p>In presence of a sequence of simulators <span class="arithmatex">\((f_\ell)_{\ell = 0}^L\)</span>
 with increasing accuracy and computational cost,
 such that <span class="arithmatex">\(f_L = f\)</span>,
-multilevel Monte Carlo (MLMC) methods<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup> can be relevant
+multilevel Monte Carlo (MLMC) methods<sup id="fnref:giles2015multilevel"><a class="footnote-ref" href="#fn:giles2015multilevel">1</a></sup> can be relevant
 to reduce the variance of the MC estimator.
 The MLMC methods use all these models
 to estimate the statistic <span class="arithmatex">\(\theta_L\)</span> (a.k.a. <span class="arithmatex">\(\theta\)</span>)
@@ -6313,7 +6313,7 @@ may be expressed as:</p>
 can be found in the literature.
 Their goal is often to get an MLMC estimator with an accuracy target set by the user.
 Recently,
-an allocation algorithm<sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup> has been proposed
+an allocation algorithm<sup id="fnref:mycek2019multilevel"><a class="footnote-ref" href="#fn:mycek2019multilevel">2</a></sup> has been proposed
 to get the best accuracy for a given sampling budget.</p>
 <h2 id="multilevel-monte-carlo-with-control-variates">Multilevel Monte Carlo with control variates<a class="headerlink" href="#multilevel-monte-carlo-with-control-variates" title="Permanent link">&para;</a></h2>
 <p>When surrogate models are available
@@ -6321,7 +6321,7 @@ as functions of the random input <span class="arithmatex">\(\mathbf{X}\)</span>,
 their random outputs can be used as control variates (CVs)
 to reduce the variance of the MC estimators.</p>
 <p>In 2023,
-El Amri <em>et al</em><sup id="fnref:3"><a class="footnote-ref" href="#fn:3">3</a></sup>
+El Amri <em>et al</em><sup id="fnref:amri2023multilevel"><a class="footnote-ref" href="#fn:amri2023multilevel">3</a></sup>
 have investigated the combination of CVs and MLMC in different ways
 and called the resulting algorithm MLMC-MLCV,
 standing for <em>multilevel Monte Carlo with multilevel control variates</em>.
@@ -6333,14 +6333,14 @@ the reduction in variance could be significant.</p>
 <div class="footnote">
 <hr />
 <ol>
-<li id="fn:1">
-<p>Michael B Giles. Multilevel Monte Carlo methods. <em>Acta numerica</em>, 24:259–328, 2015.&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+<li id="fn:giles2015multilevel">
+<p>Michael B Giles. Multilevel Monte Carlo methods. <em>Acta numerica</em>, 24:259–328, 2015.&#160;<a class="footnote-backref" href="#fnref:giles2015multilevel" title="Jump back to footnote 1 in the text">&#8617;</a></p>
 </li>
-<li id="fn:2">
-<p>Paul Mycek and Matthias De Lozzo. Multilevel Monte Carlo covariance estimation for the computation of Sobol'indices. <em>SIAM/ASA Journal on Uncertainty Quantification</em>, 7(4):1323–1348, 2019.&#160;<a class="footnote-backref" href="#fnref:2" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+<li id="fn:mycek2019multilevel">
+<p>Paul Mycek and Matthias De Lozzo. Multilevel Monte Carlo covariance estimation for the computation of Sobol'indices. <em>SIAM/ASA Journal on Uncertainty Quantification</em>, 7(4):1323–1348, 2019.&#160;<a class="footnote-backref" href="#fnref:mycek2019multilevel" title="Jump back to footnote 2 in the text">&#8617;</a></p>
 </li>
-<li id="fn:3">
-<p>Mohamed Reda El Amri, Paul Mycek, Sophie Ricci, and Matthias De Lozzo. Multilevel surrogate-based control variates. 2023. <a href="https://arxiv.org/abs/2306.10800">arXiv:2306.10800</a>.&#160;<a class="footnote-backref" href="#fnref:3" title="Jump back to footnote 3 in the text">&#8617;</a></p>
+<li id="fn:amri2023multilevel">
+<p>Mohamed Reda El Amri, Paul Mycek, Sophie Ricci, and Matthias De Lozzo. Multilevel surrogate-based control variates. 2023. <a href="https://arxiv.org/abs/2306.10800">arXiv:2306.10800</a>.&#160;<a class="footnote-backref" href="#fnref:amri2023multilevel" title="Jump back to footnote 3 in the text">&#8617;</a></p>
 </li>
 </ol>
 </div>

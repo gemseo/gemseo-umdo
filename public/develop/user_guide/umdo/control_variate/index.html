@@ -6264,15 +6264,14 @@
 -->
 
 <h1 id="control-variate">Control variate<a class="headerlink" href="#control-variate" title="Permanent link">&para;</a></h1>
-<p><a class="autorefs autorefs-internal" href="../../../reference/gemseo_umdo/formulations/control_variate/#gemseo_umdo.formulations.control_variate.ControlVariate">ControlVariate</a>
-is a U-MDO formulation that estimates the statistics
+<p>is a U-MDO formulation that estimates the statistics
 using control variates based on first-order Taylor polynomials.</p>
 <div class="admonition note">
 <p class="admonition-title">Control variates (CVs) method</p>
 <p>The control variates method is a variance reduction technique used in Monte Carlo sampling.
-<a href="https://en.wikipedia.org/wiki/Control_variates">Read more</a></p>
+(https://en.wikipedia.org/wiki/Control_variates)</p>
 </div>
-<p>The Taylor polynomials are centered at <span class="arithmatex">\(\mu=\mathbb{E}[U]\)</span>
+<p>The Taylor polynomials are centered at <span class="arithmatex">\(\mu=\mathbb{E}\)</span>
 where <span class="arithmatex">\(U\)</span> is the random input vector.</p>
 <p>This U-MDO formulation has one mandatory parameter, namely <code>n_samples</code>.</p>
 <p>Here is a typical scenario template:</p>
@@ -6298,11 +6297,11 @@ and improves it to maximize its discrepancy
 and so to get a better space-filling LHS.</p>
 <p>The number of samples can be changed with the parameter <code>n_samples</code>
 and the DOE algorithm name can be changed with the parameter <code>doe_algo_settings</code> ,
-which is a Pydantic model deriving from <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.doe.base_doe_settings.html#gemseo.algos.doe.base_doe_settings.BaseDOESettings">BaseDOESettings</a>.
+which is a Pydantic model deriving from .
 When <code>n_samples</code> is <code>None</code> (default) and <code>doe_algo_settings</code> has a field <code>n_samples</code>,
 then this field is considered.
 When <code>doe_algo_settings</code> has a field <code>seed</code> and its value is <code>None</code>,
-then the U-MDO formulation will use <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.utils.seeder.html#gemseo.utils.seeder.SEED">SEED</a>.</p>
+then the U-MDO formulation will use .</p>
 <div class="admonition note">
 <p class="admonition-title">API</p>
 <p>Use <code>statistic_estimation_settings</code>
@@ -6324,14 +6323,14 @@ to set the algorithm name and settings,
 <p>This U-MDO formulation has been implemented
 for the expectation, the standard deviation, the variance and the margin.</p>
 <p>Only the average formula is noted here, for simplicity's sake</p>
-<div class="arithmatex">\[\mathbb{E}[\varphi(x,U)]
+<div class="arithmatex">\[\mathbb{E}
 \approx
 \frac{1}{N}\sum_{i=1}^N f\left(x,U^{(i)}\right)
 +\alpha_N\left(\frac{1}{N}\sum_{j=1}^N \tilde{f}\left(x,U^{(j)}\right)-f(x,\mu)\right)\]</div>
 <p>where <span class="arithmatex">\(\tilde{f}(x)\)</span> is the first-order Taylor polynomial of <span class="arithmatex">\(f(x)\)</span> at <span class="arithmatex">\(\mu\)</span>,
 <span class="arithmatex">\(\alpha_N\)</span> is the empirical estimator
-of <span class="arithmatex">\(\frac{\text{cov}\left[f(x,U),\tilde{f}(x,u)\right]}
-{\mathbb{V}\left[f(x,U)\right]}\)</span>
+of <span class="arithmatex">\(\frac{\text{cov}\left}
+{\mathbb{V}\left}\)</span>
 and <span class="arithmatex">\(U^{(1)},\ldots,U^{(N)}\)</span> are <span class="arithmatex">\(N\)</span> independent realizations of <span class="arithmatex">\(U\)</span>.</p>
 
 

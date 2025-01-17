@@ -6312,10 +6312,9 @@
 -->
 
 <h1 id="sequential-sampling">Sequential sampling<a class="headerlink" href="#sequential-sampling" title="Permanent link">&para;</a></h1>
-<p><a class="autorefs autorefs-internal" href="../../../reference/gemseo_umdo/formulations/sequential_sampling/#gemseo_umdo.formulations.sequential_sampling.SequentialSampling">SequentialSampling</a>
-is a U-MDO formulation that estimates the statistics unbiasedly
+<p>is a U-MDO formulation that estimates the statistics unbiasedly
 by using Monte Carlo sampling.
-Contrary to <a class="autorefs autorefs-internal" href="../../../reference/gemseo_umdo/formulations/sampling/#gemseo_umdo.formulations.sampling.Sampling">Sampling</a>,
+Contrary to ,
 this U-MDO formulation does not use a constant sample size
 but a sample size that increases with the iterations of the optimization loop.</p>
 <p>The number of samples <code>n_samples</code> corresponds to the maximum number of samples
@@ -6339,16 +6338,16 @@ to get a good space-filling design of experiments (DOE),
 with only 10 samples.</p>
 <div class="admonition question">
 <p class="admonition-title">DOE algorithms</p>
-<p>Read the <a href="https://gemseo.readthedocs.io/en/stable/doe.html#algorithms">GEMSEO documentation</a>
+<p>Read the (https://gemseo.readthedocs.io/en/stable/doe.html#algorithms)
 for more information about the available DOE algorithms.</p>
 </div>
 <p>The number of samples can be changed with the parameter <code>n_samples</code>
 and the DOE algorithm name can be changed with the parameter <code>doe_algo_settings</code>,
-which is a Pydantic model deriving from <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.doe.base_doe_settings.html#gemseo.algos.doe.base_doe_settings.BaseDOESettings">BaseDOESettings</a>.
+which is a Pydantic model deriving from .
 When <code>n_samples</code> is <code>None</code> (default) and <code>doe_algo_settings</code> has a field <code>n_samples</code>,
 then this field is considered.
 When <code>doe_algo_settings</code> has a field <code>seed</code> and its value is <code>None</code>,
-then the U-MDO formulation will use <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.utils.seeder.html#gemseo.utils.seeder.SEED">SEED</a>.</p>
+then the U-MDO formulation will use .</p>
 <div class="admonition note">
 <p class="admonition-title">API</p>
 <p>Use <code>statistic_estimation_settings</code>
@@ -6387,28 +6386,28 @@ The estimators are given below at the <span class="arithmatex">\(k\)</span>-th i
 <tbody>
 <tr>
 <td>Mean</td>
-<td><span class="arithmatex">\(\mathbb{E}[\varphi(x,U)]\)</span></td>
-<td><span class="arithmatex">\(E_{N_k}[\varphi(x,U)]=\frac{1}{N_k}\sum_{i=1}^{N_k}\varphi(x,U^{(i)})\)</span></td>
+<td><span class="arithmatex">\(\mathbb{E}\)</span></td>
+<td><span class="arithmatex">\(E_{N_k}=\frac{1}{N_k}\sum_{i=1}^{N_k}\varphi(x,U^{(i)})\)</span></td>
 </tr>
 <tr>
 <td>Variance</td>
-<td><span class="arithmatex">\(\mathbb{V}[\varphi(x,U)]\)</span></td>
-<td><span class="arithmatex">\(V_{N_k}[\varphi(x,U)]=\frac{1}{N_k-1}\sum_{i=1}^{N_k}\left(\varphi(x,U^{(i)})-E_{N_k}[\varphi(x,U)]\right)^2\)</span></td>
+<td><span class="arithmatex">\(\mathbb{V}\)</span></td>
+<td><span class="arithmatex">\(V_{N_k}=\frac{1}{N_k-1}\sum_{i=1}^{N_k}\left(\varphi(x,U^{(i)})-E_{N_k}\right)^2\)</span></td>
 </tr>
 <tr>
 <td>Standard deviation</td>
-<td><span class="arithmatex">\(\mathbb{S}[\varphi(x,U)]\)</span></td>
-<td><span class="arithmatex">\(S_{N_k}[\varphi(x,U)]=\sqrt{V_{N_k}[\varphi(x,U)]}\)</span></td>
+<td><span class="arithmatex">\(\mathbb{S}\)</span></td>
+<td><span class="arithmatex">\(S_{N_k}=\sqrt{V_{N_k}}\)</span></td>
 </tr>
 <tr>
 <td>Margin</td>
-<td><span class="arithmatex">\(\textrm{Margin}[\varphi(x,U)]\)</span></td>
-<td><span class="arithmatex">\(\textrm{Margin}_{N_k}[\varphi(x,U)]=E_{N_k}[\varphi(x,U)]+\kappa\times S_{N_k}[\varphi(x,U)]\)</span></td>
+<td><span class="arithmatex">\(\textrm{Margin}\)</span></td>
+<td><span class="arithmatex">\(\textrm{Margin}_{N_k}=E_{N_k}+\kappa\times S_{N_k}\)</span></td>
 </tr>
 <tr>
 <td>Probability</td>
-<td><span class="arithmatex">\(\mathbb{P}[\varphi(x,U)\leq 0]\)</span></td>
-<td><span class="arithmatex">\(P_{N_k}[\varphi(x,U)\leq 0]=E_{N_k}[\mathbb{1}_{\varphi(x,U)\leq 0}]\)</span></td>
+<td><span class="arithmatex">\(\mathbb{P}\)</span></td>
+<td><span class="arithmatex">\(P_{N_k}=E_{N_k}\)</span></td>
 </tr>
 </tbody>
 </table>

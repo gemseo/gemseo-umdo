@@ -6194,7 +6194,7 @@
 
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Click <a href="#download_links">here</a>
+<p>Click (#download_links)
 to download the full example code</p>
 </div>
 <h1 id="sampling-with-repetitions">Sampling with repetitions<a class="headerlink" href="#sampling-with-repetitions" title="Permanent link">&para;</a></h1>
@@ -6265,17 +6265,17 @@ we define the uncertain space:</p>
 <!-- GENERATED FROM PYTHON SOURCE LINES 70-75 -->
 
 <p>Then,
-we build 10 <a class="autorefs autorefs-internal" href="../../../../../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>
+we build 10 
 to minimize a sampling-based estimation
-of the expectation <span class="arithmatex">\(\mathbb{E}[obj]\)</span>
+of the expectation <span class="arithmatex">\(\mathbb{E}\)</span>
 and store the history of the design values:</p>
 <!-- GENERATED FROM PYTHON SOURCE LINES 75-96 -->
 
-<div class="highlight"><pre><span></span><code><span class="n">x_hist</span> <span class="o">=</span> <span class="p">[]</span>
+<div class="highlight"><pre><span></span><code><span class="n">x_hist</span> <span class="o">=</span> 
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
     <span class="n">scenario</span> <span class="o">=</span> <span class="n">UMDOScenario</span><span class="p">(</span>
-        <span class="p">[</span><span class="n">system</span><span class="p">,</span> <span class="n">disc1</span><span class="p">,</span> <span class="n">disc2</span><span class="p">],</span>
+        <span class="p">,</span>
         <span class="s2">&quot;obj&quot;</span><span class="p">,</span>
         <span class="n">create_design_space</span><span class="p">(),</span>
         <span class="n">uncertain_space</span><span class="p">,</span>
@@ -6302,15 +6302,15 @@ we plot the variability of the optimization history with boxplots:</p>
 <span class="n">x_hist</span> <span class="o">=</span> <span class="n">stack</span><span class="p">(</span><span class="n">x_hist</span><span class="p">)</span>
 <span class="n">save</span><span class="p">(</span><span class="s2">&quot;x_hist.npy&quot;</span><span class="p">,</span> <span class="n">x_hist</span><span class="p">)</span>
 <span class="n">x_hist</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="s2">&quot;x_hist.npy&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">x_hist</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">x_hist</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;hist.png&quot;</span><span class="p">)</span>
 </code></pre></div>
 <p><strong>Total running time of the script:</strong> ( 0 minutes  0.000 seconds)</p>
 <div id="download_links"></div>
 
-<p><a class="md-button center" href="../sellar_sampling_opt_repetitions.py"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32v242.7l-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7zM64 352c-35.3 0-64 28.7-64 64v32c0 35.3 28.7 64 64 64h384c35.3 0 64-28.7 64-64v-32c0-35.3-28.7-64-64-64H346.5l-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48"/></svg></span> Download Python source code: sellar_sampling_opt_repetitions.py</a></p>
-<p><a class="md-button center" href="../sellar_sampling_opt_repetitions.ipynb"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32v242.7l-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7zM64 352c-35.3 0-64 28.7-64 64v32c0 35.3 28.7 64 64 64h384c35.3 0 64-28.7 64-64v-32c0-35.3-28.7-64-64-64H346.5l-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48"/></svg></span> Download Jupyter notebook: sellar_sampling_opt_repetitions.ipynb</a></p>
-<p><a class="mkd-glr-signature" href="https://smarie.github.io/mkdocs-gallery">Gallery generated by mkdocs-gallery</a></p>
+<p>(./sellar_sampling_opt_repetitions.py){ .md-button .center}</p>
+<p>(./sellar_sampling_opt_repetitions.ipynb){ .md-button .center}</p>
+<p>(https://smarie.github.io/mkdocs-gallery){: .mkd-glr-signature }</p>
 
 
 

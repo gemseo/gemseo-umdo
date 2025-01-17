@@ -6330,8 +6330,7 @@
 -->
 
 <h1 id="surrogate">Surrogate<a class="headerlink" href="#surrogate" title="Permanent link">&para;</a></h1>
-<p><a class="autorefs autorefs-internal" href="../../../reference/gemseo_umdo/formulations/surrogate/#gemseo_umdo.formulations.surrogate.Surrogate">Surrogate</a>
-is a U-MDO formulation that estimates the statistics
+<p>is a U-MDO formulation that estimates the statistics
 using surrogate models.</p>
 <p>At each iteration of the optimization loop,
 a surrogate model is built over the uncertain space
@@ -6351,7 +6350,7 @@ namely mean, standard deviation, variance, probability and margin.</p>
 <h2 id="settings">Settings<a class="headerlink" href="#settings" title="Permanent link">&para;</a></h2>
 <h3 id="doe-algorithm">DOE algorithm<a class="headerlink" href="#doe-algorithm" title="Permanent link">&para;</a></h3>
 <p>By default,
-the formulation uses the <a href="https://openturns.github.io">OpenTURNS</a>' DOE algorithm <code>OT_OPT_LHS</code>,
+the formulation uses the (https://openturns.github.io)' DOE algorithm <code>OT_OPT_LHS</code>,
 which is a Latin hypercube sampling (LHS) technique enhanced by simulated annealing,
 a global optimization technique that
 starts from an initial LHS
@@ -6360,22 +6359,22 @@ and so to get a better space-filling LHS.</p>
 <p>The default number samples is 10.
 It can be changed with the parameter <code>n_samples</code>
 and the DOE algorithm name can be changed with the parameter <code>doe_algo_settings</code>,
-which is a Pydantic model deriving from <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.doe.base_doe_settings.html#gemseo.algos.doe.base_doe_settings.BaseDOESettings">BaseDOESettings</a>.
+which is a Pydantic model deriving from .
 When <code>n_samples</code> is <code>None</code> (default) and <code>doe_algo_settings</code> has a field <code>n_samples</code>,
 then this field is considered.
 When <code>doe_algo_settings</code> has a field <code>seed</code> and its value is <code>None</code>,
-then the U-MDO formulation will use <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.utils.seeder.html#gemseo.utils.seeder.SEED">SEED</a>.</p>
+then the U-MDO formulation will use .</p>
 <h3 id="surrogates-options">Surrogate's options<a class="headerlink" href="#surrogates-options" title="Permanent link">&para;</a></h3>
-<p>This U-MDO formulation is based on a <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.mlearning.regression.algos.base_regressor.html#gemseo.mlearning.regression.algos.base_regressor.BaseRegressor">BaseRegressor</a>.
+<p>This U-MDO formulation is based on a .
 By default,
-this surrogate model is the <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.mlearning.regression.algos.rbf.html#gemseo.mlearning.regression.algos.rbf.RBFRegressor">RBFRegressor</a> available in GEMSEO,
-which wraps the <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.Rbf.html">SciPy's RBF algorithm</a>.
+this surrogate model is the  available in GEMSEO,
+which wraps the (https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.Rbf.html).
 The kind of regressor can be changed
 by setting the <code>regressor_settings</code> parameter with a Pydantic model defining the settings of a regressor
 For example,
 set <code>regressor_settings</code> to <code>"LinearRegressor_Settings()"</code> to use a linear regressor,
 <code>regressor_settings</code> to <code>RBFRegressor_Settings(function="cubic")</code> for a
-<a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.mlearning.regression.algos.rbf.html#gemseo.mlearning.regression.algos.rbf.RBFRegressor">RBFRegressor</a> based on a cubic function
+ based on a cubic function
 and <code>regressor_n_samples</code> to <code>100</code> to estimate the statistics with 100 Monte Carlo simulations instead of 10000.</p>
 <div class="admonition note">
 <p class="admonition-title">API</p>
@@ -6456,28 +6455,28 @@ by sampling the surrogate model <span class="arithmatex">\(\widehat{\varphi}\)</
 <tbody>
 <tr>
 <td>Mean</td>
-<td><span class="arithmatex">\(\mathbb{E}[\varphi(x,U)]\)</span></td>
-<td><span class="arithmatex">\(E_{\textrm{Surrogate}}[\varphi(x,U)]=\frac{1}{N}\sum_{i=1}^N\widehat{\varphi}(x,U^{(i)})\)</span></td>
+<td><span class="arithmatex">\(\mathbb{E}\)</span></td>
+<td><span class="arithmatex">\(E_{\textrm{Surrogate}}=\frac{1}{N}\sum_{i=1}^N\widehat{\varphi}(x,U^{(i)})\)</span></td>
 </tr>
 <tr>
 <td>Variance</td>
-<td><span class="arithmatex">\(\mathbb{V}[\varphi(x,U)]\)</span></td>
-<td><span class="arithmatex">\(V_{\textrm{Surrogate}}[\varphi(x,U)]=\frac{1}{N-1}\sum_{i=1}^N\left(\widehat{\varphi}(x,U^{(i)})-E_{\textrm{Surrogate}}[\varphi(x,U)]\right)^2\)</span></td>
+<td><span class="arithmatex">\(\mathbb{V}\)</span></td>
+<td><span class="arithmatex">\(V_{\textrm{Surrogate}}=\frac{1}{N-1}\sum_{i=1}^N\left(\widehat{\varphi}(x,U^{(i)})-E_{\textrm{Surrogate}}\right)^2\)</span></td>
 </tr>
 <tr>
 <td>Standard deviation</td>
-<td><span class="arithmatex">\(\mathbb{S}[\varphi(x,U)]\)</span></td>
-<td><span class="arithmatex">\(S_{\textrm{PCE}}[\varphi(x,U)]=\sqrt{V_{\textrm{Surrogate}}[\varphi(x,U)]}\)</span></td>
+<td><span class="arithmatex">\(\mathbb{S}\)</span></td>
+<td><span class="arithmatex">\(S_{\textrm{PCE}}=\sqrt{V_{\textrm{Surrogate}}}\)</span></td>
 </tr>
 <tr>
 <td>Margin</td>
-<td><span class="arithmatex">\(\textrm{Margin}[\varphi(x,U)]\)</span></td>
-<td><span class="arithmatex">\(\textrm{Margin}_{\textrm{Surrogate}}[\varphi(x,U)]=E_{\textrm{Surrogate}}[\varphi(x,U)] + \kappa \times S_{\textrm{Surrogate}}[\varphi(x,U)]\)</span></td>
+<td><span class="arithmatex">\(\textrm{Margin}\)</span></td>
+<td><span class="arithmatex">\(\textrm{Margin}_{\textrm{Surrogate}}=E_{\textrm{Surrogate}} + \kappa \times S_{\textrm{Surrogate}}\)</span></td>
 </tr>
 <tr>
 <td>Probability</td>
-<td><span class="arithmatex">\(\mathbb{P}[\varphi(x,U)\leq 0]\)</span></td>
-<td><span class="arithmatex">\(P_{\textrm{PCE}}[\varphi(x,U)\leq 0]=E_N[\mathbb{1}_{\widehat{\varphi}(x,U)\leq 0}]\)</span></td>
+<td><span class="arithmatex">\(\mathbb{P}\)</span></td>
+<td><span class="arithmatex">\(P_{\textrm{PCE}}=E_N\)</span></td>
 </tr>
 </tbody>
 </table>
