@@ -361,7 +361,8 @@ def test_save_samples(disciplines, design_space, uncertain_space, tmp_wd):
 
     assert_frame_equal(dataset, expected_dataset)
     assert compare_dict_of_arrays(
-        dataset.misc, {"x0": array([0.0]), "x1": array([0.0]), "x2": array([0.0])}
+        {k: dataset.misc[k] for k in ("x0", "x1", "x2")},
+        {"x0": array([0.0]), "x1": array([0.0]), "x2": array([0.0])},
     )
     assert dataset.name == "Iteration 1"
 
@@ -377,6 +378,7 @@ def test_save_samples(disciplines, design_space, uncertain_space, tmp_wd):
 
     assert_frame_equal(dataset, expected_dataset)
     assert compare_dict_of_arrays(
-        dataset.misc, {"x0": array([1.0]), "x1": array([1.0]), "x2": array([1.0])}
+        {k: dataset.misc[k] for k in ("x0", "x1", "x2")},
+        {"x0": array([1.0]), "x1": array([1.0]), "x2": array([1.0])},
     )
     assert dataset.name == "Iteration 2"
