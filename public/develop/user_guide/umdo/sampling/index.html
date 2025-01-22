@@ -6282,7 +6282,8 @@
 -->
 
 <h1 id="sampling">Sampling<a class="headerlink" href="#sampling" title="Permanent link">&para;</a></h1>
-<p>is a U-MDO formulation that estimates the statistics unbiasedly
+<p><a class="autorefs autorefs-internal" href="../../../reference/gemseo_umdo/formulations/sampling/#gemseo_umdo.formulations.sampling.Sampling">Sampling</a>
+is a U-MDO formulation that estimates the statistics unbiasedly
 using Monte Carlo sampling.</p>
 <p>Here is a typical scenario template:</p>
 <div class="highlight"><pre><span></span><code><span class="n">scenario</span> <span class="o">=</span> <span class="n">UMDOScenario</span><span class="p">(</span>
@@ -6307,11 +6308,11 @@ and improves it to maximize its discrepancy
 and so to get a better space-filling LHS.</p>
 <p>The number of samples can be changed with the parameter <code>n_samples</code>
 and the DOE algorithm name can be changed with the parameter <code>doe_algo_settings</code>,
-which is a Pydantic model deriving from .
+which is a Pydantic model deriving from <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.doe.base_doe_settings.html#gemseo.algos.doe.base_doe_settings.BaseDOESettings">BaseDOESettings</a>.
 When <code>n_samples</code> is <code>None</code> (default) and <code>doe_algo_settings</code> has a field <code>n_samples</code>,
 then this field is considered.
 When <code>doe_algo_settings</code> has a field <code>seed</code> and its value is <code>None</code>,
-then the U-MDO formulation will use .</p>
+then the U-MDO formulation will use <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.utils.seeder.html#gemseo.utils.seeder.SEED">SEED</a>.</p>
 <div class="admonition note">
 <p class="admonition-title">API</p>
 <p>Use <code>statistic_estimation_settings</code>
@@ -6343,28 +6344,28 @@ for the expectation, the standard deviation, the variance, the margin and the pr
 <tbody>
 <tr>
 <td>Mean</td>
-<td><span class="arithmatex">\(\mathbb{E}\)</span></td>
-<td><span class="arithmatex">\(E_N=\frac{1}{N}\sum_{i=1}^N\varphi(x,U^{(i)})\)</span></td>
+<td><span class="arithmatex">\(\mathbb{E}[\varphi(x,U)]\)</span></td>
+<td><span class="arithmatex">\(E_N[\varphi(x,U)]=\frac{1}{N}\sum_{i=1}^N\varphi(x,U^{(i)})\)</span></td>
 </tr>
 <tr>
 <td>Variance</td>
-<td><span class="arithmatex">\(\mathbb{V}\)</span></td>
-<td><span class="arithmatex">\(V_N=\frac{1}{N-1}\sum_{i=1}^N\left(\varphi(x,U^{(i)})-E_N\right)^2\)</span></td>
+<td><span class="arithmatex">\(\mathbb{V}[\varphi(x,U)]\)</span></td>
+<td><span class="arithmatex">\(V_N[\varphi(x,U)]=\frac{1}{N-1}\sum_{i=1}^N\left(\varphi(x,U^{(i)})-E_N[\varphi(x,U)]\right)^2\)</span></td>
 </tr>
 <tr>
 <td>Standard deviation</td>
-<td><span class="arithmatex">\(\mathbb{S}\)</span></td>
-<td><span class="arithmatex">\(S_N=\sqrt{V_N}\)</span></td>
+<td><span class="arithmatex">\(\mathbb{S}[\varphi(x,U)]\)</span></td>
+<td><span class="arithmatex">\(S_N[\varphi(x,U)]=\sqrt{V_N[\varphi(x,U)]}\)</span></td>
 </tr>
 <tr>
 <td>Margin</td>
-<td><span class="arithmatex">\(\textrm{Margin}\)</span></td>
-<td><span class="arithmatex">\(\textrm{Margin}_N=E_N+\kappa\times S_N\)</span></td>
+<td><span class="arithmatex">\(\textrm{Margin}[\varphi(x,U)]\)</span></td>
+<td><span class="arithmatex">\(\textrm{Margin}_N[\varphi(x,U)]=E_N[\varphi(x,U)]+\kappa\times S_N[\varphi(x,U)]\)</span></td>
 </tr>
 <tr>
 <td>Probability</td>
-<td><span class="arithmatex">\(\mathbb{P}\)</span></td>
-<td><span class="arithmatex">\(P_N=E_N\)</span></td>
+<td><span class="arithmatex">\(\mathbb{P}[\varphi(x,U)\leq 0]\)</span></td>
+<td><span class="arithmatex">\(P_N[\varphi(x,U)\leq 0]=E_N[\mathbb{1}_{\varphi(x,U)\leq 0}]\)</span></td>
 </tr>
 </tbody>
 </table>

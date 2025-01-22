@@ -6194,7 +6194,7 @@
 
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Click (#download_links)
+<p>Click <a href="#download_links">here</a>
 to download the full example code</p>
 </div>
 <h1 id="the-uncertain-coupling-graph-for-the-sobieskis-ssbj-use-case">The uncertain coupling graph for the Sobieski's SSBJ use case.<a class="headerlink" href="#the-uncertain-coupling-graph-for-the-sobieskis-ssbj-use-case" title="Permanent link">&para;</a></h1>
@@ -6219,7 +6219,7 @@ we define an uncertain space around the optimum design:</p>
 <!-- GENERATED FROM PYTHON SOURCE LINES 33-52 -->
 
 <div class="highlight"><pre><span></span><code><span class="n">design_space</span> <span class="o">=</span> <span class="n">SobieskiProblem</span><span class="p">()</span><span class="o">.</span><span class="n">design_space</span>
-<span class="n">design_variable_names</span> <span class="o">=</span> 
+<span class="n">design_variable_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;x_1&quot;</span><span class="p">,</span> <span class="s2">&quot;x_2&quot;</span><span class="p">,</span> <span class="s2">&quot;x_3&quot;</span><span class="p">,</span> <span class="s2">&quot;x_shared&quot;</span><span class="p">]</span>
 <span class="n">design_space</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">design_variable_names</span><span class="p">)</span>
 <span class="n">optimum_design</span> <span class="o">=</span> <span class="n">split_array_to_dict_of_arrays</span><span class="p">(</span>
     <span class="n">SobieskiProblem</span><span class="p">()</span><span class="o">.</span><span class="n">optimum_design</span><span class="p">,</span>
@@ -6271,7 +6271,7 @@ we instantiate an uncertain coupling graph:</p>
 </code></pre></div>
 <p class="mkd-glr-script-out">Out:</p>
 <div class="mkd-glr-script-out-disp highlight"><pre><span></span><code>/builds/gemseo/dev/gemseo-umdo/.tox/doc/lib64/python3.9/site-packages/gemseo/problems/mdo/sobieski/core/utils.py:225:<span class="w"> </span>DeprecationWarning:<span class="w"> </span>Conversion<span class="w"> </span>of<span class="w"> </span>an<span class="w"> </span>array<span class="w"> </span>with<span class="w"> </span>ndim<span class="w"> </span>&gt;<span class="w"> </span><span class="m">0</span><span class="w"> </span>to<span class="w"> </span>a<span class="w"> </span>scalar<span class="w"> </span>is<span class="w"> </span>deprecated,<span class="w"> </span>and<span class="w"> </span>will<span class="w"> </span>error<span class="w"> </span><span class="k">in</span><span class="w"> </span>future.<span class="w"> </span>Ensure<span class="w"> </span>you<span class="w"> </span>extract<span class="w"> </span>a<span class="w"> </span>single<span class="w"> </span>element<span class="w"> </span>from<span class="w"> </span>your<span class="w"> </span>array<span class="w"> </span>before<span class="w"> </span>performing<span class="w"> </span>this<span class="w"> </span>operation.<span class="w"> </span><span class="o">(</span>Deprecated<span class="w"> </span>NumPy<span class="w"> </span><span class="m">1</span>.25.<span class="o">)</span>
-<span class="w">  </span><span class="nv">ai_coeff</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>-<span class="o">(</span>f_bound<span class="w"> </span>-<span class="w"> </span>f_bound<span class="o">)</span><span class="w"> </span>/<span class="w"> </span><span class="o">(</span><span class="m">2</span><span class="w"> </span>*<span class="w"> </span>mtx_shifted<span class="o">)</span>
+<span class="w">  </span>ai_coeff<span class="o">[</span>index<span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>-<span class="o">(</span>f_bound<span class="o">[</span><span class="m">2</span><span class="o">]</span><span class="w"> </span>-<span class="w"> </span>f_bound<span class="o">[</span><span class="m">0</span><span class="o">])</span><span class="w"> </span>/<span class="w"> </span><span class="o">(</span><span class="m">2</span><span class="w"> </span>*<span class="w"> </span>mtx_shifted<span class="o">[</span><span class="m">0</span>,<span class="w"> </span><span class="m">1</span><span class="o">])</span>
 </code></pre></div>
 <!-- GENERATED FROM PYTHON SOURCE LINES 72-74 -->
 
@@ -6342,28 +6342,28 @@ we visualize it:</p>
     <title>SobieskiStructure&#45;&gt;SobieskiAerodynamics</title>
     <path fill="none" stroke="black" stroke-width="1.17" d="M105.31,-122.48C99.4,-135.79 91.96,-154.86 88.82,-172.5 86.01,-188.25 86.01,-192.75 88.82,-208.5 91.2,-221.87 96.05,-236.06 100.83,-247.94"/>
     <polygon fill="black" stroke="black" stroke-width="1.17" points="97.5,-249.05 104.62,-256.89 103.95,-246.32 97.5,-249.05"/>
-    <text text-anchor="middle" x="110.2" y="-184.32" font-family="Times,serif" font-size="14.00">y_12</text>
+    <text text-anchor="middle" x="110.2" y="-184.32" font-family="Times,serif" font-size="14.00">y_12[0]</text>
     </g>
     <!-- SobieskiStructure&#45;&gt;SobieskiAerodynamics -->
     <g id="edge5" class="edge">
     <title>SobieskiStructure&#45;&gt;SobieskiAerodynamics</title>
     <path fill="none" stroke="black" stroke-width="0.17" d="M119.5,-122.42C123.81,-135.86 129.29,-155.12 131.57,-172.5 133.66,-188.36 133.66,-192.64 131.57,-208.5 129.8,-221.98 126.11,-236.6 122.53,-248.75"/>
     <polygon fill="black" stroke="black" stroke-width="0.17" points="119.26,-247.47 119.66,-258.06 125.95,-249.53 119.26,-247.47"/>
-    <text text-anchor="middle" x="154.51" y="-184.32" font-family="Times,serif" font-size="14.00">y_12</text>
+    <text text-anchor="middle" x="154.51" y="-184.32" font-family="Times,serif" font-size="14.00">y_12[1]</text>
     </g>
     <!-- SobieskiStructure&#45;&gt;SobieskiMission -->
     <g id="edge6" class="edge">
     <title>SobieskiStructure&#45;&gt;SobieskiMission</title>
     <path fill="none" stroke="black" stroke-width="1.17" d="M93.33,-86.86C84.59,-77.69 77.28,-65.77 81.82,-54 83.11,-50.66 84.88,-47.45 86.93,-44.41"/>
     <polygon fill="black" stroke="black" stroke-width="1.17" points="89.54,-46.74 93.08,-36.76 84.09,-42.36 89.54,-46.74"/>
-    <text text-anchor="middle" x="103.2" y="-54.95" font-family="Times,serif" font-size="14.00">y_14</text>
+    <text text-anchor="middle" x="103.2" y="-54.95" font-family="Times,serif" font-size="14.00">y_14[0]</text>
     </g>
     <!-- SobieskiStructure&#45;&gt;SobieskiMission -->
     <g id="edge7" class="edge">
     <title>SobieskiStructure&#45;&gt;SobieskiMission</title>
     <path fill="none" stroke="black" stroke-width="1.12" d="M120.12,-86.05C121.94,-80.46 123.66,-74.17 124.57,-68.25 125.61,-61.45 124.98,-54.2 123.61,-47.4"/>
     <polygon fill="black" stroke="black" stroke-width="1.12" points="127.02,-46.62 121.08,-37.85 120.26,-48.42 127.02,-46.62"/>
-    <text text-anchor="middle" x="146.46" y="-54.95" font-family="Times,serif" font-size="14.00">y_14</text>
+    <text text-anchor="middle" x="146.46" y="-54.95" font-family="Times,serif" font-size="14.00">y_14[1]</text>
     </g>
     <!-- SobieskiPropulsion&#45;&gt;SobieskiAerodynamics -->
     <g id="edge8" class="edge">
@@ -6397,12 +6397,12 @@ we visualize it:</p>
 we do not save the graph on the disk (<code>save=False</code>)
 or display it with a dedicated program (<code>save=True</code>)
 but display it in the web browser.</p>
-<p><strong>Total running time of the script:</strong> ( 0 minutes  4.116 seconds)</p>
+<p><strong>Total running time of the script:</strong> ( 0 minutes  3.896 seconds)</p>
 <div id="download_links"></div>
 
-<p>(./plot_sobieski_coupling_graph.py){ .md-button .center}</p>
-<p>(./plot_sobieski_coupling_graph.ipynb){ .md-button .center}</p>
-<p>(https://smarie.github.io/mkdocs-gallery){: .mkd-glr-signature }</p>
+<p><a class="md-button center" href="../plot_sobieski_coupling_graph.py"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32v242.7l-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7zM64 352c-35.3 0-64 28.7-64 64v32c0 35.3 28.7 64 64 64h384c35.3 0 64-28.7 64-64v-32c0-35.3-28.7-64-64-64H346.5l-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48"/></svg></span> Download Python source code: plot_sobieski_coupling_graph.py</a></p>
+<p><a class="md-button center" href="../plot_sobieski_coupling_graph.ipynb"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32v242.7l-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7zM64 352c-35.3 0-64 28.7-64 64v32c0 35.3 28.7 64 64 64h384c35.3 0 64-28.7 64-64v-32c0-35.3-28.7-64-64-64H346.5l-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48"/></svg></span> Download Jupyter notebook: plot_sobieski_coupling_graph.ipynb</a></p>
+<p><a class="mkd-glr-signature" href="https://smarie.github.io/mkdocs-gallery">Gallery generated by mkdocs-gallery</a></p>
 
 
 

@@ -6330,7 +6330,8 @@
 -->
 
 <h1 id="polynomial-chaos-expansion">Polynomial chaos expansion<a class="headerlink" href="#polynomial-chaos-expansion" title="Permanent link">&para;</a></h1>
-<p>is a U-MDO formulation that estimates the statistics
+<p><a class="autorefs autorefs-internal" href="../../../reference/gemseo_umdo/formulations/pce/#gemseo_umdo.formulations.pce.PCE">PCE</a>
+is a U-MDO formulation that estimates the statistics
 using polynomial chaos expansions (PCEs).</p>
 <p>At each iteration of the optimization loop,
 a PCE is built over the uncertain space
@@ -6350,7 +6351,7 @@ namely mean, standard deviation, variance and margin.</p>
 <h2 id="settings">Settings<a class="headerlink" href="#settings" title="Permanent link">&para;</a></h2>
 <h3 id="doe-algorithm">DOE algorithm<a class="headerlink" href="#doe-algorithm" title="Permanent link">&para;</a></h3>
 <p>By default,
-the formulation uses the (https://openturns.github.io)' DOE algorithm <code>OT_OPT_LHS</code>,
+the formulation uses the <a href="https://openturns.github.io">OpenTURNS</a>' DOE algorithm <code>OT_OPT_LHS</code>,
 which is a Latin hypercube sampling (LHS) technique enhanced by simulated annealing,
 a global optimization technique that
 starts from an initial LHS
@@ -6359,19 +6360,19 @@ and so to get a better space-filling LHS.</p>
 <p>The default number samples is 10.
 It can be changed with the parameter <code>n_samples</code>
 and the DOE algorithm name can be changed with the parameter <code>doe_algo_settings</code>,
-which is a Pydantic model deriving from .
+which is a Pydantic model deriving from <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.doe.base_doe_settings.html#gemseo.algos.doe.base_doe_settings.BaseDOESettings">BaseDOESettings</a>.
 When <code>n_samples</code> is <code>None</code> (default) and <code>doe_algo_settings</code> has a field <code>n_samples</code>,
 then this field is considered.
 When <code>doe_algo_settings</code> has a field <code>seed</code> and its value is <code>None</code>,
-then the U-MDO formulation will use .</p>
+then the U-MDO formulation will use <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.utils.seeder.html#gemseo.utils.seeder.SEED">SEED</a>.</p>
 <h3 id="pces-options">PCE's options<a class="headerlink" href="#pces-options" title="Permanent link">&para;</a></h3>
-<p>This U-MDO formulation is based on the  available in GEMSEO,
-which wraps the (https://openturns.github.io/openturns/latest/user_manual/response_surface/_generated/openturns.FunctionalChaosAlgorithm.html).
-Use the <code>regressor_settings</code> parameter to set the options of the ,
-using the Pydantic model .
+<p>This U-MDO formulation is based on the <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.mlearning.regression.algos.pce.html#gemseo.mlearning.regression.algos.pce.PCERegressor">PCERegressor</a> available in GEMSEO,
+which wraps the <a href="https://openturns.github.io/openturns/latest/user_manual/response_surface/_generated/openturns.FunctionalChaosAlgorithm.html">OpenTURNS' PCE algorithm</a>.
+Use the <code>regressor_settings</code> parameter to set the options of the <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.mlearning.regression.algos.pce.html#gemseo.mlearning.regression.algos.pce.PCERegressor">PCERegressor</a>,
+using the Pydantic model <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.mlearning.regression.algos.pce_settings.html#gemseo.mlearning.regression.algos.pce_settings.PCERegressor_Settings">PCERegressorSettings</a>.
 For example,
 set <code>use_lars</code> to <code>True</code> to obtain a more sparse PCE and avoid overfitting
-((https://openturns.github.io/openturns/latest/theory/meta_modeling/polynomial_sparse_least_squares.html))
+(<a href="https://openturns.github.io/openturns/latest/theory/meta_modeling/polynomial_sparse_least_squares.html">more details</a>)
 and <code>degree</code> to <code>3</code> for a maximum degree of 3.</p>
 <div class="admonition note">
 <p class="admonition-title">API</p>
@@ -6452,23 +6453,23 @@ from the coefficients <span class="arithmatex">\((\alpha_i)_{0\leq i \leq N}\)</
 <tbody>
 <tr>
 <td>Mean</td>
-<td><span class="arithmatex">\(\mathbb{E}\)</span></td>
-<td><span class="arithmatex">\(E_{\textrm{PCE}}=\alpha_0\)</span></td>
+<td><span class="arithmatex">\(\mathbb{E}[\varphi(x,U)]\)</span></td>
+<td><span class="arithmatex">\(E_{\textrm{PCE}}[\varphi(x,U)]=\alpha_0\)</span></td>
 </tr>
 <tr>
 <td>Variance</td>
-<td><span class="arithmatex">\(\mathbb{V}\)</span></td>
-<td><span class="arithmatex">\(V_{\textrm{PCE}}=\sum_{1\leq i\leq P}\alpha_i^2\)</span></td>
+<td><span class="arithmatex">\(\mathbb{V}[\varphi(x,U)]\)</span></td>
+<td><span class="arithmatex">\(V_{\textrm{PCE}}[\varphi(x,U)]=\sum_{1\leq i\leq P}\alpha_i^2\)</span></td>
 </tr>
 <tr>
 <td>Standard deviation</td>
-<td><span class="arithmatex">\(\mathbb{S}\)</span></td>
-<td><span class="arithmatex">\(S_{\textrm{PCE}}=\sqrt{V_{\textrm{PCE}}}\)</span></td>
+<td><span class="arithmatex">\(\mathbb{S}[\varphi(x,U)]\)</span></td>
+<td><span class="arithmatex">\(S_{\textrm{PCE}}[\varphi(x,U)]=\sqrt{V_{\textrm{PCE}}[\varphi(x,U)]}\)</span></td>
 </tr>
 <tr>
 <td>Margin</td>
-<td><span class="arithmatex">\(\textrm{Margin}\)</span></td>
-<td><span class="arithmatex">\(\textrm{Margin}_{\textrm{PCE}}=E_{\textrm{PCE}} + \kappa \times S_{\textrm{PCE}}\)</span></td>
+<td><span class="arithmatex">\(\textrm{Margin}[\varphi(x,U)]\)</span></td>
+<td><span class="arithmatex">\(\textrm{Margin}_{\textrm{PCE}}[\varphi(x,U)]=E_{\textrm{PCE}}[\varphi(x,U)] + \kappa \times S_{\textrm{PCE}}[\varphi(x,U)]\)</span></td>
 </tr>
 </tbody>
 </table>

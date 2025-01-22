@@ -6194,7 +6194,7 @@
 
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Click (#download_links)
+<p>Click <a href="#download_links">here</a>
 to download the full example code</p>
 </div>
 <h1 id="the-sobieskis-ssbj-mdo-problem">The Sobieski's SSBJ MDO problem.<a class="headerlink" href="#the-sobieskis-ssbj-mdo-problem" title="Permanent link">&para;</a></h1>
@@ -6254,7 +6254,7 @@ we define the uncertain space:</p>
 
 <p>and an uncertainty over the design variable <code>"x_2"</code>,
 expressed as an additive term <code>"u_x_2"</code>
-defined just after in the :</p>
+defined just after in the <a class="autorefs autorefs-internal" href="../../../../../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>:</p>
 <!-- GENERATED FROM PYTHON SOURCE LINES 58-62 -->
 
 <div class="highlight"><pre><span></span><code><span class="n">uncertain_space</span><span class="o">.</span><span class="n">add_random_variable</span><span class="p">(</span>
@@ -6264,13 +6264,13 @@ defined just after in the :</p>
 <!-- GENERATED FROM PYTHON SOURCE LINES 63-67 -->
 
 <p>Then,
-we build an 
+we build an <a class="autorefs autorefs-internal" href="../../../../../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>
 to maximize a sampling-based estimation
-of the expectation <span class="arithmatex">\(\mathbb{E}\)</span>:</p>
+of the expectation <span class="arithmatex">\(\mathbb{E}[y_4]\)</span>:</p>
 <!-- GENERATED FROM PYTHON SOURCE LINES 67-79 -->
 
 <div class="highlight"><pre><span></span><code><span class="n">scenario</span> <span class="o">=</span> <span class="n">UMDOScenario</span><span class="p">(</span>
-    <span class="p">,</span>
+    <span class="p">[</span><span class="n">mission</span><span class="p">,</span> <span class="n">structure</span><span class="p">,</span> <span class="n">propulsion</span><span class="p">,</span> <span class="n">aerodynamics</span><span class="p">],</span>
     <span class="s2">&quot;y_4&quot;</span><span class="p">,</span>
     <span class="n">design_space</span><span class="p">,</span>
     <span class="n">uncertain_space</span><span class="p">,</span>
@@ -6284,7 +6284,7 @@ of the expectation <span class="arithmatex">\(\mathbb{E}\)</span>:</p>
 <!-- GENERATED FROM PYTHON SOURCE LINES 80-82 -->
 
 <p>while satisfying margin constraints
-of the form <span class="arithmatex">\(\mathbb{E}+3\mathbb{S}\)</span></p>
+of the form <span class="arithmatex">\(\mathbb{E}[g_i]+3\mathbb{S}[g_i]\)</span></p>
 <!-- GENERATED FROM PYTHON SOURCE LINES 82-86 -->
 
 <div class="highlight"><pre><span></span><code><span class="n">scenario</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s2">&quot;g_1&quot;</span><span class="p">,</span> <span class="s2">&quot;Margin&quot;</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="mf">3.0</span><span class="p">)</span>
@@ -6309,9 +6309,9 @@ we can plot the optimization history view:</p>
 <p><strong>Total running time of the script:</strong> ( 0 minutes  0.000 seconds)</p>
 <div id="download_links"></div>
 
-<p>(./s_sobieski.py){ .md-button .center}</p>
-<p>(./s_sobieski.ipynb){ .md-button .center}</p>
-<p>(https://smarie.github.io/mkdocs-gallery){: .mkd-glr-signature }</p>
+<p><a class="md-button center" href="../s_sobieski.py"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32v242.7l-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7zM64 352c-35.3 0-64 28.7-64 64v32c0 35.3 28.7 64 64 64h384c35.3 0 64-28.7 64-64v-32c0-35.3-28.7-64-64-64H346.5l-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48"/></svg></span> Download Python source code: s_sobieski.py</a></p>
+<p><a class="md-button center" href="../s_sobieski.ipynb"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32v242.7l-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7zM64 352c-35.3 0-64 28.7-64 64v32c0 35.3 28.7 64 64 64h384c35.3 0 64-28.7 64-64v-32c0-35.3-28.7-64-64-64H346.5l-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48"/></svg></span> Download Jupyter notebook: s_sobieski.ipynb</a></p>
+<p><a class="mkd-glr-signature" href="https://smarie.github.io/mkdocs-gallery">Gallery generated by mkdocs-gallery</a></p>
 
 
 

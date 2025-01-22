@@ -6319,21 +6319,22 @@ and <span class="arithmatex">\(h:\mathcal{X}\mapsto\mathbb{R}^{p_h}\)</span>.</p
 </ul>
 <div class="admonition note">
 <p class="admonition-title">API</p>
-<p>In (https://www.gemseo.org),
-the user instantiates an</p>
-<p>from a ,
+<p>In <a href="https://www.gemseo.org">GEMSEO</a>,
+the user instantiates an
+<a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.optimization_problem.html#gemseo.algos.optimization_problem.OptimizationProblem">OptimizationProblem</a>
+from a <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.design_space.html#gemseo.algos.design_space.DesignSpace">DesignSpace</a>,
 defines its objective functions and constraints
 with
- objects
+<a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.core.mdo_functions.mdo_function.html#gemseo.core.mdo_functions.mdo_function.MDOFunction">MDOFunction</a> objects
 and solves it with an algorithm
-from a .
+from a <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.base_driver_library.html#gemseo.algos.base_driver_library.BaseDriverLibrary">BaseDriverLibrary</a>.
 This algorithm can be either an optimizer or a design of experiments (DOE).</p>
 <details class="example">
 <summary>Example</summary>
 <p>The optimization problem</p>
 <div class="arithmatex">\[
 \begin{align}
-&amp;\underset{x\in}{\operatorname{minimize}}&amp; &amp; x^2 \\
+&amp;\underset{x\in[-1,1]}{\operatorname{minimize}}&amp; &amp; x^2 \\
 &amp;\operatorname{subject\;to} &amp; &amp; x^3 \ge 0.1
 \end{align}
 \]</div>
@@ -6448,9 +6449,10 @@ called <em>MDO formulation</em> or <em>architecture</em><sup id="fnref:MartinsSu
 </ul>
 <div class="admonition note">
 <p class="admonition-title">API</p>
-<p>(https://www.gemseo.org) offers implementations for the
-,</p>
-<p>and  formulations.</p>
+<p><a href="https://www.gemseo.org">GEMSEO</a> offers implementations for the
+<a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.formulations.mdf.html#gemseo.formulations.mdf.MDF">MDF</a>,
+<a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.formulations.idf.html#gemseo.formulations.idf.IDF">IDF</a>
+and <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.formulations.bilevel.html#gemseo.formulations.bilevel.BiLevel">BiLevel</a> formulations.</p>
 <details class="example">
 <summary>Example: MDF applied to the Sellar problem</summary>
 <div class="highlight"><pre><span></span><code>  <span class="kn">from</span><span class="w"> </span><span class="nn">gemseo</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_scenario</span>
@@ -6499,30 +6501,30 @@ are in turn random variables
 and the standard optimization problem is replaced by</p>
 <div class="arithmatex">\[
 \begin{align}
-&amp;\underset{x\in\mathcal{X}}{\operatorname{minimize}}&amp; &amp; \mathbb{K}_f \\
+&amp;\underset{x\in\mathcal{X}}{\operatorname{minimize}}&amp; &amp; \mathbb{K}_f[f(x,U)] \\
 &amp;\operatorname{subject\;to}
-&amp; &amp;\mathbb{K}_g \leq 0 \\
-&amp;&amp;&amp;\mathbb{K}_h = 0
+&amp; &amp;\mathbb{K}_g[g(x,U)] \leq 0 \\
+&amp;&amp;&amp;\mathbb{K}_h[h(x,U)] = 0
 \end{align}
 \]</div>
 <p>where <span class="arithmatex">\(\mathbb{K}_f\)</span>, <span class="arithmatex">\(\mathbb{K}_g\)</span> and <span class="arithmatex">\(\mathbb{K}_h\)</span> are statistics.</p>
 <p>The statistic of a function <span class="arithmatex">\(\phi\)</span> can be
-the expectation <span class="arithmatex">\(\mathbb{E}\)</span>,
-the standard deviation <span class="arithmatex">\(\mathbb{S}\)</span>,
-the variance <span class="arithmatex">\(\mathbb{V}\)</span>,
-a margin <span class="arithmatex">\(\mathbb{E}+\kappa\times\mathbb{S}\)</span>
-or a probability <span class="arithmatex">\(\mathbb{P}\)</span>.
+the expectation <span class="arithmatex">\(\mathbb{E}[\phi(x,U)]\)</span>,
+the standard deviation <span class="arithmatex">\(\mathbb{S}[\phi(x,U)]\)</span>,
+the variance <span class="arithmatex">\(\mathbb{V}[\phi(x,U)]\)</span>,
+a margin <span class="arithmatex">\(\mathbb{E}[\phi(x,U)]+\kappa\times\mathbb{S}[\phi(x,U)]\)</span>
+or a probability <span class="arithmatex">\(\mathbb{P}[m \leq \phi(x,U)\leq M]\)</span>.
 For the inequality constraints,
-<span class="arithmatex">\(\mathbb{K}_g\)</span> could be
-<span class="arithmatex">\(\mathbb{P}\)</span>
-or <span class="arithmatex">\(\mathbb{P}-\varepsilon\)</span>.
+<span class="arithmatex">\(\mathbb{K}_g[g(x,U)]\)</span> could be
+<span class="arithmatex">\(\mathbb{P}[g(x,U)\geq\epsilon]\)</span>
+or <span class="arithmatex">\(\mathbb{P}[g(x,U)\geq 0]-\varepsilon\)</span>.
 For the equality constraints,
-<span class="arithmatex">\(\mathbb{K}_h\)</span> could be
-<span class="arithmatex">\(\mathbb{P}\)</span>.</p>
+<span class="arithmatex">\(\mathbb{K}_h[h(x,U)]\)</span> could be
+<span class="arithmatex">\(\mathbb{P}[|h(x,U)|\geq\epsilon]\)</span>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>When <span class="arithmatex">\(\phi(x,U)\)</span> is normally distributed,
-the margin <span class="arithmatex">\(\mathbb{E}+q_\alpha\times\mathbb{S}\)</span>
+the margin <span class="arithmatex">\(\mathbb{E}[\phi(x,U)]+q_\alpha\times\mathbb{S}[\phi(x,U)]\)</span>
 corresponds to the <span class="arithmatex">\(\alpha\)</span>-quantile of <span class="arithmatex">\(\phi(x,U)\)</span>
 where <span class="arithmatex">\(q_\alpha\)</span> is the <span class="arithmatex">\(\alpha\)</span>-quantile
 of the standard Gaussian distribution.
@@ -6535,20 +6537,22 @@ the 0.975- and 0.999- quantiles of <span class="arithmatex">\(\phi(x,U)\)</span>
 <p>Typically,
 a margin is applied to the objective to ensure a robust optimum <span class="arithmatex">\(x^*\)</span>:</p>
 <ul>
-<li>a small value of <span class="arithmatex">\(f(x^*,u)\)</span> by minimizing <span class="arithmatex">\(\mathbb{E}\)</span>,</li>
-<li>whatever the realization <span class="arithmatex">\(u\)</span> of <span class="arithmatex">\(U\)</span> by minimizing <span class="arithmatex">\(\mathbb{S}\)</span>.</li>
+<li>a small value of <span class="arithmatex">\(f(x^*,u)\)</span> by minimizing <span class="arithmatex">\(\mathbb{E}[f(x,U)]\)</span>,</li>
+<li>whatever the realization <span class="arithmatex">\(u\)</span> of <span class="arithmatex">\(U\)</span> by minimizing <span class="arithmatex">\(\mathbb{S}[f(x,U)]\)</span>.</li>
 </ul>
 <h2 id="api">API<a class="headerlink" href="#api" title="Permanent link">&para;</a></h2>
 <p>Here is an outline of the API. Go to the examples for more information.</p>
 <h3 id="disciplines">Disciplines<a class="headerlink" href="#disciplines" title="Permanent link">&para;</a></h3>
 <p>When defining disciplines,
 do not forget to declare the uncertain variables as input variables
-so that the</p>
-<p>and</p>
-<p>can change their values.</p>
+so that the
+<a class="autorefs autorefs-internal" href="../../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>
+and
+<a class="autorefs autorefs-internal" href="../../reference/gemseo_umdo/scenarios/udoe_scenario/#gemseo_umdo.scenarios.udoe_scenario.UDOEScenario">UDOEScenario</a>
+can change their values.</p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
-<p>Let us implement an 
+<p>Let us implement an <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.core.discipline.discipline.html#gemseo.core.discipline.discipline.Discipline">Discipline</a>
 outputting <span class="arithmatex">\(f(x,U)=(x_1+U)^2+(x_2+U)^2\)</span>:
 <div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="kn">import</span> <span class="n">array</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.core.discipline.discipline</span><span class="w"> </span><span class="kn">import</span> <span class="n">Discipline</span>
@@ -6558,26 +6562,26 @@ outputting <span class="arithmatex">\(f(x,U)=(x_1+U)^2+(x_2+U)^2\)</span>:
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">input_grammar</span><span class="o">.</span><span class="n">update_from_names</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">default_input_data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;x1&quot;</span><span class="p">:</span> <span class="n">array</span><span class="p">(),</span> <span class="s2">&quot;x2&quot;</span><span class="p">:</span> <span class="n">array</span><span class="p">(),</span> <span class="s2">&quot;U&quot;</span><span class="p">:</span> <span class="n">array</span><span class="p">()}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_grammar</span><span class="o">.</span><span class="n">update_from_names</span><span class="p">([</span><span class="s2">&quot;x1&quot;</span><span class="p">,</span> <span class="s2">&quot;x2&quot;</span><span class="p">,</span> <span class="s2">&quot;U&quot;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">default_input_data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;x1&quot;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="mf">0.</span><span class="p">]),</span> <span class="s2">&quot;x2&quot;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="mf">0.</span><span class="p">]),</span> <span class="s2">&quot;U&quot;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="mf">0.5</span><span class="p">])}</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_data</span><span class="p">):</span>
-        <span class="n">x1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">data</span>
-        <span class="n">x2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">data</span>
-        <span class="n">U</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">data</span>
+        <span class="n">x1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;x1&quot;</span><span class="p">]</span>
+        <span class="n">x2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;x2&quot;</span><span class="p">]</span>
+        <span class="n">U</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;U&quot;</span><span class="p">]</span>
         <span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="n">x1</span><span class="o">+</span><span class="n">U</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">x2</span><span class="o">+</span><span class="n">U</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">update_output_data</span><span class="p">({</span><span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="n">y</span><span class="p">})</span>
 </code></pre></div></p>
 <p>This discipline can be executed
 with different values of the uncertain variable <span class="arithmatex">\(U\)</span>:
 <div class="highlight"><pre><span></span><code><span class="n">discipline</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>  <span class="c1"># default value, i.e. U=0.5</span>
-<span class="n">discipline</span><span class="o">.</span><span class="n">execute</span><span class="p">({</span><span class="s2">&quot;U&quot;</span><span class="p">:</span> <span class="n">array</span><span class="p">()})</span>  <span class="c1"># custom value: U=0.2</span>
+<span class="n">discipline</span><span class="o">.</span><span class="n">execute</span><span class="p">({</span><span class="s2">&quot;U&quot;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="mf">0.2</span><span class="p">])})</span>  <span class="c1"># custom value: U=0.2</span>
 </code></pre></div></p>
 </div>
 <h3 id="uncertain-space">Uncertain space<a class="headerlink" href="#uncertain-space" title="Permanent link">&para;</a></h3>
 <p>The uncertain variables have to be defined
-in a 
-with the method .</p>
+in a <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.parameter_space.html#gemseo.algos.parameter_space.ParameterSpace">ParameterSpace</a>
+with the method <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.parameter_space.html#gemseo.algos.parameter_space.ParameterSpace.add_random_variable">add_random_variable</a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
 <p>In the previous example,
@@ -6598,8 +6602,10 @@ the MDO problem can be set up.</p>
 <p>In the case of MDO <em>without</em> uncertainty,
 there are two scenarios to set up the MDO problem:</p>
 <ul>
-<li>to solve it with a DOE,</li>
-<li>to solve it with an optimizer.</li>
+<li><a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.scenarios.doe_scenario.html#gemseo.scenarios.doe_scenario.DOEScenario">DOEScenario</a>
+  to solve it with a DOE,</li>
+<li><a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.scenarios.mdo_scenario.html#gemseo.scenarios.mdo_scenario.MDOScenario">MDOScenario</a>
+  to solve it with an optimizer.</li>
 </ul>
 <p>Both need knowledge of objective and constraint functions
 in addition to the disciplines and design space
@@ -6607,20 +6613,23 @@ to solve the MDO problem.</p>
 <p>In the case of MDO <em>with</em> uncertainty,
 there are two similar scenarios to set up the MDO problem:</p>
 <ul>
-<li>to solve it with a DOE,</li>
-<li>to solve it with an optimizer.</li>
+<li><a class="autorefs autorefs-internal" href="../../reference/gemseo_umdo/scenarios/udoe_scenario/#gemseo_umdo.scenarios.udoe_scenario.UDOEScenario">UDOEScenario</a>
+  to solve it with a DOE,</li>
+<li><a class="autorefs autorefs-internal" href="../../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>
+  to solve it with an optimizer.</li>
 </ul>
 <p>Both need knowledge of the statistics and their estimators
 in addition to the disciplines, design space, objective and constraints
 to solve the MDO problem under uncertainty.</p>
 <div class="admonition note">
 <p class="admonition-title">API</p>
-<p>The API of 
+<p>The API of <a class="autorefs autorefs-internal" href="../../reference/gemseo_umdo/scenarios/udoe_scenario/#gemseo_umdo.scenarios.udoe_scenario.UDOEScenario">UDOEScenario</a>
 is deliberately similar to
-the API of .
-And the same for</p>
-<p>and
-.
+the API of <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.scenarios.doe_scenario.html#gemseo.scenarios.doe_scenario.DOEScenario">DOEScenario</a>.
+And the same for
+<a class="autorefs autorefs-internal" href="../../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>
+and
+<a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.scenarios.mdo_scenario.html#gemseo.scenarios.mdo_scenario.MDOScenario">MDOScenario</a>.
 This choice was made not only to simplify the user's life,
 but also because an MDO problem under uncertainty
 is first and foremost an MDO problem.</p>
@@ -6628,8 +6637,8 @@ is first and foremost an MDO problem.</p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
 <p>Continuing the previous example,
-we seek to minimize <span class="arithmatex">\(\mathbf{E}\)</span>
-over the domain <span class="arithmatex">\(^2\)</span>
+we seek to minimize <span class="arithmatex">\(\mathbf{E}[(x_1+U)^2+(x_2+U)^2]\)</span>
+over the domain <span class="arithmatex">\([-1,1]^2\)</span>
 with the gradient-free optimization algorithm COBYLA
 and a Monte Carlo estimator of the expectation.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.algos.design_space</span><span class="w"> </span><span class="kn">import</span> <span class="n">DesignSpace</span>
@@ -6641,7 +6650,7 @@ and a Monte Carlo estimator of the expectation.</p>
 <span class="n">design_space</span><span class="o">.</span><span class="n">add_variable</span><span class="p">(</span><span class="s2">&quot;x2&quot;</span><span class="p">,</span> <span class="n">lower_bound</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">upper_bound</span><span class="o">=</span><span class="mf">1.</span><span class="p">)</span>
 
 <span class="n">scenario</span> <span class="o">=</span> <span class="n">UMDOScenario</span><span class="p">(</span>
-    <span class="p">,</span>
+    <span class="p">[</span><span class="n">discipline</span><span class="p">],</span>
     <span class="s2">&quot;DisciplinaryOpt&quot;</span><span class="p">,</span>
     <span class="s2">&quot;y&quot;</span><span class="p">,</span>
     <span class="n">design_space</span><span class="p">,</span>
@@ -6653,7 +6662,8 @@ and a Monte Carlo estimator of the expectation.</p>
 </code></pre></div>
 </div>
 <h3 id="u-mdo-formulations">U-MDO formulations<a class="headerlink" href="#u-mdo-formulations" title="Permanent link">&para;</a></h3>
-<p>and 
+<p><a class="autorefs autorefs-internal" href="../../reference/gemseo_umdo/scenarios/udoe_scenario/#gemseo_umdo.scenarios.udoe_scenario.UDOEScenario">UDOEScenario</a>
+and <a class="autorefs autorefs-internal" href="../../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>
 can estimate the statistics associated with <span class="arithmatex">\(f(x,U)\)</span>, <span class="arithmatex">\(g(x,U)\)</span> and <span class="arithmatex">\(h(x,U)\)</span>
 by sampling these random variables:</p>
 <div class="arithmatex">\[(f(x,U^{(i)}),g(x,U^{(i)}),h(x,U^{(i)}))_{1\leq i \leq N}.\]</div>
@@ -6661,20 +6671,21 @@ by sampling these random variables:</p>
 as sampling can be expensive,
 GEMSEO-UMDO offers other techniques to reduce the cost of statistics estimation,
 such as
-(control_variate.md),
-(taylor_polynomial.md)
+<a href="control_variate/">control variates</a>,
+<a href="taylor_polynomial/">Taylor polynomials</a>
 and
-(pce.md).
+<a href="pce/">polynomial chaos expansions</a>.
 The choice of an estimation technique is made
 via the argument <code>statistic_estimation_settings</code>
-of 
-(or ),
+of <a class="autorefs autorefs-internal" href="../../reference/gemseo_umdo/scenarios/udoe_scenario/#gemseo_umdo.scenarios.udoe_scenario.UDOEScenario">UDOEScenario</a>
+(or <a class="autorefs autorefs-internal" href="../../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>),
 which is a Pydantic model of U-MDO settings,
 <em>e.g.</em>
-,</p>
-<p>or .</p>
+<a class="autorefs autorefs-internal" href="../../reference/gemseo_umdo/formulations/control_variate_settings/#gemseo_umdo.formulations.control_variate_settings.ControlVariate_Settings">ControlVariate_Settings</a>,
+<a class="autorefs autorefs-internal" href="../../reference/gemseo_umdo/formulations/taylor_polynomial_settings/#gemseo_umdo.formulations.taylor_polynomial_settings.TaylorPolynomial_Settings">TaylorPolynomial_Settings</a>
+or <a class="autorefs autorefs-internal" href="../../reference/gemseo_umdo/formulations/pce_settings/#gemseo_umdo.formulations.pce_settings.PCE_Settings">PCE_Settings</a>.</p>
 <p>As of now,
-only the (sampling.md) provides analytical derivatives of the statistics
+only the <a href="sampling/"><code>Sampling</code> U-MDO formulation</a> provides analytical derivatives of the statistics
 when the disciplines and the multidisciplinary process generated by the MDO formulation are differentiable.
 Therefore,
 the other U-MDO formulations require gradient approximation to use gradient-based optimizers,
@@ -6682,23 +6693,25 @@ what can be expensive according to the dimension of the design space.</p>
 <p>The rest of the <strong>MDO under uncertainty</strong> section of the user guide presents the different U-MDO formulations.</p>
 <details class="info">
 <summary>Implementation</summary>
-<p>Given a</p>
-<p>and a collection of
-,
-a 
-generates and solves an</p>
-<p>that corresponds to a
-.
+<p>Given a
+<a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.design_space.html#gemseo.algos.design_space.DesignSpace">DesignSpace</a>
+and a collection of
+<a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.core.discipline.discipline.html#gemseo.core.discipline.discipline.Discipline">Disciplines</a>,
+a <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.scenarios.doe_scenario.html#gemseo.scenarios.doe_scenario.DOEScenario">DOEScenario</a>
+generates and solves an
+<a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.optimization_problem.html#gemseo.algos.optimization_problem.OptimizationProblem">OptimizationProblem</a>
+that corresponds to a
+<a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.formulations.base_mdo_formulation.html#gemseo.formulations.base_mdo_formulation.BaseMDOFormulation">BaseMDOFormulation</a>.
 The resolution consists in sampling the objective and constraints
-over the ,
+over the <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.design_space.html#gemseo.algos.design_space.DesignSpace">DesignSpace</a>,
 i.e. <span class="arithmatex">\((x^{(i)},f(x^{(i)},U),g(x^{(i)},U),h(x^{(i)},U))_{1\leq i \leq N}\)</span>,
 and returning either the <span class="arithmatex">\(x^*\)</span> minimizing <span class="arithmatex">\(f\)</span> while satisying <span class="arithmatex">\(g\)</span> and <span class="arithmatex">\(h\)</span>
 or the <span class="arithmatex">\(x^*\)</span> that violates the least <span class="arithmatex">\(g\)</span> and <span class="arithmatex">\(h\)</span>.</p>
 <p>GEMSEO-UMDO uses this sampling mechanism a first time
-with a 
-instead of the 
+with a <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.parameter_space.html#gemseo.algos.parameter_space.ParameterSpace">ParameterSpace</a>
+instead of the <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.design_space.html#gemseo.algos.design_space.DesignSpace">DesignSpace</a>
 to estimate the statistics
-<span class="arithmatex">\(\mathbb{K}_f\)</span>, <span class="arithmatex">\(\mathbb{K}_g\)</span> and <span class="arithmatex">\(\mathbb{K}_h\)</span>
+<span class="arithmatex">\(\mathbb{K}_f[f(x,U)]\)</span>, <span class="arithmatex">\(\mathbb{K}_g[g(x,U)]\)</span> and <span class="arithmatex">\(\mathbb{K}_h[h(x,U)]\)</span>
 based on the samples
 <span class="arithmatex">\((U^{(i)},f(x,U^{(i)}),g(x,U^{(i)}),h(x,U^{(i)}))_{1\leq i \leq M}\)</span>.
 In the case of Monte Carlo sampling,
@@ -6708,24 +6721,25 @@ while in the case of Taylor expansion,
 depending on whether the derivatives are known
 or to be estimated by finite differences.
 These statistics estimators
-<span class="arithmatex">\(\hat{\mathbb{K}}_f\)</span>,
-<span class="arithmatex">\(\hat{\mathbb{K}}_g\)</span> and
-<span class="arithmatex">\(\hat{\mathbb{K}}_h\)</span>
-are then used to build a new</p>
-<p>over the :</p>
+<span class="arithmatex">\(\hat{\mathbb{K}}_f[f(x,U)]\)</span>,
+<span class="arithmatex">\(\hat{\mathbb{K}}_g[g(x,U)]\)</span> and
+<span class="arithmatex">\(\hat{\mathbb{K}}_h[h(x,U)]\)</span>
+are then used to build a new
+<a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.optimization_problem.html#gemseo.algos.optimization_problem.OptimizationProblem">OptimizationProblem</a>
+over the <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.design_space.html#gemseo.algos.design_space.DesignSpace">DesignSpace</a>:</p>
 <div class="arithmatex">\[
 \begin{align}
 &amp;\underset{x\in\mathcal{X}}{\operatorname{minimize}}
-&amp; &amp; \hat{\mathbb{K}}_f \\
+&amp; &amp; \hat{\mathbb{K}}_f[f(x,U)] \\
 &amp;\operatorname{subject\;to}
-&amp; &amp;\hat{\mathbb{K}}_g \leq 0 \\
-&amp;&amp;&amp;\hat{\mathbb{K}}_h = 0.
+&amp; &amp;\hat{\mathbb{K}}_g[g(x,U)] \leq 0 \\
+&amp;&amp;&amp;\hat{\mathbb{K}}_h[h(x,U)] = 0.
 \end{align}
 \]</div>
 <p>Thus implemented,
 GEMSEO-UMDO should be able
 to set up any MDO problem under uncertainty
-from any 
+from any <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.formulations.base_mdo_formulation.html#gemseo.formulations.base_mdo_formulation.BaseMDOFormulation">BaseMDOFormulation</a>
 and any statistic estimation technique.
 This vision may be theoretical at the moment,
 but the ambition of GEMSEO-UMDO is to be

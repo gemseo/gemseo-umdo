@@ -6351,8 +6351,9 @@ some uncertain inputs can have a more significant impact
 on certain disciplines.</p>
 <h3 id="graph">Graph<a class="headerlink" href="#graph" title="Permanent link">&para;</a></h3>
 <p>Then,
-the goal of the</p>
-<p>proposed by GEMSEO-UMDO
+the goal of the
+<a class="autorefs autorefs-internal" href="../../../reference/gemseo_umdo/visualizations/uncertain_coupling_graph/#gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph">UncertainCouplingGraph</a>
+proposed by GEMSEO-UMDO
 is to identify:</p>
 <ul>
 <li>the coupling variables that are not impacted by the uncertain inputs,</li>
@@ -6367,31 +6368,31 @@ will therefore be judged to be very insensitive
 to uncertain inputs.</p>
 <h3 id="dispersion-measures">Dispersion measures<a class="headerlink" href="#dispersion-measures" title="Permanent link">&para;</a></h3>
 <p>The dispersion of a coupling variable is computed using a
-.
+<a class="autorefs autorefs-internal" href="../../../reference/gemseo_umdo/visualizations/uncertain_coupling_graph/#gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph.DispersionMeasure">DispersionMeasure</a>.
 GEMSEO-UMDO proposes two dispersion measures.</p>
 <p>The
-(https://en.wikipedia.org/wiki/Coefficient_of_variation)
+<a href="https://en.wikipedia.org/wiki/Coefficient_of_variation">coefficient of variation</a>
 (COV) represents
 the standard deviation normalized by the mean value:</p>
-<div class="arithmatex">\[\textrm{COV}=\frac{\mathbb{S}}{\mathbb{E}}\]</div>
-<p>where <span class="arithmatex">\(\mathbb{E}\)</span> and <span class="arithmatex">\(\mathbb{S}\)</span>
+<div class="arithmatex">\[\textrm{COV}[Y]=\frac{\mathbb{S}[Y]}{\mathbb{E}[Y]}\]</div>
+<p>where <span class="arithmatex">\(\mathbb{E}[Y]\)</span> and <span class="arithmatex">\(\mathbb{S}[Y]\)</span>
 are the expectation and standard deviation
 of the random variable <span class="arithmatex">\(Y\)</span>.
-<span class="arithmatex">\(\textrm{COV}\)</span> tends to infinity as <span class="arithmatex">\(\textrm{E}\)</span> tends to 0,
-which makes it sensitive to small changes in <span class="arithmatex">\(\textrm{E}\)</span>
+<span class="arithmatex">\(\textrm{COV}[Y]\)</span> tends to infinity as <span class="arithmatex">\(\textrm{E}[Y]\)</span> tends to 0,
+which makes it sensitive to small changes in <span class="arithmatex">\(\textrm{E}[Y]\)</span>
 for values near zero.</p>
 <p>The
-(https://en.wikipedia.org/wiki/Quartile_coefficient_of_dispersion)
+<a href="https://en.wikipedia.org/wiki/Quartile_coefficient_of_dispersion">quartile coefficient of dispersion</a>
 (QCD)
 represents the
-(https://en.wikipedia.org/wiki/Interquartile_range)
+<a href="https://en.wikipedia.org/wiki/Interquartile_range">interquartile range</a>
 (IQR)
 normalized by the sum of the first and third quartile:</p>
-<div class="arithmatex">\[\textrm{QCD}=\frac{\mathbb{q}_{75\%}-\mathbb{q}_{25\%}}{\mathbb{q}_{25\%}+\mathbb{q}_{75\%}}\]</div>
-<p>where <span class="arithmatex">\(\mathbb{q}_{\alpha}\)</span> is the <span class="arithmatex">\(\alpha\)</span>-quantile of <span class="arithmatex">\(Y\)</span>.</p>
+<div class="arithmatex">\[\textrm{QCD}[Y]=\frac{\mathbb{q}_{75\%}[Y]-\mathbb{q}_{25\%}[Y]}{\mathbb{q}_{25\%}[Y]+\mathbb{q}_{75\%}[Y]}\]</div>
+<p>where <span class="arithmatex">\(\mathbb{q}_{\alpha}[Y]\)</span> is the <span class="arithmatex">\(\alpha\)</span>-quantile of <span class="arithmatex">\(Y\)</span>.</p>
 <h2 id="api">API<a class="headerlink" href="#api" title="Permanent link">&para;</a></h2>
 <p>Firstly,
-the 
+the <a class="autorefs autorefs-internal" href="../../../reference/gemseo_umdo/visualizations/uncertain_coupling_graph/#gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph">UncertainCouplingGraph</a>
 is built from
 a collection of disciplines,
 an uncertain space
@@ -6400,7 +6401,7 @@ and possibly a subset of coupling variable names.</p>
 </code></pre></div>
 <p>Then,
 the disciplines are sampled
-using an (https://gemseo.readthedocs.io/en/stable/algorithms/doe_algos.html#ot-opt-lhs):</p>
+using an <a href="https://gemseo.readthedocs.io/en/stable/algorithms/doe_algos.html#ot-opt-lhs">optimized Latin hypercube sampling technique</a>:</p>
 <div class="highlight"><pre><span></span><code><span class="n">graph</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
 </code></pre></div>
 <div class="admonition warning">
@@ -6412,20 +6413,20 @@ In the previous example, we used 100 samples.</p>
 this graph can be both displayed in a window and saved on the disk:</p>
 <div class="highlight"><pre><span></span><code><span class="n">graph</span><span class="o">.</span><span class="n">visualize</span><span class="p">()</span>
 </code></pre></div>
-<p>!(../../images/uncertain_coupling_graph.png)</p>
+<p><img alt="Uncertain coupling graph" src="../../../images/uncertain_coupling_graph.png" /></p>
 <p><em>Uncertainty coupling graph from the Sobieski's SSBJ problem.</em></p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Several examples of uncertain coupling graphs,
 including this one,
-can be found in a (../../generated/examples/visualizations/index.md).</p>
+can be found in a <a href="../../../generated/examples/visualizations/">dedicated gallery</a>.</p>
 </div>
 <h3 id="options">Options<a class="headerlink" href="#options" title="Permanent link">&para;</a></h3>
 <p>At the sampling stage,
 the algorithm can be modified
 by setting the arguments <code>algo_name</code> and <code>algo_options</code>
 of the method
-.</p>
+<a class="autorefs autorefs-internal" href="../../../reference/gemseo_umdo/visualizations/uncertain_coupling_graph/#gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph.sample">sample()</a>.</p>
 <p>At the visualization stage,
 the string argument <code>dispersion_measure</code>
 allows to change the dispersion measure (QCD by default).</p>

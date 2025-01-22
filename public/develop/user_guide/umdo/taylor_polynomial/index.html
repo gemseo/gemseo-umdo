@@ -6312,9 +6312,10 @@
 -->
 
 <h1 id="taylor-polynomial">Taylor polynomial<a class="headerlink" href="#taylor-polynomial" title="Permanent link">&para;</a></h1>
-<p>is a U-MDO formulation that estimates the statistics
+<p><a class="autorefs autorefs-internal" href="../../../reference/gemseo_umdo/formulations/taylor_polynomial/#gemseo_umdo.formulations.taylor_polynomial.TaylorPolynomial">TaylorPolynomial</a>
+is a U-MDO formulation that estimates the statistics
 using Taylor polynomials.</p>
-<p>The Taylor polynomials are centered at <span class="arithmatex">\(\mu=\mathbb{E}\)</span>
+<p>The Taylor polynomials are centered at <span class="arithmatex">\(\mu=\mathbb{E}[U]\)</span>
 where <span class="arithmatex">\(U\)</span> is the random input vector.</p>
 <p>When the derivatives with respect to the uncertain variables are available,
 this U-MDO formulation introduces no additional calculation cost
@@ -6322,7 +6323,7 @@ associated with taking the uncertainties into account.
 Otherwise,
 finite differences are computed
 and so the additional cost is <span class="arithmatex">\(d+1\)</span> evaluations of the process
-associated with the 
+associated with the <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.formulations.base_mdo_formulation.html#gemseo.formulations.base_mdo_formulation.BaseMDOFormulation">BaseMDOFormulation</a>
 where <span class="arithmatex">\(d\)</span> is the dimension of the uncertain space.</p>
 <p>This U-MDO formulation has no mandatory parameters.</p>
 <p>Here is a typical scenario template:</p>
@@ -6340,7 +6341,7 @@ where <span class="arithmatex">\(d\)</span> is the dimension of the uncertain sp
 <h3 id="derivatives-calculation">Derivatives calculation<a class="headerlink" href="#derivatives-calculation" title="Permanent link">&para;</a></h3>
 <p>When the derivatives with respect to the uncertain variables are missing
 or when the process
-resulting from the 
+resulting from the <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.formulations.base_mdo_formulation.html#gemseo.formulations.base_mdo_formulation.BaseMDOFormulation">BaseMDOFormulation</a>
 cannot be differentiated with respect to these variables,
 this U-MDO formulation uses finite difference approximations.
 One can also force the use of finite difference approximations
@@ -6391,23 +6392,23 @@ for the expectation, the standard deviation, the variance and the margin.</p>
 <tbody>
 <tr>
 <td>Mean</td>
-<td><span class="arithmatex">\(\mathbb{E}\)</span></td>
-<td><span class="arithmatex">\(E_{\textrm{TP}_1}=\varphi(x,\mu)\)</span></td>
+<td><span class="arithmatex">\(\mathbb{E}[\varphi(x,U)]\)</span></td>
+<td><span class="arithmatex">\(E_{\textrm{TP}_1}[\varphi(x,U)]=\varphi(x,\mu)\)</span></td>
 </tr>
 <tr>
 <td>Variance</td>
-<td><span class="arithmatex">\(\mathbb{V}\)</span></td>
-<td><span class="arithmatex">\(V_{\textrm{TP}_1}=\nabla\varphi(x,\mu)^T\Sigma \nabla\varphi(x,\mu)\)</span></td>
+<td><span class="arithmatex">\(\mathbb{V}[\varphi(x,U)]\)</span></td>
+<td><span class="arithmatex">\(V_{\textrm{TP}_1}[\varphi(x,U)]=\nabla\varphi(x,\mu)^T\Sigma \nabla\varphi(x,\mu)\)</span></td>
 </tr>
 <tr>
 <td>Standard deviation</td>
-<td><span class="arithmatex">\(\mathbb{S}\)</span></td>
-<td><span class="arithmatex">\(S_{\textrm{TP}_1}=\sqrt{V_{\textrm{TP}_1}}\)</span></td>
+<td><span class="arithmatex">\(\mathbb{S}[\varphi(x,U)]\)</span></td>
+<td><span class="arithmatex">\(S_{\textrm{TP}_1}[\varphi(x,U)]=\sqrt{V_{\textrm{TP}_1}[\varphi(x,U)]}\)</span></td>
 </tr>
 <tr>
 <td>Margin</td>
-<td><span class="arithmatex">\(\textrm{Margin}\)</span></td>
-<td><span class="arithmatex">\(\textrm{Margin}_{\textrm{TP}_1}=E_{\textrm{TP}_1}+\kappa\times S_{\textrm{TP}_1}\)</span></td>
+<td><span class="arithmatex">\(\textrm{Margin}[\varphi(x,U)]\)</span></td>
+<td><span class="arithmatex">\(\textrm{Margin}_{\textrm{TP}_1}[\varphi(x,U)]=E_{\textrm{TP}_1}[\varphi(x,U)]+\kappa\times S_{\textrm{TP}_1}[\varphi(x,U)]\)</span></td>
 </tr>
 </tbody>
 </table>
