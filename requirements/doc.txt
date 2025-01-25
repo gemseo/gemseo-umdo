@@ -35,9 +35,9 @@ eval-type-backport==0.2.0
     # via gemseo
 fastjsonschema==2.20.0
     # via gemseo
-fonttools==4.55.5
+fonttools==4.55.6
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@1f4579261afdafc3332f3f5f745682bd03d48516
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@47b93a22a7fa3cf902d49866446ec329673bc5d2
     # via
     #   -c requirements/test-constraints.in
     #   gemseo-umdo (pyproject.toml)
