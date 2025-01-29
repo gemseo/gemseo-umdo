@@ -35,7 +35,7 @@ eval-type-backport==0.2.0
     # via gemseo
 fastjsonschema==2.20.0
     # via gemseo
-fonttools==4.55.6
+fonttools==4.55.7
     # via matplotlib
 gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@e54474cb214e137752c7c64ff5dfd4dd87e61e78
     # via
