@@ -7910,7 +7910,10 @@ If <code>None</code>, the discipline is detected from inner disciplines.</p>
 
 
 <a href="#gemseo_umdo.formulations.surrogate.Surrogate.compute_samples" class="headerlink" title="Permanent link">&para;</a></h6>
-<div class="doc-signature highlight"><pre><span></span><code><span class="nf">compute_samples</span><span class="p">(</span><span class="n">problem</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.algos.optimization_problem.OptimizationProblem" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.optimization_problem.html#gemseo.algos.optimization_problem.OptimizationProblem">OptimizationProblem</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.datasets.io_dataset.IODataset" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.datasets.io_dataset.html#gemseo.datasets.io_dataset.IODataset">IODataset</a></span>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">compute_samples</span><span class="p">(</span>
+    <span class="n">problem</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.algos.optimization_problem.OptimizationProblem" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.optimization_problem.html#gemseo.algos.optimization_problem.OptimizationProblem">OptimizationProblem</a></span><span class="p">,</span>
+    <span class="n">compute_jacobian</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.datasets.io_dataset.IODataset" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.datasets.io_dataset.html#gemseo.datasets.io_dataset.IODataset">IODataset</a></span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -7926,6 +7929,16 @@ If <code>None</code>, the discipline is detected from inner disciplines.</p>
           –
           <div class="doc-md-description">
             <p>The problem.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+            <b><code>compute_jacobian</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>, default:
+                  <code>False</code>
+)
+          –
+          <div class="doc-md-description">
+            <p>Whether to compute the Jacobian of the objective.</p>
           </div>
         </li>
     </ul>
@@ -7958,18 +7971,28 @@ If <code>None</code>, the discipline is detected from inner disciplines.</p>
 <span class="normal">222</span>
 <span class="normal">223</span>
 <span class="normal">224</span>
-<span class="normal">225</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_samples</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">problem</span><span class="p">:</span> <span class="n">OptimizationProblem</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IODataset</span><span class="p">:</span>
+<span class="normal">225</span>
+<span class="normal">226</span>
+<span class="normal">227</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_samples</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span> <span class="n">problem</span><span class="p">:</span> <span class="n">OptimizationProblem</span><span class="p">,</span> <span class="n">compute_jacobian</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IODataset</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Evaluate the functions of a problem with a DOE algorithm.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        problem: The problem.</span>
+<span class="sd">        compute_jacobian: Whether to compute the Jacobian of the objective.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">doe_algo_settings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_settings</span><span class="o">.</span><span class="n">doe_algo_settings</span>
+    <span class="n">doe_algo_settings</span><span class="o">.</span><span class="n">eval_jac</span> <span class="o">=</span> <span class="n">compute_jacobian</span>
     <span class="k">with</span> <span class="n">LoggingContext</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;gemseo&quot;</span><span class="p">)):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__doe_algo</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
-            <span class="n">problem</span><span class="p">,</span> <span class="n">settings_model</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_settings</span><span class="o">.</span><span class="n">doe_algo_settings</span>
+            <span class="n">problem</span><span class="p">,</span> <span class="n">eval_obs_jac</span><span class="o">=</span><span class="n">compute_jacobian</span><span class="p">,</span> <span class="n">settings_model</span><span class="o">=</span><span class="n">doe_algo_settings</span>
         <span class="p">)</span>
 
-    <span class="n">io_dataset</span> <span class="o">=</span> <span class="n">problem</span><span class="o">.</span><span class="n">to_dataset</span><span class="p">(</span><span class="n">opt_naming</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">io_dataset</span> <span class="o">=</span> <span class="n">problem</span><span class="o">.</span><span class="n">to_dataset</span><span class="p">(</span><span class="n">opt_naming</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">export_gradients</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">threshold</span><span class="p">:</span>
         <span class="n">names_to_sizes</span> <span class="o">=</span> <span class="p">{</span>
             <span class="n">name</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span>

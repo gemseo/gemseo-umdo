@@ -6880,12 +6880,12 @@
 <span class="sd">        value: The value of the function output.</span>
 <span class="sd">        jac_value: The value of the Jacobian.</span>
 <span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: D205 D212</span>
-    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">jac_shape</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">jac_shape</span> <span class="o">!=</span> <span class="n">jac_value</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">jac_shape</span> <span class="o">=</span> <span class="n">jac_value</span><span class="o">.</span><span class="n">shape</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
 
     <span class="bp">self</span><span class="o">.</span><span class="n">_jac_estimator</span><span class="o">.</span><span class="n">increment</span><span class="p">(</span><span class="n">jac_value</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_estimation_jacobian</span><span class="p">()</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_estimation_jacobian</span><span class="p">()</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jac_shape</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -6949,12 +6949,12 @@
 <span class="sd">    Args:</span>
 <span class="sd">        value: The value of the function output.</span>
 <span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: D205 D212</span>
-    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">value</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">shape</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">shape</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
 
     <span class="bp">self</span><span class="o">.</span><span class="n">_estimator</span><span class="o">.</span><span class="n">increment</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_estimation</span><span class="p">()</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_estimation</span><span class="p">()</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>

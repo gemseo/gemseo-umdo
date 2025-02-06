@@ -68,17 +68,13 @@ scenario = UMDOScenario(
     uncertain_space,
     "Mean",
     formulation_name="DisciplinaryOpt",
-    statistic_estimation_settings=Sampling_Settings(n_samples=30),
+    statistic_estimation_settings=Sampling_Settings(
+        n_samples=30, estimate_statistics_iteratively=False
+    ),
 )
 
 # %%
-# We execute it with the gradient-based optimizer SLSQP:
-#
-# !!! warning
-#     The implementation of statistic estimators do not allow for the moment
-#     to use analytical derivatives.
-#     Please use finite differences or complex step to approximate the gradients.
-scenario.set_differentiation_method("finite_differences")
+# We execute this scenario using the gradient-based optimizer SLSQP:
 scenario.execute(algo_name="NLOPT_SLSQP", max_iter=100)
 
 # %%

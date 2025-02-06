@@ -6829,7 +6829,7 @@
 
 
 <a href="#gemseo_umdo.formulations._statistics.pce.variance.Variance.compute_jacobian" class="headerlink" title="Permanent link">&para;</a></h6>
-<div class="doc-signature highlight"><pre><span></span><code><span class="nf">compute_jacobian</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.typing.RealArray" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.typing.html#gemseo.typing.RealArray">RealArray</a></span>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">compute_jacobian</span><span class="p">(</span><span class="n">variance_jac</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.typing.RealArray" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.typing.html#gemseo.typing.RealArray">RealArray</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.typing.RealArray" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.typing.html#gemseo.typing.RealArray">RealArray</a></span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -6840,23 +6840,11 @@
 <p><span class="doc-section-title">Parameters:</span></p>
     <ul>
         <li class="doc-section-item field-body">
-            <b><code>*args</code></b>
-              (<code><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></code>, default:
-                  <code>()</code>
-)
+            <b><code>variance_jac</code></b>
+              (<code><a class="autorefs autorefs-external" title="gemseo.typing.RealArray" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.typing.html#gemseo.typing.RealArray">RealArray</a></code>)
           –
           <div class="doc-md-description">
-            <p>The mandatory arguments.</p>
-          </div>
-        </li>
-        <li class="doc-section-item field-body">
-            <b><code>**kwargs</code></b>
-              (<code><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></code>, default:
-                  <code>{}</code>
-)
-          –
-          <div class="doc-md-description">
-            <p>The optional arguments.</p>
+            <p>The description is missing.</p>
           </div>
         </li>
     </ul>
@@ -6874,28 +6862,10 @@
     </ul>
 
             <details class="quote">
-              <summary>Source code in <code>src/gemseo_umdo/formulations/_statistics/base_statistic_estimator.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">44</span>
-<span class="normal">45</span>
-<span class="normal">46</span>
-<span class="normal">47</span>
-<span class="normal">48</span>
-<span class="normal">49</span>
-<span class="normal">50</span>
-<span class="normal">51</span>
-<span class="normal">52</span>
-<span class="normal">53</span>
-<span class="normal">54</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_jacobian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RealArray</span><span class="p">:</span>  <span class="c1"># noqa: D102</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the Jacobian of the statistic estimation.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        *args: The mandatory arguments.</span>
-<span class="sd">        **kwargs: The optional arguments.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        The Jacobian of the statistic estimation.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+              <summary>Source code in <code>src/gemseo_umdo/formulations/_statistics/pce/variance.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">37</span>
+<span class="normal">38</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_jacobian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variance_jac</span><span class="p">:</span> <span class="n">RealArray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RealArray</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">variance_jac</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>

@@ -76,13 +76,16 @@ scenario = UMDOScenario(
     "Mean",
     formulation_name="DisciplinaryOpt",
     statistic_estimation_settings=SequentialSampling_Settings(
-        n_samples=50, initial_n_samples=20, n_samples_increment=5
+        n_samples=50,
+        initial_n_samples=20,
+        n_samples_increment=5,
+        estimate_statistics_iteratively=False,
     ),
 )
 
 # %%
-# We execute this scenario using the gradient-free optimizer COBYLA:
-scenario.execute(algo_name="NLOPT_COBYLA", max_iter=100)
+# We execute this scenario using the gradient-based optimizer SLSQP:
+scenario.execute(algo_name="NLOPT_SLSQP", max_iter=100)
 
 # %%
 # and plot the optimization history:

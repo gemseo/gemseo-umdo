@@ -6693,8 +6693,8 @@
         <span class="o">*</span> <span class="n">n</span>
         <span class="o">/</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
         <span class="o">*</span> <span class="p">(</span>
-            <span class="p">(</span><span class="n">samples</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">jac_samples</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-            <span class="o">-</span> <span class="n">jac_samples</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="n">samples</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)[:,</span> <span class="n">newaxis</span><span class="p">]</span>
+            <span class="p">(</span><span class="n">samples</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">jac_samples</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="o">-</span> <span class="n">jac_samples</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="n">samples</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)[</span><span class="o">...</span><span class="p">,</span> <span class="n">newaxis</span><span class="p">]</span>
         <span class="p">)</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>

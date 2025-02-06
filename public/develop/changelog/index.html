@@ -6916,6 +6916,13 @@ and this project adheres to
 <h2 id="develop">Develop<a class="headerlink" href="#develop" title="Permanent link">&para;</a></h2>
 <h3 id="added">Added<a class="headerlink" href="#added" title="Permanent link">&para;</a></h3>
 <ul>
+<li>The U-MDO formulations
+  <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/formulations/sampling/#gemseo_umdo.formulations.sampling.Sampling">Sampling</a>,
+  <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/formulations/sampling/#gemseo_umdo.formulations.sampling.Sampling">SequentialSampling</a>
+  and <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/formulations/pce/#gemseo_umdo.formulations.pce.PCE">PCE</a>
+  are differentiable,
+  so that gradient-based optimizer can be used
+  when the multidisciplinary process is differentiable.</li>
 <li>Each <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/formulations/base_umdo_formulation/#gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation">BaseUMDOFormulation</a>
   has a Pydantic model to define its settings.
   For example,

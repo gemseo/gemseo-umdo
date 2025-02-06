@@ -6465,7 +6465,7 @@ we define a <a class="autorefs autorefs-internal" href="../../../../../reference
 to minimize the statistic <span class="arithmatex">\(\mathbb{E}[f(x,z_2,y_1,y_2)]\)</span>
 estimated using a crude Monte Carlo sampling strategy
 with 100 samples at each iteration of the optimization loop:</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 93-103 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 93-105 -->
 
 <div class="highlight"><pre><span></span><code><span class="n">scenario</span> <span class="o">=</span> <span class="n">UMDOScenario</span><span class="p">(</span>
     <span class="p">[</span><span class="n">system</span><span class="p">,</span> <span class="n">disc1</span><span class="p">,</span> <span class="n">disc2</span><span class="p">],</span>
@@ -6474,44 +6474,46 @@ with 100 samples at each iteration of the optimization loop:</p>
     <span class="n">uncertain_space</span><span class="p">,</span>
     <span class="s2">&quot;Mean&quot;</span><span class="p">,</span>
     <span class="n">formulation_name</span><span class="o">=</span><span class="s2">&quot;MDF&quot;</span><span class="p">,</span>
-    <span class="n">statistic_estimation_settings</span><span class="o">=</span><span class="n">Sampling_Settings</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">100</span><span class="p">),</span>
+    <span class="n">statistic_estimation_settings</span><span class="o">=</span><span class="n">Sampling_Settings</span><span class="p">(</span>
+        <span class="n">n_samples</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">estimate_statistics_iteratively</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">),</span>
 <span class="p">)</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 104-108 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 106-110 -->
 
 <p>while satisfying the constraints
 <span class="arithmatex">\(\mathbb{E}[c_1(y_1)]+3\mathbb{S}[c_1(y_1)] \leq 0\)</span>
 and
 <span class="arithmatex">\(\mathbb{E}[c_2(y_2)]+3\mathbb{S}[c_2(y_2)] \leq 0\)</span>:</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 108-111 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 110-113 -->
 
 <div class="highlight"><pre><span></span><code><span class="n">scenario</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s2">&quot;c1&quot;</span><span class="p">,</span> <span class="s2">&quot;Margin&quot;</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="mf">3.0</span><span class="p">)</span>
 <span class="n">scenario</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s2">&quot;c2&quot;</span><span class="p">,</span> <span class="s2">&quot;Margin&quot;</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="mf">3.0</span><span class="p">)</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 112-113 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 114-115 -->
 
-<p>We execute this scenario using the gradient-free optimizer COBYLA:</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 113-115 -->
+<p>We execute this scenario using the gradient-based optimizer SLSQP:</p>
+<!-- GENERATED FROM PYTHON SOURCE LINES 115-117 -->
 
-<div class="highlight"><pre><span></span><code><span class="n">scenario</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">algo_name</span><span class="o">=</span><span class="s2">&quot;NLOPT_COBYLA&quot;</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">scenario</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">algo_name</span><span class="o">=</span><span class="s2">&quot;NLOPT_SLSQP&quot;</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 116-117 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 118-119 -->
 
 <p>and plot the optimization history:</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 117-119 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 119-121 -->
 
 <div class="highlight"><pre><span></span><code><span class="n">scenario</span><span class="o">.</span><span class="n">post_process</span><span class="p">(</span><span class="n">post_name</span><span class="o">=</span><span class="s2">&quot;OptHistoryView&quot;</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 120-122 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 122-124 -->
 
 <p>Lastly,
 we can compare the numerical solution of this Sellar's MDO problem under uncertainty</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 122-125 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 124-127 -->
 
 <div class="highlight"><pre><span></span><code><span class="n">result</span> <span class="o">=</span> <span class="n">scenario</span><span class="o">.</span><span class="n">optimization_result</span>
 <span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">x_opt</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">constraint_values</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">f_opt</span><span class="p">)</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 126-129 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 128-131 -->
 
 <p>to the solution of the Sellar's MDO problem without uncertainty,
 namely
