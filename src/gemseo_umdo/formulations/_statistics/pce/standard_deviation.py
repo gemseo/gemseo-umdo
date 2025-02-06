@@ -33,3 +33,6 @@ class StandardDeviation(BasePCEEstimator):
 
     def estimate_statistic(self, standard_deviation: RealArray) -> RealArray:
         return standard_deviation
+
+    def compute_jacobian(self, standard_deviation_jac: RealArray) -> RealArray:
+        return standard_deviation_jac

@@ -87,9 +87,6 @@ class Sampling(BaseUMDOFormulation):
 
     Settings: ClassVar[type[Sampling_Settings]] = Sampling_Settings
 
-    _estimate_statistics_iteratively: bool
-    """Whether to estimate the statistics iteratively."""
-
     __doe_algo: BaseDOELibrary
     """The DOE library to execute the DOE algorithm."""
 
@@ -120,15 +117,11 @@ class Sampling(BaseUMDOFormulation):
         if settings_model.samples_directory_path:
             self.__samples_directory_path = Path(settings_model.samples_directory_path)
             self.__samples_directory_path.mkdir()
-            estimate_statistics_iteratively = False
             settings_model.estimate_statistics_iteratively = False
         else:
             self.__samples_directory_path = ""
-            estimate_statistics_iteratively = (
-                settings_model.estimate_statistics_iteratively
-            )
 
-        self._estimate_statistics_iteratively = estimate_statistics_iteratively
+        estimate_statistics_iteratively = settings_model.estimate_statistics_iteratively
         if estimate_statistics_iteratively:
             self._statistic_factory = IterativeSamplingEstimatorFactory()
             self._statistic_function_class = StatisticFunctionForIterativeSampling
@@ -171,9 +164,9 @@ class Sampling(BaseUMDOFormulation):
             compute_jacobian: Whether to compute the Jacobian of the objective.
         """
         doe_algo_settings = self._settings.doe_algo_settings
-        callbacks_1 = list(doe_algo_settings.callbacks)
-        callbacks_2 = self.jacobian_callbacks if compute_jacobian else self.callbacks
-        doe_algo_settings.callbacks = callbacks_1 + callbacks_2
+        original_callbacks = doe_algo_settings.callbacks
+        new_callbacks = self.jacobian_callbacks if compute_jacobian else self.callbacks
+        doe_algo_settings.callbacks = list(original_callbacks) + new_callbacks
         doe_algo_settings.eval_jac = compute_jacobian
         with LoggingContext(logging.getLogger("gemseo")):
             self.__doe_algo.execute(
@@ -188,3 +181,5 @@ class Sampling(BaseUMDOFormulation):
                 main_problem.design_space.convert_array_to_dict(input_data)
             )
             to_pickle(dataset, self.__samples_directory_path / f"{iteration}.pkl")
+
+        doe_algo_settings.callbacks = original_callbacks

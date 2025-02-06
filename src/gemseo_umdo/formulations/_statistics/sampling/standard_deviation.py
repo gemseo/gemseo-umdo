@@ -36,5 +36,5 @@ class StandardDeviation(Variance):
     def compute_jacobian(self, samples: RealArray, jac_samples: RealArray) -> RealArray:
         std = self.estimate_statistic(samples)
         return nan_to_num(
-            super().compute_jacobian(samples, jac_samples) / std[:, newaxis] / 2
+            super().compute_jacobian(samples, jac_samples) / std[..., newaxis] / 2
         )

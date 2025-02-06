@@ -20,6 +20,7 @@ from typing import TYPE_CHECKING
 
 from numpy import array
 from numpy import atleast_1d
+from numpy import atleast_2d
 
 if TYPE_CHECKING:
     from gemseo.algos.optimization_problem import EvaluationType
@@ -89,14 +90,13 @@ class IterativeEstimation:
         Returns:
             The new estimation of the statistic or its Jacobian.
         """  # noqa: D205, D212
+        value = atleast_1d(evaluation[0].get(self.output_name))
         if self.return_statistic_jacobian:
+            jac_value = evaluation[1].get(self.output_name)
             self.last_estimation = self.statistic_estimator.compute_jacobian(
-                atleast_1d(evaluation[0].get(self.output_name)),
-                atleast_1d(evaluation[1].get(self.output_name)),
-            ).reshape(self.statistic_estimator.jac_shape)
+                value, atleast_2d(jac_value)
+            )
         else:
-            self.last_estimation = self.statistic_estimator.estimate_statistic(
-                atleast_1d(evaluation[0].get(self.output_name))
-            ).reshape(self.statistic_estimator.shape)
+            self.last_estimation = self.statistic_estimator.estimate_statistic(value)
 
         return self.last_estimation

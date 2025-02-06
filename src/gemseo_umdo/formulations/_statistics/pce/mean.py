@@ -33,3 +33,6 @@ class Mean(BasePCEEstimator):
 
     def estimate_statistic(self, mean: RealArray) -> RealArray:
         return mean
+
+    def compute_jacobian(self, mean_jac: RealArray) -> RealArray:
+        return mean_jac

@@ -30,6 +30,13 @@ and this project adheres to
 
 ### Added
 
+- The U-MDO formulations
+  [Sampling][gemseo_umdo.formulations.sampling.Sampling],
+  [SequentialSampling][gemseo_umdo.formulations.sampling.Sampling]
+  and [PCE][gemseo_umdo.formulations.pce.PCE]
+  are differentiable,
+  so that gradient-based optimizer can be used
+  when the multidisciplinary process is differentiable.
 - Each [BaseUMDOFormulation][gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation]
   has a Pydantic model to define its settings.
   For example,

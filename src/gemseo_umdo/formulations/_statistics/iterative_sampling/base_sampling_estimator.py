@@ -79,12 +79,12 @@ class BaseSamplingEstimator(BaseStatisticEstimator):
         Args:
             value: The value of the function output.
         """  # noqa: D205 D212
-        if self.shape is None:
+        if self.shape != value.shape:
             self.shape = value.shape
             self.reset(value.size)
 
         self._estimator.increment(value.ravel())
-        return self._get_estimation()
+        return self._get_estimation().reshape(self.shape)
 
     def compute_jacobian(self, value: RealArray, jac_value: RealArray) -> RealArray:
         """
@@ -92,9 +92,9 @@ class BaseSamplingEstimator(BaseStatisticEstimator):
             value: The value of the function output.
             jac_value: The value of the Jacobian.
         """  # noqa: D205 D212
-        if self.jac_shape is None:
+        if self.jac_shape != jac_value.shape:
             self.jac_shape = jac_value.shape
             self.reset(value.size)
 
         self._jac_estimator.increment(jac_value.ravel())
-        return self._get_estimation_jacobian()
+        return self._get_estimation_jacobian().reshape(self.jac_shape)

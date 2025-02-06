@@ -74,8 +74,8 @@ scenario = UMDOScenario(
 )
 
 # %%
-# We execute this scenario using the gradient-free optimizer COBYLA:
-scenario.execute(algo_name="NLOPT_COBYLA", max_iter=100)
+# We execute this scenario using the gradient-based optimizer SLSQP:
+scenario.execute(algo_name="NLOPT_SLSQP", max_iter=100)
 
 # %%
 # and plot the optimization history:

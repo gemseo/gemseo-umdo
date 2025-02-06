@@ -42,7 +42,7 @@ class Variance(BaseSamplingEstimator):
             * n
             / (n - 1)
             * (
-                (samples[:, :, newaxis] * jac_samples).mean(0)
-                - jac_samples.mean(0) * samples.mean(0)[:, newaxis]
+                (samples[..., newaxis] * jac_samples).mean(0)
+                - jac_samples.mean(0) * samples.mean(0)[..., newaxis]
             )
         )

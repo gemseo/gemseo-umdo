@@ -63,10 +63,7 @@ def ishigami_problem() -> IshigamiProblem:
 def pce_regressor(ishigami_problem) -> PCERegressor:
     """A PCE regressor for the Ishigami function."""
     execute_algo(ishigami_problem, algo_name="OT_HALTON", algo_type="doe", n_samples=20)
-    learning_dataset = ishigami_problem.to_dataset(opt_naming=False)
-    regressor = PCERegressor(
-        learning_dataset, probability_space=ishigami_problem.design_space
-    )
+    regressor = PCERegressor(ishigami_problem.to_dataset(opt_naming=False))
     regressor.learn()
     return regressor
 
@@ -366,9 +363,7 @@ def test_scenario(quadratic_problem, pce_settings, y_opt):
         formulation_name="DisciplinaryOpt",
         statistic_estimation_settings=PCE_Settings(
             n_samples=20,
-            regressor_settings=PCERegressor_Settings(
-                probability_space=uncertain_space, **pce_settings
-            ),
+            regressor_settings=PCERegressor_Settings(**pce_settings),
         ),
     )
     scenario.execute(algo_name="CustomDOE", samples=array([[1.0]]))

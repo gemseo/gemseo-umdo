@@ -64,10 +64,8 @@ class Variance(BaseCentralMoment):
                 self.__prod_mean.estimate_statistic(value[:, newaxis] * jac_value)
                 - (
                     self.__mean.estimate_statistic(value)[:, newaxis]
-                    * self.__mean_jac.estimate_statistic(jac_value).reshape(
-                        self.jac_shape
-                    )
-                ).ravel()
+                    * self.__mean_jac.estimate_statistic(jac_value)
+                )
             )
             * alpha
         )
