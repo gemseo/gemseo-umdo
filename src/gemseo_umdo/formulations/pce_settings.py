@@ -16,7 +16,6 @@
 
 from __future__ import annotations
 
-from gemseo.algos.parameter_space import ParameterSpace
 from gemseo.mlearning.regression.algos.pce_settings import PCERegressor_Settings
 from pydantic import Field
 
@@ -29,6 +28,6 @@ class PCE_Settings(Surrogate_Settings):  # noqa: N801
     _TARGET_CLASS_NAME = "PCE"
 
     regressor_settings: PCERegressor_Settings = Field(
-        default=PCERegressor_Settings(probability_space=ParameterSpace()),
+        default=PCERegressor_Settings(),
         description="The PCE settings.",
     )

@@ -48,3 +48,8 @@ class Margin(BasePCEEstimator):
         self, mean: RealArray, standard_deviation: RealArray
     ) -> RealArray:
         return mean + self.__factor * standard_deviation
+
+    def compute_jacobian(
+        self, mean_jac: RealArray, standard_deviation_jac: RealArray
+    ) -> RealArray:
+        return mean_jac + self.__factor * standard_deviation_jac

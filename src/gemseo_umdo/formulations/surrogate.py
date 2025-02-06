@@ -196,18 +196,23 @@ class Surrogate(BaseUMDOFormulation):
         self.threshold = {}
         self.cv_threshold = {}
 
-    def compute_samples(self, problem: OptimizationProblem) -> IODataset:
+    def compute_samples(
+        self, problem: OptimizationProblem, compute_jacobian: bool = False
+    ) -> IODataset:
         """Evaluate the functions of a problem with a DOE algorithm.
 
         Args:
             problem: The problem.
+            compute_jacobian: Whether to compute the Jacobian of the objective.
         """
+        doe_algo_settings = self._settings.doe_algo_settings
+        doe_algo_settings.eval_jac = compute_jacobian
         with LoggingContext(logging.getLogger("gemseo")):
             self.__doe_algo.execute(
-                problem, settings_model=self._settings.doe_algo_settings
+                problem, eval_obs_jac=compute_jacobian, settings_model=doe_algo_settings
             )
 
-        io_dataset = problem.to_dataset(opt_naming=False)
+        io_dataset = problem.to_dataset(opt_naming=False, export_gradients=True)
         if not self.threshold:
             names_to_sizes = {
                 name: len(

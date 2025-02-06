@@ -33,3 +33,6 @@ class Variance(BasePCEEstimator):
 
     def estimate_statistic(self, variance: RealArray) -> RealArray:
         return variance
+
+    def compute_jacobian(self, variance_jac: RealArray) -> RealArray:
+        return variance_jac

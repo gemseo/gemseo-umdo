@@ -116,3 +116,10 @@ $$\hat{f}_x(U)=\alpha_0 + \sum_{1\leq i\leq P}\alpha_i\Phi_i(U).$$
 | Variance           | $\mathbb{V}[\varphi(x,U)]$      | $V_{\textrm{PCE}}[\varphi(x,U)]=\sum_{1\leq i\leq P}\alpha_i^2$                                                              |
 | Standard deviation | $\mathbb{S}[\varphi(x,U)]$      | $S_{\textrm{PCE}}[\varphi(x,U)]=\sqrt{V_{\textrm{PCE}}[\varphi(x,U)]}$                                                      |
 | Margin             | $\textrm{Margin}[\varphi(x,U)]$ | $\textrm{Margin}_{\textrm{PCE}}[\varphi(x,U)]=E_{\textrm{PCE}}[\varphi(x,U)] + \kappa \times S_{\textrm{PCE}}[\varphi(x,U)]$ |
+
+## Gradient-based optimization
+
+When the multidisciplinary process is differentiable,
+and a gradient-based optimizer is used,
+analytical derivatives are implemented with the following statistics:
+mean, standard deviation, variance and margin.

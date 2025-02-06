@@ -20,16 +20,19 @@ from typing import TYPE_CHECKING
 
 import pytest
 from gemseo.algos.design_space import DesignSpace
-from gemseo.algos.doe.custom_doe.settings.custom_doe_settings import CustomDOE_Settings
+from gemseo.algos.doe.openturns.settings.ot_monte_carlo import OT_MONTE_CARLO_Settings
 from gemseo.algos.parameter_space import ParameterSpace
 from gemseo.core.discipline.discipline import Discipline
-from numpy import array
+from gemseo.mlearning.regression.algos.pce_settings import PCERegressor_Settings
 from numpy import diag
 from numpy import hstack
 from numpy import linspace
 from numpy import newaxis
-from numpy.testing import assert_almost_equal
+from numpy import ones
+from numpy import vstack
+from numpy.testing import assert_allclose
 
+from gemseo_umdo.formulations.pce_settings import PCE_Settings
 from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
 from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
 
@@ -42,7 +45,7 @@ class A(Discipline):
         super().__init__()
         self.m = diag(linspace(1, n_x + n_u, n_x + n_u))
         self.m_x = self.m[:, :n_x]
-        self.m_u = self.m[:, n_x : n_x + n_u]
+        self.m_u = self.m[n_x : n_x + n_u, n_x : n_x + n_u]
         self.input_grammar.update_from_names(["x", "u"])
         self.output_grammar.update_from_names(["y"])
         self.n_x = n_x
@@ -54,157 +57,49 @@ class A(Discipline):
         self.io.update_output_data({"y": self.m @ hstack((x * u.sum(), u))})
 
     def _compute_jacobian(self, inputs=None, outputs=None) -> None:
+        x = self.io.data["x"]
         u = self.io.data["u"]
-        self.jac = {"y": {"x": self.m_x * u.sum(), "u": self.m_u}}
+        dydx = self.m_x * u.sum()
+        dydu = vstack((
+            (x * linspace(1, self.n_x, self.n_x)).reshape(-1, 1) * ones((1, self.n_u)),
+            self.m_u,
+        ))
+        self.jac = {"y": {"x": dydx, "u": dydu}}
 
 
-@pytest.mark.parametrize("estimate_statistics_iteratively", [False, True])
 @pytest.mark.parametrize(
-    (
-        "n_x",
-        "n_u",
-        "statistic",
-        "symbol",
-        "statistic_estimation",
-        "statistic_estimation_jacobian",
-    ),
+    ("statistic", "symbol"),
     [
-        (1, 1, "Mean", "E", array([1.5, 3.0]), array([[1.5], [0.0]])),
-        (1, 2, "Mean", "E", array([4.0, 3.0, 7.5]), array([[4.0], [0.0], [0.0]])),
-        (
-            2,
-            1,
-            "Mean",
-            "E",
-            array([1.5, 6.0, 4.5]),
-            array([[1.5, 0.0], [0.0, 3.0], [0.0, 0.0]]),
-        ),
-        (
-            2,
-            2,
-            "Mean",
-            "E",
-            array([4.0, 16.0, 4.5, 10.0]),
-            array([[4.0, 0.0], [0.0, 8.0], [0.0, 0.0], [0.0, 0.0]]),
-        ),
-        (1, 1, "Variance", "V", array([0.5, 2.0]), array([[1.0], [0.0]])),
-        (1, 2, "Variance", "V", array([2.0, 2.0, 4.5]), array([[4.0], [0.0], [0.0]])),
-        (
-            2,
-            1,
-            "Variance",
-            "V",
-            array([0.5, 8.0, 4.5]),
-            array([[1.0, 0.0], [0.0, 8.0], [0.0, 0.0]]),
-        ),
-        (
-            2,
-            2,
-            "Variance",
-            "V",
-            array([2.0, 32.0, 4.5, 8.0]),
-            array([[4.0, 0.0], [0.0, 32.0], [0.0, 0.0], [0.0, 0.0]]),
-        ),
-        (
-            1,
-            1,
-            "StandardDeviation",
-            "StD",
-            array([0.5, 2.0]) ** 0.5,
-            array([[1.0], [0.0]]) / array([[0.5], [2.0]]) ** 0.5 / 2,
-        ),
-        (
-            1,
-            2,
-            "StandardDeviation",
-            "StD",
-            array([2.0, 2.0, 4.5]) ** 0.5,
-            array([[4.0], [0.0], [0.0]]) / array([[2.0], [2.0], [4.5]]) ** 0.5 / 2,
-        ),
-        (
-            2,
-            1,
-            "StandardDeviation",
-            "StD",
-            array([0.5, 8.0, 4.5]) ** 0.5,
-            array([[1.0, 0.0], [0.0, 8.0], [0.0, 0.0]])
-            / array([[0.5], [8.0], [4.5]]) ** 0.5
-            / 2,
-        ),
-        (
-            2,
-            2,
-            "StandardDeviation",
-            "StD",
-            array([2.0, 32.0, 4.5, 8.0]) ** 0.5,
-            array([[4.0, 0.0], [0.0, 32.0], [0.0, 0.0], [0.0, 0.0]])
-            / array([[2.0], [32.0], [4.5], [8.0]]) ** 0.5
-            / 2,
-        ),
-        (
-            1,
-            1,
-            "Margin",
-            "Margin",
-            array([1.5, 3.0]) + 2 * array([0.5, 2.0]) ** 0.5,
-            array([[1.5], [0.0]])
-            + 2 * array([[1.0], [0.0]]) / array([[0.5], [2.0]]) ** 0.5 / 2,
-        ),
-        (
-            1,
-            2,
-            "Margin",
-            "Margin",
-            array([4.0, 3.0, 7.5]) + 2 * array([2.0, 2.0, 4.5]) ** 0.5,
-            array([[4.0], [0.0], [0.0]])
-            + 2
-            * array([[4.0], [0.0], [0.0]])
-            / array([[2.0], [2.0], [4.5]]) ** 0.5
-            / 2,
-        ),
-        (
-            2,
-            1,
-            "Margin",
-            "Margin",
-            array([1.5, 6.0, 4.5]) + 2 * array([0.5, 8.0, 4.5]) ** 0.5,
-            array([[1.5, 0.0], [0.0, 3.0], [0.0, 0.0]])
-            + 2
-            * array([[1.0, 0.0], [0.0, 8.0], [0.0, 0.0]])
-            / array([[0.5], [8.0], [4.5]]) ** 0.5
-            / 2,
-        ),
-        (
-            2,
-            2,
-            "Margin",
-            "Margin",
-            array([4.0, 16.0, 4.5, 10.0]) + 2 * array([2.0, 32.0, 4.5, 8.0]) ** 0.5,
-            array([[4.0, 0.0], [0.0, 8.0], [0.0, 0.0], [0.0, 0.0]])
-            + 2
-            * array([[4.0, 0.0], [0.0, 32.0], [0.0, 0.0], [0.0, 0.0]])
-            / array([[2.0], [32.0], [4.5], [8.0]]) ** 0.5
-            / 2,
-        ),
+        ("Mean", "E"),
+        ("Variance", "V"),
+        ("StandardDeviation", "StD"),
+        ("Margin", "Margin"),
     ],
 )
-def test_sampling(
-    estimate_statistics_iteratively,
-    statistic,
-    symbol,
-    n_x,
-    n_u,
-    statistic_estimation,
-    statistic_estimation_jacobian,
-):
-    """Check the Jacobian of the MC estimators."""
+@pytest.mark.parametrize("n_x", [1, 2])
+@pytest.mark.parametrize("n_u", [1, 2])
+@pytest.mark.parametrize(
+    "settings",
+    [
+        Sampling_Settings(
+            doe_algo_settings=OT_MONTE_CARLO_Settings(n_samples=5),
+        ),
+        Sampling_Settings(
+            doe_algo_settings=OT_MONTE_CARLO_Settings(n_samples=5),
+            estimate_statistics_iteratively=False,
+        ),
+        PCE_Settings(regressor_settings=PCERegressor_Settings(degree=1)),
+    ],
+)
+def test_derivatives(statistic, symbol, n_x, n_u, settings):
+    """Check the analytical derivatives with different estimation techniques."""
+    uncertain_space = ParameterSpace()
+    uncertain_space.add_random_variable("u", "OTNormalDistribution", size=n_u)
+
     discipline = A(n_x, n_u)
 
     design_space = DesignSpace()
     design_space.add_variable("x", size=n_x, lower_bound=0.0, upper_bound=2.0)
-
-    uncertain_space = ParameterSpace()
-    uncertain_space.add_random_variable("u", "OTNormalDistribution", size=n_u)
 
     scenario = UDOEScenario(
         [discipline],
@@ -213,19 +108,30 @@ def test_sampling(
         uncertain_space,
         statistic,
         formulation_name="DisciplinaryOpt",
-        statistic_estimation_settings=Sampling_Settings(
-            doe_algo_settings=CustomDOE_Settings(
-                samples=array([
-                    linspace(1, n_u, n_u).tolist(),
-                    linspace(2, n_u + 1, n_u).tolist(),
-                ])
-            ),
-            estimate_statistics_iteratively=estimate_statistics_iteratively,
-        ),
+        statistic_estimation_settings=settings,
     )
     scenario.execute(
         algo_name="CustomDOE", samples=linspace(1, n_x, n_x)[newaxis, :], eval_jac=True
     )
     last_item = scenario.formulation.optimization_problem.database.last_item
-    assert_almost_equal(last_item[f"{symbol}[y]"], statistic_estimation)
-    assert_almost_equal(last_item[f"@{symbol}[y]"], statistic_estimation_jacobian)
+
+    scenario = UDOEScenario(
+        [discipline],
+        "y",
+        design_space,
+        uncertain_space,
+        statistic,
+        formulation_name="DisciplinaryOpt",
+        statistic_estimation_settings=settings,
+    )
+    scenario.set_differentiation_method("finite_differences")
+    scenario.execute(
+        algo_name="CustomDOE", samples=linspace(1, n_x, n_x)[newaxis, :], eval_jac=True
+    )
+    new_last_item = scenario.formulation.optimization_problem.database.last_item
+    name = f"@{symbol}[y]"
+    assert_allclose(
+        new_last_item[name],
+        last_item[name],
+        **{"atol": 1} if isinstance(settings, PCE_Settings) else {"rtol": 1e-5},
+    )
