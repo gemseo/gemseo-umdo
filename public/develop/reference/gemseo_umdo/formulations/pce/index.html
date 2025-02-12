@@ -7294,11 +7294,11 @@ respect to the uncertain variables.</p>
   </span>
 
 <a href="#gemseo_umdo.formulations.pce.PCE.input_samples" class="headerlink" title="Permanent link">&para;</a></h6>
-<div class="doc-signature highlight"><pre><span></span><code><span class="n">input_samples</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#dict">dict</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.typing.RealArray" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.typing.html#gemseo.typing.RealArray">RealArray</a></span><span class="p">]</span> <span class="o">=</span> <span class="n"><span title="uncertain_space.convert_array_to_dict">convert_array_to_dict</span></span><span class="p">(</span>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">input_samples</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#dict">dict</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.typing.RealArray" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.typing.html#gemseo.typing.RealArray">RealArray</a></span><span class="p">]</span> <span class="o">=</span> <span class="n"><span title="gemseo_umdo.formulations.surrogate.Surrogate(uncertain_space).convert_array_to_dict">convert_array_to_dict</span></span><span class="p">(</span>
     <span class="n">compute_doe</span><span class="p">(</span>
-        <span class="n">uncertain_space</span><span class="p">,</span>
-        <span class="n"><span title="compute_doe(n_samples)">n_samples</span></span><span class="o">=</span><span class="n"><span title="settings_model.regressor_n_samples">regressor_n_samples</span></span><span class="p">,</span>
-        <span class="n"><span title="compute_doe(seed)">seed</span></span><span class="o">=</span><span class="n"><span title="settings_model.regressor_sampling_seed">regressor_sampling_seed</span></span><span class="p">,</span>
+        <span class="n"><span title="gemseo_umdo.formulations.surrogate.Surrogate(uncertain_space)">uncertain_space</span></span><span class="p">,</span>
+        <span class="n"><span title="compute_doe(n_samples)">n_samples</span></span><span class="o">=</span><span class="n"><span title="gemseo_umdo.formulations.surrogate.Surrogate(settings_model).regressor_n_samples">regressor_n_samples</span></span><span class="p">,</span>
+        <span class="n"><span title="compute_doe(seed)">seed</span></span><span class="o">=</span><span class="n"><span title="gemseo_umdo.formulations.surrogate.Surrogate(settings_model).regressor_sampling_seed">regressor_sampling_seed</span></span><span class="p">,</span>
     <span class="p">)</span>
 <span class="p">)</span>
 </code></pre></div>
@@ -7374,7 +7374,7 @@ respect to the design variables.</p>
 
 <a href="#gemseo_umdo.formulations.pce.PCE.quality" class="headerlink" title="Permanent link">&para;</a></h6>
 <div class="doc-signature highlight"><pre><span></span><code><span class="n">quality</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#type">type</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" title="gemseo.mlearning.regression.quality.base_regressor_quality.BaseRegressorQuality" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.mlearning.regression.quality.base_regressor_quality.html#gemseo.mlearning.regression.quality.base_regressor_quality.BaseRegressorQuality">BaseRegressorQuality</a></span><span class="p">]</span> <span class="o">=</span> <span class="n">get_class</span><span class="p">(</span>
-    <span class="n"><span title="settings_model.quality_name">quality_name</span></span>
+    <span class="n"><span title="gemseo_umdo.formulations.surrogate.Surrogate(settings_model).quality_name">quality_name</span></span>
 <span class="p">)</span>
 </code></pre></div>
 
@@ -7423,7 +7423,7 @@ respect to the design variables.</p>
 <a href="#gemseo_umdo.formulations.pce.PCE.quality_cv_threshold" class="headerlink" title="Permanent link">&para;</a></h6>
 <div class="doc-signature highlight"><pre><span></span><code><span class="n">quality_cv_threshold</span><span class="p">:</span> <span class="p">(</span>
     <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></span> <span class="o">|</span> <span class="n"><a class="autorefs autorefs-external" title="collections.abc.Mapping" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping">Mapping</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></span> <span class="o">|</span> <span class="n"><a class="autorefs autorefs-external" title="collections.abc.Iterable" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable">Iterable</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></span><span class="p">]]</span>
-<span class="p">)</span> <span class="o">=</span> <span class="n"><span title="settings_model.quality_cv_threshold">quality_cv_threshold</span></span>
+<span class="p">)</span> <span class="o">=</span> <span class="n"><span title="gemseo_umdo.formulations.surrogate.Surrogate(settings_model).quality_cv_threshold">quality_cv_threshold</span></span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -7476,7 +7476,7 @@ than B.</p>
 <a href="#gemseo_umdo.formulations.pce.PCE.quality_threshold" class="headerlink" title="Permanent link">&para;</a></h6>
 <div class="doc-signature highlight"><pre><span></span><code><span class="n">quality_threshold</span><span class="p">:</span> <span class="p">(</span>
     <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></span> <span class="o">|</span> <span class="n"><a class="autorefs autorefs-external" title="collections.abc.Mapping" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping">Mapping</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></span> <span class="o">|</span> <span class="n"><a class="autorefs autorefs-external" title="collections.abc.Iterable" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable">Iterable</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></span><span class="p">]]</span>
-<span class="p">)</span> <span class="o">=</span> <span class="n"><span title="settings_model.quality_threshold">quality_threshold</span></span>
+<span class="p">)</span> <span class="o">=</span> <span class="n"><span title="gemseo_umdo.formulations.surrogate.Surrogate(settings_model).quality_threshold">quality_threshold</span></span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
