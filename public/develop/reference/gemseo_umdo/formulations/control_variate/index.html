@@ -3062,15 +3062,6 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#gemseo_umdo.formulations.control_variate.ControlVariate.evaluate_with_mean" class="md-nav__link">
-    <span class="md-ellipsis">
-      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;evaluate_with_mean
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#gemseo_umdo.formulations.control_variate.ControlVariate.get_top_level_disciplines" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;get_top_level_disciplines
@@ -6697,15 +6688,6 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#gemseo_umdo.formulations.control_variate.ControlVariate.evaluate_with_mean" class="md-nav__link">
-    <span class="md-ellipsis">
-      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;evaluate_with_mean
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#gemseo_umdo.formulations.control_variate.ControlVariate.get_top_level_disciplines" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;get_top_level_disciplines
@@ -7563,60 +7545,6 @@ If <code>None</code>, the discipline is detected from inner disciplines.</p>
         <span class="bp">self</span><span class="o">.</span><span class="n">__doe_algo</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
             <span class="n">problem</span><span class="p">,</span> <span class="n">settings_model</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_settings</span><span class="o">.</span><span class="n">doe_algo_settings</span>
         <span class="p">)</span>
-</code></pre></div></td></tr></table></div>
-            </details>
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-function">
-
-
-<h6 id="gemseo_umdo.formulations.control_variate.ControlVariate.evaluate_with_mean" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">evaluate_with_mean</span>
-
-
-<a href="#gemseo_umdo.formulations.control_variate.ControlVariate.evaluate_with_mean" class="headerlink" title="Permanent link">&para;</a></h6>
-<div class="doc-signature highlight"><pre><span></span><code><span class="nf">evaluate_with_mean</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span>
-</code></pre></div>
-
-    <div class="doc doc-contents ">
-
-        <p>Evaluate the Taylor polynomials at the mean value of the uncertain vector.</p>
-
-            <details class="quote">
-              <summary>Source code in <code>src/gemseo_umdo/formulations/control_variate.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">140</span>
-<span class="normal">141</span>
-<span class="normal">142</span>
-<span class="normal">143</span>
-<span class="normal">144</span>
-<span class="normal">145</span>
-<span class="normal">146</span>
-<span class="normal">147</span>
-<span class="normal">148</span>
-<span class="normal">149</span>
-<span class="normal">150</span>
-<span class="normal">151</span>
-<span class="normal">152</span>
-<span class="normal">153</span>
-<span class="normal">154</span>
-<span class="normal">155</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">evaluate_with_mean</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Evaluate the Taylor polynomials at the mean value of the uncertain vector.&quot;&quot;&quot;</span>
-    <span class="n">problem</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">auxiliary_mdo_formulation</span><span class="o">.</span><span class="n">optimization_problem</span>
-    <span class="n">objective</span> <span class="o">=</span> <span class="n">problem</span><span class="o">.</span><span class="n">objective</span>
-    <span class="k">if</span> <span class="n">objective</span> <span class="ow">is</span> <span class="n">objective</span><span class="o">.</span><span class="n">original</span><span class="p">:</span>
-        <span class="n">problem</span><span class="o">.</span><span class="n">preprocess_functions</span><span class="p">(</span>
-            <span class="n">is_function_input_normalized</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">eval_obs_jac</span><span class="o">=</span><span class="kc">True</span>
-        <span class="p">)</span>
-    <span class="n">output_functions</span><span class="p">,</span> <span class="n">jacobian_functions</span> <span class="o">=</span> <span class="n">problem</span><span class="o">.</span><span class="n">get_functions</span><span class="p">(</span>
-        <span class="n">observable_names</span><span class="o">=</span><span class="p">(),</span> <span class="n">jacobian_names</span><span class="o">=</span><span class="p">()</span>
-    <span class="p">)</span>
-    <span class="n">problem</span><span class="o">.</span><span class="n">evaluate_functions</span><span class="p">(</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_uncertain_space</span><span class="o">.</span><span class="n">distribution</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span>
-        <span class="n">output_functions</span><span class="o">=</span><span class="n">output_functions</span> <span class="ow">or</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">jacobian_functions</span><span class="o">=</span><span class="n">jacobian_functions</span> <span class="ow">or</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>

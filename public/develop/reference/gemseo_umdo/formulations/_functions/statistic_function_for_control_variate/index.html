@@ -6519,7 +6519,7 @@
 
 <a href="#gemseo_umdo.formulations._functions.statistic_function_for_control_variate.StatisticFunctionForControlVariate" class="headerlink" title="Permanent link">&para;</a></h4>
 <div class="doc-signature highlight"><pre><span></span><code><span class="nf">StatisticFunctionForControlVariate</span><span class="p">(</span>
-    <span class="n">umdo_formulation</span><span class="p">:</span> <span class="n"><span title="gemseo_umdo.formulations._functions.base_statistic_function.UMDOFormulationT">UMDOFormulationT</span></span><span class="p">,</span>
+    <span class="n">umdo_formulation</span><span class="p">:</span> <span class="n"><span title="gemseo_umdo.formulations._functions.statistic_function_for_control_variate.ControlVariateT">ControlVariateT</span></span><span class="p">,</span>
     <span class="n">function</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.core.mdo_functions.mdo_function.MDOFunction" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.core.mdo_functions.mdo_function.html#gemseo.core.mdo_functions.mdo_function.MDOFunction">MDOFunction</a></span><span class="p">,</span>
     <span class="n">function_type</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.core.mdo_functions.mdo_function.MDOFunction.FunctionType" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.core.mdo_functions.mdo_function.html#gemseo.core.mdo_functions.mdo_function.MDOFunction.FunctionType">FunctionType</a></span><span class="p">,</span>
     <span class="n">name</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">,</span>
@@ -6591,74 +6591,36 @@ is attached.</p>
 
 
                   <details class="quote">
-                    <summary>Source code in <code>src/gemseo_umdo/formulations/_functions/base_statistic_function.py</code></summary>
-                    <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 71</span>
-<span class="normal"> 72</span>
-<span class="normal"> 73</span>
-<span class="normal"> 74</span>
-<span class="normal"> 75</span>
-<span class="normal"> 76</span>
-<span class="normal"> 77</span>
-<span class="normal"> 78</span>
-<span class="normal"> 79</span>
-<span class="normal"> 80</span>
-<span class="normal"> 81</span>
-<span class="normal"> 82</span>
-<span class="normal"> 83</span>
-<span class="normal"> 84</span>
-<span class="normal"> 85</span>
-<span class="normal"> 86</span>
-<span class="normal"> 87</span>
-<span class="normal"> 88</span>
-<span class="normal"> 89</span>
-<span class="normal"> 90</span>
-<span class="normal"> 91</span>
-<span class="normal"> 92</span>
-<span class="normal"> 93</span>
-<span class="normal"> 94</span>
-<span class="normal"> 95</span>
-<span class="normal"> 96</span>
-<span class="normal"> 97</span>
-<span class="normal"> 98</span>
-<span class="normal"> 99</span>
-<span class="normal">100</span>
-<span class="normal">101</span>
-<span class="normal">102</span>
-<span class="normal">103</span>
-<span class="normal">104</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+                    <summary>Source code in <code>src/gemseo_umdo/formulations/_functions/statistic_function_for_control_variate.py</code></summary>
+                    <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
-    <span class="n">umdo_formulation</span><span class="p">:</span> <span class="n">UMDOFormulationT</span><span class="p">,</span>
+    <span class="n">umdo_formulation</span><span class="p">:</span> <span class="n">ControlVariateT</span><span class="p">,</span>
     <span class="n">function</span><span class="p">:</span> <span class="n">MDOFunction</span><span class="p">,</span>
     <span class="n">function_type</span><span class="p">:</span> <span class="n">MDOFunction</span><span class="o">.</span><span class="n">FunctionType</span><span class="p">,</span>
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="o">**</span><span class="n">statistic_options</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Args:</span>
-<span class="sd">        umdo_formulation: The U-MDO formulation</span>
-<span class="sd">            to which the</span>
-<span class="sd">            [BaseStatisticFunction][gemseo_umdo.formulations._functions.base_statistic_function.BaseStatisticFunction]</span>
-<span class="sd">            is attached.</span>
-<span class="sd">        function: The function for which we want to estimate an output statistic.</span>
-<span class="sd">        function_type: The type of function.</span>
-<span class="sd">        name: The name of the statistic.</span>
-<span class="sd">        **statistic_options: The options of the statistic.</span>
-<span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: D205 D212 D415</span>
-    <span class="n">function_name</span> <span class="o">=</span> <span class="n">function</span><span class="o">.</span><span class="n">name</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">_function_name</span> <span class="o">=</span> <span class="n">function_name</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">_function_jac_name</span> <span class="o">=</span> <span class="n">Database</span><span class="o">.</span><span class="n">get_gradient_name</span><span class="p">(</span><span class="n">function_name</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">_umdo_formulation</span> <span class="o">=</span> <span class="n">umdo_formulation</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">_last_input_data</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">_statistic_estimator</span> <span class="o">=</span> <span class="n">umdo_formulation</span><span class="o">.</span><span class="n">_statistic_factory</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
-        <span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_statistic_estimator_parameters</span><span class="p">,</span> <span class="o">**</span><span class="n">statistic_options</span>
-    <span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">_observable_name</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_statistic_estimator</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">[</span><span class="si">{</span><span class="n">function_name</span><span class="si">}</span><span class="s2">]&quot;</span>
-    <span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">_observable_jac_name</span> <span class="o">=</span> <span class="n">Database</span><span class="o">.</span><span class="n">get_gradient_name</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_observable_name</span><span class="p">)</span>
     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_func</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">function_name</span><span class="p">,</span> <span class="n">f_type</span><span class="o">=</span><span class="n">function_type</span><span class="p">,</span> <span class="n">jac</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_jac</span>
+        <span class="n">umdo_formulation</span><span class="p">,</span> <span class="n">function</span><span class="p">,</span> <span class="n">function_type</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">statistic_options</span>
     <span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__mc_problem</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_umdo_formulation</span><span class="o">.</span><span class="n">mdo_formulation</span><span class="o">.</span><span class="n">optimization_problem</span>
+    <span class="n">formulation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_umdo_formulation</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__mean_input_value</span> <span class="o">=</span> <span class="n">formulation</span><span class="o">.</span><span class="n">uncertain_space</span><span class="o">.</span><span class="n">distribution</span><span class="o">.</span><span class="n">mean</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__problem</span> <span class="o">=</span> <span class="n">formulation</span><span class="o">.</span><span class="n">auxiliary_mdo_formulation</span><span class="o">.</span><span class="n">optimization_problem</span>
 </code></pre></div></td></tr></table></div>
                   </details>
 

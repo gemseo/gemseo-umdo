@@ -3304,15 +3304,6 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#gemseo_umdo.formulations.taylor_polynomial.TaylorPolynomial.evaluate_with_mean" class="md-nav__link">
-    <span class="md-ellipsis">
-      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;evaluate_with_mean
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#gemseo_umdo.formulations.taylor_polynomial.TaylorPolynomial.get_top_level_disciplines" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;get_top_level_disciplines
@@ -6697,15 +6688,6 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#gemseo_umdo.formulations.taylor_polynomial.TaylorPolynomial.evaluate_with_mean" class="md-nav__link">
-    <span class="md-ellipsis">
-      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;evaluate_with_mean
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#gemseo_umdo.formulations.taylor_polynomial.TaylorPolynomial.get_top_level_disciplines" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;get_top_level_disciplines
@@ -7465,91 +7447,6 @@ If <code>None</code>, the discipline is detected from inner disciplines.</p>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_auxiliary_mdo_formulation</span><span class="o">.</span><span class="n">optimization_problem</span><span class="o">.</span><span class="n">observables</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
             <span class="p">),</span>
         <span class="p">)</span>
-</code></pre></div></td></tr></table></div>
-            </details>
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-function">
-
-
-<h6 id="gemseo_umdo.formulations.taylor_polynomial.TaylorPolynomial.evaluate_with_mean" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">evaluate_with_mean</span>
-
-
-<a href="#gemseo_umdo.formulations.taylor_polynomial.TaylorPolynomial.evaluate_with_mean" class="headerlink" title="Permanent link">&para;</a></h6>
-<div class="doc-signature highlight"><pre><span></span><code><span class="nf">evaluate_with_mean</span><span class="p">(</span>
-    <span class="n">problem</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.algos.optimization_problem.OptimizationProblem" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.optimization_problem.html#gemseo.algos.optimization_problem.OptimizationProblem">OptimizationProblem</a></span><span class="p">,</span> <span class="n">eval_jac</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
-</code></pre></div>
-
-    <div class="doc doc-contents ">
-
-        <p>Evaluate the functions at the mean value of the uncertain vector.</p>
-
-
-<p><span class="doc-section-title">Parameters:</span></p>
-    <ul>
-        <li class="doc-section-item field-body">
-            <b><code>problem</code></b>
-              (<code><a class="autorefs autorefs-external" title="gemseo.algos.optimization_problem.OptimizationProblem" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.optimization_problem.html#gemseo.algos.optimization_problem.OptimizationProblem">OptimizationProblem</a></code>)
-          –
-          <div class="doc-md-description">
-            <p>The problem including the functions.</p>
-          </div>
-        </li>
-        <li class="doc-section-item field-body">
-            <b><code>eval_jac</code></b>
-              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>)
-          –
-          <div class="doc-md-description">
-            <p>Whether to evaluate the Jacobian functions.</p>
-          </div>
-        </li>
-    </ul>
-
-            <details class="quote">
-              <summary>Source code in <code>src/gemseo_umdo/formulations/taylor_polynomial.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">182</span>
-<span class="normal">183</span>
-<span class="normal">184</span>
-<span class="normal">185</span>
-<span class="normal">186</span>
-<span class="normal">187</span>
-<span class="normal">188</span>
-<span class="normal">189</span>
-<span class="normal">190</span>
-<span class="normal">191</span>
-<span class="normal">192</span>
-<span class="normal">193</span>
-<span class="normal">194</span>
-<span class="normal">195</span>
-<span class="normal">196</span>
-<span class="normal">197</span>
-<span class="normal">198</span>
-<span class="normal">199</span>
-<span class="normal">200</span>
-<span class="normal">201</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">evaluate_with_mean</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">problem</span><span class="p">:</span> <span class="n">OptimizationProblem</span><span class="p">,</span> <span class="n">eval_jac</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Evaluate the functions at the mean value of the uncertain vector.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        problem: The problem including the functions.</span>
-<span class="sd">        eval_jac: Whether to evaluate the Jacobian functions.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">objective</span> <span class="o">=</span> <span class="n">problem</span><span class="o">.</span><span class="n">objective</span>
-    <span class="k">if</span> <span class="n">objective</span> <span class="ow">is</span> <span class="n">objective</span><span class="o">.</span><span class="n">original</span><span class="p">:</span>
-        <span class="n">problem</span><span class="o">.</span><span class="n">preprocess_functions</span><span class="p">(</span>
-            <span class="n">is_function_input_normalized</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">eval_obs_jac</span><span class="o">=</span><span class="n">eval_jac</span>
-        <span class="p">)</span>
-    <span class="n">output_functions</span><span class="p">,</span> <span class="n">jacobian_functions</span> <span class="o">=</span> <span class="n">problem</span><span class="o">.</span><span class="n">get_functions</span><span class="p">(</span>
-        <span class="n">observable_names</span><span class="o">=</span><span class="p">(),</span> <span class="n">jacobian_names</span><span class="o">=</span><span class="p">()</span> <span class="k">if</span> <span class="n">eval_jac</span> <span class="k">else</span> <span class="kc">None</span>
-    <span class="p">)</span>
-    <span class="n">problem</span><span class="o">.</span><span class="n">evaluate_functions</span><span class="p">(</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_uncertain_space</span><span class="o">.</span><span class="n">distribution</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span>
-        <span class="n">output_functions</span><span class="o">=</span><span class="n">output_functions</span> <span class="ow">or</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">jacobian_functions</span><span class="o">=</span><span class="n">jacobian_functions</span> <span class="ow">or</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
