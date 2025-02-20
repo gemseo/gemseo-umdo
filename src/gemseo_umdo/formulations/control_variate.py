@@ -136,20 +136,3 @@ class ControlVariate(BaseUMDOFormulation):
             self.__doe_algo.execute(
                 problem, settings_model=self._settings.doe_algo_settings
             )
-
-    def evaluate_with_mean(self) -> None:
-        """Evaluate the Taylor polynomials at the mean value of the uncertain vector."""
-        problem = self.auxiliary_mdo_formulation.optimization_problem
-        objective = problem.objective
-        if objective is objective.original:
-            problem.preprocess_functions(
-                is_function_input_normalized=False, eval_obs_jac=True
-            )
-        output_functions, jacobian_functions = problem.get_functions(
-            observable_names=(), jacobian_names=()
-        )
-        problem.evaluate_functions(
-            self._uncertain_space.distribution.mean,
-            output_functions=output_functions or None,
-            jacobian_functions=jacobian_functions or None,
-        )

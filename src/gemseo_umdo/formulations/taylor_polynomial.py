@@ -178,24 +178,3 @@ class TaylorPolynomial(BaseUMDOFormulation):
                     self._auxiliary_mdo_formulation.optimization_problem.observables[-1]
                 ),
             )
-
-    def evaluate_with_mean(self, problem: OptimizationProblem, eval_jac: bool) -> None:
-        """Evaluate the functions at the mean value of the uncertain vector.
-
-        Args:
-            problem: The problem including the functions.
-            eval_jac: Whether to evaluate the Jacobian functions.
-        """
-        objective = problem.objective
-        if objective is objective.original:
-            problem.preprocess_functions(
-                is_function_input_normalized=False, eval_obs_jac=eval_jac
-            )
-        output_functions, jacobian_functions = problem.get_functions(
-            observable_names=(), jacobian_names=() if eval_jac else None
-        )
-        problem.evaluate_functions(
-            self._uncertain_space.distribution.mean,
-            output_functions=output_functions or None,
-            jacobian_functions=jacobian_functions or None,
-        )

@@ -20,6 +20,7 @@ See also [ControlVariate][gemseo_umdo.formulations.control_variate.ControlVariat
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
+from typing import Any
 from typing import Final
 from typing import TypeVar
 
@@ -32,7 +33,9 @@ from gemseo_umdo.formulations._functions.base_statistic_function import (
 )
 
 if TYPE_CHECKING:
+    from gemseo.algos.optimization_problem import OptimizationProblem
     from gemseo.algos.parameter_space import ParameterSpace
+    from gemseo.core.mdo_functions.mdo_function import MDOFunction
     from gemseo.typing import RealArray
 
     from gemseo_umdo.formulations.control_variate import ControlVariate
@@ -49,6 +52,31 @@ class StatisticFunctionForControlVariate(BaseStatisticFunction[ControlVariateT])
     __GRAD_TEMPLATE: Final[str] = "##{}"
     """The template for the gradient history name from the linearization problem."""
 
+    __mc_problem: OptimizationProblem
+    """The evaluation problem defined over the uncertain space for sampling."""
+
+    __mean_input_value: RealArray
+    """The mean value of the uncertain vector."""
+
+    __problem: OptimizationProblem
+    """The evaluation problem defined over the uncertain space for Taylor."""
+
+    def __init__(
+        self,
+        umdo_formulation: ControlVariateT,
+        function: MDOFunction,
+        function_type: MDOFunction.FunctionType,
+        name: str,
+        **statistic_options: Any,
+    ) -> None:
+        super().__init__(
+            umdo_formulation, function, function_type, name, **statistic_options
+        )
+        self.__mc_problem = self._umdo_formulation.mdo_formulation.optimization_problem
+        formulation = self._umdo_formulation
+        self.__mean_input_value = formulation.uncertain_space.distribution.mean
+        self.__problem = formulation.auxiliary_mdo_formulation.optimization_problem
+
     @property
     def _statistic_estimator_parameters(self) -> tuple[ParameterSpace]:
         return (self._umdo_formulation.uncertain_space,)
@@ -58,24 +86,17 @@ class StatisticFunctionForControlVariate(BaseStatisticFunction[ControlVariateT])
         input_data: RealArray,
         output_data: dict[str, RealArray],
         compute_jacobian: bool = False,
-        reset_problems: bool = False,
     ) -> None:
-        formulation = self._umdo_formulation
-        linearization_database = (
-            formulation.auxiliary_mdo_formulation.optimization_problem.database
-        )
-        problem = formulation.mdo_formulation.optimization_problem
-        database = problem.database
-        formulation.compute_samples(problem)
-        formulation.evaluate_with_mean()
-        for output_name in database.get_function_names():
+        self._umdo_formulation.compute_samples(self.__mc_problem)
+        database = self.__mc_problem.database
+        for function in self.__problem.functions:
+            output_name = function.name
             output_data[output_name] = database.get_function_history(output_name)
-            last_item = linearization_database.last_item
             output_data[self.__FUNC_TEMPLATE.format(output_name)] = atleast_1d(
-                last_item[output_name]
+                function.evaluate(self.__mean_input_value)
             )
             output_data[self.__GRAD_TEMPLATE.format(output_name)] = atleast_2d(
-                last_item[linearization_database.get_gradient_name(output_name)]
+                function.jac(self.__mean_input_value)
             )
 
     def _compute_statistic_estimation(

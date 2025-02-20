@@ -63,6 +63,13 @@ and this project adheres to
   have been replaced by the positional argument `statistic_estimation_settings`,
   which is a Pydantic model.
 
+## Fixed
+
+- The bug related to the way
+  [ControlVariate][gemseo_umdo.formulations.control_variate.ControlVariate]
+  and [TaylorPolynomial][gemseo_umdo.formulations.taylor_polynomial.TaylorPolynomial]
+  use non-normalized data has been corrected.
+
 ## Version 3.0.0 (November 2024)
 
 ### Added
