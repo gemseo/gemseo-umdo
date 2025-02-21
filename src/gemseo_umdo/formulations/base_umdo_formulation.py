@@ -364,10 +364,14 @@ class BaseUMDOFormulation(BaseFormulation):
                 continue
 
             for discipline in formulation.get_top_level_disciplines():
-                discipline.default_input_data.update({
-                    k: v
-                    for k, v in design_values.items()
-                    if k in discipline.input_grammar
+                input_names = discipline.io.input_grammar
+                to_value = (
+                    discipline.io.input_grammar.data_converter.convert_array_to_value
+                )
+                discipline.io.input_grammar.defaults.update({
+                    name: to_value(name, value)
+                    for name, value in design_values.items()
+                    if name in input_names
                 })
 
     def get_top_level_disciplines(self) -> list[Discipline]:  # noqa: D102
