@@ -69,6 +69,9 @@ and this project adheres to
   [ControlVariate][gemseo_umdo.formulations.control_variate.ControlVariate]
   and [TaylorPolynomial][gemseo_umdo.formulations.taylor_polynomial.TaylorPolynomial]
   use non-normalized data has been corrected.
+- [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario]
+  and [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
+  now accept disciplines with variables that are floats rather than NumPy arrays.
 
 ## Version 3.0.0 (November 2024)
 

@@ -23,6 +23,17 @@ from gemseo.core.chains.chain import MDOChain
 from gemseo.disciplines.analytic import AnalyticDiscipline
 from gemseo.formulations.mdf import MDF
 
+from gemseo_umdo.formulations.control_variate_settings import ControlVariate_Settings
+from gemseo_umdo.formulations.pce_settings import PCE_Settings
+from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
+from gemseo_umdo.formulations.sequential_sampling_settings import (
+    SequentialSampling_Settings,
+)
+from gemseo_umdo.formulations.surrogate_settings import Surrogate_Settings
+from gemseo_umdo.formulations.taylor_polynomial_settings import (
+    TaylorPolynomial_Settings,
+)
+
 if TYPE_CHECKING:
     from collections.abc import Sequence
 
@@ -91,3 +102,32 @@ def quadratic_problem() -> tuple[AnalyticDiscipline, DesignSpace, ParameterSpace
     uncertain_space.add_random_variable("u", "OTNormalDistribution")
 
     return discipline, design_space, uncertain_space
+
+
+_SETTINGS = (
+    Sampling_Settings(n_samples=10),
+    Sampling_Settings(n_samples=10, estimate_statistics_iteratively=False),
+    SequentialSampling_Settings(n_samples=10),
+    SequentialSampling_Settings(n_samples=10, estimate_statistics_iteratively=False),
+    TaylorPolynomial_Settings(),
+    TaylorPolynomial_Settings(second_order=True),
+)
+
+
+@pytest.fixture(params=_SETTINGS)
+def statistic_estimation_settings_for_dirac(request):
+    """Statistic estimation settings compatible with the Dirac distribution."""
+    return request.param
+
+
+@pytest.fixture(
+    params=[
+        *_SETTINGS,
+        ControlVariate_Settings(n_samples=10),
+        PCE_Settings(n_samples=20),
+        Surrogate_Settings(n_samples=20),
+    ],
+)
+def statistic_estimation_settings(request):
+    """Statistic estimation settings."""
+    return request.param
