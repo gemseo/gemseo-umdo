@@ -6777,9 +6777,9 @@
     <div class="doc doc-contents first">
 
         <p>Sequential sampling-based U-MDO formulation.</p>
-<p><a class="autorefs autorefs-internal" href="#gemseo_umdo.formulations.sequential_sampling.SequentialSampling">SequentialSampling</a>
+<p><a class="autorefs autorefs-internal" title="            SequentialSampling" href="#gemseo_umdo.formulations.sequential_sampling.SequentialSampling">SequentialSampling</a>
 is a
-<a class="autorefs autorefs-internal" href="../base_umdo_formulation/#gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation">BaseUMDOFormulation</a>
+<a class="autorefs autorefs-internal" title="            BaseUMDOFormulation" href="../base_umdo_formulation/#gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation">BaseUMDOFormulation</a>
 estimating the statistics with sequential (quasi) Monte Carlo techniques.</p>
 <p>E.g.</p>
 <div class="arithmatex">\[\mathbb{E}[f(x,U)] \approx \frac{1}{N_k}\sum_{i=1}^{N_k} f\left(x,U^{(k,i)}\right)\]</div>
@@ -6792,6 +6792,7 @@ with mean <span class="arithmatex">\(\mu\)</span> and variance <span class="arit
 and <span class="arithmatex">\(U^{(k,1)},\ldots,U^{(k,N_k)}\)</span> are <span class="arithmatex">\(N_k\)</span> realizations of <span class="arithmatex">\(U\)</span>
 obtained at the <span class="arithmatex">\(k\)</span>-th iteration of the optimization loop
 with an optimized Latin hypercube sampling technique.</p>
+
 
 
 
@@ -6825,7 +6826,7 @@ with an optimized Latin hypercube sampling technique.</p>
     <span class="n">mdo_formulation</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.formulations.base_mdo_formulation.BaseMDOFormulation" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.formulations.base_mdo_formulation.html#gemseo.formulations.base_mdo_formulation.BaseMDOFormulation">BaseMDOFormulation</a></span><span class="p">,</span>
     <span class="n">uncertain_space</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.algos.parameter_space.ParameterSpace" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.parameter_space.html#gemseo.algos.parameter_space.ParameterSpace">ParameterSpace</a></span><span class="p">,</span>
     <span class="n">objective_statistic_name</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">,</span>
-    <span class="n">settings_model</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="gemseo_umdo.formulations.sequential_sampling_settings.SequentialSampling_Settings" href="../sequential_sampling_settings/#gemseo_umdo.formulations.sequential_sampling_settings.SequentialSampling_Settings">SequentialSampling_Settings</a></span><span class="p">,</span>
+    <span class="n">settings_model</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="            SequentialSampling_Settings (gemseo_umdo.formulations.sequential_sampling_settings.SequentialSampling_Settings)" href="../sequential_sampling_settings/#gemseo_umdo.formulations.sequential_sampling_settings.SequentialSampling_Settings">SequentialSampling_Settings</a></span><span class="p">,</span>
     <span class="n">objective_statistic_parameters</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.typing.StrKeyMapping" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.typing.html#gemseo.typing.StrKeyMapping">StrKeyMapping</a></span> <span class="o">=</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.utils.constants.READ_ONLY_EMPTY_DICT" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.utils.constants.html#gemseo.utils.constants.READ_ONLY_EMPTY_DICT">READ_ONLY_EMPTY_DICT</a></span><span class="p">,</span>
     <span class="n">mdo_formulation_settings</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.typing.StrKeyMapping" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.typing.html#gemseo.typing.StrKeyMapping">StrKeyMapping</a></span> <span class="o">=</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.utils.constants.READ_ONLY_EMPTY_DICT" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.utils.constants.html#gemseo.utils.constants.READ_ONLY_EMPTY_DICT">READ_ONLY_EMPTY_DICT</a></span><span class="p">,</span>
 <span class="p">)</span>
@@ -6833,7 +6834,7 @@ with an optimized Latin hypercube sampling technique.</p>
 
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
-              Bases: <code><a class="autorefs autorefs-internal" title="gemseo_umdo.formulations.sampling.Sampling" href="../sampling/#gemseo_umdo.formulations.sampling.Sampling">Sampling</a></code></p>
+              Bases: <code><a class="autorefs autorefs-internal" title="            Sampling (gemseo_umdo.formulations.sampling.Sampling)" href="../sampling/#gemseo_umdo.formulations.sampling.Sampling">Sampling</a></code></p>
 
 
         <p>Sequential sampling-based U-MDO formulation.</p>
@@ -6905,7 +6906,7 @@ to be applied to the objective.</p>
         </li>
         <li class="doc-section-item field-body">
             <b><code>settings_model</code></b>
-              (<code><a class="autorefs autorefs-internal" title="gemseo_umdo.formulations.sequential_sampling_settings.SequentialSampling_Settings" href="../sequential_sampling_settings/#gemseo_umdo.formulations.sequential_sampling_settings.SequentialSampling_Settings">SequentialSampling_Settings</a></code>)
+              (<code><a class="autorefs autorefs-internal" title="            SequentialSampling_Settings (gemseo_umdo.formulations.sequential_sampling_settings.SequentialSampling_Settings)" href="../sequential_sampling_settings/#gemseo_umdo.formulations.sequential_sampling_settings.SequentialSampling_Settings">SequentialSampling_Settings</a></code>)
           –
           <div class="doc-md-description">
             <p>The settings of the formulation as a Pydantic model.
@@ -6934,6 +6935,7 @@ of the statistic to be applied to the objective, if any.</p>
           </div>
         </li>
     </ul>
+
 
 
 
@@ -7025,6 +7027,7 @@ of the statistic to be applied to the objective, if any.</p>
         <p>The auxiliary MDO formulation.</p>
 <p>The functions are evaluable over the uncertain space and differentiable with
 respect to the uncertain variables.</p>
+
     </div>
 
 </div>
@@ -7048,6 +7051,7 @@ respect to the uncertain variables.</p>
     <div class="doc doc-contents ">
 
         <p>The names of the statistics to quantify the output uncertainties.</p>
+
     </div>
 
 </div>
@@ -7071,6 +7075,7 @@ respect to the uncertain variables.</p>
     <div class="doc doc-contents ">
 
         <p>The callback functions for the DOE algorithm when computing the output data.</p>
+
     </div>
 
 </div>
@@ -7096,6 +7101,7 @@ respect to the uncertain variables.</p>
     <div class="doc doc-contents ">
 
         <p>The output samples or output statistics associated with the input data.</p>
+
     </div>
 
 </div>
@@ -7119,6 +7125,7 @@ respect to the uncertain variables.</p>
     <div class="doc doc-contents ">
 
         <p>The callback functions for the DOE algorithm when computing the Jacobian.</p>
+
     </div>
 
 </div>
@@ -7144,6 +7151,7 @@ respect to the uncertain variables.</p>
         <p>The MDO formulation.</p>
 <p>The functions are evaluable over the uncertain space and differentiable with
 respect to the design variables.</p>
+
     </div>
 
 </div>
@@ -7167,6 +7175,7 @@ respect to the design variables.</p>
     <div class="doc doc-contents ">
 
         <p>The uncertain variable space.</p>
+
     </div>
 
 </div>
@@ -7277,6 +7286,7 @@ from <code>output_name</code>, <code>constraint_type</code>, <code>value</code> 
           </div>
         </li>
     </ul>
+
 
             <details class="quote">
               <summary>Source code in <code>src/gemseo_umdo/formulations/base_umdo_formulation.py</code></summary>
@@ -7444,6 +7454,7 @@ If <code>None</code>, the discipline is detected from inner disciplines.</p>
         </li>
     </ul>
 
+
             <details class="quote">
               <summary>Source code in <code>src/gemseo_umdo/formulations/base_umdo_formulation.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">234</span>
@@ -7579,6 +7590,7 @@ If <code>None</code>, the discipline is detected from inner disciplines.</p>
         </li>
     </ul>
 
+
             <details class="quote">
               <summary>Source code in <code>src/gemseo_umdo/formulations/sequential_sampling.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">104</span>
@@ -7646,6 +7658,7 @@ This method can be overloaded by subclasses.</p>
         </li>
     </ul>
 
+
             <details class="quote">
               <summary>Source code in <code>src/gemseo_umdo/formulations/base_umdo_formulation.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">377</span>
@@ -7687,6 +7700,7 @@ to update the default input values of the top-level disciplines.</p>
           </div>
         </li>
     </ul>
+
 
             <details class="quote">
               <summary>Source code in <code>src/gemseo_umdo/formulations/base_umdo_formulation.py</code></summary>

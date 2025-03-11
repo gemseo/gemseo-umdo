@@ -6935,46 +6935,46 @@ and this project adheres to
 <h3 id="added">Added<a class="headerlink" href="#added" title="Permanent link">&para;</a></h3>
 <ul>
 <li>The U-MDO formulations
-  <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/formulations/sampling/#gemseo_umdo.formulations.sampling.Sampling">Sampling</a>,
-  <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/formulations/sampling/#gemseo_umdo.formulations.sampling.Sampling">SequentialSampling</a>
-  and <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/formulations/pce/#gemseo_umdo.formulations.pce.PCE">PCE</a>
+  <a class="autorefs autorefs-internal" title="            Sampling" href="../reference/gemseo_umdo/formulations/sampling/#gemseo_umdo.formulations.sampling.Sampling">Sampling</a>,
+  <a class="autorefs autorefs-internal" title="            Sampling" href="../reference/gemseo_umdo/formulations/sampling/#gemseo_umdo.formulations.sampling.Sampling">SequentialSampling</a>
+  and <a class="autorefs autorefs-internal" title="            PCE" href="../reference/gemseo_umdo/formulations/pce/#gemseo_umdo.formulations.pce.PCE">PCE</a>
   are differentiable,
   so that gradient-based optimizer can be used
   when the multidisciplinary process is differentiable.</li>
-<li>Each <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/formulations/base_umdo_formulation/#gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation">BaseUMDOFormulation</a>
+<li>Each <a class="autorefs autorefs-internal" title="            BaseUMDOFormulation" href="../reference/gemseo_umdo/formulations/base_umdo_formulation/#gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation">BaseUMDOFormulation</a>
   has a Pydantic model to define its settings.
   For example,
-  <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/formulations/sampling_settings/#gemseo_umdo.formulations.sampling_settings.Sampling_Settings">Sampling_Settings</a>
-  is the Pydantic model for the <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/formulations/sampling/#gemseo_umdo.formulations.sampling.Sampling">Sampling</a> U-MDO formulation.</li>
+  <a class="autorefs autorefs-internal" title="            Sampling_Settings" href="../reference/gemseo_umdo/formulations/sampling_settings/#gemseo_umdo.formulations.sampling_settings.Sampling_Settings">Sampling_Settings</a>
+  is the Pydantic model for the <a class="autorefs autorefs-internal" title="            Sampling" href="../reference/gemseo_umdo/formulations/sampling/#gemseo_umdo.formulations.sampling.Sampling">Sampling</a> U-MDO formulation.</li>
 </ul>
 <h3 id="changed">Changed<a class="headerlink" href="#changed" title="Permanent link">&para;</a></h3>
 <ul>
 <li>API CHANGE:
-  <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/scenarios/udoe_scenario/#gemseo_umdo.scenarios.udoe_scenario.UDOEScenario">UDOEScenario</a>
-  and <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>
+  <a class="autorefs autorefs-internal" title="            UDOEScenario" href="../reference/gemseo_umdo/scenarios/udoe_scenario/#gemseo_umdo.scenarios.udoe_scenario.UDOEScenario">UDOEScenario</a>
+  and <a class="autorefs autorefs-internal" title="            UMDOScenario" href="../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>
   no longer have a default statistic estimation technique.
   The <code>statistic_estimation_settings</code> argument must be defined.</li>
 <li>API CHANGE:
   The statistic estimation settings of
-  a <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/formulations/base_umdo_formulation/#gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation">BaseUMDOFormulation</a>
+  a <a class="autorefs autorefs-internal" title="            BaseUMDOFormulation" href="../reference/gemseo_umdo/formulations/base_umdo_formulation/#gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation">BaseUMDOFormulation</a>
   passed as positional and keyword arguments
   have been replaced by the unique positional argument <code>settings_model</code>,
   which is a Pydantic model.</li>
 <li>API CHANGE:
   The <code>statistic_estimation</code> and <code>statistic_estimation_parameters</code> keyword arguments of
-  <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/scenarios/udoe_scenario/#gemseo_umdo.scenarios.udoe_scenario.UDOEScenario">UDOEScenario</a>
-  and <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>
+  <a class="autorefs autorefs-internal" title="            UDOEScenario" href="../reference/gemseo_umdo/scenarios/udoe_scenario/#gemseo_umdo.scenarios.udoe_scenario.UDOEScenario">UDOEScenario</a>
+  and <a class="autorefs autorefs-internal" title="            UMDOScenario" href="../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>
   have been replaced by the positional argument <code>statistic_estimation_settings</code>,
   which is a Pydantic model.</li>
 </ul>
 <h2 id="fixed">Fixed<a class="headerlink" href="#fixed" title="Permanent link">&para;</a></h2>
 <ul>
 <li>The bug related to the way
-  <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/formulations/control_variate/#gemseo_umdo.formulations.control_variate.ControlVariate">ControlVariate</a>
-  and <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/formulations/taylor_polynomial/#gemseo_umdo.formulations.taylor_polynomial.TaylorPolynomial">TaylorPolynomial</a>
+  <a class="autorefs autorefs-internal" title="            ControlVariate" href="../reference/gemseo_umdo/formulations/control_variate/#gemseo_umdo.formulations.control_variate.ControlVariate">ControlVariate</a>
+  and <a class="autorefs autorefs-internal" title="            TaylorPolynomial" href="../reference/gemseo_umdo/formulations/taylor_polynomial/#gemseo_umdo.formulations.taylor_polynomial.TaylorPolynomial">TaylorPolynomial</a>
   use non-normalized data has been corrected.</li>
-<li><a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/scenarios/udoe_scenario/#gemseo_umdo.scenarios.udoe_scenario.UDOEScenario">UDOEScenario</a>
-  and <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>
+<li><a class="autorefs autorefs-internal" title="            UDOEScenario" href="../reference/gemseo_umdo/scenarios/udoe_scenario/#gemseo_umdo.scenarios.udoe_scenario.UDOEScenario">UDOEScenario</a>
+  and <a class="autorefs autorefs-internal" title="            UMDOScenario" href="../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>
   now accept disciplines with variables that are floats rather than NumPy arrays.</li>
 </ul>
 <h2 id="version-300-november-2024">Version 3.0.0 (November 2024)<a class="headerlink" href="#version-300-november-2024" title="Permanent link">&para;</a></h2>
@@ -6982,47 +6982,47 @@ and this project adheres to
 <ul>
 <li>Support GEMSEO v6.</li>
 <li>Support for Python 3.12.</li>
-<li>The U-MDO formulation <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/formulations/pce/#gemseo_umdo.formulations.pce.PCE">PCE</a> creates a polynomial chaos expansion (PCE)
+<li>The U-MDO formulation <a class="autorefs autorefs-internal" title="            PCE" href="../reference/gemseo_umdo/formulations/pce/#gemseo_umdo.formulations.pce.PCE">PCE</a> creates a polynomial chaos expansion (PCE)
   over the uncertain space at each iteration of the optimization loop and uses the coefficients of the PCE
   to estimate the following statistics: <code>Mean</code>, <code>StandardDeviation</code>, <code>Margin</code> and <code>Variance</code>.</li>
-<li>The U-MDO formulation <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/formulations/surrogate/#gemseo_umdo.formulations.surrogate.Surrogate">Surrogate</a> creates a surrogate model
+<li>The U-MDO formulation <a class="autorefs autorefs-internal" title="            Surrogate" href="../reference/gemseo_umdo/formulations/surrogate/#gemseo_umdo.formulations.surrogate.Surrogate">Surrogate</a> creates a surrogate model
   over the uncertain space at each iteration of the optimization loop and uses Monte Carlo sampling
   to estimate the following statistics: <code>Mean</code>, <code>StandardDeviation</code>, <code>Margin</code>, <code>Probability</code> and <code>Variance</code>.</li>
 <li>The U-MDO formulations
-  <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/formulations/sampling/#gemseo_umdo.formulations.sampling.Sampling">Sampling</a> and
-  <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/formulations/sequential_sampling/#gemseo_umdo.formulations.sequential_sampling.SequentialSampling">SequentialSampling</a>
+  <a class="autorefs autorefs-internal" title="            Sampling" href="../reference/gemseo_umdo/formulations/sampling/#gemseo_umdo.formulations.sampling.Sampling">Sampling</a> and
+  <a class="autorefs autorefs-internal" title="            SequentialSampling" href="../reference/gemseo_umdo/formulations/sequential_sampling/#gemseo_umdo.formulations.sequential_sampling.SequentialSampling">SequentialSampling</a>
   have an option <code>samples_directory_path</code>
   to save the samples at each iteration of the algorithm chosen for the execution of the
-  <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/scenarios/udoe_scenario/#gemseo_umdo.scenarios.udoe_scenario.UDOEScenario">UDOEScenario</a>
-  or <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>.</li>
-<li>The U-MDO formulation <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/formulations/sequential_sampling/#gemseo_umdo.formulations.sequential_sampling.SequentialSampling">SequentialSampling</a>
+  <a class="autorefs autorefs-internal" title="            UDOEScenario" href="../reference/gemseo_umdo/scenarios/udoe_scenario/#gemseo_umdo.scenarios.udoe_scenario.UDOEScenario">UDOEScenario</a>
+  or <a class="autorefs autorefs-internal" title="            UMDOScenario" href="../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>.</li>
+<li>The U-MDO formulation <a class="autorefs autorefs-internal" title="            SequentialSampling" href="../reference/gemseo_umdo/formulations/sequential_sampling/#gemseo_umdo.formulations.sequential_sampling.SequentialSampling">SequentialSampling</a>
   has an option <code>estimate_statistics_iteratively</code> (default: <code>True</code>)
   to compute the statistics iteratively
   and so do not store the samples in a <code>Database</code>.</li>
 <li>The dictionary argument <code>uncertain_design_variables</code> of
-  <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/scenarios/udoe_scenario/#gemseo_umdo.scenarios.udoe_scenario.UDOEScenario">UDOEScenario</a>
-  and <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>
+  <a class="autorefs autorefs-internal" title="            UDOEScenario" href="../reference/gemseo_umdo/scenarios/udoe_scenario/#gemseo_umdo.scenarios.udoe_scenario.UDOEScenario">UDOEScenario</a>
+  and <a class="autorefs autorefs-internal" title="            UMDOScenario" href="../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>
   can now accept values such as <code>("+", "u")</code> and <code>("*", "u")</code>
   to noise the corresponding key <code>x</code> as <code>x = dv_x + u</code> and <code>x = dv_x * (1 + u)</code>
   where <code>x</code> is a discipline input made uncertain by the random variable <code>u</code>.</li>
-<li><a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/disciplines/additive_noiser/#gemseo_umdo.disciplines.additive_noiser.AdditiveNoiser">AdditiveNoiser</a>
+<li><a class="autorefs autorefs-internal" title="            AdditiveNoiser" href="../reference/gemseo_umdo/disciplines/additive_noiser/#gemseo_umdo.disciplines.additive_noiser.AdditiveNoiser">AdditiveNoiser</a>
   and
-  <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/disciplines/multiplicative_noiser/#gemseo_umdo.disciplines.multiplicative_noiser.MultiplicativeNoiser">MultiplicativeNoiser</a>
+  <a class="autorefs autorefs-internal" title="            MultiplicativeNoiser" href="../reference/gemseo_umdo/disciplines/multiplicative_noiser/#gemseo_umdo.disciplines.multiplicative_noiser.MultiplicativeNoiser">MultiplicativeNoiser</a>
   are disciplines to noise a design variable <span class="arithmatex">\(x\)</span> as <span class="arithmatex">\(X=x+U\)</span> and <span class="arithmatex">\(X=x(1+U)\)</span> respectively
   where <span class="arithmatex">\(U\)</span> is a random variable.
-  <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/disciplines/base_noiser/#gemseo_umdo.disciplines.base_noiser.BaseNoiser">BaseNoiser</a>
+  <a class="autorefs autorefs-internal" title="            BaseNoiser" href="../reference/gemseo_umdo/disciplines/base_noiser/#gemseo_umdo.disciplines.base_noiser.BaseNoiser">BaseNoiser</a>
   can be used to create other noising disciplines
   and a specific
-  <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/disciplines/noiser_factory/#gemseo_umdo.disciplines.noiser_factory.NoiserFactory">NoiserFactory</a>
+  <a class="autorefs autorefs-internal" title="            NoiserFactory" href="../reference/gemseo_umdo/disciplines/noiser_factory/#gemseo_umdo.disciplines.noiser_factory.NoiserFactory">NoiserFactory</a>
   is available.</li>
-<li><a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/formulations/control_variate/#gemseo_umdo.formulations.control_variate.ControlVariate">ControlVariate</a>,
-  a new <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/formulations/base_umdo_formulation/#gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation">BaseUMDOFormulation</a>
+<li><a class="autorefs autorefs-internal" title="            ControlVariate" href="../reference/gemseo_umdo/formulations/control_variate/#gemseo_umdo.formulations.control_variate.ControlVariate">ControlVariate</a>,
+  a new <a class="autorefs autorefs-internal" title="            BaseUMDOFormulation" href="../reference/gemseo_umdo/formulations/base_umdo_formulation/#gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation">BaseUMDOFormulation</a>
   estimating the statistics with a control variate technique based on Taylor polynomials.</li>
 </ul>
 <h3 id="changed_1">Changed<a class="headerlink" href="#changed_1" title="Permanent link">&para;</a></h3>
 <ul>
 <li>The default value of the <code>initial_n_samples</code> argument of
-  <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/formulations/sequential_sampling/#gemseo_umdo.formulations.sequential_sampling.SequentialSampling">SequentialSampling</a>
+  <a class="autorefs autorefs-internal" title="            SequentialSampling" href="../reference/gemseo_umdo/formulations/sequential_sampling/#gemseo_umdo.formulations.sequential_sampling.SequentialSampling">SequentialSampling</a>
   is 2 instead of 1,
   because the default DOE algorithm (<code>"OT_OPT_LHS"</code>) requires at least 2 samples.</li>
 <li><code>gemseo_umdo.scenarios._uscenario._UScenario</code> renamed to <code>gemseo_umdo.scenarios.base_u_scenario.BaseUScenario</code>.</li>
@@ -7032,7 +7032,7 @@ and this project adheres to
 <li>API CHANGE: <code>gemseo_umdo.formulations.formulation.UMDOFormulation</code> renamed to <code>gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation</code>.</li>
 <li>API CHANGE: <code>gemseo_umdo.formulations.statistics</code> is now a protected package.</li>
 <li>API CHANGE: <code>gemseo_umdo.formulations.functions</code> is now a protected package.</li>
-<li>The <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/use_cases/beam_model/constraints/#gemseo_umdo.use_cases.beam_model.constraints.BeamConstraints">BeamConstraints</a> discipline
+<li>The <a class="autorefs autorefs-internal" title="            BeamConstraints" href="../reference/gemseo_umdo/use_cases/beam_model/constraints/#gemseo_umdo.use_cases.beam_model.constraints.BeamConstraints">BeamConstraints</a> discipline
   computed outputs of the form <code>a/(b+eps)</code> where <code>eps</code> was used to avoid division by zero.
   Now,
   this discipline computes outputs of the form <code>b/a</code>
@@ -7040,12 +7040,12 @@ and this project adheres to
 </ul>
 <h3 id="fixed_1">Fixed<a class="headerlink" href="#fixed_1" title="Permanent link">&para;</a></h3>
 <ul>
-<li>The U-MDO formulation <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/formulations/sampling/#gemseo_umdo.formulations.sampling.Sampling">Sampling</a>
+<li>The U-MDO formulation <a class="autorefs autorefs-internal" title="            Sampling" href="../reference/gemseo_umdo/formulations/sampling/#gemseo_umdo.formulations.sampling.Sampling">Sampling</a>
   works properly when the option <code>estimate_statistics_iteratively</code>  is <code>True</code>
   and the DOE option <code>n_processes</code> is greater than 1.</li>
 <li>The docstring of the <code>uncertain_design_variables</code> argument of
-  <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/scenarios/udoe_scenario/#gemseo_umdo.scenarios.udoe_scenario.UDOEScenario">UDOEScenario</a>
-  and <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>
+  <a class="autorefs autorefs-internal" title="            UDOEScenario" href="../reference/gemseo_umdo/scenarios/udoe_scenario/#gemseo_umdo.scenarios.udoe_scenario.UDOEScenario">UDOEScenario</a>
+  and <a class="autorefs autorefs-internal" title="            UMDOScenario" href="../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>
   explains that specifying a value such as <code>"{} + u"</code> at key <code>"x"</code>
   assumes that both the uncertain design variable <code>"x"</code>
   and the uncertain variable <code>"u"</code> are scalar variables.</li>
@@ -7068,40 +7068,45 @@ and this project adheres to
 <li>Support for Python 3.11.</li>
 <li>A web documentation.</li>
 <li>The heat equation problem (
-  <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/use_cases/heat_equation/configuration/#gemseo_umdo.use_cases.heat_equation.configuration.HeatEquationConfiguration">HeatEquationConfiguration</a>,
-  <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/use_cases/heat_equation/discipline/#gemseo_umdo.use_cases.heat_equation.discipline.HeatEquation">HeatEquationDiscipline</a>,
-  <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/use_cases/heat_equation/model/#gemseo_umdo.use_cases.heat_equation.model.HeatEquationModel">HeatEquationModel</a>
-  and <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/use_cases/heat_equation/uncertain_space/#gemseo_umdo.use_cases.heat_equation.uncertain_space.HeatEquationUncertainSpace">HeatEquationUncertainSpace</a>)
-  to illustrate the algorithms <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/statistics/multilevel/mlmc/mlmc/#gemseo_umdo.statistics.multilevel.mlmc.mlmc.MLMC">MLMC</a>
-  and <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/statistics/multilevel/mlmc_mlcv/mlmc_mlcv/#gemseo_umdo.statistics.multilevel.mlmc_mlcv.mlmc_mlcv.MLMCMLCV">MLMCMLCV</a>.</li>
-<li>The <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/statistics/multilevel/mlmc/mlmc/#gemseo_umdo.statistics.multilevel.mlmc.mlmc.MLMC">MLMC</a> and
-  the <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/statistics/multilevel/mlmc_mlcv/mlmc_mlcv/#gemseo_umdo.statistics.multilevel.mlmc_mlcv.mlmc_mlcv.MLMCMLCV">MLMCMLCV</a>
+  <a class="autorefs autorefs-internal" title="            HeatEquationConfiguration
+
+
+  
+      dataclass
+  " href="../reference/gemseo_umdo/use_cases/heat_equation/configuration/#gemseo_umdo.use_cases.heat_equation.configuration.HeatEquationConfiguration">HeatEquationConfiguration</a>,
+  <a class="autorefs autorefs-internal" title="            HeatEquation" href="../reference/gemseo_umdo/use_cases/heat_equation/discipline/#gemseo_umdo.use_cases.heat_equation.discipline.HeatEquation">HeatEquationDiscipline</a>,
+  <a class="autorefs autorefs-internal" title="            HeatEquationModel" href="../reference/gemseo_umdo/use_cases/heat_equation/model/#gemseo_umdo.use_cases.heat_equation.model.HeatEquationModel">HeatEquationModel</a>
+  and <a class="autorefs autorefs-internal" title="            HeatEquationUncertainSpace" href="../reference/gemseo_umdo/use_cases/heat_equation/uncertain_space/#gemseo_umdo.use_cases.heat_equation.uncertain_space.HeatEquationUncertainSpace">HeatEquationUncertainSpace</a>)
+  to illustrate the algorithms <a class="autorefs autorefs-internal" title="            MLMC" href="../reference/gemseo_umdo/statistics/multilevel/mlmc/mlmc/#gemseo_umdo.statistics.multilevel.mlmc.mlmc.MLMC">MLMC</a>
+  and <a class="autorefs autorefs-internal" title="            MLMCMLCV" href="../reference/gemseo_umdo/statistics/multilevel/mlmc_mlcv/mlmc_mlcv/#gemseo_umdo.statistics.multilevel.mlmc_mlcv.mlmc_mlcv.MLMCMLCV">MLMCMLCV</a>.</li>
+<li>The <a class="autorefs autorefs-internal" title="            MLMC" href="../reference/gemseo_umdo/statistics/multilevel/mlmc/mlmc/#gemseo_umdo.statistics.multilevel.mlmc.mlmc.MLMC">MLMC</a> and
+  the <a class="autorefs autorefs-internal" title="            MLMCMLCV" href="../reference/gemseo_umdo/statistics/multilevel/mlmc_mlcv/mlmc_mlcv/#gemseo_umdo.statistics.multilevel.mlmc_mlcv.mlmc_mlcv.MLMCMLCV">MLMCMLCV</a>
   algorithms to estimate a statistic of the output of a function
   whose input is random.</li>
-<li>The <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/monte_carlo_sampler/#gemseo_umdo.monte_carlo_sampler.MonteCarloSampler">MonteCarloSampler</a>
+<li>The <a class="autorefs autorefs-internal" title="            MonteCarloSampler" href="../reference/gemseo_umdo/monte_carlo_sampler/#gemseo_umdo.monte_carlo_sampler.MonteCarloSampler">MonteCarloSampler</a>
   to sample vectorized functions.</li>
-<li><a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/visualizations/uncertain_coupling_graph/#gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph">UncertainCouplingGraph</a>
+<li><a class="autorefs autorefs-internal" title="            UncertainCouplingGraph" href="../reference/gemseo_umdo/visualizations/uncertain_coupling_graph/#gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph">UncertainCouplingGraph</a>
   has a new option <code>save</code> (default: <code>True</code>).</li>
-<li>The U-MDO formulation <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/formulations/sampling/#gemseo_umdo.formulations.sampling.Sampling">Sampling</a>
+<li>The U-MDO formulation <a class="autorefs autorefs-internal" title="            Sampling" href="../reference/gemseo_umdo/formulations/sampling/#gemseo_umdo.formulations.sampling.Sampling">Sampling</a>
   has an option <code>estimate_statistics_iteratively</code> (default: <code>True</code>)
   to compute the statistics iteratively
   and so do not store the samples in a <code>Database</code>.</li>
 <li>The package <code>gemseo_umdo.formulations.functions</code> contains the <code>MDOFunction</code>s
-  used by a <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/formulations/base_umdo_formulation/#gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation">UMDOFormulation</a>
+  used by a <a class="autorefs autorefs-internal" title="            BaseUMDOFormulation" href="../reference/gemseo_umdo/formulations/base_umdo_formulation/#gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation">UMDOFormulation</a>
   to compute the statistics of the objective, constraints and observables.</li>
-<li>The logs of the <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/scenarios/udoe_scenario/#gemseo_umdo.scenarios.udoe_scenario.UDOEScenario">UDOEScenario</a>
-  and <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>
+<li>The logs of the <a class="autorefs autorefs-internal" title="            UDOEScenario" href="../reference/gemseo_umdo/scenarios/udoe_scenario/#gemseo_umdo.scenarios.udoe_scenario.UDOEScenario">UDOEScenario</a>
+  and <a class="autorefs autorefs-internal" title="            UMDOScenario" href="../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>
   include the uncertain space.</li>
 </ul>
 <h3 id="changed_2">Changed<a class="headerlink" href="#changed_2" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Setting the argument <code>n_samples</code>
-  of the U-MDO formulation <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/formulations/sampling/#gemseo_umdo.formulations.sampling.Sampling">Sampling</a>
+  of the U-MDO formulation <a class="autorefs autorefs-internal" title="            Sampling" href="../reference/gemseo_umdo/formulations/sampling/#gemseo_umdo.formulations.sampling.Sampling">Sampling</a>
   is mandatory for many DOE algorithms
   but optional in the case where
   the DOE algorithm does not consider a <code>n_samples</code> argument to generate the samples.</li>
 <li>The estimator of the <code>Variance</code>
-  used by the U-MDO formulation <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/formulations/sampling/#gemseo_umdo.formulations.sampling.Sampling">Sampling</a>
+  used by the U-MDO formulation <a class="autorefs autorefs-internal" title="            Sampling" href="../reference/gemseo_umdo/formulations/sampling/#gemseo_umdo.formulations.sampling.Sampling">Sampling</a>
   with <code>estimate_statistics_iteratively=False</code> is now unbiased.</li>
 <li>API changes:</li>
 <li>The options of the statistics estimators
@@ -7113,8 +7118,8 @@ and this project adheres to
 </ul>
 <h3 id="fixed_3">Fixed<a class="headerlink" href="#fixed_3" title="Permanent link">&para;</a></h3>
 <ul>
-<li>The <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/scenarios/udoe_scenario/#gemseo_umdo.scenarios.udoe_scenario.UDOEScenario">UDOEScenario</a>
-  and <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>
+<li>The <a class="autorefs autorefs-internal" title="            UDOEScenario" href="../reference/gemseo_umdo/scenarios/udoe_scenario/#gemseo_umdo.scenarios.udoe_scenario.UDOEScenario">UDOEScenario</a>
+  and <a class="autorefs autorefs-internal" title="            UMDOScenario" href="../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>
   maximize the statistic of the objective
   when the argument <code>maximize_objective</code> is set to <code>True</code>.</li>
 <li>The log of the objective and constraint is now consistent
@@ -7132,24 +7137,24 @@ and this project adheres to
 <h2 id="version-110-june-2023">Version 1.1.0 (June 2023)<a class="headerlink" href="#version-110-june-2023" title="Permanent link">&para;</a></h2>
 <h3 id="added_3">Added<a class="headerlink" href="#added_3" title="Permanent link">&para;</a></h3>
 <ul>
-<li>The beam problem (<a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/use_cases/beam_model/discipline/#gemseo_umdo.use_cases.beam_model.discipline.Beam">Beam</a>,
-  <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/use_cases/beam_model/constraints/#gemseo_umdo.use_cases.beam_model.constraints.BeamConstraints">BeamConstraints</a>,
-  <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/use_cases/beam_model/uncertain_space/#gemseo_umdo.use_cases.beam_model.uncertain_space.BeamUncertainSpace">BeamUncertainSpace</a>
-  and <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/use_cases/beam_model/design_space/#gemseo_umdo.use_cases.beam_model.design_space.BeamDesignSpace">BeamDesignSpace</a>
+<li>The beam problem (<a class="autorefs autorefs-internal" title="            Beam" href="../reference/gemseo_umdo/use_cases/beam_model/discipline/#gemseo_umdo.use_cases.beam_model.discipline.Beam">Beam</a>,
+  <a class="autorefs autorefs-internal" title="            BeamConstraints" href="../reference/gemseo_umdo/use_cases/beam_model/constraints/#gemseo_umdo.use_cases.beam_model.constraints.BeamConstraints">BeamConstraints</a>,
+  <a class="autorefs autorefs-internal" title="            BeamUncertainSpace" href="../reference/gemseo_umdo/use_cases/beam_model/uncertain_space/#gemseo_umdo.use_cases.beam_model.uncertain_space.BeamUncertainSpace">BeamUncertainSpace</a>
+  and <a class="autorefs autorefs-internal" title="            BeamDesignSpace" href="../reference/gemseo_umdo/use_cases/beam_model/design_space/#gemseo_umdo.use_cases.beam_model.design_space.BeamDesignSpace">BeamDesignSpace</a>
   to benchmark robust optimization algorithms.</li>
-<li><a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/formulations/taylor_polynomial/#gemseo_umdo.formulations.taylor_polynomial.TaylorPolynomial">TaylorPolynomial</a>,
-  a new <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/formulations/base_umdo_formulation/#gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation">UMDOFormulation</a>
+<li><a class="autorefs autorefs-internal" title="            TaylorPolynomial" href="../reference/gemseo_umdo/formulations/taylor_polynomial/#gemseo_umdo.formulations.taylor_polynomial.TaylorPolynomial">TaylorPolynomial</a>,
+  a new <a class="autorefs autorefs-internal" title="            BaseUMDOFormulation" href="../reference/gemseo_umdo/formulations/base_umdo_formulation/#gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation">UMDOFormulation</a>
   estimating the statistics with Taylor polynomials.</li>
-<li><a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/formulations/sequential_sampling/#gemseo_umdo.formulations.sequential_sampling.SequentialSampling">SequentialSampling</a>,
-  a new <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/formulations/base_umdo_formulation/#gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation">UMDOFormulation</a>
+<li><a class="autorefs autorefs-internal" title="            SequentialSampling" href="../reference/gemseo_umdo/formulations/sequential_sampling/#gemseo_umdo.formulations.sequential_sampling.SequentialSampling">SequentialSampling</a>,
+  a new <a class="autorefs autorefs-internal" title="            BaseUMDOFormulation" href="../reference/gemseo_umdo/formulations/base_umdo_formulation/#gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation">UMDOFormulation</a>
   estimating the statistics with sequential sampling.</li>
-<li><a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/visualizations/uncertain_coupling_graph/#gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph">UncertainCouplingGraph</a>
+<li><a class="autorefs autorefs-internal" title="            UncertainCouplingGraph" href="../reference/gemseo_umdo/visualizations/uncertain_coupling_graph/#gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph">UncertainCouplingGraph</a>
   to visualize the dispersion of the coupling variables.</li>
-<li><a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/visualizations/sobol_graph/#gemseo_umdo.visualizations.sobol_graph.SobolGraph">SobolGraph</a>
+<li><a class="autorefs autorefs-internal" title="            SobolGraph" href="../reference/gemseo_umdo/visualizations/sobol_graph/#gemseo_umdo.visualizations.sobol_graph.SobolGraph">SobolGraph</a>
   to visualize the first-, second- and total-order Sobol' indices.</li>
-<li>The set of <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/use_cases/spring_mass_model/model/#gemseo_umdo.use_cases.spring_mass_model.model.SpringMassModel">SpringMassModel</a>,
-  <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/use_cases/spring_mass_model/discipline/#gemseo_umdo.use_cases.spring_mass_model.discipline.SpringMassDiscipline">SpringMassDiscipline</a>
-  and <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/use_cases/spring_mass_model/uncertain_space/#gemseo_umdo.use_cases.spring_mass_model.uncertain_space.SpringMassUncertainSpace">SpringMassUncertainSpace</a>
+<li>The set of <a class="autorefs autorefs-internal" title="            SpringMassModel" href="../reference/gemseo_umdo/use_cases/spring_mass_model/model/#gemseo_umdo.use_cases.spring_mass_model.model.SpringMassModel">SpringMassModel</a>,
+  <a class="autorefs autorefs-internal" title="            SpringMassDiscipline" href="../reference/gemseo_umdo/use_cases/spring_mass_model/discipline/#gemseo_umdo.use_cases.spring_mass_model.discipline.SpringMassDiscipline">SpringMassDiscipline</a>
+  and <a class="autorefs autorefs-internal" title="            SpringMassUncertainSpace" href="../reference/gemseo_umdo/use_cases/spring_mass_model/uncertain_space/#gemseo_umdo.use_cases.spring_mass_model.uncertain_space.SpringMassUncertainSpace">SpringMassUncertainSpace</a>
   is a use case based on a spring-mass system.</li>
 </ul>
 <h3 id="fixed_5">Fixed<a class="headerlink" href="#fixed_5" title="Permanent link">&para;</a></h3>
@@ -7160,7 +7165,7 @@ and this project adheres to
 <h3 id="changed_3">Changed<a class="headerlink" href="#changed_3" title="Permanent link">&para;</a></h3>
 <ul>
 <li>API change: the argument <code>statistic_estimation_options</code>
-  of <a class="autorefs autorefs-internal" href="../reference/gemseo_umdo/formulations/base_umdo_formulation/#gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation">UMDOFormulation</a>
+  of <a class="autorefs autorefs-internal" title="            BaseUMDOFormulation" href="../reference/gemseo_umdo/formulations/base_umdo_formulation/#gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation">UMDOFormulation</a>
   has been renamed to <code>statistic_estimation_parameters</code>.</li>
 <li>API change: <code>UMDOFormulation._processed_functions</code> replaces <code>Sampling.processed_functions</code>.</li>
 </ul>

@@ -6729,9 +6729,9 @@ a margin is applied to the objective to ensure a robust optimum <span class="ari
 <p>When defining disciplines,
 do not forget to declare the uncertain variables as input variables
 so that the
-<a class="autorefs autorefs-internal" href="../../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>
+<a class="autorefs autorefs-internal" title="            UMDOScenario" href="../../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>
 and
-<a class="autorefs autorefs-internal" href="../../reference/gemseo_umdo/scenarios/udoe_scenario/#gemseo_umdo.scenarios.udoe_scenario.UDOEScenario">UDOEScenario</a>
+<a class="autorefs autorefs-internal" title="            UDOEScenario" href="../../reference/gemseo_umdo/scenarios/udoe_scenario/#gemseo_umdo.scenarios.udoe_scenario.UDOEScenario">UDOEScenario</a>
 can change their values.</p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
@@ -6796,9 +6796,9 @@ to solve the MDO problem.</p>
 <p>In the case of MDO <em>with</em> uncertainty,
 there are two similar scenarios to set up the MDO problem:</p>
 <ul>
-<li><a class="autorefs autorefs-internal" href="../../reference/gemseo_umdo/scenarios/udoe_scenario/#gemseo_umdo.scenarios.udoe_scenario.UDOEScenario">UDOEScenario</a>
+<li><a class="autorefs autorefs-internal" title="            UDOEScenario" href="../../reference/gemseo_umdo/scenarios/udoe_scenario/#gemseo_umdo.scenarios.udoe_scenario.UDOEScenario">UDOEScenario</a>
   to solve it with a DOE,</li>
-<li><a class="autorefs autorefs-internal" href="../../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>
+<li><a class="autorefs autorefs-internal" title="            UMDOScenario" href="../../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>
   to solve it with an optimizer.</li>
 </ul>
 <p>Both need knowledge of the statistics and their estimators
@@ -6806,11 +6806,11 @@ in addition to the disciplines, design space, objective and constraints
 to solve the MDO problem under uncertainty.</p>
 <div class="admonition note">
 <p class="admonition-title">API</p>
-<p>The API of <a class="autorefs autorefs-internal" href="../../reference/gemseo_umdo/scenarios/udoe_scenario/#gemseo_umdo.scenarios.udoe_scenario.UDOEScenario">UDOEScenario</a>
+<p>The API of <a class="autorefs autorefs-internal" title="            UDOEScenario" href="../../reference/gemseo_umdo/scenarios/udoe_scenario/#gemseo_umdo.scenarios.udoe_scenario.UDOEScenario">UDOEScenario</a>
 is deliberately similar to
 the API of <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.scenarios.doe_scenario.html#gemseo.scenarios.doe_scenario.DOEScenario">DOEScenario</a>.
 And the same for
-<a class="autorefs autorefs-internal" href="../../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>
+<a class="autorefs autorefs-internal" title="            UMDOScenario" href="../../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>
 and
 <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.scenarios.mdo_scenario.html#gemseo.scenarios.mdo_scenario.MDOScenario">MDOScenario</a>.
 This choice was made not only to simplify the user's life,
@@ -6845,8 +6845,8 @@ and a Monte Carlo estimator of the expectation.</p>
 </code></pre></div>
 </div>
 <h3 id="u-mdo-formulations">U-MDO formulations<a class="headerlink" href="#u-mdo-formulations" title="Permanent link">&para;</a></h3>
-<p><a class="autorefs autorefs-internal" href="../../reference/gemseo_umdo/scenarios/udoe_scenario/#gemseo_umdo.scenarios.udoe_scenario.UDOEScenario">UDOEScenario</a>
-and <a class="autorefs autorefs-internal" href="../../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>
+<p><a class="autorefs autorefs-internal" title="            UDOEScenario" href="../../reference/gemseo_umdo/scenarios/udoe_scenario/#gemseo_umdo.scenarios.udoe_scenario.UDOEScenario">UDOEScenario</a>
+and <a class="autorefs autorefs-internal" title="            UMDOScenario" href="../../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>
 can estimate the statistics associated with <span class="arithmatex">\(f(x,U)\)</span>, <span class="arithmatex">\(g(x,U)\)</span> and <span class="arithmatex">\(h(x,U)\)</span>
 by sampling these random variables:</p>
 <div class="arithmatex">\[(f(x,U^{(i)}),g(x,U^{(i)}),h(x,U^{(i)}))_{1\leq i \leq N}.\]</div>
@@ -6860,13 +6860,13 @@ and
 <a href="pce/">polynomial chaos expansions</a>.
 The choice of an estimation technique is made
 via the argument <code>statistic_estimation_settings</code>
-of <a class="autorefs autorefs-internal" href="../../reference/gemseo_umdo/scenarios/udoe_scenario/#gemseo_umdo.scenarios.udoe_scenario.UDOEScenario">UDOEScenario</a>
-(or <a class="autorefs autorefs-internal" href="../../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>),
+of <a class="autorefs autorefs-internal" title="            UDOEScenario" href="../../reference/gemseo_umdo/scenarios/udoe_scenario/#gemseo_umdo.scenarios.udoe_scenario.UDOEScenario">UDOEScenario</a>
+(or <a class="autorefs autorefs-internal" title="            UMDOScenario" href="../../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>),
 which is a Pydantic model of U-MDO settings,
 <em>e.g.</em>
-<a class="autorefs autorefs-internal" href="../../reference/gemseo_umdo/formulations/control_variate_settings/#gemseo_umdo.formulations.control_variate_settings.ControlVariate_Settings">ControlVariate_Settings</a>,
-<a class="autorefs autorefs-internal" href="../../reference/gemseo_umdo/formulations/taylor_polynomial_settings/#gemseo_umdo.formulations.taylor_polynomial_settings.TaylorPolynomial_Settings">TaylorPolynomial_Settings</a>
-or <a class="autorefs autorefs-internal" href="../../reference/gemseo_umdo/formulations/pce_settings/#gemseo_umdo.formulations.pce_settings.PCE_Settings">PCE_Settings</a>.</p>
+<a class="autorefs autorefs-internal" title="            ControlVariate_Settings" href="../../reference/gemseo_umdo/formulations/control_variate_settings/#gemseo_umdo.formulations.control_variate_settings.ControlVariate_Settings">ControlVariate_Settings</a>,
+<a class="autorefs autorefs-internal" title="            TaylorPolynomial_Settings" href="../../reference/gemseo_umdo/formulations/taylor_polynomial_settings/#gemseo_umdo.formulations.taylor_polynomial_settings.TaylorPolynomial_Settings">TaylorPolynomial_Settings</a>
+or <a class="autorefs autorefs-internal" title="            PCE_Settings" href="../../reference/gemseo_umdo/formulations/pce_settings/#gemseo_umdo.formulations.pce_settings.PCE_Settings">PCE_Settings</a>.</p>
 <p>As of now,
 only the <a href="sampling/"><code>Sampling</code> U-MDO formulation</a> provides analytical derivatives of the statistics
 when the disciplines and the multidisciplinary process generated by the MDO formulation are differentiable.

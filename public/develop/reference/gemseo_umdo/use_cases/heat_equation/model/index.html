@@ -6654,16 +6654,22 @@ Geraci et al. (2015) consider the integral of the temperature along the rod</p>
 <div class="arithmatex">\[\mathcal{M}(\mathbf{X}) = \int_{\mathcal{D}}u(x,T;\mathbf{X})dx\]</div>
 <p>and are interested in the estimation
 of its
-<a class="autorefs autorefs-internal" href="../configuration/#gemseo_umdo.use_cases.heat_equation.configuration.HeatEquationConfiguration.expectation">HeatEquationConfiguration</a>:</p>
+<a class="autorefs autorefs-internal" title="            expectation
+
+
+  
+      class-attribute
+      instance-attribute
+  " href="../configuration/#gemseo_umdo.use_cases.heat_equation.configuration.HeatEquationConfiguration.expectation">HeatEquationConfiguration</a>:</p>
 <div class="arithmatex">\[\mathbb{E}[\mathcal{M}(\mathbf{X})] = 50H_1+\frac{49}{4}(H_3+50H_9+50H_{21})\]</div>
 <p>where
 <span class="arithmatex">\(H_k=\frac{2}{k^3\pi^3T}
 \frac{\exp(-\nu_{\min}k^2\pi^2T)-\exp(-\nu_{\max}k^2\pi^2T)}{\nu_{\max}-\nu_{\min}}\)</span>.</p>
-<p>The <a class="autorefs autorefs-internal" href="#gemseo_umdo.use_cases.heat_equation.model.HeatEquationModel">HeatEquationModel</a>
+<p>The <a class="autorefs autorefs-internal" title="            HeatEquationModel" href="#gemseo_umdo.use_cases.heat_equation.model.HeatEquationModel">HeatEquationModel</a>
 computes the temperature at final time
 from instances of the random variables <code>"X_1"</code>, ..., <code>"X_7"</code>
 defined over the
-<a class="autorefs autorefs-internal" href="../uncertain_space/#gemseo_umdo.use_cases.heat_equation.uncertain_space.HeatEquationUncertainSpace">HeatEquationUncertainSpace</a>.
+<a class="autorefs autorefs-internal" title="            HeatEquationUncertainSpace" href="../uncertain_space/#gemseo_umdo.use_cases.heat_equation.uncertain_space.HeatEquationUncertainSpace">HeatEquationUncertainSpace</a>.
 The temperature <code>"u_mesh"</code> is computed at each mesh node
 while the temperature <code>"u"</code> is an integral over the rod.</p>
 
@@ -6674,6 +6680,7 @@ while the temperature <code>"u"</code> is an integral over the rod.</p>
 for the multilevel Monte Carlo technique, Center for Turbulence Research,
 Annual Research Briefs, 2015.</p>
 </details>
+
 
 
 
@@ -6776,6 +6783,7 @@ value.</p>
 
 
 
+
                   <details class="quote">
                     <summary>Source code in <code>src/gemseo_umdo/use_cases/heat_equation/model.py</code></summary>
                     <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">119</span>
@@ -6871,8 +6879,18 @@ value.</p>
   </span>
 
 <a href="#gemseo_umdo.use_cases.heat_equation.model.HeatEquationModel.configuration" class="headerlink" title="Permanent link">&para;</a></h6>
-<div class="doc-signature highlight"><pre><span></span><code><span class="n">configuration</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="gemseo_umdo.use_cases.heat_equation.configuration.HeatEquationConfiguration" href="../configuration/#gemseo_umdo.use_cases.heat_equation.configuration.HeatEquationConfiguration">HeatEquationConfiguration</a></span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n"><a class="autorefs autorefs-internal" title="gemseo_umdo.use_cases.heat_equation.configuration.HeatEquationConfiguration" href="../configuration/#gemseo_umdo.use_cases.heat_equation.configuration.HeatEquationConfiguration">HeatEquationConfiguration</a></span><span class="p">(</span>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">configuration</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="            HeatEquationConfiguration
+
+
+  
+      dataclass
+   (gemseo_umdo.use_cases.heat_equation.configuration.HeatEquationConfiguration)" href="../configuration/#gemseo_umdo.use_cases.heat_equation.configuration.HeatEquationConfiguration">HeatEquationConfiguration</a></span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n"><a class="autorefs autorefs-internal" title="            HeatEquationConfiguration
+
+
+  
+      dataclass
+   (gemseo_umdo.use_cases.heat_equation.configuration.HeatEquationConfiguration)" href="../configuration/#gemseo_umdo.use_cases.heat_equation.configuration.HeatEquationConfiguration">HeatEquationConfiguration</a></span><span class="p">(</span>
         <span class="n"><span title="gemseo_umdo.use_cases.heat_equation.model.HeatEquationModel(mesh_size)">mesh_size</span></span><span class="p">,</span>
         <span class="n"><span title="gemseo_umdo.use_cases.heat_equation.model.HeatEquationModel(n_modes)">n_modes</span></span><span class="p">,</span>
         <span class="n"><span title="gemseo_umdo.use_cases.heat_equation.model.HeatEquationModel(final_time)">final_time</span></span><span class="p">,</span>
@@ -6885,6 +6903,7 @@ value.</p>
     <div class="doc doc-contents ">
 
         <p>The configuration of the heat equation problem.</p>
+
     </div>
 
 </div>
@@ -6908,6 +6927,7 @@ value.</p>
     <div class="doc doc-contents ">
 
         <p>The expectation of the output of the first-order Taylor polynomial.</p>
+
     </div>
 
 </div>
@@ -6957,6 +6977,7 @@ shaped as <code>(sample_size, n_nodes)</code> or <code>(n_nodes, )</code>.</p>
           </div>
         </li>
     </ul>
+
 
             <details class="quote">
               <summary>Source code in <code>src/gemseo_umdo/use_cases/heat_equation/model.py</code></summary>

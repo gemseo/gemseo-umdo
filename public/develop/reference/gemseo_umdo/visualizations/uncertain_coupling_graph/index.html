@@ -6623,6 +6623,7 @@
 
 
 
+
   <div class="doc doc-children">
 
 
@@ -6655,17 +6656,17 @@
 <p>A coupling graph whose disciplines are represented by nodes
 and coupling variables by edges whose thickness is proportional to its dispersion.</p>
 <p>The dispersion is computed using a
-<a class="autorefs autorefs-internal" href="#gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph.DispersionMeasure">DispersionMeasure</a>
+<a class="autorefs autorefs-internal" title="            DispersionMeasure" href="#gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph.DispersionMeasure">DispersionMeasure</a>
 such as the coefficient of variation (CV)
 or the quartile coefficient of dispersion (QCD).</p>
 <p>To be used as:</p>
 <ol>
 <li>Instantiate an
-   <a class="autorefs autorefs-internal" href="#gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph">UncertainCouplingGraph</a>.</li>
+   <a class="autorefs autorefs-internal" title="            UncertainCouplingGraph" href="#gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph">UncertainCouplingGraph</a>.</li>
 <li>Sample the multidisciplinary system, using
-   <a class="autorefs autorefs-internal" href="#gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph.sample">sample()</a>.</li>
+   <a class="autorefs autorefs-internal" title="            sample" href="#gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph.sample">sample()</a>.</li>
 <li>Generate the coupling graph for a given dispersion measure, using
-   <a class="autorefs autorefs-internal" href="#gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph.visualize">visualize()</a>.</li>
+   <a class="autorefs autorefs-internal" title="            visualize" href="#gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph.visualize">visualize()</a>.</li>
 </ol>
 <p>If you want to change the dispersion measure or filter the variables,
 repeat Step 3 with another dispersion measure or a list of variable names.</p>
@@ -6704,6 +6705,7 @@ If <code>None</code>, use all the coupling variables.</p>
           </div>
         </li>
     </ul>
+
 
 
 
@@ -6797,6 +6799,7 @@ If <code>None</code>, use all the coupling variables.</p>
 
 
 
+
   <div class="doc doc-children">
 
 
@@ -6868,6 +6871,7 @@ If <code>None</code>, use all the coupling variables.</p>
         </li>
     </ul>
 
+
             <details class="quote">
               <summary>Source code in <code>src/gemseo_umdo/visualizations/uncertain_coupling_graph.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">119</span>
@@ -6911,7 +6915,7 @@ If <code>None</code>, use all the coupling variables.</p>
 <a href="#gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph.visualize" class="headerlink" title="Permanent link">&para;</a></h6>
 <div class="doc-signature highlight"><pre><span></span><code><span class="nf">visualize</span><span class="p">(</span>
     <span class="n">maximum_thickness</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span>
-    <span class="n">dispersion_measure</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph.DispersionMeasure" href="#gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph.DispersionMeasure">DispersionMeasure</a></span> <span class="o">=</span> <span class="n"><span title="gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph.DispersionMeasure.QCD">QCD</span></span><span class="p">,</span>
+    <span class="n">dispersion_measure</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="            DispersionMeasure (gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph.DispersionMeasure)" href="#gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph.DispersionMeasure">DispersionMeasure</a></span> <span class="o">=</span> <span class="n"><span title="gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph.DispersionMeasure.QCD">QCD</span></span><span class="p">,</span>
     <span class="n">variable_names</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="collections.abc.Iterable" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable">Iterable</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">show</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">save</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -6939,7 +6943,7 @@ If <code>None</code>, use all the coupling variables.</p>
         </li>
         <li class="doc-section-item field-body">
             <b><code>dispersion_measure</code></b>
-              (<code><a class="autorefs autorefs-internal" title="gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph.DispersionMeasure" href="#gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph.DispersionMeasure">DispersionMeasure</a></code>, default:
+              (<code><a class="autorefs autorefs-internal" title="            DispersionMeasure (gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph.DispersionMeasure)" href="#gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph.DispersionMeasure">DispersionMeasure</a></code>, default:
                   <code><span title="gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph.DispersionMeasure.QCD">QCD</span></code>
 )
           –
@@ -7014,6 +7018,7 @@ If <code>""</code>, use the class name with PNG format.</p>
           </div>
         </li>
     </ul>
+
 
             <details class="quote">
               <summary>Source code in <code>src/gemseo_umdo/visualizations/uncertain_coupling_graph.py</code></summary>

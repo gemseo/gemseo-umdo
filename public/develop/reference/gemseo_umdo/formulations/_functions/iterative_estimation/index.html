@@ -6631,6 +6631,7 @@
 
 
 
+
   <div class="doc doc-children">
 
 
@@ -6652,7 +6653,7 @@
 <div class="doc-signature highlight"><pre><span></span><code><span class="nf">IterativeEstimation</span><span class="p">(</span>
     <span class="n">output_name</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">,</span>
     <span class="n">output_statistic_name</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">,</span>
-    <span class="n">statistic_estimator</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="gemseo_umdo.formulations._statistics.iterative_sampling.base_sampling_estimator.BaseSamplingEstimator" href="../../_statistics/iterative_sampling/base_sampling_estimator/#gemseo_umdo.formulations._statistics.iterative_sampling.base_sampling_estimator.BaseSamplingEstimator">BaseSamplingEstimator</a></span><span class="p">,</span>
+    <span class="n">statistic_estimator</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="            BaseSamplingEstimator (gemseo_umdo.formulations._statistics.iterative_sampling.base_sampling_estimator.BaseSamplingEstimator)" href="../../_statistics/iterative_sampling/base_sampling_estimator/#gemseo_umdo.formulations._statistics.iterative_sampling.base_sampling_estimator.BaseSamplingEstimator">BaseSamplingEstimator</a></span><span class="p">,</span>
     <span class="n">return_statistic_jacobian</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span>
 </code></pre></div>
@@ -6663,7 +6664,7 @@
         <p>A functor to estimate a statistic iteratively.</p>
 <p>Call this functor to update the estimation of the statistic
 and access the last evaluation with :attr:<code>.last_evaluation</code>.</p>
-<p>The <a class="autorefs autorefs-internal" href="../../sampling/#gemseo_umdo.formulations.sampling.Sampling">Sampling</a> U-MDO formulation
+<p>The <a class="autorefs autorefs-internal" title="            Sampling" href="../../sampling/#gemseo_umdo.formulations.sampling.Sampling">Sampling</a> U-MDO formulation
 passes such functors to a
 <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.doe.base_doe_library.html#gemseo.algos.doe.base_doe_library.BaseDOELibrary">DOELibrary</a>
 as callback functions
@@ -6691,7 +6692,7 @@ to update the statistics of the objective, constraints and observables.</p>
         </li>
         <li class="doc-section-item field-body">
             <b><code>statistic_estimator</code></b>
-              (<code><a class="autorefs autorefs-internal" title="gemseo_umdo.formulations._statistics.iterative_sampling.base_sampling_estimator.BaseSamplingEstimator" href="../../_statistics/iterative_sampling/base_sampling_estimator/#gemseo_umdo.formulations._statistics.iterative_sampling.base_sampling_estimator.BaseSamplingEstimator">BaseSamplingEstimator</a></code>)
+              (<code><a class="autorefs autorefs-internal" title="            BaseSamplingEstimator (gemseo_umdo.formulations._statistics.iterative_sampling.base_sampling_estimator.BaseSamplingEstimator)" href="../../_statistics/iterative_sampling/base_sampling_estimator/#gemseo_umdo.formulations._statistics.iterative_sampling.base_sampling_estimator.BaseSamplingEstimator">BaseSamplingEstimator</a></code>)
           –
           <div class="doc-md-description">
             <p>The function to update the estimation of the statistic.</p>
@@ -6709,6 +6710,7 @@ the Jacobian of the statistic estimation.</p>
           </div>
         </li>
     </ul>
+
 
 
 
@@ -6788,6 +6790,7 @@ the Jacobian of the statistic estimation.</p>
     <div class="doc doc-contents ">
 
         <p>The last estimation of the statistic.</p>
+
     </div>
 
 </div>
@@ -6811,6 +6814,7 @@ the Jacobian of the statistic estimation.</p>
     <div class="doc doc-contents ">
 
         <p>The name of the output.</p>
+
     </div>
 
 </div>
@@ -6834,6 +6838,7 @@ the Jacobian of the statistic estimation.</p>
     <div class="doc doc-contents ">
 
         <p>The name of the statistic of the output.</p>
+
     </div>
 
 </div>
@@ -6857,6 +6862,7 @@ the Jacobian of the statistic estimation.</p>
     <div class="doc doc-contents ">
 
         <p>Whether the functor returns the Jacobian of the statistic estimation.</p>
+
     </div>
 
 </div>
@@ -6874,7 +6880,7 @@ the Jacobian of the statistic estimation.</p>
   </span>
 
 <a href="#gemseo_umdo.formulations._functions.iterative_estimation.IterativeEstimation.statistic_estimator" class="headerlink" title="Permanent link">&para;</a></h6>
-<div class="doc-signature highlight"><pre><span></span><code><span class="n">statistic_estimator</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="gemseo_umdo.formulations._statistics.iterative_sampling.base_sampling_estimator.BaseSamplingEstimator" href="../../_statistics/iterative_sampling/base_sampling_estimator/#gemseo_umdo.formulations._statistics.iterative_sampling.base_sampling_estimator.BaseSamplingEstimator">BaseSamplingEstimator</a></span> <span class="o">=</span> <span class="p">(</span>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">statistic_estimator</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="            BaseSamplingEstimator (gemseo_umdo.formulations._statistics.iterative_sampling.base_sampling_estimator.BaseSamplingEstimator)" href="../../_statistics/iterative_sampling/base_sampling_estimator/#gemseo_umdo.formulations._statistics.iterative_sampling.base_sampling_estimator.BaseSamplingEstimator">BaseSamplingEstimator</a></span> <span class="o">=</span> <span class="p">(</span>
     <span class="n"><span title="gemseo_umdo.formulations._functions.iterative_estimation.IterativeEstimation(statistic_estimator)">statistic_estimator</span></span>
 <span class="p">)</span>
 </code></pre></div>
@@ -6882,6 +6888,7 @@ the Jacobian of the statistic estimation.</p>
     <div class="doc doc-contents ">
 
         <p>The function to update the estimation of the statistic.</p>
+
     </div>
 
 </div>

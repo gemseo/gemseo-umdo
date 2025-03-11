@@ -6717,6 +6717,7 @@
 
 
 
+
   <div class="doc doc-children">
 
 
@@ -6736,7 +6737,12 @@
 
 <a href="#gemseo_umdo.statistics.multilevel.mlmc.mlmc.MLMC" class="headerlink" title="Permanent link">&para;</a></h4>
 <div class="doc-signature highlight"><pre><span></span><code><span class="nf">MLMC</span><span class="p">(</span>
-    <span class="n">levels</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="collections.abc.Iterable" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable">Iterable</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="gemseo_umdo.statistics.multilevel.mlmc.level.Level" href="../level/#gemseo_umdo.statistics.multilevel.mlmc.level.Level">Level</a></span><span class="p">],</span>
+    <span class="n">levels</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="collections.abc.Iterable" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable">Iterable</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="            Level
+
+
+  
+      dataclass
+   (gemseo_umdo.statistics.multilevel.mlmc.level.Level)" href="../level/#gemseo_umdo.statistics.multilevel.mlmc.level.Level">Level</a></span><span class="p">],</span>
     <span class="n">uncertain_space</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.algos.parameter_space.ParameterSpace" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.parameter_space.html#gemseo.algos.parameter_space.ParameterSpace">ParameterSpace</a></span><span class="p">,</span>
     <span class="n">n_samples</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></span><span class="p">,</span>
     <span class="n">pilot_statistic_name</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span> <span class="o">=</span> <span class="s2">&quot;Mean&quot;</span><span class="p">,</span>
@@ -6752,7 +6758,7 @@
 with many evaluations for the coarsest model
 and a few evaluations for the finest one.</p>
 <p>This adaptive sampling is guided
-by a <a class="autorefs autorefs-internal" href="../../base_pilot/#gemseo_umdo.statistics.multilevel.base_pilot.BasePilot">BasePilot</a>.</p>
+by a <a class="autorefs autorefs-internal" title="            BasePilot" href="../../base_pilot/#gemseo_umdo.statistics.multilevel.base_pilot.BasePilot">BasePilot</a>.</p>
 <p>This algorithm depends on the execution cost ratio between two consecutive levels,
 that can be estimated from the models,
 and on the sampling size ratio between two sampling steps on the same level.</p>
@@ -6772,7 +6778,12 @@ the algorithm</p>
     <ul>
         <li class="doc-section-item field-body">
             <b><code>levels</code></b>
-              (<code><a class="autorefs autorefs-external" title="collections.abc.Iterable" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable">Iterable</a>[<a class="autorefs autorefs-internal" title="gemseo_umdo.statistics.multilevel.mlmc.level.Level" href="../level/#gemseo_umdo.statistics.multilevel.mlmc.level.Level">Level</a>]</code>)
+              (<code><a class="autorefs autorefs-external" title="collections.abc.Iterable" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable">Iterable</a>[<a class="autorefs autorefs-internal" title="            Level
+
+
+  
+      dataclass
+   (gemseo_umdo.statistics.multilevel.mlmc.level.Level)" href="../level/#gemseo_umdo.statistics.multilevel.mlmc.level.Level">Level</a>]</code>)
           –
           <div class="doc-md-description">
             <p>The levels
@@ -6838,6 +6849,7 @@ and at each algorithm iteration.</p>
           </div>
         </li>
     </ul>
+
 
 
 
@@ -7064,6 +7076,7 @@ and at each algorithm iteration.</p>
 
         <p>The history of the budget.</p>
 <p><code>algo.budget_history[i]</code> is the budget at iteration <code>i+1</code>.</p>
+
     </div>
 
 </div>
@@ -7088,6 +7101,7 @@ and at each algorithm iteration.</p>
 
         <p>The evaluation costs of the different levels.</p>
 <p><code>algo.level_costs[l]</code> is the cost of one evaluation of the <code>l</code>-th level.</p>
+
     </div>
 
 </div>
@@ -7112,6 +7126,7 @@ and at each algorithm iteration.</p>
 
         <p>The evaluation costs of the different models.</p>
 <p><code>algo.model_costs[l]</code> is the cost of one evaluation of the <code>l</code>-th model.</p>
+
     </div>
 
 </div>
@@ -7136,6 +7151,7 @@ and at each algorithm iteration.</p>
 
         <p>The total numbers of samples per level.</p>
 <p><code>algo.n_total_samples[l]</code> is the total number of samples at level <code>l</code>.</p>
+
     </div>
 
 </div>
@@ -7159,6 +7175,7 @@ and at each algorithm iteration.</p>
     <div class="doc doc-contents ">
 
         <p>The estimation of the pilot statistic.</p>
+
     </div>
 
 </div>
@@ -7184,6 +7201,7 @@ and at each algorithm iteration.</p>
         <p>The history of the numbers of samples of each level of the telescopic sum.</p>
 <p><code>algo.sampling_size_history[i, l]</code> is the number of samples
 at iteration <code>i+1</code> and level <code>l</code>.</p>
+
     </div>
 
 </div>
@@ -7204,6 +7222,7 @@ at iteration <code>i+1</code> and level <code>l</code>.</p>
     <div class="doc doc-contents ">
 
         <p>Execute the algorithm.</p>
+
 
             <details class="quote">
               <summary>Source code in <code>src/gemseo_umdo/statistics/multilevel/mlmc/mlmc.py</code></summary>
@@ -7486,6 +7505,7 @@ at iteration <code>i+1</code> and level <code>l</code>.</p>
           </div>
         </li>
     </ul>
+
 
             <details class="quote">
               <summary>Source code in <code>src/gemseo_umdo/statistics/multilevel/mlmc/mlmc.py</code></summary>
