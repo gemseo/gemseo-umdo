@@ -30,6 +30,8 @@ and this project adheres to
 
 ### Added
 
+- [UOptAsUMDOScenario][gemseo_umdo.problems.uopt_as_umdo_scenario.UOptAsUMDOScenario]
+  can make a monodisciplinary optimization problem under uncertainty multidisciplinary.
 - The U-MDO formulations
   [Sampling][gemseo_umdo.formulations.sampling.Sampling],
   [SequentialSampling][gemseo_umdo.formulations.sampling.Sampling]
