@@ -29,7 +29,7 @@ from gemseo.mlearning.regression.algos.rbf import RBFRegressor
 from gemseo.mlearning.regression.algos.rbf_settings import RBFRegressor_Settings
 from gemseo.problems.uncertainty.ishigami.ishigami_discipline import IshigamiDiscipline
 from gemseo.problems.uncertainty.ishigami.ishigami_problem import IshigamiProblem
-from gemseo.problems.uncertainty.ishigami.ishigami_space import IshigamiSpace
+from gemseo.problems.uncertainty.utils import UniformDistribution
 from gemseo.utils.seeder import SEED
 from numpy import array
 from numpy.testing import assert_almost_equal
@@ -47,7 +47,7 @@ if TYPE_CHECKING:
 
 @pytest.fixture(scope="module")
 def ishigami_problem() -> IshigamiProblem:
-    return IshigamiProblem(IshigamiSpace.UniformDistribution.OPENTURNS)
+    return IshigamiProblem(UniformDistribution.OPENTURNS)
 
 
 @pytest.fixture(scope="module")

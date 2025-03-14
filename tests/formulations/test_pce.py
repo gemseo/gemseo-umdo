@@ -31,7 +31,7 @@ from gemseo.mlearning.regression.algos.pce_settings import PCERegressor_Settings
 from gemseo.mlearning.regression.quality.r2_measure import R2Measure
 from gemseo.problems.uncertainty.ishigami.ishigami_discipline import IshigamiDiscipline
 from gemseo.problems.uncertainty.ishigami.ishigami_problem import IshigamiProblem
-from gemseo.problems.uncertainty.ishigami.ishigami_space import IshigamiSpace
+from gemseo.problems.uncertainty.utils import UniformDistribution
 from numpy import array
 from numpy import full
 from numpy.testing import assert_almost_equal
@@ -56,7 +56,7 @@ if TYPE_CHECKING:
 
 @pytest.fixture(scope="module")
 def ishigami_problem() -> IshigamiProblem:
-    return IshigamiProblem(IshigamiSpace.UniformDistribution.OPENTURNS)
+    return IshigamiProblem(UniformDistribution.OPENTURNS)
 
 
 @pytest.fixture(scope="module")
