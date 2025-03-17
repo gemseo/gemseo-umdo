@@ -25,9 +25,9 @@ from typing import Callable
 from typing import TypeVar
 
 from gemseo.algos.database import Database
+from numpy import atleast_1d
 from numpy import atleast_2d
 from numpy import newaxis
-from numpy.ma.extras import atleast_1d
 
 from gemseo_umdo.formulations._functions.base_statistic_function import (
     BaseStatisticFunction,
@@ -106,9 +106,6 @@ class StatisticFunctionForTaylorPolynomial(BaseStatisticFunction[TaylorPolynomia
                 self.__problem.functions, hessian_fd_problem.functions
             ):
                 hess_value = hessian_function.evaluate(self.__mean_input_value)
-                if hess_value.ndim == 1:
-                    hess_value = hess_value[newaxis, newaxis, ...]
-
                 if hess_value.ndim == 2:
                     hess_value = hess_value[newaxis, ...]
 
