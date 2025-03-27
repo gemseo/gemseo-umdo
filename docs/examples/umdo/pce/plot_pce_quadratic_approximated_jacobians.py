@@ -13,7 +13,7 @@
 # FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-r"""# A quadratic mono-disciplinary problem
+r"""# A quadratic mono-disciplinary problem with approximated statistics Jacobian
 
 In this example, we consider the quadratic mono-disciplinary optimization problem
 
@@ -34,18 +34,25 @@ from __future__ import annotations
 from gemseo import configure_logger
 from gemseo.algos.design_space import DesignSpace
 from gemseo.algos.parameter_space import ParameterSpace
-from gemseo.disciplines.analytic import AnalyticDiscipline
+from gemseo.disciplines.auto_py import AutoPyDiscipline
 
 from gemseo_umdo.formulations.pce_settings import PCE_Settings
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 
 configure_logger()
 
+
 # %%
 # Firstly,
 # we define an [AnalyticDiscipline][gemseo.disciplines.analytic.AnalyticDiscipline]
 # implementing the function $f$:
-discipline = AnalyticDiscipline({"y": "(x+u)**2"}, name="f")
+def f(x, u):
+    y = (x + u) ** 2
+    return y
+
+
+discipline = AutoPyDiscipline(f)
+
 
 # %%
 # as well as the design space:
@@ -70,8 +77,11 @@ scenario = UMDOScenario(
     uncertain_space,
     "Mean",
     formulation_name="DisciplinaryOpt",
-    statistic_estimation_settings=PCE_Settings(n_samples=20),
+    statistic_estimation_settings=PCE_Settings(
+        n_samples=20, approximate_statistics_jacobians=True
+    ),
 )
+
 # %%
 # !!! note
 #     The mean, standard deviation and variance
@@ -81,8 +91,15 @@ scenario = UMDOScenario(
 #     which is the case in this example.
 #     This implies that a gradient-based optimization algorithm can be used
 #     without approximating the derivatives of the objective.
+#     If this is not the case
+#     or if we do not want to compute the derivatives of the disciplines
+#     to reduce the calculation budget,
+#     we can activate the `approximate_statistics_jacobians` option as done above
+#     to use the approximation technique
+#     proposed in Section II.C.3 of a paper by Mura _et al._[@Mura2020]
+#     and parametrized by the `differentiation_step` option (default: `1e-6`) .
 #
-# We execute this scenario using the gradient-based optimizer SLSQP:
+# We execute this scenario using the gradient-base optimizer SLSQP:
 scenario.execute(algo_name="NLOPT_SLSQP", max_iter=100)
 
 # %%
