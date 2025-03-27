@@ -57,6 +57,14 @@
          <lastmod>2025-03-27</lastmod>
     </url>
     <url>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/generated/examples/umdo/bilevel/mg_execution_times/</loc>
+         <lastmod>2025-03-27</lastmod>
+    </url>
+    <url>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/generated/examples/umdo/bilevel/plot_bilevel_rosenbrock/</loc>
+         <lastmod>2025-03-27</lastmod>
+    </url>
+    <url>
          <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/generated/examples/umdo/control_variate/cv_sellar/</loc>
          <lastmod>2025-03-27</lastmod>
     </url>
