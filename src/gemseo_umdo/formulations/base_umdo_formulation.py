@@ -22,6 +22,7 @@ from typing import ClassVar
 
 from gemseo.core.mdo_functions.mdo_function import MDOFunction
 from gemseo.formulations.base_formulation import BaseFormulation
+from gemseo.formulations.bilevel import BiLevel
 from gemseo.uncertainty.statistics.base_statistics import BaseStatistics
 from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
 from gemseo.utils.data_conversion import split_array_to_dict_of_arrays
@@ -363,16 +364,23 @@ class BaseUMDOFormulation(BaseFormulation):
             if formulation is None:
                 continue
 
-            for discipline in formulation.get_top_level_disciplines():
-                input_names = discipline.io.input_grammar
-                to_value = (
-                    discipline.io.input_grammar.data_converter.convert_array_to_value
+            all_top_level_disciplines = [formulation.get_top_level_disciplines()]
+            # TODO: remove this block and find a more generic way of handling this case.
+            if isinstance(formulation, BiLevel):
+                all_top_level_disciplines.extend(
+                    scenario_adapter.scenario.formulation.get_top_level_disciplines()
+                    for scenario_adapter in formulation.scenario_adapters
                 )
-                discipline.io.input_grammar.defaults.update({
-                    name: to_value(name, value)
-                    for name, value in design_values.items()
-                    if name in input_names
-                })
+
+            for top_level_disciplines in all_top_level_disciplines:
+                for discipline in top_level_disciplines:
+                    input_grammar = discipline.io.input_grammar
+                    to_value = input_grammar.data_converter.convert_array_to_value
+                    input_grammar.defaults.update({
+                        name: to_value(name, value)
+                        for name, value in design_values.items()
+                        if name in input_grammar
+                    })
 
     def get_top_level_disciplines(self) -> list[Discipline]:  # noqa: D102
         return self._mdo_formulation.get_top_level_disciplines()
