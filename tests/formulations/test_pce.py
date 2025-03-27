@@ -345,13 +345,19 @@ def test_quality_log_level(
 
 
 @pytest.mark.parametrize(
-    ("pce_settings", "y_opt"),
+    ("pce_settings", "pce_regressor_settings", "y_opt"),
     [
-        ({}, 2.0),
-        ({"degree": 1}, 1.9972399330987038),
+        ({}, {}, 2.0),
+        ({}, {"degree": 1}, 1.9972399330987038),
+        ({"approximate_statistics_jacobians": True}, {}, 2.0),
+        (
+            {"approximate_statistics_jacobians": True, "differentiation_step": 1e-2},
+            {},
+            2.0,
+        ),
     ],
 )
-def test_scenario(quadratic_problem, pce_settings, y_opt):
+def test_scenario(quadratic_problem, pce_settings, pce_regressor_settings, y_opt):
     """Check the PCE-based U-MDO formulation in a scenario with a toy case."""
     discipline, design_space, uncertain_space = quadratic_problem
     scenario = UDOEScenario(
@@ -363,9 +369,10 @@ def test_scenario(quadratic_problem, pce_settings, y_opt):
         formulation_name="DisciplinaryOpt",
         statistic_estimation_settings=PCE_Settings(
             n_samples=20,
-            regressor_settings=PCERegressor_Settings(**pce_settings),
+            regressor_settings=PCERegressor_Settings(**pce_regressor_settings),
+            **pce_settings,
         ),
     )
-    scenario.execute(algo_name="CustomDOE", samples=array([[1.0]]))
+    scenario.execute(algo_name="CustomDOE", samples=array([[1.0]]), eval_jac=True)
     assert_almost_equal(scenario.optimization_result.x_opt, array([1.0]))
     assert_almost_equal(scenario.optimization_result.f_opt, y_opt)

@@ -63,6 +63,11 @@ For example,
 set `use_lars` to `True` to obtain a more sparse PCE and avoid overfitting
 ([more details](https://openturns.github.io/openturns/latest/theory/meta_modeling/polynomial_sparse_least_squares.html))
 and `degree` to `3` for a maximum degree of 3.
+You can also use the technique proposed in Section II.C.3 of a paper by Mura _et al._[@Mura2020]
+to approximate the Jacobians of the mean, standard deviation and variance with respect to the design variables
+at no extra cost,
+if you do not want to compute the derivatives of the disciplines to reduce the calculation budget
+or approximate these Jacobians by finite differences.
 
 !!! note "API"
     Use `statistic_estimation_settings`
