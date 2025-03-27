@@ -101,6 +101,10 @@
          <lastmod>2025-03-27</lastmod>
     </url>
     <url>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/generated/examples/umdo/pce/plot_pce_quadratic_approximated_jacobians/</loc>
+         <lastmod>2025-03-27</lastmod>
+    </url>
+    <url>
          <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/generated/examples/umdo/sampling/mg_execution_times/</loc>
          <lastmod>2025-03-27</lastmod>
     </url>

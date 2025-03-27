@@ -72,10 +72,18 @@ scenario = UMDOScenario(
     formulation_name="DisciplinaryOpt",
     statistic_estimation_settings=PCE_Settings(n_samples=20),
 )
-
 # %%
-# We execute this scenario using the gradient-free optimizer COBYLA:
-scenario.execute(algo_name="NLOPT_COBYLA", max_iter=100)
+# !!! note
+#     The mean, standard deviation and variance
+#     of the PCE built over the uncertain space
+#     are differentiable with respect to the design variables
+#     if both the disciplines and the MDO formulation are differentiable,
+#     which is the case in this example.
+#     This implies that a gradient-based optimization algorithm can be used
+#     without approximating the derivatives of the objective.
+#
+# We execute this scenario using the gradient-based optimizer SLSQP:
+scenario.execute(algo_name="NLOPT_SLSQP", max_iter=100)
 
 # %%
 # and plot the optimization history:
