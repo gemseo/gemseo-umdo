@@ -30,8 +30,11 @@ and this project adheres to
 
 ### Added
 
-- [UOptAsUMDOScenario][gemseo_umdo.problems.uopt_as_umdo_scenario.UOptAsUMDOScenario]
-  can make a monodisciplinary optimization problem under uncertainty multidisciplinary.
+- Each [BaseUMDOFormulation][gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation]
+  has a Pydantic model to define its settings.
+  For example,
+  [Sampling_Settings][gemseo_umdo.formulations.sampling_settings.Sampling_Settings]
+  is the Pydantic model for the [Sampling][gemseo_umdo.formulations.sampling.Sampling] U-MDO formulation.
 - The U-MDO formulations
   [Sampling][gemseo_umdo.formulations.sampling.Sampling],
   [SequentialSampling][gemseo_umdo.formulations.sampling.Sampling]
@@ -39,11 +42,17 @@ and this project adheres to
   are differentiable,
   so that gradient-based optimizer can be used
   when the multidisciplinary process is differentiable.
-- Each [BaseUMDOFormulation][gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation]
-  has a Pydantic model to define its settings.
-  For example,
-  [Sampling_Settings][gemseo_umdo.formulations.sampling_settings.Sampling_Settings]
-  is the Pydantic model for the [Sampling][gemseo_umdo.formulations.sampling.Sampling] U-MDO formulation.
+- The U-MDO formulation [PCE][gemseo_umdo.formulations.pce.PCE] has a new option `approximate_statistics_jacobians`
+  to approximate the Jacobians of the mean, standard deviation and variance with respect to the design variables
+  at no extra cost,
+  if you do not want to compute the derivatives of the disciplines to reduce the calculation budget
+  or approximate these Jacobians by finite differences.
+  The approximation uses the technique proposed by Mura _et al._ (2020)
+  and is parametrized by the option `differentiation_step` (default: `1e-6`).
+- [UOptAsUMDOScenario][gemseo_umdo.problems.uopt_as_umdo_scenario.UOptAsUMDOScenario]
+  can make a monodisciplinary optimization problem under uncertainty multidisciplinary.
+- An example illustrates the use of the [BiLevel][gemseo.formulations.bilevel.BiLevel] MDO formulation
+  in the U-MDO formulation [Sampling][gemseo_umdo.formulations.sampling.Sampling].
 
 ### Changed
 
@@ -53,16 +62,16 @@ and this project adheres to
   no longer have a default statistic estimation technique.
   The `statistic_estimation_settings` argument must be defined.
 - API CHANGE:
-  The statistic estimation settings of
-  a [BaseUMDOFormulation][gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation]
-  passed as positional and keyword arguments
-  have been replaced by the unique positional argument `settings_model`,
-  which is a Pydantic model.
-- API CHANGE:
   The `statistic_estimation` and `statistic_estimation_parameters` keyword arguments of
   [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario]
   and [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
   have been replaced by the positional argument `statistic_estimation_settings`,
+  which is a Pydantic model.
+- API CHANGE:
+  The statistic estimation settings of
+  a [BaseUMDOFormulation][gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation]
+  passed as positional and keyword arguments
+  have been replaced by the unique positional argument `settings_model`,
   which is a Pydantic model.
 
 ## Fixed

@@ -68,6 +68,7 @@ to approximate the Jacobians of the mean, standard deviation and variance with r
 at no extra cost,
 if you do not want to compute the derivatives of the disciplines to reduce the calculation budget
 or approximate these Jacobians by finite differences.
+You only have to enable the option `approximate_statistics_jacobians`.
 
 !!! note "API"
     Use `statistic_estimation_settings`
