@@ -79,9 +79,9 @@ class Variance(BaseMLMCPilot):
         # for the computation of Sobol' indices, 2019.
         # V_l = (M4[D_l]M4[S_l])**0.5
         for level in levels:
-            _samples = samples[level]
-            self.__delta[level] = _samples[:, 0] - _samples[:, 1]
-            self.__sigma[level] = _samples.sum(1)
+            samples_ = samples[level]
+            self.__delta[level] = samples_[:, 0] - samples_[:, 1]
+            self.__sigma[level] = samples_.sum(1)
 
         return array([
             (

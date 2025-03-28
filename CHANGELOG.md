@@ -26,6 +26,64 @@ The format is based on
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Version 4.0.0 (March 2025)
+
+### Added
+
+- Each [BaseUMDOFormulation][gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation]
+  has a Pydantic model to define its settings.
+  For example,
+  [Sampling_Settings][gemseo_umdo.formulations.sampling_settings.Sampling_Settings]
+  is the Pydantic model for the [Sampling][gemseo_umdo.formulations.sampling.Sampling] U-MDO formulation.
+- The U-MDO formulations
+  [Sampling][gemseo_umdo.formulations.sampling.Sampling],
+  [SequentialSampling][gemseo_umdo.formulations.sampling.Sampling]
+  and [PCE][gemseo_umdo.formulations.pce.PCE]
+  are differentiable,
+  so that gradient-based optimizer can be used
+  when the multidisciplinary process is differentiable.
+- The U-MDO formulation [PCE][gemseo_umdo.formulations.pce.PCE] has a new option `approximate_statistics_jacobians`
+  to approximate the Jacobians of the mean, standard deviation and variance with respect to the design variables
+  at no extra cost,
+  if you do not want to compute the derivatives of the disciplines to reduce the calculation budget
+  or approximate these Jacobians by finite differences.
+  The approximation uses the technique proposed by Mura _et al._ (2020)
+  and is parametrized by the option `differentiation_step` (default: `1e-6`).
+- [UOptAsUMDOScenario][gemseo_umdo.problems.uopt_as_umdo_scenario.UOptAsUMDOScenario]
+  can make a monodisciplinary optimization problem under uncertainty multidisciplinary.
+- An example illustrates the use of the [BiLevel][gemseo.formulations.bilevel.BiLevel] MDO formulation
+  in the U-MDO formulation [Sampling][gemseo_umdo.formulations.sampling.Sampling].
+
+### Changed
+
+- API CHANGE:
+  [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario]
+  and [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
+  no longer have a default statistic estimation technique.
+  The `statistic_estimation_settings` argument must be defined.
+- API CHANGE:
+  The `statistic_estimation` and `statistic_estimation_parameters` keyword arguments of
+  [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario]
+  and [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
+  have been replaced by the positional argument `statistic_estimation_settings`,
+  which is a Pydantic model.
+- API CHANGE:
+  The statistic estimation settings of
+  a [BaseUMDOFormulation][gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation]
+  passed as positional and keyword arguments
+  have been replaced by the unique positional argument `settings_model`,
+  which is a Pydantic model.
+
+## Fixed
+
+- The bug related to the way
+  [ControlVariate][gemseo_umdo.formulations.control_variate.ControlVariate]
+  and [TaylorPolynomial][gemseo_umdo.formulations.taylor_polynomial.TaylorPolynomial]
+  use non-normalized data has been corrected.
+- [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario]
+  and [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
+  now accept disciplines with variables that are floats rather than NumPy arrays.
+
 ## Version 3.0.0 (November 2024)
 
 ### Added

@@ -30,7 +30,7 @@ repos:
     - id: rst-inline-touching-normal
 
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.7.3
+  rev: v0.11.2
   hooks:
     - id: ruff
       types_or: [ python, pyi, jupyter ]
@@ -39,18 +39,18 @@ repos:
       types_or: [ python, pyi, jupyter ]
 
 - repo: https://github.com/commitizen-tools/commitizen
-  rev: v3.30.0
+  rev: v4.4.1
   hooks:
     - id: commitizen
       stages: [commit-msg]
 
 - repo: https://github.com/kynan/nbstripout
-  rev: 0.8.0
+  rev: 0.8.1
   hooks:
     - id: nbstripout
 
 - repo: https://github.com/igorshubovych/markdownlint-cli
-  rev: v0.42.0
+  rev: v0.44.0
   hooks:
   - id: markdownlint
     args: [

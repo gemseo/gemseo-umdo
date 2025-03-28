@@ -22,6 +22,7 @@ from typing import ClassVar
 
 from gemseo.core.mdo_functions.mdo_function import MDOFunction
 from gemseo.formulations.base_formulation import BaseFormulation
+from gemseo.formulations.bilevel import BiLevel
 from gemseo.uncertainty.statistics.base_statistics import BaseStatistics
 from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
 from gemseo.utils.data_conversion import split_array_to_dict_of_arrays
@@ -42,6 +43,9 @@ if TYPE_CHECKING:
 
     from gemseo_umdo.formulations._functions.base_statistic_function import (
         BaseStatisticFunction,
+    )
+    from gemseo_umdo.formulations.base_umdo_formulation_settings import (
+        BaseUMDOFormulationSettings,
     )
 
 
@@ -127,9 +131,9 @@ class BaseUMDOFormulation(BaseFormulation):
         mdo_formulation: BaseMDOFormulation,
         uncertain_space: ParameterSpace,
         objective_statistic_name: str,
+        settings_model: BaseUMDOFormulationSettings,
         objective_statistic_parameters: StrKeyMapping = READ_ONLY_EMPTY_DICT,
         mdo_formulation_settings: StrKeyMapping = READ_ONLY_EMPTY_DICT,
-        **settings: Any,
     ) -> None:
         """
         Args:
@@ -168,7 +172,9 @@ class BaseUMDOFormulation(BaseFormulation):
             objective_statistic_name,
             **objective_statistic_parameters,
         )
-        super().__init__(disciplines, objective_name, design_space, **settings)
+        super().__init__(
+            disciplines, objective_name, design_space, settings_model=settings_model
+        )
         self.name = f"{self.__class__.__name__}[{mdo_formulation.__class__.__name__}]"
 
         # Replace the objective function by a statistic function.
@@ -358,12 +364,23 @@ class BaseUMDOFormulation(BaseFormulation):
             if formulation is None:
                 continue
 
-            for discipline in formulation.get_top_level_disciplines():
-                discipline.default_input_data.update({
-                    k: v
-                    for k, v in design_values.items()
-                    if k in discipline.input_grammar
-                })
+            all_top_level_disciplines = [formulation.get_top_level_disciplines()]
+            # TODO: remove this block and find a more generic way of handling this case.
+            if isinstance(formulation, BiLevel):
+                all_top_level_disciplines.extend(
+                    scenario_adapter.scenario.formulation.get_top_level_disciplines()
+                    for scenario_adapter in formulation.scenario_adapters
+                )
+
+            for top_level_disciplines in all_top_level_disciplines:
+                for discipline in top_level_disciplines:
+                    input_grammar = discipline.io.input_grammar
+                    to_value = input_grammar.data_converter.convert_array_to_value
+                    input_grammar.defaults.update({
+                        name: to_value(name, value)
+                        for name, value in design_values.items()
+                        if name in input_grammar
+                    })
 
     def get_top_level_disciplines(self) -> list[Discipline]:  # noqa: D102
         return self._mdo_formulation.get_top_level_disciplines()

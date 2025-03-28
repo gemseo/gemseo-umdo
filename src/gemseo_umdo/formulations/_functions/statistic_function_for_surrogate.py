@@ -59,10 +59,11 @@ class StatisticFunctionForSurrogate(BaseStatisticFunction[SurrogateT]):
         umdo_formulation = self._umdo_formulation
         problem = umdo_formulation.mdo_formulation.optimization_problem
         samples = umdo_formulation.compute_samples(problem)
+        regressor_settings = umdo_formulation._settings.regressor_settings
         regressor = RegressorFactory().create(
-            umdo_formulation.regressor_name,
+            regressor_settings.__class__.__name__.rsplit("_Settings", 1)[0],
             samples,
-            **umdo_formulation.regressor_options,
+            settings_model=regressor_settings,
         )
         regressor.learn()
         output_data.update(regressor.predict(umdo_formulation.input_samples))

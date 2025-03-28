@@ -18,9 +18,6 @@ a PCE is built over the uncertain space
 and its coefficients are used to estimate specific statistics,
 namely mean, standard deviation, variance and margin.
 
-The number of samples to build the PCE is mandatory
-and must be set with the parameter `doe_n_samples`.
-
 Here is a typical scenario template:
 
 ``` py
@@ -31,12 +28,11 @@ scenario = UMDOScenario(
     design_space,
     uncertain_space,
     statistic_name,
-    statistic_estimation="PCE",
-    statistic_estimation_parameters={"doe_n_samples": 20}
+    statistic_estimation_settings=PCE_Settings(doe_n_samples=20),
 )
 ```
 
-## Options
+## Settings
 
 ### DOE algorithm
 
@@ -48,27 +44,42 @@ starts from an initial LHS
 and improves it to maximize its discrepancy
 and so to get a better space-filling LHS.
 
-The DOE algorithm name can be set with the string option `doe_algo`
-and its options with the dictionary parameter `doe_algo_options`.
-When the DOE algorithm uses a random number generator,
-the integer option `doe_seed` can be used for reproducibility purposes.
+The default number samples is 10.
+It can be changed with the parameter `n_samples`
+and the DOE algorithm name can be changed with the parameter `doe_algo_settings`,
+which is a Pydantic model deriving from [BaseDOESettings][gemseo.algos.doe.base_doe_settings.BaseDOESettings].
+When `n_samples` is `None` (default) and `doe_algo_settings` has a field `n_samples`,
+then this field is considered.
+When `doe_algo_settings` has a field `seed` and its value is `None`,
+then the U-MDO formulation will use [SEED][gemseo.utils.seeder.SEED].
 
 ### PCE's options
 
 This U-MDO formulation is based on the [PCERegressor][gemseo.mlearning.regression.algos.pce.PCERegressor] available in GEMSEO,
 which wraps the [OpenTURNS' PCE algorithm](https://openturns.github.io/openturns/latest/user_manual/response_surface/_generated/openturns.FunctionalChaosAlgorithm.html).
-Use the `pce_options` argument to set the options of the [PCERegressor][gemseo.mlearning.regression.algos.pce.PCERegressor].
+Use the `regressor_settings` parameter to set the options of the [PCERegressor][gemseo.mlearning.regression.algos.pce.PCERegressor],
+using the Pydantic model [PCERegressorSettings][gemseo.mlearning.regression.algos.pce_settings.PCERegressor_Settings].
 For example,
 set `use_lars` to `True` to obtain a more sparse PCE and avoid overfitting
 ([more details](https://openturns.github.io/openturns/latest/theory/meta_modeling/polynomial_sparse_least_squares.html))
 and `degree` to `3` for a maximum degree of 3.
+You can also use the technique proposed in Section II.C.3 of a paper by Mura _et al._[@Mura2020]
+to approximate the Jacobians of the mean, standard deviation and variance with respect to the design variables
+at no extra cost,
+if you do not want to compute the derivatives of the disciplines to reduce the calculation budget
+or approximate these Jacobians by finite differences.
+You only have to enable the option `approximate_statistics_jacobians`.
 
 !!! note "API"
-    Use `statistic_estimation_parameters`
-    to set the DOE algorithm and the PCE's options,
-    e.g.
+    Use `statistic_estimation_settings`
+    to set the DOE algorithm and the PCE's settings,
+    _e.g._
 
     ``` py
+    settings = PCE_Settings(
+        doe_algo_settings=OT_MONTE_CARLO(n_samples=20, n_processes=2),
+        regressor_settings=PCE_Settings.PCERegressorSettings(use_lars=True, degree=3),
+        )
     scenario = UMDOScenario(
         disciplines,
         mdo_formulation_name,
@@ -76,12 +87,7 @@ and `degree` to `3` for a maximum degree of 3.
         design_space,
         uncertain_space,
         statistic_name,
-        statistic_estimation_parameters={
-            "doe_algo": "OT_MONTE_CARLO",
-            "doe_n_samples": 20,
-            "doe_algo_options": {"n_processes": 2},
-            "pce_options": {"use_lars": True, "degree": 3}
-        }
+        statistic_estimation_settings=settings,
     )
     ```
 
@@ -116,3 +122,10 @@ $$\hat{f}_x(U)=\alpha_0 + \sum_{1\leq i\leq P}\alpha_i\Phi_i(U).$$
 | Variance           | $\mathbb{V}[\varphi(x,U)]$      | $V_{\textrm{PCE}}[\varphi(x,U)]=\sum_{1\leq i\leq P}\alpha_i^2$                                                              |
 | Standard deviation | $\mathbb{S}[\varphi(x,U)]$      | $S_{\textrm{PCE}}[\varphi(x,U)]=\sqrt{V_{\textrm{PCE}}[\varphi(x,U)]}$                                                      |
 | Margin             | $\textrm{Margin}[\varphi(x,U)]$ | $\textrm{Margin}_{\textrm{PCE}}[\varphi(x,U)]=E_{\textrm{PCE}}[\varphi(x,U)] + \kappa \times S_{\textrm{PCE}}[\varphi(x,U)]$ |
+
+## Gradient-based optimization
+
+When the multidisciplinary process is differentiable,
+and a gradient-based optimizer is used,
+analytical derivatives are implemented with the following statistics:
+mean, standard deviation, variance and margin.

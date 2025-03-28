@@ -50,6 +50,7 @@ from gemseo.algos.design_space import DesignSpace
 from gemseo.algos.parameter_space import ParameterSpace
 from gemseo.disciplines.analytic import AnalyticDiscipline
 
+from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 
 configure_logger()
@@ -96,7 +97,9 @@ scenario = UMDOScenario(
     uncertain_space,
     "Mean",
     formulation_name="MDF",
-    statistic_estimation_parameters={"n_samples": 100},
+    statistic_estimation_settings=Sampling_Settings(
+        n_samples=100, estimate_statistics_iteratively=False
+    ),
 )
 
 # %%
@@ -108,8 +111,8 @@ scenario.add_constraint("c1", "Margin", factor=3.0)
 scenario.add_constraint("c2", "Margin", factor=3.0)
 
 # %%
-# We execute this scenario using the gradient-free optimizer COBYLA:
-scenario.execute(algo_name="NLOPT_COBYLA", max_iter=200)
+# We execute this scenario using the gradient-based optimizer SLSQP:
+scenario.execute(algo_name="NLOPT_SLSQP", max_iter=200)
 
 # %%
 # and plot the optimization history:

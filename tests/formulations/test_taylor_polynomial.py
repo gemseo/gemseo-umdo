@@ -19,6 +19,10 @@ from typing import TYPE_CHECKING
 import pytest
 from gemseo import from_pickle
 from gemseo import to_pickle
+from gemseo.algos.design_space import DesignSpace
+from gemseo.algos.doe.custom_doe.settings.custom_doe_settings import CustomDOE_Settings
+from gemseo.algos.parameter_space import ParameterSpace
+from gemseo.disciplines.analytic import AnalyticDiscipline
 from gemseo.formulations.mdf import MDF
 from numpy import array
 from numpy import ndarray
@@ -32,13 +36,14 @@ from gemseo_umdo.formulations._statistics.taylor_polynomial.standard_deviation i
 )
 from gemseo_umdo.formulations._statistics.taylor_polynomial.variance import Variance
 from gemseo_umdo.formulations.taylor_polynomial import TaylorPolynomial
+from gemseo_umdo.formulations.taylor_polynomial_settings import (
+    TaylorPolynomial_Settings,
+)
 from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
 
-    from gemseo.algos.design_space import DesignSpace
-    from gemseo.algos.parameter_space import ParameterSpace
     from gemseo.core.discipline.discipline import Discipline
 
 
@@ -58,6 +63,7 @@ def umdo_formulation(
         mdo_formulation,
         uncertain_space,
         "Mean",
+        TaylorPolynomial_Settings(),
     )
     formulation.add_constraint("c", "Mean")
     formulation.add_observable("o", "Mean")
@@ -80,7 +86,7 @@ def umdo_formulation_with_hessian(
         mdo_formulation,
         uncertain_space,
         "Mean",
-        second_order=True,
+        TaylorPolynomial_Settings(second_order=True),
     )
     formulation.add_constraint("c", "Mean")
     formulation.add_observable("o", "Mean")
@@ -106,8 +112,9 @@ def scenario(disciplines, design_space, uncertain_space, request):
         uncertain_space,
         "Mean",
         formulation_name="MDF",
-        statistic_estimation="TaylorPolynomial",
-        statistic_estimation_parameters={"second_order": request.param},
+        statistic_estimation_settings=TaylorPolynomial_Settings(
+            second_order=request.param
+        ),
     )
     scn.add_constraint("c", "Margin", factor=3.0)
     scn.add_observable("o", "Variance")
@@ -256,3 +263,29 @@ def test_second_order_approximation(umdo_formulation_with_hessian):
     constraint_value = constraint.evaluate(array([0.0] * 3))
     assert constraint_value.shape == (3, 3)
     assert_equal(constraint_value, 0.0)
+
+
+def test_uncertain_input_data_non_normalization():
+    """Check that the uncertain input data non-normalization is managed correcty."""
+    discipline = AnalyticDiscipline({"f": "x+u"})
+    design_space = DesignSpace()
+    design_space.add_variable("x")
+    uncertain_space = ParameterSpace()
+    uncertain_space.add_random_variable(
+        "u", "OTUniformDistribution", minimum=0.0, maximum=1.5
+    )
+    scenario = UDOEScenario(
+        [discipline],
+        "f",
+        design_space,
+        uncertain_space,
+        "Mean",
+        statistic_estimation_settings=TaylorPolynomial_Settings(),
+        formulation_name="DisciplinaryOpt",
+    )
+    scenario.execute(CustomDOE_Settings(samples=array([[1.0]]), eval_jac=True))
+    assert_almost_equal(discipline.io.data["x"], array([1.0]))
+    # u = 1.125, f = 1+1.125² and dfdu = 2.25 before bug fix
+    assert_almost_equal(discipline.io.data["u"], array([0.75]))
+    assert_almost_equal(discipline.io.data["f"], array([1.75]))
+    assert_almost_equal(discipline.jac["f"]["u"], array([[1.0]]))

@@ -14,9 +14,9 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 """Formulations for multidisciplinary design problems under uncertainty.
 
-An [MDOFormulation][gemseo.formulations.mdo_formulation.MDOFormulation]
+A [BaseMDOFormulation][gemseo.formulations.base_mdo_formulation.BaseMDOFormulation]
 defines an [OptimizationProblem][gemseo.algos.optimization_problem.OptimizationProblem]
-from one or several [MDODiscipline][gemseo.core.discipline.MDODiscipline]s,
+from one or several [Disciplines][gemseo.core.discipline.discipline.Discipline],
 a [DesignSpace][gemseo.algos.design_space.DesignSpace],
 an objective and constraints.
 The objective can be either minimized (default) or maximized.
@@ -34,7 +34,7 @@ or a design of experiments
 In the frame of U-MDO,
 the
 [BaseUMDOFormulation][gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation]
-uses an [MDOFormulation][gemseo.formulations.mdo_formulation.MDOFormulation]
+uses a [BaseMDOFormulation][gemseo.formulations.base_mdo_formulation.BaseMDOFormulation]
 with a [ParameterSpace][gemseo.algos.parameter_space.ParameterSpace]
 defining the uncertain variables
 and executes the corresponding
@@ -51,3 +51,9 @@ consisting in estimating the statistics with (quasi) Monte Carlo techniques.
 """
 
 from __future__ import annotations
+
+from gemseo.algos.doe.factory import DOELibraryFactory
+from strenum import StrEnum
+
+DOE_ALGO_NAMES = StrEnum("DOE_ALGO_NAMES", DOELibraryFactory().algorithms)
+"""The names of the available DOE algorithms."""

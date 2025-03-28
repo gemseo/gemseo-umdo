@@ -43,6 +43,9 @@ if TYPE_CHECKING:
     from gemseo.typing import StrKeyMapping
 
     from gemseo_umdo.formulations.base_umdo_formulation import BaseUMDOFormulation
+    from gemseo_umdo.formulations.base_umdo_formulation_settings import (
+        BaseUMDOFormulationSettings,
+    )
 
 
 class BaseUScenario:
@@ -59,9 +62,8 @@ class BaseUScenario:
         design_space: DesignSpace,
         uncertain_space: ParameterSpace,
         objective_statistic_name: str,
+        statistic_estimation_settings: BaseUMDOFormulationSettings,
         objective_statistic_parameters: StrKeyMapping = READ_ONLY_EMPTY_DICT,
-        statistic_estimation: str = "Sampling",
-        statistic_estimation_parameters: StrKeyMapping = READ_ONLY_EMPTY_DICT,
         uncertain_design_variables: Mapping[
             str, str | tuple[str, str]
         ] = READ_ONLY_EMPTY_DICT,
@@ -76,11 +78,11 @@ class BaseUScenario:
                 with their probability distributions.
             objective_statistic_name: The name of the statistic
                 to be applied to the objective, e.g. "margin".
+            statistic_estimation_settings: The settings
+                of the statistics' estimation technique.
             objective_statistic_parameters: The parameters of the statistics
                 to be applied to the objective,
                 e.g. `{"factor": 2.}` when `objective_statistic="margin"`.
-            statistic_estimation: The name of the method to estimate the statistic.
-            statistic_estimation_parameters: The options of `statistic_estimation`.
             uncertain_design_variables: This argument facilitates
                 the definition of uncertain design variables in two ways.
                 The first way consists of passing a dictionary
@@ -150,14 +152,13 @@ class BaseUScenario:
             objective_name,
             mdo_formulation_design_space,
             name=name,
-            formulation_name=statistic_estimation,
             mdo_formulation=mdo_formulation,
             objective_statistic_name=objective_statistic_name,
             objective_statistic_parameters=objective_statistic_parameters,
             uncertain_space=uncertain_space,
             maximize_objective=maximize_objective,
             mdo_formulation_settings=formulation_settings,
-            **statistic_estimation_parameters,
+            formulation_settings_model=statistic_estimation_settings,
         )
 
         self.formulation_name = self.formulation.name

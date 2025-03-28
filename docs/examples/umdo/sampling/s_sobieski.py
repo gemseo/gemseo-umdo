@@ -13,7 +13,7 @@
 # FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-"""# The Sobieski's SSBJ MDO problem"""
+"""# The Sobieski's SSBJ MDO problem."""
 
 from __future__ import annotations
 
@@ -25,6 +25,7 @@ from gemseo.problems.mdo.sobieski.disciplines import SobieskiMission
 from gemseo.problems.mdo.sobieski.disciplines import SobieskiPropulsion
 from gemseo.problems.mdo.sobieski.disciplines import SobieskiStructure
 
+from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 
 configure_logger()
@@ -70,7 +71,9 @@ scenario = UMDOScenario(
     uncertain_space,
     "Mean",
     formulation_name="MDF",
-    statistic_estimation_parameters={"n_samples": 10},
+    statistic_estimation_settings=Sampling_Settings(
+        estimate_statistics_iteratively=False, n_samples=20
+    ),
     maximize_objective=True,
     uncertain_design_variables={"x_2": "{}+u_x_2"},
 )
@@ -83,8 +86,8 @@ scenario.add_constraint("g_2", "Margin", factor=3.0)
 scenario.add_constraint("g_3", "Margin", factor=3.0)
 
 # %%
-# and execute it with a gradient-free optimizer:
-scenario.execute(algo_name="NLOPT_COBYLA", max_iter=100)
+# We execute this scenario using the gradient-based optimizer SLSQP:
+scenario.execute(algo_name="NLOPT_SLSQP", max_iter=100)
 
 # %%
 # Lastly,

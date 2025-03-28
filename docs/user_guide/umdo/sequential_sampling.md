@@ -16,9 +16,7 @@ Contrary to [Sampling][gemseo_umdo.formulations.sampling.Sampling],
 this U-MDO formulation does not use a constant sample size
 but a sample size that increases with the iterations of the optimization loop.
 
-The number of samples is mandatory
-and must be set with the parameter `n_samples`.
-It corresponds to the maximum number of samples
+The number of samples `n_samples` corresponds to the maximum number of samples
 for a given iteration of the optimization loop.
 
 Here is a typical scenario template:
@@ -31,32 +29,38 @@ scenario = UMDOScenario(
     design_space,
     uncertain_space,
     statistic_name,
-    statistic_estimation="SequentialSampling",
-    statistic_estimation_parameters={"n_samples": n_samples}
+    statistic_estimation_settings=SequentialSampling_Settings(n_samples=20),
 )
 ```
 
-## Options
+## Settings
 
 ### Algorithm
 
 By default,
 the formulation uses the algorithm `OT_OPT_LHS`
-to get a good space-filling design of experiments (DOE).
+to get a good space-filling design of experiments (DOE),
+with only 10 samples.
 
 !!! question "DOE algorithms"
     Read the [GEMSEO documentation](https://gemseo.readthedocs.io/en/stable/doe.html#algorithms)
     for more information about the available DOE algorithms.
 
-The DOE algorithm name can be set with the string parameter `algo`
-and its options with the dictionary parameter `algo_options`.
+The number of samples can be changed with the parameter `n_samples`
+and the DOE algorithm name can be changed with the parameter `doe_algo_settings`,
+which is a Pydantic model deriving from [BaseDOESettings][gemseo.algos.doe.base_doe_settings.BaseDOESettings].
+When `n_samples` is `None` (default) and `doe_algo_settings` has a field `n_samples`,
+then this field is considered.
+When `doe_algo_settings` has a field `seed` and its value is `None`,
+then the U-MDO formulation will use [SEED][gemseo.utils.seeder.SEED].
 
 !!! note "API"
-    Use `statistic_estimation_parameters`
-    to set the algorithm name and parameters,
-    e.g.
+    Use `statistic_estimation_settings`
+    to set the DOE algorithm name and settings,
+    _e.g._
 
     ``` py
+    settings = SequentialSampling_Settings(doe_algo_settings=OT_MONTE_CARLO(n_samples=20, n_processes=2))
     scenario = UMDOScenario(
         disciplines,
         mdo_formulation_name,
@@ -64,11 +68,7 @@ and its options with the dictionary parameter `algo_options`.
         design_space,
         uncertain_space,
         statistic_name,
-        statistic_estimation_parameters={
-            "algo": "OT_MONTE_CARLO",
-            "n_samples": 20,
-            "algo_options": {"n_processes": 2}
-        }
+        statistic_estimation_settings=settings,
     )
     ```
 

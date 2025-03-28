@@ -63,8 +63,8 @@ class Mean(BaseMLMCMLCVPilot):
     ) -> NDArray[float]:
         g_means, h_means, mlmc_mlcv_variant = pilot_parameters
         for level in levels:
-            _samples = samples[level]
-            f_delta = (_samples[:, 0] - _samples[:, 1]).reshape((-1, 1))  # noqa: N806
+            samples_ = samples[level]
+            f_delta = (samples_[:, 0] - samples_[:, 1]).reshape((-1, 1))  # noqa: N806
             if mlmc_mlcv_variant == MLMCMLCV.Variant.MLMC_CV_0 and level != 0:
                 self.__delta[level] = f_delta.ravel()
             else:
@@ -73,7 +73,7 @@ class Mean(BaseMLMCMLCVPilot):
                 )
                 # In the following, "sm" stands for "surrogate model".
                 sm_means = g_means[positions] if level == 0 else h_means[positions]
-                sm_samples = _samples[:, 2:]  # noqa: N806
+                sm_samples = samples_[:, 2:]  # noqa: N806
                 cov_f_sm = dot(  # noqa: N806
                     f_delta.T - f_delta.mean(), sm_samples - sm_samples.mean(axis=0)
                 ) / len(sm_samples)

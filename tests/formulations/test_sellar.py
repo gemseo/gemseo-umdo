@@ -117,30 +117,12 @@ def normal_uncertain_space() -> ParameterSpace:
     return parameter_space
 
 
-statistic_estimation_settings = [
-    ("Sampling", {"n_samples": 10}),
-    ("Sampling", {"n_samples": 10, "estimate_statistics_iteratively": False}),
-    ("SequentialSampling", {"n_samples": 10}),
-    (
-        "SequentialSampling",
-        {"n_samples": 10, "estimate_statistics_iteratively": False},
-    ),
-    ("TaylorPolynomial", {}),
-    ("TaylorPolynomial", {"second_order": True}),
-]
-
-
-@pytest.mark.parametrize(
-    ("statistic_estimation", "statistic_estimation_parameters"),
-    statistic_estimation_settings,
-)
 def test_uncertainty_free(
     disciplines,
     design_space,
     dirac_uncertain_space,
     reference_data,
-    statistic_estimation,
-    statistic_estimation_parameters,
+    statistic_estimation_settings_for_dirac,
     maximize_objective,
     scenario_input_data,
 ):
@@ -163,8 +145,7 @@ def test_uncertainty_free(
         "Mean",
         formulation_name="MDF",
         maximize_objective=maximize_objective,
-        statistic_estimation=statistic_estimation,
-        statistic_estimation_parameters=statistic_estimation_parameters,
+        statistic_estimation_settings=statistic_estimation_settings_for_dirac,
         main_mda_settings={"max_mda_iter": 3},
     )
     u_doe_scenario.add_constraint("c_1", "Mean")
@@ -173,22 +154,12 @@ def test_uncertainty_free(
     assert_almost_equal(u_doe_scenario.to_dataset().to_numpy(), reference_data)
 
 
-@pytest.mark.parametrize(
-    ("statistic_estimation", "statistic_estimation_parameters"),
-    [
-        *statistic_estimation_settings,
-        ("ControlVariate", {"n_samples": 10}),
-        ("PCE", {"doe_n_samples": 20}),
-        ("Surrogate", {"doe_n_samples": 20}),
-    ],
-)
 def test_weak_uncertainties(
     disciplines,
     design_space,
     normal_uncertain_space,
     reference_data,
-    statistic_estimation,
-    statistic_estimation_parameters,
+    statistic_estimation_settings,
     maximize_objective,
     scenario_input_data,
 ):
@@ -205,8 +176,7 @@ def test_weak_uncertainties(
         "Mean",
         formulation_name="MDF",
         maximize_objective=maximize_objective,
-        statistic_estimation=statistic_estimation,
-        statistic_estimation_parameters=statistic_estimation_parameters,
+        statistic_estimation_settings=statistic_estimation_settings,
         main_mda_settings={"max_mda_iter": 3},
     )
     u_doe_scenario.add_constraint("c_1", "Mean")

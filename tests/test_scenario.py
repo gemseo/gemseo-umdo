@@ -19,6 +19,7 @@ from typing import TYPE_CHECKING
 
 import pytest
 from gemseo.algos.design_space import DesignSpace
+from gemseo.algos.doe.custom_doe.settings.custom_doe_settings import CustomDOE_Settings
 from gemseo.algos.parameter_space import ParameterSpace
 from gemseo.core.chains.chain import MDOChain
 from gemseo.disciplines.analytic import AnalyticDiscipline
@@ -32,6 +33,7 @@ from gemseo_umdo.disciplines.additive_noiser import AdditiveNoiser
 from gemseo_umdo.disciplines.multiplicative_noiser import MultiplicativeNoiser
 from gemseo_umdo.formulations.factory import UMDOFormulationsFactory
 from gemseo_umdo.formulations.sampling import Sampling
+from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
 from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 
@@ -80,8 +82,7 @@ def scenario(disciplines, design_space, uncertain_space) -> UMDOScenario:
         uncertain_space,
         "Mean",
         formulation_name="MDF",
-        statistic_estimation="Sampling",
-        statistic_estimation_parameters={"algo": "OT_OPT_LHS", "n_samples": 3},
+        statistic_estimation_settings=Sampling_Settings(n_samples=3),
         main_mda_settings={"inner_mda_name": "MDAGaussSeidel"},
     )
     scn.add_constraint("c", "Margin", factor=3.0)
@@ -109,8 +110,8 @@ def test_formulation(scenario):
     """Check the formulation after instantiation."""
     assert isinstance(scenario.formulation, Sampling)
     assert scenario.formulation_name == "Sampling[MDF; OT_OPT_LHS(3)]"
-    assert scenario.formulation._algo.algo_name
-    assert scenario.formulation._n_samples == 3
+    assert scenario.formulation._Sampling__doe_algo.algo_name
+    assert scenario.formulation._settings.doe_algo_settings.n_samples == 3
 
 
 def test_design_space(scenario):
@@ -167,8 +168,7 @@ def test_maximize_objective(
         uncertain_space,
         "Mean",
         formulation_name="MDF",
-        statistic_estimation="Sampling",
-        statistic_estimation_parameters={"algo": "OT_OPT_LHS", "n_samples": 3},
+        statistic_estimation_settings=Sampling_Settings(n_samples=3),
         **kwargs,
     )
     maximize = bool(maximize_objective)
@@ -195,8 +195,7 @@ def test_uncertain_design_variables(disciplines, design_space, uncertain_space):
             "x1": "{}+v1",
             "x2": ("*", "v2"),
         },
-        statistic_estimation="Sampling",
-        statistic_estimation_parameters={"algo": "OT_OPT_LHS", "n_samples": 3},
+        statistic_estimation_settings=Sampling_Settings(n_samples=3),
     )
     design_space = scn.design_space
     for i in range(3):
@@ -250,10 +249,9 @@ def test_uncertain_design_variables_values(x, u1, u2):
         uncertain_space,
         "Mean",
         formulation_name="DisciplinaryOpt",
-        statistic_estimation_parameters={
-            "algo": "CustomDOE",
-            "algo_options": {"samples": vstack((u1, u2))},
-        },
+        statistic_estimation_settings=Sampling_Settings(
+            doe_algo_settings=CustomDOE_Settings(samples=vstack((u1, u2)))
+        ),
         uncertain_design_variables={"x": ("+", "u")},
     )
     scenario.execute(algo_name="CustomDOE", samples=atleast_2d(x))
@@ -261,12 +259,14 @@ def test_uncertain_design_variables_values(x, u1, u2):
 
 
 def test_statistic_no_estimation_parameters(disciplines, design_space, uncertain_space):
-    """Check that a TypeError is raised when estimation parameters are missing.
-
-    The default BaseUMDOFormulation is "Sampling" whose "n_samples" argument is
-    mandatory for most of the DOE algorithms, including the default one.
-    """
-    with pytest.raises(ValueError, match=re.escape("Sampling: n_samples is required.")):
+    """Check that a TypeError is raised when estimation settings are missing."""
+    with pytest.raises(
+        TypeError,
+        match=re.escape(
+            "__init__() missing 1 required positional argument: "
+            "'statistic_estimation_settings'"
+        ),
+    ):
         UMDOScenario(
             disciplines,
             "f",
@@ -319,12 +319,9 @@ def test_log(
         uncertain_space,
         "Mean",
         formulation_name="DisciplinaryOpt",
-        statistic_estimation="Sampling",
-        statistic_estimation_parameters={
-            "algo": "CustomDOE",
-            "n_samples": None,
-            "algo_options": {"samples": array([[0.5]])},
-        },
+        statistic_estimation_settings=Sampling_Settings(
+            doe_algo_settings=CustomDOE_Settings(samples=array([[0.5]]))
+        ),
         maximize_objective=maximize_objective,
     )
 

@@ -22,6 +22,7 @@ from typing import Any
 import pytest
 from gemseo import from_pickle
 from gemseo import to_pickle
+from gemseo.algos.doe.custom_doe.settings.custom_doe_settings import CustomDOE_Settings
 from gemseo.datasets.io_dataset import IODataset
 from gemseo.formulations.mdf import MDF
 from gemseo.utils.comparisons import compare_dict_of_arrays
@@ -57,6 +58,7 @@ from gemseo_umdo.formulations._statistics.sampling.standard_deviation import (
 )
 from gemseo_umdo.formulations._statistics.sampling.variance import Variance
 from gemseo_umdo.formulations.sampling import Sampling
+from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
 from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
 
 if TYPE_CHECKING:
@@ -66,8 +68,8 @@ if TYPE_CHECKING:
     from gemseo.algos.parameter_space import ParameterSpace
     from gemseo.core.discipline.discipline import Discipline
 
-    from gemseo_umdo.formulations._statistics.iterative_sampling.sampling_estimator import (  # noqa: E501
-        SamplingEstimator as IterativeSamplingEstimator,
+    from gemseo_umdo.formulations._statistics.iterative_sampling.base_sampling_estimator import (  # noqa: E501
+        BaseSamplingEstimator as BaseIterativeSamplingEstimator,
     )
 
 
@@ -87,8 +89,9 @@ def umdo_formulation(
         mdo_formulation,
         uncertain_space,
         "Mean",
-        algo="CustomDOE",
-        algo_options={"samples": array([[0.0] * 3, [1.0] * 3])},
+        Sampling_Settings(
+            doe_algo_settings=CustomDOE_Settings(samples=array([[0.0] * 3, [1.0] * 3])),
+        ),
     )
     formulation.add_constraint("c", "Mean")
     formulation.add_observable("o", "Mean")
@@ -123,7 +126,7 @@ def n_processes(request) -> int:
 
 
 @pytest.fixture(params=[False, True])
-def maximize_objective(request) -> int:
+def maximize_objective(request) -> bool:
     """Whether to maximize the objective."""
     return request.param
 
@@ -145,15 +148,12 @@ def scenario(
         uncertain_space,
         "Mean",
         formulation_name="MDF",
-        statistic_estimation="Sampling",
-        statistic_estimation_parameters={
-            "algo": "CustomDOE",
-            "algo_options": {
-                "samples": array([[0.0] * 3, [1.0] * 3]),
-                "n_processes": n_processes,
-            },
-            "estimate_statistics_iteratively": estimate_statistics_iteratively,
-        },
+        statistic_estimation_settings=Sampling_Settings(
+            doe_algo_settings=CustomDOE_Settings(
+                samples=array([[0.0] * 3, [1.0] * 3]), n_processes=n_processes
+            ),
+            estimate_statistics_iteratively=estimate_statistics_iteratively,
+        ),
         maximize_objective=maximize_objective,
     )
     scn.add_constraint("c", "Margin", factor=3.0)
@@ -181,7 +181,7 @@ def test_scenario_serialization(scenario, tmp_path, scenario_input_data):
 
 
 def estimate(
-    statistic_class: BaseSamplingEstimator | IterativeSamplingEstimator,
+    statistic_class: BaseSamplingEstimator | BaseIterativeSamplingEstimator,
     samples: ndarray,
     **options: Any,
 ) -> ndarray:
@@ -327,20 +327,6 @@ def test_clear_inner_database(umdo_formulation):
     )
 
 
-def test_read_write_n_samples(umdo_formulation):
-    """Check the property and setter _n_samples."""
-    doe_algo_options = umdo_formulation._Sampling__doe_algo_options
-
-    # Sampling has been instantiated with `n_samples=None`.
-    assert umdo_formulation._n_samples is None
-    assert "n_samples" not in doe_algo_options
-
-    # In the options of the DOE,
-    # the number of samples is set to 3 with the property _n_samples.
-    umdo_formulation._n_samples = 3
-    assert umdo_formulation._n_samples == doe_algo_options["n_samples"] == 3
-
-
 def test_save_samples(disciplines, design_space, uncertain_space, tmp_wd):
     scenario = UDOEScenario(
         disciplines,
@@ -349,11 +335,12 @@ def test_save_samples(disciplines, design_space, uncertain_space, tmp_wd):
         uncertain_space,
         "Mean",
         formulation_name="MDF",
-        statistic_estimation_parameters={
-            "samples_directory_path": "foo",
-            "algo": "CustomDOE",
-            "algo_options": {"samples": array([[0.0, 0.0, 0.0], [1.0, 1.0, 1.0]])},
-        },
+        statistic_estimation_settings=Sampling_Settings(
+            doe_algo_settings=CustomDOE_Settings(
+                samples=array([[0.0, 0.0, 0.0], [1.0, 1.0, 1.0]])
+            ),
+            samples_directory_path="foo",
+        ),
     )
     scenario.add_constraint("c", "Margin", factor=3.0)
     scenario.add_observable("o", "Variance")
@@ -374,7 +361,8 @@ def test_save_samples(disciplines, design_space, uncertain_space, tmp_wd):
 
     assert_frame_equal(dataset, expected_dataset)
     assert compare_dict_of_arrays(
-        dataset.misc, {"x0": array([0.0]), "x1": array([0.0]), "x2": array([0.0])}
+        {k: dataset.misc[k] for k in ("x0", "x1", "x2")},
+        {"x0": array([0.0]), "x1": array([0.0]), "x2": array([0.0])},
     )
     assert dataset.name == "Iteration 1"
 
@@ -390,6 +378,7 @@ def test_save_samples(disciplines, design_space, uncertain_space, tmp_wd):
 
     assert_frame_equal(dataset, expected_dataset)
     assert compare_dict_of_arrays(
-        dataset.misc, {"x0": array([1.0]), "x1": array([1.0]), "x2": array([1.0])}
+        {k: dataset.misc[k] for k in ("x0", "x1", "x2")},
+        {"x0": array([1.0]), "x1": array([1.0]), "x2": array([1.0])},
     )
     assert dataset.name == "Iteration 2"
