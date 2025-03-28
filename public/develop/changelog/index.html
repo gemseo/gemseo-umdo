@@ -7197,8 +7197,11 @@ and this project adheres to
 <h2 id="develop">Develop<a class="headerlink" href="#develop" title="Permanent link">&para;</a></h2>
 <h3 id="added">Added<a class="headerlink" href="#added" title="Permanent link">&para;</a></h3>
 <ul>
-<li><a class="autorefs autorefs-internal" title="            UOptAsUMDOScenario" href="../reference/gemseo_umdo/problems/uopt_as_umdo_scenario/#gemseo_umdo.problems.uopt_as_umdo_scenario.UOptAsUMDOScenario">UOptAsUMDOScenario</a>
-  can make a monodisciplinary optimization problem under uncertainty multidisciplinary.</li>
+<li>Each <a class="autorefs autorefs-internal" title="            BaseUMDOFormulation" href="../reference/gemseo_umdo/formulations/base_umdo_formulation/#gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation">BaseUMDOFormulation</a>
+  has a Pydantic model to define its settings.
+  For example,
+  <a class="autorefs autorefs-internal" title="            Sampling_Settings" href="../reference/gemseo_umdo/formulations/sampling_settings/#gemseo_umdo.formulations.sampling_settings.Sampling_Settings">Sampling_Settings</a>
+  is the Pydantic model for the <a class="autorefs autorefs-internal" title="            Sampling" href="../reference/gemseo_umdo/formulations/sampling/#gemseo_umdo.formulations.sampling.Sampling">Sampling</a> U-MDO formulation.</li>
 <li>The U-MDO formulations
   <a class="autorefs autorefs-internal" title="            Sampling" href="../reference/gemseo_umdo/formulations/sampling/#gemseo_umdo.formulations.sampling.Sampling">Sampling</a>,
   <a class="autorefs autorefs-internal" title="            Sampling" href="../reference/gemseo_umdo/formulations/sampling/#gemseo_umdo.formulations.sampling.Sampling">SequentialSampling</a>
@@ -7206,11 +7209,17 @@ and this project adheres to
   are differentiable,
   so that gradient-based optimizer can be used
   when the multidisciplinary process is differentiable.</li>
-<li>Each <a class="autorefs autorefs-internal" title="            BaseUMDOFormulation" href="../reference/gemseo_umdo/formulations/base_umdo_formulation/#gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation">BaseUMDOFormulation</a>
-  has a Pydantic model to define its settings.
-  For example,
-  <a class="autorefs autorefs-internal" title="            Sampling_Settings" href="../reference/gemseo_umdo/formulations/sampling_settings/#gemseo_umdo.formulations.sampling_settings.Sampling_Settings">Sampling_Settings</a>
-  is the Pydantic model for the <a class="autorefs autorefs-internal" title="            Sampling" href="../reference/gemseo_umdo/formulations/sampling/#gemseo_umdo.formulations.sampling.Sampling">Sampling</a> U-MDO formulation.</li>
+<li>The U-MDO formulation <a class="autorefs autorefs-internal" title="            PCE" href="../reference/gemseo_umdo/formulations/pce/#gemseo_umdo.formulations.pce.PCE">PCE</a> has a new option <code>approximate_statistics_jacobians</code>
+  to approximate the Jacobians of the mean, standard deviation and variance with respect to the design variables
+  at no extra cost,
+  if you do not want to compute the derivatives of the disciplines to reduce the calculation budget
+  or approximate these Jacobians by finite differences.
+  The approximation uses the technique proposed by Mura <em>et al.</em> (2020)
+  and is parametrized by the option <code>differentiation_step</code> (default: <code>1e-6</code>).</li>
+<li><a class="autorefs autorefs-internal" title="            UOptAsUMDOScenario" href="../reference/gemseo_umdo/problems/uopt_as_umdo_scenario/#gemseo_umdo.problems.uopt_as_umdo_scenario.UOptAsUMDOScenario">UOptAsUMDOScenario</a>
+  can make a monodisciplinary optimization problem under uncertainty multidisciplinary.</li>
+<li>An example illustrates the use of the <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.formulations.bilevel.html#gemseo.formulations.bilevel.BiLevel">BiLevel</a> MDO formulation
+  in the U-MDO formulation <a class="autorefs autorefs-internal" title="            Sampling" href="../reference/gemseo_umdo/formulations/sampling/#gemseo_umdo.formulations.sampling.Sampling">Sampling</a>.</li>
 </ul>
 <h3 id="changed">Changed<a class="headerlink" href="#changed" title="Permanent link">&para;</a></h3>
 <ul>
@@ -7220,16 +7229,16 @@ and this project adheres to
   no longer have a default statistic estimation technique.
   The <code>statistic_estimation_settings</code> argument must be defined.</li>
 <li>API CHANGE:
-  The statistic estimation settings of
-  a <a class="autorefs autorefs-internal" title="            BaseUMDOFormulation" href="../reference/gemseo_umdo/formulations/base_umdo_formulation/#gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation">BaseUMDOFormulation</a>
-  passed as positional and keyword arguments
-  have been replaced by the unique positional argument <code>settings_model</code>,
-  which is a Pydantic model.</li>
-<li>API CHANGE:
   The <code>statistic_estimation</code> and <code>statistic_estimation_parameters</code> keyword arguments of
   <a class="autorefs autorefs-internal" title="            UDOEScenario" href="../reference/gemseo_umdo/scenarios/udoe_scenario/#gemseo_umdo.scenarios.udoe_scenario.UDOEScenario">UDOEScenario</a>
   and <a class="autorefs autorefs-internal" title="            UMDOScenario" href="../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>
   have been replaced by the positional argument <code>statistic_estimation_settings</code>,
+  which is a Pydantic model.</li>
+<li>API CHANGE:
+  The statistic estimation settings of
+  a <a class="autorefs autorefs-internal" title="            BaseUMDOFormulation" href="../reference/gemseo_umdo/formulations/base_umdo_formulation/#gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation">BaseUMDOFormulation</a>
+  passed as positional and keyword arguments
+  have been replaced by the unique positional argument <code>settings_model</code>,
   which is a Pydantic model.</li>
 </ul>
 <h2 id="fixed">Fixed<a class="headerlink" href="#fixed" title="Permanent link">&para;</a></h2>
