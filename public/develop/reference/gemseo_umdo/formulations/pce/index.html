@@ -8297,14 +8297,18 @@ If <code>None</code>, the discipline is detected from inner disciplines.</p>
 
     <div class="doc doc-contents ">
 
-        <p>Return the disciplines which inputs are required to run the scenario.</p>
-<p>A formulation seeks to
-compute the objective and constraints from the input variables.
-It structures the optimization problem into multiple levels of disciplines.
-The disciplines directly depending on these inputs
-are called top level disciplines.</p>
-<p>By default, this method returns all disciplines.
-This method can be overloaded by subclasses.</p>
+        <p>Return the top level disciplines that are executed in the foreground.</p>
+<p>A formulation structures the optimization problem
+into multiple levels of disciplines.
+The top level disciplines map
+from the :attr:<code>.design_space</code>
+to the objective, constraint and observable spaces.
+They can be composed of
+both user disciplines and process disciplines added by the formulation,
+e.g. :class:<code>.MDOChain</code>.
+These process disciplines may also include
+both user disciplines and process disciplines,
+and so on.</p>
 
 
 <p><span class="doc-section-title">Returns:</span></p>
