@@ -39,7 +39,6 @@ from gemseo import configure_logger
 from gemseo import create_design_space
 from gemseo import create_discipline
 from gemseo import create_parameter_space
-from gemseo.problems.mdo.opt_as_mdo_scenario import LinearLinkDiscipline
 from gemseo.problems.mdo.opt_as_mdo_scenario import create_disciplines
 from gemseo.scenarios.mdo_scenario import MDOScenario
 from matplotlib import pyplot as plt
@@ -81,9 +80,12 @@ uncertain_space.add_random_variable("v", "OTNormalDistribution", mu=1.0, sigma=0
 # %%
 # Then,
 # we create the disciplines of the multidisciplinary problem:
-rosenbrock, link_discipline, discipline_1, discipline_2 = create_disciplines(
-    rosenbrock, design_space, (), LinearLinkDiscipline
-)
+disciplines = create_disciplines(rosenbrock, design_space)
+
+# %%
+# which are the Rosenbrock discipline,
+# a linear link discipline and two strongly coupled linear disciplines:
+rosenbrock, link_discipline, discipline_1, discipline_2 = disciplines
 
 # %%
 # Now,
