@@ -7,3 +7,8 @@
  Commons, PO Box 1866, Mountain View, CA 94042, USA.
 -->
 # Sobol' graph
+
+A [SobolGraph][gemseo_umdo.visualizations.sobol_graph.SobolGraph]
+is used to plot the first-order, second-order and total Sobol' indices as a network.
+We invite the reader to start with the example of the Ishigami problem
+to find out about the various features of this class.

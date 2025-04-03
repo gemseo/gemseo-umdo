@@ -43,6 +43,7 @@ if TYPE_CHECKING:
 
     from gemseo.algos.parameter_space import ParameterSpace
     from gemseo.core.base_factory import BaseFactory
+    from gemseo.typing import RealArray
     from numpy.typing import NDArray
 
     from gemseo_umdo.statistics.multilevel.base_pilot import BasePilot
@@ -93,7 +94,7 @@ class MLMC:
     __C_l: NDArray[float | nan]
     r"""The evaluations cost of the models."""
 
-    __costs: NDArray[float]
+    __costs: RealArray
     r"""The unit sampling costs of each level of the telescopic sum.
 
     Namely,
@@ -119,7 +120,7 @@ class MLMC:
     __n_samples_history: list[list[int]]
     """The history of the additional numbers of samples of each level."""
 
-    __pilot_statistic_estimation: NDArray[float]
+    __pilot_statistic_estimation: RealArray
     """The estimation of the pilot statistic."""
 
     __pilot_statistic_estimator: BasePilot
@@ -128,7 +129,7 @@ class MLMC:
     _pilot_statistic_estimator_parameters: list[Any]
     """The parameters of the estimator of the pilot statistic."""
 
-    __r_l: NDArray[float]
+    __r_l: RealArray
     r"""The sampling ratios of each level of the telescopic sum.
 
     Namely, $r_0,r_1,\ldots,r_L$.
@@ -144,7 +145,7 @@ class MLMC:
     __total_budget: float
     """The maximum cost given by the user."""
 
-    __total_execution_times: NDArray[float]
+    __total_execution_times: RealArray
     """The total execution times of the different models."""
 
     __use_empirical_C_l: bool  # noqa: N815
@@ -283,7 +284,7 @@ class MLMC:
         return str(string)
 
     @property
-    def pilot_statistic_estimation(self) -> NDArray[float]:
+    def pilot_statistic_estimation(self) -> RealArray:
         """The estimation of the pilot statistic."""
         return self.__pilot_statistic_estimation
 
@@ -297,7 +298,7 @@ class MLMC:
         return array(self.__n_samples_history)
 
     @property
-    def budget_history(self) -> NDArray[float]:
+    def budget_history(self) -> RealArray:
         """The history of the budget.
 
         `algo.budget_history[i]` is the budget at iteration `i+1`.
@@ -313,7 +314,7 @@ class MLMC:
         return self.__n_l
 
     @property
-    def model_costs(self) -> NDArray[float]:
+    def model_costs(self) -> RealArray:
         """The evaluation costs of the different models.
 
         `algo.model_costs[l]` is the cost of one evaluation of the `l`-th model.
@@ -321,7 +322,7 @@ class MLMC:
         return self.__C_l
 
     @property
-    def level_costs(self) -> NDArray[float]:
+    def level_costs(self) -> RealArray:
         """The evaluation costs of the different levels.
 
         `algo.level_costs[l]` is the cost of one evaluation of the `l`-th level.
@@ -342,7 +343,7 @@ class MLMC:
         self._samplers[0].add_function(MDOFunction(self.__zero_function, "f[-1]"))
 
     @staticmethod
-    def __zero_function(x: NDArray[float]) -> NDArray[float]:
+    def __zero_function(x: RealArray) -> RealArray:
         """A function returning 0 for any input value.
 
         Args:
@@ -461,7 +462,7 @@ class MLMC:
         for level in range(self._n_levels):
             LOGGER.info("       V_%s = %s", level, f"{self.__V_l[level]:.2e}")
 
-    def __compute_samples(self, *levels_to_be_sampled: int) -> list[NDArray[float]]:
+    def __compute_samples(self, *levels_to_be_sampled: int) -> list[RealArray]:
         """Sample the low- & high-fidelity models at some levels of the telescoping sum.
 
         Args:

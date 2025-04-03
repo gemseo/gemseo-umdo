@@ -21,13 +21,16 @@ from typing import ClassVar
 
 from gemseo.post._graph_view import GraphView
 from gemseo.utils.string_tools import repr_variable
+from numpy import atleast_1d
+from numpy import atleast_2d
 
 if TYPE_CHECKING:
     from collections.abc import Mapping
     from pathlib import Path
 
-    from gemseo.uncertainty.sensitivity.sobol.analysis import SobolAnalysis
-    from numpy.typing import NDArray
+    from gemseo.mlearning.regression.algos.pce import PCERegressor
+    from gemseo.typing import RealArray
+    from gemseo.uncertainty.sensitivity.sobol_analysis import SobolAnalysis
 
 
 class SobolGraph(GraphView):
@@ -94,7 +97,7 @@ class SobolGraph(GraphView):
                 )
 
     @staticmethod
-    def __preprocess(indices: dict[str, NDArray[float]]) -> dict[str, float]:
+    def __preprocess(indices: dict[str, RealArray]) -> dict[str, float]:
         """Convert indices expressed as NumPy arrays to float numbers.
 
         Args:
@@ -113,7 +116,7 @@ class SobolGraph(GraphView):
 
     @classmethod
     def __preprocess_second_order(
-        cls, indices: dict[str, dict[str, NDArray[float]]]
+        cls, indices: dict[str, dict[str, RealArray]]
     ) -> dict[tuple[str, str], float]:
         """Convert second-order indices expressed as NumPy arrays to float numbers.
 
@@ -158,10 +161,53 @@ class SobolGraph(GraphView):
         """
         return cls(
             cls.__preprocess(analysis.indices.first[output_name][output_component]),
-            second_order_indices=cls.__preprocess_second_order(
+            cls.__preprocess(analysis.indices.total[output_name][output_component]),
+            cls.__preprocess_second_order(
                 analysis.indices.second[output_name][output_component]
             ),
-            total_order_indices=cls.__preprocess(
-                analysis.indices.total[output_name][output_component]
-            ),
+        )
+
+    @classmethod
+    def from_pce(
+        cls, pce_regressor: PCERegressor, output_name: str, output_component: int = 0
+    ) -> SobolGraph:
+        """Create the Sobol' graph from a PCE (polynomial chaos expansion) regressor.
+
+        Args:
+            pce_regressor: A PCE regressor.
+            output_name: The name of the output.
+            output_component: The component of the output.
+
+        Returns:
+            The Sobol' graph associated with this Sobol' analysis.
+
+        Raises:
+            ValueError: When the name is not an output name.
+        """
+        if output_name not in pce_regressor.output_names:
+            msg = f"The name {output_name!r} is not an output name."
+            raise ValueError(msg)
+
+        sizes = pce_regressor.sizes
+        index = 0
+        for name in pce_regressor.output_names:  # pragma: no branch
+            if name == output_name:
+                index += output_component
+                break
+
+            index += sizes[output_name]
+
+        return cls(
+            cls.__preprocess({
+                k: atleast_1d(v).round(3)
+                for k, v in pce_regressor.first_sobol_indices[index].items()
+            }),
+            cls.__preprocess({
+                k: atleast_1d(v).round(3)
+                for k, v in pce_regressor.total_sobol_indices[index].items()
+            }),
+            cls.__preprocess_second_order({
+                k1: {k2: atleast_2d(v2).round(3) for k2, v2 in v1.items()}
+                for k1, v1 in pce_regressor.second_sobol_indices[index].items()
+            }),
         )

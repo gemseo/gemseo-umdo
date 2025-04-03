@@ -37,10 +37,10 @@ if TYPE_CHECKING:
 
     from gemseo.algos.parameter_space import ParameterSpace
     from gemseo.core.discipline.discipline import Discipline
-    from numpy.typing import NDArray
+    from gemseo.typing import RealArray
 
 
-def _compute_qcd(x: NDArray[float]) -> NDArray[float]:
+def _compute_qcd(x: RealArray) -> RealArray:
     """Compute the quartile coefficient of dispersion.
 
     Args:

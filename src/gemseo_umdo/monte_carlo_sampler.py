@@ -20,15 +20,15 @@ from typing import TYPE_CHECKING
 from typing import Callable
 
 from gemseo.algos.doe.openturns.openturns import OpenTURNS
+from gemseo.typing import RealArray
 from numpy import array
 from numpy import hstack
 from numpy import vstack
-from numpy.typing import NDArray
 
 if TYPE_CHECKING:
     from gemseo.algos.design_space import DesignSpace
 
-FunctionType = Callable[[NDArray[float]], NDArray[float]]
+FunctionType = Callable[[RealArray], RealArray]
 
 
 class MonteCarloSampler:
@@ -43,10 +43,10 @@ class MonteCarloSampler:
     __input_space: DesignSpace
     """The input space on which to sample the functions."""
 
-    __input_histories: list[NDArray[float]]
+    __input_histories: list[RealArray]
     """One history of the function inputs per call to the sampler."""
 
-    __output_histories: list[NDArray[float]]
+    __output_histories: list[RealArray]
     """One history of the function outputs per call to the sampler."""
 
     def __init__(self, input_space: DesignSpace) -> None:
@@ -73,7 +73,7 @@ class MonteCarloSampler:
 
     def __call__(
         self, n_samples: int, seed: int | None = None
-    ) -> tuple[NDArray[float], NDArray[float]]:
+    ) -> tuple[RealArray, RealArray]:
         """Sample the functions with a Monte Carlo algorithm.
 
         Args:
@@ -104,7 +104,7 @@ class MonteCarloSampler:
         return input_samples, output_samples
 
     @property
-    def input_history(self) -> NDArray[float]:
+    def input_history(self) -> RealArray:
         """The history of the function inputs."""
         if self.__input_histories:
             return vstack(self.__input_histories)
@@ -112,7 +112,7 @@ class MonteCarloSampler:
         return array(())
 
     @property
-    def output_history(self) -> NDArray[float]:
+    def output_history(self) -> RealArray:
         """The history of the function outputs."""
         if self.__output_histories:
             return vstack(self.__output_histories)
