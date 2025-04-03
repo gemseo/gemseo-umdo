@@ -29,6 +29,7 @@ if TYPE_CHECKING:
     from collections.abc import Iterable
     from collections.abc import Sequence
 
+    from gemseo.typing import RealArray
     from numpy.typing import NDArray
 
 
@@ -62,10 +63,10 @@ class BasePilot(metaclass=ABCGoogleDocstringInheritanceMeta):
         El Amri et al., Algo. 1, Multilevel Surrogate-based Control Variates, 2023.
     """
 
-    V_l: NDArray[float]
+    V_l: RealArray
     r"""The terms variances $\mathcal{V}_0,\ldots,\mathcal{V}_L$."""
 
-    __costs: NDArray[float]
+    __costs: RealArray
     r"""The unit sampling costs of each level of the telescopic sum.
 
     Namely,
@@ -73,13 +74,13 @@ class BasePilot(metaclass=ABCGoogleDocstringInheritanceMeta):
     with $\mathcal{C}_{-1}=0$.
     """
 
-    __r_l: NDArray[float]
+    __r_l: RealArray
     r"""The sampling ratios of each level of the telescopic sum.
 
     Namely, $r_0,r_1,\ldots,r_L$.
     """
 
-    def __init__(self, sampling_ratios: NDArray[float], costs: NDArray[float]) -> None:
+    def __init__(self, sampling_ratios: RealArray, costs: RealArray) -> None:
         r"""
         Args:
             sampling_ratios: The sampling ratios $r_0,\ldots,r_L$;
@@ -99,9 +100,9 @@ class BasePilot(metaclass=ABCGoogleDocstringInheritanceMeta):
         self,
         levels: Iterable[int],
         total_n_samples: NDArray[int],
-        samples: Sequence[NDArray[float]],
+        samples: Sequence[RealArray],
         *pilot_parameters: Any,
-    ) -> tuple[int, NDArray[float]]:
+    ) -> tuple[int, RealArray]:
         r"""Compute the next level $\ell^*$ to sample and estimate the statistic.
 
         Args:
@@ -132,9 +133,9 @@ class BasePilot(metaclass=ABCGoogleDocstringInheritanceMeta):
     def _compute_V_l(  # noqa: N802
         self,
         levels: Iterable[int],
-        samples: Sequence[NDArray[float]],
+        samples: Sequence[RealArray],
         *pilot_parameters: Any,
-    ) -> NDArray[float]:
+    ) -> RealArray:
         r"""Compute the terms variances $\mathcal{V}_0,\ldots,\mathcal{V}_L$.
 
         Args:

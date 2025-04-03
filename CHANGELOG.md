@@ -26,6 +26,14 @@ The format is based on
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Develop
+
+### Added
+
+- A [SobolGraph][gemseo_umdo.visualizations.sobol_graph.SobolGraph] can be defined
+  from a [PCERegressor][gemseo.mlearning.regression.algos.pce.PCERegressor]
+  by using its [from_pce][gemseo_umdo.visualizations.sobol_graph.SobolGraph.from_pce] method.
+
 ## Version 4.0.0 (March 2025)
 
 ### Added

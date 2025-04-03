@@ -26,13 +26,12 @@ from gemseo_umdo.formulations._statistics.base_statistic_estimator import (
 if TYPE_CHECKING:
     from gemseo.algos.parameter_space import ParameterSpace
     from gemseo.typing import RealArray
-    from numpy.typing import NDArray
 
 
 class BaseTaylorPolynomialEstimator(BaseStatisticEstimator):
     """Base statistic estimator for a U-MDO formulation using Taylor polynomials."""
 
-    _standard_deviations: NDArray[float]
+    _standard_deviations: RealArray
     """The standard deviations associated with each component of the uncertain space."""
 
     def __init__(self, uncertain_space: ParameterSpace) -> None:

@@ -20,36 +20,36 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from numpy.typing import NDArray
+    from gemseo.typing import RealArray
 
 
 @dataclass
 class BeamModelOutputData:
     """Output data of the beam model."""
 
-    Ux: NDArray[float]
+    Ux: RealArray
     r"""The strain energy along the $x$-axis."""
 
-    Uy: NDArray[float]
+    Uy: RealArray
     r"""The strain energy along the $y$-axis."""
 
-    Uz: NDArray[float]
+    Uz: RealArray
     r"""The strain energy along the $z$-axis."""
 
-    sigma: NDArray[float]
+    sigma: RealArray
     """The normal stress at the root section points."""
 
-    tau: NDArray[float]
+    tau: RealArray
     """The torsional stress at the root section points."""
 
-    displ: NDArray[float]
+    displ: RealArray
     """The displacements at the tip section points."""
 
-    sigma_vm: NDArray[float]
+    sigma_vm: RealArray
     """The von Mises stress at the root section points."""
 
     w: float
     """The weight of the beam."""
 
-    yz_grid: NDArray[float]
+    yz_grid: RealArray
     r"""The $yz$-grid coordinates."""

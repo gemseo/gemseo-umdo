@@ -24,7 +24,7 @@ from scipy.integrate import odeint
 if TYPE_CHECKING:
     from collections.abc import Sequence
 
-    from numpy.typing import NDArray
+    from gemseo.typing import RealArray
 
 
 class SpringMassModel:
@@ -71,7 +71,7 @@ class SpringMassModel:
         """The evaluation cost."""
         return self.__cost
 
-    def __call__(self, stiffness: float = 2.25) -> tuple[NDArray[float], float]:
+    def __call__(self, stiffness: float = 2.25) -> tuple[RealArray, float]:
         """Compute the displacement of the object w.r.t. the stiffness of the spring.
 
         Args:

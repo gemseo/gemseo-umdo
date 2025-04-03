@@ -36,14 +36,14 @@ if TYPE_CHECKING:
     from collections.abc import Iterable
     from collections.abc import Sequence
 
-    from numpy.typing import NDArray
+    from gemseo.typing import RealArray
 
 
 class Mean(BaseMLMCMLCVPilot):
     """The mean-based pilot for the MLMC-MLCV algorithm."""
 
     def __init__(  # noqa: D107
-        self, sampling_ratios: NDArray[float], costs: NDArray[float]
+        self, sampling_ratios: RealArray, costs: RealArray
     ) -> None:
         super().__init__(sampling_ratios, costs)
         self.__delta = [array([]) for _ in range(len(sampling_ratios))]
@@ -58,9 +58,9 @@ class Mean(BaseMLMCMLCVPilot):
     def _compute_V_l(  # noqa: D102 N802
         self,
         levels: Iterable[int],
-        samples: Sequence[NDArray[float]],
+        samples: Sequence[RealArray],
         *pilot_parameters: Any,
-    ) -> NDArray[float]:
+    ) -> RealArray:
         g_means, h_means, mlmc_mlcv_variant = pilot_parameters
         for level in levels:
             samples_ = samples[level]
