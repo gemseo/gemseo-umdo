@@ -5477,10 +5477,14 @@
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">60</span>
 <span class="normal">61</span>
 <span class="normal">62</span>
-<span class="normal">63</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_jacobian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">samples</span><span class="p">:</span> <span class="n">RealArray</span><span class="p">,</span> <span class="n">jac_samples</span><span class="p">:</span> <span class="n">RealArray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RealArray</span><span class="p">:</span>
-    <span class="n">mean</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__mean</span><span class="o">.</span><span class="n">compute_jacobian</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">jac_samples</span><span class="p">)</span>
-    <span class="n">variance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__standard_deviation</span><span class="o">.</span><span class="n">compute_jacobian</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">jac_samples</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">mean</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">__factor</span> <span class="o">*</span> <span class="n">variance</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_jacobian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">samples</span><span class="p">:</span> <span class="n">RealArray</span><span class="p">,</span> <span class="n">jac_samples</span><span class="p">:</span> <span class="n">RealArray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RealArray</span><span class="p">:</span>
+    <span class="n">mean_jac</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__mean</span><span class="o">.</span><span class="n">compute_jacobian</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">jac_samples</span><span class="p">)</span>
+    <span class="n">standard_deviation_jac</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__standard_deviation</span><span class="o">.</span><span class="n">compute_jacobian</span><span class="p">(</span>
+        <span class="n">samples</span><span class="p">,</span> <span class="n">jac_samples</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">mean_jac</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">__factor</span> <span class="o">*</span> <span class="n">standard_deviation_jac</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -5535,8 +5539,8 @@
 <span class="normal">57</span>
 <span class="normal">58</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">estimate_statistic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">samples</span><span class="p">:</span> <span class="n">RealArray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RealArray</span><span class="p">:</span>
     <span class="n">mean</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__mean</span><span class="o">.</span><span class="n">estimate_statistic</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
-    <span class="n">variance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__standard_deviation</span><span class="o">.</span><span class="n">estimate_statistic</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">mean</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">__factor</span> <span class="o">*</span> <span class="n">variance</span>
+    <span class="n">standard_deviation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__standard_deviation</span><span class="o">.</span><span class="n">estimate_statistic</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">mean</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">__factor</span> <span class="o">*</span> <span class="n">standard_deviation</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>

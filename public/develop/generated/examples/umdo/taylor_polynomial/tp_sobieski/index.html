@@ -5219,18 +5219,18 @@ of the expectation <span class="arithmatex">\(\mathbb{E}[y_4]\)</span>:</p>
     <span class="n">statistic_estimation_settings</span><span class="o">=</span><span class="n">TaylorPolynomial_Settings</span><span class="p">(),</span>
     <span class="c1"># statistic_estimation_settings=TaylorPolynomialSettings(second_order=True),</span>
     <span class="n">maximize_objective</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">uncertain_design_variables</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;x_2&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">+u_x_2&quot;</span><span class="p">},</span>
+    <span class="n">uncertain_design_variables</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;x_2&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;+&quot;</span><span class="p">,</span> <span class="s2">&quot;u_x_2&quot;</span><span class="p">)},</span>
 <span class="p">)</span>
 </code></pre></div>
 <!-- GENERATED FROM PYTHON SOURCE LINES 83-85 -->
 
 <p>while satisfying margin constraints
-of the form <span class="arithmatex">\(\mathbb{E}[g_i]+3\mathbb{S}[g_i]\)</span></p>
+of the form <span class="arithmatex">\(\mathbb{E}[g_i]+2\mathbb{S}[g_i]\)</span></p>
 <!-- GENERATED FROM PYTHON SOURCE LINES 85-89 -->
 
-<div class="highlight"><pre><span></span><code><span class="n">scenario</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s2">&quot;g_1&quot;</span><span class="p">,</span> <span class="s2">&quot;Margin&quot;</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="mf">3.0</span><span class="p">)</span>
-<span class="n">scenario</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s2">&quot;g_2&quot;</span><span class="p">,</span> <span class="s2">&quot;Margin&quot;</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="mf">3.0</span><span class="p">)</span>
-<span class="n">scenario</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s2">&quot;g_3&quot;</span><span class="p">,</span> <span class="s2">&quot;Margin&quot;</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="mf">3.0</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">scenario</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s2">&quot;g_1&quot;</span><span class="p">,</span> <span class="s2">&quot;Margin&quot;</span><span class="p">)</span>
+<span class="n">scenario</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s2">&quot;g_2&quot;</span><span class="p">,</span> <span class="s2">&quot;Margin&quot;</span><span class="p">)</span>
+<span class="n">scenario</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s2">&quot;g_3&quot;</span><span class="p">,</span> <span class="s2">&quot;Margin&quot;</span><span class="p">)</span>
 </code></pre></div>
 <!-- GENERATED FROM PYTHON SOURCE LINES 90-91 -->
 

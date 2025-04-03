@@ -5458,8 +5458,8 @@
 
                   <details class="quote">
                     <summary>Source code in <code>src/gemseo_umdo/formulations/_statistics/iterative_sampling/standard_deviation.py</code></summary>
-                    <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">33</span>
-<span class="normal">34</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+                    <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">34</span>
+<span class="normal">35</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
 </code></pre></div></td></tr></table></div>
                   </details>
@@ -5577,19 +5577,21 @@
 
             <details class="quote">
               <summary>Source code in <code>src/gemseo_umdo/formulations/_statistics/iterative_sampling/standard_deviation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">39</span>
-<span class="normal">40</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">40</span>
 <span class="normal">41</span>
 <span class="normal">42</span>
 <span class="normal">43</span>
 <span class="normal">44</span>
-<span class="normal">45</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_jacobian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">RealArray</span><span class="p">,</span> <span class="n">jac_value</span><span class="p">:</span> <span class="n">RealArray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RealArray</span><span class="p">:</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_jacobian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">RealArray</span><span class="p">,</span> <span class="n">jac_value</span><span class="p">:</span> <span class="n">RealArray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RealArray</span><span class="p">:</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">estimate_statistic</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
-    <span class="k">return</span> <span class="p">(</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">compute_jacobian</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">jac_value</span><span class="p">)</span>
-        <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_estimation</span><span class="p">()[:,</span> <span class="n">newaxis</span><span class="p">]</span>
-        <span class="o">/</span> <span class="mi">2</span>
-    <span class="p">)</span>
+    <span class="n">std</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_estimation</span><span class="p">()</span>
+    <span class="n">std_zeros</span> <span class="o">=</span> <span class="n">where</span><span class="p">(</span><span class="n">std</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">std</span><span class="p">[</span><span class="n">std</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">jac</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">compute_jacobian</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">jac_value</span><span class="p">)</span> <span class="o">/</span> <span class="n">std</span><span class="p">[:,</span> <span class="n">newaxis</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="n">jac</span><span class="p">[</span><span class="n">std_zeros</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">return</span> <span class="n">jac</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
