@@ -2149,12 +2149,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../generated/examples/visualizations/sobol_graph/plot_ishigami_sobol_graph/" class="md-nav__link">
+      <a href="../../../../../generated/examples/visualizations/sobol_graph/plot_sobieski_sobol_graph/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Sobol' graph for the Ishigami use case.
+    Sobol' graph for the Sobieski's SSBJ use case.
     
   </span>
   
@@ -2172,12 +2172,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../generated/examples/visualizations/sobol_graph/plot_sobieski_sobol_graph/" class="md-nav__link">
+      <a href="../../../../../generated/examples/visualizations/sobol_graph/plot_ishigami_sobol_graph/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Sobol' graph for the Sobieski's SSBJ use case.
+    Sobol' graph for the Ishigami use case.
     
   </span>
   
@@ -5698,9 +5698,7 @@ value.</p>
 
 
 <a href="#gemseo_umdo.use_cases.heat_equation.model.HeatEquationModel.compute_taylor" class="headerlink" title="Permanent link">&para;</a></h6>
-<div class="doc-signature highlight"><pre><span></span><code><span class="nf">compute_taylor</span><span class="p">(</span>
-    <span class="n">input_samples</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="numpy.typing.NDArray" href="https://numpy.org/doc/stable/reference/typing.html#numpy.typing.NDArray">NDArray</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></span><span class="p">],</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" title="numpy.typing.NDArray" href="https://numpy.org/doc/stable/reference/typing.html#numpy.typing.NDArray">NDArray</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></span><span class="p">]</span>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">compute_taylor</span><span class="p">(</span><span class="n">input_samples</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.typing.RealArray" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.typing.html#gemseo.typing.RealArray">RealArray</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.typing.RealArray" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.typing.html#gemseo.typing.RealArray">RealArray</a></span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -5712,7 +5710,7 @@ value.</p>
     <ul>
         <li class="doc-section-item field-body">
             <b><code>input_samples</code></b>
-              (<code><a class="autorefs autorefs-external" title="numpy.typing.NDArray" href="https://numpy.org/doc/stable/reference/typing.html#numpy.typing.NDArray">NDArray</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a>]</code>)
+              (<code><a class="autorefs autorefs-external" title="gemseo.typing.RealArray" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.typing.html#gemseo.typing.RealArray">RealArray</a></code>)
           –
           <div class="doc-md-description">
             <p>The input samples
@@ -5725,7 +5723,7 @@ shaped as <code>(sample_size, input_dimension)</code> or <code>(input_dimension,
 <p><span class="doc-section-title">Returns:</span></p>
     <ul>
         <li class="doc-section-item field-body">
-              <code><a class="autorefs autorefs-external" title="numpy.typing.NDArray" href="https://numpy.org/doc/stable/reference/typing.html#numpy.typing.NDArray">NDArray</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a>]</code>
+              <code><a class="autorefs autorefs-external" title="gemseo.typing.RealArray" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.typing.html#gemseo.typing.RealArray">RealArray</a></code>
           –
           <div class="doc-md-description">
             <p>The output samples of the first-order Taylor polynomial
@@ -5756,7 +5754,7 @@ shaped as <code>(sample_size, n_nodes)</code> or <code>(n_nodes, )</code>.</p>
 <span class="normal">295</span>
 <span class="normal">296</span>
 <span class="normal">297</span>
-<span class="normal">298</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_taylor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_samples</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+<span class="normal">298</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_taylor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_samples</span><span class="p">:</span> <span class="n">RealArray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RealArray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Evaluate the first-order Taylor polynomial.</span>
 
 <span class="sd">    Args:</span>

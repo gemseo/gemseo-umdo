@@ -11,10 +11,10 @@
         <link rel="canonical" href="https://gemseo.gitlab.io/gemseo-umdo/latest/generated/examples/visualizations/sobol_graph/plot_ishigami_sobol_graph/">
       
       
-        <link rel="prev" href="../plot_sellar_sobol_graph/">
+        <link rel="prev" href="../plot_sobieski_sobol_graph/">
       
       
-        <link rel="next" href="../plot_sobieski_sobol_graph/">
+        <link rel="next" href="../../uncertain_coupling_graph/plot_sobieski_coupling_graph/">
       
       
       <link rel="icon" href="../../../../../images/favicon.ico">
@@ -2157,39 +2157,6 @@
                 
   
   
-    
-  
-  
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
-        
-  
-  
-  <span class="md-ellipsis">
-    Sobol' graph for the Ishigami use case.
-    
-  </span>
-  
-
-      </a>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
   
   
     <li class="md-nav__item">
@@ -2204,6 +2171,131 @@
   
 
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Sobol' graph for the Ishigami use case.
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Sobol' graph for the Ishigami use case.
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#analytical-sobol-indices" class="md-nav__link">
+    <span class="md-ellipsis">
+      Analytical Sobol' indices
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#indices-estimated-by-sampling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Indices estimated by sampling
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#indices-estimated-from-a-pce" class="md-nav__link">
+    <span class="md-ellipsis">
+      Indices estimated from a PCE
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Indices estimated from a PCE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-the-training-dataset" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create the training dataset
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-the-pce" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create the PCE
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-the-graph" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create the graph
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -5105,6 +5197,74 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#analytical-sobol-indices" class="md-nav__link">
+    <span class="md-ellipsis">
+      Analytical Sobol' indices
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#indices-estimated-by-sampling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Indices estimated by sampling
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#indices-estimated-from-a-pce" class="md-nav__link">
+    <span class="md-ellipsis">
+      Indices estimated from a PCE
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Indices estimated from a PCE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-the-training-dataset" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create the training dataset
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-the-pce" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create the PCE
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-the-graph" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create the graph
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -5136,10 +5296,23 @@
 to download the full example code</p>
 </div>
 <h1 id="sobol-graph-for-the-ishigami-use-case">Sobol' graph for the Ishigami use case.<a class="headerlink" href="#sobol-graph-for-the-ishigami-use-case" title="Permanent link">&para;</a></h1>
-<!-- GENERATED FROM PYTHON SOURCE LINES 17-32 -->
+<p>This example illustrates
+the concept of <a class="autorefs autorefs-internal" title="            SobolGraph" href="../../../../../reference/gemseo_umdo/visualizations/sobol_graph/#gemseo_umdo.visualizations.sobol_graph.SobolGraph">SobolGraph</a>
+in the case of the Ishigami problem:</p>
+<div class="arithmatex">\[f(X_1,X_2,X_3) = \sin(X_1)+ 7\sin(X_2)^2 + 0.1X_3^4\sin(X_1)\]</div>
+<p>where <span class="arithmatex">\(X_1\)</span>, <span class="arithmatex">\(X_2\)</span> and <span class="arithmatex">\(X_3\)</span> are independent random variables
+uniformly distributed over the interval <span class="arithmatex">\([-\pi,\pi]\)</span>.</p>
+<p>We are going to represent the Sobol' indices of <span class="arithmatex">\(f\)</span>
+using a <a class="autorefs autorefs-internal" title="            SobolGraph" href="../../../../../reference/gemseo_umdo/visualizations/sobol_graph/#gemseo_umdo.visualizations.sobol_graph.SobolGraph">SobolGraph</a>.</p>
+<!-- GENERATED FROM PYTHON SOURCE LINES 30-51 -->
 
 <div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo</span><span class="w"> </span><span class="kn">import</span> <span class="n">sample_disciplines</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.mlearning.regression.algos.pce</span><span class="w"> </span><span class="kn">import</span> <span class="n">PCERegressor</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.mlearning.regression.algos.pce_settings</span><span class="w"> </span><span class="kn">import</span> <span class="n">PCERegressor_Settings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.problems.uncertainty.ishigami.ishigami_discipline</span><span class="w"> </span><span class="kn">import</span> <span class="n">IshigamiDiscipline</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.problems.uncertainty.ishigami.ishigami_space</span><span class="w"> </span><span class="kn">import</span> <span class="n">IshigamiSpace</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.problems.uncertainty.ishigami.statistics</span><span class="w"> </span><span class="kn">import</span> <span class="n">SOBOL_1</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.problems.uncertainty.ishigami.statistics</span><span class="w"> </span><span class="kn">import</span> <span class="n">SOBOL_2</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.problems.uncertainty.ishigami.statistics</span><span class="w"> </span><span class="kn">import</span> <span class="n">SOBOL_3</span>
@@ -5149,34 +5322,29 @@ to download the full example code</p>
 <span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.problems.uncertainty.ishigami.statistics</span><span class="w"> </span><span class="kn">import</span> <span class="n">TOTAL_SOBOL_1</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.problems.uncertainty.ishigami.statistics</span><span class="w"> </span><span class="kn">import</span> <span class="n">TOTAL_SOBOL_2</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.problems.uncertainty.ishigami.statistics</span><span class="w"> </span><span class="kn">import</span> <span class="n">TOTAL_SOBOL_3</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.uncertainty.sensitivity.sobol_analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">SobolAnalysis</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">gemseo_umdo.visualizations.sobol_graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">SobolGraph</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 33-36 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 52-56 -->
 
-<p>First,
-we define the first-, second- and total-order Sobol' indices
-of the different uncertain variables:</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 36-44 -->
-
-<div class="highlight"><pre><span></span><code><span class="n">first_order_indices</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;X1&quot;</span><span class="p">:</span> <span class="n">SOBOL_1</span><span class="p">,</span> <span class="s2">&quot;X2&quot;</span><span class="p">:</span> <span class="n">SOBOL_2</span><span class="p">,</span> <span class="s2">&quot;X3&quot;</span><span class="p">:</span> <span class="n">SOBOL_3</span><span class="p">}</span>
-<span class="n">total_order_indices</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;X1&quot;</span><span class="p">:</span> <span class="n">TOTAL_SOBOL_1</span><span class="p">,</span> <span class="s2">&quot;X2&quot;</span><span class="p">:</span> <span class="n">TOTAL_SOBOL_2</span><span class="p">,</span> <span class="s2">&quot;X3&quot;</span><span class="p">:</span> <span class="n">TOTAL_SOBOL_3</span><span class="p">}</span>
-<span class="n">second_order_indices</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="p">(</span><span class="s2">&quot;X1&quot;</span><span class="p">,</span> <span class="s2">&quot;X2&quot;</span><span class="p">):</span> <span class="n">SOBOL_12</span><span class="p">,</span>
-    <span class="p">(</span><span class="s2">&quot;X1&quot;</span><span class="p">,</span> <span class="s2">&quot;X3&quot;</span><span class="p">):</span> <span class="n">SOBOL_13</span><span class="p">,</span>
-    <span class="p">(</span><span class="s2">&quot;X2&quot;</span><span class="p">,</span> <span class="s2">&quot;X3&quot;</span><span class="p">):</span> <span class="n">SOBOL_23</span><span class="p">,</span>
-<span class="p">}</span>
-</code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 45-47 -->
-
-<p>Then,
-we draw the Sobol' graph:</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 47-54 -->
+<h2 id="analytical-sobol-indices">Analytical Sobol' indices<a class="headerlink" href="#analytical-sobol-indices" title="Permanent link">&para;</a></h2>
+<p>As the Sobol' indices of the Ishigami function are perfectly known,
+we can draw the Sobol' graph directly from these indices:</p>
+<!-- GENERATED FROM PYTHON SOURCE LINES 56-71 -->
 
 <div class="highlight"><pre><span></span><code><span class="n">sobol_graph</span> <span class="o">=</span> <span class="n">SobolGraph</span><span class="p">(</span>
-    <span class="n">first_order_indices</span><span class="p">,</span>
-    <span class="n">second_order_indices</span><span class="o">=</span><span class="n">second_order_indices</span><span class="p">,</span>
-    <span class="n">total_order_indices</span><span class="o">=</span><span class="n">total_order_indices</span><span class="p">,</span>
+    <span class="p">{</span><span class="s2">&quot;X1&quot;</span><span class="p">:</span> <span class="n">SOBOL_1</span><span class="p">,</span> <span class="s2">&quot;X2&quot;</span><span class="p">:</span> <span class="n">SOBOL_2</span><span class="p">,</span> <span class="s2">&quot;X3&quot;</span><span class="p">:</span> <span class="n">SOBOL_3</span><span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;X1&quot;</span><span class="p">:</span> <span class="n">TOTAL_SOBOL_1</span><span class="p">,</span>
+        <span class="s2">&quot;X2&quot;</span><span class="p">:</span> <span class="n">TOTAL_SOBOL_2</span><span class="p">,</span>
+        <span class="s2">&quot;X3&quot;</span><span class="p">:</span> <span class="n">TOTAL_SOBOL_3</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="p">(</span><span class="s2">&quot;X1&quot;</span><span class="p">,</span> <span class="s2">&quot;X2&quot;</span><span class="p">):</span> <span class="n">SOBOL_12</span><span class="p">,</span>
+        <span class="p">(</span><span class="s2">&quot;X1&quot;</span><span class="p">,</span> <span class="s2">&quot;X3&quot;</span><span class="p">):</span> <span class="n">SOBOL_13</span><span class="p">,</span>
+        <span class="p">(</span><span class="s2">&quot;X2&quot;</span><span class="p">,</span> <span class="s2">&quot;X3&quot;</span><span class="p">):</span> <span class="n">SOBOL_23</span><span class="p">,</span>
+    <span class="p">},</span>
 <span class="p">)</span>
 <span class="n">sobol_graph</span>
 </code></pre></div>
@@ -5232,13 +5400,190 @@ we draw the Sobol' graph:</p>
 
 </div>
 
-<!-- GENERATED FROM PYTHON SOURCE LINES 55-59 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 72-90 -->
 
-<p>Sphinx Gallery and Jupyter Notebook can display <code>sobol_graph</code> in the web browser.
-You can also use <code>sobol_graph.visualize()</code>
-to save it on the disk
-or display it with a dedicated program.</p>
-<p><strong>Total running time of the script:</strong> ( 0 minutes  0.063 seconds)</p>
+<p>We can see that
+the thickness of a node is proportional to the corresponding total index
+(this is the first value in the node, the second one being the first-order index)
+while an edge represents a second-order index.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>A <a class="autorefs autorefs-internal" title="            SobolGraph" href="../../../../../reference/gemseo_umdo/visualizations/sobol_graph/#gemseo_umdo.visualizations.sobol_graph.SobolGraph">SobolGraph</a>
+can easily be displayed in an HTML page or in a Jupyter notebook.
+You can also use its <code>visualize</code> method
+to save it on the disk or display it with a dedicated program.</p>
+</div>
+<h2 id="indices-estimated-by-sampling">Indices estimated by sampling<a class="headerlink" href="#indices-estimated-by-sampling" title="Permanent link">&para;</a></h2>
+<p>If they were not known,
+we could also estimate them by sampling.</p>
+<p>First,
+we estimate the indices:</p>
+<!-- GENERATED FROM PYTHON SOURCE LINES 90-94 -->
+
+<div class="highlight"><pre><span></span><code><span class="n">sobol_analysis</span> <span class="o">=</span> <span class="n">SobolAnalysis</span><span class="p">()</span>
+<span class="n">sobol_analysis</span><span class="o">.</span><span class="n">compute_samples</span><span class="p">([</span><span class="n">IshigamiDiscipline</span><span class="p">()],</span> <span class="n">IshigamiSpace</span><span class="p">(),</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="n">sobol_analysis</span><span class="o">.</span><span class="n">compute_indices</span><span class="p">()</span>
+</code></pre></div>
+<p class="mkd-glr-script-out">Out:</p>
+<div class="mkd-glr-script-out-disp highlight"><pre><span></span><code>SobolAnalysis.SensitivityIndices<span class="o">(</span><span class="nv">first</span><span class="o">={</span><span class="s1">&#39;y&#39;</span>:<span class="w"> </span><span class="o">[{</span><span class="s1">&#39;x1&#39;</span>:<span class="w"> </span>array<span class="o">([</span><span class="m">0</span>.38678977<span class="o">])</span>,<span class="w"> </span><span class="s1">&#39;x2&#39;</span>:<span class="w"> </span>array<span class="o">([</span><span class="m">0</span>.56504881<span class="o">])</span>,<span class="w"> </span><span class="s1">&#39;x3&#39;</span>:<span class="w"> </span>array<span class="o">([</span><span class="m">0</span>.0904552<span class="o">])}]}</span>,<span class="w"> </span><span class="nv">second</span><span class="o">={</span><span class="s1">&#39;y&#39;</span>:<span class="w"> </span><span class="o">[{</span><span class="s1">&#39;x1&#39;</span>:<span class="w"> </span><span class="o">{</span><span class="s1">&#39;x1&#39;</span>:<span class="w"> </span>array<span class="o">([[</span><span class="m">0</span>.<span class="o">]])</span>,<span class="w"> </span><span class="s1">&#39;x2&#39;</span>:<span class="w"> </span>array<span class="o">([[</span><span class="m">0</span>.04715899<span class="o">]])</span>,<span class="w"> </span><span class="s1">&#39;x3&#39;</span>:<span class="w"> </span>array<span class="o">([[</span><span class="m">0</span>.14137661<span class="o">]])}</span>,<span class="w"> </span><span class="s1">&#39;x2&#39;</span>:<span class="w"> </span><span class="o">{</span><span class="s1">&#39;x1&#39;</span>:<span class="w"> </span>array<span class="o">([[</span><span class="m">0</span>.04715899<span class="o">]])</span>,<span class="w"> </span><span class="s1">&#39;x2&#39;</span>:<span class="w"> </span>array<span class="o">([[</span><span class="m">0</span>.<span class="o">]])</span>,<span class="w"> </span><span class="s1">&#39;x3&#39;</span>:<span class="w"> </span>array<span class="o">([[</span>-0.14643279<span class="o">]])}</span>,<span class="w"> </span><span class="s1">&#39;x3&#39;</span>:<span class="w"> </span><span class="o">{</span><span class="s1">&#39;x1&#39;</span>:<span class="w"> </span>array<span class="o">([[</span><span class="m">0</span>.14137661<span class="o">]])</span>,<span class="w"> </span><span class="s1">&#39;x2&#39;</span>:<span class="w"> </span>array<span class="o">([[</span>-0.14643279<span class="o">]])</span>,<span class="w"> </span><span class="s1">&#39;x3&#39;</span>:<span class="w"> </span>array<span class="o">([[</span><span class="m">0</span>.<span class="o">]])}}]}</span>,<span class="w"> </span><span class="nv">total</span><span class="o">={</span><span class="s1">&#39;y&#39;</span>:<span class="w"> </span><span class="o">[{</span><span class="s1">&#39;x1&#39;</span>:<span class="w"> </span>array<span class="o">([</span><span class="m">0</span>.55200142<span class="o">])</span>,<span class="w"> </span><span class="s1">&#39;x2&#39;</span>:<span class="w"> </span>array<span class="o">([</span><span class="m">0</span>.52571679<span class="o">])</span>,<span class="w"> </span><span class="s1">&#39;x3&#39;</span>:<span class="w"> </span>array<span class="o">([</span><span class="m">0</span>.18115653<span class="o">])}]})</span>
+</code></pre></div>
+<!-- GENERATED FROM PYTHON SOURCE LINES 95-96 -->
+
+<p>Then, we plot the Sobol' graph:</p>
+<!-- GENERATED FROM PYTHON SOURCE LINES 96-98 -->
+
+<div class="highlight"><pre><span></span><code><span class="n">sobol_graph</span> <span class="o">=</span> <span class="n">SobolGraph</span><span class="o">.</span><span class="n">from_analysis</span><span class="p">(</span><span class="n">sobol_analysis</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">)</span>
+<span class="n">sobol_graph</span>
+</code></pre></div>
+<div class="output_subarea output_html rendered_html output_result">
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+    <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+     "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+    <!-- Generated by graphviz version 12.1.0 (20240811.2233)
+     -->
+    <!-- Pages: 1 -->
+    <svg width="194pt" height="147pt"
+     viewBox="0.00 0.00 194.15 147.24" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 143.24)">
+    <polygon fill="white" stroke="none" points="-4,4 -4,-143.24 190.15,-143.24 190.15,4 -4,4"/>
+    <!-- x1
+    (55, 39) -->
+    <g id="node1" class="node">
+    <title>x1
+    (55, 39)</title>
+    <ellipse fill="white" stroke="black" stroke-width="5.52" cx="42.07" cy="-113.43" rx="42.07" ry="25.81"/>
+    <text text-anchor="middle" x="42.07" y="-114.38" font-family="Times,serif" font-size="14.00">x1</text>
+    <text text-anchor="middle" x="42.07" y="-100.13" font-family="Times,serif" font-size="14.00">(55, 39)</text>
+    </g>
+    <!-- x3
+    (18, 9) -->
+    <g id="node3" class="node">
+    <title>x3
+    (18, 9)</title>
+    <ellipse fill="white" stroke="black" stroke-width="1.81" cx="42.07" cy="-25.81" rx="37.3" ry="25.81"/>
+    <text text-anchor="middle" x="42.07" y="-26.76" font-family="Times,serif" font-size="14.00">x3</text>
+    <text text-anchor="middle" x="42.07" y="-12.51" font-family="Times,serif" font-size="14.00">(18, 9)</text>
+    </g>
+    <!-- x1
+    (55, 39)&#45;&gt;x3
+    (18, 9) -->
+    <g id="edge1" class="edge">
+    <title>x1
+    (55, 39)&#45;&gt;x3
+    (18, 9)</title>
+    <path fill="none" stroke="black" stroke-width="1.41" d="M42.07,-85.34C42.07,-74.66 42.07,-62.46 42.07,-51.98"/>
+    </g>
+    <!-- x2
+    (53, 57) -->
+    <g id="node2" class="node">
+    <title>x2
+    (53, 57)</title>
+    <ellipse fill="white" stroke="black" stroke-width="5.26" cx="144.07" cy="-113.43" rx="42.07" ry="25.81"/>
+    <text text-anchor="middle" x="144.07" y="-114.38" font-family="Times,serif" font-size="14.00">x2</text>
+    <text text-anchor="middle" x="144.07" y="-100.13" font-family="Times,serif" font-size="14.00">(53, 57)</text>
+    </g>
+    </g>
+    </svg>
+
+</div>
+
+<!-- GENERATED FROM PYTHON SOURCE LINES 99-109 -->
+
+<p>and find a figure similar to the previous one.</p>
+<h2 id="indices-estimated-from-a-pce">Indices estimated from a PCE<a class="headerlink" href="#indices-estimated-from-a-pce" title="Permanent link">&para;</a></h2>
+<p>We could also estimate them from a polynomial chaos expansion
+(PCE, see <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.mlearning.regression.algos.pce.html#gemseo.mlearning.regression.algos.pce.PCERegressor">PCERegressor</a>).</p>
+<h3 id="create-the-training-dataset">Create the training dataset<a class="headerlink" href="#create-the-training-dataset" title="Permanent link">&para;</a></h3>
+<p>First,
+we create a training dataset by sampling the Ishigami function using an optimal LHS:</p>
+<!-- GENERATED FROM PYTHON SOURCE LINES 109-119 -->
+
+<div class="highlight"><pre><span></span><code><span class="n">samples</span> <span class="o">=</span> <span class="n">sample_disciplines</span><span class="p">(</span>
+    <span class="p">[</span><span class="n">IshigamiDiscipline</span><span class="p">()],</span>
+    <span class="n">IshigamiSpace</span><span class="p">(</span>
+        <span class="n">uniform_distribution_name</span><span class="o">=</span><span class="n">IshigamiSpace</span><span class="o">.</span><span class="n">UniformDistribution</span><span class="o">.</span><span class="n">OPENTURNS</span>
+    <span class="p">),</span>
+    <span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">],</span>
+    <span class="n">algo_name</span><span class="o">=</span><span class="s2">&quot;OT_OPT_LHS&quot;</span><span class="p">,</span>
+    <span class="n">n_samples</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<!-- GENERATED FROM PYTHON SOURCE LINES 120-123 -->
+
+<h3 id="create-the-pce">Create the PCE<a class="headerlink" href="#create-the-pce" title="Permanent link">&para;</a></h3>
+<p>Then,
+we create a PCE using the LARS technique:</p>
+<!-- GENERATED FROM PYTHON SOURCE LINES 123-127 -->
+
+<div class="highlight"><pre><span></span><code><span class="n">pce_settings</span> <span class="o">=</span> <span class="n">PCERegressor_Settings</span><span class="p">(</span><span class="n">degree</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">use_lars</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">pce</span> <span class="o">=</span> <span class="n">PCERegressor</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">settings_model</span><span class="o">=</span><span class="n">pce_settings</span><span class="p">)</span>
+<span class="n">pce</span><span class="o">.</span><span class="n">learn</span><span class="p">()</span>
+</code></pre></div>
+<!-- GENERATED FROM PYTHON SOURCE LINES 128-130 -->
+
+<h3 id="create-the-graph">Create the graph<a class="headerlink" href="#create-the-graph" title="Permanent link">&para;</a></h3>
+<p>Lastly, we plot the Sobol' graph:</p>
+<!-- GENERATED FROM PYTHON SOURCE LINES 130-133 -->
+
+<div class="highlight"><pre><span></span><code><span class="n">sobol_graph</span> <span class="o">=</span> <span class="n">SobolGraph</span><span class="o">.</span><span class="n">from_pce</span><span class="p">(</span><span class="n">pce</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">)</span>
+<span class="n">sobol_graph</span>
+</code></pre></div>
+<div class="output_subarea output_html rendered_html output_result">
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+    <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+     "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+    <!-- Generated by graphviz version 12.1.0 (20240811.2233)
+     -->
+    <!-- Pages: 1 -->
+    <svg width="194pt" height="147pt"
+     viewBox="0.00 0.00 194.15 147.24" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 143.24)">
+    <polygon fill="white" stroke="none" points="-4,4 -4,-143.24 190.15,-143.24 190.15,4 -4,4"/>
+    <!-- x1
+    (53, 32) -->
+    <g id="node1" class="node">
+    <title>x1
+    (53, 32)</title>
+    <ellipse fill="white" stroke="black" stroke-width="5.28" cx="42.07" cy="-113.43" rx="42.07" ry="25.81"/>
+    <text text-anchor="middle" x="42.07" y="-114.38" font-family="Times,serif" font-size="14.00">x1</text>
+    <text text-anchor="middle" x="42.07" y="-100.13" font-family="Times,serif" font-size="14.00">(53, 32)</text>
+    </g>
+    <!-- x3
+    (22, 0) -->
+    <g id="node3" class="node">
+    <title>x3
+    (22, 0)</title>
+    <ellipse fill="white" stroke="black" stroke-width="2.17" cx="42.07" cy="-25.81" rx="37.3" ry="25.81"/>
+    <text text-anchor="middle" x="42.07" y="-26.76" font-family="Times,serif" font-size="14.00">x3</text>
+    <text text-anchor="middle" x="42.07" y="-12.51" font-family="Times,serif" font-size="14.00">(22, 0)</text>
+    </g>
+    <!-- x1
+    (53, 32)&#45;&gt;x3
+    (22, 0) -->
+    <g id="edge1" class="edge">
+    <title>x1
+    (53, 32)&#45;&gt;x3
+    (22, 0)</title>
+    <path fill="none" stroke="black" stroke-width="2.11" d="M42.07,-85.34C42.07,-74.85 42.07,-62.91 42.07,-52.56"/>
+    </g>
+    <!-- x2
+    (47, 47) -->
+    <g id="node2" class="node">
+    <title>x2
+    (47, 47)</title>
+    <ellipse fill="white" stroke="black" stroke-width="4.72" cx="144.07" cy="-113.43" rx="42.07" ry="25.81"/>
+    <text text-anchor="middle" x="144.07" y="-114.38" font-family="Times,serif" font-size="14.00">x2</text>
+    <text text-anchor="middle" x="144.07" y="-100.13" font-family="Times,serif" font-size="14.00">(47, 47)</text>
+    </g>
+    </g>
+    </svg>
+
+</div>
+
+<!-- GENERATED FROM PYTHON SOURCE LINES 134-135 -->
+
+<p>We find a figure similar to the previous ones.</p>
+<p><strong>Total running time of the script:</strong> ( 0 minutes  0.843 seconds)</p>
 <div id="download_links"></div>
 
 <p><a class="md-button center" href="../plot_ishigami_sobol_graph.py"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32v242.7l-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7zM64 352c-35.3 0-64 28.7-64 64v32c0 35.3 28.7 64 64 64h384c35.3 0 64-28.7 64-64v-32c0-35.3-28.7-64-64-64H346.5l-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48"/></svg></span> Download Python source code: plot_ishigami_sobol_graph.py</a></p>

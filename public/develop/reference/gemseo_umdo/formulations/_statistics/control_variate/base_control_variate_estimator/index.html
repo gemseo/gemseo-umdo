@@ -2149,12 +2149,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../../generated/examples/visualizations/sobol_graph/plot_ishigami_sobol_graph/" class="md-nav__link">
+      <a href="../../../../../../generated/examples/visualizations/sobol_graph/plot_sobieski_sobol_graph/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Sobol' graph for the Ishigami use case.
+    Sobol' graph for the Sobieski's SSBJ use case.
     
   </span>
   
@@ -2172,12 +2172,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../../generated/examples/visualizations/sobol_graph/plot_sobieski_sobol_graph/" class="md-nav__link">
+      <a href="../../../../../../generated/examples/visualizations/sobol_graph/plot_ishigami_sobol_graph/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Sobol' graph for the Sobieski's SSBJ use case.
+    Sobol' graph for the Ishigami use case.
     
   </span>
   
@@ -5271,14 +5271,14 @@
 
                   <details class="quote">
                     <summary>Source code in <code>src/gemseo_umdo/formulations/_statistics/control_variate/base_control_variate_estimator.py</code></summary>
-                    <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">50</span>
+                    <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">49</span>
+<span class="normal">50</span>
 <span class="normal">51</span>
 <span class="normal">52</span>
 <span class="normal">53</span>
 <span class="normal">54</span>
 <span class="normal">55</span>
-<span class="normal">56</span>
-<span class="normal">57</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uncertain_space</span><span class="p">:</span> <span class="n">ParameterSpace</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">56</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uncertain_space</span><span class="p">:</span> <span class="n">ParameterSpace</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Args:</span>
 <span class="sd">        uncertain_space: The uncertain space.</span>
@@ -5459,7 +5459,8 @@
 
             <details class="quote">
               <summary>Source code in <code>src/gemseo_umdo/formulations/_statistics/control_variate/base_control_variate_estimator.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">59</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">58</span>
+<span class="normal">59</span>
 <span class="normal">60</span>
 <span class="normal">61</span>
 <span class="normal">62</span>
@@ -5472,8 +5473,7 @@
 <span class="normal">69</span>
 <span class="normal">70</span>
 <span class="normal">71</span>
-<span class="normal">72</span>
-<span class="normal">73</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@abstractmethod</span>
+<span class="normal">72</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@abstractmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">estimate_statistic</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">samples</span><span class="p">:</span> <span class="n">RealArray</span><span class="p">,</span>

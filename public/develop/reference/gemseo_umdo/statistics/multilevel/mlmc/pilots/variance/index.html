@@ -2149,12 +2149,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../../../generated/examples/visualizations/sobol_graph/plot_ishigami_sobol_graph/" class="md-nav__link">
+      <a href="../../../../../../../generated/examples/visualizations/sobol_graph/plot_sobieski_sobol_graph/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Sobol' graph for the Ishigami use case.
+    Sobol' graph for the Sobieski's SSBJ use case.
     
   </span>
   
@@ -2172,12 +2172,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../../../generated/examples/visualizations/sobol_graph/plot_sobieski_sobol_graph/" class="md-nav__link">
+      <a href="../../../../../../../generated/examples/visualizations/sobol_graph/plot_ishigami_sobol_graph/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Sobol' graph for the Sobieski's SSBJ use case.
+    Sobol' graph for the Ishigami use case.
     
   </span>
   
@@ -5249,9 +5249,7 @@
 
 
 <a href="#gemseo_umdo.statistics.multilevel.mlmc.pilots.variance.Variance" class="headerlink" title="Permanent link">&para;</a></h4>
-<div class="doc-signature highlight"><pre><span></span><code><span class="nf">Variance</span><span class="p">(</span>
-    <span class="n">sampling_ratios</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="numpy.typing.NDArray" href="https://numpy.org/doc/stable/reference/typing.html#numpy.typing.NDArray">NDArray</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></span><span class="p">],</span> <span class="n">costs</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="numpy.typing.NDArray" href="https://numpy.org/doc/stable/reference/typing.html#numpy.typing.NDArray">NDArray</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></span><span class="p">]</span>
-<span class="p">)</span>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">Variance</span><span class="p">(</span><span class="n">sampling_ratios</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.typing.RealArray" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.typing.html#gemseo.typing.RealArray">RealArray</a></span><span class="p">,</span> <span class="n">costs</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.typing.RealArray" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.typing.html#gemseo.typing.RealArray">RealArray</a></span><span class="p">)</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -5272,7 +5270,7 @@
     <ul>
         <li class="doc-section-item field-body">
             <b><code>sampling_ratios</code></b>
-              (<code><a class="autorefs autorefs-external" title="numpy.typing.NDArray" href="https://numpy.org/doc/stable/reference/typing.html#numpy.typing.NDArray">NDArray</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a>]</code>)
+              (<code><a class="autorefs autorefs-external" title="gemseo.typing.RealArray" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.typing.html#gemseo.typing.RealArray">RealArray</a></code>)
           –
           <div class="doc-md-description">
             <p>The sampling ratios <span class="arithmatex">\(r_0,\ldots,r_L\)</span>;
@@ -5283,7 +5281,7 @@ between two sampling steps on the level <span class="arithmatex">\(ell\)</span>.
         </li>
         <li class="doc-section-item field-body">
             <b><code>costs</code></b>
-              (<code><a class="autorefs autorefs-external" title="numpy.typing.NDArray" href="https://numpy.org/doc/stable/reference/typing.html#numpy.typing.NDArray">NDArray</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a>]</code>)
+              (<code><a class="autorefs autorefs-external" title="gemseo.typing.RealArray" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.typing.html#gemseo.typing.RealArray">RealArray</a></code>)
           –
           <div class="doc-md-description">
             <p>The unit sampling costs of each level of the telescopic sum.
@@ -5309,7 +5307,7 @@ with <span class="arithmatex">\(\mathcal{C}_{-1}=0\)</span>.</p>
 <span class="normal">57</span>
 <span class="normal">58</span>
 <span class="normal">59</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>  <span class="c1"># noqa: D107</span>
-    <span class="bp">self</span><span class="p">,</span> <span class="n">sampling_ratios</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">costs</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="bp">self</span><span class="p">,</span> <span class="n">sampling_ratios</span><span class="p">:</span> <span class="n">RealArray</span><span class="p">,</span> <span class="n">costs</span><span class="p">:</span> <span class="n">RealArray</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">sampling_ratios</span><span class="p">,</span> <span class="n">costs</span><span class="p">)</span>
     <span class="n">n_levels</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">sampling_ratios</span><span class="p">)</span>
@@ -5341,7 +5339,7 @@ with <span class="arithmatex">\(\mathcal{C}_{-1}=0\)</span>.</p>
   </span>
 
 <a href="#gemseo_umdo.statistics.multilevel.mlmc.pilots.variance.Variance.V_l" class="headerlink" title="Permanent link">&para;</a></h6>
-<div class="doc-signature highlight"><pre><span></span><code><span class="n">V_l</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="numpy.typing.NDArray" href="https://numpy.org/doc/stable/reference/typing.html#numpy.typing.NDArray">NDArray</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></span><span class="p">]</span> <span class="o">=</span> <span class="n"><a class="autorefs autorefs-external" title="numpy.array" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array">array</a></span><span class="p">([</span><span class="n"><a class="autorefs autorefs-external" title="numpy.nan" href="https://numpy.org/doc/stable/reference/constants.html#numpy.nan">nan</a></span><span class="p">]</span> <span class="o">*</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#len">len</a></span><span class="p">(</span><span class="n"><span title="gemseo_umdo.statistics.multilevel.base_pilot.BasePilot(self).__r_l">__r_l</span></span><span class="p">))</span>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">V_l</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.typing.RealArray" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.typing.html#gemseo.typing.RealArray">RealArray</a></span> <span class="o">=</span> <span class="n"><a class="autorefs autorefs-external" title="numpy.array" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array">array</a></span><span class="p">([</span><span class="n"><a class="autorefs autorefs-external" title="numpy.nan" href="https://numpy.org/doc/stable/reference/constants.html#numpy.nan">nan</a></span><span class="p">]</span> <span class="o">*</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#len">len</a></span><span class="p">(</span><span class="n"><span title="gemseo_umdo.statistics.multilevel.base_pilot.BasePilot(self).__r_l">__r_l</span></span><span class="p">))</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -5365,9 +5363,9 @@ with <span class="arithmatex">\(\mathcal{C}_{-1}=0\)</span>.</p>
 <div class="doc-signature highlight"><pre><span></span><code><span class="nf">compute_next_level_and_statistic</span><span class="p">(</span>
     <span class="n">levels</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="collections.abc.Iterable" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable">Iterable</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></span><span class="p">],</span>
     <span class="n">total_n_samples</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="numpy.typing.NDArray" href="https://numpy.org/doc/stable/reference/typing.html#numpy.typing.NDArray">NDArray</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></span><span class="p">],</span>
-    <span class="n">samples</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="collections.abc.Sequence" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Sequence">Sequence</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" title="numpy.typing.NDArray" href="https://numpy.org/doc/stable/reference/typing.html#numpy.typing.NDArray">NDArray</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></span><span class="p">]],</span>
+    <span class="n">samples</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="collections.abc.Sequence" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Sequence">Sequence</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" title="gemseo.typing.RealArray" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.typing.html#gemseo.typing.RealArray">RealArray</a></span><span class="p">],</span>
     <span class="o">*</span><span class="n">pilot_parameters</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#tuple">tuple</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-external" title="numpy.typing.NDArray" href="https://numpy.org/doc/stable/reference/typing.html#numpy.typing.NDArray">NDArray</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></span><span class="p">]]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#tuple">tuple</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.typing.RealArray" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.typing.html#gemseo.typing.RealArray">RealArray</a></span><span class="p">]</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -5395,7 +5393,7 @@ with <span class="arithmatex">\(\mathcal{C}_{-1}=0\)</span>.</p>
         </li>
         <li class="doc-section-item field-body">
             <b><code>samples</code></b>
-              (<code><a class="autorefs autorefs-external" title="collections.abc.Sequence" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Sequence">Sequence</a>[<a class="autorefs autorefs-external" title="numpy.typing.NDArray" href="https://numpy.org/doc/stable/reference/typing.html#numpy.typing.NDArray">NDArray</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a>]]</code>)
+              (<code><a class="autorefs autorefs-external" title="collections.abc.Sequence" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Sequence">Sequence</a>[<a class="autorefs autorefs-external" title="gemseo.typing.RealArray" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.typing.html#gemseo.typing.RealArray">RealArray</a>]</code>)
           –
           <div class="doc-md-description">
             <p>The samples of the different quantities of each level.</p>
@@ -5417,7 +5415,7 @@ with <span class="arithmatex">\(\mathcal{C}_{-1}=0\)</span>.</p>
 <p><span class="doc-section-title">Returns:</span></p>
     <ul>
         <li class="doc-section-item field-body">
-              <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#tuple">tuple</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a>, <a class="autorefs autorefs-external" title="numpy.typing.NDArray" href="https://numpy.org/doc/stable/reference/typing.html#numpy.typing.NDArray">NDArray</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a>]]</code>
+              <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#tuple">tuple</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a>, <a class="autorefs autorefs-external" title="gemseo.typing.RealArray" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.typing.html#gemseo.typing.RealArray">RealArray</a>]</code>
           –
           <div class="doc-md-description">
             <p>The next level <span class="arithmatex">\(\ell^*\)</span> to sample and an estimation of the statistic.</p>
@@ -5428,8 +5426,7 @@ with <span class="arithmatex">\(\mathcal{C}_{-1}=0\)</span>.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/gemseo_umdo/statistics/multilevel/base_pilot.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 98</span>
-<span class="normal"> 99</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 99</span>
 <span class="normal">100</span>
 <span class="normal">101</span>
 <span class="normal">102</span>
@@ -5455,13 +5452,14 @@ with <span class="arithmatex">\(\mathcal{C}_{-1}=0\)</span>.</p>
 <span class="normal">122</span>
 <span class="normal">123</span>
 <span class="normal">124</span>
-<span class="normal">125</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_next_level_and_statistic</span><span class="p">(</span>
+<span class="normal">125</span>
+<span class="normal">126</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_next_level_and_statistic</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">levels</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
     <span class="n">total_n_samples</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
-    <span class="n">samples</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">NDArray</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
+    <span class="n">samples</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">RealArray</span><span class="p">],</span>
     <span class="o">*</span><span class="n">pilot_parameters</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">NDArray</span><span class="p">[</span><span class="nb">float</span><span class="p">]]:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">RealArray</span><span class="p">]:</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute the next level $\ell^*$ to sample and estimate the statistic.</span>
 
 <span class="sd">    Args:</span>

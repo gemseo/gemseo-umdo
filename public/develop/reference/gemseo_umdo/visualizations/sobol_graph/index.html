@@ -2149,12 +2149,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../generated/examples/visualizations/sobol_graph/plot_ishigami_sobol_graph/" class="md-nav__link">
+      <a href="../../../../generated/examples/visualizations/sobol_graph/plot_sobieski_sobol_graph/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Sobol' graph for the Ishigami use case.
+    Sobol' graph for the Sobieski's SSBJ use case.
     
   </span>
   
@@ -2172,12 +2172,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../generated/examples/visualizations/sobol_graph/plot_sobieski_sobol_graph/" class="md-nav__link">
+      <a href="../../../../generated/examples/visualizations/sobol_graph/plot_ishigami_sobol_graph/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Sobol' graph for the Sobieski's SSBJ use case.
+    Sobol' graph for the Ishigami use case.
     
   </span>
   
@@ -5069,6 +5069,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.visualizations.sobol_graph.SobolGraph.from_pce" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;from_pce
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -5317,6 +5326,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.visualizations.sobol_graph.SobolGraph.from_pce" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;from_pce
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -5483,10 +5501,7 @@ and the corresponding edge plotted.</p>
 
                   <details class="quote">
                     <summary>Source code in <code>src/gemseo_umdo/visualizations/sobol_graph.py</code></summary>
-                    <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">50</span>
-<span class="normal">51</span>
-<span class="normal">52</span>
-<span class="normal">53</span>
+                    <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">53</span>
 <span class="normal">54</span>
 <span class="normal">55</span>
 <span class="normal">56</span>
@@ -5527,7 +5542,10 @@ and the corresponding edge plotted.</p>
 <span class="normal">91</span>
 <span class="normal">92</span>
 <span class="normal">93</span>
-<span class="normal">94</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+<span class="normal">94</span>
+<span class="normal">95</span>
+<span class="normal">96</span>
+<span class="normal">97</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">first_order_indices</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
     <span class="n">total_order_indices</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
@@ -5648,7 +5666,7 @@ and the corresponding edge plotted.</p>
 
 <a href="#gemseo_umdo.visualizations.sobol_graph.SobolGraph.from_analysis" class="headerlink" title="Permanent link">&para;</a></h6>
 <div class="doc-signature highlight"><pre><span></span><code><span class="nf">from_analysis</span><span class="p">(</span>
-    <span class="n">analysis</span><span class="p">:</span> <span class="n"><span title="gemseo.uncertainty.sensitivity.sobol.analysis.SobolAnalysis">SobolAnalysis</span></span><span class="p">,</span>
+    <span class="n">analysis</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.uncertainty.sensitivity.sobol_analysis.SobolAnalysis" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.uncertainty.sensitivity.sobol_analysis.html#gemseo.uncertainty.sensitivity.sobol_analysis.SobolAnalysis">SobolAnalysis</a></span><span class="p">,</span>
     <span class="n">output_name</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">,</span>
     <span class="n">output_component</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-internal" title="            SobolGraph (gemseo_umdo.visualizations.sobol_graph.SobolGraph)" href="#gemseo_umdo.visualizations.sobol_graph.SobolGraph">SobolGraph</a></span>
@@ -5663,7 +5681,7 @@ and the corresponding edge plotted.</p>
     <ul>
         <li class="doc-section-item field-body">
             <b><code>analysis</code></b>
-              (<code><span title="gemseo.uncertainty.sensitivity.sobol.analysis.SobolAnalysis">SobolAnalysis</span></code>)
+              (<code><a class="autorefs autorefs-external" title="gemseo.uncertainty.sensitivity.sobol_analysis.SobolAnalysis" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.uncertainty.sensitivity.sobol_analysis.html#gemseo.uncertainty.sensitivity.sobol_analysis.SobolAnalysis">SobolAnalysis</a></code>)
           –
           <div class="doc-md-description">
             <p>A Sobol' analysis.</p>
@@ -5704,10 +5722,7 @@ and the corresponding edge plotted.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/gemseo_umdo/visualizations/sobol_graph.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">145</span>
-<span class="normal">146</span>
-<span class="normal">147</span>
-<span class="normal">148</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">148</span>
 <span class="normal">149</span>
 <span class="normal">150</span>
 <span class="normal">151</span>
@@ -5726,7 +5741,8 @@ and the corresponding edge plotted.</p>
 <span class="normal">164</span>
 <span class="normal">165</span>
 <span class="normal">166</span>
-<span class="normal">167</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">167</span>
+<span class="normal">168</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">from_analysis</span><span class="p">(</span>
     <span class="bp">cls</span><span class="p">,</span> <span class="n">analysis</span><span class="p">:</span> <span class="n">SobolAnalysis</span><span class="p">,</span> <span class="n">output_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">output_component</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SobolGraph</span><span class="p">:</span>
@@ -5742,12 +5758,184 @@ and the corresponding edge plotted.</p>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
         <span class="bp">cls</span><span class="o">.</span><span class="n">__preprocess</span><span class="p">(</span><span class="n">analysis</span><span class="o">.</span><span class="n">indices</span><span class="o">.</span><span class="n">first</span><span class="p">[</span><span class="n">output_name</span><span class="p">][</span><span class="n">output_component</span><span class="p">]),</span>
-        <span class="n">second_order_indices</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">__preprocess_second_order</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">__preprocess</span><span class="p">(</span><span class="n">analysis</span><span class="o">.</span><span class="n">indices</span><span class="o">.</span><span class="n">total</span><span class="p">[</span><span class="n">output_name</span><span class="p">][</span><span class="n">output_component</span><span class="p">]),</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">__preprocess_second_order</span><span class="p">(</span>
             <span class="n">analysis</span><span class="o">.</span><span class="n">indices</span><span class="o">.</span><span class="n">second</span><span class="p">[</span><span class="n">output_name</span><span class="p">][</span><span class="n">output_component</span><span class="p">]</span>
         <span class="p">),</span>
-        <span class="n">total_order_indices</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">__preprocess</span><span class="p">(</span>
-            <span class="n">analysis</span><span class="o">.</span><span class="n">indices</span><span class="o">.</span><span class="n">total</span><span class="p">[</span><span class="n">output_name</span><span class="p">][</span><span class="n">output_component</span><span class="p">]</span>
-        <span class="p">),</span>
+    <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h6 id="gemseo_umdo.visualizations.sobol_graph.SobolGraph.from_pce" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">from_pce</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#gemseo_umdo.visualizations.sobol_graph.SobolGraph.from_pce" class="headerlink" title="Permanent link">&para;</a></h6>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">from_pce</span><span class="p">(</span>
+    <span class="n">pce_regressor</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.mlearning.regression.algos.pce.PCERegressor" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.mlearning.regression.algos.pce.html#gemseo.mlearning.regression.algos.pce.PCERegressor">PCERegressor</a></span><span class="p">,</span>
+    <span class="n">output_name</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">,</span>
+    <span class="n">output_component</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-internal" title="            SobolGraph (gemseo_umdo.visualizations.sobol_graph.SobolGraph)" href="#gemseo_umdo.visualizations.sobol_graph.SobolGraph">SobolGraph</a></span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Create the Sobol' graph from a PCE (polynomial chaos expansion) regressor.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+            <b><code>pce_regressor</code></b>
+              (<code><a class="autorefs autorefs-external" title="gemseo.mlearning.regression.algos.pce.PCERegressor" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.mlearning.regression.algos.pce.html#gemseo.mlearning.regression.algos.pce.PCERegressor">PCERegressor</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>A PCE regressor.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+            <b><code>output_name</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>The name of the output.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+            <b><code>output_component</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>, default:
+                  <code>0</code>
+)
+          –
+          <div class="doc-md-description">
+            <p>The component of the output.</p>
+          </div>
+        </li>
+    </ul>
+
+
+<p><span class="doc-section-title">Returns:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+              <code><a class="autorefs autorefs-internal" title="            SobolGraph (gemseo_umdo.visualizations.sobol_graph.SobolGraph)" href="#gemseo_umdo.visualizations.sobol_graph.SobolGraph">SobolGraph</a></code>
+          –
+          <div class="doc-md-description">
+            <p>The Sobol' graph associated with this Sobol' analysis.</p>
+          </div>
+        </li>
+    </ul>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+              <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/exceptions.html#ValueError">ValueError</a></code>
+            –
+          <div class="doc-md-description">
+            <p>When the name is not an output name.</p>
+          </div>
+        </li>
+    </ul>
+
+
+            <details class="quote">
+              <summary>Source code in <code>src/gemseo_umdo/visualizations/sobol_graph.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">from_pce</span><span class="p">(</span>
+    <span class="bp">cls</span><span class="p">,</span> <span class="n">pce_regressor</span><span class="p">:</span> <span class="n">PCERegressor</span><span class="p">,</span> <span class="n">output_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">output_component</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SobolGraph</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create the Sobol&#39; graph from a PCE (polynomial chaos expansion) regressor.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        pce_regressor: A PCE regressor.</span>
+<span class="sd">        output_name: The name of the output.</span>
+<span class="sd">        output_component: The component of the output.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The Sobol&#39; graph associated with this Sobol&#39; analysis.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: When the name is not an output name.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">output_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">pce_regressor</span><span class="o">.</span><span class="n">output_names</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;The name </span><span class="si">{</span><span class="n">output_name</span><span class="si">!r}</span><span class="s2"> is not an output name.&quot;</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+    <span class="n">sizes</span> <span class="o">=</span> <span class="n">pce_regressor</span><span class="o">.</span><span class="n">sizes</span>
+    <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">pce_regressor</span><span class="o">.</span><span class="n">output_names</span><span class="p">:</span>  <span class="c1"># pragma: no branch</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="n">output_name</span><span class="p">:</span>
+            <span class="n">index</span> <span class="o">+=</span> <span class="n">output_component</span>
+            <span class="k">break</span>
+
+        <span class="n">index</span> <span class="o">+=</span> <span class="n">sizes</span><span class="p">[</span><span class="n">output_name</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">__preprocess</span><span class="p">({</span>
+            <span class="n">k</span><span class="p">:</span> <span class="n">atleast_1d</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">pce_regressor</span><span class="o">.</span><span class="n">first_sobol_indices</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+        <span class="p">}),</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">__preprocess</span><span class="p">({</span>
+            <span class="n">k</span><span class="p">:</span> <span class="n">atleast_1d</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">pce_regressor</span><span class="o">.</span><span class="n">total_sobol_indices</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+        <span class="p">}),</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">__preprocess_second_order</span><span class="p">({</span>
+            <span class="n">k1</span><span class="p">:</span> <span class="p">{</span><span class="n">k2</span><span class="p">:</span> <span class="n">atleast_2d</span><span class="p">(</span><span class="n">v2</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="k">for</span> <span class="n">k2</span><span class="p">,</span> <span class="n">v2</span> <span class="ow">in</span> <span class="n">v1</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+            <span class="k">for</span> <span class="n">k1</span><span class="p">,</span> <span class="n">v1</span> <span class="ow">in</span> <span class="n">pce_regressor</span><span class="o">.</span><span class="n">second_sobol_indices</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+        <span class="p">}),</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
