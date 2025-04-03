@@ -34,6 +34,12 @@ and this project adheres to
   from a [PCERegressor][gemseo.mlearning.regression.algos.pce.PCERegressor]
   by using its [from_pce][gemseo_umdo.visualizations.sobol_graph.SobolGraph.from_pce] method.
 
+### Fixed
+
+- The [Sampling][gemseo_umdo.formulations.sampling.Sampling] U-MDO formulation handles the case
+  where the estimation of the standard deviation is zero
+  and the derivatives with respect to the design variables are requested.
+
 ## Version 4.0.0 (March 2025)
 
 ### Added

@@ -18,8 +18,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from numpy import nan_to_num
 from numpy import newaxis
+from numpy import where
 
 from gemseo_umdo.formulations._statistics.sampling.variance import Variance
 
@@ -35,6 +35,8 @@ class StandardDeviation(Variance):
 
     def compute_jacobian(self, samples: RealArray, jac_samples: RealArray) -> RealArray:
         std = self.estimate_statistic(samples)
-        return nan_to_num(
-            super().compute_jacobian(samples, jac_samples) / std[..., newaxis] / 2
-        )
+        std_zeros = where(std == 0)[0]
+        std[std == 0] = 1
+        jac = super().compute_jacobian(samples, jac_samples) / std[:, newaxis] / 2
+        jac[std_zeros] = 0
+        return jac

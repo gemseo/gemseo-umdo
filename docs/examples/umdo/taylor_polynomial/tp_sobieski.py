@@ -76,15 +76,15 @@ scenario = UMDOScenario(
     statistic_estimation_settings=TaylorPolynomial_Settings(),
     # statistic_estimation_settings=TaylorPolynomialSettings(second_order=True),
     maximize_objective=True,
-    uncertain_design_variables={"x_2": "{}+u_x_2"},
+    uncertain_design_variables={"x_2": ("+", "u_x_2")},
 )
 
 # %%
 # while satisfying margin constraints
-# of the form $\mathbb{E}[g_i]+3\mathbb{S}[g_i]$
-scenario.add_constraint("g_1", "Margin", factor=3.0)
-scenario.add_constraint("g_2", "Margin", factor=3.0)
-scenario.add_constraint("g_3", "Margin", factor=3.0)
+# of the form $\mathbb{E}[g_i]+2\mathbb{S}[g_i]$
+scenario.add_constraint("g_1", "Margin")
+scenario.add_constraint("g_2", "Margin")
+scenario.add_constraint("g_3", "Margin")
 
 # %%
 # and execute it with a gradient-free optimizer:

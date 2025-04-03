@@ -20,6 +20,7 @@ from typing import TYPE_CHECKING
 
 from numpy import array
 from numpy import newaxis
+from numpy import where
 
 from gemseo_umdo.formulations._statistics.iterative_sampling.variance import Variance
 
@@ -38,8 +39,9 @@ class StandardDeviation(Variance):
 
     def compute_jacobian(self, value: RealArray, jac_value: RealArray) -> RealArray:
         self.estimate_statistic(value)
-        return (
-            super().compute_jacobian(value, jac_value)
-            / self._get_estimation()[:, newaxis]
-            / 2
-        )
+        std = self._get_estimation()
+        std_zeros = where(std == 0)[0]
+        std[std == 0] = 1
+        jac = super().compute_jacobian(value, jac_value) / std[:, newaxis] / 2
+        jac[std_zeros] = 0
+        return jac
