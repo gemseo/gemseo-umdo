@@ -22,6 +22,8 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 from typing import TypeVar
 
+from numpy import newaxis
+
 from gemseo_umdo.formulations._functions.base_statistic_function_for_sampling import (
     BaseStatisticFunctionForSampling,
 )
@@ -64,4 +66,14 @@ class StatisticFunctionForStandardSampling(BaseStatisticFunctionForSampling[Samp
             problem, input_data, compute_jacobian=compute_jacobian
         )
         for output_name in database.get_function_names(skip_grad=False):
-            output_data[output_name] = database.get_function_history(output_name)
+            history = database.get_function_history(output_name)
+            ndim = history.ndim
+            if output_name.startswith(database.GRAD_TAG):
+                if ndim == 2:
+                    history = history[:, newaxis, :]
+                elif ndim == 1:
+                    history = history[:, newaxis, newaxis]
+            elif ndim == 1:
+                history = history[:, newaxis]
+
+            output_data[output_name] = history

@@ -386,7 +386,8 @@ def test_save_samples(disciplines, design_space, uncertain_space, tmp_wd):
     assert dataset.name == "Iteration 2"
 
 
-def test_standard_deviation_derivative_if_zero():
+@pytest.mark.parametrize("estimate_statistics_iteratively", [False, True])
+def test_standard_deviation_derivative_if_zero(estimate_statistics_iteratively):
     """Verify that the derivative of the standard deviation is zero if zero."""
     design_space = DesignSpace()
     design_space.add_variable("x")
@@ -401,7 +402,10 @@ def test_standard_deviation_derivative_if_zero():
         uncertain_space,
         "StandardDeviation",
         formulation_name="DisciplinaryOpt",
-        statistic_estimation_settings=Sampling_Settings(n_samples=10),
+        statistic_estimation_settings=Sampling_Settings(
+            n_samples=10,
+            estimate_statistics_iteratively=estimate_statistics_iteratively,
+        ),
     )
     scenario.execute(algo_name="CustomDOE", samples=array([[1.0]]), eval_jac=True)
     get = scenario.formulation.optimization_problem.database.get_gradient_history
