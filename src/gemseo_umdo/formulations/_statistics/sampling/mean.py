@@ -18,8 +18,6 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from numpy import atleast_1d
-
 from gemseo_umdo.formulations._statistics.sampling.base_sampling_estimator import (
     BaseSamplingEstimator,
 )
@@ -32,7 +30,7 @@ class Mean(BaseSamplingEstimator):
     """Estimator of the expectation."""
 
     def estimate_statistic(self, samples: RealArray) -> RealArray:
-        return atleast_1d(samples.mean(0))
+        return samples.mean(0)
 
     def compute_jacobian(self, samples: RealArray, jac_samples: RealArray) -> RealArray:
-        return atleast_1d(jac_samples.mean(0))
+        return jac_samples.mean(0)

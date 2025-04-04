@@ -18,7 +18,6 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from numpy import atleast_1d
 from numpy import newaxis
 
 from gemseo_umdo.formulations._statistics.sampling.base_sampling_estimator import (
@@ -33,7 +32,7 @@ class Variance(BaseSamplingEstimator):
     """Estimator of the variance."""
 
     def estimate_statistic(self, samples: RealArray) -> RealArray:
-        return atleast_1d(samples.var(0, ddof=1))
+        return samples.var(0, ddof=1)
 
     def compute_jacobian(self, samples: RealArray, jac_samples: RealArray) -> RealArray:
         n = len(samples)
