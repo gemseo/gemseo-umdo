@@ -118,7 +118,7 @@ pytest==8.3.5
     #   gemseo-umdo (pyproject.toml)
     #   pytest-cov
     #   pytest-xdist
-pytest-cov==6.1.0
+pytest-cov==6.1.1
     # via gemseo-umdo (pyproject.toml)
 pytest-xdist==3.6.1
     # via gemseo-umdo (pyproject.toml)
