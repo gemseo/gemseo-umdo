@@ -102,9 +102,16 @@ class StatisticFunctionForPCE(StatisticFunctionForSurrogate[PCET]):
                 jac_std = pce.standard_deviation_jacobian_wrt_special_variables
                 jac_var = pce.variance_jacobian_wrt_special_variables
 
-            jac_mean = array_to_dict(jac_mean, sizes, output_names)
-            jac_std = array_to_dict(jac_std, sizes, output_names)
-            jac_var = array_to_dict(jac_var, sizes, output_names)
+            jac_mean = {
+                k: v.T
+                for k, v in array_to_dict(jac_mean.T, sizes, output_names).items()
+            }
+            jac_std = {
+                k: v.T for k, v in array_to_dict(jac_std.T, sizes, output_names).items()
+            }
+            jac_var = {
+                k: v.T for k, v in array_to_dict(jac_var.T, sizes, output_names).items()
+            }
             output_data[self.__get_statistic_jac_name(mean_arg_name)] = jac_mean
             output_data[self.__get_statistic_jac_name(std_arg_name)] = jac_std
             output_data[self.__get_statistic_jac_name(var_arg_name)] = jac_var
@@ -179,10 +186,10 @@ class StatisticFunctionForPCE(StatisticFunctionForSurrogate[PCET]):
 
                 i += 1
 
-        mean_down = array(mean_down).ravel()
-        var_down = array(var_down).ravel()
-        mean_up = array(mean_up).ravel()
-        var_up = array(var_up).ravel()
+        mean_down = array(mean_down).T
+        var_down = array(var_down).T
+        mean_up = array(mean_up).T
+        var_up = array(var_up).T
 
         # statistic_jacobian = (stat(x+ε)-stat(x-ε))/(2ε)
         two_steps = 2 * differentiation_step

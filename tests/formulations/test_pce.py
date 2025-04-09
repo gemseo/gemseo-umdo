@@ -34,6 +34,7 @@ from gemseo.problems.uncertainty.ishigami.ishigami_problem import IshigamiProble
 from gemseo.problems.uncertainty.utils import UniformDistribution
 from numpy import array
 from numpy import full
+from numpy import ones
 from numpy.testing import assert_almost_equal
 from numpy.testing import assert_equal
 
@@ -345,21 +346,49 @@ def test_quality_log_level(
 
 
 @pytest.mark.parametrize(
-    ("pce_settings", "pce_regressor_settings", "y_opt"),
+    ("input_dimension", "pce_settings", "pce_regressor_settings", "f_opt", "jac_opt"),
     [
-        ({}, {}, 2.0),
-        ({}, {"degree": 1}, 1.9972399330987038),
-        ({"approximate_statistics_jacobians": True}, {}, 2.0),
+        (1, {}, {}, 2.0, array([[2.0011889]])),
+        (1, {}, {"degree": 1}, 1.9972399330987038, array([[2.0011889]])),
+        (1, {"approximate_statistics_jacobians": True}, {}, 2.0, array([[2.0]])),
         (
+            1,
             {"approximate_statistics_jacobians": True, "differentiation_step": 1e-2},
             {},
             2.0,
+            array([[2.0]]),
+        ),
+        (2, {}, {}, 5.916420174564085, array([[[1.9761176, 6.6563359]]])),
+        (2, {}, {"degree": 1}, 6.404476351650847, array([[[1.9761176, 6.6563359]]])),
+        (
+            2,
+            {"approximate_statistics_jacobians": True},
+            {},
+            5.916420174564085,
+            array([[[1.8819588, 7.0932709]]]),
+        ),
+        (
+            2,
+            {"approximate_statistics_jacobians": True, "differentiation_step": 1e-2},
+            {},
+            5.916420174564085,
+            array([[[1.8819588, 7.0932709]]]),
         ),
     ],
 )
-def test_scenario(quadratic_problem, pce_settings, pce_regressor_settings, y_opt):
+def test_scenario(
+    quadratic_problem,
+    input_dimension,
+    pce_settings,
+    pce_regressor_settings,
+    f_opt,
+    jac_opt,
+):
     """Check the PCE-based U-MDO formulation in a scenario with a toy case."""
     discipline, design_space, uncertain_space = quadratic_problem
+    if input_dimension == 2:
+        design_space.add_variable("z", lower_bound=-1, upper_bound=1.0, value=0.5)
+        uncertain_space.add_random_variable("v", "OTNormalDistribution")
     scenario = UDOEScenario(
         [discipline],
         "y",
@@ -373,6 +402,11 @@ def test_scenario(quadratic_problem, pce_settings, pce_regressor_settings, y_opt
             **pce_settings,
         ),
     )
-    scenario.execute(algo_name="CustomDOE", samples=array([[1.0]]), eval_jac=True)
-    assert_almost_equal(scenario.optimization_result.x_opt, array([1.0]))
-    assert_almost_equal(scenario.optimization_result.f_opt, y_opt)
+    scenario.execute(
+        algo_name="CustomDOE", samples=ones((1, input_dimension)), eval_jac=True
+    )
+    assert_almost_equal(scenario.optimization_result.x_opt, ones(input_dimension))
+    assert_almost_equal(scenario.optimization_result.f_opt, f_opt)
+    get = scenario.formulation.optimization_problem.database.get_gradient_history
+    jac = get("E[y]")
+    assert_almost_equal(jac, jac_opt)

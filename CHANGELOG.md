@@ -36,6 +36,9 @@ and this project adheres to
 
 ### Fixed
 
+- The [PCE][gemseo_umdo.formulations.pce.PCE] U-MDO formulation handles the case
+  where the uncertain space dimension is greater than 1
+  and the derivatives with respect to the design variables are requested.
 - The [Sampling][gemseo_umdo.formulations.sampling.Sampling] U-MDO formulation handles the case
   where the estimation of the standard deviation is zero
   and the derivatives with respect to the design variables are requested.
