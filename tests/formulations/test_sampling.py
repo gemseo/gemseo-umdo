@@ -22,8 +22,11 @@ from typing import Any
 import pytest
 from gemseo import from_pickle
 from gemseo import to_pickle
+from gemseo.algos.design_space import DesignSpace
 from gemseo.algos.doe.custom_doe.settings.custom_doe_settings import CustomDOE_Settings
+from gemseo.algos.parameter_space import ParameterSpace
 from gemseo.datasets.io_dataset import IODataset
+from gemseo.disciplines.analytic import AnalyticDiscipline
 from gemseo.formulations.mdf import MDF
 from gemseo.utils.comparisons import compare_dict_of_arrays
 from numpy import array
@@ -60,12 +63,11 @@ from gemseo_umdo.formulations._statistics.sampling.variance import Variance
 from gemseo_umdo.formulations.sampling import Sampling
 from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
 from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
+from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
 
-    from gemseo.algos.design_space import DesignSpace
-    from gemseo.algos.parameter_space import ParameterSpace
     from gemseo.core.discipline.discipline import Discipline
 
     from gemseo_umdo.formulations._statistics.iterative_sampling.base_sampling_estimator import (  # noqa: E501
@@ -382,3 +384,31 @@ def test_save_samples(disciplines, design_space, uncertain_space, tmp_wd):
         {"x0": array([1.0]), "x1": array([1.0]), "x2": array([1.0])},
     )
     assert dataset.name == "Iteration 2"
+
+
+@pytest.mark.parametrize("estimate_statistics_iteratively", [False, True])
+def test_standard_deviation_derivative_if_zero(estimate_statistics_iteratively):
+    """Verify that the derivative of the standard deviation is zero if zero."""
+    design_space = DesignSpace()
+    design_space.add_variable("x")
+
+    uncertain_space = ParameterSpace()
+    uncertain_space.add_random_variable("u", "OTNormalDistribution")
+
+    scenario = UMDOScenario(
+        [AnalyticDiscipline({"y": "x+u", "z": "x"})],
+        "z",
+        design_space,
+        uncertain_space,
+        "StandardDeviation",
+        formulation_name="DisciplinaryOpt",
+        statistic_estimation_settings=Sampling_Settings(
+            n_samples=10,
+            estimate_statistics_iteratively=estimate_statistics_iteratively,
+        ),
+    )
+    scenario.execute(algo_name="CustomDOE", samples=array([[1.0]]), eval_jac=True)
+    get = scenario.formulation.optimization_problem.database.get_gradient_history
+    # The output z does not depend on u.
+    # So its variance is zero and so is its derivative.
+    assert_equal(get("StD[z]"), array([[0.0]]))

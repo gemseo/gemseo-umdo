@@ -54,10 +54,12 @@ class Margin(BaseSamplingEstimator):
 
     def estimate_statistic(self, samples: RealArray) -> RealArray:
         mean = self.__mean.estimate_statistic(samples)
-        variance = self.__standard_deviation.estimate_statistic(samples)
-        return mean + self.__factor * variance
+        standard_deviation = self.__standard_deviation.estimate_statistic(samples)
+        return mean + self.__factor * standard_deviation
 
     def compute_jacobian(self, samples: RealArray, jac_samples: RealArray) -> RealArray:
-        mean = self.__mean.compute_jacobian(samples, jac_samples)
-        variance = self.__standard_deviation.compute_jacobian(samples, jac_samples)
-        return mean + self.__factor * variance
+        mean_jac = self.__mean.compute_jacobian(samples, jac_samples)
+        standard_deviation_jac = self.__standard_deviation.compute_jacobian(
+            samples, jac_samples
+        )
+        return mean_jac + self.__factor * standard_deviation_jac

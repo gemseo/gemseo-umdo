@@ -32,7 +32,7 @@ from numpy import linspace
 from numpy import pi
 
 if TYPE_CHECKING:
-    from numpy.typing import NDArray
+    from gemseo.typing import RealArray
 
 
 @dataclass
@@ -61,7 +61,7 @@ class HeatEquationConfiguration:
     """The evaluation cost of the
     [HeatEquationModel][gemseo_umdo.use_cases.heat_equation.model.HeatEquationModel]."""
 
-    mesh: NDArray[float] = field(init=False)
+    mesh: RealArray = field(init=False)
     """The mesh for the
     [HeatEquationModel][gemseo_umdo.use_cases.heat_equation.model.HeatEquationModel]."""
 

@@ -29,7 +29,6 @@ from gemseo_umdo.formulations._statistics.base_statistic_estimator import (
 if TYPE_CHECKING:
     from gemseo.algos.parameter_space import ParameterSpace
     from gemseo.typing import RealArray
-    from numpy.typing import NDArray
 
 
 class BaseControlVariateEstimator(BaseStatisticEstimator):
@@ -38,10 +37,10 @@ class BaseControlVariateEstimator(BaseStatisticEstimator):
     __EPSILON: Final[float] = finfo(float).eps
     """A number to avoid division by zero when normalizing the covariance."""
 
-    _u_mean: NDArray[float]
+    _u_mean: RealArray
     """The input mean vector."""
 
-    _u_standard_deviation: NDArray[float]
+    _u_standard_deviation: RealArray
     """The input standard deviation vector."""
 
     _uncertain_space: ParameterSpace

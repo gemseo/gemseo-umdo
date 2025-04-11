@@ -100,7 +100,7 @@ from numpy import zeros
 from gemseo_umdo.use_cases.heat_equation.configuration import HeatEquationConfiguration
 
 if TYPE_CHECKING:
-    from numpy.typing import NDArray
+    from gemseo.typing import RealArray
 
 
 class HeatEquationModel:
@@ -153,8 +153,8 @@ class HeatEquationModel:
 
     def __compute_initial_temperature(
         self,
-        X: NDArray[float],  # noqa: N803
-    ) -> NDArray[float]:
+        X: RealArray,  # noqa: N803
+    ) -> RealArray:
         """Compute the initial temperature for each mesh nodes.
 
         From Geraci et al., 2015 (Equation 5.2).
@@ -176,8 +176,8 @@ class HeatEquationModel:
         )
 
     def __call__(
-        self, input_samples: NDArray[float] | None = None, batch_size: int = 50000
-    ) -> tuple[NDArray[float] | float, NDArray[float]]:
+        self, input_samples: RealArray | None = None, batch_size: int = 50000
+    ) -> tuple[RealArray | float, RealArray]:
         """Compute the temperature.
 
         Args:
@@ -220,8 +220,8 @@ class HeatEquationModel:
 
     def __evaluate(
         self,
-        X: NDArray[float],  # noqa: N803
-    ) -> tuple[NDArray[float], NDArray[float]]:
+        X: RealArray,  # noqa: N803
+    ) -> tuple[RealArray, RealArray]:
         """Compute the temperature.
 
         From Geraci et al., 2015 (Equation 5.4).
@@ -276,7 +276,7 @@ class HeatEquationModel:
         )
         self.__f_at_mu_X = self(mu_X)[0]  # -> (1,) => (scalar)
 
-    def compute_taylor(self, input_samples: NDArray[float]) -> NDArray[float]:
+    def compute_taylor(self, input_samples: RealArray) -> RealArray:
         """Evaluate the first-order Taylor polynomial.
 
         Args:

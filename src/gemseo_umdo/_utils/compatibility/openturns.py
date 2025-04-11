@@ -32,7 +32,7 @@ if parse_version("1.22.0") <= OT_VERSION:
             dimension, openturns.Greater(), threshold
         )
 
-else:
+else:  # pragma: no cover
 
     def IterativeThresholdExceedance(dimension, threshold):  # noqa:D103, N802
         return openturns.IterativeThresholdExceedance(dimension, threshold)

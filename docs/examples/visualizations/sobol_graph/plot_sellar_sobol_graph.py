@@ -51,9 +51,3 @@ sobol_analysis.compute_indices()
 # we draw the Sobol' graph :
 sobol_graph = SobolGraph.from_analysis(sobol_analysis, output_name="obj")
 sobol_graph
-
-# %%
-# Sphinx Gallery and Jupyter Notebook can display `sobol_graph` in the web browser.
-# You can also use `sobol_graph.visualize()`
-# to save it on the disk
-# or display it with a dedicated program.

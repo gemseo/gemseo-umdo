@@ -30,13 +30,13 @@ if TYPE_CHECKING:
     from collections.abc import Iterable
     from collections.abc import Sequence
 
-    from numpy.typing import NDArray
+    from gemseo.typing import RealArray
 
 
 class Mean(BaseMLMCPilot):
     """The mean-based pilot for the MLMC algorithm."""
 
-    __delta: list[NDArray[float]]
+    __delta: list[RealArray]
     r"""The samples of $Y_0-Y_{-1},Y_2-Y_1,\ldots,Y_L-Y_{L-1}$.
 
     Namely,
@@ -44,7 +44,7 @@ class Mean(BaseMLMCPilot):
     """
 
     def __init__(  # noqa: D107
-        self, sampling_ratios: NDArray[float], costs: NDArray[float]
+        self, sampling_ratios: RealArray, costs: RealArray
     ) -> None:
         super().__init__(sampling_ratios, costs)
         self.__delta = [array([]) for _ in range(len(sampling_ratios))]
@@ -58,9 +58,9 @@ class Mean(BaseMLMCPilot):
     def _compute_V_l(  # noqa: D102 N802
         self,
         levels: Iterable[int],
-        samples: Sequence[NDArray[float]],
+        samples: Sequence[RealArray],
         *pilot_parameters: Any,
-    ) -> NDArray[float]:
+    ) -> RealArray:
         for level in levels:
             self.__delta[level] = samples[level][:, 0] - samples[level][:, 1]
 

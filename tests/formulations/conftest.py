@@ -93,7 +93,9 @@ def mdo_formulation(
 @pytest.fixture
 def quadratic_problem() -> tuple[AnalyticDiscipline, DesignSpace, ParameterSpace]:
     """The discipline, design space and uncertain space of a quadratic problem."""
-    discipline = AnalyticDiscipline({"y": "(x+u)**2"}, name="quadratic_function")
+    discipline = AnalyticDiscipline(
+        {"y": "(x+u)**2+(z+v)**3"}, name="quadratic_function"
+    )
 
     design_space = DesignSpace()
     design_space.add_variable("x", lower_bound=-1, upper_bound=1.0, value=0.5)

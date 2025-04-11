@@ -30,20 +30,20 @@ if TYPE_CHECKING:
     from collections.abc import Iterable
     from collections.abc import Sequence
 
-    from numpy.typing import NDArray
+    from gemseo.typing import RealArray
 
 
 class Variance(BaseMLMCPilot):
     """The variance-based pilot for the MLMC algorithm."""
 
-    __delta: list[NDArray[float]]
+    __delta: list[RealArray]
     r"""The samples of $Y_0-Y_{-1},Y_2-Y_1,\ldots,Y_L-Y_{L-1}$.
 
     Namely,
     $(Y_\ell^{(\ell,n_\ell)}-Y_{\ell-1}^{(\ell,n_\ell)})_{0\leq \ell \leq L}$.
     """
 
-    __sigma: list[NDArray[float]]
+    __sigma: list[RealArray]
     r"""The samples of $Y_0+Y_{-1},Y_2+Y_1,\ldots,Y_L+Y_{L-1}$.
 
     Namely,
@@ -51,7 +51,7 @@ class Variance(BaseMLMCPilot):
     """
 
     def __init__(  # noqa: D107
-        self, sampling_ratios: NDArray[float], costs: NDArray[float]
+        self, sampling_ratios: RealArray, costs: RealArray
     ) -> None:
         super().__init__(sampling_ratios, costs)
         n_levels = len(sampling_ratios)
@@ -71,9 +71,9 @@ class Variance(BaseMLMCPilot):
     def _compute_V_l(  # noqa: D102 N802
         self,
         levels: Iterable[int],
-        samples: Sequence[NDArray[float]],
+        samples: Sequence[RealArray],
         *pilot_parameters: Any,
-    ) -> NDArray[float]:
+    ) -> RealArray:
         # Mycek and De Lozzo, Table 1,
         # Multilevel Monte Carlo covariance estimation
         # for the computation of Sobol' indices, 2019.
