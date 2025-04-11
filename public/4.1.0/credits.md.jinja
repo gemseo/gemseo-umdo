@@ -1,0 +1,57 @@
+<!--
+Copyright 2021 IRT Saint Exupéry, https://www.irt-saintexupery.com
+
+This work is licensed under the Creative Commons Attribution-ShareAlike 4.0
+International License. To view a copy of this license, visit
+http://creativecommons.org/licenses/by-sa/4.0/ or send a letter to Creative
+Commons, PO Box 1866, Mountain View, CA 94042, USA.
+-->
+
+{%- macro dep_line(dep) -%}
+[`{{ dep.name }}`]({{ dep.url }}) | {{ dep.license }}
+{%- endmacro %}
+
+# Credits
+
+The developers thank all the open source libraries making
+`gemseo-umdo` possible.
+
+## External Dependencies
+
+`gemseo-umdo` depends on software with compatible
+licenses that are listed below.
+
+Project | License
+------- | -------
+{% for dep in external_dependencies -%}
+{{ dep_line(dep) }}
+{% endfor %}
+
+<!--
+## Internal dependencies
+
+`gemseo-umdo` source code includes software with
+compatible licenses that are listed below.
+-->
+
+## External applications
+
+Some external applications are used by `gemseo-umdo`,
+but not linked with the application,
+for testing, documentation generation,
+training or example purposes.
+
+<!--
+The dependencies used by pre-commit cannot be all automatically found.
+-->
+Project | License
+------- | -------
+{% for dep in external_applications -%}
+{{ dep_line(dep) }}
+{% endfor %}
+
+<!--
+## Resources
+
+Some icons and fonts are used by `gemseo-umdo` or its documentation.
+-->
