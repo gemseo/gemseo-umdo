@@ -38,7 +38,7 @@ fastjsonschema==2.21.1
     # via gemseo
 fonttools==4.57.0
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@dfbf1e1b33e47053f4549a9df8fea1e013a3452f
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@6b88b9302b4d79bbe3260bddd6f4a748aedf4ace
     # via
     #   -c requirements/test-constraints.in
     #   gemseo-umdo (pyproject.toml)
@@ -48,7 +48,7 @@ ghp-import==2.1.0
     # via mkdocs
 graphviz==0.20.3
     # via gemseo
-griffe==1.7.2
+griffe==1.7.3
     # via
     #   griffe-inherited-docstrings
     #   mkdocstrings-python
@@ -268,7 +268,7 @@ scipy==1.13.1
     #   gemseo
     #   pydoe3
     #   scikit-learn
-setuptools==79.0.0
+setuptools==79.0.1
     # via mkdocs-bibtex
 six==1.17.0
     # via
