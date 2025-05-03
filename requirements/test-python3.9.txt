@@ -32,7 +32,7 @@ fastjsonschema==2.21.1
     # via gemseo
 fonttools==4.57.0
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@1450da5e47e524df7233f3874f8cf53628babdd3
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@2b166739fefd4c7549366aa297c1f063981eada9
     # via
     #   -c requirements/test-constraints.in
     #   gemseo-umdo (pyproject.toml)
@@ -52,7 +52,7 @@ iniconfig==2.1.0
     # via pytest
 jinja2==3.1.6
     # via gemseo
-joblib==1.4.2
+joblib==1.5.0
     # via scikit-learn
 kiwisolver==1.4.7
     # via matplotlib
