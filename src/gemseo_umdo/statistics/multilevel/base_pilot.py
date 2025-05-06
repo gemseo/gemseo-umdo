@@ -59,8 +59,11 @@ class BasePilot(metaclass=ABCGoogleDocstringInheritanceMeta):
     For instance,
     $\mathcal{V}_\ell=\mathbb{E}[Y_\ell-Y_{\ell}]$ in the case of the expectation.
 
-    See Also:
-        El Amri et al., Algo. 1, Multilevel Surrogate-based Control Variates, 2023.
+    !!! quote "References"
+        El Amri et al., Algorithm 1,
+        *Multilevel Surrogate-based Control Variates*,
+        2024,
+        [https://doi.org/10.48550/arXiv.2306.10800](https://doi.org/10.48550/arXiv.2306.10800).
     """
 
     V_l: RealArray

@@ -50,7 +50,7 @@ class Mean(BaseMLMCMLCVPilot):
 
     def _compute_statistic(self) -> float:  # noqa: D102
         # Adapt
-        # El Amri et al., Multilevel Surrogate-based Control Variates, 2023.
+        # El Amri et al., Multilevel Surrogate-based Control Variates, 2024.
         # (Eq. 45, 52-57)
         # based on the linearity of the mean.
         return nansum([nanmean(delta) for delta in self.__delta])

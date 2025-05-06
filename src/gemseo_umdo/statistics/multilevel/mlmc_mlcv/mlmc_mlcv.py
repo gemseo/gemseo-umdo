@@ -136,8 +136,11 @@ class MLMCMLCV(MLMC):
         Returns:
             The positions of the surrogate models.
 
-        See Also:
-            El Amri et al., Table 1, Multilevel Surrogate-based Control Variates, 2023.
+        !!! quote "References"
+            El Amri et al., Table 1,
+            *Multilevel Surrogate-based Control Variates*,
+            2024,
+            [https://doi.org/10.48550/arXiv.2306.10800](https://doi.org/10.48550/arXiv.2306.10800).
         """
         if level == 0:
             if variant == cls.Variant.MLMC_MLCV:

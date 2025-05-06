@@ -59,7 +59,7 @@ class Variance(BaseMLMCPilot):
         self.__sigma = [array([]) for _ in range(n_levels)]
 
     def _compute_statistic(self) -> float:  # noqa: D102
-        # El Amri et al., Eq. 29, Multilevel Surrogate-based Control Variates, 2023.
+        # El Amri et al., Eq. 29, Multilevel Surrogate-based Control Variates, 2024.
         # Var_MLMC[Y] = sum_l Var^l[Y_l] - Var^l[Y_{l-1}]
         #             = sum_l Var^l[(D_l+S_l)/2] - Var^l[(S_l+D_l)/2]
         #               where D_l = Y_l-Y_{l-1} and S_l = Y_l+Y_{l-1}
