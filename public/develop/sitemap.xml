@@ -685,6 +685,34 @@
          <lastmod>2025-05-06</lastmod>
     </url>
     <url>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/use_cases/truss/</loc>
+         <lastmod>2025-05-06</lastmod>
+    </url>
+    <url>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/use_cases/truss/bar/</loc>
+         <lastmod>2025-05-06</lastmod>
+    </url>
+    <url>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/use_cases/truss/bars/</loc>
+         <lastmod>2025-05-06</lastmod>
+    </url>
+    <url>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/use_cases/truss/discipline/</loc>
+         <lastmod>2025-05-06</lastmod>
+    </url>
+    <url>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/use_cases/truss/forces/</loc>
+         <lastmod>2025-05-06</lastmod>
+    </url>
+    <url>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/use_cases/truss/model/</loc>
+         <lastmod>2025-05-06</lastmod>
+    </url>
+    <url>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/use_cases/truss/uncertain_space/</loc>
+         <lastmod>2025-05-06</lastmod>
+    </url>
+    <url>
          <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/visualizations/</loc>
          <lastmod>2025-05-06</lastmod>
     </url>
