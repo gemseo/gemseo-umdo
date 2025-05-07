@@ -57,7 +57,7 @@ then the U-MDO formulation will use [SEED][gemseo.utils.seeder.SEED].
 !!! note "API"
     Use `statistic_estimation_settings`
     to set the DOE algorithm name and settings,
-    _e.g._
+    e.g.
 
     ``` py
     settings = SequentialSampling_Settings(doe_algo_settings=OT_MONTE_CARLO(n_samples=20, n_processes=2))
@@ -92,5 +92,5 @@ The estimators are given below at the $k$-th iteration of the optimization loop.
 | Mean               | $\mathbb{E}[\varphi(x,U)]$       | $E_{N_k}[\varphi(x,U)]=\frac{1}{N_k}\sum_{i=1}^{N_k}\varphi(x,U^{(i)})$                                        |
 | Variance           | $\mathbb{V}[\varphi(x,U)]$       | $V_{N_k}[\varphi(x,U)]=\frac{1}{N_k-1}\sum_{i=1}^{N_k}\left(\varphi(x,U^{(i)})-E_{N_k}[\varphi(x,U)]\right)^2$ |
 | Standard deviation | $\mathbb{S}[\varphi(x,U)]$       | $S_{N_k}[\varphi(x,U)]=\sqrt{V_{N_k}[\varphi(x,U)]}$                                                           |
-| Margin             | $\textrm{Margin}[\varphi(x,U)]$  | $\textrm{Margin}_{N_k}[\varphi(x,U)]=E_{N_k}[\varphi(x,U)]+\kappa\times S_{N_k}[\varphi(x,U)]$                 |
+| Margin             | $\textrm{Margin}[\varphi(x,U)]$  | $\textrm{Margin}_{N_k}[\varphi(x,U)]=E_{N_k}[\varphi(x,U)]+\kappa\cdot S_{N_k}[\varphi(x,U)]$                 |
 | Probability        | $\mathbb{P}[\varphi(x,U)\leq 0]$ | $P_{N_k}[\varphi(x,U)\leq 0]=E_{N_k}[\mathbb{1}_{\varphi(x,U)\leq 0}]$                                         |

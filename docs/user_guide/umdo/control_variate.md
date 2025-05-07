@@ -60,7 +60,7 @@ then the U-MDO formulation will use [SEED][gemseo.utils.seeder.SEED].
 !!! note "API"
     Use `statistic_estimation_settings`
     to set the algorithm name and settings,
-    _e.g._
+    e.g.
 
     ``` py
     settings = ControlVariate_Settings(doe_algo_settings=OT_MONTE_CARLO(n_samples=20, n_processes=2))

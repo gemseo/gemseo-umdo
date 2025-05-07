@@ -50,7 +50,7 @@ then the U-MDO formulation will use [SEED][gemseo.utils.seeder.SEED].
 !!! note "API"
     Use `statistic_estimation_settings`
     to set the DOE algorithm name and settings,
-    _e.g._
+    e.g.
 
     ``` py
     settings = Sampling_Settings(doe_algo_settings=OT_MONTE_CARLO(n_samples=20, n_processes=2)
@@ -75,7 +75,7 @@ for the expectation, the standard deviation, the variance, the margin and the pr
 | Mean               | $\mathbb{E}[\varphi(x,U)]$       | $E_N[\varphi(x,U)]=\frac{1}{N}\sum_{i=1}^N\varphi(x,U^{(i)})$                                                            |
 | Variance           | $\mathbb{V}[\varphi(x,U)]$       | $V_N[\varphi(x,U)]=\frac{1}{N-1}\sum_{i=1}^N\left(\varphi(x,U^{(i)})-E_N[\varphi(x,U)]\right)^2$ |
 | Standard deviation | $\mathbb{S}[\varphi(x,U)]$       | $S_N[\varphi(x,U)]=\sqrt{V_N[\varphi(x,U)]}$                                                                |
-| Margin             | $\textrm{Margin}[\varphi(x,U)]$  | $\textrm{Margin}_N[\varphi(x,U)]=E_N[\varphi(x,U)]+\kappa\times S_N[\varphi(x,U)]$                                       |
+| Margin             | $\textrm{Margin}[\varphi(x,U)]$  | $\textrm{Margin}_N[\varphi(x,U)]=E_N[\varphi(x,U)]+\kappa\cdot S_N[\varphi(x,U)]$                                       |
 | Probability        | $\mathbb{P}[\varphi(x,U)\leq 0]$ | $P_N[\varphi(x,U)\leq 0]=E_N[\mathbb{1}_{\varphi(x,U)\leq 0}]$                                                           |
 
 ## Gradient-based optimization
