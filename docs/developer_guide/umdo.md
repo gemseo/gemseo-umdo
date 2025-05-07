@@ -17,7 +17,7 @@ used to define and solve an MDO problem under uncertainty.
 
 !!! info
 
-    Open the [user guide](../user_guide/umdo/index.md) for general information, _e.g._ concepts, API, examples, etc.
+    Open the [user guide](../user_guide/umdo/index.md) for general information, e.g. concepts, API, examples, etc.
 
 ## Tree structure
 
@@ -66,8 +66,8 @@ with an API adapted to the definition of the uncertain space, statistics and the
 
 A `BaseUScenario` is made of
 
-- a `BaseUMDOFormulation`, which is an `MDOFormulation` depending on a standard `MDOFormulation`, _e.g._ `MDF`,
-- the settings of a specific statistics estimation technique, _e.g._ `Sampling_Settings` for sampling.
+- a `BaseUMDOFormulation`, which is an `MDOFormulation` depending on a standard `MDOFormulation`, e.g. `MDF`,
+- the settings of a specific statistics estimation technique, e.g. `Sampling_Settings` for sampling.
 
 The standard `MDOFormulation` is in charge to define the multidisciplinary process
 for a specific design value and a specific uncertainty value

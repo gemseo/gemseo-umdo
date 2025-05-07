@@ -73,7 +73,7 @@ You only have to enable the option `approximate_statistics_jacobians`.
 !!! note "API"
     Use `statistic_estimation_settings`
     to set the DOE algorithm and the PCE's settings,
-    _e.g._
+    e.g.
 
     ``` py
     settings = PCE_Settings(
@@ -121,7 +121,7 @@ $$\hat{f}_x(U)=\alpha_0 + \sum_{1\leq i\leq P}\alpha_i\Phi_i(U).$$
 | Mean               | $\mathbb{E}[\varphi(x,U)]$      | $E_{\textrm{PCE}}[\varphi(x,U)]=\alpha_0$                                                                                    |
 | Variance           | $\mathbb{V}[\varphi(x,U)]$      | $V_{\textrm{PCE}}[\varphi(x,U)]=\sum_{1\leq i\leq P}\alpha_i^2$                                                              |
 | Standard deviation | $\mathbb{S}[\varphi(x,U)]$      | $S_{\textrm{PCE}}[\varphi(x,U)]=\sqrt{V_{\textrm{PCE}}[\varphi(x,U)]}$                                                      |
-| Margin             | $\textrm{Margin}[\varphi(x,U)]$ | $\textrm{Margin}_{\textrm{PCE}}[\varphi(x,U)]=E_{\textrm{PCE}}[\varphi(x,U)] + \kappa \times S_{\textrm{PCE}}[\varphi(x,U)]$ |
+| Margin             | $\textrm{Margin}[\varphi(x,U)]$ | $\textrm{Margin}_{\textrm{PCE}}[\varphi(x,U)]=E_{\textrm{PCE}}[\varphi(x,U)] + \kappa \cdot S_{\textrm{PCE}}[\varphi(x,U)]$ |
 
 ## Gradient-based optimization
 
