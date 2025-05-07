@@ -7227,7 +7227,7 @@ You only have to enable the option <code>approximate_statistics_jacobians</code>
 <p class="admonition-title">API</p>
 <p>Use <code>statistic_estimation_settings</code>
 to set the DOE algorithm and the PCE's settings,
-<em>e.g.</em></p>
+e.g.</p>
 <div class="highlight"><pre><span></span><code><span class="n">settings</span> <span class="o">=</span> <span class="n">PCE_Settings</span><span class="p">(</span>
     <span class="n">doe_algo_settings</span><span class="o">=</span><span class="n">OT_MONTE_CARLO</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">n_processes</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
     <span class="n">regressor_settings</span><span class="o">=</span><span class="n">PCE_Settings</span><span class="o">.</span><span class="n">PCERegressorSettings</span><span class="p">(</span><span class="n">use_lars</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span>
@@ -7318,7 +7318,7 @@ from the coefficients <span class="arithmatex">\((\alpha_i)_{0\leq i \leq N}\)</
 <tr>
 <td>Margin</td>
 <td><span class="arithmatex">\(\textrm{Margin}[\varphi(x,U)]\)</span></td>
-<td><span class="arithmatex">\(\textrm{Margin}_{\textrm{PCE}}[\varphi(x,U)]=E_{\textrm{PCE}}[\varphi(x,U)] + \kappa \times S_{\textrm{PCE}}[\varphi(x,U)]\)</span></td>
+<td><span class="arithmatex">\(\textrm{Margin}_{\textrm{PCE}}[\varphi(x,U)]=E_{\textrm{PCE}}[\varphi(x,U)] + \kappa \cdot S_{\textrm{PCE}}[\varphi(x,U)]\)</span></td>
 </tr>
 </tbody>
 </table>

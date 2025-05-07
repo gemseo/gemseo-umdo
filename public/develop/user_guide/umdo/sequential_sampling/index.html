@@ -7178,7 +7178,7 @@ then the U-MDO formulation will use <a class="autorefs autorefs-external" href="
 <p class="admonition-title">API</p>
 <p>Use <code>statistic_estimation_settings</code>
 to set the DOE algorithm name and settings,
-<em>e.g.</em></p>
+e.g.</p>
 <div class="highlight"><pre><span></span><code><span class="n">settings</span> <span class="o">=</span> <span class="n">SequentialSampling_Settings</span><span class="p">(</span><span class="n">doe_algo_settings</span><span class="o">=</span><span class="n">OT_MONTE_CARLO</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">n_processes</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
 <span class="n">scenario</span> <span class="o">=</span> <span class="n">UMDOScenario</span><span class="p">(</span>
     <span class="n">disciplines</span><span class="p">,</span>
@@ -7228,7 +7228,7 @@ The estimators are given below at the <span class="arithmatex">\(k\)</span>-th i
 <tr>
 <td>Margin</td>
 <td><span class="arithmatex">\(\textrm{Margin}[\varphi(x,U)]\)</span></td>
-<td><span class="arithmatex">\(\textrm{Margin}_{N_k}[\varphi(x,U)]=E_{N_k}[\varphi(x,U)]+\kappa\times S_{N_k}[\varphi(x,U)]\)</span></td>
+<td><span class="arithmatex">\(\textrm{Margin}_{N_k}[\varphi(x,U)]=E_{N_k}[\varphi(x,U)]+\kappa\cdot S_{N_k}[\varphi(x,U)]\)</span></td>
 </tr>
 <tr>
 <td>Probability</td>

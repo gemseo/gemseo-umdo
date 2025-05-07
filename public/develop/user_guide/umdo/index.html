@@ -7002,6 +7002,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#optimization-problem-under-uncertainty" class="md-nav__link">
+    <span class="md-ellipsis">
+      Optimization problem under uncertainty
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#multidisciplinary-optimization-mdo-problem" class="md-nav__link">
     <span class="md-ellipsis">
       Multidisciplinary optimization (MDO) problem
@@ -7011,11 +7020,44 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#optimization-problem-under-uncertainty" class="md-nav__link">
+  <a href="#mdo-formulations" class="md-nav__link">
     <span class="md-ellipsis">
-      Optimization problem under uncertainty
+      MDO formulations
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="MDO formulations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mdf" class="md-nav__link">
+    <span class="md-ellipsis">
+      MDF
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#idf" class="md-nav__link">
+    <span class="md-ellipsis">
+      IDF
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bi-level" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bi-level
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -7062,9 +7104,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#u-mdo-formulations" class="md-nav__link">
+  <a href="#u-scenario" class="md-nav__link">
     <span class="md-ellipsis">
-      U-MDO formulations
+      U-Scenario
     </span>
   </a>
   
@@ -7120,9 +7162,9 @@ and equality constraints <span class="arithmatex">\(h(x)=0\)</span>:</p>
 &amp;&amp;&amp;h(x) = 0
 \end{align}
 \]</div>
-<p>where <span class="arithmatex">\(f:\mathcal{X}\mapsto\mathbb{R}\)</span>,
-<span class="arithmatex">\(g:\mathcal{X}\mapsto\mathbb{R}^{p_g}\)</span>
-and <span class="arithmatex">\(h:\mathcal{X}\mapsto\mathbb{R}^{p_h}\)</span>.</p>
+<p>where <span class="arithmatex">\(f:\mathcal{X}\to\mathbb{R}\)</span>,
+<span class="arithmatex">\(g:\mathcal{X}\to\mathbb{R}^{p_g}\)</span>
+and <span class="arithmatex">\(h:\mathcal{X}\to\mathbb{R}^{p_h}\)</span>.</p>
 <p>Any optimization problem of the form</p>
 <div class="arithmatex">\[
 \begin{align}
@@ -7134,7 +7176,7 @@ and <span class="arithmatex">\(h:\mathcal{X}\mapsto\mathbb{R}^{p_h}\)</span>.</p
 &amp;&amp;&amp;\tilde{h}(x) = t_h
 \end{align}
 \]</div>
-<p>can be reduced to this standard optimization problem:</p>
+<p>can be reduced to such a standard optimization problem:</p>
 <ul>
 <li>an objective to minimize,</li>
 <li>upper inequality constraints with bounds equal to 0,</li>
@@ -7178,20 +7220,82 @@ This algorithm can be either an optimizer or a design of experiments (DOE).</p>
 </code></pre></div>
 </details>
 </div>
+<h3 id="optimization-problem-under-uncertainty">Optimization problem under uncertainty<a class="headerlink" href="#optimization-problem-under-uncertainty" title="Permanent link">&para;</a></h3>
+<p>The models are often subject to uncertainties.
+There are different ways of classifying and modeling uncertainties.
+GEMSEO-UMDO uses the probability theory
+to model both the aleatory and epistemic uncertainties as random variables.</p>
+<p>Then,
+the objective <span class="arithmatex">\(f(x,U)\)</span> and the constraints <span class="arithmatex">\(g(x,U)\)</span> and <span class="arithmatex">\(h(x,U)\)</span>,
+where <span class="arithmatex">\(U\)</span> denotes random inputs,
+are in turn random variables
+and the standard optimization problem is replaced by</p>
+<div class="arithmatex">\[
+\begin{align}
+&amp;\underset{x\in\mathcal{X}}{\operatorname{minimize}}&amp; &amp; \mathbb{K}_f[f(x,U)] \\
+&amp;\operatorname{subject\;to}
+&amp; &amp;\mathbb{K}_g[g(x,U)] \leq 0 \\
+&amp;&amp;&amp;\mathbb{K}_h[h(x,U)] = 0
+\end{align}
+\]</div>
+<p>where <span class="arithmatex">\(\mathbb{K}_f\)</span>, <span class="arithmatex">\(\mathbb{K}_g\)</span> and <span class="arithmatex">\(\mathbb{K}_h\)</span> are statistic operators,
+e.g.</p>
+<ul>
+<li>the expectation operator <span class="arithmatex">\(\mathbb{E}\)</span>,</li>
+<li>the standard deviation operator <span class="arithmatex">\(\mathbb{S}\)</span>,</li>
+<li>the variance operator <span class="arithmatex">\(\mathbb{V}\)</span>,</li>
+<li>a margin, i.e. a combination of expectation and standard deviation operators parametrized by a weight <span class="arithmatex">\(\kappa\)</span>: <span class="arithmatex">\(\mathbb{E}+\kappa\cdot\mathbb{S}\)</span>,</li>
+<li>a probability operator <span class="arithmatex">\(\mathbb{P}\)</span> parametrized by bounds <span class="arithmatex">\(m\)</span> and <span class="arithmatex">\(M\)</span>.</li>
+</ul>
+<p>In practice,
+the statistics <span class="arithmatex">\(\mathbb{K}_f[f(x,U)]\)</span>, <span class="arithmatex">\(\mathbb{K}_g[g(x,U)]\)</span> and <span class="arithmatex">\(\mathbb{K}_h[h(x,U)]\)</span> are unknown
+and the operators <span class="arithmatex">\(\mathbb{K}_f\)</span>, <span class="arithmatex">\(\mathbb{K}_g\)</span> and <span class="arithmatex">\(\mathbb{K}_h\)</span> are replaced
+by data-based operators <span class="arithmatex">\(\widehat{\mathbb{K}}_f\)</span>, <span class="arithmatex">\(\widehat{\mathbb{K}}_g\)</span> and <span class="arithmatex">\(\widehat{\mathbb{K}}_h\)</span>.
+For example,
+in the case of the expectation operator <span class="arithmatex">\(\mathbb{E}\)</span> and the Monte Carlo (MC) sampling technique,
+the statistic <span class="arithmatex">\(\mathbb{E}[f(x,U)]\)</span> is replaced
+by the statistic estimator <span class="arithmatex">\(\widehat{\mathbb{E}}[f(x,U)]=\frac{1}{N}\sum_{i=1}^Nf(x,u^{(i)})\)</span>
+where <span class="arithmatex">\(u^{(1)},\ldots,u^{(N)}\)</span> are <span class="arithmatex">\(N\)</span> independent realizations of <span class="arithmatex">\(U\)</span>.</p>
+<p>Typically,
+a margin is applied to the objective to ensure a robust optimum <span class="arithmatex">\(x^*\)</span>.
+Indeed, minimizing margin <span class="arithmatex">\(\mathbb{E}[f(x,U)]+\kappa\cdot\mathbb{S}[f(x,U)]\)</span> pushes towards a compromise between</p>
+<ol>
+<li>a small value of <span class="arithmatex">\(f(x^*,u)\)</span> by minimizing <span class="arithmatex">\(\mathbb{E}[f(x,U)]\)</span>,</li>
+<li>a small dispersion around <span class="arithmatex">\(f(x^*,u)\)</span> by minimizing <span class="arithmatex">\(\mathbb{S}[f(x,U)]\)</span>.</li>
+</ol>
+<p>For reliability purposes,
+probabilities could be applied to inequality constraints,
+e.g. <span class="arithmatex">\(\mathbb{P}[g(x,U)\geq\epsilon]\)</span> or <span class="arithmatex">\(\mathbb{P}[g(x,u)&gt;0]-\varepsilon\)</span>,
+or equality constraints,
+e.g. <span class="arithmatex">\(\mathbb{P}[|h(x,U)|\geq\epsilon]\)</span>.</p>
+<div class="admonition note">
+<p class="admonition-title">Margin under normal assumption</p>
+<p>When <span class="arithmatex">\(\phi(x,U)\)</span> is normally distributed,
+the margin <span class="arithmatex">\(\mathbb{E}[\phi(x,U)]+q_\alpha\cdot\mathbb{S}[\phi(x,U)]\)</span>
+corresponds to the <span class="arithmatex">\(\alpha\)</span>-quantile of <span class="arithmatex">\(\phi(x,U)\)</span>
+where <span class="arithmatex">\(q_\alpha\)</span> is the <span class="arithmatex">\(\alpha\)</span>-quantile
+of the standard Gaussian distribution.
+For that reason,
+2 or 3 are common candidates for <span class="arithmatex">\(\kappa\)</span>
+as in this case,
+the margins correspond to
+the 0.975- and 0.999- quantiles of <span class="arithmatex">\(\phi(x,U)\)</span> respectively.</p>
+</div>
 <h3 id="multidisciplinary-optimization-mdo-problem">Multidisciplinary optimization (MDO) problem<a class="headerlink" href="#multidisciplinary-optimization-mdo-problem" title="Permanent link">&para;</a></h3>
 <p>In complex systems,
-the quantities <span class="arithmatex">\(f(x)\)</span>, <span class="arithmatex">\(g(x)\)</span> and <span class="arithmatex">\(h(x)\)</span> are often computed by <span class="arithmatex">\(D\)</span> models,
+the quantities <span class="arithmatex">\(f(x)\)</span>, <span class="arithmatex">\(g(x)\)</span> and <span class="arithmatex">\(h(x)\)</span> are often computed by <span class="arithmatex">\(M\)</span> models,
 called <em>disciplines</em>,
 which can be weakly or strongly coupled.
 The vector <span class="arithmatex">\(x\)</span> can be split into</p>
 <ul>
 <li>a sub-vector <span class="arithmatex">\(x_0\)</span> shared by at least two disciplines,</li>
-<li>sub-vectors <span class="arithmatex">\(x_i\)</span>, each specific to a discipline <span class="arithmatex">\(i\)</span>.</li>
+<li>sub-vectors <span class="arithmatex">\(x_{1\ldots M}=\{x_1,\ldots,x_M\}\)</span>, where <span class="arithmatex">\(x_i\)</span> is specific to the <span class="arithmatex">\(i\)</span>-th discipline.</li>
 </ul>
-<p>The problem is then called a multidisciplinary optimization (MDO) problem</p>
+<p>Then,
+the problem can be rewritten as the multidisciplinary optimization (MDO) problem</p>
 <div class="arithmatex">\[
 \begin{align}
-&amp;\underset{x\in\mathcal{X},y\in\mathcal{Y}}{\operatorname{minimize}}&amp;&amp;f(x,y)\\
+&amp;\underset{x\in\mathcal{X},\,y\in\mathcal{Y}}{\operatorname{minimize}}&amp;&amp;f(x,y)\\
 &amp;\operatorname{subject\;to}
 &amp; &amp;g(x,y) \leq 0 \\
 &amp;&amp;&amp;h(x,y) = 0 \\
@@ -7199,13 +7303,11 @@ The vector <span class="arithmatex">\(x\)</span> can be split into</p>
 \end{align}
 \]</div>
 <p>where <span class="arithmatex">\(c_i:x_0,x_i,y_{-i}\mapsto y_i\)</span> represents the <span class="arithmatex">\(i\)</span>-th discipline
-with <span class="arithmatex">\(y_{-i}=\{y_j, 1\leq j\neq i \leq D\}\)</span>.</p>
+with <span class="arithmatex">\(y_{-i}=\{y_j\}_{j\in\{1,\ldots,M\}\setminus\{i\}}\)</span>.</p>
 <p>This MDO problem implies that
 the optimum <span class="arithmatex">\((x^*,y^*)\)</span> must be multidisciplinary feasible,
-i.e. satisfying the coupling equations <span class="arithmatex">\(y^*=c(x^*,y^*)\)</span>.
-Solving these equations is called a
-<em>multidisciplinary analysis</em>
-(MDA).</p>
+i.e. satisfying the coupling equations <span class="arithmatex">\(y=c(x,y)\)</span>.
+Solving a non-linear equation system is called a <em>multidisciplinary analysis</em> (MDA).</p>
 <details class="example">
 <summary>Example: MDA with linear disciplines</summary>
 <p>Let us consider a simple MDO problem with two linear disciplines given by
@@ -7226,145 +7328,207 @@ and the MDO problem becomes a simple optimization problem.</p>
 </details>
 <p>In the case of non-linear disciplines,
 the MDA can be solved with Newton's method or a fixed-point technique.</p>
-<p>Last but not least,
-the efficient resolution of an MDO problem involves
+<h3 id="mdo-formulations">MDO formulations<a class="headerlink" href="#mdo-formulations" title="Permanent link">&para;</a></h3>
+<p>The efficient resolution of an MDO problem involves
 finding a suitable rewriting of the problem,
-called <em>MDO formulation</em> or <em>architecture</em><sup id="fnref:MartinsSurvey"><a class="footnote-ref" href="#fn:MartinsSurvey">1</a></sup>.</p>
-<ul>
-<li>
-<p>The MDF (multidisciplinary feasible) formulation is certainly the best-known.
-  This architecture performs an MDA at each iteration of the optimization loop
-  and is thus qualified as <em>coupled</em>.</p>
+called <em>MDO formulation</em> or <em>architecture</em><sup id="fnref:MartinsSurvey"><a class="footnote-ref" href="#fn:MartinsSurvey">1</a></sup>,
+which is accompanied by a characteristic process (workflow and dataflow).
+We present some MDO formulations just after,
+with a very simple version under uncertainty
+where the statistics are estimated by MC sampling using <span class="arithmatex">\(N\)</span> realizations of <span class="arithmatex">\(U\)</span>.
+More advanced estimation techniques can be found in GEMSEO-UMDO.</p>
+<h4 id="mdf">MDF<a class="headerlink" href="#mdf" title="Permanent link">&para;</a></h4>
+<p>The MDF (multidisciplinary feasible) formulation of the MDO problem is certainly the best-known:</p>
 <div class="arithmatex">\[
 \begin{align}
 &amp;\underset{x\in\mathcal{X}}{\operatorname{minimize}}&amp;&amp;f(x,y(x))\\
 &amp;\operatorname{subject\;to}
 &amp; &amp;g(x,y(x)) \leq 0 \\
-&amp;&amp;&amp;h(x,y(x)) = 0 \\
-&amp;&amp;&amp;y(x)=c(x,y(x)).
+&amp;&amp;&amp;h(x,y(x)) = 0. \\
 \end{align}
 \]</div>
-</li>
-<li>
-<p>The IDF (individual disciplinary feasible) formulation is also popular.
-  This architecture evaluates the disciplines independently
-  at each iteration of the optimization loop
-  and is thus qualified as <em>uncoupled</em>.
-  The multidisciplinary feasibility is ensured
-  at convergence of the optimization algorithm
-  by means of consistency constraints.</p>
+<p>This architecture performs an MDA at each design point <span class="arithmatex">\(x\)</span>,
+which, by the implicit function theorem, allows us to rewrite <span class="arithmatex">\(y\)</span> as <span class="arithmatex">\(y(x)\)</span>, a function of <span class="arithmatex">\(x\)</span>.
+Because of this point-by-point coupling management,
+the MDF formulation is qualified as <em>coupled</em>.</p>
+<p>In presence of uncertainties,
+we have:</p>
 <div class="arithmatex">\[
 \begin{align}
-&amp;\underset{x\in\mathcal{X},\tilde{y}\in\mathcal{Y}}{\operatorname{minimize}}&amp;&amp;f(x,\tilde{y})\\
+&amp;\underset{x\in\mathcal{X}}{\operatorname{minimize}}&amp;&amp;\mathbb{K}_f[f(x,y(x,U),U)]\\
 &amp;\operatorname{subject\;to}
-&amp; &amp;g(x,\tilde{y}) \leq 0 \\
-&amp;&amp;&amp;h(x,\tilde{y}) = 0 \\
+&amp; &amp;\mathbb{K}_g[g(x,y(x,U),U)] \leq 0 \\
+&amp;&amp;&amp;\mathbb{K}_h[h(x,y(x,U),U)] = 0. \\
+\end{align}
+\]</div>
+<p>Here is a naive MC version:</p>
+<div class="arithmatex">\[
+\begin{align}
+&amp;\underset{x\in\mathcal{X}}{\operatorname{minimize}}&amp;&amp;\widehat{\mathbb{K}}_f[f(x,y(x,U),U)]\\
+&amp;\operatorname{subject\;to}
+&amp; &amp;\widehat{\mathbb{K}}_g[g(x,y(x,U),U)] \leq 0 \\
+&amp;&amp;&amp;\widehat{\mathbb{K}}_h[h(x,y(x,U),U)] = 0. \\
+\end{align}
+\]</div>
+<p>where <span class="arithmatex">\(\widehat{\mathbb{K}}_{\phi}[\phi(x,y(x,U),U)]\)</span> is written
+from the samples <span class="arithmatex">\(\{\phi\!\left(x,y\!\left(x,u^{(i)}\right),u^{(i)}\right)\}_{i\in\{1,\ldots,N\}}\)</span>.</p>
+<p>Note that the MDA is performed sample by sample,
+thus multiplying the computational cost of an iteration of the optimization loop by <span class="arithmatex">\(N\)</span>
+with respect to the uncertainty-free case (without considering possible parallelizations).</p>
+<h4 id="idf">IDF<a class="headerlink" href="#idf" title="Permanent link">&para;</a></h4>
+<p>The IDF (individual disciplinary feasible) formulation is also popular:</p>
+<div class="arithmatex">\[
+\begin{align}
+&amp;\underset{x\in\mathcal{X},\,\tilde{y}\in\mathcal{Y}}{\operatorname{minimize}}&amp;&amp;f(x,c(x,\tilde{y}))\\
+&amp;\operatorname{subject\;to}
+&amp; &amp;g(x,c(x,\tilde{y})) \leq 0 \\
+&amp;&amp;&amp;h(x,c(x,\tilde{y})) = 0 \\
 &amp;&amp;&amp;\tilde{y} = c(x,\tilde{y}).
 \end{align}
 \]</div>
-</li>
-<li>
-<p>Bi-level formulations<sup id="fnref:Gazaix2019"><a class="footnote-ref" href="#fn:Gazaix2019">2</a></sup> split the optimization problem
-  into a top-level optimization problem controlling the shared variable <span class="arithmatex">\(x_0\)</span>
-  and a collection of sub-optimization problems
-  whose <span class="arithmatex">\(i\)</span>-th controls the local variable <span class="arithmatex">\(x_i\)</span>.</p>
-</li>
-</ul>
-<div class="admonition note">
-<p class="admonition-title">API</p>
-<p><a href="https://www.gemseo.org">GEMSEO</a> offers implementations for the
-<a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.formulations.mdf.html#gemseo.formulations.mdf.MDF">MDF</a>,
-<a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.formulations.idf.html#gemseo.formulations.idf.IDF">IDF</a>
-and <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.formulations.bilevel.html#gemseo.formulations.bilevel.BiLevel">BiLevel</a> formulations.</p>
-<details class="example">
-<summary>Example: MDF applied to the Sellar problem</summary>
-<div class="highlight"><pre><span></span><code>  <span class="kn">from</span><span class="w"> </span><span class="nn">gemseo</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_scenario</span>
-  <span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.algos.design_space</span><span class="w"> </span><span class="kn">import</span> <span class="n">DesignSpace</span>
-  <span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.disciplines.analytic</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnalyticDiscipline</span>
-
-  <span class="n">disciplines</span> <span class="o">=</span> <span class="p">[</span>
-      <span class="n">AnalyticDiscipline</span><span class="p">({</span><span class="s2">&quot;y_1&quot;</span><span class="p">:</span> <span class="s2">&quot;(z1**2+z2+x-0.2*y2)**0.5&quot;</span><span class="p">},</span> <span class="s2">&quot;Sellar1&quot;</span><span class="p">),</span>
-      <span class="n">AnalyticDiscipline</span><span class="p">({</span><span class="s2">&quot;y_2&quot;</span><span class="p">:</span> <span class="s2">&quot;abs(y1)+z1+z2&quot;</span><span class="p">},</span> <span class="s2">&quot;Sellar2&quot;</span><span class="p">),</span>
-      <span class="n">AnalyticDiscipline</span><span class="p">(</span>
-          <span class="p">{</span>
-              <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;x**2+z2+y**2+exp(-y_2)&quot;</span><span class="p">,</span>
-              <span class="s2">&quot;c1&quot;</span><span class="p">:</span> <span class="s2">&quot;3.16-y1**2&quot;</span><span class="p">,</span>
-              <span class="s2">&quot;c2&quot;</span><span class="p">:</span> <span class="s2">&quot;y2-24&quot;</span>
-          <span class="p">},</span>
-          <span class="s2">&quot;SellarSystem&quot;</span>
-      <span class="p">)</span>
-  <span class="p">]</span>
-
-  <span class="n">design_space</span> <span class="o">=</span> <span class="n">DesignSpace</span><span class="p">()</span>
-  <span class="n">design_space</span><span class="o">.</span><span class="n">add_variable</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">lower_bound</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">upper_bound</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-  <span class="n">design_space</span><span class="o">.</span><span class="n">add_variable</span><span class="p">(</span><span class="s2">&quot;z1&quot;</span><span class="p">,</span> <span class="n">lower_bound</span><span class="o">=-</span><span class="mi">10</span><span class="p">,</span> <span class="n">upper_bound</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mf">4.0</span><span class="p">)</span>
-  <span class="n">design_space</span><span class="o">.</span><span class="n">add_variable</span><span class="p">(</span><span class="s2">&quot;z2&quot;</span><span class="p">,</span> <span class="n">lower_bound</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">upper_bound</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mf">3.0</span><span class="p">)</span>
-
-  <span class="n">scenario</span> <span class="o">=</span> <span class="n">create_scenario</span><span class="p">(</span><span class="n">disciplines</span><span class="p">,</span> <span class="s2">&quot;MDF&quot;</span><span class="p">,</span> <span class="s2">&quot;f&quot;</span><span class="p">,</span> <span class="n">design_space</span><span class="p">)</span>
-  <span class="n">scenario</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s2">&quot;c1&quot;</span><span class="p">,</span> <span class="s2">&quot;ineq&quot;</span><span class="p">)</span>
-  <span class="n">scenario</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s2">&quot;c2&quot;</span><span class="p">,</span> <span class="s2">&quot;ineq&quot;</span><span class="p">)</span>
-  <span class="n">scenario</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">algo_name</span><span class="o">=</span><span class="s2">&quot;SLSQP&quot;</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
-</code></pre></div>
-</details>
-</div>
-<h3 id="optimization-problem-under-uncertainty">Optimization problem under uncertainty<a class="headerlink" href="#optimization-problem-under-uncertainty" title="Permanent link">&para;</a></h3>
-<p>The models are often subject to uncertainties
-There are different ways of classifying uncertainties
-and different ways of modeling them.
-However,
-GEMSEO-UMDO is limited to the probability theory
-for the sake of simplicity
-and because this framework is the most popular and has proved its worth.
-And so,
-the uncertainties are modelled by random variables.</p>
-<p>Then,
-the objective <span class="arithmatex">\(f(x,U)\)</span> and the constraints <span class="arithmatex">\(g(x,U)\)</span> and <span class="arithmatex">\(h(x,U)\)</span>,
-where <span class="arithmatex">\(U\)</span> denotes random inputs,
-are in turn random variables
-and the standard optimization problem is replaced by</p>
+<p>This architecture evaluates the disciplines independently
+at each iteration of the optimization loop
+and is thus qualified as <em>uncoupled</em>.
+The multidisciplinary feasibility is ensured
+at convergence of the optimization algorithm
+by means of the consistency constraints <span class="arithmatex">\(\tilde{y} = c(x,\tilde{y})\)</span>
+and the additional optimization variables <span class="arithmatex">\(\tilde{y}\)</span>.</p>
+<p>In presence of uncertainties,
+we have:</p>
 <div class="arithmatex">\[
 \begin{align}
-&amp;\underset{x\in\mathcal{X}}{\operatorname{minimize}}&amp; &amp; \mathbb{K}_f[f(x,U)] \\
+&amp;\underset{x\in\mathcal{X},\,\tilde{Y}}{\operatorname{minimize}}&amp;&amp;\mathbb{K}_f[f(x,c(x,\tilde{Y},U),U)]\\
 &amp;\operatorname{subject\;to}
-&amp; &amp;\mathbb{K}_g[g(x,U)] \leq 0 \\
-&amp;&amp;&amp;\mathbb{K}_h[h(x,U)] = 0
+&amp; &amp;\mathbb{K}_g[g(x,c(x,\tilde{Y},U),U)] \leq 0 \\
+&amp;&amp;&amp;\mathbb{K}_h[h(x,c(x,\tilde{Y},U),U)] = 0 \\
+&amp;&amp;&amp;\tilde{Y} = c(x,\tilde{Y},U).
 \end{align}
 \]</div>
-<p>where <span class="arithmatex">\(\mathbb{K}_f\)</span>, <span class="arithmatex">\(\mathbb{K}_g\)</span> and <span class="arithmatex">\(\mathbb{K}_h\)</span> are statistics.</p>
-<p>The statistic of a function <span class="arithmatex">\(\phi\)</span> can be
-the expectation <span class="arithmatex">\(\mathbb{E}[\phi(x,U)]\)</span>,
-the standard deviation <span class="arithmatex">\(\mathbb{S}[\phi(x,U)]\)</span>,
-the variance <span class="arithmatex">\(\mathbb{V}[\phi(x,U)]\)</span>,
-a margin <span class="arithmatex">\(\mathbb{E}[\phi(x,U)]+\kappa\times\mathbb{S}[\phi(x,U)]\)</span>
-or a probability <span class="arithmatex">\(\mathbb{P}[m \leq \phi(x,U)\leq M]\)</span>.
-For the inequality constraints,
-<span class="arithmatex">\(\mathbb{K}_g[g(x,U)]\)</span> could be
-<span class="arithmatex">\(\mathbb{P}[g(x,U)\geq\epsilon]\)</span>
-or <span class="arithmatex">\(\mathbb{P}[g(x,U)\geq 0]-\varepsilon\)</span>.
-For the equality constraints,
-<span class="arithmatex">\(\mathbb{K}_h[h(x,U)]\)</span> could be
-<span class="arithmatex">\(\mathbb{P}[|h(x,U)|\geq\epsilon]\)</span>.</p>
+<p>where <span class="arithmatex">\(\tilde{Y}\)</span> is a random variable.</p>
+<p>Here is a naive MC version:</p>
+<div class="arithmatex">\[
+\begin{align}
+&amp;\underset{x\in\mathcal{X},\tilde{y}^{(1)},\ldots,\tilde{y}^{(N)}}{\operatorname{minimize}}&amp;&amp;\widehat{\mathbb{K}}_f[f(x,c(x,\tilde{Y},U),U]\\
+&amp;\operatorname{subject\;to}
+&amp; &amp;\widehat{\mathbb{K}}_g[g(x,c(x,\tilde{Y},U),U] \leq 0 \\
+&amp;&amp;&amp;\widehat{\mathbb{K}}_h[h(x,c(x,\tilde{Y},U),U] = 0 \\
+&amp;&amp;&amp;\tilde{y}^{(1)} = c\!\left(x,\tilde{y}^{(1)},u^{(1)}\right) \\
+&amp;&amp;&amp;\vdots\\
+&amp;&amp;&amp;\tilde{y}^{(N)} = c\!\left(x,\tilde{y}^{(N)},u^{(N)}\right).
+\end{align}
+\]</div>
+<p>where <span class="arithmatex">\(\widehat{\mathbb{K}}_{\phi}[\phi(x,c(x,\tilde{Y},U),U)]\)</span> is written
+from the samples <span class="arithmatex">\(\{\phi\!\left(x,c\!\left(x,\tilde{y}^{(i)},u^{(i)}\right),u^{(i)}\right)\}_{i\in\{1,\ldots,N\}}\)</span>.</p>
+<p>Note that the dimension of the consistency constraints space
+as well as the dimension of the additional optimization variables space
+increases by a factor of <span class="arithmatex">\(N\)</span>,
+which can be very problematic,
+especially when the dimension of the coupling variables space is large.</p>
+<h4 id="bi-level">Bi-level<a class="headerlink" href="#bi-level" title="Permanent link">&para;</a></h4>
+<p>Bi-level formulations split the optimization problem
+into a top-level optimization problem controlling the shared design variables <span class="arithmatex">\(x_0\)</span>
+and a sublevel optimization problem controlling the local design variables <span class="arithmatex">\(x_{1\ldots M}\)</span>.</p>
+<p>In particular,
+Gazaix <em>et al.</em> (2019)<sup id="fnref:Gazaix2019"><a class="footnote-ref" href="#fn:Gazaix2019">2</a></sup> proposed to
+rewrite the initial MDO problem into a sequence of bi-level optimization problems
+whose sublevels are split into independent disciplinary optimization problems.
+This decomposition according to the disciplines makes
+the reuse of existing disciplinary optimization processes possible
+as well as their execution in parallel.
+It can also be done
+according to the nature of the design variables (continuous, discrete or mixed variables, etc.)
+and whether certain derivatives are available,
+to take advantage of specialized optimizers,
+although in the following we present the disciplinary version.</p>
+<p>Given the initial shared design values <span class="arithmatex">\(x_0^{(0)}\)</span> and the initial local design values <span class="arithmatex">\(x_{1\ldots M}^{(0)}\)</span>,
+the top-level optimization problem of the <span class="arithmatex">\(k\)</span>-th term of this bi-level optimization problem sequence can be written as</p>
+<div class="arithmatex">\[
+\begin{align}
+&amp;\underset{x_0\in\mathcal{X}_0}{\operatorname{minimize}}&amp;&amp;f\!\left(x_0, x_{1\ldots M}^{(k)}, y\!\left(x_0, x_{1\ldots M}^{(k)}\right)\right)\\
+&amp;\operatorname{subject\;to}
+&amp; &amp;g\!\left(x_0, x_{1\ldots M}^{(k)}, y\!\left(x_0, x_{1\ldots M}^{(k)}\right)\right)\leq 0
+\end{align}
+\]</div>
+<p>where <span class="arithmatex">\(x_i^{(k)}\)</span> is a solution of the disciplinary optimization problem</p>
+<div class="arithmatex">\[
+\begin{align}
+&amp;\underset{x_i\in\mathcal{X}_i}{\operatorname{minimize}}&amp;&amp;f\!\left(x_0, x_i, x_{-i}^{(k-1)}, c\!\left(x_0,x_i,x_{-i}^{(k-1)},y\!\left(x_0,x_{1\ldots M}^{(k-1)}\right)\right)\right)\\
+&amp;\operatorname{subject\;to}
+&amp; &amp;g_i\!\left(x_0, x_i, x_{-i}^{(k-1)}, c\!\left(x_0,x_i,x_{-i}^{(k-1)},y\!\left(x_0,x_{1\ldots M}^{(k-1)}\right)\right)\right)\leq 0
+\end{align}
+\]</div>
+<p>with <span class="arithmatex">\(x_{-i}^{(k-1)}=\left(x_j^{(k-1)}\right)_{j\in\{1,\ldots,M\}\setminus\{i\}}\)</span>
+and <span class="arithmatex">\(y\!\left(x_0,x_{1\ldots M}^{(k-1)}\right)\)</span> the MDA solution at the design point <span class="arithmatex">\(\left(x_0,x_{1\ldots M}^{(k-1)}\right)\)</span>.</p>
+<p>In presence of uncertainties,
+Aziz-Alaoui (2025)<sup id="fnref:AzizAlaoui2025"><a class="footnote-ref" href="#fn:AzizAlaoui2025">3</a></sup> proposed a similar bi-level formulation.
+The main problem can be written as</p>
+<div class="arithmatex">\[
+\begin{align}
+&amp;\underset{x_0\in\mathcal{X}_0}{\operatorname{minimize}}&amp;&amp;\mathbb{K}_f\!\left[f\!\left(x_0, X_{1\ldots M}^{(k)}, y\!\left(x_0, X_{1\ldots M}^{(k)}, U\right), U\right)\right]\\
+&amp;\operatorname{subject\;to}
+&amp; &amp; \mathbb{K}_g\!\left[g\!\left(x_0, X_{1\ldots M}^{(k)}, y\!\left(x_0, X_{1\ldots M}^{(k)}, U\right), U\right)\right]\leq 0
+\end{align}
+\]</div>
+<p>where <span class="arithmatex">\(X_i^{(k)}=x_i^{(k)}(U)\)</span> is a random variable
+such that for any realization <span class="arithmatex">\(u\)</span> of <span class="arithmatex">\(U\)</span>,
+<span class="arithmatex">\(x_i^{(k)}(u)\)</span> is a solution of the disciplinary optimization problem</p>
+<div class="arithmatex">\[
+\begin{align}
+&amp;\underset{x_i\in\mathcal{X}_i}{\operatorname{minimize}}&amp;&amp;f\!\left(x_0, x_i, x_{-i}^{(k-1)}(u), c\!\left(x_0,x_i,x_{-i}^{(k-1)}(u),y\!\left(x_0,x_{1\ldots M}^{(k-1)}(u),u\right),u\right),u\right)\\
+&amp;\operatorname{subject\;to}
+&amp; &amp;g_i\!\left(x_0, x_i, x_{-i}^{(k-1)}(u), c\!\left(x_0,x_i,x_{-i}^{(k-1)}(u),y\!\left(x_0,x_{1\ldots M}^{(k-1)}(u),u\right),u\right),u\right)\leq 0
+\end{align}
+\]</div>
 <div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>When <span class="arithmatex">\(\phi(x,U)\)</span> is normally distributed,
-the margin <span class="arithmatex">\(\mathbb{E}[\phi(x,U)]+q_\alpha\times\mathbb{S}[\phi(x,U)]\)</span>
-corresponds to the <span class="arithmatex">\(\alpha\)</span>-quantile of <span class="arithmatex">\(\phi(x,U)\)</span>
-where <span class="arithmatex">\(q_\alpha\)</span> is the <span class="arithmatex">\(\alpha\)</span>-quantile
-of the standard Gaussian distribution.
-For that reason,
-2 or 3 are common candidates for <span class="arithmatex">\(\kappa\)</span>
-as in this case,
-the margins correspond to
-the 0.975- and 0.999- quantiles of <span class="arithmatex">\(\phi(x,U)\)</span> respectively.</p>
+<p class="admonition-title">Different in kind from MDF</p>
+<p>Unlike its uncertainty-free version,
+which aims to be a reformulation of the MDF-formulated MDO problem,
+this bi-level formulation under uncertainty and its MDF counterpart are quite different in nature.
+While MDF is looking for an optimum design <span class="arithmatex">\(x^*=(x_0^*,x_{1\ldots M}^*)\)</span>,
+this bi-level formulation is looking for a random optimum <span class="arithmatex">\(X^*=(x_0^*,X_{1\ldots M}^*)\)</span>
+where only the shared design variables <span class="arithmatex">\(x_0^*\)</span> are fixed.
+The other design variables <span class="arithmatex">\(X_{1\ldots M}^*\)</span> are function of both this <span class="arithmatex">\(x_0^*\)</span> and the uncertain sources <span class="arithmatex">\(U\)</span>
+and define the optimal choices possible according to the values of <span class="arithmatex">\(U\)</span>.
+The idea behind this formulation is that
+because optimization under uncertainty leads to a solution more conservative than in the absence of uncertainties,
+it may be appropriate
+to fix only the global variables now
+and take time to fix the local variables,
+in the hope that the uncertainty <span class="arithmatex">\(U\)</span> will diminish over the course of the design process
+and so lead to less conservative solutions,
+i.e. a better objective value.</p>
 </div>
-<p>Typically,
-a margin is applied to the objective to ensure a robust optimum <span class="arithmatex">\(x^*\)</span>:</p>
-<ul>
-<li>a small value of <span class="arithmatex">\(f(x^*,u)\)</span> by minimizing <span class="arithmatex">\(\mathbb{E}[f(x,U)]\)</span>,</li>
-<li>whatever the realization <span class="arithmatex">\(u\)</span> of <span class="arithmatex">\(U\)</span> by minimizing <span class="arithmatex">\(\mathbb{S}[f(x,U)]\)</span>.</li>
-</ul>
+<p>Here is a naive MC version:</p>
+<div class="arithmatex">\[
+\begin{align}
+&amp;\underset{x_0\in\mathcal{X}_0}{\operatorname{minimize}}&amp;&amp;\widehat{K}_f\!\left[f\!\left(x_0, X_{1\ldots M}^{(k)}, y\!\left(x_0, X_{1\ldots M}^{(k)}, U\right), U\right)\right]\\
+&amp;\operatorname{subject\;to}
+&amp; &amp;  \widehat{K}_g\!\left[g\!\left(x_0, X_{1\ldots M}^{(k)}, y\!\left(x_0, X_{1\ldots M}^{(k)}, U\right), U\right)\right]\leq 0
+\end{align}
+\]</div>
+<p>where <span class="arithmatex">\(\widehat{K}_{\phi}\!\left[\phi\!\left(x_0, X_{1\ldots M}^{(k)}, y\!\left(x_0, X_{1\ldots M}^{(k)}, U\right), U\right)\right]\)</span>
+is written from the samples
+<span class="arithmatex">\(\left\{\phi\!\left(x_0, x_{1\ldots M}^{(k)}\!\left(u^{(i)}\right), y\!\left(x_0, x_{1\ldots M}^{(k)}\!\left(u^{(i)}\right), u^{(i)}\right)\right)\right\}_{i\in\{1,\ldots,N\}}\)</span></p>
+<p>and where <span class="arithmatex">\(x_j^{(k)}(u^{(i)})\)</span> is solution of</p>
+<div class="arithmatex">\[
+\begin{align}
+&amp;\underset{x_i\in\mathcal{X}_i}{\operatorname{minimize}}&amp;&amp;f\!\left(x_0, x_i, x_{-i}^{(k-1)}\!\left(u^{(i)}\right), c\!\left(x_0,x_i,x_{-i}^{(k-1)}\!\left(u^{(i)}\right),y\!\left(x_0,x_{1\ldots M}^{(k-1)}\!\left(u^{(i)}\right),u^{(i)}\right),u^{(i)}\right),u^{(i)}\right)\\
+&amp;\operatorname{subject\;to}
+&amp; &amp;g_i\!\left(x_0, x_i, x_{-i}^{(k-1)}\!\left(u^{(i)}\right), c\!\left(x_0,x_i,x_{-i}^{(k-1)}\!\left(u^{(i)}\right),y\!\left(x_0,x_{1\ldots M}^{(k-1)}\!\left(u^{(i)}\right),u^{(i)}\right),u^{(i)}\right),u^{(i)}\right)\leq 0
+\end{align}
+\]</div>
 <h2 id="api">API<a class="headerlink" href="#api" title="Permanent link">&para;</a></h2>
-<p>Here is an outline of the API. Go to the examples for more information.</p>
+<p>Here is an outline of the API to define and solve an MDO problem under uncertainty.
+The key ingredients for the definition are
+the disciplines,
+the design space,
+the constraints,
+the objective(s) and
+the U-MDO formulation combining an MDO formulation and a statistic estimation technique.
+The MDO problem can be solved using either an optimizer or a DOE.
+Go to the <a href="../../generated/examples/umdo/">examples</a> for more information.
+In this section,
+we present what is different compared to MDO without uncertainties</p>
 <h3 id="disciplines">Disciplines<a class="headerlink" href="#disciplines" title="Permanent link">&para;</a></h3>
 <p>When defining disciplines,
 do not forget to declare the uncertain variables as input variables
@@ -7372,7 +7536,7 @@ so that the
 <a class="autorefs autorefs-internal" title="            UMDOScenario" href="../../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>
 and
 <a class="autorefs autorefs-internal" title="            UDOEScenario" href="../../reference/gemseo_umdo/scenarios/udoe_scenario/#gemseo_umdo.scenarios.udoe_scenario.UDOEScenario">UDOEScenario</a>
-can change their values.</p>
+can take them into account.</p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
 <p>Let us implement an <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.core.discipline.discipline.html#gemseo.core.discipline.discipline.Discipline">Discipline</a>
@@ -7409,7 +7573,7 @@ with the method <a class="autorefs autorefs-external" href="https://gemseo.readt
 <p class="admonition-title">Example</p>
 <p>In the previous example,
 we could model the uncertain variable <span class="arithmatex">\(U\)</span> as a random variable
-distributed according to a triangular distribution
+triangularly distributed
 between 0.2 and 0.7 with a mode of 0.4:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.algos.parameter_space</span><span class="w"> </span><span class="kn">import</span> <span class="n">ParameterSpace</span>
 
@@ -7420,30 +7584,17 @@ between 0.2 and 0.7 with a mode of 0.4:</p>
 </code></pre></div>
 </div>
 <h3 id="scenario">Scenario<a class="headerlink" href="#scenario" title="Permanent link">&para;</a></h3>
-<p>Given these disciplines and uncertain space and also a design space of course,
-the MDO problem can be set up.</p>
-<p>In the case of MDO <em>without</em> uncertainty,
-there are two scenarios to set up the MDO problem:</p>
-<ul>
-<li><a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.scenarios.doe_scenario.html#gemseo.scenarios.doe_scenario.DOEScenario">DOEScenario</a>
-  to solve it with a DOE,</li>
-<li><a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.scenarios.mdo_scenario.html#gemseo.scenarios.mdo_scenario.MDOScenario">MDOScenario</a>
-  to solve it with an optimizer.</li>
-</ul>
-<p>Both need knowledge of objective and constraint functions
-in addition to the disciplines and design space
-to solve the MDO problem.</p>
-<p>In the case of MDO <em>with</em> uncertainty,
-there are two similar scenarios to set up the MDO problem:</p>
+<p>Given these disciplines and uncertain space,
+as well as a design space, objective(s) and constraint(s),
+the MDO problem under uncertainty can be set up by</p>
 <ul>
 <li><a class="autorefs autorefs-internal" title="            UDOEScenario" href="../../reference/gemseo_umdo/scenarios/udoe_scenario/#gemseo_umdo.scenarios.udoe_scenario.UDOEScenario">UDOEScenario</a>
-  to solve it with a DOE,</li>
+  to solve it using a DOE,</li>
 <li><a class="autorefs autorefs-internal" title="            UMDOScenario" href="../../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>
-  to solve it with an optimizer.</li>
+  to solve it using an optimizer or a DOE.</li>
 </ul>
-<p>Both need knowledge of the statistics and their estimators
-in addition to the disciplines, design space, objective and constraints
-to solve the MDO problem under uncertainty.</p>
+<p>You also need to fill in the statistics associated with the objective(s) and constraint(s),
+and the U-MDO formulation, combining an statistics estimation technique and an MDO formulation.</p>
 <div class="admonition note">
 <p class="admonition-title">API</p>
 <p>The API of <a class="autorefs autorefs-internal" title="            UDOEScenario" href="../../reference/gemseo_umdo/scenarios/udoe_scenario/#gemseo_umdo.scenarios.udoe_scenario.UDOEScenario">UDOEScenario</a>
@@ -7484,12 +7635,12 @@ and a Monte Carlo estimator of the expectation.</p>
 <span class="n">scenario</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">algo_name</span><span class="o">=</span><span class="s2">&quot;NLOPT_COBYLA&quot;</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<h3 id="u-mdo-formulations">U-MDO formulations<a class="headerlink" href="#u-mdo-formulations" title="Permanent link">&para;</a></h3>
+<h3 id="u-scenario">U-Scenario<a class="headerlink" href="#u-scenario" title="Permanent link">&para;</a></h3>
 <p><a class="autorefs autorefs-internal" title="            UDOEScenario" href="../../reference/gemseo_umdo/scenarios/udoe_scenario/#gemseo_umdo.scenarios.udoe_scenario.UDOEScenario">UDOEScenario</a>
 and <a class="autorefs autorefs-internal" title="            UMDOScenario" href="../../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>
 can estimate the statistics associated with <span class="arithmatex">\(f(x,U)\)</span>, <span class="arithmatex">\(g(x,U)\)</span> and <span class="arithmatex">\(h(x,U)\)</span>
 by sampling these random variables:</p>
-<div class="arithmatex">\[(f(x,U^{(i)}),g(x,U^{(i)}),h(x,U^{(i)}))_{1\leq i \leq N}.\]</div>
+<div class="arithmatex">\[(f(x,u^{(i)}),g(x,u^{(i)}),h(x,u^{(i)}))_{1\leq i \leq N}.\]</div>
 <p>However,
 as sampling can be expensive,
 GEMSEO-UMDO offers other techniques to reduce the cost of statistics estimation,
@@ -7503,12 +7654,16 @@ via the argument <code>statistic_estimation_settings</code>
 of <a class="autorefs autorefs-internal" title="            UDOEScenario" href="../../reference/gemseo_umdo/scenarios/udoe_scenario/#gemseo_umdo.scenarios.udoe_scenario.UDOEScenario">UDOEScenario</a>
 (or <a class="autorefs autorefs-internal" title="            UMDOScenario" href="../../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>),
 which is a Pydantic model of U-MDO settings,
-<em>e.g.</em>
+e.g.
 <a class="autorefs autorefs-internal" title="            ControlVariate_Settings" href="../../reference/gemseo_umdo/formulations/control_variate_settings/#gemseo_umdo.formulations.control_variate_settings.ControlVariate_Settings">ControlVariate_Settings</a>,
 <a class="autorefs autorefs-internal" title="            TaylorPolynomial_Settings" href="../../reference/gemseo_umdo/formulations/taylor_polynomial_settings/#gemseo_umdo.formulations.taylor_polynomial_settings.TaylorPolynomial_Settings">TaylorPolynomial_Settings</a>
 or <a class="autorefs autorefs-internal" title="            PCE_Settings" href="../../reference/gemseo_umdo/formulations/pce_settings/#gemseo_umdo.formulations.pce_settings.PCE_Settings">PCE_Settings</a>.</p>
 <p>As of now,
-only the <a href="sampling/"><code>Sampling</code> U-MDO formulation</a> provides analytical derivatives of the statistics
+only the
+<a href="sampling/"><code>Sampling</code></a>,
+<a href="sequential_sampling/"><code>SequentialSampling</code></a>
+and <a href="sampling/"><code>PCE</code></a> U-MDO formulations
+provide analytical derivatives of the statistics
 when the disciplines and the multidisciplinary process generated by the MDO formulation are differentiable.
 Therefore,
 the other U-MDO formulations require gradient approximation to use gradient-based optimizers,
@@ -7536,9 +7691,9 @@ instead of the <a class="autorefs autorefs-external" href="https://gemseo.readth
 to estimate the statistics
 <span class="arithmatex">\(\mathbb{K}_f[f(x,U)]\)</span>, <span class="arithmatex">\(\mathbb{K}_g[g(x,U)]\)</span> and <span class="arithmatex">\(\mathbb{K}_h[h(x,U)]\)</span>
 based on the samples
-<span class="arithmatex">\((U^{(i)},f(x,U^{(i)}),g(x,U^{(i)}),h(x,U^{(i)}))_{1\leq i \leq M}\)</span>.
+<span class="arithmatex">\((u^{(i)},f(x,u^{(i)}),g(x,u^{(i)}),h(x,u^{(i)}))_{1\leq i \leq N}\)</span>.
 In the case of Monte Carlo sampling,
-<span class="arithmatex">\(M\)</span> is the number of samples
+<span class="arithmatex">\(N\)</span> is the number of samples
 while in the case of Taylor expansion,
 <span class="arithmatex">\(M\in\{1,1+q\}\)</span> where <span class="arithmatex">\(q\)</span> is the dimension of the uncertain space
 depending on whether the derivatives are known
@@ -7577,6 +7732,9 @@ based on any MDO formulation and any statistic estimators.</p>
 </li>
 <li id="fn:Gazaix2019">
 <p>Anne Gazaix, Francois Gallard, Vincent Ambert, Damien Guénot, Maxime Hamadi, Patrick Sarouille, Stéphane Grihon, Thierry Druot, Joel Brezillon, Thierry Lefebvre, Nathalie Bartoli, Remi Lafage, Vincent Gachelin, Justin Plakoo, Nicolas Desfachelles, Selime Gurol, Benoit Pauwels, and Charlie Vanaret. Industrial application of an advanced bi-level MDO formulation to an aircraft engine pylon optimization. In <em>AIAA AVIATION Forum</em>. American Institute of Aeronautics and Astronautics, 2019.&#160;<a class="footnote-backref" href="#fnref:Gazaix2019" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+<li id="fn:AzizAlaoui2025">
+<p>Amine Aziz Alaoui. <em>Contributions to multidisciplinary design optimization under uncertainty, with applications to aircraft design</em>. PhD thesis, Université de Toulouse, 2025.&#160;<a class="footnote-backref" href="#fnref:AzizAlaoui2025" title="Jump back to footnote 3 in the text">&#8617;</a></p>
 </li>
 </ol>
 </div>
