@@ -50,9 +50,9 @@ disc2 = AnalyticDiscipline({"y2": "2/10*log(1+exp(10*y1))-y1-2/10*log(2) + z1 + 
 def create_design_space() -> DesignSpace:
     """Create the design space for the Sellar problem."""
     design_space = DesignSpace()
-    design_space.add_variable("x", 1, lower_bound=0.0, upper_bound=10.0, value=1.0)
-    design_space.add_variable("z1", 1, lower_bound=-10, upper_bound=10.0, value=4.0)
-    design_space.add_variable("z2", 1, lower_bound=0.0, upper_bound=10.0, value=3.0)
+    design_space.add_variable("x", lower_bound=0.0, upper_bound=10.0, value=1.0)
+    design_space.add_variable("z1", lower_bound=-10, upper_bound=10.0, value=4.0)
+    design_space.add_variable("z2", lower_bound=0.0, upper_bound=10.0, value=3.0)
     return design_space
 
 

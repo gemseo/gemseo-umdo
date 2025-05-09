@@ -59,7 +59,7 @@ configure_logger()
 
 # %%
 # Firstly,
-# we create one discipline per couping equation
+# we create one discipline per coupling equation
 # and a system discipline to compute the objective and constraints:
 system = AnalyticDiscipline({
     "obj": "x**2 + z2 + y1**2 + exp(-y2)",
@@ -72,9 +72,9 @@ disc2 = AnalyticDiscipline({"y2": "2/10*log(1+exp(10*y1))-y1-2/10*log(2) + z1 + 
 # %%
 # as well as the design space:
 design_space = DesignSpace()
-design_space.add_variable("x", 1, lower_bound=0.0, upper_bound=10.0, value=1.0)
-design_space.add_variable("z1", 1, lower_bound=-10.0, upper_bound=10.0, value=4.0)
-design_space.add_variable("z2", 1, lower_bound=0.0, upper_bound=10.0, value=3.0)
+design_space.add_variable("x", lower_bound=0.0, upper_bound=10.0, value=1.0)
+design_space.add_variable("z1", lower_bound=-10.0, upper_bound=10.0, value=4.0)
+design_space.add_variable("z2", lower_bound=0.0, upper_bound=10.0, value=3.0)
 
 # %%
 # Secondly,
