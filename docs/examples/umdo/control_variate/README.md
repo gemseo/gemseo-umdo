@@ -6,7 +6,7 @@
  http://creativecommons.org/licenses/by-sa/4.0/ or send a letter to Creative
  Commons, PO Box 1866, Mountain View, CA 94042, USA.
 -->
-# ... using control variates
+# U-MDO using control variates
 
 The statistics are estimated using the control variates technique
 where the control variates are based on Taylor polynomials of the quantities of interest.

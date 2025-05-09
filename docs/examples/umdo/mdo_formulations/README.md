@@ -6,8 +6,10 @@
  http://creativecommons.org/licenses/by-sa/4.0/ or send a letter to Creative
  Commons, PO Box 1866, Mountain View, CA 94042, USA.
 -->
-# U-MDO using Taylor polynomials
+# U-MDO using different MDO formulations
 
-The statistics are estimated using Taylor polynomials of the quantities of interest.
+The outputs of interest can be obtained using different MDO formulations,
+in particular ``DisciplinaryOpt`` and ``MDF`` in a very simple way,
+but also ``IDF`` and ``BiLevel`` in a more advanced manner.
 
-Read more in the [user guide](../../../user_guide/umdo/taylor_polynomial.md).
+Read more in the [GEMSEO's user guide](https://gemseo.readthedocs.io/en/stable/mdo/mdo_formulations.html)
