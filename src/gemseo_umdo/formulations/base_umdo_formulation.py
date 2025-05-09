@@ -38,6 +38,7 @@ if TYPE_CHECKING:
     from gemseo.core.base_factory import BaseFactory
     from gemseo.core.discipline.discipline import Discipline
     from gemseo.formulations.base_mdo_formulation import BaseMDOFormulation
+    from gemseo.scenarios.base_scenario import BaseScenario
     from gemseo.typing import RealArray
     from gemseo.typing import StrKeyMapping
 
@@ -125,7 +126,7 @@ class BaseUMDOFormulation(BaseFormulation):
 
     def __init__(
         self,
-        disciplines: Sequence[Discipline],
+        disciplines: Sequence[Discipline | BaseScenario],
         objective_name: str,
         design_space: DesignSpace,
         mdo_formulation: BaseMDOFormulation,
@@ -181,7 +182,7 @@ class BaseUMDOFormulation(BaseFormulation):
         sub_opt_problem = mdo_formulation.optimization_problem
         objective = self._statistic_function_class(
             self,
-            sub_opt_problem.objective,
+            sub_opt_problem.objective.name,
             MDOFunction.FunctionType.OBJ,
             objective_statistic_name,
             **objective_statistic_parameters,
@@ -261,7 +262,7 @@ class BaseUMDOFormulation(BaseFormulation):
         sub_opt_problem = self._mdo_formulation.optimization_problem
         observable = self._statistic_function_class(
             self,
-            sub_opt_problem.observables[-1],
+            sub_opt_problem.observables[-1].name,
             MDOFunction.FunctionType.NONE,
             statistic_name,
             **statistic_parameters,
@@ -294,7 +295,7 @@ class BaseUMDOFormulation(BaseFormulation):
         self._mdo_formulation.add_observable(output_name)
         constraint = self._statistic_function_class(
             self,
-            self._mdo_formulation.optimization_problem.observables[-1],
+            self._mdo_formulation.optimization_problem.observables[-1].name,
             MDOFunction.FunctionType.NONE,
             statistic_name,
             **statistic_parameters,

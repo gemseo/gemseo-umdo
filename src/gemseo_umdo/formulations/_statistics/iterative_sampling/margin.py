@@ -64,7 +64,6 @@ class Margin(BaseSamplingEstimator):
         dstd_dx = self.__standard_deviation.compute_jacobian(value, jac_value)
         return dmean_dx + self.__factor * dstd_dx
 
-    def reset(self, size: int) -> None:  # noqa: D102
-        super().reset(size)
-        self.__mean.reset(size)
-        self.__standard_deviation.reset(size)
+    def reset(self) -> None:  # noqa: D102
+        self.__mean.reset()
+        self.__standard_deviation.reset()

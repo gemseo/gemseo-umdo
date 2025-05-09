@@ -20,6 +20,7 @@ See also [Sampling][gemseo_umdo.formulations.sampling.Sampling].
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
+from typing import Any
 from typing import TypeVar
 
 from numpy import newaxis
@@ -43,28 +44,26 @@ class StatisticFunctionForStandardSampling(BaseStatisticFunctionForSampling[Samp
         self, output_data: dict[str, RealArray]
     ) -> RealArray:
         return self._statistic_estimator.estimate_statistic(
-            output_data[self._function_name]
+            output_data[self._output_name]
         )
 
     def _compute_statistic_jacobian_estimation(
-        self, output_data: dict[str, RealArray]
+        self, data: dict[str, RealArray]
     ) -> RealArray:
         return self._statistic_estimator.compute_jacobian(
-            output_data[self._function_name], output_data[self._function_jac_name]
+            data[self._output_name], data[self._output_jac_name]
         )
 
-    def _compute_output_data(
-        self,
-        input_data: RealArray,
-        output_data: dict[str, RealArray],
-        compute_jacobian: bool = False,
-    ) -> None:
+    def _compute_data_for_statistic_estimation(
+        self, input_data: RealArray, estimate_jacobian: bool
+    ) -> dict[str, Any]:
         formulation = self._umdo_formulation
         problem = formulation.mdo_formulation.optimization_problem
         database = problem.database
         formulation.compute_samples(
-            problem, input_data, compute_jacobian=compute_jacobian
+            problem, input_data, compute_jacobian=estimate_jacobian
         )
+        data = {}
         for output_name in database.get_function_names(skip_grad=False):
             history = database.get_function_history(output_name)
             ndim = history.ndim
@@ -76,4 +75,6 @@ class StatisticFunctionForStandardSampling(BaseStatisticFunctionForSampling[Samp
             elif ndim == 1:
                 history = history[:, newaxis]
 
-            output_data[output_name] = history
+            data[output_name] = history
+
+        return data

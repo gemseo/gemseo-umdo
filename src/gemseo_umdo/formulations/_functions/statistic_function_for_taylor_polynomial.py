@@ -59,13 +59,17 @@ class StatisticFunctionForTaylorPolynomial(BaseStatisticFunction[TaylorPolynomia
     def __init__(
         self,
         umdo_formulation: TaylorPolynomialT,
-        function: MDOFunction,
+        output_name: str,
         function_type: MDOFunction.FunctionType,
-        name: str,
+        statistic_operator_name: str,
         **statistic_options: Any,
     ) -> None:
         super().__init__(
-            umdo_formulation, function, function_type, name, **statistic_options
+            umdo_formulation,
+            output_name,
+            function_type,
+            statistic_operator_name,
+            **statistic_options,
         )
         formulation = self._umdo_formulation
         self.__problem = formulation.auxiliary_mdo_formulation.optimization_problem
@@ -76,43 +80,39 @@ class StatisticFunctionForTaylorPolynomial(BaseStatisticFunction[TaylorPolynomia
     def _statistic_estimator_parameters(self) -> tuple[ParameterSpace]:
         return (self._umdo_formulation.uncertain_space,)
 
-    def _compute_statistic_estimation(
-        self, output_data: dict[str, RealArray]
-    ) -> RealArray:
-        function_name = self._function_name
+    def _compute_statistic_estimation(self, data: dict[str, RealArray]) -> RealArray:
+        function_name = self._output_name
         gradient_name = Database.get_gradient_name(function_name)
         return self._statistic_estimator.estimate_statistic(
-            output_data[function_name],
-            output_data[gradient_name],
-            output_data.get(Database.get_gradient_name(gradient_name)),
+            data[function_name],
+            data[gradient_name],
+            data.get(Database.get_gradient_name(gradient_name)),
         )
 
-    def _compute_output_data(
-        self,
-        input_data: RealArray,
-        output_data: dict[str, RealArray],
-        compute_jacobian: bool = False,
-    ) -> None:
+    def _compute_data_for_statistic_estimation(
+        self, input_data: RealArray, estimate_jacobian: bool
+    ) -> dict[str, Any]:
+        mean_input_value = self.__mean_input_value
+        get_gradient_name = self.__get_gradient_name
+        data = {}
         for function in self.__problem.functions:
             name = function.name
-            output_data[name] = atleast_1d(function.evaluate(self.__mean_input_value))
-            output_data[self.__get_gradient_name(name)] = atleast_2d(
-                function.jac(self.__mean_input_value)
-            )
+            data[name] = atleast_1d(function.evaluate(mean_input_value))
+            data[get_gradient_name(name)] = atleast_2d(function.jac(mean_input_value))
 
         if self._umdo_formulation.second_order:
-            hessian_fd_problem = self._umdo_formulation.hessian_fd_problem
             for function, hessian_function in zip(
-                self.__problem.functions, hessian_fd_problem.functions
+                self.__problem.functions,
+                self._umdo_formulation.hessian_fd_problem.functions,
             ):
-                hess_value = hessian_function.evaluate(self.__mean_input_value)
+                hess_value = hessian_function.evaluate(mean_input_value)
                 if hess_value.ndim == 2:
                     hess_value = hess_value[newaxis, ...]
 
-                hess_name = self.__get_gradient_name(
-                    self.__get_gradient_name(function.name)
-                )
-                output_data[hess_name] = hess_value
+                hess_name = get_gradient_name(get_gradient_name(function.name))
+                data[hess_name] = hess_value
+
+        return data
 
     @property
     def _other_evaluation_problems(self) -> tuple[EvaluationProblem, ...]:

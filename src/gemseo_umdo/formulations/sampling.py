@@ -168,7 +168,7 @@ class Sampling(BaseUMDOFormulation):
         new_callbacks = self.jacobian_callbacks if compute_jacobian else self.callbacks
         doe_algo_settings.callbacks = list(original_callbacks) + new_callbacks
         doe_algo_settings.eval_jac = compute_jacobian
-        with LoggingContext(logging.getLogger("gemseo")):
+        with LoggingContext(logging.getLogger("gemseo"), level=logging.ERROR):
             self.__doe_algo.execute(
                 problem, eval_obs_jac=compute_jacobian, settings_model=doe_algo_settings
             )

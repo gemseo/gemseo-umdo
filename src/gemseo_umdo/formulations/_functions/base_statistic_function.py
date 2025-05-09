@@ -43,64 +43,57 @@ UMDOFormulationT = TypeVar("UMDOFormulationT", bound="BaseUMDOFormulation")
 
 
 class BaseStatisticFunction(MDOFunction, Generic[UMDOFormulationT]):
-    """A function to compute a statistic from a `BaseUMDOFormulation`."""
+    """A function to estimate a statistic from a U-MDO formulation."""
+
+    _output_jac_name: str
+    """The name of the Jacobian of the output of interest."""
+
+    _output_name: str
+    """The name of the output of interest."""
 
     _statistic_estimator: BaseStatisticEstimator
-    """A callable to estimate the statistic."""
+    """The statistic estimator."""
+
+    _statistic_jac_name: str
+    """The name of the Jacobian of the statistic of the output of interest."""
+
+    _statistic_name: str
+    """The name of the statistic of the output of interest."""
 
     _umdo_formulation: UMDOFormulationT
-    """The U-MDO formulation to which the
-    [BaseStatisticFunction][gemseo_umdo.formulations.f
-    unctions.base_statistic_function.BaseStatisticFunction] is attached."""
-
-    _function_name: str
-    """The name of the function."""
-
-    _function_jac_name: str
-    """The name of the Jacobian function."""
-
-    _observable_name: str
-    """The name of the observable that corresponds to the statistic of the function."""
-
-    _observable_jac_name: str
-    """The name of the Jacobian of the observable."""
-
-    _last_input_data: HashableNdarray
-    """The last input data passed to `__compute_qoi`."""
+    """The U-MDO formulation associated with this function."""
 
     def __init__(
         self,
         umdo_formulation: UMDOFormulationT,
-        function: MDOFunction,
+        output_name: str,
         function_type: MDOFunction.FunctionType,
-        name: str,
+        statistic_operator_name: str,
         **statistic_options: Any,
     ) -> None:
         """
         Args:
             umdo_formulation: The U-MDO formulation
-                to which the
-                [BaseStatisticFunction][gemseo_umdo.formulations._functions.base_statistic_function.BaseStatisticFunction]
-                is attached.
-            function: The function for which we want to estimate an output statistic.
+                associated with the output of interest.
+            output_name: The name of the output of interest.
             function_type: The type of function.
-            name: The name of the statistic.
+            statistic_operator_name: The name of the statistic operator.
             **statistic_options: The options of the statistic.
         """  # noqa: D205 D212 D415
-        function_name = function.name
-        self._function_name = function_name
-        self._function_jac_name = Database.get_gradient_name(function_name)
+        self._output_name = output_name
+        self._output_jac_name = Database.get_gradient_name(output_name)
         self._umdo_formulation = umdo_formulation
-        self._last_input_data = None
         self._statistic_estimator = umdo_formulation._statistic_factory.create(
-            name, *self._statistic_estimator_parameters, **statistic_options
+            statistic_operator_name,
+            *self._statistic_estimator_parameters,
+            **statistic_options,
         )
-        self._observable_name = (
-            f"{self._statistic_estimator.__class__.__name__}[{function_name}]"
+        self._statistic_name = (
+            f"{self._statistic_estimator.__class__.__name__}[{output_name}]"
         )
-        self._observable_jac_name = Database.get_gradient_name(self._observable_name)
+        self._statistic_jac_name = Database.get_gradient_name(self._statistic_name)
         super().__init__(
-            self._func, name=function_name, f_type=function_type, jac=self._jac
+            self._func, name=output_name, f_type=function_type, jac=self._jac
         )
 
     @property
@@ -108,78 +101,85 @@ class BaseStatisticFunction(MDOFunction, Generic[UMDOFormulationT]):
         """The parameters of the estimator of the statistic."""
         return ()
 
-    def __compute_qoi(self, input_data: RealArray, is_jac: bool = False) -> RealArray:
-        """A function computing a quantity of interest (QOI) at a given point.
+    def __compute_statistic_estimation(
+        self, input_data: RealArray, estimate_jacobian: bool
+    ) -> RealArray:
+        """Estimate the statistic or its Jacobian at an input point.
 
         Args:
-            input_data: The input point (values of design variables)
-                  at which to estimate the statistic.
-            is_jac: Whether the quantity of interest is a Jacobian.
+            input_data: The input point.
+            estimate_jacobian: Whether to estimate the Jacobian of the statistic
+                with respect to the input variables.
 
         Returns:
-            The quantity of interest at the given input point.
+            The estimation of the statistic or its Jacobian at the given input point.
         """
         umdo_formulation = self._umdo_formulation
         hashable_input_data = HashableNdarray(input_data)
-        if hashable_input_data != self._last_input_data:
-            self._last_input_data = hashable_input_data
+        i_to_o = umdo_formulation.input_data_to_output_data
+        output_name = self._output_jac_name if estimate_jacobian else self._output_name
 
+        # 1. We test whether input_data is a new input point.
+        last_input_data = next(reversed(i_to_o)) if i_to_o else None
+        if hashable_input_data != last_input_data:
+            # This is a new design point, so we reset the evaluation sub-problems.
             problems = [umdo_formulation.mdo_formulation.optimization_problem]
-
-            auxiliary_mdo_formulation = umdo_formulation.auxiliary_mdo_formulation
-            if auxiliary_mdo_formulation is not None:
-                problems.append(auxiliary_mdo_formulation.optimization_problem)
-
+            if (formulation := umdo_formulation.auxiliary_mdo_formulation) is not None:
+                problems.append(formulation.optimization_problem)
             problems.extend(self._other_evaluation_problems)
-
             for problem in problems:
                 problem.reset(preprocessing=False)
 
-        input_data_to_output_data = umdo_formulation.input_data_to_output_data
-        output_data = input_data_to_output_data.get(hashable_input_data, {})
-        name = self._function_jac_name if is_jac else self._function_name
-        if name not in output_data:
+        # 2. We test whether the output has already been evaluated at this input point.
+        #    Note: output means output f or its derivative @f.
+        data_for_statistic_estimation = i_to_o.get(hashable_input_data, {})
+        if output_name not in data_for_statistic_estimation:
+            # This output has not yet been evaluated,
+            # e.g. an output f has been evaluated
+            # when calling __compute_statistic_estimation via _func
+            # but not its Jacobian @f
+            # to be evaluated in the current call to __compute_statistic_estimation.
             umdo_formulation.update_top_level_disciplines(input_data)
-            output_data = input_data_to_output_data[hashable_input_data] = {}
-            self._compute_output_data(
-                input_data,
-                output_data,
-                compute_jacobian=is_jac,
+            data_for_statistic_estimation = self._compute_data_for_statistic_estimation(
+                input_data, estimate_jacobian
             )
+            i_to_o[hashable_input_data] = data_for_statistic_estimation
 
-        if is_jac:
-            return self._compute_statistic_jacobian_estimation(output_data)
-
-        return self._compute_statistic_estimation(output_data)
+        # 3. We compute the estimation of the statistic of interest or its Jacobian.
+        if estimate_jacobian:
+            compute_estimation = self._compute_statistic_jacobian_estimation
+        else:
+            compute_estimation = self._compute_statistic_estimation
+        return compute_estimation(data_for_statistic_estimation)
 
     def _func(self, input_data: RealArray) -> RealArray:
-        """A function estimating the statistic at a given input point.
+        """A function estimating the statistic at an input point.
 
         Args:
-            input_data: The input point at which to estimate the statistic.
+            input_data: The input point.
 
         Returns:
             The estimation of the statistic at the given input point.
         """
-        return self.__compute_qoi(input_data)
+        return self.__compute_statistic_estimation(input_data, False)
 
     def _jac(self, input_data: RealArray) -> RealArray:
-        """A function estimating the Jacobian of the statistic at a given input point.
+        """A function estimating the Jacobian of the statistic at an input point.
 
         Args:
-            input_data: The input point at which to estimate the statistic.
+            input_data: The input point.
 
         Returns:
             The estimation of the Jacobian of the statistic at the given input point.
         """
-        return self.__compute_qoi(input_data, is_jac=True)
+        return self.__compute_statistic_estimation(input_data, True)
 
     @abstractmethod
     def _compute_statistic_estimation(self, data: dict[str, Any]) -> RealArray:
         """Estimate the statistic.
 
         Args:
-            data: The data from which to estimate the statistic.
+            data: The data to estimate the Jacobian of the statistic.
 
         Returns:
             The estimation of the statistic.
@@ -190,25 +190,25 @@ class BaseStatisticFunction(MDOFunction, Generic[UMDOFormulationT]):
         """Estimate the Jacobian of the statistic.
 
         Args:
-            data: The data from which to estimate the Jacobian of the statistic.
+            data: The data to estimate the Jacobian of the statistic.
 
         Returns:
             The estimation of the Jacobian of the statistic.
         """
 
     @abstractmethod
-    def _compute_output_data(
-        self,
-        input_data: RealArray,
-        output_data: dict[str, Any],
-        compute_jacobian: bool = False,
-    ) -> None:
-        """Compute the output data.
+    def _compute_data_for_statistic_estimation(
+        self, input_data: RealArray, estimate_jacobian: bool
+    ) -> dict[str, Any]:
+        """Compute the data to estimate the statistic or its Jacobian at an input point.
 
         Args:
-            input_data: The input point at which to estimate the statistic.
-            output_data: The output data structure to be filled.
-            compute_jacobian: Whether to compute the Jacobian of the objective.
+            input_data: The input point.
+            estimate_jacobian: Whether to estimate the Jacobian of the statistic
+                with respect to the input variables.
+
+        Returns:
+            The data to estimate the statistic or its Jacobian at the given input point.
         """
 
     @property

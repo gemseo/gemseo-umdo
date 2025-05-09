@@ -260,6 +260,23 @@ def test_estimate_probability(greater, result, statistic_class):
     )
 
 
+def test_reset_iterative_probability():
+    """Verify that the iterative probability estimator can be reset."""
+    probability = IterativeProbability()
+    assert probability._estimator is None
+
+    probability.estimate_statistic(array([0.0, 0.0]))
+    assert probability._estimator.getIterationNumber() == 1
+    assert probability._estimator.getDimension() == 2
+
+    probability.estimate_statistic(array([1.0, 2.0]))
+    assert probability._estimator.getIterationNumber() == 2
+
+    probability.reset()
+    assert probability._estimator.getIterationNumber() == 0
+    assert probability._estimator.getDimension() == 2
+
+
 def test_mdo_formulation_objective(umdo_formulation, mdf_discipline):
     """Check that the MDO formulation can compute the objective correctly."""
     objective = umdo_formulation.mdo_formulation.optimization_problem.objective

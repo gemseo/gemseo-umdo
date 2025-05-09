@@ -49,8 +49,8 @@ class StatisticFunctionForControlVariate(BaseStatisticFunction[ControlVariateT])
     __FUNC_TEMPLATE: Final[str] = "#{}"
     """The template for the function history name from the linearization problem."""
 
-    __GRAD_TEMPLATE: Final[str] = "##{}"
-    """The template for the gradient history name from the linearization problem."""
+    __JAC_TEMPLATE: Final[str] = "##{}"
+    """The template for the Jacobian history name from the linearization problem."""
 
     __mc_problem: OptimizationProblem
     """The evaluation problem defined over the uncertain space for sampling."""
@@ -64,13 +64,17 @@ class StatisticFunctionForControlVariate(BaseStatisticFunction[ControlVariateT])
     def __init__(
         self,
         umdo_formulation: ControlVariateT,
-        function: MDOFunction,
+        output_name: str,
         function_type: MDOFunction.FunctionType,
-        name: str,
+        statistic_operator_name: str,
         **statistic_options: Any,
     ) -> None:
         super().__init__(
-            umdo_formulation, function, function_type, name, **statistic_options
+            umdo_formulation,
+            output_name,
+            function_type,
+            statistic_operator_name,
+            **statistic_options,
         )
         self.__mc_problem = self._umdo_formulation.mdo_formulation.optimization_problem
         formulation = self._umdo_formulation
@@ -81,34 +85,35 @@ class StatisticFunctionForControlVariate(BaseStatisticFunction[ControlVariateT])
     def _statistic_estimator_parameters(self) -> tuple[ParameterSpace]:
         return (self._umdo_formulation.uncertain_space,)
 
-    def _compute_output_data(
-        self,
-        input_data: RealArray,
-        output_data: dict[str, RealArray],
-        compute_jacobian: bool = False,
-    ) -> None:
+    def _compute_data_for_statistic_estimation(
+        self, input_data: RealArray, estimate_jacobian: bool
+    ) -> dict[str, Any]:
         self._umdo_formulation.compute_samples(self.__mc_problem)
-        database = self.__mc_problem.database
+        get_history = self.__mc_problem.database.get_function_history
+        mean_input_value = self.__mean_input_value
+        func_template = self.__FUNC_TEMPLATE
+        grad_template = self.__JAC_TEMPLATE
+        data = {}
         for function in self.__problem.functions:
-            output_name = function.name
-            output_data[output_name] = database.get_function_history(output_name)
-            output_data[self.__FUNC_TEMPLATE.format(output_name)] = atleast_1d(
-                function.evaluate(self.__mean_input_value)
+            data[output_name] = get_history(output_name := function.name)
+            data[func_template.format(output_name)] = atleast_1d(
+                function.evaluate(mean_input_value)
             )
-            output_data[self.__GRAD_TEMPLATE.format(output_name)] = atleast_2d(
-                function.jac(self.__mean_input_value)
+            data[grad_template.format(output_name)] = atleast_2d(
+                function.jac(mean_input_value)
             )
 
-    def _compute_statistic_estimation(
-        self, output_data: dict[str, RealArray]
-    ) -> RealArray:
-        output_name = self._function_name
-        samples = output_data[output_name]
+        return data
+
+    def _compute_statistic_estimation(self, data: dict[str, RealArray]) -> RealArray:
+        output_name = self._output_name
+        samples = data[output_name]
         if samples.ndim == 1:
             samples = samples[:, newaxis]
+
         return self._statistic_estimator.estimate_statistic(
             samples,
             self._umdo_formulation.doe_algo.samples,
-            output_data[self.__FUNC_TEMPLATE.format(output_name)],
-            output_data[self.__GRAD_TEMPLATE.format(output_name)],
+            data[self.__FUNC_TEMPLATE.format(output_name)],
+            data[self.__JAC_TEMPLATE.format(output_name)],
         )

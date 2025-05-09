@@ -20,6 +20,7 @@ See also [PCE][gemseo_umdo.formulations.pce.PCE].
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
+from typing import Any
 from typing import TypeVar
 
 from gemseo.mlearning.regression.algos.pce import PCERegressor
@@ -34,7 +35,6 @@ from gemseo_umdo.formulations._functions.statistic_function_for_surrogate import
 from gemseo_umdo.formulations._statistics.pce.base_pce_estimator import BasePCEEstimator
 
 if TYPE_CHECKING:
-    from gemseo.typing import NumberArray
     from gemseo.typing import RealArray
 
     from gemseo_umdo.formulations.pce import PCE
@@ -46,38 +46,33 @@ PCET = TypeVar("PCET", bound="PCE")
 class StatisticFunctionForPCE(StatisticFunctionForSurrogate[PCET]):
     """A function to compute a statistic from `PCE`."""
 
-    def _compute_statistic_estimation(
-        self, output_data: dict[str, PCERegressor]
-    ) -> RealArray:
-        function_name = self._function_name
+    def _compute_statistic_estimation(self, data: dict[str, PCERegressor]) -> RealArray:
+        function_name = self._output_name
         estimator = self._statistic_estimator
         return estimator.estimate_statistic(*[
-            output_data[statistic_name][function_name]
+            data[statistic_name][function_name]
             for statistic_name in estimator.ARG_NAMES
         ])
 
     def _compute_statistic_jacobian_estimation(
-        self, output_data: dict[str, RealArray]
+        self, data: dict[str, RealArray]
     ) -> RealArray:
-        function_name = self._function_name
+        function_name = self._output_name
         estimator = self._statistic_estimator
         return estimator.compute_jacobian(*[
-            output_data[self.__get_statistic_jac_name(statistic_name)][function_name]
+            data[self.__get_statistic_jac_name(statistic_name)][function_name]
             for statistic_name in estimator.ARG_NAMES
         ])
 
-    def _compute_output_data(
-        self,
-        input_data: RealArray,
-        output_data: dict[str, dict[str, NumberArray]],
-        compute_jacobian: bool = False,
-    ) -> None:
+    def _compute_data_for_statistic_estimation(
+        self, input_data: RealArray, estimate_jacobian: bool
+    ) -> dict[str, Any]:
         pce_formulation = self._umdo_formulation
         settings = pce_formulation._settings
         samples = pce_formulation.compute_samples(
             pce_formulation.mdo_formulation.optimization_problem,
             compute_jacobian=(
-                compute_jacobian and not settings.approximate_statistics_jacobians
+                estimate_jacobian and not settings.approximate_statistics_jacobians
             ),
         )
         pce = PCERegressor(samples, settings_model=settings.regressor_settings)
@@ -89,12 +84,12 @@ class StatisticFunctionForPCE(StatisticFunctionForSurrogate[PCET]):
         mean_arg_name = BasePCEEstimator.MEAN_ARG_NAME
         std_arg_name = BasePCEEstimator.STD_ARG_NAME
         var_arg_name = BasePCEEstimator.VAR_ARG_NAME
-        output_data[mean_arg_name] = array_to_dict(pce.mean, sizes, output_names)
-        output_data[std_arg_name] = array_to_dict(
-            pce.standard_deviation, sizes, output_names
-        )
-        output_data[var_arg_name] = array_to_dict(pce.variance, sizes, output_names)
-        if compute_jacobian:
+        data = {
+            mean_arg_name: array_to_dict(pce.mean, sizes, output_names),
+            std_arg_name: array_to_dict(pce.standard_deviation, sizes, output_names),
+            var_arg_name: array_to_dict(pce.variance, sizes, output_names),
+        }
+        if estimate_jacobian:
             if settings.approximate_statistics_jacobians:
                 jac_mean, jac_std, jac_var = self.__approximate_jacobians(pce)
             else:
@@ -112,11 +107,12 @@ class StatisticFunctionForPCE(StatisticFunctionForSurrogate[PCET]):
             jac_var = {
                 k: v.T for k, v in array_to_dict(jac_var.T, sizes, output_names).items()
             }
-            output_data[self.__get_statistic_jac_name(mean_arg_name)] = jac_mean
-            output_data[self.__get_statistic_jac_name(std_arg_name)] = jac_std
-            output_data[self.__get_statistic_jac_name(var_arg_name)] = jac_var
+            data[self.__get_statistic_jac_name(mean_arg_name)] = jac_mean
+            data[self.__get_statistic_jac_name(std_arg_name)] = jac_std
+            data[self.__get_statistic_jac_name(var_arg_name)] = jac_var
 
         self._log_regressor_quality(pce)
+        return data
 
     @staticmethod
     def __get_statistic_jac_name(statistic_name: str) -> str:

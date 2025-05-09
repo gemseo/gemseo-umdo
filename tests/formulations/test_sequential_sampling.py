@@ -30,7 +30,6 @@ from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
 def test_scenario(estimate_statistics_iteratively):
     """Check SequentialSampling."""
     discipline = AnalyticDiscipline({"y": "(x+u)**2"}, name="quadratic_function")
-    discipline.set_cache("MemoryFullCache")
     design_space = DesignSpace()
     design_space.add_variable("x", lower_bound=-1, upper_bound=1.0, value=0.5)
     uncertain_space = ParameterSpace()

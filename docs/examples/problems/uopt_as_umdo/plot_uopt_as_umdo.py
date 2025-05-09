@@ -96,7 +96,7 @@ u_opt_scenario = UMDOScenario(
     design_space,
     uncertain_space,
     "Mean",
-    Sampling_Settings(n_samples=50, estimate_statistics_iteratively=False),
+    Sampling_Settings(n_samples=50),
     formulation_name="DisciplinaryOpt",
 )
 # %%
@@ -123,7 +123,7 @@ umdo_scenario = UOptAsUMDOScenario(
     design_space,
     uncertain_space,
     "Mean",
-    Sampling_Settings(n_samples=50, estimate_statistics_iteratively=False),
+    Sampling_Settings(n_samples=50),
     formulation_name="MDF",
 )
 # %%

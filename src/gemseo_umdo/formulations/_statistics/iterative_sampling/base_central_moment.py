@@ -34,10 +34,14 @@ class BaseCentralMoment(BaseSamplingEstimator):
     _ORDER: ClassVar[int]
     """The order of the central moment."""
 
-    def reset(self, size: int) -> None:  # noqa: D102
-        super().reset(size)
+    def reset(self) -> None:  # noqa: D102
+        if self._jac_estimator is not None and self.jac_shape is not None:
+            self._create_jac_estimator(self._jac_estimator.getDimension())
+
+        self._create_estimator(self._estimator.getDimension())
+
+    def _create_estimator(self, size: int) -> None:
         self._estimator = IterativeMoments(self._ORDER, size)
-        if self.jac_shape is not None:
-            self._jac_estimator = IterativeMoments(
-                self._ORDER, self.jac_shape[0] * self.jac_shape[1]
-            )
+
+    def _create_jac_estimator(self, size: int) -> None:
+        self._jac_estimator = IterativeMoments(self._ORDER, size)

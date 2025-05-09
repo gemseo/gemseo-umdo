@@ -115,7 +115,7 @@ mdf_scenario = UMDOScenario(
     design_space,
     uncertain_space,
     "Mean",
-    Sampling_Settings(n_samples=n_samples, estimate_statistics_iteratively=False),
+    Sampling_Settings(n_samples=n_samples),
     formulation_name="MDF",
 )
 # %%
@@ -166,7 +166,7 @@ bilevel_scenario = UMDOScenario(
     design_space.filter("x_0", copy=True),
     uncertain_space,
     "Mean",
-    Sampling_Settings(n_samples=n_samples, estimate_statistics_iteratively=False),
+    Sampling_Settings(n_samples=n_samples),
     formulation_name="BiLevel",
     save_opt_history=False,
 )
@@ -207,14 +207,26 @@ mdf_f_opt
 bilevel_f_opt
 
 # %%
-# The ``BiLevel`` solution seems to be better than the ``MDF`` one.
+# The ``MDF`` solution seems to be better than the ``BiLevel`` one.
 #
 # Finally,
-# we execute the ``BiLevel`` formulation at the bi-level optimum:
+# we execute the ``BiLevel`` formulation at the bi-level optimum,
+# taking care to save the samples with the option ``estimate_statistics_iteratively``:
+bilevel_scenario = UMDOScenario(
+    [scenario_1, scenario_2, rosenbrock],
+    "f",
+    design_space.filter("x_0", copy=True),
+    uncertain_space,
+    "Mean",
+    Sampling_Settings(n_samples=n_samples, estimate_statistics_iteratively=False),
+    formulation_name="BiLevel",
+    save_opt_history=False,
+)
 bilevel_scenario.execute(algo_name="CustomDOE", samples=atleast_2d(bilevel_x_opt))
 
 # %%
-# which generates samples $\left(f(x_0^*,U^{(i)},V^{(i)})\right)_{1\leq i \leq N}$:
+# This process generates samples
+# $\left(f(x_0^*,U^{(i)},V^{(i)})\right)_{1\leq i \leq N}$:
 database = bilevel_scenario.formulation.mdo_formulation.optimization_problem.database
 f_samples = database.get_function_history("f").ravel()
 
@@ -231,9 +243,10 @@ plt.show()
 # %%
 # We can see that,
 # on average,
-# the ``BiLevel`` solution in red is better than the ``MDF`` solution in blue.
+# the ``MDF`` solution in red is better than the ``BiLevel`` solution in blue.
 # On the other hand,
-# there are values of $U$ and $V$ for which the solution could be even better.
+# there are values of $U$ and $V$ for which
+# the ``BiLevel`` solution could be much better than the ``MDF`` solution.
 # This is one of the advantages of using the ``BiLevel`` formulation under uncertainty:
 # choosing the global design variable values now,
 # and leave ourselves time to choose those of the local design variables,

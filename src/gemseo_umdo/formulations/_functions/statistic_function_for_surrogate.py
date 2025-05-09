@@ -21,6 +21,7 @@ from __future__ import annotations
 
 import logging
 from typing import TYPE_CHECKING
+from typing import Any
 from typing import TypeVar
 
 from gemseo.mlearning.regression.algos.factory import RegressorFactory
@@ -43,19 +44,12 @@ SurrogateT = TypeVar("SurrogateT", bound="Surrogate")
 class StatisticFunctionForSurrogate(BaseStatisticFunction[SurrogateT]):
     """A function to compute a statistic from `Surrogate`."""
 
-    def _compute_statistic_estimation(
-        self, output_data: dict[str, RealArray]
-    ) -> RealArray:
-        return self._statistic_estimator.estimate_statistic(
-            output_data[self._function_name]
-        )
+    def _compute_statistic_estimation(self, data: dict[str, RealArray]) -> RealArray:
+        return self._statistic_estimator.estimate_statistic(data[self._output_name])
 
-    def _compute_output_data(
-        self,
-        input_data: RealArray,
-        output_data: dict[str, RealArray],
-        compute_jacobian: bool = False,
-    ) -> None:
+    def _compute_data_for_statistic_estimation(
+        self, input_data: RealArray, estimate_jacobian: bool
+    ) -> dict[str, Any]:
         umdo_formulation = self._umdo_formulation
         problem = umdo_formulation.mdo_formulation.optimization_problem
         samples = umdo_formulation.compute_samples(problem)
@@ -66,8 +60,9 @@ class StatisticFunctionForSurrogate(BaseStatisticFunction[SurrogateT]):
             settings_model=regressor_settings,
         )
         regressor.learn()
-        output_data.update(regressor.predict(umdo_formulation.input_samples))
+        output_samples = regressor.predict(umdo_formulation.input_samples)
         self._log_regressor_quality(regressor)
+        return output_samples
 
     def _log_regressor_quality(self, regressor: BaseRegressor) -> None:
         """Log the quality of the regressor.

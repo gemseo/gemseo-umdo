@@ -24,6 +24,8 @@ from gemseo.algos.parameter_space import ParameterSpace
 from gemseo.core.chains.chain import MDOChain
 from gemseo.disciplines.analytic import AnalyticDiscipline
 from gemseo.disciplines.auto_py import AutoPyDiscipline
+from gemseo.formulations.mdf import MDF
+from gemseo.formulations.mdf_settings import MDF_Settings
 from numpy import array
 from numpy import atleast_2d
 from numpy import vstack
@@ -144,12 +146,26 @@ def test_mdo_formulation(scenario):
     """Check the content of the MDO formulation."""
     mdo_formulation = scenario.mdo_formulation
     opt_problem = mdo_formulation.optimization_problem
-    assert mdo_formulation.__class__.__name__ == "MDF"
+    assert isinstance(mdo_formulation, MDF)
     assert mdo_formulation.mda.inner_mdas[0].name == "MDAGaussSeidel"
     assert mdo_formulation.disciplines == scenario.disciplines
     assert opt_problem.objective.name == "f"
     assert [o.name for o in opt_problem.observables] == ["c", "o"]
     assert scenario.mdo_formulation.design_space.variable_names == ["u"]
+
+
+def test_pydantic_mdo_formulation(disciplines, design_space, uncertain_space):
+    """Check that the MDO formulation can be passed as a Pydantic model."""
+    scenario = UMDOScenario(
+        disciplines,
+        "f",
+        design_space,
+        uncertain_space,
+        "Mean",
+        formulation_settings_model=MDF_Settings(),
+        statistic_estimation_settings=Sampling_Settings(n_samples=3),
+    )
+    assert isinstance(scenario.mdo_formulation, MDF)
 
 
 @pytest.mark.parametrize("maximize_objective", [None, False, True])
