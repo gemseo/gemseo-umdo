@@ -50,23 +50,27 @@ class StatisticFunctionForIterativeSampling(
     def __init__(
         self,
         umdo_formulation: SamplingT,
-        function: MDOFunction,
+        output_name: str,
         function_type: MDOFunction.FunctionType,
-        name: str,
+        statistic_operator_name: str,
         **statistic_options: Any,
     ) -> None:
         super().__init__(
-            umdo_formulation, function, function_type, name, **statistic_options
+            umdo_formulation,
+            output_name,
+            function_type,
+            statistic_operator_name,
+            **statistic_options,
         )
         self._umdo_formulation.callbacks.append(
             IterativeEstimation(
-                function.name, self._observable_name, self._statistic_estimator
+                output_name, self._statistic_name, self._statistic_estimator
             )
         )
         self._umdo_formulation.jacobian_callbacks.append(
             IterativeEstimation(
-                function.name,
-                self._observable_jac_name,
+                output_name,
+                self._statistic_jac_name,
                 self._statistic_estimator,
                 return_statistic_jacobian=True,
             )
@@ -85,31 +89,29 @@ class StatisticFunctionForIterativeSampling(
             if isinstance(callback, IterativeEstimation)
         )
 
-    def _compute_statistic_estimation(
-        self, output_data: dict[str, RealArray]
-    ) -> RealArray:
-        return output_data[self._observable_name]
+    def _compute_statistic_estimation(self, data: dict[str, RealArray]) -> RealArray:
+        return data[self._statistic_name]
 
     def _compute_statistic_jacobian_estimation(
-        self, output_data: dict[str, RealArray]
+        self, data: dict[str, RealArray]
     ) -> RealArray:
-        return output_data[self._observable_jac_name]
+        return data[self._statistic_jac_name]
 
-    def _compute_output_data(
-        self,
-        input_data: RealArray,
-        output_data: dict[str, RealArray],
-        compute_jacobian: bool = False,
-    ) -> None:
+    def _compute_data_for_statistic_estimation(
+        self, input_data: RealArray, estimate_jacobian: bool
+    ) -> dict[str, Any]:
         formulation = self._umdo_formulation
         formulation.compute_samples(
             formulation.mdo_formulation.optimization_problem,
             input_data,
-            compute_jacobian=compute_jacobian,
+            compute_jacobian=estimate_jacobian,
         )
+        data = {}
         for estimation in self._iterative_estimations:
-            if estimation.return_statistic_jacobian and not compute_jacobian:
+            if estimation.return_statistic_jacobian and not estimate_jacobian:
                 continue
 
-            output_data[estimation.output_statistic_name] = estimation.last_estimation
-            estimation.statistic_estimator.reset(estimation.last_estimation.size)
+            data[estimation.output_statistic_name] = estimation.last_estimation
+            estimation.statistic_estimator.reset()
+
+        return data

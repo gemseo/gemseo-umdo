@@ -77,14 +77,14 @@ class StatisticFunction(MDOFunction):
     def __init__(  # noqa: D107
         self,
         formulation: BaseUMDOFormulation,
-        func: MDOFunction,
+        output_name: str,
         function_type: str,
         name: str,
         **parameters: Any,
     ) -> None:
         super().__init__(lambda u: array([1.0]), name="func")
-        self.mock = f"{func.name}_statistics"
-        self.f_type = func.ConstraintType.INEQ
+        self.mock = f"{output_name}_statistics"
+        self.f_type = MDOFunction.ConstraintType.INEQ
 
 
 class MyUMDOFormulation(BaseUMDOFormulation):

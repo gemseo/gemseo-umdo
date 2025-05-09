@@ -54,6 +54,14 @@ class Variance(BaseCentralMoment):
     def _get_estimation(self) -> RealArray:
         return array(self._estimator.getVariance())
 
+    def estimate_statistic(self, value: RealArray) -> RealArray:
+        if self.shape is None:
+            self.__mean_jac._create_estimator(value.size)
+            self.__mean._create_estimator(value.size)
+            self.__prod_mean._create_estimator(value.size)
+
+        return super().estimate_statistic(value)
+
     def compute_jacobian(self, value: RealArray, jac_value: RealArray) -> RealArray:
         self.jac_shape = jac_value.shape
         n = self.__mean._estimator.getIterationNumber() + 1
@@ -70,8 +78,8 @@ class Variance(BaseCentralMoment):
             * alpha
         )
 
-    def reset(self, size: int) -> None:  # noqa: D102
-        super().reset(size)
-        self.__mean_jac.reset(size)
-        self.__mean.reset(size)
-        self.__prod_mean.reset(size)
+    def reset(self) -> None:  # noqa: D102
+        super().reset()
+        self.__mean_jac.reset()
+        self.__mean.reset()
+        self.__prod_mean.reset()

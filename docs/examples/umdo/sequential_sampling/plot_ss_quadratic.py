@@ -79,7 +79,6 @@ scenario = UMDOScenario(
         n_samples=50,
         initial_n_samples=20,
         n_samples_increment=5,
-        estimate_statistics_iteratively=False,
     ),
 )
 

@@ -31,6 +31,16 @@ and this project adheres to
 ### Added
 
 - The subpackage [truss][gemseo_umdo.use_cases.truss] includes modules for implementing a truss structure problem from the literature.
+- The function [create_noising_discipline_chain][gemseo_umdo.disciplines.utils.create_noising_discipline_chain] returns a disciplines chain to noise input variables.
+  This function is used by the [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario] and [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
+  when the argument ``uncertain_design_variables`` is set to noise design variables.
+  In the case of bi-level formulations,
+  it may be preferable to use this function directly rather than through this argument,
+  as illustrated in an example of the documentation.
+
+### Fixed
+
+- The iterative Monte Carlo estimation of statistics when used for derivatives.
 
 ## Version 4.1.0 (April 2025)
 
