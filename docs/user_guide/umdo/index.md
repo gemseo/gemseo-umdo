@@ -378,7 +378,7 @@ with $x_{-i}^{(k-1)}=\left(x_j^{(k-1)}\right)_{j\in\{1,\ldots,M\}\setminus\{i\}}
 and $y\!\left(x_0,x_{1\ldots M}^{(k-1)}\right)$ the MDA solution at the design point $\left(x_0,x_{1\ldots M}^{(k-1)}\right)$.
 
 In presence of uncertainties,
-Aziz-Alaoui (2025)[@AzizAlaoui2025] proposed a similar bi-level formulation.
+Aziz Alaoui (2025)[@AzizAlaoui2025] proposed a similar bi-level formulation.
 The main problem can be written as
 
 $$
