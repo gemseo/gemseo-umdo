@@ -576,28 +576,30 @@ and the U-MDO formulation, combining an statistics estimation technique and an M
     scenario.execute(algo_name="NLOPT_COBYLA", max_iter=50)
     ```
 
-### U-Scenario
+### Statistic estimation
 
 [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario]
 and [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
-can estimate the statistics associated with $f(x,U)$, $g(x,U)$ and $h(x,U)$
-by sampling these random variables:
+can use [Sampling_Settings][gemseo_umdo.formulations.sampling_settings.Sampling_Settings],
+with `n_samples` set to a certain value $N$,
+to estimate the statistics associated with $f(x,U)$, $g(x,U)$ and $h(x,U)$ by [sampling](sampling.md),:
 
-$$(f(x,u^{(i)}),g(x,u^{(i)}),h(x,u^{(i)}))_{1\leq i \leq N}.$$
+$$\!\left(f\!\left(x,u^{(i)}\right),g\!\left(x,u^{(i)}\right),h\!\left(x,u^{(i)}\right)\right)_{1\leq i \leq N}.$$
 
 However,
-as sampling can be expensive,
-GEMSEO-UMDO offers other techniques to reduce the cost of statistics estimation,
+when costly disciplines are involved,
+this approach may be too expensive.
+The rest of the [_MDO under uncertainty_](../umdo) section of the user guide presents
+other statistic estimation techniques to reduce the number of discipline evaluations,
 such as
 [control variates](control_variate.md),
 [Taylor polynomials](taylor_polynomial.md)
 and
 [polynomial chaos expansions](pce.md).
-The choice of an estimation technique is made
-via the argument `statistic_estimation_settings`
-of [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario]
-(or [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]),
-which is a Pydantic model of U-MDO settings,
+Choosing an estimation technique and its options is made via the argument `statistic_estimation_settings`
+of [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
+(or [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario]),
+which is a Pydantic model of settings,
 e.g.
 [ControlVariate_Settings][gemseo_umdo.formulations.control_variate_settings.ControlVariate_Settings],
 [TaylorPolynomial_Settings][gemseo_umdo.formulations.taylor_polynomial_settings.TaylorPolynomial_Settings]
@@ -614,7 +616,25 @@ Therefore,
 the other U-MDO formulations require gradient approximation to use gradient-based optimizers,
 what can be expensive according to the dimension of the design space.
 
-The rest of the **MDO under uncertainty** section of the user guide presents the different U-MDO formulations.
+Finally,
+it is important to bear in mind that
+all these techniques make approximations in order to estimate statistics more cheaply than sampling.
+Estimates are therefore made with a certain degree of precision,
+and potentially with a certain degree of bias.
+So,
+at the end of an optimization process with a given statistic estimation technique T,
+it is advisable to copy and paste the scenario
+and replay it with [Sampling_Settings][gemseo_umdo.formulations.sampling_settings.Sampling_Settings]
+parameterized by a non-negligible `n_samples`
+at the design solution point `x_opt` found with T
+(i.e. `scenario.execute(algo_name="CustomDOE", samples=at_least2d(x_opt))`)
+to obtain a better estimate of the statistics at this point.
+This avoids pitfalls,
+such as concluding that a constraint is satisfied when it is not.
+Note that this validation approach is also recommended in surrogate-based optimization (with or without uncertainty),
+where it is advisable to
+evaluate the objective and constraints with the original models at the end of an optimization loop,
+due to the error of the surrogate models.
 
 ??? info "Implementation"
 
