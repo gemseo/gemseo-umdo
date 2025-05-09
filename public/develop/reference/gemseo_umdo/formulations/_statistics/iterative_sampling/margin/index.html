@@ -2863,6 +2863,8 @@
       
         
       
+        
+      
     
     
     
@@ -2986,6 +2988,29 @@
   
   <span class="md-ellipsis">
     Noiser factory
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../disciplines/utils/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Utils
     
   </span>
   
@@ -7597,7 +7622,7 @@
 
 
 <a href="#gemseo_umdo.formulations._statistics.iterative_sampling.margin.Margin.reset" class="headerlink" title="Permanent link">&para;</a></h6>
-<div class="doc-signature highlight"><pre><span></span><code><span class="nf">reset</span><span class="p">(</span><span class="n">size</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">reset</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -7605,28 +7630,13 @@
         <p>Reset the estimator of the statistic.</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
-    <ul>
-        <li class="doc-section-item field-body">
-            <b><code>size</code></b>
-              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>)
-          –
-          <div class="doc-md-description">
-            <p>The description is missing.</p>
-          </div>
-        </li>
-    </ul>
-
-
             <details class="quote">
               <summary>Source code in <code>src/gemseo_umdo/formulations/_statistics/iterative_sampling/margin.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">67</span>
 <span class="normal">68</span>
-<span class="normal">69</span>
-<span class="normal">70</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># noqa: D102</span>
-    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">__mean</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">__standard_deviation</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+<span class="normal">69</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># noqa: D102</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__mean</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__standard_deviation</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>

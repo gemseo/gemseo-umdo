@@ -2879,6 +2879,8 @@
       
         
       
+        
+      
     
     
     
@@ -3002,6 +3004,29 @@
   
   <span class="md-ellipsis">
     Noiser factory
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/disciplines/utils/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Utils
     
   </span>
   
@@ -7115,7 +7140,7 @@ defined just after in the <a class="autorefs autorefs-internal" title="         
 we build an <a class="autorefs autorefs-internal" title="            UMDOScenario" href="../../../../../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>
 to maximize a sampling-based estimation
 of the expectation <span class="arithmatex">\(\mathbb{E}[y_4]\)</span>:</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 67-81 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 67-79 -->
 
 <div class="highlight"><pre><span></span><code><span class="n">scenario</span> <span class="o">=</span> <span class="n">UMDOScenario</span><span class="p">(</span>
     <span class="p">[</span><span class="n">mission</span><span class="p">,</span> <span class="n">structure</span><span class="p">,</span> <span class="n">propulsion</span><span class="p">,</span> <span class="n">aerodynamics</span><span class="p">],</span>
@@ -7124,35 +7149,33 @@ of the expectation <span class="arithmatex">\(\mathbb{E}[y_4]\)</span>:</p>
     <span class="n">uncertain_space</span><span class="p">,</span>
     <span class="s2">&quot;Mean&quot;</span><span class="p">,</span>
     <span class="n">formulation_name</span><span class="o">=</span><span class="s2">&quot;MDF&quot;</span><span class="p">,</span>
-    <span class="n">statistic_estimation_settings</span><span class="o">=</span><span class="n">Sampling_Settings</span><span class="p">(</span>
-        <span class="n">estimate_statistics_iteratively</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="mi">20</span>
-    <span class="p">),</span>
+    <span class="n">statistic_estimation_settings</span><span class="o">=</span><span class="n">Sampling_Settings</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">20</span><span class="p">),</span>
     <span class="n">maximize_objective</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">uncertain_design_variables</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;x_2&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;+&quot;</span><span class="p">,</span> <span class="s2">&quot;u_x_2&quot;</span><span class="p">)},</span>
 <span class="p">)</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 82-84 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 80-82 -->
 
 <p>while satisfying margin constraints
 of the form <span class="arithmatex">\(\mathbb{E}[g_i]+2\mathbb{S}[g_i]\)</span></p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 84-88 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 82-86 -->
 
 <div class="highlight"><pre><span></span><code><span class="n">scenario</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s2">&quot;g_1&quot;</span><span class="p">,</span> <span class="s2">&quot;Margin&quot;</span><span class="p">)</span>
 <span class="n">scenario</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s2">&quot;g_2&quot;</span><span class="p">,</span> <span class="s2">&quot;Margin&quot;</span><span class="p">)</span>
 <span class="n">scenario</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s2">&quot;g_3&quot;</span><span class="p">,</span> <span class="s2">&quot;Margin&quot;</span><span class="p">)</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 89-90 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 87-88 -->
 
 <p>We execute this scenario using the gradient-based optimizer SLSQP:</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 90-92 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 88-90 -->
 
 <div class="highlight"><pre><span></span><code><span class="n">scenario</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">algo_name</span><span class="o">=</span><span class="s2">&quot;NLOPT_SLSQP&quot;</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 93-95 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 91-93 -->
 
 <p>Lastly,
 we can plot the optimization history view:</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 95-96 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 93-94 -->
 
 <div class="highlight"><pre><span></span><code><span class="n">scenario</span><span class="o">.</span><span class="n">post_process</span><span class="p">(</span><span class="n">post_name</span><span class="o">=</span><span class="s2">&quot;OptHistoryView&quot;</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div>

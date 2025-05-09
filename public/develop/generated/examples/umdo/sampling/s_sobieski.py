@@ -71,9 +71,7 @@ scenario = UMDOScenario(
     uncertain_space,
     "Mean",
     formulation_name="MDF",
-    statistic_estimation_settings=Sampling_Settings(
-        estimate_statistics_iteratively=False, n_samples=20
-    ),
+    statistic_estimation_settings=Sampling_Settings(n_samples=20),
     maximize_objective=True,
     uncertain_design_variables={"x_2": ("+", "u_x_2")},
 )
