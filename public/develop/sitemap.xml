@@ -73,6 +73,10 @@
          <lastmod>2025-05-22</lastmod>
     </url>
     <url>
+         <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/generated/examples/umdo/mdo_formulations/bilevel_sobieski/</loc>
+         <lastmod>2025-05-22</lastmod>
+    </url>
+    <url>
          <loc>https://gemseo.gitlab.io/gemseo-umdo/latest/generated/examples/umdo/mdo_formulations/mg_execution_times/</loc>
          <lastmod>2025-05-22</lastmod>
     </url>
