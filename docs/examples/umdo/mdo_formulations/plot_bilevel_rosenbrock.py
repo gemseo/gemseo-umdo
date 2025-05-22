@@ -109,7 +109,7 @@ n_samples = 30
 # from the initial point $x=(-0.25, 0.75, -0.9)$:
 initial_point = array([-0.25, 0.75, -0.9])
 design_space.set_current_value(initial_point)
-mdf_scenario = UMDOScenario(
+mdf_uscenario = UMDOScenario(
     [rosenbrock, link_discipline, discipline_1, discipline_2],
     "f",
     design_space,
@@ -120,7 +120,7 @@ mdf_scenario = UMDOScenario(
 )
 # %%
 # and solve it using the gradient-based SLSQP algorithm:
-mdf_scenario.execute(algo_name="NLOPT_SLSQP", max_iter=max_iter)
+mdf_uscenario.execute(algo_name="SLSQP", max_iter=max_iter)
 
 # %%
 # ## BiLevel
@@ -144,7 +144,7 @@ scenario_1 = MDOScenario(
 )
 scenario_1.set_algorithm(algo_name="SLSQP", max_iter=max_iter)
 # %%
-# namely the one to minimize the objective function
+# and the one to minimize the objective function
 # with respect to the local design variable $x_2$
 # using the gradient-based SLSQP algorithm:
 scenario_2 = MDOScenario(
@@ -160,19 +160,19 @@ scenario_2.set_algorithm(algo_name="SLSQP", max_iter=max_iter)
 # Then,
 # we create the main scenario from this sub-scenarios
 # to minimize the objective function with respect to the global design variable $x_0$:
-bilevel_scenario = UMDOScenario(
-    [scenario_1, scenario_2, rosenbrock],
+bilevel_uscenario = UMDOScenario(
+    [scenario_1, scenario_2],
     "f",
     design_space.filter("x_0", copy=True),
     uncertain_space,
     "Mean",
     Sampling_Settings(n_samples=n_samples),
     formulation_name="BiLevel",
-    save_opt_history=False,
+    keep_opt_history=False,
 )
 # %%
 # and solve the MDO problem using the gradient-free COBYLA algorithm:
-bilevel_scenario.execute(algo_name="NLOPT_COBYLA", max_iter=max_iter)
+bilevel_uscenario.execute(algo_name="NLOPT_COBYLA", max_iter=max_iter)
 
 # %%
 # ## Results
@@ -181,8 +181,8 @@ bilevel_scenario.execute(algo_name="NLOPT_COBYLA", max_iter=max_iter)
 #
 # First,
 # we can have a look at the optimum solution in terms of global variables:
-mdf_x_opt = mdf_scenario.optimization_result.x_opt
-bilevel_x_opt = bilevel_scenario.optimization_result.x_opt
+mdf_x_opt = mdf_uscenario.optimization_result.x_opt
+bilevel_x_opt = bilevel_uscenario.optimization_result.x_opt
 # %%
 # for ``MDF``:
 mdf_x_opt[0]
@@ -195,8 +195,8 @@ bilevel_x_opt[0]
 #
 # Then,
 # we can have a look at the optimum solution in terms of mean objective:
-mdf_f_opt = mdf_scenario.optimization_result.f_opt
-bilevel_f_opt = bilevel_scenario.optimization_result.f_opt
+mdf_f_opt = mdf_uscenario.optimization_result.f_opt
+bilevel_f_opt = bilevel_uscenario.optimization_result.f_opt
 
 # %%
 # for ``MDF``:
@@ -207,13 +207,14 @@ mdf_f_opt
 bilevel_f_opt
 
 # %%
-# The ``MDF`` solution seems to be better than the ``BiLevel`` one.
+# The ``BiLevel`` and ``MDF`` solutions seems to be very close.
 #
 # Finally,
 # we execute the ``BiLevel`` formulation at the bi-level optimum,
-# taking care to save the samples with the option ``estimate_statistics_iteratively``:
-bilevel_scenario = UMDOScenario(
-    [scenario_1, scenario_2, rosenbrock],
+# taking care to save the samples
+# by disabling the option ``estimate_statistics_iteratively``:
+bilevel_uscenario = UMDOScenario(
+    [scenario_1, scenario_2],
     "f",
     design_space.filter("x_0", copy=True),
     uncertain_space,
@@ -222,12 +223,14 @@ bilevel_scenario = UMDOScenario(
     formulation_name="BiLevel",
     save_opt_history=False,
 )
-bilevel_scenario.execute(algo_name="CustomDOE", samples=atleast_2d(bilevel_x_opt))
+bilevel_uscenario.execute(algo_name="CustomDOE", samples=atleast_2d(bilevel_x_opt))
 
 # %%
 # This process generates samples
-# $\left(f(x_0^*,U^{(i)},V^{(i)})\right)_{1\leq i \leq N}$:
-database = bilevel_scenario.formulation.mdo_formulation.optimization_problem.database
+# $\left(f(x_0^*,u^{(i)},v^{(i)})\right)_{1\leq i \leq N}$
+# where $u^{(1)},\ldots,u^{(N)}$ (resp. $v^{(1)},\ldots,v^{(N)}$)
+# are independent realizations of the random variable $U$ (resp. $V$).
+database = bilevel_uscenario.formulation.mdo_formulation.optimization_problem.database
 f_samples = database.get_function_history("f").ravel()
 
 # %%
@@ -243,9 +246,10 @@ plt.show()
 # %%
 # We can see that,
 # on average,
-# the ``MDF`` solution in red is better than the ``BiLevel`` solution in blue.
-# On the other hand,
-# there are values of $U$ and $V$ for which
+# the ``BiLevel`` solution in red and the ``MDF`` solution in blue are close
+# as mentioned above.
+# Moreover,
+# there are realizations of $U$ and $V$ for which
 # the ``BiLevel`` solution could be much better than the ``MDF`` solution.
 # This is one of the advantages of using the ``BiLevel`` formulation under uncertainty:
 # choosing the global design variable values now,
