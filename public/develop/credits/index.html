@@ -91,6 +91,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#exec-1--credits" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -497,6 +502,21 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Credits
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
@@ -509,6 +529,43 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#exec-1--external-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      External Dependencies
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exec-1--external-applications" class="md-nav__link">
+    <span class="md-ellipsis">
+      External applications
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -7049,6 +7106,34 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#exec-1--external-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      External Dependencies
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exec-1--external-applications" class="md-nav__link">
+    <span class="md-ellipsis">
+      External applications
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -7067,8 +7152,6 @@
   
 
 
-  <h1>Credits</h1>
-
 <!--
 Copyright 2021 IRT Saint Exupéry, https://www.irt-saintexupery.com
 
@@ -7077,36 +7160,174 @@ International License. To view a copy of this license, visit
 http://creativecommons.org/licenses/by-sa/4.0/ or send a letter to Creative
 Commons, PO Box 1866, Mountain View, CA 94042, USA.
 -->
-<div class="highlight"><pre><span></span><code><span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
-  <span class="n">File</span> <span class="s2">&quot;/builds/gemseo/dev/gemseo-umdo/.tox/doc/lib64/python3.9/site-packages/requests/models.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">974</span><span class="p">,</span> <span class="ow">in</span> <span class="n">json</span>
-    <span class="k">return</span> <span class="n">complexjson</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-  <span class="n">File</span> <span class="s2">&quot;/usr/lib64/python3.9/json/__init__.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">346</span><span class="p">,</span> <span class="ow">in</span> <span class="n">loads</span>
-    <span class="k">return</span> <span class="n">_default_decoder</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
-  <span class="n">File</span> <span class="s2">&quot;/usr/lib64/python3.9/json/decoder.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">337</span><span class="p">,</span> <span class="ow">in</span> <span class="n">decode</span>
-    <span class="n">obj</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">raw_decode</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="n">_w</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">end</span><span class="p">())</span>
-  <span class="n">File</span> <span class="s2">&quot;/usr/lib64/python3.9/json/decoder.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">355</span><span class="p">,</span> <span class="ow">in</span> <span class="n">raw_decode</span>
-    <span class="k">raise</span> <span class="n">JSONDecodeError</span><span class="p">(</span><span class="s2">&quot;Expecting value&quot;</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">err</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="kc">None</span>
-<span class="n">json</span><span class="o">.</span><span class="n">decoder</span><span class="o">.</span><span class="n">JSONDecodeError</span><span class="p">:</span> <span class="n">Expecting</span> <span class="n">value</span><span class="p">:</span> <span class="n">line</span> <span class="mi">1</span> <span class="n">column</span> <span class="mi">1</span> <span class="p">(</span><span class="n">char</span> <span class="mi">0</span><span class="p">)</span>
+<p><!--
+Copyright 2021 IRT Saint Exupéry, https://www.irt-saintexupery.com
 
-<span class="n">During</span> <span class="n">handling</span> <span class="n">of</span> <span class="n">the</span> <span class="n">above</span> <span class="n">exception</span><span class="p">,</span> <span class="n">another</span> <span class="n">exception</span> <span class="n">occurred</span><span class="p">:</span>
+This work is licensed under the Creative Commons Attribution-ShareAlike 4.0
+International License. To view a copy of this license, visit
+http://creativecommons.org/licenses/by-sa/4.0/ or send a letter to Creative
+Commons, PO Box 1866, Mountain View, CA 94042, USA.
+-->
 
-<span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
-  <span class="n">File</span> <span class="s2">&quot;/builds/gemseo/dev/gemseo-umdo/.tox/doc/lib64/python3.9/site-packages/markdown_exec/_internal/formatters/python.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">71</span><span class="p">,</span> <span class="ow">in</span> <span class="n">_run_python</span>
-    <span class="n">exec_python</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">code_block_id</span><span class="p">,</span> <span class="n">exec_globals</span><span class="p">)</span>
-  <span class="n">File</span> <span class="s2">&quot;/builds/gemseo/dev/gemseo-umdo/.tox/doc/lib64/python3.9/site-packages/markdown_exec/_internal/formatters/_exec_python.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">8</span><span class="p">,</span> <span class="ow">in</span> <span class="n">exec_python</span>
-    <span class="n">exec</span><span class="p">(</span><span class="n">compiled</span><span class="p">,</span> <span class="n">exec_globals</span><span class="p">)</span>  <span class="c1"># noqa: S102</span>
-  <span class="n">File</span> <span class="s2">&quot;&lt;code block: n1&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">147</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">_render_credits</span><span class="p">())</span>  <span class="c1"># noqa: T201</span>
-  <span class="n">File</span> <span class="s2">&quot;&lt;code block: n1&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">98</span><span class="p">,</span> <span class="ow">in</span> <span class="n">_render_credits</span>
-    <span class="n">external_applications</span> <span class="o">=</span> <span class="n">_get_deps</span><span class="p">(</span>
-  <span class="n">File</span> <span class="s2">&quot;&lt;code block: n1&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">90</span><span class="p">,</span> <span class="ow">in</span> <span class="n">_get_deps</span>
-    <span class="s2">&quot;license&quot;</span><span class="p">:</span> <span class="n">_get_license</span><span class="p">(</span><span class="n">dep_name</span><span class="p">),</span>
-  <span class="n">File</span> <span class="s2">&quot;&lt;code block: n1&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">76</span><span class="p">,</span> <span class="ow">in</span> <span class="n">_get_license</span>
-    <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;https://pypi.org/pypi/</span><span class="si">{</span><span class="n">pkg_name</span><span class="si">}</span><span class="s2">/json&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
-  <span class="n">File</span> <span class="s2">&quot;/builds/gemseo/dev/gemseo-umdo/.tox/doc/lib64/python3.9/site-packages/requests/models.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">978</span><span class="p">,</span> <span class="ow">in</span> <span class="n">json</span>
-    <span class="k">raise</span> <span class="n">RequestsJSONDecodeError</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">msg</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">doc</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">pos</span><span class="p">)</span>
-<span class="n">requests</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">JSONDecodeError</span><span class="p">:</span> <span class="n">Expecting</span> <span class="n">value</span><span class="p">:</span> <span class="n">line</span> <span class="mi">1</span> <span class="n">column</span> <span class="mi">1</span> <span class="p">(</span><span class="n">char</span> <span class="mi">0</span><span class="p">)</span>
-</code></pre></div>
+<h1 id="exec-1--credits">Credits<a class="headerlink" href="#exec-1--credits" title="Permanent link">&para;</a></h1>
+<p>The developers thank all the open source libraries making
+<code>gemseo-umdo</code> possible.</p>
+<h2 id="exec-1--external-dependencies">External Dependencies<a class="headerlink" href="#exec-1--external-dependencies" title="Permanent link">&para;</a></h2>
+<p><code>gemseo-umdo</code> depends on software with compatible
+licenses that are listed below.</p>
+<table>
+<thead>
+<tr>
+<th>Project</th>
+<th>License</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://python.org"><code>Python</code></a></td>
+<td>Python Software License</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/gemseo/"><code>gemseo</code></a></td>
+<td>GNU Lesser General Public License v3</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/matplotlib/"><code>matplotlib</code></a></td>
+<td>Python Software Foundation License</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/numpy/"><code>numpy</code></a></td>
+<td>BSD License</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/scipy/"><code>scipy</code></a></td>
+<td>BSD License</td>
+</tr>
+</tbody>
+</table>
+<!--
+## Internal dependencies
+
+`gemseo-umdo` source code includes software with
+compatible licenses that are listed below.
+-->
+
+<h2 id="exec-1--external-applications">External applications<a class="headerlink" href="#exec-1--external-applications" title="Permanent link">&para;</a></h2>
+<p>Some external applications are used by <code>gemseo-umdo</code>,
+but not linked with the application,
+for testing, documentation generation,
+training or example purposes.</p>
+<!--
+The dependencies used by pre-commit cannot be all automatically found.
+-->
+<table>
+<thead>
+<tr>
+<th>Project</th>
+<th>License</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://pypi.org/project/black/"><code>black</code></a></td>
+<td>MIT License</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/commitizen/"><code>commitizen</code></a></td>
+<td>MIT License</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/covdefaults/"><code>covdefaults</code></a></td>
+<td>MIT License</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/griffe-inherited-docstrings/"><code>griffe-inherited-docstrings</code></a></td>
+<td>ISC</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Lucas-C/pre-commit-hooks"><code>insert-license</code></a></td>
+<td>MIT</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/markdown-exec/"><code>markdown-exec</code></a></td>
+<td>?</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/mike/"><code>mike</code></a></td>
+<td>BSD-3-Clause</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/mkdocs-bibtex/"><code>mkdocs-bibtex</code></a></td>
+<td>BSD-3-Clause-LBNL</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/mkdocs-gallery/"><code>mkdocs-gallery</code></a></td>
+<td>BSD 3-Clause</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/mkdocs-gen-files/"><code>mkdocs-gen-files</code></a></td>
+<td>MIT License</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/mkdocs-include-markdown-plugin/"><code>mkdocs-include-markdown-plugin</code></a></td>
+<td>Apache Software License</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/mkdocs-literate-nav/"><code>mkdocs-literate-nav</code></a></td>
+<td>MIT License</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/mkdocs-material/"><code>mkdocs-material</code></a></td>
+<td>MIT License</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/mkdocs-section-index/"><code>mkdocs-section-index</code></a></td>
+<td>MIT License</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/mkdocstrings/"><code>mkdocstrings</code></a></td>
+<td>?</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/pre-commit/"><code>pre-commit</code></a></td>
+<td>MIT License</td>
+</tr>
+<tr>
+<td><a href="https://github.com/pre-commit/pygrep-hooks"><code>pygrep-hooks</code></a></td>
+<td>MIT</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/pytest/"><code>pytest</code></a></td>
+<td>MIT License</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/pytest-cov/"><code>pytest-cov</code></a></td>
+<td>MIT License</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/pytest-xdist/"><code>pytest-xdist</code></a></td>
+<td>MIT License</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/ruff/"><code>ruff</code></a></td>
+<td>MIT License</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/setuptools/"><code>setuptools</code></a></td>
+<td>?</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/setuptools-scm/"><code>setuptools-scm</code></a></td>
+<td>MIT License</td>
+</tr>
+</tbody>
+</table>
+<!--
+## Resources
+
+Some icons and fonts are used by `gemseo-umdo` or its documentation.
+-->
+</p>
 
 
 
