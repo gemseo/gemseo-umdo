@@ -7388,44 +7388,85 @@ to update the statistics of the objective, constraints and observables.</p>
 
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
-    <ul>
-        <li class="doc-section-item field-body">
-            <b><code>output_name</code></b>
-              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>)
-          –
-          <div class="doc-md-description">
-            <p>The name of the output for which to estimate the statistic.</p>
-          </div>
-        </li>
-        <li class="doc-section-item field-body">
-            <b><code>output_statistic_name</code></b>
-              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>)
-          –
-          <div class="doc-md-description">
-            <p>The name of the statistic of the output.</p>
-          </div>
-        </li>
-        <li class="doc-section-item field-body">
-            <b><code>statistic_estimator</code></b>
-              (<code><a class="autorefs autorefs-internal" title="            BaseSamplingEstimator (gemseo_umdo.formulations._statistics.iterative_sampling.base_sampling_estimator.BaseSamplingEstimator)" href="../../_statistics/iterative_sampling/base_sampling_estimator/#gemseo_umdo.formulations._statistics.iterative_sampling.base_sampling_estimator.BaseSamplingEstimator">BaseSamplingEstimator</a></code>)
-          –
-          <div class="doc-md-description">
-            <p>The function to update the estimation of the statistic.</p>
-          </div>
-        </li>
-        <li class="doc-section-item field-body">
-            <b><code>return_statistic_jacobian</code></b>
-              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>, default:
-                  <code>False</code>
-)
-          –
-          <div class="doc-md-description">
-            <p>Whether to return
+<table>
+      <thead>
+        <tr>
+          <th><span class="doc-section-title">PARAMETER</span></th>
+          <th><span>DESCRIPTION</span></th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>output_name</code>
+            </td>
+            <td class="doc-param-details">
+              <div class="doc-md-description">
+                <p>The name of the output for which to estimate the statistic.</p>
+              </div>
+              <p>
+                  <span class="doc-param-annotation">
+                    <b>TYPE:</b>
+                      <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>output_statistic_name</code>
+            </td>
+            <td class="doc-param-details">
+              <div class="doc-md-description">
+                <p>The name of the statistic of the output.</p>
+              </div>
+              <p>
+                  <span class="doc-param-annotation">
+                    <b>TYPE:</b>
+                      <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>statistic_estimator</code>
+            </td>
+            <td class="doc-param-details">
+              <div class="doc-md-description">
+                <p>The function to update the estimation of the statistic.</p>
+              </div>
+              <p>
+                  <span class="doc-param-annotation">
+                    <b>TYPE:</b>
+                      <code><a class="autorefs autorefs-internal" title="            BaseSamplingEstimator (gemseo_umdo.formulations._statistics.iterative_sampling.base_sampling_estimator.BaseSamplingEstimator)" href="../../_statistics/iterative_sampling/base_sampling_estimator/#gemseo_umdo.formulations._statistics.iterative_sampling.base_sampling_estimator.BaseSamplingEstimator">BaseSamplingEstimator</a></code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>return_statistic_jacobian</code>
+            </td>
+            <td class="doc-param-details">
+              <div class="doc-md-description">
+                <p>Whether to return
 the Jacobian of the statistic estimation.</p>
-          </div>
-        </li>
-    </ul>
+              </div>
+              <p>
+                  <span class="doc-param-annotation">
+                    <b>TYPE:</b>
+                      <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>
+                  </span>
+                  <span class="doc-param-default">
+                    <b>DEFAULT:</b>
+                      <code>False</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
 
 

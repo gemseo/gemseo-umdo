@@ -7400,58 +7400,109 @@ index of the corresponding pair of variables.</p>
         <p>Initialize self.  See help(type(self)) for accurate signature.</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
-    <ul>
-        <li class="doc-section-item field-body">
-            <b><code>first_order_indices</code></b>
-              (<code><a class="autorefs autorefs-external" title="collections.abc.Mapping" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping">Mapping</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>, <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a>]</code>)
-          –
-          <div class="doc-md-description">
-            <p>The first-order Sobol' indices of the scalar inputs,
+<table>
+      <thead>
+        <tr>
+          <th><span class="doc-section-title">PARAMETER</span></th>
+          <th><span>DESCRIPTION</span></th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>first_order_indices</code>
+            </td>
+            <td class="doc-param-details">
+              <div class="doc-md-description">
+                <p>The first-order Sobol' indices of the scalar inputs,
 shaped as <code>{name: index}</code>.</p>
-          </div>
-        </li>
-        <li class="doc-section-item field-body">
-            <b><code>total_order_indices</code></b>
-              (<code><a class="autorefs autorefs-external" title="collections.abc.Mapping" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping">Mapping</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>, <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a>]</code>)
-          –
-          <div class="doc-md-description">
-            <p>The total-order Sobol' indices of the scalar inputs,
+              </div>
+              <p>
+                  <span class="doc-param-annotation">
+                    <b>TYPE:</b>
+                      <code><a class="autorefs autorefs-external" title="collections.abc.Mapping" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping">Mapping</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>, <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a>]</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>total_order_indices</code>
+            </td>
+            <td class="doc-param-details">
+              <div class="doc-md-description">
+                <p>The total-order Sobol' indices of the scalar inputs,
 shaped as <code>{name: index}</code>.</p>
-          </div>
-        </li>
-        <li class="doc-section-item field-body">
-            <b><code>second_order_indices</code></b>
-              (<code><a class="autorefs autorefs-external" title="collections.abc.Mapping" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping">Mapping</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#tuple">tuple</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>, <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>], <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a>]</code>)
-          –
-          <div class="doc-md-description">
-            <p>The second-order Sobol' indices of the scalar inputs,
+              </div>
+              <p>
+                  <span class="doc-param-annotation">
+                    <b>TYPE:</b>
+                      <code><a class="autorefs autorefs-external" title="collections.abc.Mapping" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping">Mapping</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>, <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a>]</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>second_order_indices</code>
+            </td>
+            <td class="doc-param-details">
+              <div class="doc-md-description">
+                <p>The second-order Sobol' indices of the scalar inputs,
 shaped as <code>{(name, other_name): index}</code>.</p>
-          </div>
-        </li>
-        <li class="doc-section-item field-body">
-            <b><code>threshold</code></b>
-              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></code>, default:
-                  <code>0.1</code>
-)
-          –
-          <div class="doc-md-description">
-            <p>The sensitivity threshold
+              </div>
+              <p>
+                  <span class="doc-param-annotation">
+                    <b>TYPE:</b>
+                      <code><a class="autorefs autorefs-external" title="collections.abc.Mapping" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping">Mapping</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#tuple">tuple</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>, <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>], <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a>]</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>threshold</code>
+            </td>
+            <td class="doc-param-details">
+              <div class="doc-md-description">
+                <p>The sensitivity threshold
 above which a second-order index is significant
 and the corresponding edge plotted.</p>
-          </div>
-        </li>
-        <li class="doc-section-item field-body">
-            <b><code>maximum_thickness</code></b>
-              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></code>, default:
-                  <code>10.0</code>
-)
-          –
-          <div class="doc-md-description">
-            <p>The maximum thickness of a line.</p>
-          </div>
-        </li>
-    </ul>
+              </div>
+              <p>
+                  <span class="doc-param-annotation">
+                    <b>TYPE:</b>
+                      <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></code>
+                  </span>
+                  <span class="doc-param-default">
+                    <b>DEFAULT:</b>
+                      <code>0.1</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>maximum_thickness</code>
+            </td>
+            <td class="doc-param-details">
+              <div class="doc-md-description">
+                <p>The maximum thickness of a line.</p>
+              </div>
+              <p>
+                  <span class="doc-param-annotation">
+                    <b>TYPE:</b>
+                      <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></code>
+                  </span>
+                  <span class="doc-param-default">
+                    <b>DEFAULT:</b>
+                      <code>10.0</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
 
 
@@ -7637,47 +7688,92 @@ and the corresponding edge plotted.</p>
         <p>Create the Sobol' graph from a Sobol' analysis.</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
-    <ul>
-        <li class="doc-section-item field-body">
-            <b><code>analysis</code></b>
-              (<code><a class="autorefs autorefs-external" title="gemseo.uncertainty.sensitivity.sobol_analysis.SobolAnalysis" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.uncertainty.sensitivity.sobol_analysis.html#gemseo.uncertainty.sensitivity.sobol_analysis.SobolAnalysis">SobolAnalysis</a></code>)
-          –
-          <div class="doc-md-description">
-            <p>A Sobol' analysis.</p>
-          </div>
-        </li>
-        <li class="doc-section-item field-body">
-            <b><code>output_name</code></b>
-              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>)
-          –
-          <div class="doc-md-description">
-            <p>The name of the output.</p>
-          </div>
-        </li>
-        <li class="doc-section-item field-body">
-            <b><code>output_component</code></b>
-              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>, default:
-                  <code>0</code>
-)
-          –
-          <div class="doc-md-description">
-            <p>The component of the output.</p>
-          </div>
-        </li>
-    </ul>
+<table>
+      <thead>
+        <tr>
+          <th><span class="doc-section-title">PARAMETER</span></th>
+          <th><span>DESCRIPTION</span></th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>analysis</code>
+            </td>
+            <td class="doc-param-details">
+              <div class="doc-md-description">
+                <p>A Sobol' analysis.</p>
+              </div>
+              <p>
+                  <span class="doc-param-annotation">
+                    <b>TYPE:</b>
+                      <code><a class="autorefs autorefs-external" title="gemseo.uncertainty.sensitivity.sobol_analysis.SobolAnalysis" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.uncertainty.sensitivity.sobol_analysis.html#gemseo.uncertainty.sensitivity.sobol_analysis.SobolAnalysis">SobolAnalysis</a></code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>output_name</code>
+            </td>
+            <td class="doc-param-details">
+              <div class="doc-md-description">
+                <p>The name of the output.</p>
+              </div>
+              <p>
+                  <span class="doc-param-annotation">
+                    <b>TYPE:</b>
+                      <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>output_component</code>
+            </td>
+            <td class="doc-param-details">
+              <div class="doc-md-description">
+                <p>The component of the output.</p>
+              </div>
+              <p>
+                  <span class="doc-param-annotation">
+                    <b>TYPE:</b>
+                      <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>
+                  </span>
+                  <span class="doc-param-default">
+                    <b>DEFAULT:</b>
+                      <code>0</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
 
-<p><span class="doc-section-title">Returns:</span></p>
-    <ul>
-        <li class="doc-section-item field-body">
-              <code><a class="autorefs autorefs-internal" title="            SobolGraph (gemseo_umdo.visualizations.sobol_graph.SobolGraph)" href="#gemseo_umdo.visualizations.sobol_graph.SobolGraph">SobolGraph</a></code>
-          –
-          <div class="doc-md-description">
-            <p>The Sobol' graph associated with this Sobol' analysis.</p>
-          </div>
-        </li>
-    </ul>
+<table>
+      <thead>
+        <tr>
+          <th><span class="doc-section-title">RETURNS</span></th>
+          <th><span>DESCRIPTION</span></th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <span class="doc-returns-annotation">
+                    <code><a class="autorefs autorefs-internal" title="            SobolGraph (gemseo_umdo.visualizations.sobol_graph.SobolGraph)" href="#gemseo_umdo.visualizations.sobol_graph.SobolGraph">SobolGraph</a></code>
+                </span>
+            </td>
+            <td class="doc-returns-details">
+              <div class="doc-md-description">
+                <p>The Sobol' graph associated with this Sobol' analysis.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
 
             <details class="quote">
@@ -7753,59 +7849,116 @@ and the corresponding edge plotted.</p>
         <p>Create the Sobol' graph from a PCE (polynomial chaos expansion) regressor.</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
-    <ul>
-        <li class="doc-section-item field-body">
-            <b><code>pce_regressor</code></b>
-              (<code><a class="autorefs autorefs-external" title="gemseo.mlearning.regression.algos.pce.PCERegressor" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.mlearning.regression.algos.pce.html#gemseo.mlearning.regression.algos.pce.PCERegressor">PCERegressor</a></code>)
-          –
-          <div class="doc-md-description">
-            <p>A PCE regressor.</p>
-          </div>
-        </li>
-        <li class="doc-section-item field-body">
-            <b><code>output_name</code></b>
-              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>)
-          –
-          <div class="doc-md-description">
-            <p>The name of the output.</p>
-          </div>
-        </li>
-        <li class="doc-section-item field-body">
-            <b><code>output_component</code></b>
-              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>, default:
-                  <code>0</code>
-)
-          –
-          <div class="doc-md-description">
-            <p>The component of the output.</p>
-          </div>
-        </li>
-    </ul>
+<table>
+      <thead>
+        <tr>
+          <th><span class="doc-section-title">PARAMETER</span></th>
+          <th><span>DESCRIPTION</span></th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>pce_regressor</code>
+            </td>
+            <td class="doc-param-details">
+              <div class="doc-md-description">
+                <p>A PCE regressor.</p>
+              </div>
+              <p>
+                  <span class="doc-param-annotation">
+                    <b>TYPE:</b>
+                      <code><a class="autorefs autorefs-external" title="gemseo.mlearning.regression.algos.pce.PCERegressor" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.mlearning.regression.algos.pce.html#gemseo.mlearning.regression.algos.pce.PCERegressor">PCERegressor</a></code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>output_name</code>
+            </td>
+            <td class="doc-param-details">
+              <div class="doc-md-description">
+                <p>The name of the output.</p>
+              </div>
+              <p>
+                  <span class="doc-param-annotation">
+                    <b>TYPE:</b>
+                      <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>output_component</code>
+            </td>
+            <td class="doc-param-details">
+              <div class="doc-md-description">
+                <p>The component of the output.</p>
+              </div>
+              <p>
+                  <span class="doc-param-annotation">
+                    <b>TYPE:</b>
+                      <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>
+                  </span>
+                  <span class="doc-param-default">
+                    <b>DEFAULT:</b>
+                      <code>0</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
 
-<p><span class="doc-section-title">Returns:</span></p>
-    <ul>
-        <li class="doc-section-item field-body">
-              <code><a class="autorefs autorefs-internal" title="            SobolGraph (gemseo_umdo.visualizations.sobol_graph.SobolGraph)" href="#gemseo_umdo.visualizations.sobol_graph.SobolGraph">SobolGraph</a></code>
-          –
-          <div class="doc-md-description">
-            <p>The Sobol' graph associated with this Sobol' analysis.</p>
-          </div>
-        </li>
-    </ul>
+<table>
+      <thead>
+        <tr>
+          <th><span class="doc-section-title">RETURNS</span></th>
+          <th><span>DESCRIPTION</span></th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <span class="doc-returns-annotation">
+                    <code><a class="autorefs autorefs-internal" title="            SobolGraph (gemseo_umdo.visualizations.sobol_graph.SobolGraph)" href="#gemseo_umdo.visualizations.sobol_graph.SobolGraph">SobolGraph</a></code>
+                </span>
+            </td>
+            <td class="doc-returns-details">
+              <div class="doc-md-description">
+                <p>The Sobol' graph associated with this Sobol' analysis.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
 
-<p><span class="doc-section-title">Raises:</span></p>
-    <ul>
-        <li class="doc-section-item field-body">
-              <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/exceptions.html#ValueError">ValueError</a></code>
-            –
-          <div class="doc-md-description">
-            <p>When the name is not an output name.</p>
-          </div>
-        </li>
-    </ul>
+<table>
+      <thead>
+        <tr>
+          <th><span class="doc-section-title">RAISES</span></th>
+          <th><span>DESCRIPTION</span></th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+              <span class="doc-raises-annotation">
+                  <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/exceptions.html#ValueError">ValueError</a></code>
+              </span>
+            </td>
+            <td class="doc-raises-details">
+              <div class="doc-md-description">
+                <p>When the name is not an output name.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
 
             <details class="quote">
