@@ -48,12 +48,13 @@ plugins:
           extensions:
           - griffe_inherited_docstrings
           - docstring_inheritance.griffe
+          - griffe_fieldz: {include_inherited: true}
           filters:
           - "!^_"
           docstring_options:
 #            ignore_init_summary: true
             returns_multiple_items: False
-          docstring_section_style: list
+          docstring_section_style: spacy
           # heading_level: 1
           inherited_members: true
 #          preload_modules:
