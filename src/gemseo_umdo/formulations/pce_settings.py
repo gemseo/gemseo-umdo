@@ -20,18 +20,14 @@ from gemseo.mlearning.regression.algos.pce_settings import PCERegressor_Settings
 from pydantic import Field
 from pydantic import PositiveFloat
 
+from gemseo_umdo.formulations.base_surrogate_settings import SurrogateQuality_Settings
 from gemseo_umdo.formulations.surrogate_settings import Surrogate_Settings
 
 
-class PCE_Settings(Surrogate_Settings):  # noqa: N801
+class PCE_Settings(Surrogate_Settings, SurrogateQuality_Settings):  # noqa: N801
     """The settings for the PCE-based U-MDO formulation."""
 
     _TARGET_CLASS_NAME = "PCE"
-
-    regressor_settings: PCERegressor_Settings = Field(
-        default=PCERegressor_Settings(),
-        description="The PCE settings.",
-    )
 
     approximate_statistics_jacobians: bool = Field(
         default=False,
@@ -39,14 +35,27 @@ class PCE_Settings(Surrogate_Settings):  # noqa: N801
             "Whether to approximate "
             "the Jacobian of the mean, standard deviation and variance of the PCE "
             "using the technique proposed in Section II.C.3 "
-            "of a paper by Mura _et al._[@Mura2020]."
+            "of [Riccardo Mura, Tiziano Ghisu and Shahrokh Shahpar, "
+            "*Least Squares Approximation-based Polynomial Chaos Expansion "
+            "for Uncertainty Quantification and Robust Optimization in Aeronautics*, "
+            "AIAA 2020-3163. AIAA AVIATION 2020 FORUM, June 2020, "
+            "[DOI](https://doi.org/10.2514/6.2020-3163)."
         ),
     )
 
     differentiation_step: PositiveFloat = Field(
         default=1e-6,
         description=(
-            "The differentiation step for the technique "
-            "proposed in Section II.C.3 of a paper by Mura _et al._[@Mura2020]."
+            "The differentiation step for the technique proposed in Section II.C.3 "
+            "of [Riccardo Mura, Tiziano Ghisu and Shahrokh Shahpar, "
+            "*Least Squares Approximation-based Polynomial Chaos Expansion "
+            "for Uncertainty Quantification and Robust Optimization in Aeronautics*, "
+            "AIAA 2020-3163. AIAA AVIATION 2020 FORUM, June 2020, "
+            "[DOI](https://doi.org/10.2514/6.2020-3163)."
         ),
+    )
+
+    regressor_settings: PCERegressor_Settings = Field(
+        default=PCERegressor_Settings(),
+        description="The PCE settings.",
     )

@@ -16,6 +16,7 @@
 
 from __future__ import annotations
 
+import re
 from typing import TYPE_CHECKING
 from typing import Any
 
@@ -24,10 +25,15 @@ from gemseo import from_pickle
 from gemseo import to_pickle
 from gemseo.algos.design_space import DesignSpace
 from gemseo.algos.doe.custom_doe.settings.custom_doe_settings import CustomDOE_Settings
+from gemseo.algos.doe.openturns.settings.ot_opt_lhs import OT_OPT_LHS_Settings
+from gemseo.algos.doe.scipy.settings.mc import MC_Settings
 from gemseo.algos.parameter_space import ParameterSpace
 from gemseo.disciplines.analytic import AnalyticDiscipline
 from gemseo.formulations.mdf import MDF
+from gemseo.mlearning.regression.algos.rbf_settings import RBFRegressor_Settings
 from numpy import array
+from numpy import diag
+from numpy import diagonal
 from numpy.testing import assert_allclose
 from numpy.testing import assert_almost_equal
 from numpy.testing import assert_equal
@@ -47,6 +53,15 @@ if TYPE_CHECKING:
     from collections.abc import Sequence
 
     from gemseo.core.discipline.discipline import Discipline
+    from gemseo.mlearning.regression.algos.base_regressor_settings import (
+        BaseRegressorSettings,
+    )
+
+
+@pytest.fixture(params=[None, RBFRegressor_Settings()])
+def regressor_settings(request) -> BaseRegressorSettings | None:
+    """The regressor settings if any."""
+    return request.param
 
 
 @pytest.fixture
@@ -55,6 +70,7 @@ def umdo_formulation(
     design_space: DesignSpace,
     mdo_formulation: MDF,
     uncertain_space: ParameterSpace,
+    regressor_settings: BaseRegressorSettings,
 ) -> ControlVariate:
     """The UMDO formulation."""
     design_space = MDF(disciplines, "f", design_space).design_space
@@ -66,7 +82,8 @@ def umdo_formulation(
         uncertain_space,
         "Mean",
         settings_model=ControlVariate_Settings(
-            doe_algo_settings=CustomDOE_Settings(samples=array([[0.0] * 3, [1.0] * 3]))
+            doe_algo_settings=CustomDOE_Settings(samples=array([[0.0] * 3, [1.0] * 3])),
+            regressor_settings=regressor_settings,
         ),
     )
     formulation.add_constraint("c", "Mean")
@@ -148,19 +165,22 @@ def test_mdo_formulation_observable(umdo_formulation, mdf_discipline):
 def test_umdo_formulation_objective(umdo_formulation):
     """Check that the UMDO formulation can compute the objective correctly."""
     objective = umdo_formulation.optimization_problem.objective
-    assert_allclose(objective.evaluate(array([0.0] * 3)), array([-12.0]), atol=1e-6)
+    expected = -12.0 if umdo_formulation._settings.regressor_settings is None else -2.0
+    assert_allclose(objective.evaluate(array([0.0] * 3)), array([expected]), atol=1e-6)
 
 
 def test_umdo_formulation_constraint(umdo_formulation):
     """Check that the UMDO formulation can compute the constraints correctly."""
     constraint = umdo_formulation.optimization_problem.constraints[0]
-    assert_allclose(constraint.evaluate(array([0.0] * 3)), array([-11.0]), atol=1e-6)
+    expected = -11.0 if umdo_formulation._settings.regressor_settings is None else -1.5
+    assert_allclose(constraint.evaluate(array([0.0] * 3)), array([expected]), atol=1e-6)
 
 
 def test_umdo_formulation_observable(umdo_formulation):
     """Check that the UMDO formulation can compute the observables correctly."""
     observable = umdo_formulation.optimization_problem.observables[0]
-    assert_allclose(observable.evaluate(array([0.0] * 3)), array([-10.0]))
+    expected = -10.0 if umdo_formulation._settings.regressor_settings is None else -1.0
+    assert_allclose(observable.evaluate(array([0.0] * 3)), array([expected]))
 
 
 def test_clear_inner_database(umdo_formulation):
@@ -181,6 +201,7 @@ def test_clear_inner_database(umdo_formulation):
 U_SAMPLES = array([[0.5, 1.0, 1.5], [-0.5, -1.0, -1.5]])
 MEAN = array([1.0, 2.0])
 JAC = array([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]])
+VARIANCE = diagonal(JAC @ diag(array([1.0, 2.0, 1.5])) @ JAC.T)
 
 
 def test_estimate_mean(umdo_formulation):
@@ -188,9 +209,13 @@ def test_estimate_mean(umdo_formulation):
     statistic_function = Mean(umdo_formulation.uncertain_space)
     assert_almost_equal(
         statistic_function.estimate_statistic(
-            array([[0.0, 0.0], [1.0, 2.0]]), U_SAMPLES, MEAN, JAC
+            array([[0.0, 0.0], [1.0, 2.0]]),
+            MEAN,
+            VARIANCE,
+            array([[1.0, 1.1], [2.0, 2.1]]),
+            array([[1.3, 1.4], [2.6, 2.7]]),
         ),
-        array([-0.5, -1.0]),
+        array([0.0, 1.8]),
     )
 
 
@@ -199,9 +224,13 @@ def test_estimate_variance(umdo_formulation):
     statistic_function = Variance(umdo_formulation.uncertain_space)
     assert_almost_equal(
         statistic_function.estimate_statistic(
-            array([[0.0, 0.0], [1.0, 2.0]]), U_SAMPLES, MEAN, JAC
+            array([[0.0, 0.0], [1.0, 2.0]]),
+            MEAN,
+            VARIANCE,
+            array([[1.0, 1.1], [2.0, 2.1]]),
+            array([[1.3, 1.4], [2.6, 2.7]]),
         ),
-        array([0.263655, 1.267923]),
+        array([0.25, 1.0]),
         decimal=6,
     )
 
@@ -211,9 +240,13 @@ def test_estimate_standard_derivation(umdo_formulation):
     statistic_function = StandardDeviation(umdo_formulation.uncertain_space)
     assert_almost_equal(
         statistic_function.estimate_statistic(
-            array([[0.0, 0.0], [1.0, 2.0]]), U_SAMPLES, MEAN, JAC
+            array([[0.0, 0.0], [1.0, 2.0]]),
+            MEAN,
+            VARIANCE,
+            array([[1.0, 1.1], [2.0, 2.1]]),
+            array([[1.3, 1.4], [2.6, 2.7]]),
         ),
-        array([0.263655, 1.267923]) ** 0.5,
+        array([0.25, 1.0]) ** 0.5,
         decimal=6,
     )
 
@@ -223,9 +256,13 @@ def test_estimate_margin(umdo_formulation):
     statistic_function = Margin(umdo_formulation.uncertain_space, factor=3)
     assert_almost_equal(
         statistic_function.estimate_statistic(
-            array([[0.0, 0.0], [1.0, 2.0]]), U_SAMPLES, MEAN, JAC
+            array([[0.0, 0.0], [1.0, 2.0]]),
+            MEAN,
+            VARIANCE,
+            array([[1.0, 1.1], [2.0, 2.1]]),
+            array([[1.3, 1.4], [2.6, 2.7]]),
         ),
-        array([-0.5, -1.0]) + 3 * array([0.263655, 1.267923]) ** 0.5,
+        array([0.0, 1.8]) + 3 * array([0.25, 1.0]) ** 0.5,
         decimal=6,
     )
 
@@ -240,7 +277,11 @@ def test_estimate_probability(umdo_formulation, greater, result):
     )
     assert_equal(
         statistic_function.estimate_statistic(
-            array([[0.0, 0.0], [1.0, 2.0]]), U_SAMPLES, MEAN, JAC
+            array([[0.0, 0.0], [1.0, 2.0]]),
+            MEAN,
+            VARIANCE,
+            array([[1.0], [2.0]]),
+            array([[1.3], [2.6]]),
         ),
         result,
     )
@@ -269,3 +310,28 @@ def test_uncertain_input_data_non_normalization():
     # u = 1.125, f = 2.125 and dfdu = 1. before bug fix
     assert_almost_equal(discipline.io.data["u"], array([0.75]))
     assert_almost_equal(discipline.io.data["f"], array([1.75]))
+
+
+def test_seeds_validator():
+    """Verify that the seeds validator of ControlVariate_Settings works correctly."""
+    ControlVariate_Settings(
+        doe_algo_settings=MC_Settings(seed=1, n_samples=10),
+        regressor_doe_algo_settings=MC_Settings(seed=2, n_samples=10),
+    )
+    ControlVariate_Settings(
+        doe_algo_settings=MC_Settings(seed=1, n_samples=10),
+        regressor_doe_algo_settings=OT_OPT_LHS_Settings(seed=1, n_samples=10),
+    )
+
+    with pytest.raises(
+        ValueError,
+        match=re.escape(
+            "The seed for sampling "
+            "and the seed for creating the training dataset must be different; "
+            "both are 1."
+        ),
+    ):
+        ControlVariate_Settings(
+            doe_algo_settings=MC_Settings(seed=1, n_samples=10),
+            regressor_doe_algo_settings=MC_Settings(seed=1, n_samples=10),
+        )

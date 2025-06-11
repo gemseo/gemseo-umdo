@@ -589,7 +589,7 @@ $$\!\left(f\!\left(x,u^{(i)}\right),g\!\left(x,u^{(i)}\right),h\!\left(x,u^{(i)}
 However,
 when costly disciplines are involved,
 this approach may be too expensive.
-The rest of the [_MDO under uncertainty_](../umdo) section of the user guide presents
+The rest of the [_MDO under uncertainty_](index.md) section of the user guide presents
 other statistic estimation techniques to reduce the number of discipline evaluations,
 such as
 [control variates](control_variate.md),

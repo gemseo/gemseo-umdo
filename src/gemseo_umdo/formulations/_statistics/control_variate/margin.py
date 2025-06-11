@@ -14,8 +14,9 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 """Estimator of a margin for U-MDO formulations based on control variates."""
 
-from gemseo.algos.parameter_space import ParameterSpace
-from gemseo.typing import RealArray
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
 
 from gemseo_umdo.formulations._statistics.control_variate.base_control_variate_estimator import (  # noqa: E501
     BaseControlVariateEstimator,
@@ -24,6 +25,10 @@ from gemseo_umdo.formulations._statistics.control_variate.mean import Mean
 from gemseo_umdo.formulations._statistics.control_variate.standard_deviation import (
     StandardDeviation,
 )
+
+if TYPE_CHECKING:
+    from gemseo.algos.parameter_space import ParameterSpace
+    from gemseo.typing import RealArray
 
 
 class Margin(BaseControlVariateEstimator):
@@ -50,11 +55,16 @@ class Margin(BaseControlVariateEstimator):
 
     def estimate_statistic(  # noqa: D102
         self,
-        samples: RealArray,
-        u_samples: RealArray,
+        evaluations: RealArray,
         mean: RealArray,
-        jac: RealArray,
+        variance: RealArray,
+        some_predictions: RealArray,
+        many_predictions: RealArray,
     ) -> RealArray:
-        m = self.__mean.estimate_statistic(samples, u_samples, mean, jac)
-        s = self.__standard_deviation.estimate_statistic(samples, u_samples, mean, jac)
+        m = self.__mean.estimate_statistic(
+            evaluations, mean, variance, some_predictions, many_predictions
+        )
+        s = self.__standard_deviation.estimate_statistic(
+            evaluations, mean, variance, some_predictions, many_predictions
+        )
         return m + self.__factor * s

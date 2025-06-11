@@ -40,41 +40,33 @@ class Probability(BaseControlVariateEstimator):
     __threshold: float
     """The threshold against which the probability is estimated."""
 
-    __n_samples: int
-    """The sample size to approximate the statistic with the control variates."""
-
     def __init__(
         self,
         uncertain_space: ParameterSpace,
         threshold: float = 0.0,
         greater: bool = True,
-        n_samples: int = 10000,
     ) -> None:
         """
         Args:
             threshold: The threshold against which the probability is estimated.
             greater: Whether to compute the probability of exceeding the threshold.
-            n_samples: A high number of samples to approximate the statistic
-                with the control variates.
         """  # noqa: D205 D212 D415
         super().__init__(uncertain_space)
         self.__threshold = threshold
         self.__compare = ge if greater else le
-        self.__n_samples = n_samples
 
     def estimate_statistic(  # noqa: D102
         self,
-        samples: RealArray,
-        u_samples: RealArray,
+        evaluations: RealArray,
         mean: RealArray,
-        jac: RealArray,
+        variance: RealArray,
+        some_predictions: RealArray,
+        many_predictions: RealArray,
     ) -> RealArray:
-        cv_samples = self._compute_control_variate_samples(u_samples, mean, jac)
-        ref_cv_samples = (
-            mean + self._uncertain_space.compute_samples(self.__n_samples) @ jac.T
+        evaluations = self.__compare(evaluations, self.__threshold)
+        some_predictions = self.__compare(some_predictions, self.__threshold)
+        many_predictions = self.__compare(many_predictions, self.__threshold)
+        alpha = self._compute_opposite_scaled_covariance(evaluations, some_predictions)
+        return evaluations.mean(0) + alpha * (
+            some_predictions.mean(0) - many_predictions.mean(0)
         )
-        samples = self.__compare(samples, self.__threshold)
-        cv_samples = self.__compare(cv_samples, self.__threshold)
-        ref_cv_samples = self.__compare(ref_cv_samples, self.__threshold)
-        alpha = self._compute_opposite_scaled_covariance(samples, cv_samples)
-        return samples.mean(0) + alpha * (cv_samples.mean(0) - ref_cv_samples.mean(0))

@@ -31,11 +31,11 @@ class Mean(BaseControlVariateEstimator):
 
     def estimate_statistic(  # noqa: D102
         self,
-        samples: RealArray,
-        u_samples: RealArray,
+        evaluations: RealArray,
         mean: RealArray,
-        jac: RealArray,
+        variance: RealArray,
+        some_predictions: RealArray,
+        many_predictions: RealArray,
     ) -> RealArray:
-        cv_samples = self._compute_control_variate_samples(u_samples, mean, jac)
-        alpha = self._compute_opposite_scaled_covariance(samples, cv_samples)
-        return samples.mean(0) + alpha * (cv_samples.mean(0) - mean)
+        alpha = self._compute_opposite_scaled_covariance(evaluations, some_predictions)
+        return evaluations.mean(0) + alpha * (some_predictions.mean(0) - mean)

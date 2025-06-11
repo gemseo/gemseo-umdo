@@ -80,7 +80,10 @@ class ControlVariate(BaseUMDOFormulation):
     _USE_AUXILIARY_MDO_FORMULATION: ClassVar[bool] = True
 
     __doe_algo: BaseDOELibrary
-    """The DOE algorithm to sample the uncertain problem."""
+    """The DOE algorithm to sample the original functions of the uncertain problem."""
+
+    __doe_algo_for_regressor: BaseDOELibrary
+    """The DOE algorithm to sample the regressor."""
 
     _STATISTIC_FACTORY: ClassVar[ControlVariateEstimatorFactory] = (
         ControlVariateEstimatorFactory()
@@ -104,6 +107,9 @@ class ControlVariate(BaseUMDOFormulation):
     ) -> None:
         algo_name = settings_model.doe_algo_settings._TARGET_CLASS_NAME
         self.__doe_algo = DOELibraryFactory().create(algo_name)
+        self.__doe_algo_for_regressor = DOELibraryFactory().create(
+            settings_model.regressor_doe_algo_settings._TARGET_CLASS_NAME
+        )
         super().__init__(
             disciplines,
             objective_name,
@@ -126,13 +132,22 @@ class ControlVariate(BaseUMDOFormulation):
         """The DOE library configured with an algorithm."""
         return self.__doe_algo
 
-    def compute_samples(self, problem: OptimizationProblem) -> None:
+    def compute_samples(
+        self, problem: OptimizationProblem, create_training_dataset: bool = False
+    ) -> None:
         """Evaluate the functions of a problem with a DOE algorithm.
 
         Args:
             problem: The problem.
+            create_training_dataset: Whether to evaluate the functions
+                to create a training dataset.
         """
+        if create_training_dataset:
+            doe_algo = self.__doe_algo_for_regressor
+            settings_model = self._settings.regressor_doe_algo_settings
+        else:
+            doe_algo = self.__doe_algo
+            settings_model = self._settings.doe_algo_settings
+
         with LoggingContext(logging.getLogger("gemseo")):
-            self.__doe_algo.execute(
-                problem, settings_model=self._settings.doe_algo_settings
-            )
+            doe_algo.execute(problem, settings_model=settings_model)

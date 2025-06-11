@@ -37,54 +37,30 @@ class BaseControlVariateEstimator(BaseStatisticEstimator):
     __EPSILON: Final[float] = finfo(float).eps
     """A number to avoid division by zero when normalizing the covariance."""
 
-    _u_mean: RealArray
-    """The input mean vector."""
-
-    _u_standard_deviation: RealArray
-    """The input standard deviation vector."""
-
-    _uncertain_space: ParameterSpace
-    """The uncertain space."""
-
     def __init__(self, uncertain_space: ParameterSpace) -> None:
         """
         Args:
             uncertain_space: The uncertain space.
         """  # noqa: D205 D212 D415
-        self._u_mean = uncertain_space.distribution.mean
-        self._u_standard_deviation = uncertain_space.distribution.standard_deviation
         self._uncertain_space = uncertain_space
 
     @abstractmethod
     def estimate_statistic(
         self,
-        samples: RealArray,
-        u_samples: RealArray,
+        evaluations: RealArray,
         mean: RealArray,
-        jac: RealArray,
+        variance: RealArray,
+        some_predictions: RealArray,
+        many_predictions: RealArray,
     ) -> RealArray:
         """
         Args:
-            samples: The output evaluations arranged in rows.
-            u_samples: The input evaluations arranged in rows.
-            mean: The output value at the mean input one.
-            jac: The Jacobian value at the mean input one.
+            evaluations: The output evaluations arranged in rows.
+            mean: The mean of the regressor's output vector.
+            variance: The variance of the regressor's output vector.
+            some_predictions: Some output evaluations of the regressor arranged in rows.
+            many_predictions: Many output evaluations of the regressor arranged in rows.
         """  # noqa: D205 D212 D415
-
-    def _compute_control_variate_samples(
-        self, u_samples: RealArray, mean: RealArray, jac: RealArray
-    ) -> RealArray:
-        """Compute the samples of the control variates.
-
-        Args:
-            u_samples: The input evaluations arranged in rows.
-            mean: The output value at the mean input one.
-            jac: The Jacobian value at the mean input one.
-
-        Returns:
-            The samples of the control variates.
-        """
-        return mean + (u_samples - self._u_mean) @ jac.T
 
     @classmethod
     def _compute_opposite_scaled_covariance(
