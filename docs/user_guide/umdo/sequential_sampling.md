@@ -89,8 +89,8 @@ The estimators are given below at the $k$-th iteration of the optimization loop.
 
 | Statistic          | Notation                         | Estimator                                                                                                      |
 |--------------------|----------------------------------|----------------------------------------------------------------------------------------------------------------|
-| Mean               | $\mathbb{E}[\varphi(x,U)]$       | $E_{N_k}[\varphi(x,U)]=\frac{1}{N_k}\sum_{i=1}^{N_k}\varphi(x,U^{(i)})$                                        |
-| Variance           | $\mathbb{V}[\varphi(x,U)]$       | $V_{N_k}[\varphi(x,U)]=\frac{1}{N_k-1}\sum_{i=1}^{N_k}\left(\varphi(x,U^{(i)})-E_{N_k}[\varphi(x,U)]\right)^2$ |
+| Mean               | $\mathbb{E}[\varphi(x,U)]$       | $E_{N_k}[\varphi(x,U)]=\frac{1}{N_k}\sum_{i=1}^{N_k}\varphi(x,u^{(i)})$                                        |
+| Variance           | $\mathbb{V}[\varphi(x,U)]$       | $V_{N_k}[\varphi(x,U)]=\frac{1}{N_k-1}\sum_{i=1}^{N_k}\left(\varphi(x,u^{(i)})-E_{N_k}[\varphi(x,U)]\right)^2$ |
 | Standard deviation | $\mathbb{S}[\varphi(x,U)]$       | $S_{N_k}[\varphi(x,U)]=\sqrt{V_{N_k}[\varphi(x,U)]}$                                                           |
-| Margin             | $\textrm{Margin}[\varphi(x,U)]$  | $\textrm{Margin}_{N_k}[\varphi(x,U)]=E_{N_k}[\varphi(x,U)]+\kappa\cdot S_{N_k}[\varphi(x,U)]$                 |
+| Margin             | $\textrm{Margin}[\varphi(x,U)]$  | $\textrm{Margin}_{N_k}[\varphi(x,U)]=E_{N_k}[\varphi(x,U)]+\kappa\cdot S_{N_k}[\varphi(x,U)]$                  |
 | Probability        | $\mathbb{P}[\varphi(x,U)\leq 0]$ | $P_{N_k}[\varphi(x,U)\leq 0]=E_{N_k}[\mathbb{1}_{\varphi(x,U)\leq 0}]$                                         |

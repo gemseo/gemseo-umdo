@@ -11,17 +11,16 @@
 
 [ControlVariate][gemseo_umdo.formulations.control_variate.ControlVariate]
 is a U-MDO formulation that estimates the statistics
-using control variates based on first-order Taylor polynomials.
+using control variates based on either first-order Taylor polynomials (default) or regression models,
+a.k.a. surrogate models.
 
 !!! note "Control variates (CVs) method"
 
     The control variates method is a variance reduction technique used in Monte Carlo sampling.
     [Read more](https://en.wikipedia.org/wiki/Control_variates)
 
-The Taylor polynomials are centered at $\mu=\mathbb{E}[U]$
-where $U$ is the random input vector.
-
-This U-MDO formulation has one mandatory parameter, namely `n_samples`.
+This U-MDO formulation has one mandatory parameter, namely `n_samples`,
+which corresponds to the number of Monte Carlo samples in the CVs method.
 
 Here is a typical scenario template:
 
@@ -38,6 +37,21 @@ scenario = UMDOScenario(
 ```
 
 ## Settings
+
+### Control variates
+
+The control variates are built from approximations of the original objective, constraint and observable functions.
+These approximations can be
+either Taylor polynomials centered at the mean input value (default)
+or regression models defined as [BaseRegressor][gemseo.mlearning.regression.algos.base_regressor.BaseRegressor]s.
+In the latter case,
+the regression model is defined by the Pydantic models
+`regressor_settings` for the settings of the regressor
+(e.g. [RBFRegressor_Settings][gemseo.mlearning.regression.algos.rbf_settings.RBFRegressor_Settings])
+and `regressor_doe_algo_settings` for the settings of the DOE algorithm used to create the training dataset
+(e.g. [OT_HALTON_Settings][gemseo.algos.doe.openturns.settings.ot_halton.OT_HALTON_Settings]).
+
+### Sampling
 
 By default,
 the formulation uses the DOE algorithm `OT_OPT_LHS` with 10 samples:
@@ -58,12 +72,14 @@ When `doe_algo_settings` has a field `seed` and its value is `None`,
 then the U-MDO formulation will use [SEED][gemseo.utils.seeder.SEED].
 
 !!! note "API"
-    Use `statistic_estimation_settings`
-    to set the algorithm name and settings,
-    e.g.
+    Here is an example of code that considers an RBF regressor and different DOE algorithms:
 
     ``` py
-    settings = ControlVariate_Settings(doe_algo_settings=OT_MONTE_CARLO(n_samples=20, n_processes=2))
+    settings = ControlVariate_Settings(
+        doe_algo_settings=OT_MONTE_CARLO(n_samples=20, n_processes=2),
+        regressor_settings=RBFRegressor_Settings(),
+        regressor_doe_algo_settings=OT_OPT_LHS(n_samples=15),
+    )
     scenario = UMDOScenario(
         disciplines,
         mdo_formulation_name,
@@ -75,20 +91,53 @@ then the U-MDO formulation will use [SEED][gemseo.utils.seeder.SEED].
     )
     ```
 
+    !!! warning
+        `doe_algo_settings` and `regressor_doe_algo_settings` must use different `seed`
+        when their classes are the same, e.g.
+        ``` py
+        settings = ControlVariate_Settings(
+            doe_algo_settings=OT_MONTE_CARLO(n_samples=20, n_processes=2, seed=2),
+            regressor_settings=RBFRegressor_Settings(),
+            regressor_doe_algo_settings=OT_MONTE_CARLO(n_samples=15, seed=3),
+        )
+        ```
+
 ## Statistics
 
 This U-MDO formulation has been implemented
-for the expectation, the standard deviation, the variance and the margin.
+for the expectation, the standard deviation, the variance, the margin and the probability.
 
-Only the average formula is noted here, for simplicity's sake
+Only the formula for the expectation is noted here, for simplicity's sake.
 
-$$\mathbb{E}[\varphi(x,U)]
+### Taylor polynomial
+
+In the case of Taylor polynomial,
+the control variate estimator of the expectation is:
+
+$$\mathbb{E}[f(x,U)]
 \approx
-\frac{1}{N}\sum_{i=1}^N f\left(x,U^{(i)}\right)
-+\alpha_N\left(\frac{1}{N}\sum_{j=1}^N \tilde{f}\left(x,U^{(j)}\right)-f(x,\mu)\right)$$
+\frac{1}{N}\sum_{i=1}^N f\left(x,u^{(i)}\right)
++\alpha_N\left(\frac{1}{N}\sum_{j=1}^N \tilde{f}\left(x,u^{(j)}\right)-f(x,\mu)\right)$$
 
-where $\tilde{f}(x)$ is the first-order Taylor polynomial of $f(x)$ at $\mu$,
+where $\tilde{f}(x,u)$ is the first-order Taylor polynomial of $f(x,u)$ at $u=\mu$,
 $\alpha_N$ is the empirical estimator
-of $\frac{\text{cov}\left[f(x,U),\tilde{f}(x,u)\right]}
+of $\frac{\text{cov}\left[f(x,U),\tilde{f}(x,U)\right]}
 {\mathbb{V}\left[f(x,U)\right]}$
-and $U^{(1)},\ldots,U^{(N)}$ are $N$ independent realizations of $U$.
+and $u^{(1)},\ldots,u^{(N)}$ are $N$ independent realizations of $U$.
+
+### Regression models
+
+In the case of a regression model,
+the control variate estimator of the expectation is:
+
+$$\mathbb{E}[f(x,U)]
+\approx
+\frac{1}{N}\sum_{i=1}^N f\left(x,u^{(i)}\right)
++\alpha_N\left(\frac{1}{N}\sum_{j=1}^N \hat{f}\left(x,u^{(j)}\right)-\frac{1}{M}\sum_{j=1}^M \hat{f}\left(x,u^{(N+j)}\right)\right)$$
+
+where $\tilde{f}(x)$ is the regression model of $f(x)$,
+$\alpha_N$ is the empirical estimator
+of $\frac{\text{cov}\left[f(x,U),\hat{f}(x,U)\right]}
+{\mathbb{V}\left[f(x,U)\right]}$,
+$u^{(1)},\ldots,u^{(N)},u^{(N+1)},\ldots,u^{(N+M)}$ are $N+M$ independent realizations of $U$
+with $M\gg 1$.
