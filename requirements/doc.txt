@@ -86,7 +86,7 @@ joblib==1.5.1
     # via scikit-learn
 kiwisolver==1.4.7
     # via matplotlib
-latexcodec==3.0.0
+latexcodec==3.0.1
     # via pybtex
 markdown==3.8
     # via
