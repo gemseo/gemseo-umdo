@@ -71,6 +71,7 @@ importlib-metadata==8.7.0
     #   mkdocs
     #   mkdocs-get-deps
     #   mkdocstrings
+    #   pybtex
 importlib-resources==6.5.2
     # via
     #   matplotlib
@@ -131,7 +132,7 @@ mkdocs-autorefs==1.4.2
     # via
     #   mkdocstrings
     #   mkdocstrings-python
-mkdocs-bibtex==4.2.5
+mkdocs-bibtex==4.2.10
     # via gemseo-umdo (pyproject.toml)
 mkdocs-gallery==0.10.4
     # via gemseo-umdo (pyproject.toml)
@@ -212,7 +213,7 @@ prettytable==3.15.1
     # via gemseo
 psutil==7.0.0
     # via openturns
-pybtex==0.24.0
+pybtex==0.25.0
     # via mkdocs-bibtex
 pydantic==2.10.6
     # via gemseo
@@ -220,13 +221,13 @@ pydantic-core==2.27.2
     # via pydantic
 pydoe3==1.0.4
     # via gemseo
-pygments==2.19.1
+pygments==2.19.2
     # via
     #   mkdocs-material
     #   pygments-ansi-color
 pygments-ansi-color==0.3.0
     # via markdown-exec
-pymdown-extensions==10.15
+pymdown-extensions==10.16
     # via
     #   markdown-exec
     #   mkdocs-material
@@ -278,9 +279,7 @@ scipy==1.13.1
 setuptools==80.9.0
     # via mkdocs-bibtex
 six==1.17.0
-    # via
-    #   pybtex
-    #   python-dateutil
+    # via python-dateutil
 strenum==0.4.15
     # via gemseo
 sympy==1.13.3

@@ -107,7 +107,7 @@ pydantic-core==2.27.2
     # via pydantic
 pydoe3==1.0.4
     # via gemseo
-pygments==2.19.1
+pygments==2.19.2
     # via pytest
 pyparsing==3.2.3
     # via matplotlib
