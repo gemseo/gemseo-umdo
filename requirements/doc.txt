@@ -22,7 +22,7 @@ colorama==0.4.6
     # via
     #   griffe
     #   mkdocs-material
-contourpy==1.3.2
+contourpy==1.3.3
     # via matplotlib
 cycler==0.12.1
     # via matplotlib
@@ -38,7 +38,7 @@ fieldz==0.1.2
     # via griffe-fieldz
 fonttools==4.59.0
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@542e5571c69f4d087e2bcd1b56cbba5593e0736b
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@0dd94503cc8001f10d10bc9fb77854ffc1035106
     # via
     #   -c requirements/test-constraints.in
     #   gemseo-umdo (pyproject.toml)
@@ -48,12 +48,12 @@ ghp-import==2.1.0
     # via mkdocs
 graphviz==0.21
     # via gemseo
-griffe==1.7.3
+griffe==1.9.0
     # via
     #   griffe-fieldz
     #   griffe-inherited-docstrings
     #   mkdocstrings-python
-griffe-fieldz==0.2.1
+griffe-fieldz==0.3.0
     # via gemseo-umdo (pyproject.toml:doc)
 griffe-inherited-docstrings==1.1.1
     # via gemseo-umdo (pyproject.toml:doc)
@@ -133,7 +133,7 @@ mkdocs-include-markdown-plugin==7.1.6
     # via gemseo-umdo (pyproject.toml:doc)
 mkdocs-literate-nav==0.6.2
     # via gemseo-umdo (pyproject.toml:doc)
-mkdocs-material==9.6.15
+mkdocs-material==9.6.16
     # via
     #   gemseo-umdo (pyproject.toml:doc)
     #   mkdocs-gallery
@@ -141,7 +141,7 @@ mkdocs-material-extensions==1.3.1
     # via mkdocs-material
 mkdocs-section-index==0.3.10
     # via gemseo-umdo (pyproject.toml:doc)
-mkdocstrings==0.29.1
+mkdocstrings==0.30.0
     # via
     #   gemseo-umdo (pyproject.toml:doc)
     #   mkdocstrings-python
@@ -216,7 +216,7 @@ pygments==2.19.2
     #   pygments-ansi-color
 pygments-ansi-color==0.3.0
     # via markdown-exec
-pymdown-extensions==10.16
+pymdown-extensions==10.16.1
     # via
     #   markdown-exec
     #   mkdocs-material

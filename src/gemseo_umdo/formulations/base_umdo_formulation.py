@@ -27,6 +27,7 @@ from gemseo.uncertainty.statistics.base_statistics import BaseStatistics
 from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
 from gemseo.utils.data_conversion import split_array_to_dict_of_arrays
 from gemseo.utils.file_path_manager import FilePathManager
+from gemseo.utils.string_tools import convert_strings_to_iterable
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -247,22 +248,30 @@ class BaseUMDOFormulation(BaseFormulation):
             statistic_parameters: The values of the parameters
                 of the statistic to be applied to the observable, if any.
         """  # noqa: D205 D212 D415
-        if self._auxiliary_mdo_formulation is not None:
-            self._auxiliary_mdo_formulation.add_observable(
+        output_names = convert_strings_to_iterable(output_names)
+        function_name = observable_name or "_".join(output_names)
+        function_names = [
+            function_.name
+            for function_ in self._mdo_formulation.optimization_problem.functions
+            if function_ is not None
+        ]
+        if function_name not in function_names:
+            if self._auxiliary_mdo_formulation is not None:
+                self._auxiliary_mdo_formulation.add_observable(
+                    output_names,
+                    observable_name=observable_name,
+                    discipline=discipline,
+                )
+
+            self._mdo_formulation.add_observable(
                 output_names,
                 observable_name=observable_name,
                 discipline=discipline,
             )
 
-        self._mdo_formulation.add_observable(
-            output_names,
-            observable_name=observable_name,
-            discipline=discipline,
-        )
-        sub_opt_problem = self._mdo_formulation.optimization_problem
         observable = self._statistic_function_class(
             self,
-            sub_opt_problem.observables[-1].name,
+            function_name,
             MDOFunction.FunctionType.NONE,
             statistic_name,
             **statistic_parameters,
@@ -289,13 +298,21 @@ class BaseUMDOFormulation(BaseFormulation):
             statistic_parameters: The values of the parameters of the statistic
                 to be applied to the constraint, if any.
         """  # noqa: D205 D212 D415
-        if self._auxiliary_mdo_formulation is not None:
-            self._auxiliary_mdo_formulation.add_observable(output_name)
+        function_name = "_".join(convert_strings_to_iterable(output_name))
+        function_names = [
+            function_.name
+            for function_ in self._mdo_formulation.optimization_problem.functions
+            if function_ is not None
+        ]
+        if function_name not in function_names:
+            if self._auxiliary_mdo_formulation is not None:
+                self._auxiliary_mdo_formulation.add_observable(output_name)
 
-        self._mdo_formulation.add_observable(output_name)
+            self._mdo_formulation.add_observable(output_name)
+
         constraint = self._statistic_function_class(
             self,
-            self._mdo_formulation.optimization_problem.observables[-1].name,
+            function_name,
             MDOFunction.FunctionType.NONE,
             statistic_name,
             **statistic_parameters,
