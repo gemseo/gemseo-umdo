@@ -113,7 +113,7 @@ class UncertainCouplingGraph:
         self.__scenario = DOEScenario(
             disciplines, self.__output_names[0], uncertain_space, formulation_name="MDF"
         )
-        for output_name in self.__output_names:
+        for output_name in self.__output_names[1:]:
             self.__scenario.add_observable(output_name)
 
     def sample(
