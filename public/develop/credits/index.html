@@ -91,6 +91,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#exec-1--credits" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -497,6 +502,21 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Credits
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
@@ -509,6 +529,43 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#exec-1--runtime-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      Runtime dependencies
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exec-1--development-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      Development dependencies
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -7074,6 +7131,34 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#exec-1--runtime-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      Runtime dependencies
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exec-1--development-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      Development dependencies
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -7092,8 +7177,6 @@
   
 
 
-  <h1>Credits</h1>
-
 <!--
 Copyright 2021 IRT Saint Exupéry, https://www.irt-saintexupery.com
 
@@ -7102,20 +7185,893 @@ International License. To view a copy of this license, visit
 http://creativecommons.org/licenses/by-sa/4.0/ or send a letter to Creative
 Commons, PO Box 1866, Mountain View, CA 94042, USA.
 -->
-<div class="highlight"><pre><span></span><code><span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
-  <span class="n">File</span> <span class="s2">&quot;/builds/gemseo/dev/gemseo-umdo/.tox/doc/lib64/python3.12/site-packages/markdown_exec/_internal/formatters/python.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">71</span><span class="p">,</span> <span class="ow">in</span> <span class="n">_run_python</span>
-    <span class="n">exec_python</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">code_block_id</span><span class="p">,</span> <span class="n">exec_globals</span><span class="p">)</span>
-  <span class="n">File</span> <span class="s2">&quot;/builds/gemseo/dev/gemseo-umdo/.tox/doc/lib64/python3.12/site-packages/markdown_exec/_internal/formatters/_exec_python.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">8</span><span class="p">,</span> <span class="ow">in</span> <span class="n">exec_python</span>
-    <span class="n">exec</span><span class="p">(</span><span class="n">compiled</span><span class="p">,</span> <span class="n">exec_globals</span><span class="p">)</span>  <span class="c1"># noqa: S102</span>
-    <span class="o">^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
-  <span class="n">File</span> <span class="s2">&quot;&lt;code block: n1&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">147</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">_render_credits</span><span class="p">())</span>  <span class="c1"># noqa: T201</span>
-           <span class="o">^^^^^^^^^^^^^^^^^</span>
-  <span class="n">File</span> <span class="s2">&quot;&lt;code block: n1&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">100</span><span class="p">,</span> <span class="ow">in</span> <span class="n">_render_credits</span>
-    <span class="o">*</span><span class="n">project</span><span class="p">[</span><span class="s2">&quot;optional-dependencies&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span>
-      <span class="o">~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^</span>
-<span class="ne">KeyError</span><span class="p">:</span> <span class="s1">&#39;optional-dependencies&#39;</span>
-</code></pre></div>
+<p><h1 id="exec-1--credits">Credits<a class="headerlink" href="#exec-1--credits" title="Permanent link">&para;</a></h1>
+<p>These projects were used to build <em>gemseo-umdo</em>. <strong>Thank you!</strong></p>
+<p><a href="https://www.python.org/">Python</a> |
+<a href="https://github.com/astral-sh/uv">uv</a></p>
+<h3 id="exec-1--runtime-dependencies">Runtime dependencies<a class="headerlink" href="#exec-1--runtime-dependencies" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Project</th>
+<th>Summary</th>
+<th>Version (accepted)</th>
+<th>Version (last resolved)</th>
+<th>License</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://pypi.org/project/annotated-types/">annotated-types</a></td>
+<td>Reusable constraint types to use with typing.Annotated</td>
+<td><code>&gt;=0.6.0</code></td>
+<td><code>0.7.0</code></td>
+<td>MIT License</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/certifi/">certifi</a></td>
+<td>Python package for providing Mozilla's CA Bundle.</td>
+<td><code>&gt;=2017.4.17</code></td>
+<td><code>2025.8.3</code></td>
+<td>MPL-2.0</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/charset-normalizer/">charset-normalizer</a></td>
+<td>The Real First Universal Charset Detector. Open, modern and actively maintained alternative to Chardet.</td>
+<td><code>&gt;=2, &lt;4</code></td>
+<td><code>3.4.2</code></td>
+<td>MIT</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/colorama/">colorama</a></td>
+<td>Cross-platform colored terminal text.</td>
+<td><code>~=0.4</code></td>
+<td><code>0.4.6</code></td>
+<td>BSD License</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/contourpy/">contourpy</a></td>
+<td>Python library for calculating contours of 2D quadrilateral grids</td>
+<td><code>&gt;=1.0.1</code></td>
+<td><code>1.3.3</code></td>
+<td>BSD License</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/cycler/">cycler</a></td>
+<td>Composable style cycles</td>
+<td><code>&gt;=0.10</code></td>
+<td><code>0.12.1</code></td>
+<td>BSD License</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/dill/">dill</a></td>
+<td>serialize all of Python</td>
+<td></td>
+<td><code>0.4.0</code></td>
+<td>BSD-3-Clause</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/docstring-inheritance/">docstring-inheritance</a></td>
+<td>Avoid writing and maintaining duplicated docstrings.</td>
+<td><code>&gt;=2.0.0, &lt;=2.2.2</code></td>
+<td><code>2.2.2</code></td>
+<td>MIT</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/et_xmlfile/">et_xmlfile</a></td>
+<td>An implementation of lxml.xmlfile for the standard library</td>
+<td></td>
+<td><code>2.0.0</code></td>
+<td>MIT</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/fastjsonschema/">fastjsonschema</a></td>
+<td>Fastest Python implementation of JSON schema</td>
+<td><code>&gt;=2.14.5, &lt;=2.21.1</code></td>
+<td><code>2.21.1</code></td>
+<td>BSD</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/fonttools/">fonttools</a></td>
+<td>Tools to manipulate font files</td>
+<td><code>&gt;=4.22.0</code></td>
+<td><code>4.59.0</code></td>
+<td>MIT</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/gemseo/">gemseo</a></td>
+<td>Generic Engine for Multi-disciplinary Scenarios, Exploration and Optimization</td>
+<td><code>&gt;=6, &lt;7</code></td>
+<td><code>6.1.1.dev354+g480f4d95</code></td>
+<td>LGPL-3.0</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/genson/">genson</a></td>
+<td>GenSON is a powerful, user-friendly JSON Schema generator.</td>
+<td><code>&gt;=1.2.2, &lt;=1.3.0</code></td>
+<td><code>1.3.0</code></td>
+<td>MIT</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/graphviz/">graphviz</a></td>
+<td>Simple Python interface for Graphviz</td>
+<td><code>&gt;=0.19, &lt;=0.21</code></td>
+<td><code>0.21</code></td>
+<td>MIT</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/h5py/">h5py</a></td>
+<td>Read and write HDF5 files from Python</td>
+<td><code>&gt;=3.0.0, &lt;=3.14.0</code></td>
+<td><code>3.14.0</code></td>
+<td>BSD-3-Clause</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/idna/">idna</a></td>
+<td>Internationalized Domain Names in Applications (IDNA)</td>
+<td><code>&gt;=2.5, &lt;4</code></td>
+<td><code>3.10</code></td>
+<td>BSD License</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/importlib_metadata/">importlib_metadata</a></td>
+<td>Read metadata from Python packages</td>
+<td><code>&gt;=4.4, &gt;=3.6</code></td>
+<td><code>8.7.0</code></td>
+<td>Apache Software License</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/Jinja2/">Jinja2</a></td>
+<td>A very fast and expressive template engine.</td>
+<td><code>~=3.1, &gt;=3.0.0, &lt;=3.1.6</code></td>
+<td><code>3.1.6</code></td>
+<td>BSD License</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/joblib/">joblib</a></td>
+<td>Lightweight pipelining with Python functions</td>
+<td><code>&gt;=1.2.0</code></td>
+<td><code>1.5.1</code></td>
+<td>BSD 3-Clause</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/kiwisolver/">kiwisolver</a></td>
+<td>A fast implementation of the Cassowary constraint solver</td>
+<td><code>&gt;=1.3.1</code></td>
+<td><code>1.4.8</code></td>
+<td>BSD License</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/MarkupSafe/">MarkupSafe</a></td>
+<td>Safely add untrusted strings to HTML/XML markup.</td>
+<td><code>&gt;=2.0.1, &gt;=2.0</code></td>
+<td><code>3.0.2</code></td>
+<td>BSD License</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/matplotlib/">matplotlib</a></td>
+<td>Python plotting package</td>
+<td></td>
+<td><code>3.10.3</code></td>
+<td>Python Software Foundation License</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/MiniSom/">MiniSom</a></td>
+<td>Minimalistic implementation of the Self Organizing Maps (SOM)</td>
+<td><code>&gt;=2.3.5, &lt;2.4</code></td>
+<td><code>2.3.5</code></td>
+<td>MIT</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/mpmath/">mpmath</a></td>
+<td>Python library for arbitrary-precision floating-point arithmetic</td>
+<td><code>&gt;=1.1.0, &lt;1.4</code></td>
+<td><code>1.3.0</code></td>
+<td>BSD</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/networkx/">networkx</a></td>
+<td>Python package for creating and manipulating graphs and networks</td>
+<td><code>&gt;=2.5, &lt;=3.5</code></td>
+<td><code>3.5</code></td>
+<td>BSD License</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/nlopt/">nlopt</a></td>
+<td>Library for nonlinear optimization, wrapping many algorithms for global and local, constrained or unconstrained, optimization</td>
+<td><code>&gt;=2.7.0, &lt;=2.9.1</code></td>
+<td><code>2.9.1</code></td>
+<td>MIT</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/numpy/">numpy</a></td>
+<td>Fundamental package for array computing in Python</td>
+<td></td>
+<td><code>2.3.1</code></td>
+<td>BSD License</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/openpyxl/">openpyxl</a></td>
+<td>A Python library to read/write Excel 2010 xlsx/xlsm files</td>
+<td><code>&gt;=3.0.7, &lt;=3.1.5</code></td>
+<td><code>3.1.5</code></td>
+<td>MIT</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/openturns/">openturns</a></td>
+<td>Uncertainty treatment library</td>
+<td><code>&gt;=1.20, &lt;=1.25</code></td>
+<td><code>1.25</code></td>
+<td>LGPL</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/packaging/">packaging</a></td>
+<td>Core utilities for Python packages</td>
+<td><code>&gt;=22.0, &gt;=15, &lt;=25</code></td>
+<td><code>25.0</code></td>
+<td>Apache Software License + BSD License</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/pandas/">pandas</a></td>
+<td>Powerful data structures for data analysis, time series, and statistics</td>
+<td><code>&gt;=1.5.0, &lt;=2.3.0</code></td>
+<td><code>2.3.0</code></td>
+<td>BSD License</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/pillow/">pillow</a></td>
+<td>Python Imaging Library (Fork)</td>
+<td><code>&gt;=9.5.0, &lt;=11.2.1</code></td>
+<td><code>11.2.1</code></td>
+<td>MIT-CMU</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/plotly/">plotly</a></td>
+<td>An open-source, interactive data visualization library for Python</td>
+<td><code>&gt;=5.7.0, &lt;=5.24.1</code></td>
+<td><code>5.24.1</code></td>
+<td>MIT</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/prettytable/">prettytable</a></td>
+<td>A simple Python library for easily displaying tabular data in a visually appealing ASCII table format</td>
+<td><code>&gt;=2.3.0, &lt;=3.16.0</code></td>
+<td><code>3.16.0</code></td>
+<td>BSD-3-Clause</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/psutil/">psutil</a></td>
+<td>Cross-platform lib for process and system monitoring in Python.  NOTE: the syntax of this script MUST be kept compatible with Python 2.7.</td>
+<td></td>
+<td><code>7.0.0</code></td>
+<td>BSD-3-Clause</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/pydantic/">pydantic</a></td>
+<td>Data validation using Python type hints</td>
+<td><code>&gt;=2.6, &lt;=2.11.7</code></td>
+<td><code>2.11.7</code></td>
+<td>MIT</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/pydantic_core/">pydantic_core</a></td>
+<td>Core functionality for Pydantic validation and serialization</td>
+<td><code>==2.33.2</code></td>
+<td><code>2.33.2</code></td>
+<td>MIT</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/pyDOE3/">pyDOE3</a></td>
+<td>Design of experiments for Python</td>
+<td><code>&gt;=1.0.1, &lt;=1.0.5</code></td>
+<td><code>1.0.5</code></td>
+<td>BSD-3-Clause</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/pyparsing/">pyparsing</a></td>
+<td>pyparsing module - Classes and methods to define and execute parsing grammars</td>
+<td><code>&gt;=3.0, &gt;=2.3.1</code></td>
+<td><code>3.2.3</code></td>
+<td>MIT License</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/python-dateutil/">python-dateutil</a></td>
+<td>Extensions to the standard Python datetime module</td>
+<td><code>&gt;=2.8.1, &gt;=2.7</code></td>
+<td><code>2.9.0.post0</code></td>
+<td>BSD License + Apache Software License</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/pytz/">pytz</a></td>
+<td>World timezone definitions, modern and historical</td>
+<td><code>&gt;=2020.1, &gt;=2015.7</code></td>
+<td><code>2025.2</code></td>
+<td>MIT</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/pyXDSM/">pyXDSM</a></td>
+<td>Python script to generate PDF XDSM diagrams using TikZ and LaTeX</td>
+<td><code>&gt;=2.2.1, &lt;=2.3.1</code></td>
+<td><code>2.3.1</code></td>
+<td>Apache License Version 2.0</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/requests/">requests</a></td>
+<td>Python HTTP for Humans.</td>
+<td><code>~=2.26, &gt;2, &lt;3</code></td>
+<td><code>2.32.4</code></td>
+<td>Apache-2.0</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/scikit-learn/">scikit-learn</a></td>
+<td>A set of python modules for machine learning and data mining</td>
+<td><code>&gt;=1.2, &lt;=1.7.0</code></td>
+<td><code>1.7.0</code></td>
+<td>BSD License</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/scipy/">scipy</a></td>
+<td>Fundamental algorithms for scientific computing in Python</td>
+<td></td>
+<td><code>1.15.2</code></td>
+<td>BSD License</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/six/">six</a></td>
+<td>Python 2 and 3 compatibility utilities</td>
+<td><code>&gt;=1.5</code></td>
+<td><code>1.17.0</code></td>
+<td>MIT</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/StrEnum/">StrEnum</a></td>
+<td>An Enum that inherits from str.</td>
+<td><code>&gt;=0.4.9, &lt;=0.4.15</code></td>
+<td><code>0.4.15</code></td>
+<td>MIT License</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/sympy/">sympy</a></td>
+<td>Computer algebra system (CAS) in Python</td>
+<td><code>&gt;=1.5, &lt;=1.14.0</code></td>
+<td><code>1.14.0</code></td>
+<td>BSD</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/tenacity/">tenacity</a></td>
+<td>Retry code until it succeeds</td>
+<td><code>&gt;=6.2.0</code></td>
+<td><code>9.1.2</code></td>
+<td>Apache 2.0</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/threadpoolctl/">threadpoolctl</a></td>
+<td>threadpoolctl</td>
+<td><code>&gt;=3.1.0</code></td>
+<td><code>3.6.0</code></td>
+<td>BSD-3-Clause</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/tqdm/">tqdm</a></td>
+<td>Fast, Extensible Progress Meter</td>
+<td><code>&gt;=4.50, &lt;=4.67.1</code></td>
+<td><code>4.67.1</code></td>
+<td>MPL-2.0 AND MIT</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/typing-inspection/">typing-inspection</a></td>
+<td>Runtime typing introspection tools</td>
+<td><code>&gt;=0.4.0</code></td>
+<td><code>0.4.1</code></td>
+<td>MIT</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/typing_extensions/">typing_extensions</a></td>
+<td>Backported and Experimental Type Hints for Python 3.9+</td>
+<td><code>&gt;=4.0.1, &gt;=4, &lt;5</code></td>
+<td><code>4.14.1</code></td>
+<td>PSF-2.0</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/tzdata/">tzdata</a></td>
+<td>Provider of IANA time zone data</td>
+<td><code>&gt;=2022.7</code></td>
+<td><code>2025.2</code></td>
+<td>Apache-2.0</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/urllib3/">urllib3</a></td>
+<td>HTTP library with thread-safe connection pooling, file post, and more.</td>
+<td><code>&gt;=1.25.10, &gt;=1.21.1, &lt;3.0, &lt;3</code></td>
+<td><code>2.5.0</code></td>
+<td>MIT</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/wcwidth/">wcwidth</a></td>
+<td>Measures the displayed width of unicode strings in a terminal</td>
+<td></td>
+<td><code>0.2.13</code></td>
+<td>MIT</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/xdsmjs/">xdsmjs</a></td>
+<td>XDSMjs Python module</td>
+<td><code>&gt;=1.0.0, &lt;=2.0.0</code></td>
+<td><code>2.0.0</code></td>
+<td>Apache License, Version 2.0</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/xxhash/">xxhash</a></td>
+<td>Python binding for xxHash</td>
+<td><code>&gt;=3.0.0, &lt;=3.5.0</code></td>
+<td><code>3.5.0</code></td>
+<td>BSD</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/zipp/">zipp</a></td>
+<td>Backport of pathlib-compatible object wrapper for zip files</td>
+<td><code>&gt;=3.20</code></td>
+<td><code>3.23.0</code></td>
+<td>MIT</td>
+</tr>
+</tbody>
+</table>
+<h3 id="exec-1--development-dependencies">Development dependencies<a class="headerlink" href="#exec-1--development-dependencies" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Project</th>
+<th>Summary</th>
+<th>Version (accepted)</th>
+<th>Version (last resolved)</th>
+<th>License</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://pypi.org/project/babel/">babel</a></td>
+<td>Internationalization utilities</td>
+<td><code>~=2.10</code></td>
+<td><code>2.17.0</code></td>
+<td>BSD-3-Clause</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/backrefs/">backrefs</a></td>
+<td>A wrapper around re and regex that adds additional back references.</td>
+<td><code>~=5.7.post1</code></td>
+<td><code>5.9</code></td>
+<td>MIT</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/black/">black</a></td>
+<td>The uncompromising code formatter.</td>
+<td></td>
+<td><code>25.1.0</code></td>
+<td>MIT</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/bracex/">bracex</a></td>
+<td>Bash style brace expander.</td>
+<td><code>&gt;=2.1.1</code></td>
+<td><code>2.6</code></td>
+<td>MIT</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/certifi/">certifi</a></td>
+<td>Python package for providing Mozilla's CA Bundle.</td>
+<td><code>&gt;=2017.4.17</code></td>
+<td><code>2025.8.3</code></td>
+<td>MPL-2.0</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/charset-normalizer/">charset-normalizer</a></td>
+<td>The Real First Universal Charset Detector. Open, modern and actively maintained alternative to Chardet.</td>
+<td><code>&gt;=2, &lt;4</code></td>
+<td><code>3.4.2</code></td>
+<td>MIT</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/click/">click</a></td>
+<td>Composable command line interface toolkit</td>
+<td><code>&gt;=8.0.0</code></td>
+<td><code>8.2.1</code></td>
+<td>BSD-3-Clause</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/colorama/">colorama</a></td>
+<td>Cross-platform colored terminal text.</td>
+<td><code>~=0.4</code></td>
+<td><code>0.4.6</code></td>
+<td>BSD License</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/fieldz/">fieldz</a></td>
+<td>Utilities for providing compatibility with many dataclass-like libraries</td>
+<td><code>&gt;=0.1.0</code></td>
+<td><code>0.1.2</code></td>
+<td>BSD-3-Clause</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/ghp-import/">ghp-import</a></td>
+<td>Copy your docs directly to the gh-pages branch.</td>
+<td><code>&gt;=1.0</code></td>
+<td><code>2.1.0</code></td>
+<td>Apache Software License</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/griffe/">griffe</a></td>
+<td>Signatures for entire Python programs. Extract the structure, the frame, the skeleton of your project, to generate API documentation or find breaking changes in your API.</td>
+<td><code>&gt;=0.49</code></td>
+<td><code>1.9.0</code></td>
+<td>ISC</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/griffe-fieldz/">griffe-fieldz</a></td>
+<td>Griffe extension adding support for data-class like things (pydantic, attrs, etc...)</td>
+<td></td>
+<td><code>0.3.0</code></td>
+<td>BSD-3-Clause</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/griffe-inherited-docstrings/">griffe-inherited-docstrings</a></td>
+<td>Griffe extension for inheriting docstrings.</td>
+<td></td>
+<td><code>1.1.1</code></td>
+<td>ISC</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/idna/">idna</a></td>
+<td>Internationalized Domain Names in Applications (IDNA)</td>
+<td><code>&gt;=2.5, &lt;4</code></td>
+<td><code>3.10</code></td>
+<td>BSD License</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/importlib_metadata/">importlib_metadata</a></td>
+<td>Read metadata from Python packages</td>
+<td><code>&gt;=4.4, &gt;=3.6</code></td>
+<td><code>8.7.0</code></td>
+<td>Apache Software License</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/importlib_resources/">importlib_resources</a></td>
+<td>Read resources from Python packages</td>
+<td></td>
+<td><code>6.5.2</code></td>
+<td>Apache Software License</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/Jinja2/">Jinja2</a></td>
+<td>A very fast and expressive template engine.</td>
+<td><code>~=3.1, &gt;=3.0.0, &lt;=3.1.6</code></td>
+<td><code>3.1.6</code></td>
+<td>BSD License</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/latexcodec/">latexcodec</a></td>
+<td>A lexer and codec to work with LaTeX code in Python.</td>
+<td><code>&gt;=1.0.4</code></td>
+<td><code>3.0.1</code></td>
+<td>MIT</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/Markdown/">Markdown</a></td>
+<td>Python implementation of John Gruber's Markdown.</td>
+<td><code>~=3.2</code></td>
+<td><code>3.8.2</code></td>
+<td>BSD-3-Clause</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/markdown-exec/">markdown-exec</a></td>
+<td>Utilities to execute code blocks in Markdown files.</td>
+<td></td>
+<td><code>1.11.0</code></td>
+<td>ISC</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/MarkupSafe/">MarkupSafe</a></td>
+<td>Safely add untrusted strings to HTML/XML markup.</td>
+<td><code>&gt;=2.0.1, &gt;=2.0</code></td>
+<td><code>3.0.2</code></td>
+<td>BSD License</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/mergedeep/">mergedeep</a></td>
+<td>A deep merge function for 🐍.</td>
+<td><code>&gt;=1.3.4</code></td>
+<td><code>1.3.4</code></td>
+<td>MIT License</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/mike/">mike</a></td>
+<td>Manage multiple versions of your MkDocs-powered documentation</td>
+<td></td>
+<td><code>2.1.3</code></td>
+<td>BSD-3-Clause</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/mkdocs/">mkdocs</a></td>
+<td>Project documentation with Markdown.</td>
+<td><code>&gt;=1.2</code></td>
+<td><code>1.6.1</code></td>
+<td>BSD-2-Clause</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/mkdocs-autorefs/">mkdocs-autorefs</a></td>
+<td>Automatically link across pages in MkDocs.</td>
+<td><code>&gt;=1.4</code></td>
+<td><code>1.4.2</code></td>
+<td>ISC</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/mkdocs-bibtex/">mkdocs-bibtex</a></td>
+<td>An MkDocs plugin that enables managing citations with BibTex</td>
+<td></td>
+<td><code>4.4.0</code></td>
+<td>BSD-3-Clause-LBNL</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/mkdocs-gallery/">mkdocs-gallery</a></td>
+<td>a <code>mkdocs</code> plugin to generate example galleries from python scripts, similar to <code>sphinx-gallery</code>.</td>
+<td></td>
+<td><code>0.10.4</code></td>
+<td>BSD 3-Clause</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/mkdocs-gen-files/">mkdocs-gen-files</a></td>
+<td>MkDocs plugin to programmatically generate documentation pages during the build</td>
+<td></td>
+<td><code>0.5.0</code></td>
+<td>MIT</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/mkdocs-get-deps/">mkdocs-get-deps</a></td>
+<td>MkDocs extension that lists all dependencies according to a mkdocs.yml file</td>
+<td><code>&gt;=0.2.0</code></td>
+<td><code>0.2.0</code></td>
+<td>MIT</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/mkdocs-include-markdown-plugin/">mkdocs-include-markdown-plugin</a></td>
+<td>Mkdocs Markdown includer plugin.</td>
+<td></td>
+<td><code>7.1.6</code></td>
+<td>Apache-2.0</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/mkdocs-literate-nav/">mkdocs-literate-nav</a></td>
+<td>MkDocs plugin to specify the navigation in Markdown instead of YAML</td>
+<td></td>
+<td><code>0.6.2</code></td>
+<td>MIT</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/mkdocs-material/">mkdocs-material</a></td>
+<td>Documentation that simply works</td>
+<td></td>
+<td><code>9.6.16</code></td>
+<td>MIT</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/mkdocs-material-extensions/">mkdocs-material-extensions</a></td>
+<td>Extension pack for Python Markdown and MkDocs Material.</td>
+<td><code>~=1.3</code></td>
+<td><code>1.3.1</code></td>
+<td>MIT</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/mkdocs-section-index/">mkdocs-section-index</a></td>
+<td>MkDocs plugin to allow clickable sections that lead to an index page</td>
+<td></td>
+<td><code>0.3.10</code></td>
+<td>MIT</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/mkdocstrings/">mkdocstrings</a></td>
+<td>Automatic documentation from sources, for MkDocs.</td>
+<td></td>
+<td><code>0.30.0</code></td>
+<td>ISC</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/mkdocstrings-python/">mkdocstrings-python</a></td>
+<td>A Python handler for mkdocstrings.</td>
+<td><code>&gt;=1.16.2</code></td>
+<td><code>1.16.12</code></td>
+<td>ISC</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/mypy_extensions/">mypy_extensions</a></td>
+<td>Type system extensions for programs checked with the mypy type checker.</td>
+<td><code>&gt;=0.4.3</code></td>
+<td><code>1.1.0</code></td>
+<td>MIT</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/packaging/">packaging</a></td>
+<td>Core utilities for Python packages</td>
+<td><code>&gt;=22.0, &gt;=15, &lt;=25</code></td>
+<td><code>25.0</code></td>
+<td>Apache Software License + BSD License</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/paginate/">paginate</a></td>
+<td>Divides large result sets into pages for easier browsing</td>
+<td><code>~=0.5</code></td>
+<td><code>0.5.7</code></td>
+<td>MIT</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/pathspec/">pathspec</a></td>
+<td>Utility library for gitignore style pattern matching of file paths.</td>
+<td><code>&gt;=0.9.0</code></td>
+<td><code>0.12.1</code></td>
+<td>Mozilla Public License 2.0 (MPL 2.0)</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/platformdirs/">platformdirs</a></td>
+<td>A small Python package for determining appropriate platform-specific dirs, e.g. a <code>user data dir</code>.</td>
+<td><code>&gt;=2</code></td>
+<td><code>4.3.8</code></td>
+<td>MIT</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/pybtex/">pybtex</a></td>
+<td>A BibTeX-compatible bibliography processor in Python</td>
+<td><code>&gt;=0.22</code></td>
+<td><code>0.25.1</code></td>
+<td>MIT</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/Pygments/">Pygments</a></td>
+<td>Pygments is a syntax highlighting package written in Python.</td>
+<td><code>~=2.16</code></td>
+<td><code>2.19.2</code></td>
+<td>BSD-2-Clause</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/pygments-ansi-color/">pygments-ansi-color</a></td>
+<td></td>
+<td><code>&gt;=0.3</code></td>
+<td><code>0.3.0</code></td>
+<td>Apache Software License</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/pymdown-extensions/">pymdown-extensions</a></td>
+<td>Extension pack for Python Markdown.</td>
+<td><code>~=10.2</code></td>
+<td><code>10.16.1</code></td>
+<td>MIT</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/pypandoc/">pypandoc</a></td>
+<td>Thin wrapper for pandoc.</td>
+<td><code>&gt;=1.5</code></td>
+<td><code>1.15</code></td>
+<td>MIT</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/pyparsing/">pyparsing</a></td>
+<td>pyparsing module - Classes and methods to define and execute parsing grammars</td>
+<td><code>&gt;=3.0, &gt;=2.3.1</code></td>
+<td><code>3.2.3</code></td>
+<td>MIT License</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/python-dateutil/">python-dateutil</a></td>
+<td>Extensions to the standard Python datetime module</td>
+<td><code>&gt;=2.8.1, &gt;=2.7</code></td>
+<td><code>2.9.0.post0</code></td>
+<td>BSD License + Apache Software License</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/pytz/">pytz</a></td>
+<td>World timezone definitions, modern and historical</td>
+<td><code>&gt;=2020.1, &gt;=2015.7</code></td>
+<td><code>2025.2</code></td>
+<td>MIT</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/PyYAML/">PyYAML</a></td>
+<td>YAML parser and emitter for Python</td>
+<td><code>&gt;=5.1</code></td>
+<td><code>6.0.2</code></td>
+<td>MIT</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/pyyaml_env_tag/">pyyaml_env_tag</a></td>
+<td>A custom YAML tag for referencing environment variables in YAML files.</td>
+<td><code>&gt;=0.1</code></td>
+<td><code>1.1</code></td>
+<td>MIT</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/requests/">requests</a></td>
+<td>Python HTTP for Humans.</td>
+<td><code>~=2.26, &gt;2, &lt;3</code></td>
+<td><code>2.32.4</code></td>
+<td>Apache-2.0</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/responses/">responses</a></td>
+<td>A utility library for mocking out the <code>requests</code> Python library.</td>
+<td><code>&gt;=0.25.6</code></td>
+<td><code>0.25.7</code></td>
+<td>Apache 2.0</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/setuptools/">setuptools</a></td>
+<td>Easily download, build, install, upgrade, and uninstall Python packages</td>
+<td><code>&gt;=68.0.0</code></td>
+<td><code>80.9.0</code></td>
+<td>MIT</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/six/">six</a></td>
+<td>Python 2 and 3 compatibility utilities</td>
+<td><code>&gt;=1.5</code></td>
+<td><code>1.17.0</code></td>
+<td>MIT</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/tqdm/">tqdm</a></td>
+<td>Fast, Extensible Progress Meter</td>
+<td><code>&gt;=4.50, &lt;=4.67.1</code></td>
+<td><code>4.67.1</code></td>
+<td>MPL-2.0 AND MIT</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/typing_extensions/">typing_extensions</a></td>
+<td>Backported and Experimental Type Hints for Python 3.9+</td>
+<td><code>&gt;=4.0.1, &gt;=4, &lt;5</code></td>
+<td><code>4.14.1</code></td>
+<td>PSF-2.0</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/urllib3/">urllib3</a></td>
+<td>HTTP library with thread-safe connection pooling, file post, and more.</td>
+<td><code>&gt;=1.25.10, &gt;=1.21.1, &lt;3.0, &lt;3</code></td>
+<td><code>2.5.0</code></td>
+<td>MIT</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/validators/">validators</a></td>
+<td>Python Data Validation for Humans™</td>
+<td><code>&gt;=0.19.0</code></td>
+<td><code>0.35.0</code></td>
+<td>MIT</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/verspec/">verspec</a></td>
+<td>Flexible version handling</td>
+<td></td>
+<td><code>0.1.0</code></td>
+<td>BSD 2-Clause or Apache-2.0</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/watchdog/">watchdog</a></td>
+<td>Filesystem events monitoring</td>
+<td><code>&gt;=2.0</code></td>
+<td><code>6.0.0</code></td>
+<td>Apache-2.0</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/wcmatch/">wcmatch</a></td>
+<td>Wildcard/glob file name matcher.</td>
+<td></td>
+<td><code>10.1</code></td>
+<td>MIT</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/zipp/">zipp</a></td>
+<td>Backport of pathlib-compatible object wrapper for zip files</td>
+<td><code>&gt;=3.20</code></td>
+<td><code>3.23.0</code></td>
+<td>MIT</td>
+</tr>
+</tbody>
+</table>
+</p>
 
 
 
