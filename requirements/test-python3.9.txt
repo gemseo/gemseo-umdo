@@ -2,7 +2,7 @@
 #    uv pip compile --python-platform linux --group dev --python-version 3.9 -o requirements/test-python3.9.txt pyproject.toml --constraint requirements/test-constraints.in
 annotated-types==0.7.0
     # via pydantic
-certifi==2025.7.14
+certifi==2025.8.3
     # via requests
 charset-normalizer==3.4.2
     # via requests
@@ -10,7 +10,7 @@ contourpy==1.3.0
     # via matplotlib
 covdefaults==2.3.0
     # via gemseo-umdo (pyproject.toml:dev)
-coverage==7.10.1
+coverage==7.10.2
     # via
     #   covdefaults
     #   pytest-cov
@@ -32,7 +32,7 @@ fastjsonschema==2.21.1
     # via gemseo
 fonttools==4.59.0
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@0dd94503cc8001f10d10bc9fb77854ffc1035106
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@480f4d95fb6091bda69e88c1e51f250ca78f360e
     # via
     #   -c requirements/test-constraints.in
     #   gemseo-umdo (pyproject.toml)

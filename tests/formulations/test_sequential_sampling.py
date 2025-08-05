@@ -27,7 +27,7 @@ from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
 
 
 @pytest.mark.parametrize("estimate_statistics_iteratively", [False, True])
-def test_scenario(estimate_statistics_iteratively):
+def test_scenario(estimate_statistics_iteratively, enable_discipline_statistics):
     """Check SequentialSampling."""
     discipline = AnalyticDiscipline({"y": "(x+u)**2"}, name="quadratic_function")
     design_space = DesignSpace()
