@@ -29,6 +29,7 @@ from typing import TypeVar
 from gemseo.algos.database import Database
 from gemseo.algos.hashable_ndarray import HashableNdarray
 from gemseo.core.mdo_functions.mdo_function import MDOFunction
+from gemseo.utils.metaclasses import ABCGoogleDocstringInheritanceMeta
 
 if TYPE_CHECKING:
     from gemseo.algos.evaluation_problem import EvaluationProblem
@@ -42,7 +43,9 @@ if TYPE_CHECKING:
 UMDOFormulationT = TypeVar("UMDOFormulationT", bound="BaseUMDOFormulation")
 
 
-class BaseStatisticFunction(MDOFunction, Generic[UMDOFormulationT]):
+class BaseStatisticFunction(
+    MDOFunction, Generic[UMDOFormulationT], metaclass=ABCGoogleDocstringInheritanceMeta
+):
     """A function to estimate a statistic from a U-MDO formulation."""
 
     _output_jac_name: str
@@ -185,7 +188,6 @@ class BaseStatisticFunction(MDOFunction, Generic[UMDOFormulationT]):
             The estimation of the statistic.
         """
 
-    @abstractmethod
     def _compute_statistic_jacobian_estimation(self, data: dict[str, Any]) -> RealArray:
         """Estimate the Jacobian of the statistic.
 
@@ -195,6 +197,7 @@ class BaseStatisticFunction(MDOFunction, Generic[UMDOFormulationT]):
         Returns:
             The estimation of the Jacobian of the statistic.
         """
+        raise NotImplementedError
 
     @abstractmethod
     def _compute_data_for_statistic_estimation(
