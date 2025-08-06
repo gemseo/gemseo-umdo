@@ -7392,12 +7392,14 @@ If empty, do not save the samples.</p>
             </td>
             <td class="doc-param-details">
               <div class="doc-md-description">
-                <p>The increment of the sampling size.</p>
+                <p>Either the increment of the sampling size
+or a function computing this increment from the current sampling size.
+In the first case, the increment will be replaced by such a function.</p>
               </div>
               <p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
-                      <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>
+                      <code><span title="Annotated">Annotated</span>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a>, <span title="Gt">Gt</span>] | <a class="autorefs autorefs-external" title="typing.Callable" href="https://docs.python.org/3/library/typing.html#typing.Callable">Callable</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#list">list</a>, <span title="Annotated">Annotated</span>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a>, <span title="Gt">Gt</span>]]</code>
                   </span>
                   <span class="doc-param-default">
                     <b>DEFAULT:</b>

@@ -7267,11 +7267,11 @@ with only 10 samples.</p>
 <p>Read the <a href="https://gemseo.readthedocs.io/en/stable/doe.html#algorithms">GEMSEO documentation</a>
 for more information about the available DOE algorithms.</p>
 </div>
-<p>The number of samples can be changed with the parameter <code>n_samples</code>
+<p>This maximum number of samples can be changed with the parameter <code>n_samples</code>
 and the DOE algorithm name can be changed with the parameter <code>doe_algo_settings</code>,
 which is a Pydantic model deriving from <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.doe.base_doe_settings.html#gemseo.algos.doe.base_doe_settings.BaseDOESettings">BaseDOESettings</a>.
 When <code>n_samples</code> is <code>None</code> (default) and <code>doe_algo_settings</code> has a field <code>n_samples</code>,
-then this field is considered.
+then this field is considered as the maximum number of samples.
 When <code>doe_algo_settings</code> has a field <code>seed</code> and its value is <code>None</code>,
 then the U-MDO formulation will use <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.utils.seeder.html#gemseo.utils.seeder.SEED">SEED</a>.</p>
 <div class="admonition note">
@@ -7293,10 +7293,13 @@ e.g.</p>
 </div>
 <h3 id="sampling-size-profile">Sampling size profile<a class="headerlink" href="#sampling-size-profile" title="Permanent link">&para;</a></h3>
 <p>By default,
-the number of samples is equal to 1 at the first iteration
+the number of samples is equal to 2 at the first iteration
 and is incremented by 1 at each iteration of the optimization loop.</p>
 <p>These values can be changed with the statistic estimation parameters
-<code>initial_n_samples</code> and <code>n_samples_increment</code>.</p>
+<code>initial_n_samples</code> and <code>n_samples_increment</code>.
+In particular,
+<code>n_samples_increment</code> can be either the increment of the sampling size
+or a function computing this increment from the current sampling size.</p>
 <h2 id="statistics">Statistics<a class="headerlink" href="#statistics" title="Permanent link">&para;</a></h2>
 <p>This U-MDO formulation has been implemented
 for the expectation, the standard deviation, the variance, the margin and the probability,

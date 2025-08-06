@@ -8628,10 +8628,10 @@ If <code>None</code>, the discipline is detected from inner disciplines.</p>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">compute_samples</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span> <span class="n">input_data</span><span class="p">,</span> <span class="n">compute_jacobian</span><span class="o">=</span><span class="n">compute_jacobian</span><span class="p">)</span>
     <span class="n">doe_algo_settings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_settings</span><span class="o">.</span><span class="n">doe_algo_settings</span>
-    <span class="k">if</span> <span class="n">doe_algo_settings</span><span class="o">.</span><span class="n">n_samples</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">__final_n_samples</span><span class="p">:</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">n_samples</span> <span class="o">:=</span> <span class="n">doe_algo_settings</span><span class="o">.</span><span class="n">n_samples</span><span class="p">)</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">__final_n_samples</span><span class="p">:</span>
         <span class="n">doe_algo_settings</span><span class="o">.</span><span class="n">n_samples</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__final_n_samples</span><span class="p">,</span>
-            <span class="n">doe_algo_settings</span><span class="o">.</span><span class="n">n_samples</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_settings</span><span class="o">.</span><span class="n">n_samples_increment</span><span class="p">,</span>
+            <span class="n">n_samples</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_settings</span><span class="o">.</span><span class="n">n_samples_increment</span><span class="p">(</span><span class="n">n_samples</span><span class="p">),</span>
         <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
