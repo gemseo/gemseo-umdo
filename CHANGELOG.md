@@ -38,6 +38,10 @@ and this project adheres to
   In the case of bi-level formulations,
   it may be preferable to use this function directly rather than through this argument,
   as illustrated in an example of the documentation.
+- The argument `n_samples_increment` of
+  the [SequentialSampling][gemseo_umdo.formulations.sampling.Sampling] U-MDO formulation
+  can be either the increment of the sampling size
+  or a function computing this increment from the current sampling size.
 
 ### Fixed
 
