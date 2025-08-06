@@ -46,11 +46,11 @@ with only 10 samples.
     Read the [GEMSEO documentation](https://gemseo.readthedocs.io/en/stable/doe.html#algorithms)
     for more information about the available DOE algorithms.
 
-The number of samples can be changed with the parameter `n_samples`
+This maximum number of samples can be changed with the parameter `n_samples`
 and the DOE algorithm name can be changed with the parameter `doe_algo_settings`,
 which is a Pydantic model deriving from [BaseDOESettings][gemseo.algos.doe.base_doe_settings.BaseDOESettings].
 When `n_samples` is `None` (default) and `doe_algo_settings` has a field `n_samples`,
-then this field is considered.
+then this field is considered as the maximum number of samples.
 When `doe_algo_settings` has a field `seed` and its value is `None`,
 then the U-MDO formulation will use [SEED][gemseo.utils.seeder.SEED].
 
@@ -75,11 +75,14 @@ then the U-MDO formulation will use [SEED][gemseo.utils.seeder.SEED].
 ### Sampling size profile
 
 By default,
-the number of samples is equal to 1 at the first iteration
+the number of samples is equal to 2 at the first iteration
 and is incremented by 1 at each iteration of the optimization loop.
 
 These values can be changed with the statistic estimation parameters
 `initial_n_samples` and `n_samples_increment`.
+In particular,
+`n_samples_increment` can be either the increment of the sampling size
+or a function computing this increment from the current sampling size.
 
 ## Statistics
 
