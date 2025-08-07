@@ -7262,6 +7262,9 @@ using surrogate models.</p>
 a surrogate model is built over the uncertain space
 and Monte Carlo sampling is used to estimate specific statistics,
 namely mean, standard deviation, variance, probability and margin.</p>
+<p>The quality of the surrogate model is logged
+and stored in the database attached to the scenario
+(see <code>scenario.formulation.optimization_problem.database</code>).</p>
 <p>Here is a typical scenario template:</p>
 <div class="highlight"><pre><span></span><code><span class="n">scenario</span> <span class="o">=</span> <span class="n">UMDOScenario</span><span class="p">(</span>
     <span class="n">disciplines</span><span class="p">,</span>
