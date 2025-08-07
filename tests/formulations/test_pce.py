@@ -211,15 +211,15 @@ def test_quality(caplog, pce_regressor, ishigami_problem):
         module == "gemseo_umdo.formulations._functions.statistic_function_for_surrogate"
     )
     assert level == logging.WARNING
-    regex = r" {12}y\[0\]: \d+\.\d+<0\.9 \(train\) - -\d+\.\d+<0\.8 \(test\)"
+    regex = r" {12}y\[0\]: \d+\.\d+<0\.9 \(learning\) - -\d+\.\d+<0\.8 \(test\)"
     assert re.match(regex, message)
 
 
 @pytest.mark.parametrize(
     ("quality_cv_compute", "regex"),
     [
-        (False, r" {12}y\[0\]: \d+\.\d+>0\.9 \(train\)"),
-        (True, r" {12}y\[0\]: \d+\.\d+>0\.9 \(train\) - \d+\.\d+>0\.8 \(test\)"),
+        (False, r" {12}y\[0\]: \d+\.\d+>0\.9 \(learning\)"),
+        (True, r" {12}y\[0\]: \d+\.\d+>0\.9 \(learning\) - \d+\.\d+>0\.8 \(test\)"),
     ],
 )
 def test_quality_cv(caplog, pce_regressor, ishigami_problem, quality_cv_compute, regex):
@@ -285,31 +285,31 @@ def test_quality_cv_options(pce_regressor, ishigami_problem):
             0.9,
             0.9,
             logging.WARNING,
-            r" {12}y\[0\]: \d+\.\d+<0\.9 \(train\) - -\d+\.\d+<0\.9 \(test\)",
+            r" {12}y\[0\]: \d+\.\d+<0\.9 \(learning\) - -\d+\.\d+<0\.9 \(test\)",
             True,
         ),
         (
             0.3,
             {"y": [0.9]},
             logging.WARNING,
-            r" {12}y\[0\]: \d+\.\d+>=0\.3 \(train\) - -\d+\.\d+<0\.9 \(test\)",
+            r" {12}y\[0\]: \d+\.\d+>=0\.3 \(learning\) - -\d+\.\d+<0\.9 \(test\)",
             True,
         ),
         (
             {"y": 0.9},
             -2.0,
             logging.WARNING,
-            r" {12}y\[0\]: \d+\.\d+<0\.9 \(train\) - -\d+\.\d+>=-2.0 \(test\)",
+            r" {12}y\[0\]: \d+\.\d+<0\.9 \(learning\) - -\d+\.\d+>=-2.0 \(test\)",
             True,
         ),
         (
             0.3,
             -2.0,
             logging.INFO,
-            r" {12}y\[0\]: \d+\.\d+>=0\.3 \(train\) - -\d+\.\d+>=-2.0 \(test\)",
+            r" {12}y\[0\]: \d+\.\d+>=0\.3 \(learning\) - -\d+\.\d+>=-2.0 \(test\)",
             True,
         ),
-        (0.9, 0.9, logging.WARNING, r" {12}y\[0\]: \d+\.\d+<0\.9 \(train\)", False),
+        (0.9, 0.9, logging.WARNING, r" {12}y\[0\]: \d+\.\d+<0\.9 \(learning\)", False),
     ],
 )
 def test_quality_log_level(

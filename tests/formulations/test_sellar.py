@@ -27,6 +27,7 @@ from gemseo.problems.mdo.sellar.sellar_system import SellarSystem
 from gemseo.scenarios.doe_scenario import DOEScenario
 from numpy.testing import assert_almost_equal
 
+from gemseo_umdo.formulations.surrogate_settings import Surrogate_Settings
 from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
 
 if TYPE_CHECKING:
@@ -162,6 +163,7 @@ def test_weak_uncertainties(
     statistic_estimation_settings,
     maximize_objective,
     scenario_input_data,
+    size,
 ):
     """Check that the UDOEScenario and DOEScenario give the same results.
 
@@ -183,4 +185,7 @@ def test_weak_uncertainties(
     u_doe_scenario.add_constraint("c_2", "Mean")
     u_doe_scenario.execute(**scenario_input_data)
     data = u_doe_scenario.to_dataset().to_numpy()
+    if isinstance(statistic_estimation_settings, Surrogate_Settings):
+        data = data[:, 0:7] if size == 1 else data[:, 0:11]
+
     assert_almost_equal(data, reference_data, decimal=5)

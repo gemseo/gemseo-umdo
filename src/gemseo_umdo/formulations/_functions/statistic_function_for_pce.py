@@ -111,7 +111,7 @@ class StatisticFunctionForPCE(StatisticFunctionForSurrogate[PCET]):
             data[self.__get_statistic_jac_name(std_arg_name)] = jac_std
             data[self.__get_statistic_jac_name(var_arg_name)] = jac_var
 
-        self._log_regressor_quality(pce)
+        self._log_regressor_quality(pce, input_data)
         return data
 
     @staticmethod

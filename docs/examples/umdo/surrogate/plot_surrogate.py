@@ -35,6 +35,7 @@ from gemseo import configure_logger
 from gemseo.algos.design_space import DesignSpace
 from gemseo.algos.parameter_space import ParameterSpace
 from gemseo.disciplines.analytic import AnalyticDiscipline
+from gemseo.post.dataset.lines import Lines
 
 from gemseo_umdo.formulations.surrogate_settings import Surrogate_Settings
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
@@ -87,3 +88,12 @@ scenario.post_process(post_name="OptHistoryView", save=False, show=True)
 
 # %%
 # is close to the theoretical solution $(x^*,\mathbb{E}[(x^*+U)^2])=(0,1)$.
+
+# %%
+# Lastly,
+# we can plot the history of the quality of the surrogate model.
+# The quality metric is the R2 score
+# and the test quality is estimated by cross-validation.
+dataset = scenario.to_dataset()
+lines = Lines(dataset, variables=["y_learning_quality", "y_test_quality"])
+lines.execute(save=False)

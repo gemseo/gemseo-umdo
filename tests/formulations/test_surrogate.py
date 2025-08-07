@@ -186,3 +186,7 @@ def test_scenario(quadratic_problem, statistic_estimation_parameters, y_opt):
     scenario.execute(algo_name="CustomDOE", samples=array([[1.0]]))
     assert_almost_equal(scenario.optimization_result.x_opt, array([1.0]))
     assert_almost_equal(scenario.optimization_result.f_opt, y_opt)
+    last_item = scenario.formulation.optimization_problem.database.last_item
+    assert last_item.keys() == {"y_learning_quality", "y_test_quality", "E[y]"}
+    assert last_item["y_learning_quality"].shape == (1,)
+    assert last_item["y_test_quality"].shape == (1,)

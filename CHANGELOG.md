@@ -42,6 +42,10 @@ and this project adheres to
   the [SequentialSampling][gemseo_umdo.formulations.sampling.Sampling] U-MDO formulation
   can be either the increment of the sampling size
   or a function computing this increment from the current sampling size.
+- The U-MDO formulations [Surrogate][gemseo_umdo.formulations.surrogate.Surrogate]
+  and [PCERegressor][gemseo.mlearning.regression.algos.pce.PCERegressor]
+  store the quality of the surrogate models in the database attached to the scenario
+  (see `scenario.formulation.optimization_problem.database`).
 
 ### Fixed
 
