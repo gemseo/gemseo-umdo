@@ -18,6 +18,10 @@ a surrogate model is built over the uncertain space
 and Monte Carlo sampling is used to estimate specific statistics,
 namely mean, standard deviation, variance, probability and margin.
 
+The quality of the surrogate model is logged
+and stored in the database attached to the scenario
+(see `scenario.formulation.optimization_problem.database`).
+
 Here is a typical scenario template:
 
 ``` py
@@ -70,7 +74,7 @@ and `regressor_n_samples` to `100` to estimate the statistics with 100 Monte Car
 !!! note "API"
     Use `statistic_estimation_settings`
     to set the DOE algorithm and the surrogate's options,
-    _e.g._
+    e.g.
 
     ``` py
     settings = Surrogate_Settings(
@@ -112,10 +116,10 @@ This U-MDO formulation has been implemented
 for the expectation, the standard deviation, the variance, the margin and the probability,
 by sampling the surrogate model $\widehat{\varphi}$ of $\varphi$.
 
-| Statistic          | Notation                         | Estimator                                                                                                                                        |
-|--------------------|----------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
-| Mean               | $\mathbb{E}[\varphi(x,U)]$       | $E_{\textrm{Surrogate}}[\varphi(x,U)]=\frac{1}{N}\sum_{i=1}^N\widehat{\varphi}(x,U^{(i)})$                                                       |
-| Variance           | $\mathbb{V}[\varphi(x,U)]$       | $V_{\textrm{Surrogate}}[\varphi(x,U)]=\frac{1}{N-1}\sum_{i=1}^N\left(\widehat{\varphi}(x,U^{(i)})-E_{\textrm{Surrogate}}[\varphi(x,U)]\right)^2$ |
-| Standard deviation | $\mathbb{S}[\varphi(x,U)]$       | $S_{\textrm{PCE}}[\varphi(x,U)]=\sqrt{V_{\textrm{Surrogate}}[\varphi(x,U)]}$                                                                     |
-| Margin             | $\textrm{Margin}[\varphi(x,U)]$  | $\textrm{Margin}_{\textrm{Surrogate}}[\varphi(x,U)]=E_{\textrm{Surrogate}}[\varphi(x,U)] + \kappa \times S_{\textrm{Surrogate}}[\varphi(x,U)]$   |
-| Probability        | $\mathbb{P}[\varphi(x,U)\leq 0]$ | $P_{\textrm{PCE}}[\varphi(x,U)\leq 0]=E_N[\mathbb{1}_{\widehat{\varphi}(x,U)\leq 0}]$                                                            |
+| Statistic          | Notation                         | Estimator                                                                                                                                         |
+|--------------------|----------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|
+| Mean               | $\mathbb{E}[\varphi(x,U)]$       | $E_{\textrm{Surrogate}}[\varphi(x,U)]=\frac{1}{N}\sum_{i=1}^N\widehat{\varphi}(x,u^{(i)})$                                                        |
+| Variance           | $\mathbb{V}[\varphi(x,U)]$       | $V_{\textrm{Surrogate}}[\varphi(x,U)]=\frac{1}{N-1}\sum_{i=1}^N\left(\widehat{\varphi}(x,u^{(i)})-E_{\textrm{Surrogate}}[\varphi(x,U)]\right)^2$ |
+| Standard deviation | $\mathbb{S}[\varphi(x,U)]$       | $S_{\textrm{PCE}}[\varphi(x,U)]=\sqrt{V_{\textrm{Surrogate}}[\varphi(x,U)]}$                                                                      |
+| Margin             | $\textrm{Margin}[\varphi(x,U)]$  | $\textrm{Margin}_{\textrm{Surrogate}}[\varphi(x,U)]=E_{\textrm{Surrogate}}[\varphi(x,U)] + \kappa \cdot S_{\textrm{Surrogate}}[\varphi(x,U)]$     |
+| Probability        | $\mathbb{P}[\varphi(x,U)\leq 0]$ | $P_{\textrm{PCE}}[\varphi(x,U)\leq 0]=E_N[\mathbb{1}_{\widehat{\varphi}(x,U)\leq 0}]$                                                             |

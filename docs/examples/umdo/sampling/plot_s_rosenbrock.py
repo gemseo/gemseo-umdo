@@ -68,9 +68,7 @@ scenario = UMDOScenario(
     uncertain_space,
     "Mean",
     formulation_name="DisciplinaryOpt",
-    statistic_estimation_settings=Sampling_Settings(
-        n_samples=30, estimate_statistics_iteratively=False
-    ),
+    statistic_estimation_settings=Sampling_Settings(n_samples=30),
 )
 
 # %%

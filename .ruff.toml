@@ -98,6 +98,7 @@ select = [
 [lint.flake8-type-checking]
 runtime-evaluated-base-classes = [
     "pydantic.BaseModel",
+    "pydantic_settings.BaseSettings",
     "gemseo.core.grammars.pydantic_ndarray.BaseModelWithNDArray",
 ]
 

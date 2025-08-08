@@ -29,9 +29,9 @@ $$
 \end{align}
 $$
 
-where $f:\mathcal{X}\mapsto\mathbb{R}$,
-$g:\mathcal{X}\mapsto\mathbb{R}^{p_g}$
-and $h:\mathcal{X}\mapsto\mathbb{R}^{p_h}$.
+where $f:\mathcal{X}\to\mathbb{R}$,
+$g:\mathcal{X}\to\mathbb{R}^{p_g}$
+and $h:\mathcal{X}\to\mathbb{R}^{p_h}$.
 
 Any optimization problem of the form
 
@@ -46,7 +46,7 @@ $$
 \end{align}
 $$
 
-can be reduced to this standard optimization problem:
+can be reduced to such a standard optimization problem:
 
 - an objective to minimize,
 - upper inequality constraints with bounds equal to 0,
@@ -94,22 +94,91 @@ can be reduced to this standard optimization problem:
         execute_algo(problem, algo_name="PYDOE_FULLFACT", n_samples=10, algo_type="doe")
         ```
 
+
+### Optimization problem under uncertainty
+
+The models are often subject to uncertainties.
+There are different ways of classifying and modeling uncertainties.
+GEMSEO-UMDO uses the probability theory
+to model both the aleatory and epistemic uncertainties as random variables.
+
+Then,
+the objective $f(x,U)$ and the constraints $g(x,U)$ and $h(x,U)$,
+where $U$ denotes random inputs,
+are in turn random variables
+and the standard optimization problem is replaced by
+
+$$
+\begin{align}
+&\underset{x\in\mathcal{X}}{\operatorname{minimize}}& & \mathbb{K}_f[f(x,U)] \\
+&\operatorname{subject\;to}
+& &\mathbb{K}_g[g(x,U)] \leq 0 \\
+&&&\mathbb{K}_h[h(x,U)] = 0
+\end{align}
+$$
+
+where $\mathbb{K}_f$, $\mathbb{K}_g$ and $\mathbb{K}_h$ are statistic operators,
+e.g.
+
+- the expectation operator $\mathbb{E}$,
+- the standard deviation operator $\mathbb{S}$,
+- the variance operator $\mathbb{V}$,
+- a margin, i.e. a combination of expectation and standard deviation operators parametrized by a weight $\kappa$: $\mathbb{E}+\kappa\cdot\mathbb{S}$,
+- a probability operator $\mathbb{P}$ parametrized by bounds $m$ and $M$.
+
+In practice,
+the statistics $\mathbb{K}_f[f(x,U)]$, $\mathbb{K}_g[g(x,U)]$ and $\mathbb{K}_h[h(x,U)]$ are unknown
+and the operators $\mathbb{K}_f$, $\mathbb{K}_g$ and $\mathbb{K}_h$ are replaced
+by data-based operators $\widehat{\mathbb{K}}_f$, $\widehat{\mathbb{K}}_g$ and $\widehat{\mathbb{K}}_h$.
+For example,
+in the case of the expectation operator $\mathbb{E}$ and the Monte Carlo (MC) sampling technique,
+the statistic $\mathbb{E}[f(x,U)]$ is replaced
+by the statistic estimator $\widehat{\mathbb{E}}[f(x,U)]=\frac{1}{N}\sum_{i=1}^Nf(x,u^{(i)})$
+where $u^{(1)},\ldots,u^{(N)}$ are $N$ independent realizations of $U$.
+
+Typically,
+a margin is applied to the objective to ensure a robust optimum $x^*$.
+Indeed, minimizing margin $\mathbb{E}[f(x,U)]+\kappa\cdot\mathbb{S}[f(x,U)]$ pushes towards a compromise between
+
+1. a small value of $f(x^*,u)$ by minimizing $\mathbb{E}[f(x,U)]$,
+2. a small dispersion around $f(x^*,u)$ by minimizing $\mathbb{S}[f(x,U)]$.
+
+For reliability purposes,
+probabilities could be applied to inequality constraints,
+e.g. $\mathbb{P}[g(x,U)\geq\epsilon]$ or $\mathbb{P}[g(x,u)>0]-\varepsilon$,
+or equality constraints,
+e.g. $\mathbb{P}[|h(x,U)|\geq\epsilon]$.
+
+!!! note "Margin under normal assumption"
+
+    When $\phi(x,U)$ is normally distributed,
+    the margin $\mathbb{E}[\phi(x,U)]+q_\alpha\cdot\mathbb{S}[\phi(x,U)]$
+    corresponds to the $\alpha$-quantile of $\phi(x,U)$
+    where $q_\alpha$ is the $\alpha$-quantile
+    of the standard Gaussian distribution.
+    For that reason,
+    2 or 3 are common candidates for $\kappa$
+    as in this case,
+    the margins correspond to
+    the 0.975- and 0.999- quantiles of $\phi(x,U)$ respectively.
+
 ### Multidisciplinary optimization (MDO) problem
 
 In complex systems,
-the quantities $f(x)$, $g(x)$ and $h(x)$ are often computed by $D$ models,
+the quantities $f(x)$, $g(x)$ and $h(x)$ are often computed by $M$ models,
 called *disciplines*,
 which can be weakly or strongly coupled.
 The vector $x$ can be split into
 
 - a sub-vector $x_0$ shared by at least two disciplines,
-- sub-vectors $x_i$, each specific to a discipline $i$.
+- sub-vectors $x_{1\ldots M}=\{x_1,\ldots,x_M\}$, where $x_i$ is specific to the $i$-th discipline.
 
-The problem is then called a multidisciplinary optimization (MDO) problem
+Then,
+the problem can be rewritten as the multidisciplinary optimization (MDO) problem
 
 $$
 \begin{align}
-&\underset{x\in\mathcal{X},y\in\mathcal{Y}}{\operatorname{minimize}}&&f(x,y)\\
+&\underset{x\in\mathcal{X},\,y\in\mathcal{Y}}{\operatorname{minimize}}&&f(x,y)\\
 &\operatorname{subject\;to}
 & &g(x,y) \leq 0 \\
 &&&h(x,y) = 0 \\
@@ -118,14 +187,12 @@ $$
 $$
 
 where $c_i:x_0,x_i,y_{-i}\mapsto y_i$ represents the $i$-th discipline
-with $y_{-i}=\{y_j, 1\leq j\neq i \leq D\}$.
+with $y_{-i}=\{y_j\}_{j\in\{1,\ldots,M\}\setminus\{i\}}$.
 
 This MDO problem implies that
 the optimum $(x^*,y^*)$ must be multidisciplinary feasible,
-i.e. satisfying the coupling equations $y^*=c(x^*,y^*)$.
-Solving these equations is called a
-*multidisciplinary analysis*
-(MDA).
+i.e. satisfying the coupling equations $y=c(x,y)$.
+Solving a non-linear equation system is called a *multidisciplinary analysis* (MDA).
 
 ??? example "Example: MDA with linear disciplines"
 
@@ -148,151 +215,247 @@ Solving these equations is called a
 In the case of non-linear disciplines,
 the MDA can be solved with Newton's method or a fixed-point technique.
 
-Last but not least,
-the efficient resolution of an MDO problem involves
+### MDO formulations
+
+The efficient resolution of an MDO problem involves
 finding a suitable rewriting of the problem,
-called *MDO formulation* or *architecture*[@MartinsSurvey].
+called *MDO formulation* or *architecture*[@MartinsSurvey],
+which is accompanied by a characteristic process (workflow and dataflow).
+We present some MDO formulations just after,
+with a very simple version under uncertainty
+where the statistics are estimated by MC sampling using $N$ realizations of $U$.
+More advanced estimation techniques can be found in GEMSEO-UMDO.
 
-- The MDF (multidisciplinary feasible) formulation is certainly the best-known.
-  This architecture performs an MDA at each iteration of the optimization loop
-  and is thus qualified as *coupled*.
+#### MDF
 
-    $$
-    \begin{align}
-    &\underset{x\in\mathcal{X}}{\operatorname{minimize}}&&f(x,y(x))\\
-    &\operatorname{subject\;to}
-    & &g(x,y(x)) \leq 0 \\
-    &&&h(x,y(x)) = 0 \\
-    &&&y(x)=c(x,y(x)).
-    \end{align}
-    $$
-
-- The IDF (individual disciplinary feasible) formulation is also popular.
-  This architecture evaluates the disciplines independently
-  at each iteration of the optimization loop
-  and is thus qualified as *uncoupled*.
-  The multidisciplinary feasibility is ensured
-  at convergence of the optimization algorithm
-  by means of consistency constraints.
-
-    $$
-    \begin{align}
-    &\underset{x\in\mathcal{X},\tilde{y}\in\mathcal{Y}}{\operatorname{minimize}}&&f(x,\tilde{y})\\
-    &\operatorname{subject\;to}
-    & &g(x,\tilde{y}) \leq 0 \\
-    &&&h(x,\tilde{y}) = 0 \\
-    &&&\tilde{y} = c(x,\tilde{y}).
-    \end{align}
-    $$
-
-- Bi-level formulations[@Gazaix2019] split the optimization problem
-  into a top-level optimization problem controlling the shared variable $x_0$
-  and a collection of sub-optimization problems
-  whose $i$-th controls the local variable $x_i$.
-
-!!! note "API"
-
-    [GEMSEO](https://www.gemseo.org) offers implementations for the
-    [MDF][gemseo.formulations.mdf.MDF],
-    [IDF][gemseo.formulations.idf.IDF]
-    and [BiLevel][gemseo.formulations.bilevel.BiLevel] formulations.
-
-    ??? example "Example: MDF applied to the Sellar problem"
-
-        ``` py
-          from gemseo import create_scenario
-          from gemseo.algos.design_space import DesignSpace
-          from gemseo.disciplines.analytic import AnalyticDiscipline
-
-          disciplines = [
-              AnalyticDiscipline({"y_1": "(z1**2+z2+x-0.2*y2)**0.5"}, "Sellar1"),
-              AnalyticDiscipline({"y_2": "abs(y1)+z1+z2"}, "Sellar2"),
-              AnalyticDiscipline(
-                  {
-                      "f": "x**2+z2+y**2+exp(-y_2)",
-                      "c1": "3.16-y1**2",
-                      "c2": "y2-24"
-                  },
-                  "SellarSystem"
-              )
-          ]
-
-          design_space = DesignSpace()
-          design_space.add_variable("x", lower_bound=0.0, upper_bound=10.0, value=1)
-          design_space.add_variable("z1", lower_bound=-10, upper_bound=10.0, value=4.0)
-          design_space.add_variable("z2", lower_bound=0.0, upper_bound=10.0, value=3.0)
-
-          scenario = create_scenario(disciplines, "MDF", "f", design_space)
-          scenario.add_constraint("c1", "ineq")
-          scenario.add_constraint("c2", "ineq")
-          scenario.execute(algo_name="SLSQP", max_iter=100)
-        ```
-
-### Optimization problem under uncertainty
-
-The models are often subject to uncertainties
-There are different ways of classifying uncertainties
-and different ways of modeling them.
-However,
-GEMSEO-UMDO is limited to the probability theory
-for the sake of simplicity
-and because this framework is the most popular and has proved its worth.
-And so,
-the uncertainties are modelled by random variables.
-
-Then,
-the objective $f(x,U)$ and the constraints $g(x,U)$ and $h(x,U)$,
-where $U$ denotes random inputs,
-are in turn random variables
-and the standard optimization problem is replaced by
+The MDF (multidisciplinary feasible) formulation of the MDO problem is certainly the best-known:
 
 $$
 \begin{align}
-&\underset{x\in\mathcal{X}}{\operatorname{minimize}}& & \mathbb{K}_f[f(x,U)] \\
+&\underset{x\in\mathcal{X}}{\operatorname{minimize}}&&f(x,y(x))\\
 &\operatorname{subject\;to}
-& &\mathbb{K}_g[g(x,U)] \leq 0 \\
-&&&\mathbb{K}_h[h(x,U)] = 0
+& &g(x,y(x)) \leq 0 \\
+&&&h(x,y(x)) = 0. \\
 \end{align}
 $$
 
-where $\mathbb{K}_f$, $\mathbb{K}_g$ and $\mathbb{K}_h$ are statistics.
+This architecture performs an MDA at each design point $x$,
+which, by the implicit function theorem, allows us to rewrite $y$ as $y(x)$, a function of $x$.
+Because of this point-by-point coupling management,
+the MDF formulation is qualified as *coupled*.
 
-The statistic of a function $\phi$ can be
-the expectation $\mathbb{E}[\phi(x,U)]$,
-the standard deviation $\mathbb{S}[\phi(x,U)]$,
-the variance $\mathbb{V}[\phi(x,U)]$,
-a margin $\mathbb{E}[\phi(x,U)]+\kappa\times\mathbb{S}[\phi(x,U)]$
-or a probability $\mathbb{P}[m \leq \phi(x,U)\leq M]$.
-For the inequality constraints,
-$\mathbb{K}_g[g(x,U)]$ could be
-$\mathbb{P}[g(x,U)\geq\epsilon]$
-or $\mathbb{P}[g(x,U)\geq 0]-\varepsilon$.
-For the equality constraints,
-$\mathbb{K}_h[h(x,U)]$ could be
-$\mathbb{P}[|h(x,U)|\geq\epsilon]$.
+In presence of uncertainties,
+we have:
 
-!!! note
+$$
+\begin{align}
+&\underset{x\in\mathcal{X}}{\operatorname{minimize}}&&\mathbb{K}_f[f(x,y(x,U),U)]\\
+&\operatorname{subject\;to}
+& &\mathbb{K}_g[g(x,y(x,U),U)] \leq 0 \\
+&&&\mathbb{K}_h[h(x,y(x,U),U)] = 0. \\
+\end{align}
+$$
 
-    When $\phi(x,U)$ is normally distributed,
-    the margin $\mathbb{E}[\phi(x,U)]+q_\alpha\times\mathbb{S}[\phi(x,U)]$
-    corresponds to the $\alpha$-quantile of $\phi(x,U)$
-    where $q_\alpha$ is the $\alpha$-quantile
-    of the standard Gaussian distribution.
-    For that reason,
-    2 or 3 are common candidates for $\kappa$
-    as in this case,
-    the margins correspond to
-    the 0.975- and 0.999- quantiles of $\phi(x,U)$ respectively.
+Here is a naive MC version:
 
-Typically,
-a margin is applied to the objective to ensure a robust optimum $x^*$:
+$$
+\begin{align}
+&\underset{x\in\mathcal{X}}{\operatorname{minimize}}&&\widehat{\mathbb{K}}_f[f(x,y(x,U),U)]\\
+&\operatorname{subject\;to}
+& &\widehat{\mathbb{K}}_g[g(x,y(x,U),U)] \leq 0 \\
+&&&\widehat{\mathbb{K}}_h[h(x,y(x,U),U)] = 0. \\
+\end{align}
+$$
 
-- a small value of $f(x^*,u)$ by minimizing $\mathbb{E}[f(x,U)]$,
-- whatever the realization $u$ of $U$ by minimizing $\mathbb{S}[f(x,U)]$.
+where $\widehat{\mathbb{K}}_{\phi}[\phi(x,y(x,U),U)]$ is written
+from the samples $\{\phi\!\left(x,y\!\left(x,u^{(i)}\right),u^{(i)}\right)\}_{i\in\{1,\ldots,N\}}$.
+
+Note that the MDA is performed sample by sample,
+thus multiplying the computational cost of an iteration of the optimization loop by $N$
+with respect to the uncertainty-free case (without considering possible parallelizations).
+
+#### IDF
+
+The IDF (individual disciplinary feasible) formulation is also popular:
+
+$$
+\begin{align}
+&\underset{x\in\mathcal{X},\,\tilde{y}\in\mathcal{Y}}{\operatorname{minimize}}&&f(x,c(x,\tilde{y}))\\
+&\operatorname{subject\;to}
+& &g(x,c(x,\tilde{y})) \leq 0 \\
+&&&h(x,c(x,\tilde{y})) = 0 \\
+&&&\tilde{y} = c(x,\tilde{y}).
+\end{align}
+$$
+
+This architecture evaluates the disciplines independently
+at each iteration of the optimization loop
+and is thus qualified as *uncoupled*.
+The multidisciplinary feasibility is ensured
+at convergence of the optimization algorithm
+by means of the consistency constraints $\tilde{y} = c(x,\tilde{y})$
+and the additional optimization variables $\tilde{y}$.
+
+In presence of uncertainties,
+we have:
+
+$$
+\begin{align}
+&\underset{x\in\mathcal{X},\,\tilde{Y}}{\operatorname{minimize}}&&\mathbb{K}_f[f(x,c(x,\tilde{Y},U),U)]\\
+&\operatorname{subject\;to}
+& &\mathbb{K}_g[g(x,c(x,\tilde{Y},U),U)] \leq 0 \\
+&&&\mathbb{K}_h[h(x,c(x,\tilde{Y},U),U)] = 0 \\
+&&&\tilde{Y} = c(x,\tilde{Y},U).
+\end{align}
+$$
+
+where $\tilde{Y}$ is a random variable.
+
+Here is a naive MC version:
+
+$$
+\begin{align}
+&\underset{x\in\mathcal{X},\tilde{y}^{(1)},\ldots,\tilde{y}^{(N)}}{\operatorname{minimize}}&&\widehat{\mathbb{K}}_f[f(x,c(x,\tilde{Y},U),U]\\
+&\operatorname{subject\;to}
+& &\widehat{\mathbb{K}}_g[g(x,c(x,\tilde{Y},U),U] \leq 0 \\
+&&&\widehat{\mathbb{K}}_h[h(x,c(x,\tilde{Y},U),U] = 0 \\
+&&&\tilde{y}^{(1)} = c\!\left(x,\tilde{y}^{(1)},u^{(1)}\right) \\
+&&&\vdots\\
+&&&\tilde{y}^{(N)} = c\!\left(x,\tilde{y}^{(N)},u^{(N)}\right).
+\end{align}
+$$
+
+where $\widehat{\mathbb{K}}_{\phi}[\phi(x,c(x,\tilde{Y},U),U)]$ is written
+from the samples $\{\phi\!\left(x,c\!\left(x,\tilde{y}^{(i)},u^{(i)}\right),u^{(i)}\right)\}_{i\in\{1,\ldots,N\}}$.
+
+Note that the dimension of the consistency constraints space
+as well as the dimension of the additional optimization variables space
+increases by a factor of $N$,
+which can be very problematic,
+especially when the dimension of the coupling variables space is large.
+
+#### Bi-level
+
+Bi-level formulations split the optimization problem
+into a top-level optimization problem controlling the shared design variables $x_0$
+and a sublevel optimization problem controlling the local design variables $x_{1\ldots M}$.
+
+In particular,
+Gazaix *et al.* (2019)[@Gazaix2019] proposed to
+rewrite the initial MDO problem into a sequence of bi-level optimization problems
+whose sublevels are split into independent disciplinary optimization problems.
+This decomposition according to the disciplines makes
+the reuse of existing disciplinary optimization processes possible
+as well as their execution in parallel.
+It can also be done
+according to the nature of the design variables (continuous, discrete or mixed variables, etc.)
+and whether certain derivatives are available,
+to take advantage of specialized optimizers,
+although in the following we present the disciplinary version.
+
+Given the initial shared design values $x_0^{(0)}$ and the initial local design values $x_{1\ldots M}^{(0)}$,
+the top-level optimization problem of the $k$-th term of this bi-level optimization problem sequence can be written as
+
+$$
+\begin{align}
+&\underset{x_0\in\mathcal{X}_0}{\operatorname{minimize}}&&f\!\left(x_0, x_{1\ldots M}^{(k)}, y\!\left(x_0, x_{1\ldots M}^{(k)}\right)\right)\\
+&\operatorname{subject\;to}
+& &g\!\left(x_0, x_{1\ldots M}^{(k)}, y\!\left(x_0, x_{1\ldots M}^{(k)}\right)\right)\leq 0
+\end{align}
+$$
+
+where $x_i^{(k)}$ is a solution of the disciplinary optimization problem
+
+$$
+\begin{align}
+&\underset{x_i\in\mathcal{X}_i}{\operatorname{minimize}}&&f\!\left(x_0, x_i, x_{-i}^{(k-1)}, c\!\left(x_0,x_i,x_{-i}^{(k-1)},y\!\left(x_0,x_{1\ldots M}^{(k-1)}\right)\right)\right)\\
+&\operatorname{subject\;to}
+& &g_i\!\left(x_0, x_i, x_{-i}^{(k-1)}, c\!\left(x_0,x_i,x_{-i}^{(k-1)},y\!\left(x_0,x_{1\ldots M}^{(k-1)}\right)\right)\right)\leq 0
+\end{align}
+$$
+
+with $x_{-i}^{(k-1)}=\left(x_j^{(k-1)}\right)_{j\in\{1,\ldots,M\}\setminus\{i\}}$
+and $y\!\left(x_0,x_{1\ldots M}^{(k-1)}\right)$ the MDA solution at the design point $\left(x_0,x_{1\ldots M}^{(k-1)}\right)$.
+
+In presence of uncertainties,
+Aziz Alaoui (2025)[@AzizAlaoui2025] proposed a similar bi-level formulation.
+The main problem can be written as
+
+$$
+\begin{align}
+&\underset{x_0\in\mathcal{X}_0}{\operatorname{minimize}}&&\mathbb{K}_f\!\left[f\!\left(x_0, X_{1\ldots M}^{(k)}, y\!\left(x_0, X_{1\ldots M}^{(k)}, U\right), U\right)\right]\\
+&\operatorname{subject\;to}
+& & \mathbb{K}_g\!\left[g\!\left(x_0, X_{1\ldots M}^{(k)}, y\!\left(x_0, X_{1\ldots M}^{(k)}, U\right), U\right)\right]\leq 0
+\end{align}
+$$
+
+where $X_i^{(k)}=x_i^{(k)}(U)$ is a random variable
+such that for any realization $u$ of $U$,
+$x_i^{(k)}(u)$ is a solution of the disciplinary optimization problem
+
+$$
+\begin{align}
+&\underset{x_i\in\mathcal{X}_i}{\operatorname{minimize}}&&f\!\left(x_0, x_i, x_{-i}^{(k-1)}(u), c\!\left(x_0,x_i,x_{-i}^{(k-1)}(u),y\!\left(x_0,x_{1\ldots M}^{(k-1)}(u),u\right),u\right),u\right)\\
+&\operatorname{subject\;to}
+& &g_i\!\left(x_0, x_i, x_{-i}^{(k-1)}(u), c\!\left(x_0,x_i,x_{-i}^{(k-1)}(u),y\!\left(x_0,x_{1\ldots M}^{(k-1)}(u),u\right),u\right),u\right)\leq 0
+\end{align}
+$$
+
+!!! note "Different in kind from MDF"
+    Unlike its uncertainty-free version,
+    which aims to be a reformulation of the MDF-formulated MDO problem,
+    this bi-level formulation under uncertainty and its MDF counterpart are quite different in nature.
+    While MDF is looking for an optimum design $x^*=(x_0^*,x_{1\ldots M}^*)$,
+    this bi-level formulation is looking for a random optimum $X^*=(x_0^*,X_{1\ldots M}^*)$
+    where only the shared design variables $x_0^*$ are fixed.
+    The other design variables $X_{1\ldots M}^*$ are function of both this $x_0^*$ and the uncertain sources $U$
+    and define the optimal choices possible according to the values of $U$.
+    The idea behind this formulation is that
+    because optimization under uncertainty leads to a solution more conservative than in the absence of uncertainties,
+    it may be appropriate
+    to fix only the global variables now
+    and take time to fix the local variables,
+    in the hope that the uncertainty $U$ will diminish over the course of the design process
+    and so lead to less conservative solutions,
+    i.e. a better objective value.
+
+Here is a naive MC version:
+
+$$
+\begin{align}
+&\underset{x_0\in\mathcal{X}_0}{\operatorname{minimize}}&&\widehat{K}_f\!\left[f\!\left(x_0, X_{1\ldots M}^{(k)}, y\!\left(x_0, X_{1\ldots M}^{(k)}, U\right), U\right)\right]\\
+&\operatorname{subject\;to}
+& &  \widehat{K}_g\!\left[g\!\left(x_0, X_{1\ldots M}^{(k)}, y\!\left(x_0, X_{1\ldots M}^{(k)}, U\right), U\right)\right]\leq 0
+\end{align}
+$$
+
+where $\widehat{K}_{\phi}\!\left[\phi\!\left(x_0, X_{1\ldots M}^{(k)}, y\!\left(x_0, X_{1\ldots M}^{(k)}, U\right), U\right)\right]$
+is written from the samples
+$\left\{\phi\!\left(x_0, x_{1\ldots M}^{(k)}\!\left(u^{(i)}\right), y\!\left(x_0, x_{1\ldots M}^{(k)}\!\left(u^{(i)}\right), u^{(i)}\right)\right)\right\}_{i\in\{1,\ldots,N\}}$
+
+and where $x_j^{(k)}(u^{(i)})$ is solution of
+
+$$
+\begin{align}
+&\underset{x_i\in\mathcal{X}_i}{\operatorname{minimize}}&&f\!\left(x_0, x_i, x_{-i}^{(k-1)}\!\left(u^{(i)}\right), c\!\left(x_0,x_i,x_{-i}^{(k-1)}\!\left(u^{(i)}\right),y\!\left(x_0,x_{1\ldots M}^{(k-1)}\!\left(u^{(i)}\right),u^{(i)}\right),u^{(i)}\right),u^{(i)}\right)\\
+&\operatorname{subject\;to}
+& &g_i\!\left(x_0, x_i, x_{-i}^{(k-1)}\!\left(u^{(i)}\right), c\!\left(x_0,x_i,x_{-i}^{(k-1)}\!\left(u^{(i)}\right),y\!\left(x_0,x_{1\ldots M}^{(k-1)}\!\left(u^{(i)}\right),u^{(i)}\right),u^{(i)}\right),u^{(i)}\right)\leq 0
+\end{align}
+$$
 
 ## API
 
-Here is an outline of the API. Go to the examples for more information.
+Here is an outline of the API to define and solve an MDO problem under uncertainty.
+The key ingredients for the definition are
+the disciplines,
+the design space,
+the constraints,
+the objective(s) and
+the U-MDO formulation combining an MDO formulation and a statistic estimation technique.
+The MDO problem can be solved using either an optimizer or a DOE.
+Go to the [examples](../../generated/examples/umdo/index.md) for more information.
+In this section,
+we present what is different compared to MDO without uncertainties
 
 ### Disciplines
 
@@ -302,7 +465,7 @@ so that the
 [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
 and
 [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario]
-can change their values.
+can take them into account.
 
 !!! example
 
@@ -345,7 +508,7 @@ with the method [add_random_variable][gemseo.algos.parameter_space.ParameterSpac
 
     In the previous example,
     we could model the uncertain variable $U$ as a random variable
-    distributed according to a triangular distribution
+    triangularly distributed
     between 0.2 and 0.7 with a mode of 0.4:
 
     ``` py
@@ -359,32 +522,17 @@ with the method [add_random_variable][gemseo.algos.parameter_space.ParameterSpac
 
 ### Scenario
 
-Given these disciplines and uncertain space and also a design space of course,
-the MDO problem can be set up.
-
-In the case of MDO *without* uncertainty,
-there are two scenarios to set up the MDO problem:
-
-- [DOEScenario][gemseo.scenarios.doe_scenario.DOEScenario]
-  to solve it with a DOE,
-- [MDOScenario][gemseo.scenarios.mdo_scenario.MDOScenario]
-  to solve it with an optimizer.
-
-Both need knowledge of objective and constraint functions
-in addition to the disciplines and design space
-to solve the MDO problem.
-
-In the case of MDO *with* uncertainty,
-there are two similar scenarios to set up the MDO problem:
+Given these disciplines and uncertain space,
+as well as a design space, objective(s) and constraint(s),
+the MDO problem under uncertainty can be set up by
 
 - [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario]
-  to solve it with a DOE,
+  to solve it using a DOE,
 - [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
-  to solve it with an optimizer.
+  to solve it using an optimizer or a DOE.
 
-Both need knowledge of the statistics and their estimators
-in addition to the disciplines, design space, objective and constraints
-to solve the MDO problem under uncertainty.
+You also need to fill in the statistics associated with the objective(s) and constraint(s),
+and the U-MDO formulation, combining an statistics estimation technique and an MDO formulation.
 
 !!! note "API"
 
@@ -428,41 +576,65 @@ to solve the MDO problem under uncertainty.
     scenario.execute(algo_name="NLOPT_COBYLA", max_iter=50)
     ```
 
-### U-MDO formulations
+### Statistic estimation
 
 [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario]
 and [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
-can estimate the statistics associated with $f(x,U)$, $g(x,U)$ and $h(x,U)$
-by sampling these random variables:
+can use [Sampling_Settings][gemseo_umdo.formulations.sampling_settings.Sampling_Settings],
+with `n_samples` set to a certain value $N$,
+to estimate the statistics associated with $f(x,U)$, $g(x,U)$ and $h(x,U)$ by [sampling](sampling.md),:
 
-$$(f(x,U^{(i)}),g(x,U^{(i)}),h(x,U^{(i)}))_{1\leq i \leq N}.$$
+$$\!\left(f\!\left(x,u^{(i)}\right),g\!\left(x,u^{(i)}\right),h\!\left(x,u^{(i)}\right)\right)_{1\leq i \leq N}.$$
 
 However,
-as sampling can be expensive,
-GEMSEO-UMDO offers other techniques to reduce the cost of statistics estimation,
+when costly disciplines are involved,
+this approach may be too expensive.
+The rest of the [_MDO under uncertainty_](index.md) section of the user guide presents
+other statistic estimation techniques to reduce the number of discipline evaluations,
 such as
 [control variates](control_variate.md),
 [Taylor polynomials](taylor_polynomial.md)
 and
 [polynomial chaos expansions](pce.md).
-The choice of an estimation technique is made
-via the argument `statistic_estimation_settings`
-of [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario]
-(or [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]),
-which is a Pydantic model of U-MDO settings,
-_e.g._
+Choosing an estimation technique and its options is made via the argument `statistic_estimation_settings`
+of [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
+(or [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario]),
+which is a Pydantic model of settings,
+e.g.
 [ControlVariate_Settings][gemseo_umdo.formulations.control_variate_settings.ControlVariate_Settings],
 [TaylorPolynomial_Settings][gemseo_umdo.formulations.taylor_polynomial_settings.TaylorPolynomial_Settings]
 or [PCE_Settings][gemseo_umdo.formulations.pce_settings.PCE_Settings].
 
 As of now,
-only the [``Sampling`` U-MDO formulation](sampling.md) provides analytical derivatives of the statistics
+only the
+[``Sampling``](sampling.md),
+[``SequentialSampling``](sequential_sampling.md)
+and [``PCE``](sampling.md) U-MDO formulations
+provide analytical derivatives of the statistics
 when the disciplines and the multidisciplinary process generated by the MDO formulation are differentiable.
 Therefore,
 the other U-MDO formulations require gradient approximation to use gradient-based optimizers,
 what can be expensive according to the dimension of the design space.
 
-The rest of the **MDO under uncertainty** section of the user guide presents the different U-MDO formulations.
+Finally,
+it is important to bear in mind that
+all these techniques make approximations in order to estimate statistics more cheaply than sampling.
+Estimates are therefore made with a certain degree of precision,
+and potentially with a certain degree of bias.
+So,
+at the end of an optimization process with a given statistic estimation technique T,
+it is advisable to copy and paste the scenario
+and replay it with [Sampling_Settings][gemseo_umdo.formulations.sampling_settings.Sampling_Settings]
+parameterized by a non-negligible `n_samples`
+at the design solution point `x_opt` found with T
+(i.e. `scenario.execute(algo_name="CustomDOE", samples=at_least2d(x_opt))`)
+to obtain a better estimate of the statistics at this point.
+This avoids pitfalls,
+such as concluding that a constraint is satisfied when it is not.
+Note that this validation approach is also recommended in surrogate-based optimization (with or without uncertainty),
+where it is advisable to
+evaluate the objective and constraints with the original models at the end of an optimization loop,
+due to the error of the surrogate models.
 
 ??? info "Implementation"
 
@@ -487,9 +659,9 @@ The rest of the **MDO under uncertainty** section of the user guide presents the
     to estimate the statistics
     $\mathbb{K}_f[f(x,U)]$, $\mathbb{K}_g[g(x,U)]$ and $\mathbb{K}_h[h(x,U)]$
     based on the samples
-    $(U^{(i)},f(x,U^{(i)}),g(x,U^{(i)}),h(x,U^{(i)}))_{1\leq i \leq M}$.
+    $(u^{(i)},f(x,u^{(i)}),g(x,u^{(i)}),h(x,u^{(i)}))_{1\leq i \leq N}$.
     In the case of Monte Carlo sampling,
-    $M$ is the number of samples
+    $N$ is the number of samples
     while in the case of Taylor expansion,
     $M\in\{1,1+q\}$ where $q$ is the dimension of the uncertain space
     depending on whether the derivatives are known

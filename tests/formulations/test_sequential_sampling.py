@@ -26,11 +26,25 @@ from gemseo_umdo.formulations.sequential_sampling_settings import (
 from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
 
 
+def increment(n_samples: int) -> int:
+    """Compute the increment of the sampling size.
+
+    Args:
+        n_samples: The current number of samples.
+
+    Returns:
+        The increment of the sampling size.
+    """
+    return 2
+
+
 @pytest.mark.parametrize("estimate_statistics_iteratively", [False, True])
-def test_scenario(estimate_statistics_iteratively):
+@pytest.mark.parametrize("n_samples_increment", [2, increment])
+def test_scenario(
+    estimate_statistics_iteratively, enable_discipline_statistics, n_samples_increment
+):
     """Check SequentialSampling."""
     discipline = AnalyticDiscipline({"y": "(x+u)**2"}, name="quadratic_function")
-    discipline.set_cache("MemoryFullCache")
     design_space = DesignSpace()
     design_space.add_variable("x", lower_bound=-1, upper_bound=1.0, value=0.5)
     uncertain_space = ParameterSpace()
@@ -45,7 +59,7 @@ def test_scenario(estimate_statistics_iteratively):
         statistic_estimation_settings=SequentialSampling_Settings(
             doe_algo_settings=OT_OPT_LHS_Settings(n_samples=7),
             initial_n_samples=3,
-            n_samples_increment=2,
+            n_samples_increment=n_samples_increment,
             estimate_statistics_iteratively=estimate_statistics_iteratively,
         ),
     )

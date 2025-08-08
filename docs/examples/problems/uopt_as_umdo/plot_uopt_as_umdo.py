@@ -19,7 +19,8 @@ r"""
 ## Introduction
 
 [UOptAsUMDOScenario][gemseo_umdo.problems.uopt_as_umdo_scenario.UOptAsUMDOScenario]
-is a monodisciplinary optimization scenario under uncertainty made multidisciplinary.
+is a class to make a monodisciplinary optimization problem under uncertainty
+multidisciplinary[@AzizAlaoui2025].
 The only requirement is that
 the discipline has at least three scalar inputs defined as design variables,
 and at least one output defined as an objective.
@@ -95,7 +96,7 @@ u_opt_scenario = UMDOScenario(
     design_space,
     uncertain_space,
     "Mean",
-    Sampling_Settings(n_samples=50, estimate_statistics_iteratively=False),
+    Sampling_Settings(n_samples=50),
     formulation_name="DisciplinaryOpt",
 )
 # %%
@@ -122,7 +123,7 @@ umdo_scenario = UOptAsUMDOScenario(
     design_space,
     uncertain_space,
     "Mean",
-    Sampling_Settings(n_samples=50, estimate_statistics_iteratively=False),
+    Sampling_Settings(n_samples=50),
     formulation_name="MDF",
 )
 # %%

@@ -4,9 +4,10 @@ authors = [
     {name = "Matthias De Lozzo", email = "contact@gemseo.org"}
 ]
 description = "Robust MDO and advanced UQ with GEMSEO."
-license = {text = "GNU Lesser General Public License v3"}
+readme = "README.md"
+license = "LGPL-3.0"
+license-files = ["LICENSE.txt"]
 classifiers = [
-    "License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)",
     "Intended Audience :: Science/Research",
     "Topic :: Scientific/Engineering",
     "Operating System :: POSIX :: Linux",
@@ -27,8 +28,8 @@ dependencies = [
     "scipy",
 ]
 
-[project.optional-dependencies]
-test = [
+[dependency-groups]
+dev = [
     "covdefaults",
     "pytest <9",
     "pytest-cov",
@@ -36,6 +37,7 @@ test = [
 ]
 doc = [
     "black",
+    "griffe-fieldz",
     "griffe-inherited-docstrings",
     "markdown-exec[ansi]",
     "mike",
@@ -50,13 +52,9 @@ doc = [
 ]
 
 [project.urls]
-Homepage = "https://gitlab.com/gemseo"
+Homepage = "https://gemseo.org"
 Source = "https://gitlab.com/gemseo/dev/gemseo-umdo"
-Tracker = "https://gitlab.com/gemseo/dev/gemseo-umdo/-/issues"
-
-[project.readme]
-file = "README.md"
-content-type = "text/markdown"
+Issues = "https://gitlab.com/gemseo/dev/gemseo-umdo/-/issues"
 
 [project.entry-points]
 gemseo_plugins = { gemseo-umdo = "gemseo_umdo" }
@@ -69,9 +67,3 @@ requires = [
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools_scm]
-
-[tool.setuptools]
-license-files = [
-    "LICENSE.txt",
-    "CREDITS.md",
-]

@@ -12,7 +12,24 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-"""Make a monodisciplinary optimization problem under uncertainty multidisciplinary."""
+"""Make a monodisciplinary optimization problem under uncertainty multidisciplinary.
+
+GEMSEO proposes features
+to make a monodisciplinary optimization problem multidisciplinary.
+Here is an extension to MDO under uncertainty.
+Please read the
+[GEMSEO's documentation](https://gemseo.readthedocs.io/en/stable/modules/gemseo.problems.mdo.opt_as_mdo_scenario.html)
+to get more information about the basics of this technique.
+
+!!! quote "References"
+    Aziz Alaoui,
+    Contributions to multidisciplinary design optimization under uncertainty,
+    with applications to aircraft design.
+    General Mathematics [math.GM]. Université de Toulouse, 2025.
+    English.
+    [⟨NNT : 2025TLSEI001⟩](https://www.theses.fr/2025TLSEI001).
+    [⟨tel-05059696⟩](https://theses.hal.science/tel-05059696v1).
+"""
 
 from __future__ import annotations
 

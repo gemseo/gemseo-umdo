@@ -46,18 +46,18 @@ with only 10 samples.
     Read the [GEMSEO documentation](https://gemseo.readthedocs.io/en/stable/doe.html#algorithms)
     for more information about the available DOE algorithms.
 
-The number of samples can be changed with the parameter `n_samples`
+This maximum number of samples can be changed with the parameter `n_samples`
 and the DOE algorithm name can be changed with the parameter `doe_algo_settings`,
 which is a Pydantic model deriving from [BaseDOESettings][gemseo.algos.doe.base_doe_settings.BaseDOESettings].
 When `n_samples` is `None` (default) and `doe_algo_settings` has a field `n_samples`,
-then this field is considered.
+then this field is considered as the maximum number of samples.
 When `doe_algo_settings` has a field `seed` and its value is `None`,
 then the U-MDO formulation will use [SEED][gemseo.utils.seeder.SEED].
 
 !!! note "API"
     Use `statistic_estimation_settings`
     to set the DOE algorithm name and settings,
-    _e.g._
+    e.g.
 
     ``` py
     settings = SequentialSampling_Settings(doe_algo_settings=OT_MONTE_CARLO(n_samples=20, n_processes=2))
@@ -75,11 +75,14 @@ then the U-MDO formulation will use [SEED][gemseo.utils.seeder.SEED].
 ### Sampling size profile
 
 By default,
-the number of samples is equal to 1 at the first iteration
+the number of samples is equal to 2 at the first iteration
 and is incremented by 1 at each iteration of the optimization loop.
 
 These values can be changed with the statistic estimation parameters
 `initial_n_samples` and `n_samples_increment`.
+In particular,
+`n_samples_increment` can be either the increment of the sampling size
+or a function computing this increment from the current sampling size.
 
 ## Statistics
 
@@ -89,8 +92,8 @@ The estimators are given below at the $k$-th iteration of the optimization loop.
 
 | Statistic          | Notation                         | Estimator                                                                                                      |
 |--------------------|----------------------------------|----------------------------------------------------------------------------------------------------------------|
-| Mean               | $\mathbb{E}[\varphi(x,U)]$       | $E_{N_k}[\varphi(x,U)]=\frac{1}{N_k}\sum_{i=1}^{N_k}\varphi(x,U^{(i)})$                                        |
-| Variance           | $\mathbb{V}[\varphi(x,U)]$       | $V_{N_k}[\varphi(x,U)]=\frac{1}{N_k-1}\sum_{i=1}^{N_k}\left(\varphi(x,U^{(i)})-E_{N_k}[\varphi(x,U)]\right)^2$ |
+| Mean               | $\mathbb{E}[\varphi(x,U)]$       | $E_{N_k}[\varphi(x,U)]=\frac{1}{N_k}\sum_{i=1}^{N_k}\varphi(x,u^{(i)})$                                        |
+| Variance           | $\mathbb{V}[\varphi(x,U)]$       | $V_{N_k}[\varphi(x,U)]=\frac{1}{N_k-1}\sum_{i=1}^{N_k}\left(\varphi(x,u^{(i)})-E_{N_k}[\varphi(x,U)]\right)^2$ |
 | Standard deviation | $\mathbb{S}[\varphi(x,U)]$       | $S_{N_k}[\varphi(x,U)]=\sqrt{V_{N_k}[\varphi(x,U)]}$                                                           |
-| Margin             | $\textrm{Margin}[\varphi(x,U)]$  | $\textrm{Margin}_{N_k}[\varphi(x,U)]=E_{N_k}[\varphi(x,U)]+\kappa\times S_{N_k}[\varphi(x,U)]$                 |
+| Margin             | $\textrm{Margin}[\varphi(x,U)]$  | $\textrm{Margin}_{N_k}[\varphi(x,U)]=E_{N_k}[\varphi(x,U)]+\kappa\cdot S_{N_k}[\varphi(x,U)]$                  |
 | Probability        | $\mathbb{P}[\varphi(x,U)\leq 0]$ | $P_{N_k}[\varphi(x,U)\leq 0]=E_{N_k}[\mathbb{1}_{\varphi(x,U)\leq 0}]$                                         |

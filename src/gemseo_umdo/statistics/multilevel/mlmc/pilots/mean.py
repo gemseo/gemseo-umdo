@@ -50,7 +50,7 @@ class Mean(BaseMLMCPilot):
         self.__delta = [array([]) for _ in range(len(sampling_ratios))]
 
     def _compute_statistic(self) -> float:  # noqa: D102
-        # El Amri et al., Eq. 28, Multilevel Surrogate-based Control Variates, 2023.
+        # El Amri et al., Eq. 28, Multilevel Surrogate-based Control Variates, 2024.
         # E_MLMC[Y] = E[Y_0] + E[Y_1] + ... + E[Y_L]
         #             E[Y_0] + E[Y_1-Y_0] + ... + E[Y_L-Y_{L-1}]
         return nansum([nanmean(delta) for delta in self.__delta])
@@ -64,6 +64,6 @@ class Mean(BaseMLMCPilot):
         for level in levels:
             self.__delta[level] = samples[level][:, 0] - samples[level][:, 1]
 
-        # El Amri et al., Multilevel Surrogate-based Control Variates, 2023.
+        # El Amri et al., Multilevel Surrogate-based Control Variates, 2024.
         # Paragraph just before Eq. 33: V_l = V[Y_l-Y_{l-1}]
         return array([nanvar(delta) for delta in self.__delta])

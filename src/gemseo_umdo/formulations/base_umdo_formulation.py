@@ -22,11 +22,11 @@ from typing import ClassVar
 
 from gemseo.core.mdo_functions.mdo_function import MDOFunction
 from gemseo.formulations.base_formulation import BaseFormulation
-from gemseo.formulations.bilevel import BiLevel
 from gemseo.uncertainty.statistics.base_statistics import BaseStatistics
 from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
 from gemseo.utils.data_conversion import split_array_to_dict_of_arrays
 from gemseo.utils.file_path_manager import FilePathManager
+from gemseo.utils.string_tools import convert_strings_to_iterable
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -38,6 +38,7 @@ if TYPE_CHECKING:
     from gemseo.core.base_factory import BaseFactory
     from gemseo.core.discipline.discipline import Discipline
     from gemseo.formulations.base_mdo_formulation import BaseMDOFormulation
+    from gemseo.scenarios.base_scenario import BaseScenario
     from gemseo.typing import RealArray
     from gemseo.typing import StrKeyMapping
 
@@ -125,7 +126,7 @@ class BaseUMDOFormulation(BaseFormulation):
 
     def __init__(
         self,
-        disciplines: Sequence[Discipline],
+        disciplines: Sequence[Discipline | BaseScenario],
         objective_name: str,
         design_space: DesignSpace,
         mdo_formulation: BaseMDOFormulation,
@@ -181,7 +182,7 @@ class BaseUMDOFormulation(BaseFormulation):
         sub_opt_problem = mdo_formulation.optimization_problem
         objective = self._statistic_function_class(
             self,
-            sub_opt_problem.objective,
+            sub_opt_problem.objective.name,
             MDOFunction.FunctionType.OBJ,
             objective_statistic_name,
             **objective_statistic_parameters,
@@ -246,22 +247,30 @@ class BaseUMDOFormulation(BaseFormulation):
             statistic_parameters: The values of the parameters
                 of the statistic to be applied to the observable, if any.
         """  # noqa: D205 D212 D415
-        if self._auxiliary_mdo_formulation is not None:
-            self._auxiliary_mdo_formulation.add_observable(
+        output_names = convert_strings_to_iterable(output_names)
+        function_name = observable_name or "_".join(output_names)
+        function_names = [
+            function_.name
+            for function_ in self._mdo_formulation.optimization_problem.functions
+            if function_ is not None
+        ]
+        if function_name not in function_names:
+            if self._auxiliary_mdo_formulation is not None:
+                self._auxiliary_mdo_formulation.add_observable(
+                    output_names,
+                    observable_name=observable_name,
+                    discipline=discipline,
+                )
+
+            self._mdo_formulation.add_observable(
                 output_names,
                 observable_name=observable_name,
                 discipline=discipline,
             )
 
-        self._mdo_formulation.add_observable(
-            output_names,
-            observable_name=observable_name,
-            discipline=discipline,
-        )
-        sub_opt_problem = self._mdo_formulation.optimization_problem
         observable = self._statistic_function_class(
             self,
-            sub_opt_problem.observables[-1],
+            function_name,
             MDOFunction.FunctionType.NONE,
             statistic_name,
             **statistic_parameters,
@@ -288,13 +297,21 @@ class BaseUMDOFormulation(BaseFormulation):
             statistic_parameters: The values of the parameters of the statistic
                 to be applied to the constraint, if any.
         """  # noqa: D205 D212 D415
-        if self._auxiliary_mdo_formulation is not None:
-            self._auxiliary_mdo_formulation.add_observable(output_name)
+        function_name = "_".join(convert_strings_to_iterable(output_name))
+        function_names = [
+            function_.name
+            for function_ in self._mdo_formulation.optimization_problem.functions
+            if function_ is not None
+        ]
+        if function_name not in function_names:
+            if self._auxiliary_mdo_formulation is not None:
+                self._auxiliary_mdo_formulation.add_observable(output_name)
 
-        self._mdo_formulation.add_observable(output_name)
+            self._mdo_formulation.add_observable(output_name)
+
         constraint = self._statistic_function_class(
             self,
-            self._mdo_formulation.optimization_problem.observables[-1],
+            function_name,
             MDOFunction.FunctionType.NONE,
             statistic_name,
             **statistic_parameters,
@@ -360,27 +377,20 @@ class BaseUMDOFormulation(BaseFormulation):
             self.design_space.variable_sizes,
             self.design_space.variable_names,
         )
-        for formulation in [self._mdo_formulation, self._auxiliary_mdo_formulation]:
+        for formulation in (self._mdo_formulation, self._auxiliary_mdo_formulation):
             if formulation is None:
                 continue
 
-            all_top_level_disciplines = [formulation.get_top_level_disciplines()]
-            # TODO: remove this block and find a more generic way of handling this case.
-            if isinstance(formulation, BiLevel):
-                all_top_level_disciplines.extend(
-                    scenario_adapter.scenario.formulation.get_top_level_disciplines()
-                    for scenario_adapter in formulation.scenario_adapters
-                )
-
-            for top_level_disciplines in all_top_level_disciplines:
-                for discipline in top_level_disciplines:
-                    input_grammar = discipline.io.input_grammar
-                    to_value = input_grammar.data_converter.convert_array_to_value
-                    input_grammar.defaults.update({
-                        name: to_value(name, value)
-                        for name, value in design_values.items()
-                        if name in input_grammar
-                    })
+            for discipline in formulation.get_top_level_disciplines(
+                include_sub_formulations=True
+            ):
+                input_grammar = discipline.io.input_grammar
+                to_value = input_grammar.data_converter.convert_array_to_value
+                input_grammar.defaults.update({
+                    name: to_value(name, value)
+                    for name, value in design_values.items()
+                    if name in input_grammar
+                })
 
     def get_top_level_disciplines(self) -> list[Discipline]:  # noqa: D102
         return self._mdo_formulation.get_top_level_disciplines()

@@ -109,8 +109,8 @@ class SequentialSampling(Sampling):
     ) -> None:
         super().compute_samples(problem, input_data, compute_jacobian=compute_jacobian)
         doe_algo_settings = self._settings.doe_algo_settings
-        if doe_algo_settings.n_samples < self.__final_n_samples:
+        if (n_samples := doe_algo_settings.n_samples) < self.__final_n_samples:
             doe_algo_settings.n_samples = min(
                 self.__final_n_samples,
-                doe_algo_settings.n_samples + self._settings.n_samples_increment,
+                n_samples + self._settings.n_samples_increment(n_samples),
             )
