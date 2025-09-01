@@ -10,7 +10,7 @@ contourpy==1.3.3
     # via matplotlib
 covdefaults==2.3.0
     # via gemseo-umdo (pyproject.toml:dev)
-coverage==7.10.3
+coverage==7.10.6
     # via
     #   covdefaults
     #   pytest-cov
@@ -26,9 +26,9 @@ execnet==2.1.1
     # via pytest-xdist
 fastjsonschema==2.21.1
     # via gemseo
-fonttools==4.59.0
+fonttools==4.59.2
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@f48900476d2e69f42a1e6eeabcef3f0f708a3ab3
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@2a54e805b5a7327efbba45440b6c19e0828d1ace
     # via
     #   -c requirements/test-constraints.in
     #   gemseo-umdo (pyproject.toml)
@@ -44,7 +44,7 @@ iniconfig==2.1.0
     # via pytest
 jinja2==3.1.6
     # via gemseo
-joblib==1.5.1
+joblib==1.5.2
     # via scikit-learn
 kiwisolver==1.4.9
     # via matplotlib
@@ -128,7 +128,7 @@ pytz==2025.2
     # via pandas
 pyxdsm==2.3.1
     # via gemseo
-requests==2.32.4
+requests==2.32.5
     # via gemseo
 scikit-learn==1.7.0
     # via gemseo
@@ -150,7 +150,7 @@ threadpoolctl==3.6.0
     # via scikit-learn
 tqdm==4.67.1
     # via gemseo
-typing-extensions==4.14.1
+typing-extensions==4.15.0
     # via
     #   gemseo
     #   pydantic
