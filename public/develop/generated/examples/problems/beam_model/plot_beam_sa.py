@@ -22,15 +22,12 @@ variables defined by `BeamUncertainSpace`.
 
 from __future__ import annotations
 
-from gemseo import configure_logger
 from gemseo.core.chains.chain import MDOChain
 from gemseo.uncertainty.sensitivity.sobol_analysis import SobolAnalysis
 
 from gemseo_umdo.use_cases.beam_model.constraints import BeamConstraints
 from gemseo_umdo.use_cases.beam_model.discipline import Beam
 from gemseo_umdo.use_cases.beam_model.uncertain_space import BeamUncertainSpace
-
-configure_logger()
 
 uncertain_space = BeamUncertainSpace()
 

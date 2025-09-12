@@ -22,15 +22,12 @@ $t\in[2,10]$.
 
 from __future__ import annotations
 
-from gemseo import configure_logger
 from gemseo.post.dataset.zvsxy import ZvsXY
 from gemseo.scenarios.doe_scenario import DOEScenario
 
 from gemseo_umdo.use_cases.beam_model.constraints import BeamConstraints
 from gemseo_umdo.use_cases.beam_model.design_space import BeamDesignSpace
 from gemseo_umdo.use_cases.beam_model.discipline import Beam
-
-configure_logger()
 
 disciplines = [Beam(), BeamConstraints()]
 

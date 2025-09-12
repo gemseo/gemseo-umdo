@@ -23,18 +23,12 @@ $\sigma_{\text{all}}$ are random variables defined by `BeamUncertainSpace`.
 
 from __future__ import annotations
 
-from gemseo import configure
-from gemseo import configure_logger
-
 from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 from gemseo_umdo.use_cases.beam_model.constraints import BeamConstraints
 from gemseo_umdo.use_cases.beam_model.design_space import BeamDesignSpace
 from gemseo_umdo.use_cases.beam_model.discipline import Beam
 from gemseo_umdo.use_cases.beam_model.uncertain_space import BeamUncertainSpace
-
-configure()
-configure_logger()
 
 scenario = UMDOScenario(
     [Beam(), BeamConstraints()],

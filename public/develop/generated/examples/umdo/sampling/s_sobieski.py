@@ -17,7 +17,6 @@
 
 from __future__ import annotations
 
-from gemseo import configure_logger
 from gemseo.algos.parameter_space import ParameterSpace
 from gemseo.problems.mdo.sobieski.core.problem import SobieskiProblem
 from gemseo.problems.mdo.sobieski.disciplines import SobieskiAerodynamics
@@ -27,8 +26,6 @@ from gemseo.problems.mdo.sobieski.disciplines import SobieskiStructure
 
 from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
-
-configure_logger()
 
 # %%
 # Firstly,
