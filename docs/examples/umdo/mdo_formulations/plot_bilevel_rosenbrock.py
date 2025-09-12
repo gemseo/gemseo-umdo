@@ -34,8 +34,7 @@ to make this optimization multidisciplinary.
 
 from __future__ import annotations
 
-from gemseo import configure
-from gemseo import configure_logger
+from gemseo import configuration
 from gemseo import create_design_space
 from gemseo import create_discipline
 from gemseo import create_parameter_space
@@ -48,8 +47,7 @@ from numpy import atleast_2d
 from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 
-configure_logger()
-configure(False, False, True, False, False, False, False)
+configuration.fast = True
 
 # %%
 # ## Original discipline and spaces

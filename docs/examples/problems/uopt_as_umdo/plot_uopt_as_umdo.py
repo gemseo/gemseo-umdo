@@ -44,7 +44,6 @@ over the hypercube $[-1,1]^3$.
 
 from __future__ import annotations
 
-from gemseo import configure_logger
 from gemseo import create_design_space
 from gemseo import create_discipline
 from gemseo import generate_coupling_graph
@@ -54,8 +53,6 @@ from numpy import array
 from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
 from gemseo_umdo.problems.uopt_as_umdo_scenario import UOptAsUMDOScenario
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
-
-configure_logger()
 
 # %%
 # ## Discipline and spaces

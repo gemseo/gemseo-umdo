@@ -29,8 +29,7 @@ and the same for the constraints using margins of the form
 
 from __future__ import annotations
 
-from gemseo import configure
-from gemseo import configure_logger
+from gemseo import configuration
 from gemseo.algos.opt.nlopt.settings.nlopt_cobyla_settings import NLOPT_COBYLA_Settings
 from gemseo.algos.opt.nlopt.settings.nlopt_slsqp_settings import NLOPT_SLSQP_Settings
 from gemseo.algos.opt.scipy_local.settings.slsqp import SLSQP_Settings
@@ -48,8 +47,7 @@ from gemseo_umdo.disciplines.utils import create_noising_discipline_chain
 from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 
-configure_logger()
-configure(False, False, True, False, False, False, False)
+configuration.fast = True
 
 # %%
 # ## Original discipline and spaces

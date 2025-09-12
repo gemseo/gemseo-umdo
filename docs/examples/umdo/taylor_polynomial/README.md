@@ -6,8 +6,9 @@
  http://creativecommons.org/licenses/by-sa/4.0/ or send a letter to Creative
  Commons, PO Box 1866, Mountain View, CA 94042, USA.
 -->
-# U-MDO using Taylor polynomials
+# Taylor polynomials
 
-The statistics are estimated using Taylor polynomials of the quantities of interest.
+The statistics of the MDO problem under uncertainty are estimated
+using Taylor polynomials of the quantities of interest.
 
 Read more in the [user guide](../../../user_guide/umdo/taylor_polynomial.md).
