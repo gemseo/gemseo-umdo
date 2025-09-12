@@ -6,9 +6,9 @@
  http://creativecommons.org/licenses/by-sa/4.0/ or send a letter to Creative
  Commons, PO Box 1866, Mountain View, CA 94042, USA.
 -->
-# U-MDO using sequential sampling
+# Sequential sampling
 
-The statistics are estimated using crude Monte Carlo sampling
-by increasing the sample size sequentially as the optimisation process progresses.
+The statistics of the MDO problem under uncertainty are estimated
+using crude Monte Carlo sampling by increasing the sample size sequentially as the optimisation process progresses.
 
 Read more in the [user guide](../../../user_guide/umdo/sequential_sampling.md).

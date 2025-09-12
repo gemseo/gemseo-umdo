@@ -17,15 +17,12 @@
 
 from __future__ import annotations
 
-from gemseo import configure_logger
 from gemseo.algos.design_space import DesignSpace
 from gemseo.algos.parameter_space import ParameterSpace
 from gemseo.disciplines.analytic import AnalyticDiscipline
 
 from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
 from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
-
-configure_logger()
 
 # %%
 # Firstly,

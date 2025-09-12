@@ -6,8 +6,9 @@
  http://creativecommons.org/licenses/by-sa/4.0/ or send a letter to Creative
  Commons, PO Box 1866, Mountain View, CA 94042, USA.
 -->
-# U-MDO using surrogate models
+# Surrogate models
 
-The statistics are estimated using a surrogate model built over the uncertain space.
+The statistics of the MDO problem under uncertainty are estimated
+using a surrogate model built over the uncertain space.
 
 Read more in the [user guide](../../../user_guide/umdo/surrogate.md).

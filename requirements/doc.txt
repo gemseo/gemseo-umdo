@@ -39,7 +39,7 @@ fieldz==0.1.2
     # via griffe-fieldz
 fonttools==4.59.2
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@9be33cec53c2c836a6afc299437a11167c17b00e
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@2e64c61d5e1bbfb9a3b7d918685d1bdf5fb02bb3
     # via
     #   -c requirements/test-constraints.in
     #   gemseo-umdo (pyproject.toml)
@@ -134,7 +134,7 @@ mkdocs-include-markdown-plugin==7.1.7
     # via gemseo-umdo (pyproject.toml:doc)
 mkdocs-literate-nav==0.6.2
     # via gemseo-umdo (pyproject.toml:doc)
-mkdocs-material==9.6.18
+mkdocs-material==9.6.19
     # via
     #   gemseo-umdo (pyproject.toml:doc)
     #   mkdocs-gallery
@@ -206,9 +206,13 @@ psutil==7.0.0
 pybtex==0.25.1
     # via mkdocs-bibtex
 pydantic==2.11.7
-    # via gemseo
+    # via
+    #   gemseo
+    #   pydantic-settings
 pydantic-core==2.33.2
     # via pydantic
+pydantic-settings==2.9.1
+    # via gemseo
 pydoe3==1.0.5
     # via gemseo
 pygments==2.19.2
@@ -233,6 +237,8 @@ python-dateutil==2.9.0.post0
     #   ghp-import
     #   matplotlib
     #   pandas
+python-dotenv==1.1.1
+    # via pydantic-settings
 pytz==2025.2
     # via pandas
 pyxdsm==2.3.1
@@ -290,7 +296,9 @@ typing-extensions==4.15.0
     #   pydantic-core
     #   typing-inspection
 typing-inspection==0.4.1
-    # via pydantic
+    # via
+    #   pydantic
+    #   pydantic-settings
 tzdata==2025.2
     # via pandas
 urllib3==2.5.0

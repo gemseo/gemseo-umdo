@@ -31,7 +31,6 @@ and seek to minimize $\mathbb{E}[f(x,y)]$
 under the equality constraints $\mathbb{E}[h(x,y)]=r^2$ and $\mathbb{V}[h(x,y)]=0$.
 """
 
-from gemseo import configure_logger
 from gemseo.algos.design_space import DesignSpace
 from gemseo.algos.parameter_space import ParameterSpace
 from gemseo.disciplines.analytic import AnalyticDiscipline
@@ -42,8 +41,6 @@ from numpy import array
 
 from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
-
-configure_logger()
 
 # %%
 # ## Discipline and design space
