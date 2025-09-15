@@ -1601,12 +1601,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../generated/examples/umdo/pce/plot_pce_quadratic/" class="md-nav__link">
+      <a href="../../../../generated/examples/umdo/pce/plot_pce_quadratic_approximated_jacobians/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    A quadratic mono-disciplinary problem
+    A quadratic mono-disciplinary problem with approximated statistics Jacobian
     
   </span>
   
@@ -1624,12 +1624,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../generated/examples/umdo/pce/plot_pce_quadratic_approximated_jacobians/" class="md-nav__link">
+      <a href="../../../../generated/examples/umdo/pce/plot_pce_quadratic/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    A quadratic mono-disciplinary problem with approximated statistics Jacobian
+    A quadratic mono-disciplinary problem
     
   </span>
   
@@ -7254,7 +7254,7 @@
 
     <div class="doc doc-contents first">
 
-        <p>Settings for the PCE-based U-MDO formulation.</p>
+        <p>Settings for the FCE-based U-MDO formulation.</p>
 
 
 
@@ -7291,7 +7291,7 @@
               Bases: <code><a class="autorefs autorefs-internal" title="            Surrogate_Settings (gemseo_umdo.formulations.surrogate_settings.Surrogate_Settings)" href="../surrogate_settings/#gemseo_umdo.formulations.surrogate_settings.Surrogate_Settings">Surrogate_Settings</a></code>, <code><a class="autorefs autorefs-internal" title="            SurrogateQuality_Settings (gemseo_umdo.formulations.base_surrogate_settings.SurrogateQuality_Settings)" href="../base_surrogate_settings/#gemseo_umdo.formulations.base_surrogate_settings.SurrogateQuality_Settings">SurrogateQuality_Settings</a></code></p>
 
 
-        <p>The settings for the PCE-based U-MDO formulation.</p>
+        <p>The settings for the FCE-based U-MDO formulation.</p>
 
 
 <table>
@@ -7537,16 +7537,16 @@ the field <code>doe_algo_settings.n_samples</code> is ignored.</p>
             </td>
             <td class="doc-param-details">
               <div class="doc-md-description">
-                <p>The PCE settings.</p>
+                <p>The FCE settings.</p>
               </div>
               <p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
-                      <code><a class="autorefs autorefs-external" title="gemseo.mlearning.regression.algos.pce_settings.PCERegressor_Settings" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.mlearning.regression.algos.pce_settings.html#gemseo.mlearning.regression.algos.pce_settings.PCERegressor_Settings">PCERegressor_Settings</a></code>
+                      <code><span title="gemseo.mlearning.regression.algos.base_fce_settings.BaseFCERegressor_Settings">BaseFCERegressor_Settings</span></code>
                   </span>
                   <span class="doc-param-default">
                     <b>DEFAULT:</b>
-                      <code>PCERegressor_Settings(transformer={}, parameters={}, input_names=(), output_names=(), probability_space=None, degree=2, discipline=None, use_quadrature=False, use_lars=False, use_cleaning=False, hyperbolic_parameter=1.0, n_quadrature_points=0, cleaning_options=None)</code>
+                      <code>PCERegressor_Settings(transformer={}, parameters={}, input_names=(), output_names=(), degree=2, learn_jacobian_data=False, use_special_jacobian_data=False, probability_space=None, discipline=None, use_quadrature=False, use_lars=False, use_cleaning=False, hyperbolic_parameter=1.0, n_quadrature_points=0, cleaning_options=None)</code>
                   </span>
               </p>
             </td>
@@ -7557,7 +7557,7 @@ the field <code>doe_algo_settings.n_samples</code> is ignored.</p>
             </td>
             <td class="doc-param-details">
               <div class="doc-md-description">
-                <p>Whether to approximate the Jacobian of the mean, standard deviation and variance of the PCE using the technique proposed in Section II.C.3 of [Riccardo Mura, Tiziano Ghisu and Shahrokh Shahpar, <em>Least Squares Approximation-based Polynomial Chaos Expansion for Uncertainty Quantification and Robust Optimization in Aeronautics</em>, AIAA 2020-3163. AIAA AVIATION 2020 FORUM, June 2020, <a href="https://doi.org/10.2514/6.2020-3163">DOI</a>.</p>
+                <p>Whether to approximate the Jacobian of the mean, standard deviation and variance of the FCE using the technique proposed in Section II.C.3 of [Riccardo Mura, Tiziano Ghisu and Shahrokh Shahpar, <em>Least Squares Approximation-based Polynomial Chaos Expansion for Uncertainty Quantification and Robust Optimization in Aeronautics</em>, AIAA 2020-3163. AIAA AVIATION 2020 FORUM, June 2020, <a href="https://doi.org/10.2514/6.2020-3163">DOI</a>.</p>
               </div>
               <p>
                   <span class="doc-param-annotation">

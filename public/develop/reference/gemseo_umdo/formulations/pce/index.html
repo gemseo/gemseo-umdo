@@ -1601,12 +1601,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../generated/examples/umdo/pce/plot_pce_quadratic/" class="md-nav__link">
+      <a href="../../../../generated/examples/umdo/pce/plot_pce_quadratic_approximated_jacobians/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    A quadratic mono-disciplinary problem
+    A quadratic mono-disciplinary problem with approximated statistics Jacobian
     
   </span>
   
@@ -1624,12 +1624,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../generated/examples/umdo/pce/plot_pce_quadratic_approximated_jacobians/" class="md-nav__link">
+      <a href="../../../../generated/examples/umdo/pce/plot_pce_quadratic/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    A quadratic mono-disciplinary problem with approximated statistics Jacobian
+    A quadratic mono-disciplinary problem
     
   </span>
   
@@ -7668,17 +7668,19 @@
 
     <div class="doc doc-contents first">
 
-        <p>PCE-based U-MDO formulation.</p>
-<p><a class="autorefs autorefs-internal" title="            PCE" href="#gemseo_umdo.formulations.pce.PCE">PCE</a> is an
+        <p>FCE-based U-MDO formulation.</p>
+<p><a class="autorefs autorefs-internal" title="            PCE" href="#gemseo_umdo.formulations.pce.PCE">PCE</a> is a
 <a class="autorefs autorefs-internal" title="            BaseUMDOFormulation" href="../base_umdo_formulation/#gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation">BaseUMDOFormulation</a>
-estimating the statistics from the coefficients of a polynomial chaos expansion (PCE).</p>
+estimating the statistics of <span class="arithmatex">\(f(x,U)\)</span> at a point <span class="arithmatex">\(x\)</span>
+from the coefficients of a functional chaos expansion (FCE) model</p>
+<div class="arithmatex">\[\hat{f}_x(U)=\alpha_0 + \sum_{1\geq i\leq P}\alpha_i\Phi_i(U)\]</div>
+<p>built over the uncertain space.</p>
 <p>E.g.</p>
 <div class="arithmatex">\[\mathbb{E}[f(x,U)] \approx \alpha_0\]</div>
-<p>or</p>
-<div class="arithmatex">\[\mathbb{V}[f(x,U)] \approx \sum_{1&lt;i\leq P}\alpha_i^2\]</div>
-<p>where <span class="arithmatex">\((\alpha_i)_{1\leq i \leq N}\)</span> are the coefficients of the PCE</p>
-<div class="arithmatex">\[\hat{f}_x(U)=\alpha_0 + \sum_{1&lt;i\leq P}\alpha_i\Phi_i(U)\]</div>
-<p>built at <span class="arithmatex">\(x\)</span> over the uncertain space.</p>
+<p>and</p>
+<div class="arithmatex">\[\mathbb{V}[f(x,U)] \approx \sum_{1\geq i\leq P}\alpha_i^2.\]</div>
+<p>The best-known FCE is the polynomial chaos expansion (PCE),
+hence the name of the U-MDO formulation.</p>
 
 
 
@@ -7726,7 +7728,7 @@ estimating the statistics from the coefficients of a polynomial chaos expansion 
               Bases: <code><a class="autorefs autorefs-internal" title="            Surrogate (gemseo_umdo.formulations.surrogate.Surrogate)" href="../surrogate/#gemseo_umdo.formulations.surrogate.Surrogate">Surrogate</a></code></p>
 
 
-        <p>PCE-based U-MDO formulation.</p>
+        <p>FCE-based U-MDO formulation.</p>
 <div class="admonition note">
 <p class="admonition-title">DOE algorithms</p>
 <p>This formulation uses a DOE algorithm;

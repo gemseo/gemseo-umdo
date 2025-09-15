@@ -68,6 +68,15 @@ scenario = UMDOScenario(
     "Mean",
     formulation_name="DisciplinaryOpt",
     statistic_estimation_settings=PCE_Settings(n_samples=20),
+    # Note that we can change the settings of the OpenTURNS-based PCE regressor:
+    # statistic_estimation_settings=PCE_Settings(
+    #     n_samples=20, regressor_settings=PCERegressor_Settings(use_lars=True)
+    # ),
+    #
+    # or even change the type of FCE regressor:
+    # statistic_estimation_settings=PCE_Settings(
+    #     n_samples=20, regressor_settings=FCERegressor_Settings()
+    # ),
 )
 # %%
 # !!! note
