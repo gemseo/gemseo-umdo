@@ -14,7 +14,7 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 r"""Sampling-based U-MDO formulation.
 
-[Sampling][gemseo_umdo.formulations.sampling.Sampling] is an
+[Sampling][gemseo_umdo.formulations.sampling.Sampling] is a
 [BaseUMDOFormulation][gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation]
 estimating the statistics with (quasi) Monte Carlo techniques.
 

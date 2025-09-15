@@ -26,6 +26,15 @@ The format is based on
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Develop
+
+### Added
+
+- The U-MDO formulation [PCE][gemseo_umdo.formulations.pce.PCE] can support any type of
+  [BaseFCERegressor][gemseo.mlearning.regression.algos.base_fce.BaseFCERegressor],
+  e.g., [PCERegressor][gemseo.mlearning.regression.algos.pce.PCERegressor] (default)
+  and [FCERegressor][gemseo.mlearning.regression.algos.fce.FCERegressor].
+
 ## Version 4.2.0 (August 2025)
 
 ### Added
@@ -43,7 +52,7 @@ and this project adheres to
   can be either the increment of the sampling size
   or a function computing this increment from the current sampling size.
 - The U-MDO formulations [Surrogate][gemseo_umdo.formulations.surrogate.Surrogate]
-  and [PCERegressor][gemseo.mlearning.regression.algos.pce.PCERegressor]
+  and [PCE][gemseo_umdo.formulations.pce.PCE]
   store the quality of the surrogate models in the database attached to the scenario
   (see `scenario.formulation.optimization_problem.database`).
 

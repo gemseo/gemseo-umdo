@@ -39,7 +39,7 @@ fieldz==0.1.2
     # via griffe-fieldz
 fonttools==4.59.2
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@2e64c61d5e1bbfb9a3b7d918685d1bdf5fb02bb3
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@da8c0e984b9f27e6d8fd998e1cd7f2c9a33c5bce
     # via
     #   -c requirements/test-constraints.in
     #   gemseo-umdo (pyproject.toml)
@@ -169,6 +169,7 @@ numpy==2.3.1
     #   pyxdsm
     #   scikit-learn
     #   scipy
+    #   spgl1
 openpyxl==3.1.5
     # via gemseo
 openturns==1.25
@@ -272,10 +273,13 @@ scipy==1.15.2
     #   gemseo
     #   pydoe3
     #   scikit-learn
+    #   spgl1
 setuptools==80.9.0
     # via mkdocs-bibtex
 six==1.17.0
     # via python-dateutil
+spgl1==0.0.3
+    # via gemseo
 strenum==0.4.15
     # via gemseo
 sympy==1.14.0

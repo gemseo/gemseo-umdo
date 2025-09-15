@@ -14,7 +14,7 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 r"""Surrogate-based U-MDO formulation.
 
-[Surrogate][gemseo_umdo.formulations.surrogate.Surrogate] is an
+[Surrogate][gemseo_umdo.formulations.surrogate.Surrogate] is a
 [BaseUMDOFormulation][gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation]
 estimating the statistics with (quasi) Monte Carlo techniques
 applied to a surrogate model.

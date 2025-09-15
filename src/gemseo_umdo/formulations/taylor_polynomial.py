@@ -14,7 +14,7 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 r"""U-MDO formulation based on Taylor polynomials.
 
-[TaylorPolynomial][gemseo_umdo.formulations.taylor_polynomial.TaylorPolynomial] is an
+[TaylorPolynomial][gemseo_umdo.formulations.taylor_polynomial.TaylorPolynomial] is a
 [BaseUMDOFormulation][gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation]
 estimating the statistics with first- or second-order Taylor polynomials
 around the expectation of the uncertain variables:
