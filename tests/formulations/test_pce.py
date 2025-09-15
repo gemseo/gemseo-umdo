@@ -26,6 +26,7 @@ from gemseo.algos.doe.custom_doe.settings.custom_doe_settings import CustomDOE_S
 from gemseo.algos.doe.openturns.openturns import OpenTURNS
 from gemseo.algos.doe.openturns.settings.ot_halton import OT_HALTON_Settings
 from gemseo.formulations.disciplinary_opt import DisciplinaryOpt
+from gemseo.mlearning.regression.algos.fce_settings import FCERegressor_Settings
 from gemseo.mlearning.regression.algos.pce import PCERegressor
 from gemseo.mlearning.regression.algos.pce_settings import PCERegressor_Settings
 from gemseo.mlearning.regression.quality.r2_measure import R2Measure
@@ -346,33 +347,52 @@ def test_quality_log_level(
 
 
 @pytest.mark.parametrize(
-    ("input_dimension", "pce_settings", "pce_regressor_settings", "f_opt", "jac_opt"),
+    ("input_dimension", "pce_settings", "regressor_settings", "f_opt", "jac_opt"),
     [
-        (1, {}, {}, 2.0, array([[2.0011889]])),
-        (1, {}, {"degree": 1}, 1.9972399330987038, array([[2.0011889]])),
-        (1, {"approximate_statistics_jacobians": True}, {}, 2.0, array([[2.0]])),
+        (1, {}, PCERegressor_Settings(), 2.0, array([[2.0]])),
+        (1, {}, PCERegressor_Settings(degree=1), 1.9972399330987038, array([[2.0]])),
         (
             1,
-            {"approximate_statistics_jacobians": True, "differentiation_step": 1e-2},
-            {},
+            {"approximate_statistics_jacobians": True},
+            PCERegressor_Settings(),
             2.0,
             array([[2.0]]),
         ),
-        (2, {}, {}, 5.916420174564085, array([[[1.9761176, 6.6563359]]])),
-        (2, {}, {"degree": 1}, 6.404476351650847, array([[[1.9761176, 6.6563359]]])),
+        (
+            1,
+            {"approximate_statistics_jacobians": True, "differentiation_step": 1e-2},
+            PCERegressor_Settings(),
+            2.0,
+            array([[2.0]]),
+        ),
+        (2, {}, PCERegressor_Settings(), 5.916420174564085, array([[[2.0, 6.0]]])),
+        (
+            2,
+            {},
+            PCERegressor_Settings(degree=1),
+            6.404476351650847,
+            array([[[2.0, 6.5868963]]]),
+        ),
         (
             2,
             {"approximate_statistics_jacobians": True},
-            {},
+            PCERegressor_Settings(),
             5.916420174564085,
             array([[[1.8819588, 7.0932709]]]),
         ),
         (
             2,
             {"approximate_statistics_jacobians": True, "differentiation_step": 1e-2},
-            {},
+            PCERegressor_Settings(),
             5.916420174564085,
             array([[[1.8819588, 7.0932709]]]),
+        ),
+        (
+            1,
+            {},
+            FCERegressor_Settings(),
+            2.0,
+            array([[2.0]]),
         ),
     ],
 )
@@ -380,7 +400,7 @@ def test_scenario(
     quadratic_problem,
     input_dimension,
     pce_settings,
-    pce_regressor_settings,
+    regressor_settings,
     f_opt,
     jac_opt,
 ):
@@ -398,7 +418,7 @@ def test_scenario(
         formulation_name="DisciplinaryOpt",
         statistic_estimation_settings=PCE_Settings(
             n_samples=20,
-            regressor_settings=PCERegressor_Settings(**pce_regressor_settings),
+            regressor_settings=regressor_settings,
             **pce_settings,
         ),
     )

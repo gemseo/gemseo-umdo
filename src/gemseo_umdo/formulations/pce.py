@@ -12,25 +12,27 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-r"""PCE-based U-MDO formulation.
+r"""FCE-based U-MDO formulation.
 
-[PCE][gemseo_umdo.formulations.pce.PCE] is an
+[PCE][gemseo_umdo.formulations.pce.PCE] is a
 [BaseUMDOFormulation][gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation]
-estimating the statistics from the coefficients of a polynomial chaos expansion (PCE).
+estimating the statistics of $f(x,U)$ at a point $x$
+from the coefficients of a functional chaos expansion (FCE) model
+
+$$\hat{f}_x(U)=\alpha_0 + \sum_{1\geq i\leq P}\alpha_i\Phi_i(U)$$
+
+built over the uncertain space.
 
 E.g.
 
 $$\mathbb{E}[f(x,U)] \approx \alpha_0$$
 
-or
+and
 
-$$\mathbb{V}[f(x,U)] \approx \sum_{1<i\leq P}\alpha_i^2$$
+$$\mathbb{V}[f(x,U)] \approx \sum_{1\geq i\leq P}\alpha_i^2.$$
 
-where $(\alpha_i)_{1\leq i \leq N}$ are the coefficients of the PCE
-
-$$\hat{f}_x(U)=\alpha_0 + \sum_{1<i\leq P}\alpha_i\Phi_i(U)$$
-
-built at $x$ over the uncertain space.
+The best-known FCE is the polynomial chaos expansion (PCE),
+hence the name of the U-MDO formulation.
 """
 
 from __future__ import annotations
@@ -46,7 +48,7 @@ from gemseo_umdo.formulations.surrogate import Surrogate
 
 
 class PCE(Surrogate):
-    """PCE-based U-MDO formulation.
+    """FCE-based U-MDO formulation.
 
     !!! note "DOE algorithms"
         This formulation uses a DOE algorithm;

@@ -23,7 +23,7 @@ from typing import TYPE_CHECKING
 from typing import Any
 from typing import TypeVar
 
-from gemseo.mlearning.regression.algos.pce import PCERegressor
+from gemseo.mlearning.regression.algos.factory import RegressorFactory
 from gemseo.utils.data_conversion import split_array_to_dict_of_arrays as array_to_dict
 from numpy import array
 from numpy import hstack
@@ -35,6 +35,8 @@ from gemseo_umdo.formulations._functions.statistic_function_for_surrogate import
 from gemseo_umdo.formulations._statistics.pce.base_pce_estimator import BasePCEEstimator
 
 if TYPE_CHECKING:
+    from gemseo.mlearning.regression.algos.base_fce import BaseFCERegressor
+    from gemseo.mlearning.regression.algos.pce import PCERegressor
     from gemseo.typing import RealArray
 
     from gemseo_umdo.formulations.pce import PCE
@@ -69,33 +71,40 @@ class StatisticFunctionForPCE(StatisticFunctionForSurrogate[PCET]):
     ) -> dict[str, Any]:
         pce_formulation = self._umdo_formulation
         settings = pce_formulation._settings
+        learn_jacobian_data = (
+            estimate_jacobian and not settings.approximate_statistics_jacobians
+        )
         samples = pce_formulation.compute_samples(
             pce_formulation.mdo_formulation.optimization_problem,
-            compute_jacobian=(
-                estimate_jacobian and not settings.approximate_statistics_jacobians
-            ),
+            compute_jacobian=learn_jacobian_data,
         )
-        pce = PCERegressor(samples, settings_model=settings.regressor_settings)
-        pce.learn()
+        regressor_settings = settings.regressor_settings
+        regressor_settings.use_special_jacobian_data = learn_jacobian_data
+        fce = RegressorFactory().create(
+            regressor_settings._TARGET_CLASS_NAME,
+            samples,
+            settings_model=regressor_settings,
+        )
+        fce.learn()
 
         # Store the output data.
-        sizes = pce.sizes
-        output_names = pce.output_names
+        sizes = fce.sizes
+        output_names = fce.output_names
         mean_arg_name = BasePCEEstimator.MEAN_ARG_NAME
         std_arg_name = BasePCEEstimator.STD_ARG_NAME
         var_arg_name = BasePCEEstimator.VAR_ARG_NAME
         data = {
-            mean_arg_name: array_to_dict(pce.mean, sizes, output_names),
-            std_arg_name: array_to_dict(pce.standard_deviation, sizes, output_names),
-            var_arg_name: array_to_dict(pce.variance, sizes, output_names),
+            mean_arg_name: array_to_dict(fce.mean, sizes, output_names),
+            std_arg_name: array_to_dict(fce.standard_deviation, sizes, output_names),
+            var_arg_name: array_to_dict(fce.variance, sizes, output_names),
         }
         if estimate_jacobian:
             if settings.approximate_statistics_jacobians:
-                jac_mean, jac_std, jac_var = self.__approximate_jacobians(pce)
+                jac_mean, jac_std, jac_var = self.__approximate_jacobians(fce)
             else:
-                jac_mean = pce.mean_jacobian_wrt_special_variables
-                jac_std = pce.standard_deviation_jacobian_wrt_special_variables
-                jac_var = pce.variance_jacobian_wrt_special_variables
+                jac_mean = fce.mean_jacobian_wrt_special_variables
+                jac_std = fce.standard_deviation_jacobian_wrt_special_variables
+                jac_var = fce.variance_jacobian_wrt_special_variables
 
             jac_mean = {
                 k: v.T
@@ -111,7 +120,7 @@ class StatisticFunctionForPCE(StatisticFunctionForSurrogate[PCET]):
             data[self.__get_statistic_jac_name(std_arg_name)] = jac_std
             data[self.__get_statistic_jac_name(var_arg_name)] = jac_var
 
-        self._log_regressor_quality(pce, input_data)
+        self._log_regressor_quality(fce, input_data)
         return data
 
     @staticmethod
@@ -127,12 +136,12 @@ class StatisticFunctionForPCE(StatisticFunctionForSurrogate[PCET]):
         return f"{statistic_name}_jac"
 
     def __approximate_jacobians(
-        self, pce_regressor: PCERegressor
+        self, fce_regressor: BaseFCERegressor
     ) -> tuple[RealArray, RealArray, RealArray]:
         """Approximate the Jacobians of mean, variance and standard deviation.
 
         Args:
-            pce_regressor: A polynomial chaos expension regressor.
+            fce_regressor: A functional chaos expansion regressor.
 
         Returns:
             The Jacobian of the mean,
@@ -146,15 +155,17 @@ class StatisticFunctionForPCE(StatisticFunctionForSurrogate[PCET]):
         mean_up = []
         var_up = []
 
-        basis_functions = pce_regressor.algo.getReducedBasis()
-        input_sample = array(pce_regressor.algo.getInputSample())
-        output_sample = array(pce_regressor.algo.getOutputSample())
-        transformation = pce_regressor.algo.getTransformation()
+        data = fce_regressor.learning_set
+        indices = fce_regressor.learning_samples_indices
+        input_sample = data.input_dataset.get_view(indices=indices).to_numpy()
+        output_sample = data.output_dataset.get_view(indices=indices).to_numpy()
+        basis_functions = fce_regressor._basis_functions
+        transformation = fce_regressor._isoprobabilistic_transformation
 
         # Original training set: (u_i(1), ..., u_i(d), y_i)_{i=1...N}
         i = 0
-        for input_name in pce_regressor.input_names:
-            for _ in range(pce_regressor.sizes[input_name]):
+        for input_name in fce_regressor.input_names:
+            for _ in range(fce_regressor.sizes[input_name]):
                 input_sample_i = input_sample.copy()
                 for step, mean_, var_ in (
                     # (u_i(1), ..., u_i(j-1), u(j)+ε, u_i(j+1), ..., u_i(d), y_i)_i
