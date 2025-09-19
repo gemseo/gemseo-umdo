@@ -28,9 +28,9 @@ execnet==2.1.1
     # via pytest-xdist
 fastjsonschema==2.21.1
     # via gemseo
-fonttools==4.59.2
+fonttools==4.60.0
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@da8c0e984b9f27e6d8fd998e1cd7f2c9a33c5bce
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@1229874bfb02edf89307673e2576caec9f035be0
     # via
     #   -c requirements/test-constraints.in
     #   gemseo-umdo (pyproject.toml)
@@ -102,7 +102,7 @@ pluggy==1.6.0
     #   pytest-cov
 prettytable==3.16.0
     # via gemseo
-psutil==7.0.0
+psutil==7.1.0
     # via openturns
 pydantic==2.11.7
     # via
@@ -116,7 +116,7 @@ pydoe3==1.0.5
     # via gemseo
 pygments==2.19.2
     # via pytest
-pyparsing==3.2.3
+pyparsing==3.2.4
     # via matplotlib
 pytest==8.4.2
     # via
