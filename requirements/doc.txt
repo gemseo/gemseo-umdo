@@ -88,7 +88,7 @@ markdown==3.9
     #   pymdown-extensions
 markdown-exec==1.11.0
     # via gemseo-umdo (pyproject.toml:doc)
-markupsafe==3.0.2
+markupsafe==3.0.3
     # via
     #   jinja2
     #   mkdocs
