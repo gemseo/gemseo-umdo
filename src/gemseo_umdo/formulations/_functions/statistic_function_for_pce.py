@@ -71,15 +71,27 @@ class StatisticFunctionForPCE(StatisticFunctionForSurrogate[PCET]):
     ) -> dict[str, Any]:
         pce_formulation = self._umdo_formulation
         settings = pce_formulation._settings
-        learn_jacobian_data = (
-            estimate_jacobian and not settings.approximate_statistics_jacobians
-        )
-        samples = pce_formulation.compute_samples(
-            pce_formulation.mdo_formulation.optimization_problem,
-            compute_jacobian=learn_jacobian_data,
-        )
         regressor_settings = settings.regressor_settings
-        regressor_settings.use_special_jacobian_data = learn_jacobian_data
+        if regressor_settings.learn_jacobian_data:
+            # FCE(u) trained from samples of df(x,u)du (i.e. gradient-enhanced FCE)
+            problem = pce_formulation.auxiliary_mdo_formulation.optimization_problem
+            compute_jacobian = True
+        elif estimate_jacobian and not settings.approximate_statistics_jacobians:
+            # FCE(u) trained from samples of df(x,u)dx
+            problem = pce_formulation.mdo_formulation.optimization_problem
+            compute_jacobian = True
+        else:
+            # Standard FCE(u) trained without samples of derivatives
+            problem = pce_formulation.mdo_formulation.optimization_problem
+            compute_jacobian = False
+
+        samples = pce_formulation.compute_samples(problem, compute_jacobian)
+
+        if estimate_jacobian and not settings.approximate_statistics_jacobians:
+            regressor_settings.use_special_jacobian_data = True
+        else:
+            regressor_settings.use_special_jacobian_data = False
+
         fce = RegressorFactory().create(
             regressor_settings._TARGET_CLASS_NAME,
             samples,
