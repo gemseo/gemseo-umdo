@@ -16,15 +16,21 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from gemseo.mlearning.regression.algos.base_fce_settings import (  # noqa: TC002
     BaseFCERegressor_Settings,
 )
 from gemseo.mlearning.regression.algos.pce_settings import PCERegressor_Settings
 from pydantic import Field
 from pydantic import PositiveFloat
+from pydantic import model_validator
 
 from gemseo_umdo.formulations.base_surrogate_settings import SurrogateQuality_Settings
 from gemseo_umdo.formulations.surrogate_settings import Surrogate_Settings
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class PCE_Settings(Surrogate_Settings, SurrogateQuality_Settings):  # noqa: N801
@@ -62,3 +68,18 @@ class PCE_Settings(Surrogate_Settings, SurrogateQuality_Settings):  # noqa: N801
         default=PCERegressor_Settings(),
         description="The FCE settings.",
     )
+
+    @model_validator(mode="after")
+    def __validate(self) -> Self:
+        """Validate the model."""
+        if (
+            self.approximate_statistics_jacobians
+            and self.regressor_settings.use_special_jacobian_data
+        ):
+            msg = (
+                "The settings approximate_statistics_jacobians "
+                "and regressor_settings.use_special_jacobian_data cannot be both True."
+            )
+            raise ValueError(msg)
+
+        return self

@@ -64,3 +64,5 @@ class PCE(Surrogate):
     _STATISTIC_FUNCTION_CLASS: ClassVar[type[StatisticFunctionForPCE] | None] = (
         StatisticFunctionForPCE
     )
+
+    _USE_AUXILIARY_MDO_FORMULATION: ClassVar[bool] = True

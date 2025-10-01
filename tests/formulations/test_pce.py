@@ -394,6 +394,27 @@ def test_quality_log_level(
             2.0,
             array([[2.0]]),
         ),
+        (
+            1,
+            {},
+            FCERegressor_Settings(learn_jacobian_data=True),
+            2.0,
+            array([[2.0]]),
+        ),
+        (
+            1,
+            {"approximate_statistics_jacobians": True},
+            FCERegressor_Settings(learn_jacobian_data=True),
+            2.0,
+            array([[2.0]]),
+        ),
+        (
+            1,
+            {},
+            FCERegressor_Settings(use_special_jacobian_data=True),
+            2.0,
+            array([[2.0]]),
+        ),
     ],
 )
 def test_scenario(
@@ -430,3 +451,18 @@ def test_scenario(
     get = scenario.formulation.optimization_problem.database.get_gradient_history
     jac = get("E[y]")
     assert_almost_equal(jac, jac_opt)
+
+
+def test_settings_error():
+    """Check the error raised when using special variables and jac approximation."""
+    with pytest.raises(
+        ValueError,
+        match=re.escape(
+            "The settings approximate_statistics_jacobians "
+            "and regressor_settings.use_special_jacobian_data cannot be both True."
+        ),
+    ):
+        PCE_Settings(
+            approximate_statistics_jacobians=True,
+            regressor_settings=FCERegressor_Settings(use_special_jacobian_data=True),
+        )
