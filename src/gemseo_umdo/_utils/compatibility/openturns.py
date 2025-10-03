@@ -17,11 +17,14 @@
 from __future__ import annotations
 
 from importlib.metadata import version
+from typing import TYPE_CHECKING
 from typing import Final
 
 import openturns
-from packaging.version import Version
 from packaging.version import parse as parse_version
+
+if TYPE_CHECKING:
+    from packaging.version import Version
 
 OT_VERSION: Final[Version] = parse_version(version("openturns"))
 

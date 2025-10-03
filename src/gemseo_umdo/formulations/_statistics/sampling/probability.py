@@ -20,13 +20,14 @@ from operator import ge
 from operator import le
 from typing import TYPE_CHECKING
 from typing import Any
-from typing import Callable
 
 from gemseo_umdo.formulations._statistics.sampling.base_sampling_estimator import (
     BaseSamplingEstimator,
 )
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
+
     from gemseo.typing import RealArray
 
 

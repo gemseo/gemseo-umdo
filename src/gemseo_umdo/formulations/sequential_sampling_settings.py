@@ -16,8 +16,8 @@
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from typing import TYPE_CHECKING
-from typing import Callable
 
 from gemseo.algos.doe.base_n_samples_based_doe_settings import (
     BaseNSamplesBasedDOESettings,  # noqa: TC002

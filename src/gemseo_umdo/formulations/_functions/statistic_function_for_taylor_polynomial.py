@@ -21,7 +21,6 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 from typing import Any
-from typing import Callable
 from typing import TypeVar
 
 from gemseo.algos.database import Database
@@ -34,6 +33,8 @@ from gemseo_umdo.formulations._functions.base_statistic_function import (
 )
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
+
     from gemseo.algos.evaluation_problem import EvaluationProblem
     from gemseo.algos.parameter_space import ParameterSpace
     from gemseo.core.mdo_functions.mdo_function import MDOFunction
@@ -104,6 +105,7 @@ class StatisticFunctionForTaylorPolynomial(BaseStatisticFunction[TaylorPolynomia
             for function, hessian_function in zip(
                 self.__problem.functions,
                 self._umdo_formulation.hessian_fd_problem.functions,
+                strict=False,
             ):
                 hess_value = hessian_function.evaluate(mean_input_value)
                 if hess_value.ndim == 2:

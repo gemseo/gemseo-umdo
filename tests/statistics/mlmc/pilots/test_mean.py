@@ -49,5 +49,5 @@ def test_compute_V_l_delta(pilot, samples):  # noqa: N802
     delta = pilot._Mean__delta
     assert_almost_equal(V_l, array([nan, 0.0025, nan]))
     assert len(delta) == 3
-    for x, y in zip(delta, [array([]), array([-0.3, -0.4]), array([])]):
+    for x, y in zip(delta, [array([]), array([-0.3, -0.4]), array([])], strict=False):
         assert_almost_equal(x, y)

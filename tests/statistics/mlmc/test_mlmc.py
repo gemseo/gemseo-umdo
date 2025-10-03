@@ -20,7 +20,6 @@ import re
 from pathlib import Path
 from time import sleep
 from typing import TYPE_CHECKING
-from typing import Callable
 
 import pytest
 from gemseo.algos.parameter_space import ParameterSpace
@@ -40,6 +39,8 @@ from gemseo_umdo.use_cases.heat_equation.uncertain_space import (
 )
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
+
     from numpy.typing import NDArray
 
 

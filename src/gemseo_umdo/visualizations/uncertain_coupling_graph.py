@@ -18,7 +18,6 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 from typing import Any
-from typing import Callable
 from typing import Final
 
 from gemseo.core.dependency_graph import DependencyGraph
@@ -31,6 +30,7 @@ from numpy import quantile
 from strenum import StrEnum
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
     from collections.abc import Iterable
     from collections.abc import Sequence
     from pathlib import Path

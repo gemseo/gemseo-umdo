@@ -29,13 +29,15 @@ from gemseo.mlearning.regression.algos.factory import RegressorFactory
 from gemseo_umdo.formulations._functions.base_statistic_function import (
     BaseStatisticFunction,
 )
-from gemseo_umdo.formulations._functions.base_statistic_function import UMDOFormulationT
 
 if TYPE_CHECKING:
     from gemseo.algos.database import DatabaseKeyType
     from gemseo.mlearning.regression.algos.base_regressor import BaseRegressor
     from gemseo.typing import RealArray
 
+    from gemseo_umdo.formulations._functions.base_statistic_function import (
+        UMDOFormulationT,
+    )
     from gemseo_umdo.formulations.surrogate import Surrogate
 
 LOGGER = logging.getLogger(__name__)

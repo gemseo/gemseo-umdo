@@ -25,7 +25,6 @@ from gemseo.algos.parameter_space import ParameterSpace
 from gemseo.disciplines.analytic import AnalyticDiscipline
 from gemseo.formulations.mdf import MDF
 from numpy import array
-from numpy import ndarray
 from numpy.testing import assert_almost_equal
 from numpy.testing import assert_equal
 
@@ -45,6 +44,7 @@ if TYPE_CHECKING:
     from collections.abc import Sequence
 
     from gemseo.core.discipline.discipline import Discipline
+    from numpy import ndarray
 
 
 @pytest.fixture

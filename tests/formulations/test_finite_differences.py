@@ -98,6 +98,7 @@ def test_finite_differences(statistic_estimation_settings, expected):
             HashableNdarray(array([1.0 - step, 1.0])),
             HashableNdarray(array([1.0, 1.0 - step])),
         ],
+        strict=False,
     ):
         assert key == expected_key
 

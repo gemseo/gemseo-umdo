@@ -21,7 +21,6 @@ from typing import TYPE_CHECKING
 import pytest
 from gemseo.utils.testing.helpers import concretize_classes
 from numpy import array
-from numpy import ndarray
 from numpy.testing import assert_equal
 
 from gemseo_umdo.statistics.multilevel.base_pilot import BasePilot
@@ -30,6 +29,7 @@ if TYPE_CHECKING:
     from collections.abc import Iterable
     from collections.abc import Sequence
 
+    from numpy import ndarray
     from numpy._typing import NDArray
 
 

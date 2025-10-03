@@ -17,13 +17,14 @@
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
-from typing import Callable
 
 from gemseo.algos.database import Database
 from gemseo.core.mdo_functions.mdo_function import MDOFunction
 from gemseo.utils.derivatives.finite_differences import FirstOrderFD
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
+
     from gemseo.typing import NumberArray
     from gemseo.typing import RealArray
 

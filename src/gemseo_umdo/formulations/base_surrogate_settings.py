@@ -25,8 +25,8 @@ from gemseo.mlearning.regression.algos.base_regressor_settings import (
 from gemseo.mlearning.regression.algos.rbf_settings import RBFRegressor_Settings
 from gemseo.utils.seeder import SEED
 from pydantic import Field
-from pydantic import NonNegativeInt
-from pydantic import PositiveInt
+from pydantic import NonNegativeInt  # noqa: TC002
+from pydantic import PositiveInt  # noqa: TC002
 
 from gemseo_umdo.formulations.base_sampling_settings import BaseSamplingSettings
 

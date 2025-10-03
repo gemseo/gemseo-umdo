@@ -221,7 +221,8 @@ class MLMC:
         self.__n_l = array(self.__n_samples_history[0], dtype="int64")
 
         self.__minimum_budget = sum(
-            nl * cost for nl, cost in zip(self.__n_samples_history[0], self.__costs)
+            nl * cost
+            for nl, cost in zip(self.__n_samples_history[0], self.__costs, strict=False)
         )
         self.__total_budget = n_samples
         self.__current_budget = self.__total_budget
@@ -333,7 +334,7 @@ class MLMC:
         """Add the functions to the samplers."""
         # At level l>0, sample the functions f_l and f_{l-1}.
         for f_l, f_l_1, sampler in zip(
-            self.__f_l[1:], self.__f_l[:-1], self._samplers[1:]
+            self.__f_l[1:], self.__f_l[:-1], self._samplers[1:], strict=False
         ):
             sampler.add_function(f_l)
             sampler.add_function(f_l_1)

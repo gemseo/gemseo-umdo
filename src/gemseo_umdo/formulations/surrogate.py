@@ -43,7 +43,6 @@ from numbers import Number
 from operator import gt
 from operator import lt
 from typing import TYPE_CHECKING
-from typing import Callable
 from typing import ClassVar
 
 from gemseo.algos.doe.factory import DOELibraryFactory
@@ -63,6 +62,7 @@ from gemseo_umdo.formulations.base_umdo_formulation import BaseUMDOFormulation
 from gemseo_umdo.formulations.surrogate_settings import Surrogate_Settings
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
     from collections.abc import Iterable
     from collections.abc import Mapping
     from collections.abc import Sequence

@@ -34,6 +34,11 @@ and this project adheres to
   [BaseFCERegressor][gemseo.mlearning.regression.algos.base_fce.BaseFCERegressor],
   e.g., [PCERegressor][gemseo.mlearning.regression.algos.pce.PCERegressor] (default)
   and [FCERegressor][gemseo.mlearning.regression.algos.fce.FCERegressor].
+- Support for Python 3.13.
+
+### Removed
+
+- Support for Python 3.9.
 
 ## Version 4.2.0 (August 2025)
 

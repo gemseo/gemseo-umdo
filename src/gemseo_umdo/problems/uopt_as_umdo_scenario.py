@@ -35,9 +35,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 from typing import Any
-from typing import Callable
 
-from gemseo.problems.mdo.opt_as_mdo_scenario import BaseLinkDiscipline
 from gemseo.problems.mdo.opt_as_mdo_scenario import LinearLinkDiscipline
 from gemseo.problems.mdo.opt_as_mdo_scenario import create_disciplines
 from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
@@ -45,6 +43,7 @@ from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
     from collections.abc import Iterable
     from collections.abc import Mapping
 
@@ -52,6 +51,7 @@ if TYPE_CHECKING:
     from gemseo.algos.parameter_space import ParameterSpace
     from gemseo.core.discipline.discipline import Discipline
     from gemseo.formulations.base_formulation_settings import BaseFormulationSettings
+    from gemseo.problems.mdo.opt_as_mdo_scenario import BaseLinkDiscipline
     from gemseo.typing import RealArray
     from gemseo.typing import StrKeyMapping
 

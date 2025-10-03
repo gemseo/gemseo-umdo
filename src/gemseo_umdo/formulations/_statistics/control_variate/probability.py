@@ -20,13 +20,14 @@ from operator import ge
 from operator import le
 from typing import TYPE_CHECKING
 from typing import Any
-from typing import Callable
 
 from gemseo_umdo.formulations._statistics.control_variate.base_control_variate_estimator import (  # noqa: E501
     BaseControlVariateEstimator,
 )
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
+
     from gemseo.algos.parameter_space import ParameterSpace
     from gemseo.typing import RealArray
 

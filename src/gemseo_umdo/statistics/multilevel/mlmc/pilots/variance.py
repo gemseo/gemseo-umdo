@@ -65,7 +65,7 @@ class Variance(BaseMLMCPilot):
         #               where D_l = Y_l-Y_{l-1} and S_l = Y_l+Y_{l-1}
         return nansum([
             nanvar((delta + sigma) / 2) - nanvar((sigma - delta) / 2)
-            for delta, sigma in zip(self.__delta, self.__sigma)
+            for delta, sigma in zip(self.__delta, self.__sigma, strict=False)
         ])
 
     def _compute_V_l(  # noqa: D102 N802
@@ -89,5 +89,5 @@ class Variance(BaseMLMCPilot):
                 * nanmean((sigma - sigma.mean()) ** 4)
             )
             ** 0.5
-            for delta, sigma in zip(self.__delta, self.__sigma)
+            for delta, sigma in zip(self.__delta, self.__sigma, strict=False)
         ])

@@ -51,7 +51,7 @@ def test_compute_V_l_delta(pilot, samples):  # noqa: N802
     assert_almost_equal(V_l, array([nan, 0.0027563, nan]))
     assert len(delta) == 3
     assert len(sigma) == 3
-    for x, y in zip(delta, [array([]), array([-0.3, -0.4]), array([])]):
+    for x, y in zip(delta, [array([]), array([-0.3, -0.4]), array([])], strict=False):
         assert_almost_equal(x, y)
-    for x, y in zip(sigma, [array([]), array([2.5, 4.6]), array([])]):
+    for x, y in zip(sigma, [array([]), array([2.5, 4.6]), array([])], strict=False):
         assert_almost_equal(x, y)
