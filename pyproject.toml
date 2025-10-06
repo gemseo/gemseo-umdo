@@ -14,13 +14,13 @@ classifiers = [
     "Operating System :: MacOS",
     "Operating System :: Microsoft :: Windows",
     "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
 ]
 dynamic = ["version"]
-requires-python = ">=3.9, <3.13"
+requires-python = ">=3.10, <3.14"
 dependencies = [
     "gemseo[all] >=6,<7",
     "matplotlib",
@@ -30,10 +30,10 @@ dependencies = [
 
 [dependency-groups]
 dev = [
-    "covdefaults",
-    "pytest <9",
-    "pytest-cov",
-    "pytest-xdist",
+    "covdefaults >=2",
+    "pytest >=7,<9",
+    "pytest-cov >=5",
+    "pytest-xdist >=3",
 ]
 doc = [
     "black",

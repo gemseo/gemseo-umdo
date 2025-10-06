@@ -16,15 +16,19 @@
 
 from __future__ import annotations
 
-from typing import Callable
+from typing import TYPE_CHECKING
 
 import pytest
 from gemseo.core.mdo_functions.mdo_function import MDOFunction
 from numpy import array
-from numpy import ndarray
 from numpy.testing import assert_equal
 
 from gemseo_umdo.statistics.multilevel.mlmc_mlcv.level import Level
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
+
+    from numpy import ndarray
 
 
 @pytest.fixture(scope="module")

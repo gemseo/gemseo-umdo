@@ -25,11 +25,12 @@ from numpy import array_equal
 from numpy import newaxis
 from numpy.testing import assert_equal
 
-from gemseo_umdo.monte_carlo_sampler import FunctionType
 from gemseo_umdo.monte_carlo_sampler import MonteCarloSampler
 
 if TYPE_CHECKING:
     from numpy.typing import NDArray
+
+    from gemseo_umdo.monte_carlo_sampler import FunctionType
 
 
 @pytest.fixture

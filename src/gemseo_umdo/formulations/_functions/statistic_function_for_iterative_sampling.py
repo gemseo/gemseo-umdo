@@ -84,6 +84,7 @@ class StatisticFunctionForIterativeSampling(
             for callbacks in zip(
                 self._umdo_formulation.callbacks,
                 self._umdo_formulation.jacobian_callbacks,
+                strict=False,
             )
             for callback in callbacks
             if isinstance(callback, IterativeEstimation)
