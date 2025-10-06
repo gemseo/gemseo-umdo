@@ -36,9 +36,12 @@ when solving an MDO problem under uncertainty
 whose statistics are estimated by Monte Carlo sampling.
 """
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from gemseo.algos.doe.scipy.settings.mc import MC_Settings
 from gemseo.algos.parameter_space import ParameterSpace
-from gemseo.datasets.optimization_dataset import OptimizationDataset
 from gemseo.formulations.mdf_settings import MDF_Settings
 from gemseo.mda.gauss_seidel_settings import MDAGaussSeidel_Settings
 from gemseo.problems.mdo.sellar.sellar_1 import Sellar1
@@ -52,6 +55,9 @@ from gemseo.utils.timer import Timer
 
 from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
+
+if TYPE_CHECKING:
+    from gemseo.datasets.optimization_dataset import OptimizationDataset
 
 # %%
 # First,
