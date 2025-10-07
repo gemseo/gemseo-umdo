@@ -26,7 +26,7 @@ from typing import TypeVar
 from gemseo.mlearning.regression.algos.factory import RegressorFactory
 from gemseo.utils.data_conversion import split_array_to_dict_of_arrays as array_to_dict
 from numpy import array
-from numpy import hstack
+from numpy import vstack
 from scipy.linalg import solve
 
 from gemseo_umdo.formulations._functions.statistic_function_for_surrogate import (
@@ -169,36 +169,41 @@ class StatisticFunctionForPCE(StatisticFunctionForSurrogate[PCET]):
 
         data = fce_regressor.learning_set
         indices = fce_regressor.learning_samples_indices
-        input_sample = data.input_dataset.get_view(indices=indices).to_numpy()
-        output_sample = data.output_dataset.get_view(indices=indices).to_numpy()
-        basis_functions = fce_regressor._basis_functions
-        transformation = fce_regressor._isoprobabilistic_transformation
+        input_samples = data.input_dataset.get_view(indices=indices).to_numpy()
+        output_samples = data.output_dataset.get_view(indices=indices).to_numpy()
+        if fce_regressor._jacobian_data is not None:
+            jacobian_samples = fce_regressor._create_jacobian_for_linear_model_fitting(
+                input_samples
+            )
 
         # Original training set: (u_i(1), ..., u_i(d), y_i)_{i=1...N}
         i = 0
         for input_name in fce_regressor.input_names:
             for _ in range(fce_regressor.sizes[input_name]):
-                input_sample_i = input_sample.copy()
+                input_samples_i = input_samples.copy()
                 for step, mean_, var_ in (
                     # (u_i(1), ..., u_i(j-1), u(j)+ε, u_i(j+1), ..., u_i(d), y_i)_i
                     (differentiation_step, mean_down, var_down),
                     # (u_i(1), ..., u_i(j-1), u(j)-2ε, u_i(j+1), ..., u_i(d), y_i)_i
                     (-2 * differentiation_step, mean_up, var_up),
                 ):
-                    input_sample_i[:, i] += step
-                    phi = hstack([
-                        array(basis_function(transformation(input_sample_i)))
-                        for basis_function in basis_functions
-                    ])
+                    input_samples_i[:, i] += step
+                    features = fce_regressor._evaluate_basis_functions(input_samples_i)
+                    if fce_regressor._settings.learn_jacobian_data:
+                        features = vstack(features)
+                        observations = vstack((output_samples, jacobian_samples))
+                    else:
+                        features = features[0]
+                        observations = output_samples
                     coefficients = (
                         solve(
-                            phi.T @ phi,
-                            phi.T,
+                            features.T @ features,
+                            features.T,
                             overwrite_a=True,
                             overwrite_b=True,
                             assume_a="sym",
                         )
-                        @ output_sample
+                        @ observations
                     )
                     mean_.append(coefficients[0, :])
                     var_.append((coefficients[1:, :] ** 2).sum(axis=0))
