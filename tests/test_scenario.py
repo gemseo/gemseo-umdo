@@ -33,6 +33,7 @@ from numpy.linalg import norm
 
 from gemseo_umdo.disciplines.additive_noiser import AdditiveNoiser
 from gemseo_umdo.disciplines.multiplicative_noiser import MultiplicativeNoiser
+from gemseo_umdo.formulations.factory import UMDO_FORMULATION_FACTORY
 from gemseo_umdo.formulations.factory import UMDOFormulationsFactory
 from gemseo_umdo.formulations.sampling import Sampling
 from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
@@ -42,7 +43,7 @@ from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 if TYPE_CHECKING:
     from gemseo.core.discipline.discipline import Discipline
 
-AVAILABLE_FORMULATIONS = UMDOFormulationsFactory().class_names
+AVAILABLE_FORMULATIONS = UMDO_FORMULATION_FACTORY.class_names
 
 
 @pytest.fixture

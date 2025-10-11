@@ -133,6 +133,7 @@ class BaseUMDOFormulation(BaseFormulation):
         uncertain_space: ParameterSpace,
         objective_statistic_name: str,
         settings_model: BaseUMDOFormulationSettings,
+        minimize_objective: bool = True,
         objective_statistic_parameters: StrKeyMapping = READ_ONLY_EMPTY_DICT,
         mdo_formulation_settings: StrKeyMapping = READ_ONLY_EMPTY_DICT,
     ) -> None:
@@ -174,7 +175,11 @@ class BaseUMDOFormulation(BaseFormulation):
             **objective_statistic_parameters,
         )
         super().__init__(
-            disciplines, objective_name, design_space, settings_model=settings_model
+            disciplines,
+            objective_name,
+            design_space,
+            minimize_objective=minimize_objective,
+            settings_model=settings_model,
         )
         self.name = f"{self.__class__.__name__}[{mdo_formulation.__class__.__name__}]"
 
@@ -189,13 +194,20 @@ class BaseUMDOFormulation(BaseFormulation):
         )
         objective.name = objective_name
         self.optimization_problem.objective = objective
-        self.optimization_problem.minimize_objective = (
-            mdo_formulation.optimization_problem.minimize_objective
-        )
+        self.optimization_problem.minimize_objective = minimize_objective
 
         # Initialize the cache mechanism.
         self.input_data_to_output_data = {}
         self.optimization_problem.add_listener(self._clear_input_data_to_output_data)
+
+    def _build_objective(
+        self,
+        objective_name: str | Sequence[str],
+        minimize_objective: bool,
+        discipline: Discipline | None = None,
+        top_level_disc: bool = True,
+    ) -> None:
+        return None
 
     def _clear_input_data_to_output_data(self, x_vect: RealArray) -> None:
         """Clear the attribute `input_data_to_output_data`.

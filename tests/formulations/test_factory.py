@@ -14,29 +14,24 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 from __future__ import annotations
 
-import pytest
 from gemseo.formulations.factory import MDOFormulationFactory
 
-from gemseo_umdo.formulations.factory import UMDOFormulationsFactory
+from gemseo_umdo.formulations.factory import UMDO_FORMULATION_FACTORY
 
 
-@pytest.fixture
-def factory() -> UMDOFormulationsFactory:
-    """The factory of BaseUMDOFormulation."""
-    return UMDOFormulationsFactory()
-
-
-def test_inheritance(factory):
+def test_inheritance():
     """Check that the factory is also a MDOFormulationsFactory."""
-    assert isinstance(factory, MDOFormulationFactory)
+    assert isinstance(UMDO_FORMULATION_FACTORY, MDOFormulationFactory)
 
 
-def test_mdo_formulation(factory):
+def test_mdo_formulation():
     """Check that UMDOFormulationsFactory does not contain MDO formulations."""
     mdo_formulations = MDOFormulationFactory().class_names
-    assert not set(mdo_formulations).intersection(set(factory.class_names))
+    assert not set(mdo_formulations).intersection(
+        set(UMDO_FORMULATION_FACTORY.class_names)
+    )
 
 
-def test_u_formulation(factory):
+def test_u_formulation():
     """Check the method is_available of the factory."""
-    assert factory.is_available("Sampling")
+    assert UMDO_FORMULATION_FACTORY.is_available("Sampling")
