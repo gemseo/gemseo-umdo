@@ -7575,6 +7575,7 @@ and <span class="arithmatex">\(U^{(1)},\ldots,U^{(N)}\)</span> are <span class="
     <span class="n">uncertain_space</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.algos.parameter_space.ParameterSpace" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.parameter_space.html#gemseo.algos.parameter_space.ParameterSpace">ParameterSpace</a></span><span class="p">,</span>
     <span class="n">objective_statistic_name</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">,</span>
     <span class="n">settings_model</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="            ControlVariate_Settings (gemseo_umdo.formulations.control_variate_settings.ControlVariate_Settings)" href="../control_variate_settings/#gemseo_umdo.formulations.control_variate_settings.ControlVariate_Settings">ControlVariate_Settings</a></span><span class="p">,</span>
+    <span class="n">minimize_objective</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">objective_statistic_parameters</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.typing.StrKeyMapping" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.typing.html#gemseo.typing.StrKeyMapping">StrKeyMapping</a></span> <span class="o">=</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.utils.constants.READ_ONLY_EMPTY_DICT" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.utils.constants.html#gemseo.utils.constants.READ_ONLY_EMPTY_DICT">READ_ONLY_EMPTY_DICT</a></span><span class="p">,</span>
     <span class="n">mdo_formulation_settings</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.typing.StrKeyMapping" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.typing.html#gemseo.typing.StrKeyMapping">StrKeyMapping</a></span> <span class="o">=</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.utils.constants.READ_ONLY_EMPTY_DICT" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.utils.constants.html#gemseo.utils.constants.READ_ONLY_EMPTY_DICT">READ_ONLY_EMPTY_DICT</a></span><span class="p">,</span>
 <span class="p">)</span>
@@ -7725,6 +7726,26 @@ If <code>None</code>, use <code>**settings</code>.</p>
           </tr>
           <tr class="doc-section-item">
             <td>
+                <code>minimize_objective</code>
+            </td>
+            <td class="doc-param-details">
+              <div class="doc-md-description">
+                <p>Whether to minimize the objective.</p>
+              </div>
+              <p>
+                  <span class="doc-param-annotation">
+                    <b>TYPE:</b>
+                      <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>
+                  </span>
+                  <span class="doc-param-default">
+                    <b>DEFAULT:</b>
+                      <code>True</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
                 <code>objective_statistic_parameters</code>
             </td>
             <td class="doc-param-details">
@@ -7808,7 +7829,9 @@ of the statistic to be applied to the objective, if any.</p>
 <span class="normal">125</span>
 <span class="normal">126</span>
 <span class="normal">127</span>
-<span class="normal">128</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>  <span class="c1"># noqa: D107</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>  <span class="c1"># noqa: D107</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">disciplines</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Discipline</span><span class="p">],</span>
     <span class="n">objective_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -7817,6 +7840,7 @@ of the statistic to be applied to the objective, if any.</p>
     <span class="n">uncertain_space</span><span class="p">:</span> <span class="n">ParameterSpace</span><span class="p">,</span>
     <span class="n">objective_statistic_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">settings_model</span><span class="p">:</span> <span class="n">ControlVariate_Settings</span><span class="p">,</span>
+    <span class="n">minimize_objective</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">objective_statistic_parameters</span><span class="p">:</span> <span class="n">StrKeyMapping</span> <span class="o">=</span> <span class="n">READ_ONLY_EMPTY_DICT</span><span class="p">,</span>
     <span class="n">mdo_formulation_settings</span><span class="p">:</span> <span class="n">StrKeyMapping</span> <span class="o">=</span> <span class="n">READ_ONLY_EMPTY_DICT</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -7833,6 +7857,7 @@ of the statistic to be applied to the objective, if any.</p>
         <span class="n">uncertain_space</span><span class="p">,</span>
         <span class="n">objective_statistic_name</span><span class="p">,</span>
         <span class="n">settings_model</span><span class="p">,</span>
+        <span class="n">minimize_objective</span><span class="o">=</span><span class="n">minimize_objective</span><span class="p">,</span>
         <span class="n">objective_statistic_parameters</span><span class="o">=</span><span class="n">objective_statistic_parameters</span><span class="p">,</span>
         <span class="n">mdo_formulation_settings</span><span class="o">=</span><span class="n">mdo_formulation_settings</span><span class="p">,</span>
     <span class="p">)</span>
@@ -8188,19 +8213,7 @@ from <code>output_name</code>, <code>constraint_type</code>, <code>value</code> 
 
             <details class="quote">
               <summary>Source code in <code>src/gemseo_umdo/formulations/base_umdo_formulation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">284</span>
-<span class="normal">285</span>
-<span class="normal">286</span>
-<span class="normal">287</span>
-<span class="normal">288</span>
-<span class="normal">289</span>
-<span class="normal">290</span>
-<span class="normal">291</span>
-<span class="normal">292</span>
-<span class="normal">293</span>
-<span class="normal">294</span>
-<span class="normal">295</span>
-<span class="normal">296</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">296</span>
 <span class="normal">297</span>
 <span class="normal">298</span>
 <span class="normal">299</span>
@@ -8237,7 +8250,19 @@ from <code>output_name</code>, <code>constraint_type</code>, <code>value</code> 
 <span class="normal">330</span>
 <span class="normal">331</span>
 <span class="normal">332</span>
-<span class="normal">333</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_constraint</span><span class="p">(</span>
+<span class="normal">333</span>
+<span class="normal">334</span>
+<span class="normal">335</span>
+<span class="normal">336</span>
+<span class="normal">337</span>
+<span class="normal">338</span>
+<span class="normal">339</span>
+<span class="normal">340</span>
+<span class="normal">341</span>
+<span class="normal">342</span>
+<span class="normal">343</span>
+<span class="normal">344</span>
+<span class="normal">345</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_constraint</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">output_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
     <span class="n">statistic_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -8424,19 +8449,7 @@ If <code>None</code>, the discipline is detected from inner disciplines.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/gemseo_umdo/formulations/base_umdo_formulation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">236</span>
-<span class="normal">237</span>
-<span class="normal">238</span>
-<span class="normal">239</span>
-<span class="normal">240</span>
-<span class="normal">241</span>
-<span class="normal">242</span>
-<span class="normal">243</span>
-<span class="normal">244</span>
-<span class="normal">245</span>
-<span class="normal">246</span>
-<span class="normal">247</span>
-<span class="normal">248</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">248</span>
 <span class="normal">249</span>
 <span class="normal">250</span>
 <span class="normal">251</span>
@@ -8470,7 +8483,19 @@ If <code>None</code>, the discipline is detected from inner disciplines.</p>
 <span class="normal">279</span>
 <span class="normal">280</span>
 <span class="normal">281</span>
-<span class="normal">282</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_observable</span><span class="p">(</span>
+<span class="normal">282</span>
+<span class="normal">283</span>
+<span class="normal">284</span>
+<span class="normal">285</span>
+<span class="normal">286</span>
+<span class="normal">287</span>
+<span class="normal">288</span>
+<span class="normal">289</span>
+<span class="normal">290</span>
+<span class="normal">291</span>
+<span class="normal">292</span>
+<span class="normal">293</span>
+<span class="normal">294</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_observable</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">output_names</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
     <span class="n">statistic_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -8593,9 +8618,7 @@ to create a training dataset.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/gemseo_umdo/formulations/control_variate.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">135</span>
-<span class="normal">136</span>
-<span class="normal">137</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">137</span>
 <span class="normal">138</span>
 <span class="normal">139</span>
 <span class="normal">140</span>
@@ -8611,7 +8634,9 @@ to create a training dataset.</p>
 <span class="normal">150</span>
 <span class="normal">151</span>
 <span class="normal">152</span>
-<span class="normal">153</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_samples</span><span class="p">(</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_samples</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span> <span class="n">problem</span><span class="p">:</span> <span class="n">OptimizationProblem</span><span class="p">,</span> <span class="n">create_training_dataset</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Evaluate the functions of a problem with a DOE algorithm.</span>
@@ -8689,8 +8714,8 @@ and so on.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/gemseo_umdo/formulations/base_umdo_formulation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">395</span>
-<span class="normal">396</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_top_level_disciplines</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Discipline</span><span class="p">]:</span>  <span class="c1"># noqa: D102</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">407</span>
+<span class="normal">408</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_top_level_disciplines</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Discipline</span><span class="p">]:</span>  <span class="c1"># noqa: D102</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mdo_formulation</span><span class="o">.</span><span class="n">get_top_level_disciplines</span><span class="p">()</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -8747,19 +8772,7 @@ to update the default input values of the top-level disciplines.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/gemseo_umdo/formulations/base_umdo_formulation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">368</span>
-<span class="normal">369</span>
-<span class="normal">370</span>
-<span class="normal">371</span>
-<span class="normal">372</span>
-<span class="normal">373</span>
-<span class="normal">374</span>
-<span class="normal">375</span>
-<span class="normal">376</span>
-<span class="normal">377</span>
-<span class="normal">378</span>
-<span class="normal">379</span>
-<span class="normal">380</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">380</span>
 <span class="normal">381</span>
 <span class="normal">382</span>
 <span class="normal">383</span>
@@ -8772,7 +8785,19 @@ to update the default input values of the top-level disciplines.</p>
 <span class="normal">390</span>
 <span class="normal">391</span>
 <span class="normal">392</span>
-<span class="normal">393</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">update_top_level_disciplines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">design_values</span><span class="p">:</span> <span class="n">RealArray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">393</span>
+<span class="normal">394</span>
+<span class="normal">395</span>
+<span class="normal">396</span>
+<span class="normal">397</span>
+<span class="normal">398</span>
+<span class="normal">399</span>
+<span class="normal">400</span>
+<span class="normal">401</span>
+<span class="normal">402</span>
+<span class="normal">403</span>
+<span class="normal">404</span>
+<span class="normal">405</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">update_top_level_disciplines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">design_values</span><span class="p">:</span> <span class="n">RealArray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Update the default input values of the top-level disciplines.</span>
 
 <span class="sd">    Args:</span>

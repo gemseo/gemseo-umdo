@@ -7574,6 +7574,7 @@ with mean <span class="arithmatex">\(\mu\)</span> and variance <span class="arit
     <span class="n">uncertain_space</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.algos.parameter_space.ParameterSpace" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.parameter_space.html#gemseo.algos.parameter_space.ParameterSpace">ParameterSpace</a></span><span class="p">,</span>
     <span class="n">objective_statistic_name</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">,</span>
     <span class="n">settings_model</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="            TaylorPolynomial_Settings (gemseo_umdo.formulations.taylor_polynomial_settings.TaylorPolynomial_Settings)" href="../taylor_polynomial_settings/#gemseo_umdo.formulations.taylor_polynomial_settings.TaylorPolynomial_Settings">TaylorPolynomial_Settings</a></span><span class="p">,</span>
+    <span class="n">minimize_objective</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">objective_statistic_parameters</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.typing.StrKeyMapping" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.typing.html#gemseo.typing.StrKeyMapping">StrKeyMapping</a></span> <span class="o">=</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.utils.constants.READ_ONLY_EMPTY_DICT" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.utils.constants.html#gemseo.utils.constants.READ_ONLY_EMPTY_DICT">READ_ONLY_EMPTY_DICT</a></span><span class="p">,</span>
     <span class="n">mdo_formulation_settings</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.typing.StrKeyMapping" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.typing.html#gemseo.typing.StrKeyMapping">StrKeyMapping</a></span> <span class="o">=</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.utils.constants.READ_ONLY_EMPTY_DICT" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.utils.constants.html#gemseo.utils.constants.READ_ONLY_EMPTY_DICT">READ_ONLY_EMPTY_DICT</a></span><span class="p">,</span>
 <span class="p">)</span>
@@ -7717,6 +7718,26 @@ If <code>None</code>, use <code>**settings</code>.</p>
           </tr>
           <tr class="doc-section-item">
             <td>
+                <code>minimize_objective</code>
+            </td>
+            <td class="doc-param-details">
+              <div class="doc-md-description">
+                <p>Whether to minimize the objective.</p>
+              </div>
+              <p>
+                  <span class="doc-param-annotation">
+                    <b>TYPE:</b>
+                      <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>
+                  </span>
+                  <span class="doc-param-default">
+                    <b>DEFAULT:</b>
+                      <code>True</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
                 <code>objective_statistic_parameters</code>
             </td>
             <td class="doc-param-details">
@@ -7803,7 +7824,9 @@ of the statistic to be applied to the objective, if any.</p>
 <span class="normal">119</span>
 <span class="normal">120</span>
 <span class="normal">121</span>
-<span class="normal">122</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>  <span class="c1"># noqa: D107</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>  <span class="c1"># noqa: D107</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">disciplines</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Discipline</span><span class="p">],</span>
     <span class="n">objective_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -7812,6 +7835,7 @@ of the statistic to be applied to the objective, if any.</p>
     <span class="n">uncertain_space</span><span class="p">:</span> <span class="n">ParameterSpace</span><span class="p">,</span>
     <span class="n">objective_statistic_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">settings_model</span><span class="p">:</span> <span class="n">TaylorPolynomial_Settings</span><span class="p">,</span>
+    <span class="n">minimize_objective</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">objective_statistic_parameters</span><span class="p">:</span> <span class="n">StrKeyMapping</span> <span class="o">=</span> <span class="n">READ_ONLY_EMPTY_DICT</span><span class="p">,</span>
     <span class="n">mdo_formulation_settings</span><span class="p">:</span> <span class="n">StrKeyMapping</span> <span class="o">=</span> <span class="n">READ_ONLY_EMPTY_DICT</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -7823,6 +7847,7 @@ of the statistic to be applied to the objective, if any.</p>
         <span class="n">uncertain_space</span><span class="p">,</span>
         <span class="n">objective_statistic_name</span><span class="p">,</span>
         <span class="n">settings_model</span><span class="p">,</span>
+        <span class="n">minimize_objective</span><span class="o">=</span><span class="n">minimize_objective</span><span class="p">,</span>
         <span class="n">objective_statistic_parameters</span><span class="o">=</span><span class="n">objective_statistic_parameters</span><span class="p">,</span>
         <span class="n">mdo_formulation_settings</span><span class="o">=</span><span class="n">mdo_formulation_settings</span><span class="p">,</span>
     <span class="p">)</span>
@@ -8210,9 +8235,7 @@ from <code>output_name</code>, <code>constraint_type</code>, <code>value</code> 
 
             <details class="quote">
               <summary>Source code in <code>src/gemseo_umdo/formulations/taylor_polynomial.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">134</span>
-<span class="normal">135</span>
-<span class="normal">136</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">136</span>
 <span class="normal">137</span>
 <span class="normal">138</span>
 <span class="normal">139</span>
@@ -8234,7 +8257,9 @@ from <code>output_name</code>, <code>constraint_type</code>, <code>value</code> 
 <span class="normal">155</span>
 <span class="normal">156</span>
 <span class="normal">157</span>
-<span class="normal">158</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_constraint</span><span class="p">(</span>  <span class="c1"># noqa: D102</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_constraint</span><span class="p">(</span>  <span class="c1"># noqa: D102</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">output_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
     <span class="n">statistic_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -8396,9 +8421,7 @@ If <code>None</code>, the discipline is detected from inner disciplines.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/gemseo_umdo/formulations/taylor_polynomial.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">160</span>
-<span class="normal">161</span>
-<span class="normal">162</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">162</span>
 <span class="normal">163</span>
 <span class="normal">164</span>
 <span class="normal">165</span>
@@ -8416,7 +8439,9 @@ If <code>None</code>, the discipline is detected from inner disciplines.</p>
 <span class="normal">177</span>
 <span class="normal">178</span>
 <span class="normal">179</span>
-<span class="normal">180</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_observable</span><span class="p">(</span>  <span class="c1"># noqa: D102</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_observable</span><span class="p">(</span>  <span class="c1"># noqa: D102</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">output_names</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
     <span class="n">statistic_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -8496,8 +8521,8 @@ and so on.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/gemseo_umdo/formulations/base_umdo_formulation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">395</span>
-<span class="normal">396</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_top_level_disciplines</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Discipline</span><span class="p">]:</span>  <span class="c1"># noqa: D102</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">407</span>
+<span class="normal">408</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_top_level_disciplines</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Discipline</span><span class="p">]:</span>  <span class="c1"># noqa: D102</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mdo_formulation</span><span class="o">.</span><span class="n">get_top_level_disciplines</span><span class="p">()</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -8554,19 +8579,7 @@ to update the default input values of the top-level disciplines.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/gemseo_umdo/formulations/base_umdo_formulation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">368</span>
-<span class="normal">369</span>
-<span class="normal">370</span>
-<span class="normal">371</span>
-<span class="normal">372</span>
-<span class="normal">373</span>
-<span class="normal">374</span>
-<span class="normal">375</span>
-<span class="normal">376</span>
-<span class="normal">377</span>
-<span class="normal">378</span>
-<span class="normal">379</span>
-<span class="normal">380</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">380</span>
 <span class="normal">381</span>
 <span class="normal">382</span>
 <span class="normal">383</span>
@@ -8579,7 +8592,19 @@ to update the default input values of the top-level disciplines.</p>
 <span class="normal">390</span>
 <span class="normal">391</span>
 <span class="normal">392</span>
-<span class="normal">393</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">update_top_level_disciplines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">design_values</span><span class="p">:</span> <span class="n">RealArray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">393</span>
+<span class="normal">394</span>
+<span class="normal">395</span>
+<span class="normal">396</span>
+<span class="normal">397</span>
+<span class="normal">398</span>
+<span class="normal">399</span>
+<span class="normal">400</span>
+<span class="normal">401</span>
+<span class="normal">402</span>
+<span class="normal">403</span>
+<span class="normal">404</span>
+<span class="normal">405</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">update_top_level_disciplines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">design_values</span><span class="p">:</span> <span class="n">RealArray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Update the default input values of the top-level disciplines.</span>
 
 <span class="sd">    Args:</span>
