@@ -16,13 +16,20 @@
 
 from __future__ import annotations
 
+from typing import Final
+
 from gemseo.formulations.factory import MDOFormulationFactory
 
 from gemseo_umdo.formulations.base_umdo_formulation import BaseUMDOFormulation
 
 
+# TODO: API: rename to UMDOFormulationFactory
 class UMDOFormulationsFactory(MDOFormulationFactory):
     """The factory of U-MDO formulations."""
 
     _CLASS = BaseUMDOFormulation
     _PACKAGE_NAMES = ("gemseo_umdo.formulations",)
+
+
+UMDO_FORMULATION_FACTORY: Final[UMDOFormulationsFactory] = UMDOFormulationsFactory()
+"""The factory for ``BaseUMDOFormulation`` objects."""

@@ -18,6 +18,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 from typing import Any
+from typing import ClassVar
 
 from gemseo.core.mdo_functions.mdo_function import MDOFunction
 from gemseo.formulations.factory import MDOFormulationFactory
@@ -27,7 +28,7 @@ from gemseo.utils.string_tools import MultiLineString
 from gemseo.utils.string_tools import pretty_str
 
 from gemseo_umdo.disciplines.utils import create_noising_discipline_chain
-from gemseo_umdo.formulations.factory import UMDOFormulationsFactory
+from gemseo_umdo.formulations.factory import UMDO_FORMULATION_FACTORY
 
 if TYPE_CHECKING:
     from collections.abc import Mapping
@@ -45,10 +46,13 @@ if TYPE_CHECKING:
     from gemseo_umdo.formulations.base_umdo_formulation_settings import (
         BaseUMDOFormulationSettings,
     )
+    from gemseo_umdo.formulations.factory import UMDOFormulationsFactory
 
 
 class BaseUScenario:
     """Base scenario for multidisciplinary design problems under uncertainty."""
+
+    _formulation_factory: ClassVar[UMDOFormulationsFactory] = UMDO_FORMULATION_FACTORY
 
     formulation: BaseUMDOFormulation
 
@@ -170,11 +174,9 @@ class BaseUScenario:
             formulation_settings_model=statistic_estimation_settings,
         )
 
-        self.formulation_name = self.formulation.name
-
     @property
-    def _formulation_factory(self) -> UMDOFormulationsFactory:
-        return UMDOFormulationsFactory()
+    def formulation_name(self) -> str:  # noqa: D102
+        return self.formulation.name
 
     def add_constraint(
         self,
