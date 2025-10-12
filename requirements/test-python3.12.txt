@@ -38,7 +38,7 @@ graphviz==0.21
     # via gemseo
 h5py==3.14.0
     # via gemseo
-idna==3.10
+idna==3.11
     # via requests
 iniconfig==2.1.0
     # via pytest
