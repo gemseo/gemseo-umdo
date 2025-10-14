@@ -4,7 +4,7 @@ annotated-types==0.7.0
     # via pydantic
 certifi==2025.10.5
     # via requests
-charset-normalizer==3.4.3
+charset-normalizer==3.4.4
     # via requests
 contourpy==1.3.3
     # via matplotlib
@@ -28,7 +28,7 @@ fastjsonschema==2.21.2
     # via gemseo
 fonttools==4.60.1
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@6875c02694963e9fdede82cea23c0869b8410a7a
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@31a6c94b6ff071b7b20668988c8e7fdc9deb9b8f
     # via
     #   -c requirements/test-constraints.in
     #   gemseo-umdo (pyproject.toml)
