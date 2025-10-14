@@ -94,9 +94,9 @@ from numpy import newaxis
 from numpy import pi
 from numpy import sin
 from numpy import sum as np_sum
-from numpy import trapezoid
 from numpy import zeros
 
+from gemseo_umdo._utils.compatibility.numpy import trapezoid
 from gemseo_umdo.use_cases.heat_equation.configuration import HeatEquationConfiguration
 
 if TYPE_CHECKING:
