@@ -133,7 +133,7 @@ mkdocs-include-markdown-plugin==7.2.0
     # via gemseo-umdo (pyproject.toml:doc)
 mkdocs-literate-nav==0.6.2
     # via gemseo-umdo (pyproject.toml:doc)
-mkdocs-material==9.6.21
+mkdocs-material==9.6.22
     # via
     #   gemseo-umdo (pyproject.toml:doc)
     #   mkdocs-gallery
@@ -241,7 +241,7 @@ python-dateutil==2.9.0.post0
     #   pandas
 python-dotenv==1.1.1
     # via pydantic-settings
-pytokens==0.1.10
+pytokens==0.2.0
     # via black
 pytz==2025.2
     # via pandas
