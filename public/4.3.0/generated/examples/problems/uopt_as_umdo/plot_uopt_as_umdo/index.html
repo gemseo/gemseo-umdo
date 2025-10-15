@@ -1,0 +1,7868 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://gemseo.gitlab.io/gemseo-umdo/latest/generated/examples/problems/uopt_as_umdo/plot_uopt_as_umdo/">
+      
+      
+        <link rel="prev" href="../../beam_model/plot_beam_doe/">
+      
+      
+        <link rel="next" href="../../../../../reference/gemseo_umdo/">
+      
+      
+      <link rel="icon" href="../../../../../images/favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.21">
+    
+    
+      
+        <title>Make a monodisciplinary optimization under uncertainty problem multidisciplinary - gemseo-umdo</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.2a3383ac.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../assets/_markdown_exec_pyodide.css">
+    
+      <link rel="stylesheet" href="../../../../../assets/_markdown_exec_ansi.css">
+    
+      <link rel="stylesheet" href="../../../../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../../../../css/fontello.css">
+    
+      <link rel="stylesheet" href="../../../../../css/xdsmjs.css">
+    
+      <link rel="stylesheet" href="../../../../../sg_gallery-binder.css">
+    
+      <link rel="stylesheet" href="../../../../../sg_gallery.css">
+    
+      <link rel="stylesheet" href="../../../../../sg_gallery-rendered-html.css">
+    
+      <link rel="stylesheet" href="../../../../../sg_gallery-dataframe.css">
+    
+    <script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#make-a-monodisciplinary-optimization-under-uncertainty-problem-multidisciplinary" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../../.." title="gemseo-umdo" class="md-header__button md-logo" aria-label="gemseo-umdo" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            gemseo-umdo
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Make a monodisciplinary optimization under uncertainty problem multidisciplinary
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7M9 21v-1h6v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1m3-17a5 5 0 0 0-5 5c0 2.05 1.23 3.81 3 4.58V16h4v-2.42c1.77-.77 3-2.53 3-4.58a5 5 0 0 0-5-5"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7M9 21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1H9z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://gitlab.com/gemseo/dev/gemseo-umdo" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="m504 204.6-.7-1.8L433.6 21c-1.4-3.6-3.9-6.6-7.2-8.6-2.4-1.6-5.1-2.5-8-2.8s-5.7.1-8.4 1.1-5.1 2.7-7.1 4.8c-1.9 2.1-3.3 4.7-4.1 7.4l-47 144H161.3l-47.1-144c-.8-2.8-2.2-5.3-4.1-7.4-2-2.1-4.4-3.7-7.1-4.8-2.6-1-5.5-1.4-8.4-1.1s-5.6 1.2-8 2.8c-3.2 2-5.8 5.1-7.2 8.6L9.8 202.8l-.8 1.8c-10 26.2-11.3 55-3.5 82 7.7 26.9 24 50.7 46.4 67.6l.3.2.6.4 106 79.5c38.5 29.1 66.7 50.3 84.6 63.9 3.7 1.9 8.3 4.3 13 4.3s9.3-2.4 13-4.3c17.9-13.5 46.1-34.9 84.6-63.9l106.7-79.9.3-.3c22.4-16.9 38.7-40.6 45.6-67.5 8.6-27 7.4-55.8-2.6-82"/></svg>
+  </div>
+  <div class="md-source__repository">
+    gemseo-umdo
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../.." class="md-tabs__link">
+          
+  
+  
+    
+  
+  Home
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../../user_guide/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  User guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../../umdo/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Examples
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../../reference/gemseo_umdo/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  API documentation
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../../developer_guide/umdo/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Developer guide
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../../.." title="gemseo-umdo" class="md-nav__button md-logo" aria-label="gemseo-umdo" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    gemseo-umdo
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://gitlab.com/gemseo/dev/gemseo-umdo" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="m504 204.6-.7-1.8L433.6 21c-1.4-3.6-3.9-6.6-7.2-8.6-2.4-1.6-5.1-2.5-8-2.8s-5.7.1-8.4 1.1-5.1 2.7-7.1 4.8c-1.9 2.1-3.3 4.7-4.1 7.4l-47 144H161.3l-47.1-144c-.8-2.8-2.2-5.3-4.1-7.4-2-2.1-4.4-3.7-7.1-4.8-2.6-1-5.5-1.4-8.4-1.1s-5.6 1.2-8 2.8c-3.2 2-5.8 5.1-7.2 8.6L9.8 202.8l-.8 1.8c-10 26.2-11.3 55-3.5 82 7.7 26.9 24 50.7 46.4 67.6l.3.2.6.4 106 79.5c38.5 29.1 66.7 50.3 84.6 63.9 3.7 1.9 8.3 4.3 13 4.3s9.3-2.4 13-4.3c17.9-13.5 46.1-34.9 84.6-63.9l106.7-79.9.3-.3c22.4-16.9 38.7-40.6 45.6-67.5 8.6-27 7.4-55.8-2.6-82"/></svg>
+  </div>
+  <div class="md-source__repository">
+    gemseo-umdo
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../.." class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            Home
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Changelog
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../credits/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Credits
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../licenses/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Licenses
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../../user_guide/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    User guide
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            User guide
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../../user_guide/umdo/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    MDO under uncertainty
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            MDO under uncertainty
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../user_guide/umdo/sampling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Sampling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../user_guide/umdo/sequential_sampling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Sequential sampling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../user_guide/umdo/taylor_polynomial/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Taylor polynomial
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../user_guide/umdo/control_variate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Control variate
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../user_guide/umdo/surrogate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Surrogate model
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../user_guide/umdo/pce/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Polynomial chaos expansion
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../../user_guide/statistics/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Statistics
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            Statistics
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../user_guide/statistics/multilevel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Multilevel Monte Carlo
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../../user_guide/visualization/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Visualization
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_4" id="__nav_2_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            Visualization
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../user_guide/visualization/uncertain_coupling_graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Uncertain coupling graph
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../user_guide/visualization/sobol_graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Sobol graph
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Examples
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Examples
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../umdo/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    MDO under uncertainty
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            MDO under uncertainty
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1_2" id="__nav_3_1_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Control variates
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_1_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1_2">
+            <span class="md-nav__icon md-icon"></span>
+            Control variates
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../umdo/control_variate/plot_cv_quadratic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    A quadratic mono-disciplinary problem
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../umdo/control_variate/plot_cv_rosenbrock/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    The Rosenbrock mono-disciplinary problem
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../umdo/control_variate/cv_sellar/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    The Sellar's MDO problem
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../umdo/control_variate/plot_control_variate_vs_sampling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Control variate vs Sampling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1_3" id="__nav_3_1_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    MDO formulations
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_1_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1_3">
+            <span class="md-nav__icon md-icon"></span>
+            MDO formulations
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../umdo/mdo_formulations/plot_equality_constraints/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Managing uncertain equality constraints
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../umdo/mdo_formulations/plot_bilevel_rosenbrock/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    BiLevel applied to the Rosenbrock problem.
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../umdo/mdo_formulations/bilevel_sobieski/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    BiLevel applied to the SSBJ problem.
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1_4" id="__nav_3_1_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Miscellaneous
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_1_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1_4">
+            <span class="md-nav__icon md-icon"></span>
+            Miscellaneous
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../umdo/misc/udoe_quadratic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    DOE
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../umdo/misc/sellar_sampling_opt_repetitions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Sampling with repetitions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../umdo/misc/plot_vectorization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Take advantage of vectorized disciplines
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1_5" id="__nav_3_1_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Polynomial chaos expansion (PCEs)
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_1_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1_5">
+            <span class="md-nav__icon md-icon"></span>
+            Polynomial chaos expansion (PCEs)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../umdo/pce/plot_pce_quadratic_approximated_jacobians/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    A quadratic mono-disciplinary problem with approximated statistics Jacobian
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../umdo/pce/plot_pce_quadratic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    A quadratic mono-disciplinary problem
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1_6" id="__nav_3_1_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Sampling
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_1_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1_6">
+            <span class="md-nav__icon md-icon"></span>
+            Sampling
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../umdo/sampling/plot_s_quadratic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    A quadratic mono-disciplinary problem
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../umdo/sampling/plot_s_rosenbrock/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    The Rosenbrock mono-disciplinary problem
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../umdo/sampling/s_sellar/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    The Sellar's MDO problem
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../umdo/sampling/s_sobieski/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    The Sobieski's SSBJ MDO problem.
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1_7" id="__nav_3_1_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Sequential sampling
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_1_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1_7">
+            <span class="md-nav__icon md-icon"></span>
+            Sequential sampling
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../umdo/sequential_sampling/plot_ss_quadratic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    A quadratic mono-disciplinary problem
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1_8" id="__nav_3_1_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Surrogate models
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_1_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1_8">
+            <span class="md-nav__icon md-icon"></span>
+            Surrogate models
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../umdo/surrogate/plot_surrogate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    A quadratic mono-disciplinary problem
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1_9" id="__nav_3_1_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Taylor polynomials
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_1_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1_9">
+            <span class="md-nav__icon md-icon"></span>
+            Taylor polynomials
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../umdo/taylor_polynomial/plot_tp_quadratic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    A quadratic mono-disciplinary problem
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../umdo/taylor_polynomial/tp_sellar/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    The Sellar's MDO problem
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../umdo/taylor_polynomial/tp_sobieski/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    The Sobieski's SSBJ MDO problem
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../visualizations/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Visualization
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            Visualization
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2_2" id="__nav_3_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Sobol' graph
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            Sobol' graph
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../visualizations/sobol_graph/plot_sellar_sobol_graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Sobol' graph for the Sellar use case.
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../visualizations/sobol_graph/plot_sobieski_sobol_graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Sobol' graph for the Sobieski's SSBJ use case.
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../visualizations/sobol_graph/plot_ishigami_sobol_graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Sobol' graph for the Ishigami use case.
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2_3" id="__nav_3_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Uncertain coupling graph
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            Uncertain coupling graph
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../visualizations/uncertain_coupling_graph/plot_sobieski_coupling_graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    The uncertain coupling graph for the Sobieski's SSBJ use case.
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Problems
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            Problems
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3_2" id="__nav_3_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    The beam problem
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            The beam problem
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../beam_model/plot_beam_opt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Optimization problem.
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../beam_model/plot_beam_sa/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Sobol' sensitivity analysis.
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../beam_model/plot_beam_rob_opt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Robust optimization problem.
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../beam_model/plot_beam_doe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Large DOE study.
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_3_3" id="__nav_3_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Make an optimization problem under uncertainty multidisciplinary
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            Make an optimization problem under uncertainty multidisciplinary
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Make a monodisciplinary optimization under uncertainty problem multidisciplinary
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Make a monodisciplinary optimization under uncertainty problem multidisciplinary
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      Introduction
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#discipline-and-spaces" class="md-nav__link">
+    <span class="md-ellipsis">
+      Discipline and spaces
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#optimization-problem-under-uncertainty" class="md-nav__link">
+    <span class="md-ellipsis">
+      Optimization problem under uncertainty
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mdo-problem-under-uncertainty" class="md-nav__link">
+    <span class="md-ellipsis">
+      MDO problem under uncertainty
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../../reference/gemseo_umdo/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    API documentation
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            API documentation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/monte_carlo_sampler/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Monte carlo sampler
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../../reference/gemseo_umdo/_utils/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+     utils
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+             utils
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_1" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../../reference/gemseo_umdo/_utils/compatibility/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Compatibility
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_2_1" id="__nav_4_2_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            Compatibility
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/_utils/compatibility/numpy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Numpy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/_utils/compatibility/openturns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Openturns
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../../reference/gemseo_umdo/disciplines/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Disciplines
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            Disciplines
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/disciplines/additive_noiser/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Additive noiser
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/disciplines/base_noiser/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Base noiser
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/disciplines/multiplicative_noiser/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Multiplicative noiser
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/disciplines/noiser_factory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Noiser factory
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/disciplines/utils/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Utils
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../../reference/gemseo_umdo/formulations/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Formulations
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_4" id="__nav_4_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            Formulations
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/base_sampling_settings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Base sampling settings
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/base_surrogate_settings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Base surrogate settings
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/base_umdo_formulation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Base umdo formulation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/base_umdo_formulation_settings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Base umdo formulation settings
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/control_variate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Control variate
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/control_variate_settings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Control variate settings
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/factory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Factory
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/pce/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Pce
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/pce_settings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Pce settings
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/sampling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Sampling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/sampling_settings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Sampling settings
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/sequential_sampling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Sequential sampling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/sequential_sampling_settings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Sequential sampling settings
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/surrogate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Surrogate
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/surrogate_settings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Surrogate settings
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/taylor_polynomial/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Taylor polynomial
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/taylor_polynomial_settings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Taylor polynomial settings
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4_18" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../../reference/gemseo_umdo/formulations/_functions/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+     functions
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_4_18" id="__nav_4_4_18_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_4_18_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4_18">
+            <span class="md-nav__icon md-icon"></span>
+             functions
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/_functions/base_statistic_function/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Base statistic function
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/_functions/base_statistic_function_for_sampling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Base statistic function for sampling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/_functions/hessian_function/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Hessian function
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/_functions/iterative_estimation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Iterative estimation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/_functions/statistic_function_for_control_variate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Statistic function for control variate
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/_functions/statistic_function_for_iterative_sampling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Statistic function for iterative sampling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/_functions/statistic_function_for_pce/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Statistic function for pce
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/_functions/statistic_function_for_standard_sampling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Statistic function for standard sampling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/_functions/statistic_function_for_surrogate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Statistic function for surrogate
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/_functions/statistic_function_for_taylor_polynomial/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Statistic function for taylor polynomial
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4_19" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../../reference/gemseo_umdo/formulations/_statistics/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+     statistics
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_4_19" id="__nav_4_4_19_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_4_19_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4_19">
+            <span class="md-nav__icon md-icon"></span>
+             statistics
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/_statistics/base_statistic_estimator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Base statistic estimator
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4_19_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../../reference/gemseo_umdo/formulations/_statistics/control_variate/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Control variate
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_4_19_2" id="__nav_4_4_19_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_4_4_19_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4_19_2">
+            <span class="md-nav__icon md-icon"></span>
+            Control variate
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/_statistics/control_variate/base_control_variate_estimator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Base control variate estimator
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/_statistics/control_variate/factory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Factory
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/_statistics/control_variate/margin/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Margin
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/_statistics/control_variate/mean/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Mean
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/_statistics/control_variate/probability/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Probability
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/_statistics/control_variate/standard_deviation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Standard deviation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/_statistics/control_variate/variance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Variance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4_19_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../../reference/gemseo_umdo/formulations/_statistics/iterative_sampling/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Iterative sampling
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_4_19_3" id="__nav_4_4_19_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_4_4_19_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4_19_3">
+            <span class="md-nav__icon md-icon"></span>
+            Iterative sampling
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/_statistics/iterative_sampling/base_central_moment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Base central moment
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/_statistics/iterative_sampling/base_sampling_estimator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Base sampling estimator
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/_statistics/iterative_sampling/factory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Factory
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/_statistics/iterative_sampling/margin/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Margin
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/_statistics/iterative_sampling/mean/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Mean
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/_statistics/iterative_sampling/probability/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Probability
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/_statistics/iterative_sampling/standard_deviation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Standard deviation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/_statistics/iterative_sampling/variance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Variance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4_19_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../../reference/gemseo_umdo/formulations/_statistics/pce/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Pce
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_4_19_4" id="__nav_4_4_19_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_4_4_19_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4_19_4">
+            <span class="md-nav__icon md-icon"></span>
+            Pce
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/_statistics/pce/base_pce_estimator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Base pce estimator
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/_statistics/pce/factory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Factory
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/_statistics/pce/margin/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Margin
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/_statistics/pce/mean/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Mean
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/_statistics/pce/standard_deviation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Standard deviation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/_statistics/pce/variance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Variance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4_19_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../../reference/gemseo_umdo/formulations/_statistics/sampling/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Sampling
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_4_19_5" id="__nav_4_4_19_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_4_4_19_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4_19_5">
+            <span class="md-nav__icon md-icon"></span>
+            Sampling
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/_statistics/sampling/base_sampling_estimator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Base sampling estimator
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/_statistics/sampling/factory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Factory
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/_statistics/sampling/margin/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Margin
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/_statistics/sampling/mean/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Mean
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/_statistics/sampling/probability/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Probability
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/_statistics/sampling/standard_deviation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Standard deviation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/_statistics/sampling/variance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Variance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4_19_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../../reference/gemseo_umdo/formulations/_statistics/taylor_polynomial/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Taylor polynomial
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_4_19_6" id="__nav_4_4_19_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_4_4_19_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4_19_6">
+            <span class="md-nav__icon md-icon"></span>
+            Taylor polynomial
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/_statistics/taylor_polynomial/base_taylor_polynomial_estimator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Base taylor polynomial estimator
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/_statistics/taylor_polynomial/factory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Factory
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/_statistics/taylor_polynomial/margin/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Margin
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/_statistics/taylor_polynomial/mean/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Mean
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/_statistics/taylor_polynomial/standard_deviation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Standard deviation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/formulations/_statistics/taylor_polynomial/variance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Variance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../../reference/gemseo_umdo/problems/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Problems
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_5" id="__nav_4_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_5">
+            <span class="md-nav__icon md-icon"></span>
+            Problems
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/problems/uopt_as_umdo_scenario/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Uopt as umdo scenario
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../../reference/gemseo_umdo/scenarios/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Scenarios
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_6" id="__nav_4_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_6">
+            <span class="md-nav__icon md-icon"></span>
+            Scenarios
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/scenarios/base_u_scenario/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Base u scenario
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/scenarios/udoe_scenario/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Udoe scenario
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/scenarios/umdo_scenario/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Umdo scenario
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../../reference/gemseo_umdo/statistics/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Statistics
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_7" id="__nav_4_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_7">
+            <span class="md-nav__icon md-icon"></span>
+            Statistics
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_7_1" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../../reference/gemseo_umdo/statistics/multilevel/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Multilevel
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_7_1" id="__nav_4_7_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_7_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_7_1">
+            <span class="md-nav__icon md-icon"></span>
+            Multilevel
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/statistics/multilevel/base_pilot/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Base pilot
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_7_1_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../../reference/gemseo_umdo/statistics/multilevel/mlmc/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Mlmc
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_7_1_2" id="__nav_4_7_1_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_4_7_1_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_7_1_2">
+            <span class="md-nav__icon md-icon"></span>
+            Mlmc
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/statistics/multilevel/mlmc/level/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Level
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/statistics/multilevel/mlmc/mlmc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Mlmc
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_7_1_2_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../../reference/gemseo_umdo/statistics/multilevel/mlmc/pilots/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Pilots
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_7_1_2_3" id="__nav_4_7_1_2_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="5" aria-labelledby="__nav_4_7_1_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_7_1_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            Pilots
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/statistics/multilevel/mlmc/pilots/base_mlmc_pilot/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Base mlmc pilot
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/statistics/multilevel/mlmc/pilots/factory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Factory
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/statistics/multilevel/mlmc/pilots/mean/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Mean
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/statistics/multilevel/mlmc/pilots/variance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Variance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_7_1_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../../reference/gemseo_umdo/statistics/multilevel/mlmc_mlcv/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Mlmc mlcv
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_7_1_3" id="__nav_4_7_1_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_4_7_1_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_7_1_3">
+            <span class="md-nav__icon md-icon"></span>
+            Mlmc mlcv
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/statistics/multilevel/mlmc_mlcv/level/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Level
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/statistics/multilevel/mlmc_mlcv/mlmc_mlcv/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Mlmc mlcv
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_7_1_3_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../../reference/gemseo_umdo/statistics/multilevel/mlmc_mlcv/pilots/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Pilots
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_7_1_3_3" id="__nav_4_7_1_3_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="5" aria-labelledby="__nav_4_7_1_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_7_1_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            Pilots
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/statistics/multilevel/mlmc_mlcv/pilots/base_mlmc_mlcv_pilot/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Base mlmc mlcv pilot
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/statistics/multilevel/mlmc_mlcv/pilots/factory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Factory
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/statistics/multilevel/mlmc_mlcv/pilots/mean/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Mean
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_8" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../../reference/gemseo_umdo/use_cases/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Use cases
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_8" id="__nav_4_8_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_8">
+            <span class="md-nav__icon md-icon"></span>
+            Use cases
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_8_1" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../../reference/gemseo_umdo/use_cases/beam_model/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Beam model
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_8_1" id="__nav_4_8_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_8_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_8_1">
+            <span class="md-nav__icon md-icon"></span>
+            Beam model
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/use_cases/beam_model/advanced_uncertain_space/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Advanced uncertain space
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/use_cases/beam_model/constraints/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Constraints
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/use_cases/beam_model/design_space/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Design space
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/use_cases/beam_model/discipline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Discipline
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/use_cases/beam_model/uncertain_space/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Uncertain space
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_8_1_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../../reference/gemseo_umdo/use_cases/beam_model/core/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Core
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_8_1_6" id="__nav_4_8_1_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_4_8_1_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_8_1_6">
+            <span class="md-nav__icon md-icon"></span>
+            Core
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/use_cases/beam_model/core/design_space/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Design space
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/use_cases/beam_model/core/model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Model
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/use_cases/beam_model/core/output_data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Output data
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/use_cases/beam_model/core/variables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Variables
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_8_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../../reference/gemseo_umdo/use_cases/heat_equation/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Heat equation
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_8_2" id="__nav_4_8_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_8_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_8_2">
+            <span class="md-nav__icon md-icon"></span>
+            Heat equation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/use_cases/heat_equation/configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Configuration
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/use_cases/heat_equation/discipline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Discipline
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/use_cases/heat_equation/model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Model
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/use_cases/heat_equation/uncertain_space/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Uncertain space
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_8_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../../reference/gemseo_umdo/use_cases/spring_mass_model/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Spring mass model
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_8_3" id="__nav_4_8_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_8_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_8_3">
+            <span class="md-nav__icon md-icon"></span>
+            Spring mass model
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/use_cases/spring_mass_model/discipline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Discipline
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/use_cases/spring_mass_model/model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Model
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/use_cases/spring_mass_model/uncertain_space/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Uncertain space
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_8_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../../reference/gemseo_umdo/use_cases/truss/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Truss
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_8_4" id="__nav_4_8_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_8_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_8_4">
+            <span class="md-nav__icon md-icon"></span>
+            Truss
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/use_cases/truss/bar/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Bar
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/use_cases/truss/bars/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Bars
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/use_cases/truss/discipline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Discipline
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/use_cases/truss/forces/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Forces
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/use_cases/truss/model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Model
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/use_cases/truss/uncertain_space/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Uncertain space
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_9" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../../reference/gemseo_umdo/visualizations/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Visualizations
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_9" id="__nav_4_9_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_9">
+            <span class="md-nav__icon md-icon"></span>
+            Visualizations
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/visualizations/sobol_graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Sobol graph
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../reference/gemseo_umdo/visualizations/uncertain_coupling_graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Uncertain coupling graph
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Developer guide
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Developer guide
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../developer_guide/umdo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    U-MDO
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      Introduction
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#discipline-and-spaces" class="md-nav__link">
+    <span class="md-ellipsis">
+      Discipline and spaces
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#optimization-problem-under-uncertainty" class="md-nav__link">
+    <span class="md-ellipsis">
+      Optimization problem under uncertainty
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mdo-problem-under-uncertainty" class="md-nav__link">
+    <span class="md-ellipsis">
+      MDO problem under uncertainty
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<!--
+ DO NOT EDIT.
+ THIS FILE WAS AUTOMATICALLY GENERATED BY mkdocs-gallery.
+ TO MAKE CHANGES, EDIT THE SOURCE PYTHON FILE:
+ "docs/examples/problems/uopt_as_umdo/plot_uopt_as_umdo.py"
+ LINE NUMBERS ARE GIVEN BELOW.
+-->
+
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Click <a href="#download_links">here</a>
+to download the full example code</p>
+</div>
+<h1 id="make-a-monodisciplinary-optimization-under-uncertainty-problem-multidisciplinary">Make a monodisciplinary optimization under uncertainty problem multidisciplinary<a class="headerlink" href="#make-a-monodisciplinary-optimization-under-uncertainty-problem-multidisciplinary" title="Permanent link">&para;</a></h1>
+<h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
+<p><a class="autorefs autorefs-internal" title="            UOptAsUMDOScenario" href="../../../../../reference/gemseo_umdo/problems/uopt_as_umdo_scenario/#gemseo_umdo.problems.uopt_as_umdo_scenario.UOptAsUMDOScenario">UOptAsUMDOScenario</a>
+is a class to make a monodisciplinary optimization problem under uncertainty
+multidisciplinary<sup id="fnref:AzizAlaoui2025"><a class="footnote-ref" href="#fn:AzizAlaoui2025">1</a></sup>.
+The only requirement is that
+the discipline has at least three scalar inputs defined as design variables,
+and at least one output defined as an objective.
+These design variables may be uncertain.
+The discipline may also have other inputs,
+defined as design or uncertain variables,
+and outputs,
+defined as objectives or constraints.
+This scenario can be used to enrich a catalog of benchmark U-MDO problems,
+based on the observation that
+MDO benchmark problems are far less numerous than optimization problems,
+especially in the case of MDO under uncertainty.</p>
+<p>This example illustrates it
+in the case of the minimization of the 3-dimensional Rosenbrock function</p>
+<div class="arithmatex">\[\mathbb{E}[f(z,U,V)] = \mathbb{E}[100(z_2-(Uz_1)^2)^2 + (1-Vz_1)^2 + 100(z_1-(Uz_0)^2)^2 + (1-Vz_0)^2]\]</div>
+<p>over the hypercube <span class="arithmatex">\([-1,1]^3\)</span>.</p>
+<!-- GENERATED FROM PYTHON SOURCE LINES 44-57 -->
+
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_design_space</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_discipline</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo</span><span class="w"> </span><span class="kn">import</span> <span class="n">generate_coupling_graph</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.algos.parameter_space</span><span class="w"> </span><span class="kn">import</span> <span class="n">ParameterSpace</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="kn">import</span> <span class="n">array</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo_umdo.formulations.sampling_settings</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sampling_Settings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo_umdo.problems.uopt_as_umdo_scenario</span><span class="w"> </span><span class="kn">import</span> <span class="n">UOptAsUMDOScenario</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo_umdo.scenarios.umdo_scenario</span><span class="w"> </span><span class="kn">import</span> <span class="n">UMDOScenario</span>
+</code></pre></div>
+<!-- GENERATED FROM PYTHON SOURCE LINES 58-61 -->
+
+<h2 id="discipline-and-spaces">Discipline and spaces<a class="headerlink" href="#discipline-and-spaces" title="Permanent link">&para;</a></h2>
+<p>First,
+we create the discipline implementing the Rosenbrock function:</p>
+<!-- GENERATED FROM PYTHON SOURCE LINES 61-68 -->
+
+<div class="highlight"><pre><span></span><code><span class="n">discipline</span> <span class="o">=</span> <span class="n">create_discipline</span><span class="p">(</span>
+    <span class="s2">&quot;AnalyticDiscipline&quot;</span><span class="p">,</span>
+    <span class="n">expressions</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;100*(z_2-(u*z_1)**2)**2+(1-v*z_1)**2+100*(z_1-(u*z_0)**2)**2+(1-v*z_0)**2&quot;</span>
+    <span class="p">},</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Rosenbrock&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<!-- GENERATED FROM PYTHON SOURCE LINES 69-70 -->
+
+<p>as well as the design space:</p>
+<!-- GENERATED FROM PYTHON SOURCE LINES 70-74 -->
+
+<div class="highlight"><pre><span></span><code><span class="n">design_space</span> <span class="o">=</span> <span class="n">create_design_space</span><span class="p">()</span>
+<span class="n">design_space</span><span class="o">.</span><span class="n">add_variable</span><span class="p">(</span><span class="s2">&quot;z_0&quot;</span><span class="p">,</span> <span class="n">lower_bound</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">upper_bound</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">design_space</span><span class="o">.</span><span class="n">add_variable</span><span class="p">(</span><span class="s2">&quot;z_1&quot;</span><span class="p">,</span> <span class="n">lower_bound</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">upper_bound</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">design_space</span><span class="o">.</span><span class="n">add_variable</span><span class="p">(</span><span class="s2">&quot;z_2&quot;</span><span class="p">,</span> <span class="n">lower_bound</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">upper_bound</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</code></pre></div>
+<!-- GENERATED FROM PYTHON SOURCE LINES 75-76 -->
+
+<p>and the uncertain space:</p>
+<!-- GENERATED FROM PYTHON SOURCE LINES 76-79 -->
+
+<div class="highlight"><pre><span></span><code><span class="n">uncertain_space</span> <span class="o">=</span> <span class="n">ParameterSpace</span><span class="p">()</span>
+<span class="n">uncertain_space</span><span class="o">.</span><span class="n">add_random_variable</span><span class="p">(</span><span class="s2">&quot;u&quot;</span><span class="p">,</span> <span class="s2">&quot;OTNormalDistribution&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+<span class="n">uncertain_space</span><span class="o">.</span><span class="n">add_random_variable</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="s2">&quot;OTNormalDistribution&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+</code></pre></div>
+<!-- GENERATED FROM PYTHON SOURCE LINES 80-82 -->
+
+<p>We choose <span class="arithmatex">\(x^{(0)}=(-0.25, 0.75, -0.9)\)</span>
+as the starting point of the optimization:</p>
+<!-- GENERATED FROM PYTHON SOURCE LINES 82-85 -->
+
+<div class="highlight"><pre><span></span><code><span class="n">initial_point</span> <span class="o">=</span> <span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.9</span><span class="p">])</span>
+<span class="n">design_space</span><span class="o">.</span><span class="n">set_current_value</span><span class="p">(</span><span class="n">initial_point</span><span class="p">)</span>
+</code></pre></div>
+<!-- GENERATED FROM PYTHON SOURCE LINES 86-90 -->
+
+<h2 id="optimization-problem-under-uncertainty">Optimization problem under uncertainty<a class="headerlink" href="#optimization-problem-under-uncertainty" title="Permanent link">&para;</a></h2>
+<p>Then,
+we define the optimization problem under uncertainty,
+with statistics estimated by sampling:</p>
+<!-- GENERATED FROM PYTHON SOURCE LINES 90-99 -->
+
+<div class="highlight"><pre><span></span><code><span class="n">u_opt_scenario</span> <span class="o">=</span> <span class="n">UMDOScenario</span><span class="p">(</span>
+    <span class="p">[</span><span class="n">discipline</span><span class="p">],</span>
+    <span class="s2">&quot;f&quot;</span><span class="p">,</span>
+    <span class="n">design_space</span><span class="p">,</span>
+    <span class="n">uncertain_space</span><span class="p">,</span>
+    <span class="s2">&quot;Mean&quot;</span><span class="p">,</span>
+    <span class="n">Sampling_Settings</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">50</span><span class="p">),</span>
+    <span class="n">formulation_name</span><span class="o">=</span><span class="s2">&quot;DisciplinaryOpt&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<p class="mkd-glr-script-out">Out:</p>
+<div class="mkd-glr-script-out-disp highlight"><pre><span></span><code>/builds/gemseo/dev/gemseo-umdo/src/gemseo_umdo/formulations/base_sampling_settings.py:63:<span class="w"> </span>PydanticDeprecatedSince211:<span class="w"> </span>Accessing<span class="w"> </span>the<span class="w"> </span><span class="s1">&#39;model_fields&#39;</span><span class="w"> </span>attribute<span class="w"> </span>on<span class="w"> </span>the<span class="w"> </span>instance<span class="w"> </span>is<span class="w"> </span>deprecated.<span class="w"> </span>Instead,<span class="w"> </span>you<span class="w"> </span>should<span class="w"> </span>access<span class="w"> </span>this<span class="w"> </span>attribute<span class="w"> </span>from<span class="w"> </span>the<span class="w"> </span>model<span class="w"> </span>class.<span class="w"> </span>Deprecated<span class="w"> </span><span class="k">in</span><span class="w"> </span>Pydantic<span class="w"> </span>V2.11<span class="w"> </span>to<span class="w"> </span>be<span class="w"> </span>removed<span class="w"> </span><span class="k">in</span><span class="w"> </span>V3.0.
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="s2">&quot;seed&quot;</span><span class="w"> </span><span class="k">in</span><span class="w"> </span>doe_algo_settings.model_fields<span class="w"> </span>and<span class="w"> </span>doe_algo_settings.seed<span class="w"> </span>is<span class="w"> </span>None:
+/builds/gemseo/dev/gemseo-umdo/src/gemseo_umdo/scenarios/base_u_scenario.py:152:<span class="w"> </span>PydanticDeprecatedSince20:<span class="w"> </span>The<span class="w"> </span><span class="sb">`</span>copy<span class="sb">`</span><span class="w"> </span>method<span class="w"> </span>is<span class="w"> </span>deprecated<span class="p">;</span><span class="w"> </span>use<span class="w"> </span><span class="sb">`</span>model_copy<span class="sb">`</span><span class="w"> </span>instead.<span class="w"> </span>See<span class="w"> </span>the<span class="w"> </span>docstring<span class="w"> </span>of<span class="w"> </span><span class="sb">`</span>BaseModel.copy<span class="sb">`</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>details<span class="w"> </span>about<span class="w"> </span>how<span class="w"> </span>to<span class="w"> </span>handle<span class="w"> </span><span class="sb">`</span>include<span class="sb">`</span><span class="w"> </span>and<span class="w"> </span><span class="sb">`</span>exclude<span class="sb">`</span>.<span class="w"> </span>Deprecated<span class="w"> </span><span class="k">in</span><span class="w"> </span>Pydantic<span class="w"> </span>V2.0<span class="w"> </span>to<span class="w"> </span>be<span class="w"> </span>removed<span class="w"> </span><span class="k">in</span><span class="w"> </span>V3.0.<span class="w"> </span>See<span class="w"> </span>Pydantic<span class="w"> </span>V2<span class="w"> </span>Migration<span class="w"> </span>Guide<span class="w"> </span>at<span class="w"> </span>https://errors.pydantic.dev/2.11/migration/
+<span class="w">  </span><span class="nv">formulation_settings_model_copy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>formulation_settings_model.copy<span class="o">()</span>
+/builds/gemseo/dev/gemseo-umdo/src/gemseo_umdo/formulations/sampling.py:152:<span class="w"> </span>PydanticDeprecatedSince211:<span class="w"> </span>Accessing<span class="w"> </span>the<span class="w"> </span><span class="s1">&#39;model_fields&#39;</span><span class="w"> </span>attribute<span class="w"> </span>on<span class="w"> </span>the<span class="w"> </span>instance<span class="w"> </span>is<span class="w"> </span>deprecated.<span class="w"> </span>Instead,<span class="w"> </span>you<span class="w"> </span>should<span class="w"> </span>access<span class="w"> </span>this<span class="w"> </span>attribute<span class="w"> </span>from<span class="w"> </span>the<span class="w"> </span>model<span class="w"> </span>class.<span class="w"> </span>Deprecated<span class="w"> </span><span class="k">in</span><span class="w"> </span>Pydantic<span class="w"> </span>V2.11<span class="w"> </span>to<span class="w"> </span>be<span class="w"> </span>removed<span class="w"> </span><span class="k">in</span><span class="w"> </span>V3.0.
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="s2">&quot;n_samples&quot;</span><span class="w"> </span><span class="k">in</span><span class="w"> </span>doe_algo_settings.model_fields:
+</code></pre></div>
+<!-- GENERATED FROM PYTHON SOURCE LINES 100-101 -->
+
+<p>and solve it using the SLSQP algorithm:</p>
+<!-- GENERATED FROM PYTHON SOURCE LINES 101-102 -->
+
+<div class="highlight"><pre><span></span><code><span class="n">u_opt_scenario</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">algo_name</span><span class="o">=</span><span class="s2">&quot;NLOPT_SLSQP&quot;</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</code></pre></div>
+<!-- GENERATED FROM PYTHON SOURCE LINES 103-112 -->
+
+<h2 id="mdo-problem-under-uncertainty">MDO problem under uncertainty<a class="headerlink" href="#mdo-problem-under-uncertainty" title="Permanent link">&para;</a></h2>
+<p>Now,
+we use the
+<a class="autorefs autorefs-internal" title="            UOptAsUMDOScenario" href="../../../../../reference/gemseo_umdo/problems/uopt_as_umdo_scenario/#gemseo_umdo.problems.uopt_as_umdo_scenario.UOptAsUMDOScenario">UOptAsUMDOScenario</a>
+to rewrite this optimization problem under uncertainty
+as an MDO problem under uncertainty with two strongly coupled disciplines.</p>
+<p>First,
+we reset the design space to the initial point:</p>
+<!-- GENERATED FROM PYTHON SOURCE LINES 112-113 -->
+
+<div class="highlight"><pre><span></span><code><span class="n">design_space</span><span class="o">.</span><span class="n">set_current_value</span><span class="p">(</span><span class="n">initial_point</span><span class="p">)</span>
+</code></pre></div>
+<!-- GENERATED FROM PYTHON SOURCE LINES 114-117 -->
+
+<p>and create the
+<a class="autorefs autorefs-internal" title="            UOptAsUMDOScenario" href="../../../../../reference/gemseo_umdo/problems/uopt_as_umdo_scenario/#gemseo_umdo.problems.uopt_as_umdo_scenario.UOptAsUMDOScenario">UOptAsUMDOScenario</a>,
+orchestrated by an MDF formulation:</p>
+<!-- GENERATED FROM PYTHON SOURCE LINES 117-126 -->
+
+<div class="highlight"><pre><span></span><code><span class="n">umdo_scenario</span> <span class="o">=</span> <span class="n">UOptAsUMDOScenario</span><span class="p">(</span>
+    <span class="n">discipline</span><span class="p">,</span>
+    <span class="s2">&quot;f&quot;</span><span class="p">,</span>
+    <span class="n">design_space</span><span class="p">,</span>
+    <span class="n">uncertain_space</span><span class="p">,</span>
+    <span class="s2">&quot;Mean&quot;</span><span class="p">,</span>
+    <span class="n">Sampling_Settings</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">50</span><span class="p">),</span>
+    <span class="n">formulation_name</span><span class="o">=</span><span class="s2">&quot;MDF&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<p class="mkd-glr-script-out">Out:</p>
+<div class="mkd-glr-script-out-disp highlight"><pre><span></span><code>/builds/gemseo/dev/gemseo-umdo/src/gemseo_umdo/formulations/base_sampling_settings.py:63:<span class="w"> </span>PydanticDeprecatedSince211:<span class="w"> </span>Accessing<span class="w"> </span>the<span class="w"> </span><span class="s1">&#39;model_fields&#39;</span><span class="w"> </span>attribute<span class="w"> </span>on<span class="w"> </span>the<span class="w"> </span>instance<span class="w"> </span>is<span class="w"> </span>deprecated.<span class="w"> </span>Instead,<span class="w"> </span>you<span class="w"> </span>should<span class="w"> </span>access<span class="w"> </span>this<span class="w"> </span>attribute<span class="w"> </span>from<span class="w"> </span>the<span class="w"> </span>model<span class="w"> </span>class.<span class="w"> </span>Deprecated<span class="w"> </span><span class="k">in</span><span class="w"> </span>Pydantic<span class="w"> </span>V2.11<span class="w"> </span>to<span class="w"> </span>be<span class="w"> </span>removed<span class="w"> </span><span class="k">in</span><span class="w"> </span>V3.0.
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="s2">&quot;seed&quot;</span><span class="w"> </span><span class="k">in</span><span class="w"> </span>doe_algo_settings.model_fields<span class="w"> </span>and<span class="w"> </span>doe_algo_settings.seed<span class="w"> </span>is<span class="w"> </span>None:
+/builds/gemseo/dev/gemseo-umdo/src/gemseo_umdo/scenarios/base_u_scenario.py:152:<span class="w"> </span>PydanticDeprecatedSince20:<span class="w"> </span>The<span class="w"> </span><span class="sb">`</span>copy<span class="sb">`</span><span class="w"> </span>method<span class="w"> </span>is<span class="w"> </span>deprecated<span class="p">;</span><span class="w"> </span>use<span class="w"> </span><span class="sb">`</span>model_copy<span class="sb">`</span><span class="w"> </span>instead.<span class="w"> </span>See<span class="w"> </span>the<span class="w"> </span>docstring<span class="w"> </span>of<span class="w"> </span><span class="sb">`</span>BaseModel.copy<span class="sb">`</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>details<span class="w"> </span>about<span class="w"> </span>how<span class="w"> </span>to<span class="w"> </span>handle<span class="w"> </span><span class="sb">`</span>include<span class="sb">`</span><span class="w"> </span>and<span class="w"> </span><span class="sb">`</span>exclude<span class="sb">`</span>.<span class="w"> </span>Deprecated<span class="w"> </span><span class="k">in</span><span class="w"> </span>Pydantic<span class="w"> </span>V2.0<span class="w"> </span>to<span class="w"> </span>be<span class="w"> </span>removed<span class="w"> </span><span class="k">in</span><span class="w"> </span>V3.0.<span class="w"> </span>See<span class="w"> </span>Pydantic<span class="w"> </span>V2<span class="w"> </span>Migration<span class="w"> </span>Guide<span class="w"> </span>at<span class="w"> </span>https://errors.pydantic.dev/2.11/migration/
+<span class="w">  </span><span class="nv">formulation_settings_model_copy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>formulation_settings_model.copy<span class="o">()</span>
+/builds/gemseo/dev/gemseo-umdo/src/gemseo_umdo/formulations/sampling.py:152:<span class="w"> </span>PydanticDeprecatedSince211:<span class="w"> </span>Accessing<span class="w"> </span>the<span class="w"> </span><span class="s1">&#39;model_fields&#39;</span><span class="w"> </span>attribute<span class="w"> </span>on<span class="w"> </span>the<span class="w"> </span>instance<span class="w"> </span>is<span class="w"> </span>deprecated.<span class="w"> </span>Instead,<span class="w"> </span>you<span class="w"> </span>should<span class="w"> </span>access<span class="w"> </span>this<span class="w"> </span>attribute<span class="w"> </span>from<span class="w"> </span>the<span class="w"> </span>model<span class="w"> </span>class.<span class="w"> </span>Deprecated<span class="w"> </span><span class="k">in</span><span class="w"> </span>Pydantic<span class="w"> </span>V2.11<span class="w"> </span>to<span class="w"> </span>be<span class="w"> </span>removed<span class="w"> </span><span class="k">in</span><span class="w"> </span>V3.0.
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="s2">&quot;n_samples&quot;</span><span class="w"> </span><span class="k">in</span><span class="w"> </span>doe_algo_settings.model_fields:
+</code></pre></div>
+<!-- GENERATED FROM PYTHON SOURCE LINES 127-129 -->
+
+<p>Then,
+we can see that the design variables have been renamed:</p>
+<!-- GENERATED FROM PYTHON SOURCE LINES 129-130 -->
+
+<div class="highlight"><pre><span></span><code><span class="n">design_space</span>
+</code></pre></div>
+<div class="output_subarea output_html rendered_html output_result">
+    <div style='margin: 1em;'>Design space:<br/><table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Lower bound</th>
+                <th>Value</th>
+                <th>Upper bound</th>
+                <th>Type</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>x_0</td>
+                <td>-1</td>
+                <td>-0.25</td>
+                <td>1</td>
+                <td>float</td>
+            </tr>
+            <tr>
+                <td>x_1</td>
+                <td>-1</td>
+                <td>0.75</td>
+                <td>1</td>
+                <td>float</td>
+            </tr>
+            <tr>
+                <td>x_2</td>
+                <td>-1</td>
+                <td>-0.9</td>
+                <td>1</td>
+                <td>float</td>
+            </tr>
+        </tbody>
+    </table></div>
+</div>
+
+<!-- GENERATED FROM PYTHON SOURCE LINES 131-139 -->
+
+<p>This renaming is based on the convention:</p>
+<ul>
+<li>the first design variable is the global design variable and is named <span class="arithmatex">\(x_0\)</span>,</li>
+<li>the <span class="arithmatex">\((1+i)\)</span>-th design variable is the local design variable
+  specific to the <span class="arithmatex">\(i\)</span>-th strongly coupled discipline
+  and is named <span class="arithmatex">\(x_{1+i}\)</span>.</li>
+</ul>
+<p>We can also have a look to the coupling graph:</p>
+<!-- GENERATED FROM PYTHON SOURCE LINES 139-140 -->
+
+<div class="highlight"><pre><span></span><code><span class="n">generate_coupling_graph</span><span class="p">(</span><span class="n">umdo_scenario</span><span class="o">.</span><span class="n">disciplines</span><span class="p">,</span> <span class="n">file_path</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+</code></pre></div>
+<div class="output_subarea output_html rendered_html output_result">
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+    <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+     "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+    <!-- Generated by graphviz version 12.2.1 (20241206.2353)
+     -->
+    <!-- Pages: 1 -->
+    <svg width="139pt" height="389pt"
+     viewBox="0.00 0.00 139.49 389.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 385)">
+    <polygon fill="white" stroke="none" points="-4,4 -4,-385 135.49,-385 135.49,4 -4,4"/>
+    <!-- L -->
+    <g id="node1" class="node">
+    <title>L</title>
+    <ellipse fill="none" stroke="black" cx="55.49" cy="-190.5" rx="27" ry="18"/>
+    <text text-anchor="middle" x="55.49" y="-184.32" font-family="Times,serif" font-size="14.00">L</text>
+    </g>
+    <!-- Rosenbrock -->
+    <g id="node2" class="node">
+    <title>Rosenbrock</title>
+    <ellipse fill="none" stroke="black" cx="55.49" cy="-104.25" rx="51.2" ry="18"/>
+    <text text-anchor="middle" x="55.49" y="-98.08" font-family="Times,serif" font-size="14.00">Rosenbrock</text>
+    </g>
+    <!-- L&#45;&gt;Rosenbrock -->
+    <g id="edge1" class="edge">
+    <title>L&#45;&gt;Rosenbrock</title>
+    <path fill="none" stroke="black" d="M55.49,-172.04C55.49,-161.09 55.49,-146.69 55.49,-134.07"/>
+    <polygon fill="black" stroke="black" points="58.99,-134.2 55.49,-124.2 51.99,-134.2 58.99,-134.2"/>
+    <g id="a_edge1&#45;label"><a xlink:title="Global name, Name in discipline &#39;L&#39;, Name in discipline &#39;Rosenbrock&#39;&#10;&#10;z_1, z_1, z_1&#10;z_2, z_2, z_2&#10;z_0, z_0, z_0">
+    <text text-anchor="middle" x="92.24" y="-141.2" font-family="Times,serif" font-size="14.00">z_0, z_1, z_2</text>
+    </a>
+    </g>
+    </g>
+    <!-- _Rosenbrock -->
+    <!-- Rosenbrock&#45;&gt;_Rosenbrock -->
+    <g id="edge6" class="edge">
+    <title>Rosenbrock&#45;&gt;_Rosenbrock</title>
+    <path fill="none" stroke="black" d="M55.49,-85.79C55.49,-74.84 55.49,-60.44 55.49,-47.82"/>
+    <polygon fill="black" stroke="black" points="58.99,-47.95 55.49,-37.95 51.99,-47.95 58.99,-47.95"/>
+    <g id="a_edge6&#45;label"><a xlink:title="Global name, Name in discipline &#39;Rosenbrock&#39;&#10;&#10;f, f">
+    <text text-anchor="middle" x="57.74" y="-54.95" font-family="Times,serif" font-size="14.00">f</text>
+    </a>
+    </g>
+    </g>
+    <!-- D1 -->
+    <g id="node3" class="node">
+    <title>D1</title>
+    <ellipse fill="none" stroke="black" cx="72.49" cy="-363" rx="27" ry="18"/>
+    <text text-anchor="middle" x="72.49" y="-356.82" font-family="Times,serif" font-size="14.00">D1</text>
+    </g>
+    <!-- D1&#45;&gt;L -->
+    <g id="edge2" class="edge">
+    <title>D1&#45;&gt;L</title>
+    <path fill="none" stroke="black" d="M64.64,-345.31C58.81,-331.96 51.36,-312.6 48.24,-294.75 43.87,-269.74 46.53,-240.89 49.8,-220.06"/>
+    <polygon fill="black" stroke="black" points="53.23,-220.75 51.48,-210.3 46.33,-219.55 53.23,-220.75"/>
+    <g id="a_edge2&#45;label"><a xlink:title="Global name, Name in discipline &#39;D1&#39;, Name in discipline &#39;L&#39;&#10;&#10;y_1, y_1, y_1">
+    <text text-anchor="middle" x="58.37" y="-270.57" font-family="Times,serif" font-size="14.00">y_1</text>
+    </a>
+    </g>
+    </g>
+    <!-- D2 -->
+    <g id="node4" class="node">
+    <title>D2</title>
+    <ellipse fill="none" stroke="black" cx="104.49" cy="-276.75" rx="27" ry="18"/>
+    <text text-anchor="middle" x="104.49" y="-270.57" font-family="Times,serif" font-size="14.00">D2</text>
+    </g>
+    <!-- D1&#45;&gt;D2 -->
+    <g id="edge3" class="edge">
+    <title>D1&#45;&gt;D2</title>
+    <path fill="none" stroke="black" d="M69.88,-345.02C69.08,-335.26 69.26,-322.95 73.24,-312.75 75.01,-308.23 77.65,-303.91 80.66,-299.95"/>
+    <polygon fill="black" stroke="black" points="83.16,-302.4 87.12,-292.57 77.9,-297.79 83.16,-302.4"/>
+    <g id="a_edge3&#45;label"><a xlink:title="Global name, Name in discipline &#39;D1&#39;, Name in discipline &#39;D2&#39;&#10;&#10;y_1, y_1, y_1">
+    <text text-anchor="middle" x="83.37" y="-313.7" font-family="Times,serif" font-size="14.00">y_1</text>
+    </a>
+    </g>
+    </g>
+    <!-- D2&#45;&gt;L -->
+    <g id="edge4" class="edge">
+    <title>D2&#45;&gt;L</title>
+    <path fill="none" stroke="black" d="M95.05,-259.51C88.13,-247.62 78.61,-231.24 70.63,-217.53"/>
+    <polygon fill="black" stroke="black" points="73.73,-215.89 65.67,-209 67.67,-219.41 73.73,-215.89"/>
+    <g id="a_edge4&#45;label"><a xlink:title="Global name, Name in discipline &#39;D2&#39;, Name in discipline &#39;L&#39;&#10;&#10;y_2, y_2, y_2">
+    <text text-anchor="middle" x="93.05" y="-227.45" font-family="Times,serif" font-size="14.00">y_2</text>
+    </a>
+    </g>
+    </g>
+    <!-- D2&#45;&gt;D1 -->
+    <g id="edge5" class="edge">
+    <title>D2&#45;&gt;D1</title>
+    <path fill="none" stroke="black" d="M102.03,-295.02C100.32,-304.66 97.59,-316.75 93.49,-327 92.26,-330.08 90.78,-333.21 89.17,-336.27"/>
+    <polygon fill="black" stroke="black" points="86.17,-334.46 84.21,-344.87 92.24,-337.95 86.17,-334.46"/>
+    <g id="a_edge5&#45;label"><a xlink:title="Global name, Name in discipline &#39;D2&#39;, Name in discipline &#39;D1&#39;&#10;&#10;y_2, y_2, y_2">
+    <text text-anchor="middle" x="107.96" y="-313.7" font-family="Times,serif" font-size="14.00">y_2</text>
+    </a>
+    </g>
+    </g>
+    </g>
+    </svg>
+
+</div>
+
+<!-- GENERATED FROM PYTHON SOURCE LINES 141-150 -->
+
+<p>and see that there are two strongly coupled disciplines <span class="arithmatex">\(D_1\)</span> and <span class="arithmatex">\(D_2\)</span>,
+connected by the coupling variables <span class="arithmatex">\(y_1\)</span> and <span class="arithmatex">\(y_2\)</span>.
+These disciplines are weakly coupled to a downstream link discipline <span class="arithmatex">\(L\)</span>,
+which is weakly coupled to the downstream original discipline.
+Let us note that the link discipline computes
+the values of the design variables in the original optimization problem
+from the values of the design and coupling variables in the MDO problem.</p>
+<p>We can also represent the MDO process using an XDSM:</p>
+<!-- GENERATED FROM PYTHON SOURCE LINES 150-151 -->
+
+<div class="highlight"><pre><span></span><code><span class="n">umdo_scenario</span><span class="o">.</span><span class="n">xdsmize</span><span class="p">(</span><span class="n">save_html</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">pdf_build</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</code></pre></div>
+<div class="output_subarea output_html rendered_html output_result">
+
+        <script type="text/javascript">
+            document.addEventListener('DOMContentLoaded', () => {
+              const mdo = {
+      "root": {
+        "nodes": [
+          {
+            "id": "Opt",
+            "name": "Optimizer",
+            "type": "optimization",
+            "status": "DONE"
+          },
+          {
+            "id": "Dis1",
+            "name": "MDAJacobi",
+            "type": "mda",
+            "status": "DONE"
+          },
+          {
+            "id": "Dis2",
+            "name": "D1",
+            "type": "analysis",
+            "status": "DONE"
+          },
+          {
+            "id": "Dis3",
+            "name": "D2",
+            "type": "analysis",
+            "status": "DONE"
+          },
+          {
+            "id": "Dis4",
+            "name": "L",
+            "type": "analysis",
+            "status": "DONE"
+          },
+          {
+            "id": "Dis5",
+            "name": "Rosenbrock",
+            "type": "analysis",
+            "status": "DONE"
+          }
+        ],
+        "edges": [
+          {
+            "from": "_U_",
+            "to": "Opt",
+            "name": "x_0^(0), x_1^(0), x_2^(0)"
+          },
+          {
+            "from": "Opt",
+            "to": "_U_",
+            "name": "E[f]^*"
+          },
+          {
+            "from": "Opt",
+            "to": "Dis1",
+            "name": "x_0, x_1, x_2"
+          },
+          {
+            "from": "Opt",
+            "to": "Dis2",
+            "name": "x_0, x_1"
+          },
+          {
+            "from": "Opt",
+            "to": "Dis3",
+            "name": "x_0, x_2"
+          },
+          {
+            "from": "Opt",
+            "to": "Dis4",
+            "name": "x_0, x_1, x_2"
+          },
+          {
+            "from": "Dis2",
+            "to": "_U_",
+            "name": "y_1^*"
+          },
+          {
+            "from": "Dis3",
+            "to": "_U_",
+            "name": "y_2^*"
+          },
+          {
+            "from": "Dis4",
+            "to": "_U_",
+            "name": "z_0^*, z_1^*, z_2^*"
+          },
+          {
+            "from": "Dis5",
+            "to": "_U_",
+            "name": "f^*"
+          },
+          {
+            "from": "Dis1",
+            "to": "Dis4",
+            "name": "y_1, y_2"
+          },
+          {
+            "from": "Dis4",
+            "to": "Dis5",
+            "name": "z_0, z_1, z_2"
+          },
+          {
+            "from": "Dis1",
+            "to": "Dis2",
+            "name": "y_2"
+          },
+          {
+            "from": "Dis2",
+            "to": "Dis1",
+            "name": "y_1"
+          },
+          {
+            "from": "Dis1",
+            "to": "Dis3",
+            "name": "y_1"
+          },
+          {
+            "from": "Dis3",
+            "to": "Dis1",
+            "name": "y_2"
+          }
+        ],
+        "workflow": [
+          "_U_",
+          [
+            "Opt",
+            [
+              "Dis1",
+              [
+                {
+                  "parallel": [
+                    "Dis2",
+                    "Dis3"
+                  ]
+                }
+              ],
+              "Dis4",
+              "Dis5"
+            ]
+          ]
+        ],
+        "optpb": ""
+      }
+    };
+              const config = {
+                labelizer: {
+                    ellipsis: 5,
+                    subSupScript: false,
+                    showLinkNbOnly: false,
+                },
+                layout: {
+                    origin: { x: 50, y: 20 },
+                    cellsize: { w: 150, h: 50 },
+                    padding: 10,
+                },
+                withDefaultDriver: true,
+                withTitleTooltip: true,
+              };
+              xdsmjs.XDSMjs(config).createXdsm(mdo);
+            });
+        </script>
+        <div class='xdsm-toolbar'></div><div class='xdsm2'></div>
+</div>
+
+<!-- GENERATED FROM PYTHON SOURCE LINES 152-154 -->
+
+<p>Lastly,
+we solve this scenario using the SLSQP algorithm:</p>
+<!-- GENERATED FROM PYTHON SOURCE LINES 154-155 -->
+
+<div class="highlight"><pre><span></span><code><span class="n">umdo_scenario</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">algo_name</span><span class="o">=</span><span class="s2">&quot;NLOPT_SLSQP&quot;</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</code></pre></div>
+<!-- GENERATED FROM PYTHON SOURCE LINES 156-158 -->
+
+<p>We can see that
+the numerical solution corresponds to the one found in the monodisciplinary case.</p>
+<p><strong>Total running time of the script:</strong> ( 0 minutes  20.324 seconds)</p>
+<div id="download_links"></div>
+
+<p><a class="md-button center" href="../plot_uopt_as_umdo.py"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M256 32c0-17.7-14.3-32-32-32s-32 14.3-32 32v210.7l-41.4-41.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l96 96c12.5 12.5 32.8 12.5 45.3 0l96-96c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 242.7zM64 320c-35.3 0-64 28.7-64 64v32c0 35.3 28.7 64 64 64h320c35.3 0 64-28.7 64-64v-32c0-35.3-28.7-64-64-64h-46.9l-56.6 56.6c-31.2 31.2-81.9 31.2-113.1 0L110.9 320zm304 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48"/></svg></span> Download Python source code: plot_uopt_as_umdo.py</a></p>
+<p><a class="md-button center" href="../plot_uopt_as_umdo.ipynb"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M256 32c0-17.7-14.3-32-32-32s-32 14.3-32 32v210.7l-41.4-41.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l96 96c12.5 12.5 32.8 12.5 45.3 0l96-96c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 242.7zM64 320c-35.3 0-64 28.7-64 64v32c0 35.3 28.7 64 64 64h320c35.3 0 64-28.7 64-64v-32c0-35.3-28.7-64-64-64h-46.9l-56.6 56.6c-31.2 31.2-81.9 31.2-113.1 0L110.9 320zm304 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48"/></svg></span> Download Jupyter notebook: plot_uopt_as_umdo.ipynb</a></p>
+<p><a class="mkd-glr-signature" href="https://smarie.github.io/mkdocs-gallery">Gallery generated by mkdocs-gallery</a></p>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:AzizAlaoui2025">
+<p>Amine Aziz Alaoui. <em>Contributions to multidisciplinary design optimization under uncertainty, with applications to aircraft design</em>. Theses, Université de Toulouse, February 2025. URL: <a href="https://theses.hal.science/tel-05059696">https://theses.hal.science/tel-05059696</a>.&#160;<a class="footnote-backref" href="#fnref:AzizAlaoui2025" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../../../..", "features": ["navigation.tabs", "navigation.instant", "navigation.indexes"], "search": "../../../../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../../../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+        <script src="../../../../../assets/_markdown_exec_pyodide.js"></script>
+      
+        <script src="../../../../../javascripts/mathjax.js"></script>
+      
+        <script src="../../../../../javascripts/xdsmjs.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
