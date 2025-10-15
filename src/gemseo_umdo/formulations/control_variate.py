@@ -14,7 +14,7 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 r"""Control variate-based U-MDO formulation.
 
-[ControlVariate][gemseo_umdo.formulations.control_variate.ControlVariate] is an
+[ControlVariate][gemseo_umdo.formulations.control_variate.ControlVariate] is a
 [BaseUMDOFormulation][gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation]
 estimating the statistics with first-order Taylor polynomials as control variates:
 
@@ -102,6 +102,7 @@ class ControlVariate(BaseUMDOFormulation):
         uncertain_space: ParameterSpace,
         objective_statistic_name: str,
         settings_model: ControlVariate_Settings,
+        minimize_objective: bool = True,
         objective_statistic_parameters: StrKeyMapping = READ_ONLY_EMPTY_DICT,
         mdo_formulation_settings: StrKeyMapping = READ_ONLY_EMPTY_DICT,
     ) -> None:
@@ -118,6 +119,7 @@ class ControlVariate(BaseUMDOFormulation):
             uncertain_space,
             objective_statistic_name,
             settings_model,
+            minimize_objective=minimize_objective,
             objective_statistic_parameters=objective_statistic_parameters,
             mdo_formulation_settings=mdo_formulation_settings,
         )

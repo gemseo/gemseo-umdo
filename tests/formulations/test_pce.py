@@ -25,7 +25,14 @@ from gemseo.algos.design_space import DesignSpace
 from gemseo.algos.doe.custom_doe.settings.custom_doe_settings import CustomDOE_Settings
 from gemseo.algos.doe.openturns.openturns import OpenTURNS
 from gemseo.algos.doe.openturns.settings.ot_halton import OT_HALTON_Settings
+from gemseo.algos.doe.openturns.settings.ot_opt_lhs import OT_OPT_LHS_Settings
+from gemseo.algos.parameter_space import ParameterSpace
+from gemseo.disciplines.analytic import AnalyticDiscipline
 from gemseo.formulations.disciplinary_opt import DisciplinaryOpt
+from gemseo.mlearning.linear_model_fitting.linear_regression_settings import (
+    LinearRegression_Settings,
+)
+from gemseo.mlearning.regression.algos.fce_settings import FCERegressor_Settings
 from gemseo.mlearning.regression.algos.pce import PCERegressor
 from gemseo.mlearning.regression.algos.pce_settings import PCERegressor_Settings
 from gemseo.mlearning.regression.quality.r2_measure import R2Measure
@@ -47,6 +54,7 @@ from gemseo_umdo.formulations._statistics.pce.variance import Variance
 from gemseo_umdo.formulations.pce import PCE
 from gemseo_umdo.formulations.pce_settings import PCE_Settings
 from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
+from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 
 if TYPE_CHECKING:
     from gemseo.algos.doe.base_doe_settings import BaseDOESettings
@@ -346,33 +354,73 @@ def test_quality_log_level(
 
 
 @pytest.mark.parametrize(
-    ("input_dimension", "pce_settings", "pce_regressor_settings", "f_opt", "jac_opt"),
+    ("input_dimension", "pce_settings", "regressor_settings", "f_opt", "jac_opt"),
     [
-        (1, {}, {}, 2.0, array([[2.0011889]])),
-        (1, {}, {"degree": 1}, 1.9972399330987038, array([[2.0011889]])),
-        (1, {"approximate_statistics_jacobians": True}, {}, 2.0, array([[2.0]])),
+        (1, {}, PCERegressor_Settings(), 2.0, array([[2.0]])),
+        (1, {}, PCERegressor_Settings(degree=1), 1.9972399330987038, array([[2.0]])),
         (
             1,
-            {"approximate_statistics_jacobians": True, "differentiation_step": 1e-2},
-            {},
+            {"approximate_statistics_jacobians": True},
+            PCERegressor_Settings(),
             2.0,
             array([[2.0]]),
         ),
-        (2, {}, {}, 5.916420174564085, array([[[1.9761176, 6.6563359]]])),
-        (2, {}, {"degree": 1}, 6.404476351650847, array([[[1.9761176, 6.6563359]]])),
+        (
+            1,
+            {"approximate_statistics_jacobians": True, "differentiation_step": 1e-2},
+            PCERegressor_Settings(),
+            2.0,
+            array([[2.0]]),
+        ),
+        (2, {}, PCERegressor_Settings(), 5.916420174564085, array([[[2.0, 6.0]]])),
+        (
+            2,
+            {},
+            PCERegressor_Settings(degree=1),
+            6.404476351650847,
+            array([[[2.0, 6.5868963]]]),
+        ),
         (
             2,
             {"approximate_statistics_jacobians": True},
-            {},
+            PCERegressor_Settings(),
             5.916420174564085,
             array([[[1.8819588, 7.0932709]]]),
         ),
         (
             2,
             {"approximate_statistics_jacobians": True, "differentiation_step": 1e-2},
-            {},
+            PCERegressor_Settings(),
             5.916420174564085,
             array([[[1.8819588, 7.0932709]]]),
+        ),
+        (
+            1,
+            {},
+            FCERegressor_Settings(),
+            2.0,
+            array([[2.0]]),
+        ),
+        (
+            1,
+            {},
+            FCERegressor_Settings(learn_jacobian_data=True),
+            2.0,
+            array([[2.0]]),
+        ),
+        (
+            1,
+            {"approximate_statistics_jacobians": True},
+            FCERegressor_Settings(learn_jacobian_data=True),
+            2.0,
+            array([[2.0]]),
+        ),
+        (
+            1,
+            {},
+            FCERegressor_Settings(use_special_jacobian_data=True),
+            2.0,
+            array([[2.0]]),
         ),
     ],
 )
@@ -380,7 +428,7 @@ def test_scenario(
     quadratic_problem,
     input_dimension,
     pce_settings,
-    pce_regressor_settings,
+    regressor_settings,
     f_opt,
     jac_opt,
 ):
@@ -398,7 +446,7 @@ def test_scenario(
         formulation_name="DisciplinaryOpt",
         statistic_estimation_settings=PCE_Settings(
             n_samples=20,
-            regressor_settings=PCERegressor_Settings(**pce_regressor_settings),
+            regressor_settings=regressor_settings,
             **pce_settings,
         ),
     )
@@ -410,3 +458,80 @@ def test_scenario(
     get = scenario.formulation.optimization_problem.database.get_gradient_history
     jac = get("E[y]")
     assert_almost_equal(jac, jac_opt)
+
+
+def test_settings_error():
+    """Check the error raised when using special variables and jac approximation."""
+    with pytest.raises(
+        ValueError,
+        match=re.escape(
+            "The settings approximate_statistics_jacobians "
+            "and regressor_settings.use_special_jacobian_data cannot be both True."
+        ),
+    ):
+        PCE_Settings(
+            approximate_statistics_jacobians=True,
+            regressor_settings=FCERegressor_Settings(use_special_jacobian_data=True),
+        )
+
+
+@pytest.fixture
+def rosenbrock_problem() -> tuple[AnalyticDiscipline, DesignSpace, ParameterSpace]:
+    """The Rosenbrock problem (discipline, design space and uncertain space)."""
+    discipline = AnalyticDiscipline({"f": "(1-x-ux)**2+100*(y+uy-(x+ux)**2)**2"})
+
+    design_space = DesignSpace()
+    design_space.add_variable("x", lower_bound=-2, upper_bound=2)
+    design_space.add_variable("y", lower_bound=-2, upper_bound=2)
+
+    uncertain_space = ParameterSpace()
+    uncertain_space.add_random_variable("ux", "OTNormalDistribution", mu=0.0, sigma=1.0)
+    uncertain_space.add_random_variable("uy", "OTNormalDistribution", mu=0.0, sigma=1.0)
+
+    return discipline, design_space, uncertain_space
+
+
+@pytest.mark.parametrize(
+    ("n_samples", "learn_jacobian_data", "approximate_statistics_jacobian", "f_opt"),
+    [
+        (10, True, True, (1753.56,)),
+        (20, False, True, (1753.56,)),
+        # Two options depending on environment
+        (10, True, False, (1761.70, 2473.94)),
+        (20, True, False, (1753.56,)),
+    ],
+)
+def test_rosenbrock(
+    rosenbrock_problem,
+    n_samples,
+    learn_jacobian_data,
+    approximate_statistics_jacobian,
+    f_opt,
+):
+    """Check the use of FCERegressor-based PCE for solving the Rosenbrock problem.
+
+    In Mura et al. (2020), the reference solution is 1753.56 (see Table 6).
+    """
+    discipline, design_space, uncertain_space = rosenbrock_problem
+    scenario = UMDOScenario(
+        [discipline],
+        "f",
+        design_space,
+        uncertain_space,
+        "Margin",
+        formulation_name="DisciplinaryOpt",
+        statistic_estimation_settings=PCE_Settings(
+            doe_algo_settings=OT_OPT_LHS_Settings(n_samples=n_samples),
+            regressor_settings=FCERegressor_Settings(
+                degree=4,
+                linear_model_fitter_settings=LinearRegression_Settings(),
+                learn_jacobian_data=learn_jacobian_data,
+            ),
+            approximate_statistics_jacobians=approximate_statistics_jacobian,
+        ),
+    )
+    scenario.execute(algo_name="NLOPT_SLSQP", max_iter=100)
+    try:
+        assert scenario.optimization_result.f_opt == pytest.approx(f_opt[0], abs=0.01)
+    except AssertionError:
+        assert scenario.optimization_result.f_opt == pytest.approx(f_opt[1], abs=0.01)

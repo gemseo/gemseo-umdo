@@ -6,8 +6,9 @@
  http://creativecommons.org/licenses/by-sa/4.0/ or send a letter to Creative
  Commons, PO Box 1866, Mountain View, CA 94042, USA.
 -->
-# U-MDO using sampling
+# Sampling
 
-The statistics are estimated using crude Monte Carlo sampling.
+The statistics of the MDO problem under uncertainty are estimated
+using crude Monte Carlo sampling.
 
 Read more in the [user guide](../../../user_guide/umdo/sampling.md)

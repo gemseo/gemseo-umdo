@@ -12,24 +12,23 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-"""Factory of U-MDO formulations."""
+"""Compatibility between different versions of numpy."""
 
 from __future__ import annotations
 
+from importlib.metadata import version
+from typing import TYPE_CHECKING
 from typing import Final
 
-from gemseo.formulations.factory import MDOFormulationFactory
+from packaging.version import parse as parse_version
 
-from gemseo_umdo.formulations.base_umdo_formulation import BaseUMDOFormulation
+if TYPE_CHECKING:
+    from packaging.version import Version
 
+NP_VERSION: Final[Version] = parse_version(version("numpy"))
 
-# TODO: API: rename to UMDOFormulationFactory
-class UMDOFormulationsFactory(MDOFormulationFactory):
-    """The factory of U-MDO formulations."""
+if parse_version("2.0.0") <= NP_VERSION:
+    from numpy import trapezoid  # noqa: F401
 
-    _CLASS = BaseUMDOFormulation
-    _PACKAGE_NAMES = ("gemseo_umdo.formulations",)
-
-
-UMDO_FORMULATION_FACTORY: Final[UMDOFormulationsFactory] = UMDOFormulationsFactory()
-"""The factory for ``BaseUMDOFormulation`` objects."""
+else:  # pragma: no cover
+    from numpy import trapz as trapezoid  # noqa: F401

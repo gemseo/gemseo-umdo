@@ -12,16 +12,19 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+from __future__ import annotations  # noqa: I001
+
 
 import pytest
 from gemseo.algos.design_space import DesignSpace
 from gemseo.algos.parameter_space import ParameterSpace
 from gemseo.disciplines.auto_py import AutoPyDiscipline
 from numpy import array
-from numpy import ndarray
 from numpy import zeros
 
 from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
+from numpy import ndarray  # noqa: TC002
+
 
 ZERO = zeros(1)
 

@@ -23,10 +23,10 @@ from typing import TYPE_CHECKING
 from typing import Any
 from typing import TypeVar
 
-from gemseo.mlearning.regression.algos.pce import PCERegressor
+from gemseo.mlearning.regression.algos.factory import RegressorFactory
 from gemseo.utils.data_conversion import split_array_to_dict_of_arrays as array_to_dict
 from numpy import array
-from numpy import hstack
+from numpy import vstack
 from scipy.linalg import solve
 
 from gemseo_umdo.formulations._functions.statistic_function_for_surrogate import (
@@ -35,6 +35,8 @@ from gemseo_umdo.formulations._functions.statistic_function_for_surrogate import
 from gemseo_umdo.formulations._statistics.pce.base_pce_estimator import BasePCEEstimator
 
 if TYPE_CHECKING:
+    from gemseo.mlearning.regression.algos.base_fce import BaseFCERegressor
+    from gemseo.mlearning.regression.algos.pce import PCERegressor
     from gemseo.typing import RealArray
 
     from gemseo_umdo.formulations.pce import PCE
@@ -69,33 +71,52 @@ class StatisticFunctionForPCE(StatisticFunctionForSurrogate[PCET]):
     ) -> dict[str, Any]:
         pce_formulation = self._umdo_formulation
         settings = pce_formulation._settings
-        samples = pce_formulation.compute_samples(
-            pce_formulation.mdo_formulation.optimization_problem,
-            compute_jacobian=(
-                estimate_jacobian and not settings.approximate_statistics_jacobians
-            ),
+        regressor_settings = settings.regressor_settings
+        if regressor_settings.learn_jacobian_data:
+            # FCE(u) trained from samples of df(x,u)du (i.e. gradient-enhanced FCE)
+            problem = pce_formulation.auxiliary_mdo_formulation.optimization_problem
+            compute_jacobian = True
+        elif estimate_jacobian and not settings.approximate_statistics_jacobians:
+            # FCE(u) trained from samples of df(x,u)dx
+            problem = pce_formulation.mdo_formulation.optimization_problem
+            compute_jacobian = True
+        else:
+            # Standard FCE(u) trained without samples of derivatives
+            problem = pce_formulation.mdo_formulation.optimization_problem
+            compute_jacobian = False
+
+        samples = pce_formulation.compute_samples(problem, compute_jacobian)
+
+        if estimate_jacobian and not settings.approximate_statistics_jacobians:
+            regressor_settings.use_special_jacobian_data = True
+        else:
+            regressor_settings.use_special_jacobian_data = False
+
+        fce = RegressorFactory().create(
+            regressor_settings._TARGET_CLASS_NAME,
+            samples,
+            settings_model=regressor_settings,
         )
-        pce = PCERegressor(samples, settings_model=settings.regressor_settings)
-        pce.learn()
+        fce.learn()
 
         # Store the output data.
-        sizes = pce.sizes
-        output_names = pce.output_names
+        sizes = fce.sizes
+        output_names = fce.output_names
         mean_arg_name = BasePCEEstimator.MEAN_ARG_NAME
         std_arg_name = BasePCEEstimator.STD_ARG_NAME
         var_arg_name = BasePCEEstimator.VAR_ARG_NAME
         data = {
-            mean_arg_name: array_to_dict(pce.mean, sizes, output_names),
-            std_arg_name: array_to_dict(pce.standard_deviation, sizes, output_names),
-            var_arg_name: array_to_dict(pce.variance, sizes, output_names),
+            mean_arg_name: array_to_dict(fce.mean, sizes, output_names),
+            std_arg_name: array_to_dict(fce.standard_deviation, sizes, output_names),
+            var_arg_name: array_to_dict(fce.variance, sizes, output_names),
         }
         if estimate_jacobian:
             if settings.approximate_statistics_jacobians:
-                jac_mean, jac_std, jac_var = self.__approximate_jacobians(pce)
+                jac_mean, jac_std, jac_var = self.__approximate_jacobians(fce)
             else:
-                jac_mean = pce.mean_jacobian_wrt_special_variables
-                jac_std = pce.standard_deviation_jacobian_wrt_special_variables
-                jac_var = pce.variance_jacobian_wrt_special_variables
+                jac_mean = fce.mean_jacobian_wrt_special_variables
+                jac_std = fce.standard_deviation_jacobian_wrt_special_variables
+                jac_var = fce.variance_jacobian_wrt_special_variables
 
             jac_mean = {
                 k: v.T
@@ -111,7 +132,7 @@ class StatisticFunctionForPCE(StatisticFunctionForSurrogate[PCET]):
             data[self.__get_statistic_jac_name(std_arg_name)] = jac_std
             data[self.__get_statistic_jac_name(var_arg_name)] = jac_var
 
-        self._log_regressor_quality(pce, input_data)
+        self._log_regressor_quality(fce, input_data)
         return data
 
     @staticmethod
@@ -127,12 +148,12 @@ class StatisticFunctionForPCE(StatisticFunctionForSurrogate[PCET]):
         return f"{statistic_name}_jac"
 
     def __approximate_jacobians(
-        self, pce_regressor: PCERegressor
+        self, fce_regressor: BaseFCERegressor
     ) -> tuple[RealArray, RealArray, RealArray]:
         """Approximate the Jacobians of mean, variance and standard deviation.
 
         Args:
-            pce_regressor: A polynomial chaos expension regressor.
+            fce_regressor: A functional chaos expansion regressor.
 
         Returns:
             The Jacobian of the mean,
@@ -146,36 +167,43 @@ class StatisticFunctionForPCE(StatisticFunctionForSurrogate[PCET]):
         mean_up = []
         var_up = []
 
-        basis_functions = pce_regressor.algo.getReducedBasis()
-        input_sample = array(pce_regressor.algo.getInputSample())
-        output_sample = array(pce_regressor.algo.getOutputSample())
-        transformation = pce_regressor.algo.getTransformation()
+        data = fce_regressor.learning_set
+        indices = fce_regressor.learning_samples_indices
+        input_samples = data.input_dataset.get_view(indices=indices).to_numpy()
+        output_samples = data.output_dataset.get_view(indices=indices).to_numpy()
+        if fce_regressor._jacobian_data is not None:
+            jacobian_samples = fce_regressor._create_jacobian_for_linear_model_fitting(
+                input_samples
+            )
 
         # Original training set: (u_i(1), ..., u_i(d), y_i)_{i=1...N}
         i = 0
-        for input_name in pce_regressor.input_names:
-            for _ in range(pce_regressor.sizes[input_name]):
-                input_sample_i = input_sample.copy()
+        for input_name in fce_regressor.input_names:
+            for _ in range(fce_regressor.sizes[input_name]):
+                input_samples_i = input_samples.copy()
                 for step, mean_, var_ in (
                     # (u_i(1), ..., u_i(j-1), u(j)+ε, u_i(j+1), ..., u_i(d), y_i)_i
                     (differentiation_step, mean_down, var_down),
                     # (u_i(1), ..., u_i(j-1), u(j)-2ε, u_i(j+1), ..., u_i(d), y_i)_i
                     (-2 * differentiation_step, mean_up, var_up),
                 ):
-                    input_sample_i[:, i] += step
-                    phi = hstack([
-                        array(basis_function(transformation(input_sample_i)))
-                        for basis_function in basis_functions
-                    ])
+                    input_samples_i[:, i] += step
+                    features = fce_regressor._evaluate_basis_functions(input_samples_i)
+                    if fce_regressor._settings.learn_jacobian_data:
+                        features = vstack(features)
+                        observations = vstack((output_samples, jacobian_samples))
+                    else:
+                        features = features[0]
+                        observations = output_samples
                     coefficients = (
                         solve(
-                            phi.T @ phi,
-                            phi.T,
+                            features.T @ features,
+                            features.T,
                             overwrite_a=True,
                             overwrite_b=True,
                             assume_a="sym",
                         )
-                        @ output_sample
+                        @ observations
                     )
                     mean_.append(coefficients[0, :])
                     var_.append((coefficients[1:, :] ** 2).sum(axis=0))

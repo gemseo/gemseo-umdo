@@ -27,7 +27,6 @@ from importlib.metadata import distributions
 from itertools import chain
 from pathlib import Path
 from textwrap import dedent
-from typing import Union
 
 from jinja2 import StrictUndefined
 from jinja2.sandbox import SandboxedEnvironment
@@ -51,7 +50,7 @@ devdeps = [
     if not dep.startswith("-e")
 ]
 
-PackageMetadata = dict[str, Union[str, Iterable[str]]]
+PackageMetadata = dict[str, str | Iterable[str]]
 Metadata = dict[str, PackageMetadata]
 
 

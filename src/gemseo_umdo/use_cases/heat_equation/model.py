@@ -94,9 +94,9 @@ from numpy import newaxis
 from numpy import pi
 from numpy import sin
 from numpy import sum as np_sum
-from numpy import trapz
 from numpy import zeros
 
+from gemseo_umdo._utils.compatibility.numpy import trapezoid
 from gemseo_umdo.use_cases.heat_equation.configuration import HeatEquationConfiguration
 
 if TYPE_CHECKING:
@@ -234,7 +234,7 @@ class HeatEquationModel:
             The integrated temperature shaped as `(sample_size, )`,
             the temperature at the different nodes shaped as `(sample_size, n_nodes)`.
         """
-        term = trapz(
+        term = trapezoid(
             self.__sinus * self.__compute_initial_temperature(X)[newaxis, :, :],
             x=self.configuration.mesh,
             axis=1,
@@ -244,7 +244,7 @@ class HeatEquationModel:
             * self.configuration.final_time
         )
         u_mesh = 2 * np_sum(self.__sinus * term[:, newaxis, :], axis=0)
-        return trapz(u_mesh, x=self.configuration.mesh, axis=0), u_mesh.T
+        return trapezoid(u_mesh, x=self.configuration.mesh, axis=0), u_mesh.T
 
     def __compute_taylor_materials(self) -> None:
         """Compute the materials of the first-order Taylor polynomial."""
@@ -260,10 +260,10 @@ class HeatEquationModel:
         snF1 = sn[:, :, 0] * self.__F1[None, :]  # noqa: N806 -> (n_modes, nx)
         snF2 = sn[:, :, 0] * self.__F2[None, :]  # noqa: N806 -> (n_modes, nx)
 
-        sn_quad = trapz(sn, x=x, axis=1).ravel()  # -> (n_modes,)
-        snF1_quad = trapz(snF1, x=x, axis=1)  # noqa: N806 -> (n_modes,)
-        snF2_quad = trapz(snF2, x=x, axis=1)  # noqa: N806 -> (n_modes,)
-        A_n_at_mu_X_quad = 2 * trapz(snu0_at_mu_X, x=x, axis=1)  # noqa: N806
+        sn_quad = trapezoid(sn, x=x, axis=1).ravel()  # -> (n_modes,)
+        snF1_quad = trapezoid(snF1, x=x, axis=1)  # noqa: N806 -> (n_modes,)
+        snF2_quad = trapezoid(snF2, x=x, axis=1)  # noqa: N806 -> (n_modes,)
+        A_n_at_mu_X_quad = 2 * trapezoid(snu0_at_mu_X, x=x, axis=1)  # noqa: N806
         # -> (n_modes,)
         B_n_at_mu_X_quad = (  # noqa: N806
             exp(-mu_X[3] * (n * pi) ** 2 * 0.5) * sn_quad

@@ -31,15 +31,12 @@ In the following, we will call $f$ the function computing $(x+U)^2$ given $x$ an
 
 from __future__ import annotations
 
-from gemseo import configure_logger
 from gemseo.algos.design_space import DesignSpace
 from gemseo.algos.parameter_space import ParameterSpace
 from gemseo.disciplines.analytic import AnalyticDiscipline
 
 from gemseo_umdo.formulations.pce_settings import PCE_Settings
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
-
-configure_logger()
 
 # %%
 # Firstly,
@@ -71,6 +68,15 @@ scenario = UMDOScenario(
     "Mean",
     formulation_name="DisciplinaryOpt",
     statistic_estimation_settings=PCE_Settings(n_samples=20),
+    # Note that we can change the settings of the OpenTURNS-based PCE regressor:
+    # statistic_estimation_settings=PCE_Settings(
+    #     n_samples=20, regressor_settings=PCERegressor_Settings(use_lars=True)
+    # ),
+    #
+    # or even change the type of FCE regressor:
+    # statistic_estimation_settings=PCE_Settings(
+    #     n_samples=20, regressor_settings=FCERegressor_Settings()
+    # ),
 )
 # %%
 # !!! note

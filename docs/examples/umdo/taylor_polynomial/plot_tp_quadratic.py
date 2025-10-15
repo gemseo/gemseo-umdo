@@ -31,7 +31,6 @@ In the following, we will call $f$ the function computing $(x+U)^2$ given $x$ an
 
 from __future__ import annotations
 
-from gemseo import configure_logger
 from gemseo.algos.design_space import DesignSpace
 from gemseo.algos.parameter_space import ParameterSpace
 from gemseo.disciplines.analytic import AnalyticDiscipline
@@ -40,8 +39,6 @@ from gemseo_umdo.formulations.taylor_polynomial_settings import (
     TaylorPolynomial_Settings,
 )
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
-
-configure_logger()
 
 # %%
 # Firstly,

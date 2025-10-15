@@ -26,7 +26,6 @@ from numpy import arange
 from numpy import array
 from numpy import block
 from numpy import full
-from numpy import ndarray
 from numpy import newaxis
 from numpy import setdiff1d
 from numpy import zeros
@@ -39,6 +38,8 @@ from gemseo_umdo.use_cases.truss.forces import Forces
 
 if TYPE_CHECKING:
     from pathlib import Path
+
+    from numpy import ndarray
 
 
 class TrussModel:
@@ -130,7 +131,7 @@ class TrussModel:
         ])
         free_forces = forces.flatten()[self.__FREE_DOF]
         stiffness_matrix = lil_matrix((self.__N_DOF, self.__N_DOF))
-        for bar, element in zip(bars, self.__ELEMENTS):
+        for bar, element in zip(bars, self.__ELEMENTS, strict=False):
             node_1, node_2 = element
             element_stiffness_matrix = self.__compute_element_stiffness_matrix(
                 bar.young_modulus, bar.area, node_1, node_2

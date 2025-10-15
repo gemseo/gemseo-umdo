@@ -30,7 +30,6 @@ from gemseo.disciplines.analytic import AnalyticDiscipline
 from gemseo.formulations.mdf import MDF
 from gemseo.utils.comparisons import compare_dict_of_arrays
 from numpy import array
-from numpy import ndarray
 from numpy.testing import assert_almost_equal
 from numpy.testing import assert_equal
 from pandas._testing import assert_frame_equal
@@ -69,6 +68,7 @@ if TYPE_CHECKING:
     from collections.abc import Sequence
 
     from gemseo.core.discipline.discipline import Discipline
+    from numpy import ndarray
 
     from gemseo_umdo.formulations._statistics.iterative_sampling.base_sampling_estimator import (  # noqa: E501
         BaseSamplingEstimator as BaseIterativeSamplingEstimator,
