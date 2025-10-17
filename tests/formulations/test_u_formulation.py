@@ -15,9 +15,11 @@
 from __future__ import annotations
 
 from typing import Any
+from unittest import mock
 
 import pytest
 from gemseo.algos.design_space import DesignSpace
+from gemseo.algos.doe.custom_doe.settings.custom_doe_settings import CustomDOE_Settings
 from gemseo.algos.parameter_space import ParameterSpace
 from gemseo.core.mdo_functions.mdo_function import MDOFunction
 from gemseo.disciplines.analytic import AnalyticDiscipline
@@ -29,6 +31,7 @@ from gemseo_umdo.formulations._statistics.sampling.factory import (
 )
 from gemseo_umdo.formulations.base_umdo_formulation import BaseUMDOFormulation
 from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
+from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 
 
 @pytest.fixture
@@ -85,6 +88,9 @@ class StatisticFunction(MDOFunction):
         super().__init__(lambda u: array([1.0]), name="func")
         self.mock = f"{output_name}_statistics"
         self.f_type = MDOFunction.ConstraintType.INEQ
+        statistic_estimator = mock.Mock()
+        statistic_estimator.factor = 2
+        self.statistic_estimator = statistic_estimator
 
 
 class MyUMDOFormulation(BaseUMDOFormulation):
@@ -188,3 +194,67 @@ def test_multiobjective(disciplines, design_space, mdf, uncertain_space):
         Sampling_Settings(n_samples=10),
     )
     assert formulation.optimization_problem.objective.name == "E[f_o]"
+
+
+@pytest.mark.parametrize("factor", [3.0, -3.0])
+@pytest.mark.parametrize("positive", [False, True])
+@pytest.mark.parametrize("maximize", [False, True])
+def test_margin(disciplines, design_space, uncertain_space, factor, positive, maximize):
+    """Test that Margin handles the factor correctly."""
+    # Firstly,
+    # we generate reference results with Margin.factor = abs(factor).
+    scenario = UMDOScenario(
+        disciplines,
+        "f",
+        design_space,
+        uncertain_space,
+        "Margin",
+        Sampling_Settings(n_samples=10),
+        objective_statistic_parameters={"factor": abs(factor)},
+        formulation_name="MDF",
+        maximize_objective=maximize,
+    )
+    scenario.add_constraint("c", "Margin", factor=abs(factor), positive=positive)
+    scenario.add_observable("o", "Margin", factor=abs(factor))
+    scenario.execute(
+        algo_settings_model=CustomDOE_Settings(samples=array([[1.0, 1.0, 1.0]]))
+    )
+    reference = scenario.formulation.optimization_problem.database.last_item
+
+    # Secondly,
+    # we generate results with Margin.factor = factor.
+    scenario = UMDOScenario(
+        disciplines,
+        "f",
+        design_space,
+        uncertain_space,
+        "Margin",
+        Sampling_Settings(n_samples=10),
+        objective_statistic_parameters={"factor": factor},
+        formulation_name="MDF",
+        maximize_objective=maximize,
+    )
+    scenario.add_constraint("c", "Margin", factor=factor, positive=positive)
+    scenario.add_observable("o", "Margin", factor=factor)
+    scenario.execute(
+        algo_settings_model=CustomDOE_Settings(samples=array([[1.0, 1.0, 1.0]]))
+    )
+    last_item = scenario.formulation.optimization_problem.database.last_item
+
+    # Finally,
+    # we check that the factor is replaced by its absolute value in the second case
+    # for the objective and constraint.
+    if maximize:
+        assert last_item["-Margin[f; -3.0]"] == reference["-Margin[f; -3.0]"]
+    else:
+        assert last_item["Margin[f; 3.0]"] == reference["Margin[f; 3.0]"]
+
+    if positive:
+        assert last_item["-Margin[c; -3.0]"] == reference["-Margin[c; -3.0]"]
+    else:
+        assert last_item["Margin[c; 3.0]"] == reference["Margin[c; 3.0]"]
+
+    if factor > 0:
+        assert last_item["Margin[o; 3.0]"] == reference["Margin[o; 3.0]"]
+    else:
+        assert last_item["Margin[o; -3.0]"] != reference["Margin[o; 3.0]"]

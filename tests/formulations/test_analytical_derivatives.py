@@ -129,7 +129,7 @@ def test_derivatives(statistic, symbol, n_x, n_u, settings):
         algo_name="CustomDOE", samples=linspace(1, n_x, n_x)[newaxis, :], eval_jac=True
     )
     new_last_item = scenario.formulation.optimization_problem.database.last_item
-    name = f"@{symbol}[y]"
+    name = "@Margin[y; 2.0]" if statistic == "Margin" else f"@{symbol}[y]"
     assert_allclose(
         new_last_item[name],
         last_item[name],

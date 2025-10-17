@@ -26,6 +26,14 @@ The format is based on
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Develop
+
+### Changed
+
+- The `factor` parameter of the statistic ``"Margin"`` is replaced by its absolute value
+  in the case of an objective to maximize or a positivity constraint.
+  In the case of observables, this parameter is not modified.
+
 ## Version 4.3.0 (October 2025)
 
 ### Added

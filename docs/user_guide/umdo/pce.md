@@ -57,10 +57,10 @@ then the U-MDO formulation will use [SEED][gemseo.utils.seeder.SEED].
 
 ### PCE's options
 
-This U-MDO formulation can use any [BaseFCERegressor][gemseo.mlearning.regression.algos.base_fce_regressor.BaseFCERegressor],
+This U-MDO formulation can use any [BaseFCERegressor][gemseo.mlearning.regression.algos.base_fce.BaseFCERegressor],
 including the [PCERegressor][gemseo.mlearning.regression.algos.pce.PCERegressor] available in GEMSEO,
 which wraps the [OpenTURNS' PCE algorithm](https://openturns.github.io/openturns/latest/user_manual/response_surface/_generated/openturns.FunctionalChaosAlgorithm.html).
-Use the `regressor_settings` parameter to set the options of the [BaseFCERegressor][gemseo.mlearning.regression.algos.base_fce_regressor.BaseFCERegressor],
+Use the `regressor_settings` parameter to set the options of the [BaseFCERegressor][gemseo.mlearning.regression.algos.base_fce.BaseFCERegressor],
 using a Pydantic model of type [BaseFCERegressorSettings][gemseo.mlearning.regression.algos.base_fce_settings.BaseFCERegressor_Settings].
 For example,
 in the case of [PCERegressorSettings][gemseo.mlearning.regression.algos.pce_settings.PCERegressor_Settings],

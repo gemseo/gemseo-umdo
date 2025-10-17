@@ -29,15 +29,15 @@ if TYPE_CHECKING:
 class Margin(BasePCEEstimator):
     """Estimator of a margin, i.e. mean + factor * deviation."""
 
-    __factor: float
-    """The factor related to the standard deviation."""
-
     ARG_NAMES: ClassVar[tuple[str]] = (
         BasePCEEstimator.MEAN_ARG_NAME,
         BasePCEEstimator.STD_ARG_NAME,
     )
 
-    def __init__(self, factor: float = 2.0) -> None:
+    __factor: float
+    """The factor related to the standard deviation."""
+
+    def __init__(self, factor: float) -> None:
         """
         Args:
             factor: The factor related to the standard deviation.

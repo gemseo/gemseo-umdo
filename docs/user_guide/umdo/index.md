@@ -126,6 +126,17 @@ e.g.
 - a margin, i.e. a combination of expectation and standard deviation operators parametrized by a weight $\kappa$: $\mathbb{E}+\kappa\cdot\mathbb{S}$,
 - a probability operator $\mathbb{P}$ parametrized by bounds $m$ and $M$.
 
+Concerning the margin,
+the sign of $\kappa$ depends on the function type:
+
+- $\kappa$ must be positive for an objective to minimize,
+- $\kappa$ must be negative for an objective to maximize,
+- $\kappa$ must be positive for a negativity constraint,
+- $\kappa$ must be negative for a positivity constraint,
+- $\kappa$ can be either positive of negative for an observable.
+
+GEMSEO-UMDO will take care of changing the $\kappa$ sign according to these rules. No need to worry about it.
+
 In practice,
 the statistics $\mathbb{K}_f[f(x,U)]$, $\mathbb{K}_g[g(x,U)]$ and $\mathbb{K}_h[h(x,U)]$ are unknown
 and the operators $\mathbb{K}_f$, $\mathbb{K}_g$ and $\mathbb{K}_h$ are replaced

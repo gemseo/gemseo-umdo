@@ -19,6 +19,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 from typing import Any
 from typing import ClassVar
+from typing import Final
 
 from gemseo.core.mdo_functions.mdo_function import MDOFunction
 from gemseo.formulations.base_formulation import BaseFormulation
@@ -57,6 +58,15 @@ class BaseUMDOFormulation(BaseFormulation):
     uncertainty, a.k.a. U-MDO problem, as a standard optimization problem without
     uncertainty.
     """
+
+    __DEFAULT_FACTOR: Final[float] = 2.0
+    """The default factor related to the standard deviation."""
+
+    __FACTOR_NAME: Final[str] = "factor"
+    """The name of the argument for the factor related to the standard deviation."""
+
+    __MARGIN_NAME: Final[str] = "Margin"
+    """The name of the classes implementing the margin statistics."""
 
     _USE_AUXILIARY_MDO_FORMULATION: ClassVar[bool] = False
     """Whether the U-MDO formulation uses an auxiliary MDO formulation.
@@ -158,8 +168,6 @@ class BaseUMDOFormulation(BaseFormulation):
         self._mdo_formulation = mdo_formulation
         self._uncertain_space = uncertain_space
 
-        # Create the auxiliary MDO formulation if required.
-        self._auxiliary_mdo_formulation = None
         if self._USE_AUXILIARY_MDO_FORMULATION:
             self._auxiliary_mdo_formulation = mdo_formulation.__class__(
                 disciplines,
@@ -167,38 +175,70 @@ class BaseUMDOFormulation(BaseFormulation):
                 uncertain_space,
                 **mdo_formulation_settings,
             )
+        else:
+            self._auxiliary_mdo_formulation = None
 
-        # Create the objective name.
-        objective_name = self.__compute_name(
+        objective_statistic_parameters = self.__update_statistic_parameters(
+            objective_statistic_name,
+            objective_statistic_parameters,
+            not minimize_objective,
+        )
+        new_objective_name = self.__compute_name(
             objective_name,
             objective_statistic_name,
             **objective_statistic_parameters,
         )
         super().__init__(
             disciplines,
-            objective_name,
+            new_objective_name,
             design_space,
             minimize_objective=minimize_objective,
             settings_model=settings_model,
         )
         self.name = f"{self.__class__.__name__}[{mdo_formulation.__class__.__name__}]"
 
-        # Replace the objective function by a statistic function.
-        sub_opt_problem = mdo_formulation.optimization_problem
         objective = self._statistic_function_class(
             self,
-            sub_opt_problem.objective.name,
+            mdo_formulation.optimization_problem.objective.name,
             MDOFunction.FunctionType.OBJ,
             objective_statistic_name,
             **objective_statistic_parameters,
         )
-        objective.name = objective_name
+        objective.name = new_objective_name
         self.optimization_problem.objective = objective
         self.optimization_problem.minimize_objective = minimize_objective
 
         # Initialize the cache mechanism.
         self.input_data_to_output_data = {}
         self.optimization_problem.add_listener(self._clear_input_data_to_output_data)
+
+    @classmethod
+    def __update_statistic_parameters(
+        cls,
+        statistic_name: str,
+        statistic_parameters: StrKeyMapping,
+        use_negative_factor: bool,
+    ) -> StrKeyMapping:
+        """Update the statistic parameters.
+
+        Args:
+            statistic_name: The name of the statistic.
+            statistic_parameters: The statistic parameters to be updated.
+            use_negative_factor: Whether to use a negative factor.
+
+        Returns:
+            The updated statistic parameters.
+        """
+        if statistic_name == cls.__MARGIN_NAME:
+            statistic_parameters = statistic_parameters or {}
+            factor = abs(
+                statistic_parameters.get(cls.__FACTOR_NAME, cls.__DEFAULT_FACTOR)
+            )
+            if use_negative_factor:
+                factor *= -1
+            statistic_parameters[cls.__FACTOR_NAME] = factor
+
+        return statistic_parameters
 
     def _build_objective(
         self,
@@ -321,6 +361,11 @@ class BaseUMDOFormulation(BaseFormulation):
 
             self._mdo_formulation.add_observable(output_name)
 
+        statistic_parameters = self.__update_statistic_parameters(
+            statistic_name,
+            statistic_parameters,
+            positive,
+        )
         constraint = self._statistic_function_class(
             self,
             function_name,
@@ -328,6 +373,7 @@ class BaseUMDOFormulation(BaseFormulation):
             statistic_name,
             **statistic_parameters,
         )
+
         name = self.__compute_name(output_name, statistic_name, **statistic_parameters)
         constraint.output_names = [name]
         if constraint_name:
