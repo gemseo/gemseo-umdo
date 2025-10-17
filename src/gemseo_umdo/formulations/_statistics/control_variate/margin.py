@@ -43,7 +43,11 @@ class Margin(BaseControlVariateEstimator):
     __standard_deviation: StandardDeviation
     """The iterative estimator of the standard deviation."""
 
-    def __init__(self, uncertain_space: ParameterSpace, factor: float = 2.0) -> None:
+    def __init__(
+        self,
+        uncertain_space: ParameterSpace,
+        factor: float,
+    ) -> None:
         """
         Args:
             factor: The factor related to the standard deviation.
