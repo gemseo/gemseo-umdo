@@ -7397,6 +7397,16 @@ e.g.</p>
 <li>a margin, i.e. a combination of expectation and standard deviation operators parametrized by a weight <span class="arithmatex">\(\kappa\)</span>: <span class="arithmatex">\(\mathbb{E}+\kappa\cdot\mathbb{S}\)</span>,</li>
 <li>a probability operator <span class="arithmatex">\(\mathbb{P}\)</span> parametrized by bounds <span class="arithmatex">\(m\)</span> and <span class="arithmatex">\(M\)</span>.</li>
 </ul>
+<p>Concerning the margin,
+the sign of <span class="arithmatex">\(\kappa\)</span> depends on the function type:</p>
+<ul>
+<li><span class="arithmatex">\(\kappa\)</span> must be positive for an objective to minimize,</li>
+<li><span class="arithmatex">\(\kappa\)</span> must be negative for an objective to maximize,</li>
+<li><span class="arithmatex">\(\kappa\)</span> must be positive for a negativity constraint,</li>
+<li><span class="arithmatex">\(\kappa\)</span> must be negative for a positivity constraint,</li>
+<li><span class="arithmatex">\(\kappa\)</span> can be either positive of negative for an observable.</li>
+</ul>
+<p>GEMSEO-UMDO will take care of changing the <span class="arithmatex">\(\kappa\)</span> sign according to these rules. No need to worry about it.</p>
 <p>In practice,
 the statistics <span class="arithmatex">\(\mathbb{K}_f[f(x,U)]\)</span>, <span class="arithmatex">\(\mathbb{K}_g[g(x,U)]\)</span> and <span class="arithmatex">\(\mathbb{K}_h[h(x,U)]\)</span> are unknown
 and the operators <span class="arithmatex">\(\mathbb{K}_f\)</span>, <span class="arithmatex">\(\mathbb{K}_g\)</span> and <span class="arithmatex">\(\mathbb{K}_h\)</span> are replaced
