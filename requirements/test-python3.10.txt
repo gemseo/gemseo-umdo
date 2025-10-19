@@ -30,7 +30,7 @@ fastjsonschema==2.21.2
     # via gemseo
 fonttools==4.60.1
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@e88d89fca2e1b428007036676788cde36a9fabc2
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@663ae28e8d68053755af25af6209e8e03bb534ac
     # via
     #   -c requirements/test-constraints.in
     #   gemseo-umdo (pyproject.toml)
@@ -104,7 +104,7 @@ pluggy==1.6.0
     #   pytest-cov
 prettytable==3.16.0
     # via gemseo
-psutil==7.1.0
+psutil==7.1.1
     # via openturns
 pydantic==2.11.9
     # via
