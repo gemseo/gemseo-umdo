@@ -6,7 +6,7 @@ babel==2.17.0
     # via mkdocs-material
 backrefs==5.9
     # via mkdocs-material
-black==25.9.0
+black==25.11.0
     # via gemseo-umdo (pyproject.toml:doc)
 bracex==2.6
     # via wcmatch
@@ -38,7 +38,7 @@ fieldz==0.1.3
     # via griffe-fieldz
 fonttools==4.60.1
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@638d1609f428dfa2aa6f41f773dbe1a07bbc9115
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@a64cd9f4f17c4e4d8bcc89c1bdbe2ceefd429a90
     # via
     #   -c requirements/test-constraints.in
     #   gemseo-umdo (pyproject.toml)
@@ -48,7 +48,7 @@ ghp-import==2.1.0
     # via mkdocs
 graphviz==0.21
     # via gemseo
-griffe==1.14.0
+griffe==1.15.0
     # via
     #   griffe-fieldz
     #   griffe-inherited-docstrings
@@ -85,7 +85,7 @@ markdown==3.10
     #   mkdocs-material
     #   mkdocstrings
     #   pymdown-extensions
-markdown-exec==1.11.0
+markdown-exec==1.12.0
     # via gemseo-umdo (pyproject.toml:doc)
 markupsafe==3.0.3
     # via
@@ -145,13 +145,13 @@ mkdocstrings==0.30.1
     # via
     #   gemseo-umdo (pyproject.toml:doc)
     #   mkdocstrings-python
-mkdocstrings-python==1.18.2
+mkdocstrings-python==1.19.0
     # via mkdocstrings
 mpmath==1.3.0
     # via sympy
 mypy-extensions==1.1.0
     # via black
-narwhals==2.10.2
+narwhals==2.11.0
     # via plotly
 networkx==3.5
     # via gemseo
