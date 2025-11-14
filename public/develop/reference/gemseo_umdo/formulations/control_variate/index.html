@@ -9358,9 +9358,9 @@ respect to the design variables.</p>
     <div class="doc doc-contents ">
 
         <p>Add an equality or inequality constraint to the optimization problem.</p>
-<p>An equality constraint is written as :math:<code>c(x)=a</code>,
-a positive inequality constraint is written as :math:<code>c(x)\geq a</code>
-and a negative inequality constraint is written as :math:<code>c(x)\leq a</code>.</p>
+<p>An equality constraint is written as <span class="arithmatex">\(c(x)=a\)</span>,
+a positive inequality constraint is written as <span class="arithmatex">\(c(x)\geq a\)</span>
+and a negative inequality constraint is written as <span class="arithmatex">\(c(x)\leq a\)</span>.</p>
 <p>This constraint is in addition to those created by the formulation,
 e.g. consistency constraints in IDF.</p>
 <p>The strategy of repartition of the constraints is defined by the formulation.</p>
@@ -9380,7 +9380,7 @@ e.g. consistency constraints in IDF.</p>
             </td>
             <td class="doc-param-details">
               <div class="doc-md-description">
-                <p>The name(s) of the outputs computed by :math:<code>c(x)</code>.
+                <p>The name(s) of the outputs computed by <span class="arithmatex">\(c(x)\)</span>.
 If several names are given,
 a single discipline must provide all outputs.</p>
               </div>
@@ -9457,7 +9457,7 @@ from <code>output_name</code>, <code>constraint_type</code>, <code>value</code> 
             </td>
             <td class="doc-param-details">
               <div class="doc-md-description">
-                <p>The value :math:<code>a</code>.</p>
+                <p>The value <span class="arithmatex">\(a\)</span>.</p>
               </div>
               <p>
                   <span class="doc-param-annotation">
@@ -9994,11 +9994,12 @@ to create a training dataset.</p>
 <p>A formulation structures the optimization problem
 into multiple levels of disciplines.
 The top level disciplines map
-from the :attr:<code>.design_space</code>
+from the
+<a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.formulations.base_formulation.html#gemseo.formulations.base_formulation.BaseFormulation.design_space">design_space</a>
 to the objective, constraint and observable spaces.
 They can be composed of
 both user disciplines and process disciplines added by the formulation,
-e.g. :class:<code>.MDOChain</code>.
+e.g. <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.core.chains.chain.html#gemseo.core.chains.chain.MDOChain">MDOChain</a>.
 These process disciplines may also include
 both user disciplines and process disciplines,
 and so on.</p>
