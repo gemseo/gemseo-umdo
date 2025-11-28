@@ -8528,7 +8528,7 @@ associated with taking the uncertainties into account.
 Otherwise,
 finite differences are computed
 and so the additional cost is <span class="arithmatex">\(d+1\)</span> evaluations of the process
-associated with the <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.formulations.base_mdo_formulation.html#gemseo.formulations.base_mdo_formulation.BaseMDOFormulation">BaseMDOFormulation</a>
+associated with the [BaseMDOFormulation][gemseo.formulations.base_mdo_formulation.BaseMDOFormulation]
 where <span class="arithmatex">\(d\)</span> is the dimension of the uncertain space.</p>
 <p>This U-MDO formulation has no mandatory parameters.</p>
 <p>Here is a typical scenario template:</p>
@@ -8546,7 +8546,7 @@ where <span class="arithmatex">\(d\)</span> is the dimension of the uncertain sp
 <h3 id="derivatives-calculation">Derivatives calculation<a class="headerlink" href="#derivatives-calculation" title="Permanent link">&para;</a></h3>
 <p>When the derivatives with respect to the uncertain variables are missing
 or when the process
-resulting from the <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.formulations.base_mdo_formulation.html#gemseo.formulations.base_mdo_formulation.BaseMDOFormulation">BaseMDOFormulation</a>
+resulting from the [BaseMDOFormulation][gemseo.formulations.base_mdo_formulation.BaseMDOFormulation]
 cannot be differentiated with respect to these variables,
 this U-MDO formulation uses finite difference approximations.
 One can also force the use of finite difference approximations

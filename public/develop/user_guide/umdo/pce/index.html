@@ -8565,7 +8565,7 @@
 is a U-MDO formulation that estimates the statistics
 using functional chaos expansions (FCEs),
 including polynomial chaos expansions (PCEs).
-By default, this U-MDO formulation is based on the <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.mlearning.regression.algos.pce.html#gemseo.mlearning.regression.algos.pce.PCERegressor">PCERegressor</a>.</p>
+By default, this U-MDO formulation is based on the [PCERegressor][gemseo.mlearning.regression.algos.pce.PCERegressor].</p>
 <p>At each iteration of the optimization loop,
 an FCE is built over the uncertain space
 and its coefficients are used to estimate specific statistics,
@@ -8593,19 +8593,19 @@ and so to get a better space-filling LHS.</p>
 <p>The default number samples is 10.
 It can be changed with the parameter <code>n_samples</code>
 and the DOE algorithm name can be changed with the parameter <code>doe_algo_settings</code>,
-which is a Pydantic model deriving from <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.doe.base_doe_settings.html#gemseo.algos.doe.base_doe_settings.BaseDOESettings">BaseDOESettings</a>.
+which is a Pydantic model deriving from [BaseDOESettings][gemseo.algos.doe.base_doe_settings.BaseDOESettings].
 When <code>n_samples</code> is <code>None</code> (default) and <code>doe_algo_settings</code> has a field <code>n_samples</code>,
 then this field is considered.
 When <code>doe_algo_settings</code> has a field <code>seed</code> and its value is <code>None</code>,
-then the U-MDO formulation will use <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.utils.seeder.html#gemseo.utils.seeder.SEED">SEED</a>.</p>
+then the U-MDO formulation will use [SEED][gemseo.utils.seeder.SEED].</p>
 <h3 id="pces-options">PCE's options<a class="headerlink" href="#pces-options" title="Permanent link">&para;</a></h3>
-<p>This U-MDO formulation can use any <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.mlearning.regression.algos.base_fce.html#gemseo.mlearning.regression.algos.base_fce.BaseFCERegressor">BaseFCERegressor</a>,
-including the <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.mlearning.regression.algos.pce.html#gemseo.mlearning.regression.algos.pce.PCERegressor">PCERegressor</a> available in GEMSEO,
+<p>This U-MDO formulation can use any [BaseFCERegressor][gemseo.mlearning.regression.algos.base_fce.BaseFCERegressor],
+including the [PCERegressor][gemseo.mlearning.regression.algos.pce.PCERegressor] available in GEMSEO,
 which wraps the <a href="https://openturns.github.io/openturns/latest/user_manual/response_surface/_generated/openturns.FunctionalChaosAlgorithm.html">OpenTURNS' PCE algorithm</a>.
-Use the <code>regressor_settings</code> parameter to set the options of the <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.mlearning.regression.algos.base_fce.html#gemseo.mlearning.regression.algos.base_fce.BaseFCERegressor">BaseFCERegressor</a>,
-using a Pydantic model of type <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.mlearning.regression.algos.base_fce_settings.html#gemseo.mlearning.regression.algos.base_fce_settings.BaseFCERegressor_Settings">BaseFCERegressorSettings</a>.
+Use the <code>regressor_settings</code> parameter to set the options of the [BaseFCERegressor][gemseo.mlearning.regression.algos.base_fce.BaseFCERegressor],
+using a Pydantic model of type [BaseFCERegressorSettings][gemseo.mlearning.regression.algos.base_fce_settings.BaseFCERegressor_Settings].
 For example,
-in the case of <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.mlearning.regression.algos.pce_settings.html#gemseo.mlearning.regression.algos.pce_settings.PCERegressor_Settings">PCERegressorSettings</a>,
+in the case of [PCERegressorSettings][gemseo.mlearning.regression.algos.pce_settings.PCERegressor_Settings],
 set <code>use_lars</code> to <code>True</code> to obtain a more sparse PCE and avoid overfitting
 (<a href="https://openturns.github.io/openturns/latest/theory/meta_modeling/polynomial_sparse_least_squares.html">more details</a>)
 and <code>degree</code> to <code>3</code> for a maximum degree of 3.

@@ -8600,13 +8600,13 @@ which corresponds to the number of Monte Carlo samples in the CVs method.</p>
 <p>The control variates are built from approximations of the original objective, constraint and observable functions.
 These approximations can be
 either Taylor polynomials centered at the mean input value (default)
-or regression models defined as <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.mlearning.regression.algos.base_regressor.html#gemseo.mlearning.regression.algos.base_regressor.BaseRegressor">BaseRegressor</a>s.
+or regression models defined as [BaseRegressor][gemseo.mlearning.regression.algos.base_regressor.BaseRegressor]s.
 In the latter case,
 the regression model is defined by the Pydantic models
 <code>regressor_settings</code> for the settings of the regressor
-(e.g. <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.mlearning.regression.algos.rbf_settings.html#gemseo.mlearning.regression.algos.rbf_settings.RBFRegressor_Settings">RBFRegressor_Settings</a>)
+(e.g. [RBFRegressor_Settings][gemseo.mlearning.regression.algos.rbf_settings.RBFRegressor_Settings])
 and <code>regressor_doe_algo_settings</code> for the settings of the DOE algorithm used to create the training dataset
-(e.g. <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.doe.openturns.settings.ot_halton.html#gemseo.algos.doe.openturns.settings.ot_halton.OT_HALTON_Settings">OT_HALTON_Settings</a>).</p>
+(e.g. [OT_HALTON_Settings][gemseo.algos.doe.openturns.settings.ot_halton.OT_HALTON_Settings]).</p>
 <h3 id="sampling">Sampling<a class="headerlink" href="#sampling" title="Permanent link">&para;</a></h3>
 <p>By default,
 the formulation uses the DOE algorithm <code>OT_OPT_LHS</code> with 10 samples:
@@ -8619,11 +8619,11 @@ and improves it to maximize its discrepancy
 and so to get a better space-filling LHS.</p>
 <p>The number of samples can be changed with the parameter <code>n_samples</code>
 and the DOE algorithm name can be changed with the parameter <code>doe_algo_settings</code> ,
-which is a Pydantic model deriving from <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.doe.base_doe_settings.html#gemseo.algos.doe.base_doe_settings.BaseDOESettings">BaseDOESettings</a>.
+which is a Pydantic model deriving from [BaseDOESettings][gemseo.algos.doe.base_doe_settings.BaseDOESettings].
 When <code>n_samples</code> is <code>None</code> (default) and <code>doe_algo_settings</code> has a field <code>n_samples</code>,
 then this field is considered.
 When <code>doe_algo_settings</code> has a field <code>seed</code> and its value is <code>None</code>,
-then the U-MDO formulation will use <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.utils.seeder.html#gemseo.utils.seeder.SEED">SEED</a>.</p>
+then the U-MDO formulation will use [SEED][gemseo.utils.seeder.SEED].</p>
 <div class="admonition note">
 <p class="admonition-title">API</p>
 <p>Here is an example of code that considers an RBF regressor and different DOE algorithms:</p>

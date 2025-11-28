@@ -8571,13 +8571,13 @@ and <span class="arithmatex">\(h:\mathcal{X}\to\mathbb{R}^{p_h}\)</span>.</p>
 <p class="admonition-title">API</p>
 <p>In <a href="https://www.gemseo.org">GEMSEO</a>,
 the user instantiates an
-<a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.optimization_problem.html#gemseo.algos.optimization_problem.OptimizationProblem">OptimizationProblem</a>
-from a <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.design_space.html#gemseo.algos.design_space.DesignSpace">DesignSpace</a>,
+[OptimizationProblem][gemseo.algos.optimization_problem.OptimizationProblem]
+from a [DesignSpace][gemseo.algos.design_space.DesignSpace],
 defines its objective functions and constraints
 with
-<a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.core.mdo_functions.mdo_function.html#gemseo.core.mdo_functions.mdo_function.MDOFunction">MDOFunction</a> objects
+[MDOFunction][gemseo.core.mdo_functions.mdo_function.MDOFunction] objects
 and solves it with an algorithm
-from a <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.base_driver_library.html#gemseo.algos.base_driver_library.BaseDriverLibrary">BaseDriverLibrary</a>.
+from a [BaseDriverLibrary][gemseo.algos.base_driver_library.BaseDriverLibrary].
 This algorithm can be either an optimizer or a design of experiments (DOE).</p>
 <details class="example">
 <summary>Example</summary>
@@ -8934,7 +8934,7 @@ and
 can take them into account.</p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
-<p>Let us implement an <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.core.discipline.discipline.html#gemseo.core.discipline.discipline.Discipline">Discipline</a>
+<p>Let us implement an [Discipline][gemseo.core.discipline.discipline.Discipline]
 outputting <span class="arithmatex">\(f(x,U)=(x_1+U)^2+(x_2+U)^2\)</span>:
 <div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="kn">import</span> <span class="n">array</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.core.discipline.discipline</span><span class="w"> </span><span class="kn">import</span> <span class="n">Discipline</span>
@@ -8962,8 +8962,8 @@ with different values of the uncertain variable <span class="arithmatex">\(U\)</
 </div>
 <h3 id="uncertain-space">Uncertain space<a class="headerlink" href="#uncertain-space" title="Permanent link">&para;</a></h3>
 <p>The uncertain variables have to be defined
-in a <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.parameter_space.html#gemseo.algos.parameter_space.ParameterSpace">ParameterSpace</a>
-with the method <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.parameter_space.html#gemseo.algos.parameter_space.ParameterSpace.add_random_variable">add_random_variable</a>.</p>
+in a [ParameterSpace][gemseo.algos.parameter_space.ParameterSpace]
+with the method [add_random_variable][gemseo.algos.parameter_space.ParameterSpace.add_random_variable].</p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
 <p>In the previous example,
@@ -8994,11 +8994,11 @@ and the U-MDO formulation, combining an statistics estimation technique and an M
 <p class="admonition-title">API</p>
 <p>The API of <a class="autorefs autorefs-internal" title="            UDOEScenario" href="../../reference/gemseo_umdo/scenarios/udoe_scenario/#gemseo_umdo.scenarios.udoe_scenario.UDOEScenario">UDOEScenario</a>
 is deliberately similar to
-the API of <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.scenarios.doe_scenario.html#gemseo.scenarios.doe_scenario.DOEScenario">DOEScenario</a>.
+the API of [DOEScenario][gemseo.scenarios.doe_scenario.DOEScenario].
 And the same for
 <a class="autorefs autorefs-internal" title="            UMDOScenario" href="../../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>
 and
-<a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.scenarios.mdo_scenario.html#gemseo.scenarios.mdo_scenario.MDOScenario">MDOScenario</a>.
+[MDOScenario][gemseo.scenarios.mdo_scenario.MDOScenario].
 This choice was made not only to simplify the user's life,
 but also because an MDO problem under uncertainty
 is first and foremost an MDO problem.</p>
@@ -9087,22 +9087,22 @@ due to the error of the surrogate models.</p>
 <details class="info">
 <summary>Implementation</summary>
 <p>Given a
-<a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.design_space.html#gemseo.algos.design_space.DesignSpace">DesignSpace</a>
+[DesignSpace][gemseo.algos.design_space.DesignSpace]
 and a collection of
-<a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.core.discipline.discipline.html#gemseo.core.discipline.discipline.Discipline">Disciplines</a>,
-a <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.scenarios.doe_scenario.html#gemseo.scenarios.doe_scenario.DOEScenario">DOEScenario</a>
+[Disciplines][gemseo.core.discipline.discipline.Discipline],
+a [DOEScenario][gemseo.scenarios.doe_scenario.DOEScenario]
 generates and solves an
-<a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.optimization_problem.html#gemseo.algos.optimization_problem.OptimizationProblem">OptimizationProblem</a>
+[OptimizationProblem][gemseo.algos.optimization_problem.OptimizationProblem]
 that corresponds to a
-<a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.formulations.base_mdo_formulation.html#gemseo.formulations.base_mdo_formulation.BaseMDOFormulation">BaseMDOFormulation</a>.
+[BaseMDOFormulation][gemseo.formulations.base_mdo_formulation.BaseMDOFormulation].
 The resolution consists in sampling the objective and constraints
-over the <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.design_space.html#gemseo.algos.design_space.DesignSpace">DesignSpace</a>,
+over the [DesignSpace][gemseo.algos.design_space.DesignSpace],
 i.e. <span class="arithmatex">\((x^{(i)},f(x^{(i)},U),g(x^{(i)},U),h(x^{(i)},U))_{1\leq i \leq N}\)</span>,
 and returning either the <span class="arithmatex">\(x^*\)</span> minimizing <span class="arithmatex">\(f\)</span> while satisying <span class="arithmatex">\(g\)</span> and <span class="arithmatex">\(h\)</span>
 or the <span class="arithmatex">\(x^*\)</span> that violates the least <span class="arithmatex">\(g\)</span> and <span class="arithmatex">\(h\)</span>.</p>
 <p>GEMSEO-UMDO uses this sampling mechanism a first time
-with a <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.parameter_space.html#gemseo.algos.parameter_space.ParameterSpace">ParameterSpace</a>
-instead of the <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.design_space.html#gemseo.algos.design_space.DesignSpace">DesignSpace</a>
+with a [ParameterSpace][gemseo.algos.parameter_space.ParameterSpace]
+instead of the [DesignSpace][gemseo.algos.design_space.DesignSpace]
 to estimate the statistics
 <span class="arithmatex">\(\mathbb{K}_f[f(x,U)]\)</span>, <span class="arithmatex">\(\mathbb{K}_g[g(x,U)]\)</span> and <span class="arithmatex">\(\mathbb{K}_h[h(x,U)]\)</span>
 based on the samples
@@ -9118,8 +9118,8 @@ These statistics estimators
 <span class="arithmatex">\(\hat{\mathbb{K}}_g[g(x,U)]\)</span> and
 <span class="arithmatex">\(\hat{\mathbb{K}}_h[h(x,U)]\)</span>
 are then used to build a new
-<a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.optimization_problem.html#gemseo.algos.optimization_problem.OptimizationProblem">OptimizationProblem</a>
-over the <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.algos.design_space.html#gemseo.algos.design_space.DesignSpace">DesignSpace</a>:</p>
+[OptimizationProblem][gemseo.algos.optimization_problem.OptimizationProblem]
+over the [DesignSpace][gemseo.algos.design_space.DesignSpace]:</p>
 <div class="arithmatex">\[
 \begin{align}
 &amp;\underset{x\in\mathcal{X}}{\operatorname{minimize}}
@@ -9132,7 +9132,7 @@ over the <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.
 <p>Thus implemented,
 GEMSEO-UMDO should be able
 to set up any MDO problem under uncertainty
-from any <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.formulations.base_mdo_formulation.html#gemseo.formulations.base_mdo_formulation.BaseMDOFormulation">BaseMDOFormulation</a>
+from any [BaseMDOFormulation][gemseo.formulations.base_mdo_formulation.BaseMDOFormulation]
 and any statistic estimation technique.
 This vision may be theoretical at the moment,
 but the ambition of GEMSEO-UMDO is to be
