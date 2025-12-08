@@ -38,7 +38,7 @@ fieldz==0.1.3
     # via griffe-fieldz
 fonttools==4.61.0
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@a1bfdd24449fd77c8180002e58bb521b86bb848c
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@85a05eafc5afe52f1ff87c0d9f59b2da2b26680d
     # via
     #   -c requirements/test-constraints.in
     #   gemseo-umdo (pyproject.toml)
@@ -53,7 +53,7 @@ griffe==1.15.0
     #   griffe-fieldz
     #   griffe-inherited-docstrings
     #   mkdocstrings-python
-griffe-fieldz==0.3.0
+griffe-fieldz==0.4.0
     # via gemseo-umdo (pyproject.toml:doc)
 griffe-inherited-docstrings==1.1.2
     # via gemseo-umdo (pyproject.toml:doc)
@@ -195,7 +195,7 @@ pillow==11.3.0
     # via
     #   gemseo
     #   matplotlib
-platformdirs==4.5.0
+platformdirs==4.5.1
     # via
     #   black
     #   mkdocs-get-deps
@@ -223,7 +223,7 @@ pygments==2.19.2
     #   pygments-ansi-color
 pygments-ansi-color==0.3.0
     # via markdown-exec
-pymdown-extensions==10.17.2
+pymdown-extensions==10.18
     # via
     #   markdown-exec
     #   mkdocs-material
@@ -306,7 +306,7 @@ typing-inspection==0.4.2
     #   pydantic-settings
 tzdata==2025.2
     # via pandas
-urllib3==2.5.0
+urllib3==2.6.0
     # via
     #   requests
     #   responses
