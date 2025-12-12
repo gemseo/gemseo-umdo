@@ -8725,7 +8725,6 @@ its first-order and total-order Sobol' indices.</p>
 variable while the thickness of an edge is proportional to the second-order Sobol'
 index of the corresponding pair of variables.</p>
 
-        <p>Initialize self.  See help(type(self)) for accurate signature.</p>
 
 
 <table>
@@ -8755,23 +8754,6 @@ shaped as <code>{name: index}</code>.</p>
           </tr>
           <tr class="doc-section-item">
             <td>
-                <code>total_order_indices</code>
-            </td>
-            <td class="doc-param-details">
-              <div class="doc-md-description">
-                <p>The total-order Sobol' indices of the scalar inputs,
-shaped as <code>{name: index}</code>.</p>
-              </div>
-              <p>
-                  <span class="doc-param-annotation">
-                    <b>TYPE:</b>
-                      <code><span title="collections.abc.Mapping">Mapping</span>[<span title="str">str</span>, <span title="float">float</span>]</code>
-                  </span>
-              </p>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
                 <code>second_order_indices</code>
             </td>
             <td class="doc-param-details">
@@ -8783,6 +8765,23 @@ shaped as <code>{(name, other_name): index}</code>.</p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
                       <code><span title="collections.abc.Mapping">Mapping</span>[<span title="tuple">tuple</span>[<span title="str">str</span>, <span title="str">str</span>], <span title="float">float</span>]</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>total_order_indices</code>
+            </td>
+            <td class="doc-param-details">
+              <div class="doc-md-description">
+                <p>The total-order Sobol' indices of the scalar inputs,
+shaped as <code>{name: index}</code>.</p>
+              </div>
+              <p>
+                  <span class="doc-param-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="collections.abc.Mapping">Mapping</span>[<span title="str">str</span>, <span title="float">float</span>]</code>
                   </span>
               </p>
             </td>

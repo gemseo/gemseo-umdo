@@ -8794,20 +8794,8 @@ English.
             <td class="doc-param-details">
               <div class="doc-md-description">
                 <p>The discipline
-    computing the objective, constraints and observables
-    from the design variables.
-design_space: The design space
-    including the design variables <span class="arithmatex">\(z_0,z_1,\ldots,z_N\)</span>
-    which will be replaced by <span class="arithmatex">\(x_0,x_1,\ldots,x_N\)</span> respectively
-    in the U-MDO problem.
-coupling_equations: The objects
-    to evaluate and solve the coupling equations,
-    namely the disciplines <span class="arithmatex">\(h_1,\ldots,h_N\)</span>,
-    the function <span class="arithmatex">\(c\)</span>
-    and the Jacobian function <span class="arithmatex">\(\nabla c(x)\)</span>.
-    If empty,
-    the <span class="arithmatex">\(i\)</span>-th discipline is linear.
-link_discipline_class: The class of the link discipline.</p>
+computing the objective, constraints and observables
+from the design variables.</p>
               </div>
               <p>
                   <span class="doc-param-annotation">
@@ -8819,27 +8807,14 @@ link_discipline_class: The class of the link discipline.</p>
           </tr>
           <tr class="doc-section-item">
             <td>
-                <code>objective_name</code>
-            </td>
-            <td class="doc-param-details">
-              <div class="doc-md-description">
-                <p>The description is missing.</p>
-              </div>
-              <p>
-                  <span class="doc-param-annotation">
-                    <b>TYPE:</b>
-                      <code><span title="str">str</span></code>
-                  </span>
-              </p>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
                 <code>design_space</code>
             </td>
             <td class="doc-param-details">
               <div class="doc-md-description">
-                <p>The description is missing.</p>
+                <p>The design space
+including the design variables <span class="arithmatex">\(z_0,z_1,\ldots,z_N\)</span>
+which will be replaced by <span class="arithmatex">\(x_0,x_1,\ldots,x_N\)</span> respectively
+in the U-MDO problem.</p>
               </div>
               <p>
                   <span class="doc-param-annotation">
@@ -8851,200 +8826,17 @@ link_discipline_class: The class of the link discipline.</p>
           </tr>
           <tr class="doc-section-item">
             <td>
-                <code>uncertain_space</code>
-            </td>
-            <td class="doc-param-details">
-              <div class="doc-md-description">
-                <p>The uncertain variables
-with their probability distributions.</p>
-              </div>
-              <p>
-                  <span class="doc-param-annotation">
-                    <b>TYPE:</b>
-                      <code><span title="gemseo.algos.parameter_space.ParameterSpace">ParameterSpace</span></code>
-                  </span>
-              </p>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>objective_statistic_name</code>
-            </td>
-            <td class="doc-param-details">
-              <div class="doc-md-description">
-                <p>The name of the statistic
-to be applied to the objective, e.g. "margin".</p>
-              </div>
-              <p>
-                  <span class="doc-param-annotation">
-                    <b>TYPE:</b>
-                      <code><span title="str">str</span></code>
-                  </span>
-              </p>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>statistic_estimation_settings</code>
-            </td>
-            <td class="doc-param-details">
-              <div class="doc-md-description">
-                <p>The settings
-of the statistics' estimation technique.</p>
-              </div>
-              <p>
-                  <span class="doc-param-annotation">
-                    <b>TYPE:</b>
-                      <code><a class="autorefs autorefs-internal" title="            BaseUMDOFormulationSettings (gemseo_umdo.formulations.base_umdo_formulation_settings.BaseUMDOFormulationSettings)" href="../../formulations/base_umdo_formulation_settings/#gemseo_umdo.formulations.base_umdo_formulation_settings.BaseUMDOFormulationSettings">BaseUMDOFormulationSettings</a></code>
-                  </span>
-              </p>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>objective_statistic_parameters</code>
-            </td>
-            <td class="doc-param-details">
-              <div class="doc-md-description">
-                <p>The parameters of the statistics
-to be applied to the objective,
-e.g. <code>{"factor": 2.}</code> when <code>objective_statistic="margin"</code>.</p>
-              </div>
-              <p>
-                  <span class="doc-param-annotation">
-                    <b>TYPE:</b>
-                      <code><span title="gemseo.typing.StrKeyMapping">StrKeyMapping</span></code>
-                  </span>
-                  <span class="doc-param-default">
-                    <b>DEFAULT:</b>
-                      <code><span title="gemseo.utils.constants.READ_ONLY_EMPTY_DICT">READ_ONLY_EMPTY_DICT</span></code>
-                  </span>
-              </p>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>uncertain_design_variables</code>
-            </td>
-            <td class="doc-param-details">
-              <div class="doc-md-description">
-                <p>This argument facilitates
-the definition of uncertain design variables in two ways.
-The first way consists of passing a dictionary
-of the form <code>{"x1": ("+", "u1"), "x2": ("*", "u2"), ...}</code>
-which defines the uncertain design variables as
-<code>x1 = dv_x1 + u1</code> and <code>x2 = dv_x2 * (1 + u2)</code>.
-Here <code>"x1"</code> and <code>"x2"</code> are the names of the design variables
-made uncertain by the random variables <code>"u_1"</code> and <code>"u_2"</code>
-which typically have zero mean.
-<code>"x1"</code> and <code>"x2"</code> are the names of the design variables
-actually used in <code>disciplines</code>
-while the names <code>"dv_x1"</code> and <code>dv_x2</code> are generated by the scenario.
-More generally,
-the first element of the tuple is assumed
-to be either the class name or the
-<a class="autorefs autorefs-internal" title="            SHORT_NAME
-
-
-  
-      class-attribute
-  " href="../../disciplines/base_noiser/#gemseo_umdo.disciplines.base_noiser.BaseNoiser.SHORT_NAME">SHORT_NAME</a>
-of a
-<a class="autorefs autorefs-internal" title="            BaseNoiser" href="../../disciplines/base_noiser/#gemseo_umdo.disciplines.base_noiser.BaseNoiser">BaseNoiser</a>
-(feel free to create new noising disciplines).
-The second way of defining these uncertain design variables
-consists of passing a set of more complex expressions
-of the form <code>{"x": "{} + u", ...}</code>
-where <code>"x"</code> is the name of the design variable
-actually used in the equations,
-<code>"u"</code> is the name of the uncertain variable
-defined in the <code>uncertain_space</code>
-and <code>"{}"</code> is the optimization variable.
-Leave <code>"{}"</code> as is; it will be automatically replaced by <code>"dv_x"</code>.
-This more complex format assumes variables of dimension 1.
-If <code>None</code>,
-do not consider other variable relations
-than those defined by <code>disciplines</code>.</p>
-              </div>
-              <p>
-                  <span class="doc-param-annotation">
-                    <b>TYPE:</b>
-                      <code><span title="collections.abc.Mapping">Mapping</span>[<span title="str">str</span>, <span title="str">str</span> | <span title="tuple">tuple</span>[<span title="str">str</span>, <span title="str">str</span>]]</code>
-                  </span>
-                  <span class="doc-param-default">
-                    <b>DEFAULT:</b>
-                      <code><span title="gemseo.utils.constants.READ_ONLY_EMPTY_DICT">READ_ONLY_EMPTY_DICT</span></code>
-                  </span>
-              </p>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>name</code>
-            </td>
-            <td class="doc-param-details">
-              <div class="doc-md-description">
-                <p>The description is missing.</p>
-              </div>
-              <p>
-                  <span class="doc-param-annotation">
-                    <b>TYPE:</b>
-                      <code><span title="str">str</span></code>
-                  </span>
-                  <span class="doc-param-default">
-                    <b>DEFAULT:</b>
-                      <code>&#39;&#39;</code>
-                  </span>
-              </p>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>formulation_settings_model</code>
-            </td>
-            <td class="doc-param-details">
-              <div class="doc-md-description">
-                <p>The description is missing.</p>
-              </div>
-              <p>
-                  <span class="doc-param-annotation">
-                    <b>TYPE:</b>
-                      <code><span title="gemseo.formulations.base_formulation_settings.BaseFormulationSettings">BaseFormulationSettings</span> | None</code>
-                  </span>
-                  <span class="doc-param-default">
-                    <b>DEFAULT:</b>
-                      <code>None</code>
-                  </span>
-              </p>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>maximize_objective</code>
-            </td>
-            <td class="doc-param-details">
-              <div class="doc-md-description">
-                <p>Whether to maximize the statistic of the objective.</p>
-              </div>
-              <p>
-                  <span class="doc-param-annotation">
-                    <b>TYPE:</b>
-                      <code><span title="bool">bool</span></code>
-                  </span>
-                  <span class="doc-param-default">
-                    <b>DEFAULT:</b>
-                      <code>False</code>
-                  </span>
-              </p>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
                 <code>coupling_equations</code>
             </td>
             <td class="doc-param-details">
               <div class="doc-md-description">
-                <p>The description is missing.</p>
+                <p>The objects
+to evaluate and solve the coupling equations,
+namely the disciplines <span class="arithmatex">\(h_1,\ldots,h_N\)</span>,
+the function <span class="arithmatex">\(c\)</span>
+and the Jacobian function <span class="arithmatex">\(\nabla c(x)\)</span>.
+If empty,
+the <span class="arithmatex">\(i\)</span>-th discipline is linear.</p>
               </div>
               <p>
                   <span class="doc-param-annotation">
@@ -9064,7 +8856,7 @@ than those defined by <code>disciplines</code>.</p>
             </td>
             <td class="doc-param-details">
               <div class="doc-md-description">
-                <p>The description is missing.</p>
+                <p>The class of the link discipline.</p>
               </div>
               <p>
                   <span class="doc-param-annotation">
@@ -9078,29 +8870,17 @@ than those defined by <code>disciplines</code>.</p>
               </p>
             </td>
           </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>**formulation_settings</code>
-            </td>
-            <td class="doc-param-details">
-              <div class="doc-md-description">
-                <p>The description is missing.</p>
-              </div>
-              <p>
-                  <span class="doc-param-annotation">
-                    <b>TYPE:</b>
-                      <code><span title="typing.Any">Any</span></code>
-                  </span>
-                  <span class="doc-param-default">
-                    <b>DEFAULT:</b>
-                      <code>{}</code>
-                  </span>
-              </p>
-            </td>
-          </tr>
       </tbody>
     </table>
 
+
+<details class="note" open>
+  <summary>Note</summary>
+  <p>There is no naming convention
+for the input and output variables of <code>discipline</code>.
+So,
+you can use <span class="arithmatex">\(a,b,c\)</span> in <code>design_space</code> instead of <span class="arithmatex">\(z_0,z_1,z_2\)</span>.</p>
+</details>
 
 
 
