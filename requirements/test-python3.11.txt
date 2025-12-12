@@ -18,7 +18,7 @@ cycler==0.12.1
     # via matplotlib
 dill==0.4.0
     # via openturns
-docstring-inheritance==2.2.2
+docstring-inheritance==3.0.0
     # via gemseo
 et-xmlfile==2.0.0
     # via openpyxl
@@ -28,7 +28,7 @@ fastjsonschema==2.21.2
     # via gemseo
 fonttools==4.61.0
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@71d21bbfa0923aad98d39d01a2f08bccc55d9227
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@c993ec88cd953c2d57081ef427983ef25b6ea140
     # via
     #   -c requirements/test-constraints.in
     #   gemseo-umdo (pyproject.toml)
@@ -164,6 +164,7 @@ tqdm==4.67.1
     # via gemseo
 typing-extensions==4.15.0
     # via
+    #   docstring-inheritance
     #   gemseo
     #   pydantic
     #   pydantic-core
@@ -174,7 +175,7 @@ typing-inspection==0.4.2
     #   pydantic-settings
 tzdata==2025.2
     # via pandas
-urllib3==2.6.1
+urllib3==2.6.2
     # via requests
 wcwidth==0.2.14
     # via prettytable
