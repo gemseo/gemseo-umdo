@@ -38,7 +38,7 @@ fieldz==0.1.3
     # via griffe-fieldz
 fonttools==4.61.1
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@5adb748eb2efa8107775fc3a553694fb2d85588b
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@3e12ada58b27e86341401fcb4f94afce4513df81
     # via
     #   -c requirements/test-constraints.in
     #   gemseo-umdo (pyproject.toml)
@@ -61,7 +61,7 @@ h5py==3.14.0
     # via gemseo
 idna==3.11
     # via requests
-importlib-metadata==8.7.0
+importlib-metadata==8.7.1
     # via mike
 importlib-resources==6.5.2
     # via mike
