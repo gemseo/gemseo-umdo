@@ -28,7 +28,7 @@ fastjsonschema==2.21.2
     # via gemseo
 fonttools==4.61.1
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@f6f54670a2ea6bb26e0208504fd0d25c90ebc7a8
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@fdf7c3d50eacfa63566e2fde22280dd17313aa4c
     # via
     #   -c requirements/test-constraints.in
     #   gemseo-umdo (pyproject.toml)
@@ -62,7 +62,7 @@ narwhals==2.14.0
     # via plotly
 networkx==3.6.1
     # via gemseo
-nlopt==2.9.1
+nlopt==2.10.0
     # via gemseo
 numpy==2.3.3
     # via
@@ -100,9 +100,9 @@ pluggy==1.6.0
     # via
     #   pytest
     #   pytest-cov
-prettytable==3.16.0
+prettytable==3.17.0
     # via gemseo
-psutil==7.2.0
+psutil==7.2.1
     # via openturns
 pydantic==2.12.5
     # via
@@ -112,7 +112,7 @@ pydantic-core==2.41.5
     # via pydantic
 pydantic-settings==2.12.0
     # via gemseo
-pydoe3==1.4.0
+pydoe3==1.6.1
     # via gemseo
 pygments==2.19.2
     # via pytest
@@ -179,5 +179,5 @@ wcwidth==0.2.14
     # via prettytable
 xdsmjs==2.0.0
     # via gemseo
-xxhash==3.5.0
+xxhash==3.6.0
     # via gemseo
