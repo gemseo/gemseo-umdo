@@ -2,7 +2,7 @@
 #    uv pip compile pyproject.toml --python-platform linux --constraint requirements/test-constraints.in --group dev --python-version 3.13 -o requirements/test-python3.13.txt
 annotated-types==0.7.0
     # via pydantic
-certifi==2025.11.12
+certifi==2026.1.4
     # via requests
 charset-normalizer==3.4.4
     # via requests
