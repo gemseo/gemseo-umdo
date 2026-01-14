@@ -38,7 +38,7 @@ fieldz==0.1.3
     # via griffe-fieldz
 fonttools==4.61.1
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@154b8b2ebdb410266610f25c17d81f427bfcc9c5
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@e3de6916294284ad13453cf26bf34748d8c3f5a2
     # via
     #   -c requirements/test-constraints.in
     #   gemseo-umdo (pyproject.toml)
@@ -157,7 +157,7 @@ networkx==3.6.1
     # via gemseo
 nlopt==2.10.0
     # via gemseo
-numpy==2.4.0
+numpy==2.4.1
     # via
     #   gemseo-umdo (pyproject.toml)
     #   contourpy
@@ -187,11 +187,11 @@ paginate==0.5.7
     # via mkdocs-material
 pandas==2.3.3
     # via gemseo
-pathspec==1.0.1
+pathspec==1.0.3
     # via
     #   black
     #   mkdocs
-pillow==12.0.0
+pillow==12.1.0
     # via
     #   gemseo
     #   matplotlib
@@ -199,7 +199,7 @@ platformdirs==4.5.1
     # via
     #   black
     #   mkdocs-get-deps
-plotly==6.5.0
+plotly==6.5.1
     # via gemseo
 prettytable==3.17.0
     # via gemseo
