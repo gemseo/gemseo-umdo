@@ -14,6 +14,8 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 """The base class for the settings of U-MDO formulations."""
 
+from __future__ import annotations
+
 from typing import ClassVar
 
 from pydantic import BaseModel
