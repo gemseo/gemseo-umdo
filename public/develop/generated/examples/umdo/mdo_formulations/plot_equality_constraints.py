@@ -31,6 +31,8 @@ and seek to minimize $\mathbb{E}[f(x,y)]$
 under the equality constraints $\mathbb{E}[h(x,y)]=r^2$ and $\mathbb{V}[h(x,y)]=0$.
 """
 
+from __future__ import annotations
+
 from gemseo.algos.design_space import DesignSpace
 from gemseo.algos.parameter_space import ParameterSpace
 from gemseo.disciplines.analytic import AnalyticDiscipline

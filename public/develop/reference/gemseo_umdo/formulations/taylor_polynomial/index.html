@@ -4327,6 +4327,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations.taylor_polynomial.TaylorPolynomial.get_top_level_disciplines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;get_top_level_disciplines
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#gemseo_umdo.formulations.taylor_polynomial.TaylorPolynomial.update_top_level_disciplines" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -8741,6 +8752,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations.taylor_polynomial.TaylorPolynomial.get_top_level_disciplines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;get_top_level_disciplines
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#gemseo_umdo.formulations.taylor_polynomial.TaylorPolynomial.update_top_level_disciplines" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -8881,6 +8903,55 @@ with mean <span class="arithmatex">\(\mu\)</span> and variance <span class="arit
       <tbody>
           <tr class="doc-section-item">
             <td>
+                <code>disciplines</code>
+            </td>
+            <td class="doc-param-details">
+              <div class="doc-md-description">
+                <p>The disciplines.</p>
+              </div>
+              <p>
+                  <span class="doc-param-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="collections.abc.Sequence">Sequence</span>[<span title="gemseo.core.discipline.discipline.Discipline">Discipline</span>]</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>objective_name</code>
+            </td>
+            <td class="doc-param-details">
+              <div class="doc-md-description">
+                <p>The name(s) of the discipline output(s) used as objective.
+If multiple names are passed, the objective will be a vector.</p>
+              </div>
+              <p>
+                  <span class="doc-param-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="str">str</span></code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>design_space</code>
+            </td>
+            <td class="doc-param-details">
+              <div class="doc-md-description">
+                <p>The design space.</p>
+              </div>
+              <p>
+                  <span class="doc-param-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="gemseo.algos.design_space.DesignSpace">DesignSpace</span></code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
                 <code>mdo_formulation</code>
             </td>
             <td class="doc-param-details">
@@ -8927,6 +8998,43 @@ to be applied to the objective.</p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
                       <code><span title="str">str</span></code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>settings_model</code>
+            </td>
+            <td class="doc-param-details">
+              <div class="doc-md-description">
+                <p>The settings of the formulation as a Pydantic model.
+If <code>None</code>, use <code>**settings</code>.</p>
+              </div>
+              <p>
+                  <span class="doc-param-annotation">
+                    <b>TYPE:</b>
+                      <code><a class="autorefs autorefs-internal" title="            TaylorPolynomial_Settings (gemseo_umdo.formulations.taylor_polynomial_settings.TaylorPolynomial_Settings)" href="../taylor_polynomial_settings/#gemseo_umdo.formulations.taylor_polynomial_settings.TaylorPolynomial_Settings">TaylorPolynomial_Settings</a></code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>minimize_objective</code>
+            </td>
+            <td class="doc-param-details">
+              <div class="doc-md-description">
+                <p>Whether to minimize the objective.</p>
+              </div>
+              <p>
+                  <span class="doc-param-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="bool">bool</span></code>
+                  </span>
+                  <span class="doc-param-default">
+                    <b>DEFAULT:</b>
+                      <code>True</code>
                   </span>
               </p>
             </td>
@@ -9270,6 +9378,13 @@ respect to the design variables.</p>
 
     <div class="doc doc-contents ">
 
+        <p>Add an equality or inequality constraint to the optimization problem.</p>
+<p>An equality constraint is written as <span class="arithmatex">\(c(x)=a\)</span>,
+a positive inequality constraint is written as <span class="arithmatex">\(c(x)\geq a\)</span>
+and a negative inequality constraint is written as <span class="arithmatex">\(c(x)\leq a\)</span>.</p>
+<p>This constraint is in addition to those created by the formulation,
+e.g. consistency constraints in IDF.</p>
+<p>The strategy of repartition of the constraints is defined by the formulation.</p>
 
 
 <table>
@@ -9280,6 +9395,24 @@ respect to the design variables.</p>
         </tr>
       </thead>
       <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>output_name</code>
+            </td>
+            <td class="doc-param-details">
+              <div class="doc-md-description">
+                <p>The name(s) of the outputs computed by <span class="arithmatex">\(c(x)\)</span>.
+If several names are given,
+a single discipline must provide all outputs.</p>
+              </div>
+              <p>
+                  <span class="doc-param-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="str">str</span> | <span title="collections.abc.Sequence">Sequence</span>[<span title="str">str</span>]</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
           <tr class="doc-section-item">
             <td>
                 <code>statistic_name</code>
@@ -9298,12 +9431,94 @@ respect to the design variables.</p>
           </tr>
           <tr class="doc-section-item">
             <td>
-                <code>statistic_parameters</code>
+                <code>constraint_type</code>
             </td>
             <td class="doc-param-details">
               <div class="doc-md-description">
-                <p>The values of the parameters of the statistic
-to be applied to the constraint, if any.</p>
+                <p>The type of constraint.</p>
+              </div>
+              <p>
+                  <span class="doc-param-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="gemseo.core.mdo_functions.mdo_function.MDOFunction.ConstraintType">ConstraintType</span></code>
+                  </span>
+                  <span class="doc-param-default">
+                    <b>DEFAULT:</b>
+                      <code><span title="gemseo.core.mdo_functions.mdo_function.MDOFunction.ConstraintType.INEQ">INEQ</span></code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>constraint_name</code>
+            </td>
+            <td class="doc-param-details">
+              <div class="doc-md-description">
+                <p>The name of the constraint to be stored.
+If empty,
+the name of the constraint is generated
+from <code>output_name</code>, <code>constraint_type</code>, <code>value</code> and <code>positive</code>.</p>
+              </div>
+              <p>
+                  <span class="doc-param-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="str">str</span></code>
+                  </span>
+                  <span class="doc-param-default">
+                    <b>DEFAULT:</b>
+                      <code>&#39;&#39;</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>value</code>
+            </td>
+            <td class="doc-param-details">
+              <div class="doc-md-description">
+                <p>The value <span class="arithmatex">\(a\)</span>.</p>
+              </div>
+              <p>
+                  <span class="doc-param-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="float">float</span></code>
+                  </span>
+                  <span class="doc-param-default">
+                    <b>DEFAULT:</b>
+                      <code>0.0</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>positive</code>
+            </td>
+            <td class="doc-param-details">
+              <div class="doc-md-description">
+                <p>Whether the inequality constraint is positive.</p>
+              </div>
+              <p>
+                  <span class="doc-param-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="bool">bool</span></code>
+                  </span>
+                  <span class="doc-param-default">
+                    <b>DEFAULT:</b>
+                      <code>False</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>**statistic_parameters</code>
+            </td>
+            <td class="doc-param-details">
+              <div class="doc-md-description">
+                <p>The description is missing.</p>
               </div>
               <p>
                   <span class="doc-param-annotation">
@@ -9397,6 +9612,8 @@ to be applied to the constraint, if any.</p>
 
     <div class="doc doc-contents ">
 
+        <p>Add an observable to the optimization problem.</p>
+<p>The repartition strategy of the observable is defined in the formulation class.</p>
 
 
 <table>
@@ -9407,6 +9624,22 @@ to be applied to the constraint, if any.</p>
         </tr>
       </thead>
       <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>output_names</code>
+            </td>
+            <td class="doc-param-details">
+              <div class="doc-md-description">
+                <p>The name(s) of the output(s) to observe.</p>
+              </div>
+              <p>
+                  <span class="doc-param-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="collections.abc.Sequence">Sequence</span>[<span title="str">str</span>]</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
           <tr class="doc-section-item">
             <td>
                 <code>statistic_name</code>
@@ -9425,12 +9658,53 @@ to be applied to the constraint, if any.</p>
           </tr>
           <tr class="doc-section-item">
             <td>
-                <code>statistic_parameters</code>
+                <code>observable_name</code>
             </td>
             <td class="doc-param-details">
               <div class="doc-md-description">
-                <p>The values of the parameters
-of the statistic to be applied to the observable, if any.</p>
+                <p>The name of the observable.
+If empty, the output name is used by default.</p>
+              </div>
+              <p>
+                  <span class="doc-param-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="collections.abc.Sequence">Sequence</span>[<span title="str">str</span>]</code>
+                  </span>
+                  <span class="doc-param-default">
+                    <b>DEFAULT:</b>
+                      <code>&#39;&#39;</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>discipline</code>
+            </td>
+            <td class="doc-param-details">
+              <div class="doc-md-description">
+                <p>The discipline computing the observed outputs.
+If <code>None</code>, the discipline is detected from inner disciplines.</p>
+              </div>
+              <p>
+                  <span class="doc-param-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="gemseo.core.discipline.discipline.Discipline">Discipline</span> | None</code>
+                  </span>
+                  <span class="doc-param-default">
+                    <b>DEFAULT:</b>
+                      <code>None</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>**statistic_parameters</code>
+            </td>
+            <td class="doc-param-details">
+              <div class="doc-md-description">
+                <p>The description is missing.</p>
               </div>
               <p>
                   <span class="doc-param-annotation">
@@ -9491,6 +9765,69 @@ of the statistic to be applied to the observable, if any.</p>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_auxiliary_mdo_formulation</span><span class="o">.</span><span class="n">optimization_problem</span><span class="o">.</span><span class="n">observables</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
             <span class="p">),</span>
         <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h6 id="gemseo_umdo.formulations.taylor_polynomial.TaylorPolynomial.get_top_level_disciplines" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">get_top_level_disciplines</span>
+
+
+<a href="#gemseo_umdo.formulations.taylor_polynomial.TaylorPolynomial.get_top_level_disciplines" class="headerlink" title="Permanent link">&para;</a></h6>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">get_top_level_disciplines</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n"><span title="list">list</span></span><span class="p">[</span><span class="n"><span title="gemseo.core.discipline.discipline.Discipline">Discipline</span></span><span class="p">]</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Return the top level disciplines that are executed in the foreground.</p>
+<p>A formulation structures the optimization problem
+into multiple levels of disciplines.
+The top level disciplines map
+from the
+[design_space][gemseo.formulations.base_formulation.BaseFormulation.design_space]
+to the objective, constraint and observable spaces.
+They can be composed of
+both user disciplines and process disciplines added by the formulation,
+e.g. [MDOChain][gemseo.core.chains.chain.MDOChain].
+These process disciplines may also include
+both user disciplines and process disciplines,
+and so on.</p>
+
+
+<table>
+      <thead>
+        <tr>
+          <th><span class="doc-section-title">RETURNS</span></th>
+          <th><span>DESCRIPTION</span></th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <span class="doc-returns-annotation">
+                    <code><span title="list">list</span>[<span title="gemseo.core.discipline.discipline.Discipline">Discipline</span>]</code>
+                </span>
+            </td>
+            <td class="doc-returns-details">
+              <div class="doc-md-description">
+                <p>The top level disciplines.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/gemseo_umdo/formulations/base_umdo_formulation.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">453</span>
+<span class="normal">454</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_top_level_disciplines</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Discipline</span><span class="p">]:</span>  <span class="c1"># noqa: D102</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mdo_formulation</span><span class="o">.</span><span class="n">get_top_level_disciplines</span><span class="p">()</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>

@@ -8652,6 +8652,23 @@
       <tbody>
           <tr class="doc-section-item">
             <td>
+                <code>uncertain_space</code>
+            </td>
+            <td class="doc-param-details">
+              <div class="doc-md-description">
+                <p>The uncertain variables
+with their probability distributions.</p>
+              </div>
+              <p>
+                  <span class="doc-param-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="gemseo.algos.parameter_space.ParameterSpace">ParameterSpace</span></code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
                 <code>factor</code>
             </td>
             <td class="doc-param-details">
@@ -8855,6 +8872,7 @@
 
     <div class="doc doc-contents ">
 
+        <p>Estimate the statistic.</p>
 
 
 <table>
@@ -8908,9 +8926,33 @@
               <p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
-                      <code><span title="gemseo.typing.RealArray">RealArray</span> | None</code>
+                      <code><span title="gemseo.typing.RealArray">RealArray</span></code>
                   </span>
               </p>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<table>
+      <thead>
+        <tr>
+          <th><span class="doc-section-title">RETURNS</span></th>
+          <th><span>DESCRIPTION</span></th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <span class="doc-returns-annotation">
+                    <code><span title="gemseo.typing.RealArray">RealArray</span></code>
+                </span>
+            </td>
+            <td class="doc-returns-details">
+              <div class="doc-md-description">
+                <p>The estimation of the statistic.</p>
+              </div>
             </td>
           </tr>
       </tbody>
