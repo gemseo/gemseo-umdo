@@ -6,7 +6,7 @@ babel==2.17.0
     # via mkdocs-material
 backrefs==6.1
     # via mkdocs-material
-black==25.12.0
+black==26.1.0
     # via gemseo-umdo (pyproject.toml:doc)
 bracex==2.6
     # via wcmatch
@@ -38,7 +38,7 @@ fieldz==0.1.3
     # via griffe-fieldz
 fonttools==4.61.1
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@bc0d65b845f99491c6c1cb1a1cb86852f47cd475
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@613a1fa043438bbbea494bbf8ef47c1eea15cc34
     # via
     #   -c requirements/test-constraints.in
     #   gemseo-umdo (pyproject.toml)
