@@ -184,7 +184,9 @@ class StatisticFunctionForPCE(StatisticFunctionForSurrogate[PCET]):
                 for step, mean_, var_ in (
                     # (u_i(1), ..., u_i(j-1), u(j)+ε, u_i(j+1), ..., u_i(d), y_i)_i
                     (differentiation_step, mean_down, var_down),
-                    # (u_i(1), ..., u_i(j-1), u(j)-2ε, u_i(j+1), ..., u_i(d), y_i)_i
+                    # (u_i(1), ..., u_i(j-1), u(j)-ε, u_i(j+1), ..., u_i(d), y_i)_i
+                    # In the following, the use of -2ε instead of -ε is intentional:
+                    # we are working on a copy of u(j) that we overwrite successively.
                     (-2 * differentiation_step, mean_up, var_up),
                 ):
                     input_samples_i[:, i] += step
