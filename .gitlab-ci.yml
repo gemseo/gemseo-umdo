@@ -1,2 +1,12 @@
 include:
   - remote: "https://gitlab.com/gemseo/dev/ci-includes/-/raw/5/main.yml"
+
+# GEMSEO 7 requires Python 3.11 or later
+# while the shared CI configuration still tests Python 3.10.
+variables:
+  __PY_VERSION_MIN: 311
+
+.test-all-py-versions:
+  - 311
+  - 312
+  - 313
