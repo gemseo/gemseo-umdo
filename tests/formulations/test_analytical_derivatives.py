@@ -22,6 +22,7 @@ import pytest
 from gemseo.discipline import Discipline
 from gemseo.doe import CustomDOE_Settings
 from gemseo.doe import OT_MONTE_CARLO_Settings
+from gemseo.formulation import DisciplinaryOpt_Settings
 from gemseo.machine_learning import PCERegressor_Settings
 from gemseo.space import DesignSpace
 from gemseo.space import RandomSpace
@@ -105,13 +106,12 @@ def test_derivatives(statistic, symbol, n_x, n_u, settings):
 
     scenario = UDOEScenario(
         [discipline],
-        "y",
         design_space,
         uncertain_space,
-        statistic,
-        formulation_name="DisciplinaryOpt",
         statistic_estimation_settings=settings,
+        formulation_settings=DisciplinaryOpt_Settings(),
     )
+    scenario.add_objective("y", statistic)
     scenario.execute(
         algorithm_settings=CustomDOE_Settings(
             samples=linspace(1, n_x, n_x)[newaxis, :], eval_jac=True
@@ -121,13 +121,12 @@ def test_derivatives(statistic, symbol, n_x, n_u, settings):
 
     scenario = UDOEScenario(
         [discipline],
-        "y",
         design_space,
         uncertain_space,
-        statistic,
-        formulation_name="DisciplinaryOpt",
         statistic_estimation_settings=settings,
+        formulation_settings=DisciplinaryOpt_Settings(),
     )
+    scenario.add_objective("y", statistic)
     scenario.set_differentiation_method("finite_differences")
     scenario.execute(
         algorithm_settings=CustomDOE_Settings(

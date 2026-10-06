@@ -19,6 +19,7 @@ from __future__ import annotations
 import pytest
 from gemseo.discipline import AnalyticDiscipline
 from gemseo.doe import CustomDOE_Settings
+from gemseo.formulation import DisciplinaryOpt_Settings
 from gemseo.space import DesignSpace
 from gemseo.space import RandomSpace
 from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
@@ -72,13 +73,12 @@ def test_finite_differences(statistic_estimation_settings, expected):
 
     scenario = UDOEScenario(
         [discipline],
-        "f",
         design_space,
         uncertain_space,
-        "Mean",
-        formulation_name="DisciplinaryOpt",
         statistic_estimation_settings=statistic_estimation_settings,
+        formulation_settings=DisciplinaryOpt_Settings(),
     )
+    scenario.add_objective("f", "Mean")
     scenario.add_constraint("c", "Mean")
     scenario.add_observable("o", "Mean")
     scenario.set_differentiation_method("finite_differences")

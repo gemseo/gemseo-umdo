@@ -24,10 +24,11 @@ from gemseo.doe import OT_HALTON_Settings
 from gemseo.doe.factory import DOELibraryFactory
 from gemseo.doe.openturns.openturns import OpenTURNS
 from gemseo.enum import UniformDistribution
-from gemseo.formulation.disciplinary_opt import DisciplinaryOpt
+from gemseo.formulation import DisciplinaryOpt_Settings
 from gemseo.machine_learning import LinearRegressor_Settings
 from gemseo.machine_learning import RBFRegressor_Settings
 from gemseo.machine_learning.regression.model import RBFRegressor
+from gemseo.optimization import OptimizationProblem
 from gemseo.problem.uncertainty.ishigami import IshigamiDiscipline
 from gemseo.problem.uncertainty.ishigami import IshigamiProblem
 from gemseo.space import DesignSpace
@@ -86,16 +87,14 @@ def doe_settings(request, samples) -> BaseDOESettings:
 def umdo_formulation(ishigami_problem, doe_settings):
     """The UMDO formulation."""
     discipline = IshigamiDiscipline()
-    # TODO(bump-gemseo): pass the problem first, e.g. OptimizationProblem(design_space), then set its objective; the loose settings go into settings=<Formulation>_Settings(...)  # noqa: E501
     formulation = Surrogate(
+        OptimizationProblem(DesignSpace()),
         [discipline],
-        "y",
-        DesignSpace(),
-        DisciplinaryOpt([discipline], "y", ishigami_problem.design_space),
-        ishigami_problem.design_space,
-        "Mean",
         Surrogate_Settings(regressor_n_samples=10, doe_algo_settings=doe_settings),
+        uncertain_space=ishigami_problem.input_space,
+        mdo_formulation_settings=DisciplinaryOpt_Settings(),
     )
+    formulation.problem.objective = formulation.create_objective("y", "Mean")
     formulation.add_constraint("y", "StandardDeviation")
     formulation.add_observable("y", "Variance")
     formulation.add_observable("y", "Margin", factor=3)
@@ -118,7 +117,7 @@ def output_samples(umdo_formulation, rbf_regressor) -> RealArray:
 @pytest.fixture(scope="module")
 def observables(umdo_formulation) -> Observables:
     """The observable functions."""
-    return umdo_formulation.optimization_problem.observables
+    return umdo_formulation.problem.observables
 
 
 def test_output_samples(output_samples):
@@ -138,7 +137,7 @@ def test_mean(umdo_formulation, output_samples):
 def test_standard_deviation(umdo_formulation, output_samples):
     """Check the estimation of the std from a surrogate-based UMDO formulation."""
     std = output_samples.std(0, ddof=1)
-    constraint = umdo_formulation.optimization_problem.constraints[0]
+    constraint = umdo_formulation.problem.constraints[0]
     assert_equal(constraint.evaluate(_X), std)
 
 
@@ -161,7 +160,6 @@ def test_probability(observables, output_samples):
     assert_equal(observables[2].evaluate(_X), prob)
 
 
-# TODO(bump-gemseo): kernel only accepts a member of the RBF enumeration, e.g. RBF.CUBIC; a Python callable is no longer accepted  # noqa: E501
 @pytest.mark.parametrize(
     ("statistic_estimation_parameters", "y_opt"),
     [
@@ -185,15 +183,14 @@ def test_scenario(quadratic_problem, statistic_estimation_parameters, y_opt):
     discipline, design_space, uncertain_space = quadratic_problem
     scenario = UDOEScenario(
         [discipline],
-        "y",
         design_space,
         uncertain_space,
-        "Mean",
-        formulation_name="DisciplinaryOpt",
         statistic_estimation_settings=Surrogate_Settings(
             **statistic_estimation_parameters
         ),
+        formulation_settings=DisciplinaryOpt_Settings(),
     )
+    scenario.add_objective("y", "Mean")
     scenario.execute(algorithm_settings=CustomDOE_Settings(samples=array([[1.0]])))
     assert_almost_equal(scenario.optimization_result.x_opt, array([1.0]))
     assert_almost_equal(scenario.optimization_result.f_opt, y_opt)

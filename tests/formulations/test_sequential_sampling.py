@@ -18,6 +18,7 @@ import pytest
 from gemseo.discipline import AnalyticDiscipline
 from gemseo.doe import OT_OPT_LHS_Settings
 from gemseo.doe import PYDOE_FULLFACT_Settings
+from gemseo.formulation import DisciplinaryOpt_Settings
 from gemseo.space import DesignSpace
 from gemseo.space import RandomSpace
 from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
@@ -53,17 +54,16 @@ def test_scenario(
     uncertain_space.add_variable("u", OTNormalDistribution_Settings())
     scenario = UDOEScenario(
         [discipline],
-        "y",
         design_space,
         uncertain_space,
-        "Mean",
-        formulation_name="DisciplinaryOpt",
         statistic_estimation_settings=SequentialSampling_Settings(
             doe_algo_settings=OT_OPT_LHS_Settings(n_samples=7),
             initial_n_samples=3,
             n_samples_increment=n_samples_increment,
             estimate_statistics_iteratively=estimate_statistics_iteratively,
         ),
+        formulation_settings=DisciplinaryOpt_Settings(),
     )
+    scenario.add_objective("y", "Mean")
     scenario.execute(algorithm_settings=PYDOE_FULLFACT_Settings(n_samples=5))
     assert discipline.execution_statistics.n_executions == (3 + 5 + 7 + 7 + 7)

@@ -17,6 +17,8 @@ from __future__ import annotations
 
 from gemseo import create_design_space
 from gemseo import create_discipline
+from gemseo.formulation import DisciplinaryOpt_Settings
+from gemseo.formulation import MDF_Settings
 from gemseo.optimization import NLOPT_SLSQP_Settings
 from gemseo.space import RandomSpace
 from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
@@ -52,26 +54,28 @@ def test_u_opt_as_umdo_scenario():
 
     u_opt_scenario = UMDOScenario(
         [discipline],
-        "f",
         design_space,
         uncertain_space,
-        "Mean",
-        Sampling_Settings(n_samples=5, estimate_statistics_iteratively=False),
-        formulation_name="DisciplinaryOpt",
+        statistic_estimation_settings=Sampling_Settings(
+            n_samples=5, estimate_statistics_iteratively=False
+        ),
+        formulation_settings=DisciplinaryOpt_Settings(),
     )
+    u_opt_scenario.add_objective("f", "Mean")
     u_opt_scenario.execute(algorithm_settings=NLOPT_SLSQP_Settings(max_iter=5))
 
     design_space.set_current_value(initial_point)
 
     umdo_scenario = UOptAsUMDOScenario(
         discipline,
-        "f",
         design_space,
         uncertain_space,
-        "Mean",
-        Sampling_Settings(n_samples=5, estimate_statistics_iteratively=False),
-        formulation_name="MDF",
+        statistic_estimation_settings=Sampling_Settings(
+            n_samples=5, estimate_statistics_iteratively=False
+        ),
+        formulation_settings=MDF_Settings(),
     )
+    umdo_scenario.add_objective("f", "Mean")
     umdo_scenario.execute(algorithm_settings=NLOPT_SLSQP_Settings(max_iter=5))
 
     assert_frame_equal(

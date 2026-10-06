@@ -14,12 +14,9 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
-
 import pytest
 from gemseo.discipline import AnalyticDiscipline
 from gemseo.discipline import DisciplineChain
-from gemseo.formulation.mdf import MDF
 from gemseo.space import DesignSpace
 from gemseo.space import RandomSpace
 from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
@@ -35,11 +32,6 @@ from gemseo_umdo.formulations.surrogate_settings import Surrogate_Settings
 from gemseo_umdo.formulations.taylor_polynomial_settings import (
     TaylorPolynomial_Settings,
 )
-
-if TYPE_CHECKING:
-    from collections.abc import Sequence
-
-    from gemseo.discipline import Discipline
 
 
 @pytest.fixture
@@ -82,15 +74,6 @@ def uncertain_space() -> RandomSpace:
     space.add_variable("u1", SPNormalDistribution_Settings(mu=2.0, sigma=2.0))
     space.add_variable("u2", SPNormalDistribution_Settings(mu=3.0, sigma=3.0))
     return space
-
-
-@pytest.fixture
-def mdo_formulation(
-    disciplines: Sequence[Discipline], uncertain_space: RandomSpace
-) -> MDF:
-    """The MDO formulation."""
-    # TODO(bump-gemseo): pass the problem first, e.g. OptimizationProblem(design_space), then set its objective; the loose settings go into settings=<Formulation>_Settings(...)  # noqa: E501
-    return MDF(disciplines, "f", uncertain_space)
 
 
 @pytest.fixture

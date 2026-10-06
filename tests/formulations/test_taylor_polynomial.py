@@ -21,7 +21,9 @@ from gemseo import from_pickle
 from gemseo import to_pickle
 from gemseo.discipline import AnalyticDiscipline
 from gemseo.doe import CustomDOE_Settings
-from gemseo.formulation.mdf import MDF
+from gemseo.formulation import DisciplinaryOpt_Settings
+from gemseo.formulation import MDF_Settings
+from gemseo.optimization import OptimizationProblem
 from gemseo.space import DesignSpace
 from gemseo.space import RandomSpace
 from gemseo.uncertainty.distribution import OTUniformDistribution_Settings
@@ -45,28 +47,22 @@ if TYPE_CHECKING:
     from collections.abc import Sequence
 
     from gemseo.discipline import Discipline
-    from numpy import ndarray
 
 
 @pytest.fixture
 def umdo_formulation(
     disciplines: Sequence[Discipline],
     design_space: DesignSpace,
-    mdo_formulation: MDF,
     uncertain_space: RandomSpace,
 ) -> TaylorPolynomial:
     """The UMDO formulation based on Taylor polynomial."""
-    # TODO(bump-gemseo): pass the problem first, e.g. OptimizationProblem(design_space), then set its objective; the loose settings go into settings=<Formulation>_Settings(...)  # noqa: E501
-    design_space = MDF(disciplines, "f", design_space).input_space
     formulation = TaylorPolynomial(
+        OptimizationProblem(design_space),
         disciplines,
-        "f",
-        design_space,
-        mdo_formulation,
-        uncertain_space,
-        "Mean",
         TaylorPolynomial_Settings(),
+        uncertain_space=uncertain_space,
     )
+    formulation.problem.objective = formulation.create_objective("f", "Mean")
     formulation.add_constraint("c", "Mean")
     formulation.add_observable("o", "Mean")
     return formulation
@@ -76,33 +72,25 @@ def umdo_formulation(
 def umdo_formulation_with_hessian(
     disciplines: Sequence[Discipline],
     design_space: DesignSpace,
-    mdo_formulation: MDF,
     uncertain_space: RandomSpace,
 ) -> TaylorPolynomial:
     """The UMDO formulation based on second-order approximation."""
-    # TODO(bump-gemseo): pass the problem first, e.g. OptimizationProblem(design_space), then set its objective; the loose settings go into settings=<Formulation>_Settings(...)  # noqa: E501
-    design_space = MDF(disciplines, "f", design_space).input_space
     formulation = TaylorPolynomial(
+        OptimizationProblem(design_space),
         disciplines,
-        "f",
-        design_space,
-        mdo_formulation,
-        uncertain_space,
-        "Mean",
         TaylorPolynomial_Settings(second_order=True),
+        uncertain_space=uncertain_space,
     )
+    formulation.problem.objective = formulation.create_objective("f", "Mean")
     formulation.add_constraint("c", "Mean")
     formulation.add_observable("o", "Mean")
     return formulation
 
 
 @pytest.fixture
-def scenario_input_data() -> dict[str, str | dict[str, ndarray]]:
-    """The input data of the scenario."""
-    return {
-        "algo_name": "CustomDOE",
-        "samples": array([[0.0, 0.0, 0.0], [1.0, 1.0, 1.0]]),
-    }
+def scenario_input_data() -> CustomDOE_Settings:
+    """The settings of the DOE algorithm."""
+    return CustomDOE_Settings(samples=array([[0.0, 0.0, 0.0], [1.0, 1.0, 1.0]]))
 
 
 @pytest.fixture(params=[False, True])
@@ -110,15 +98,14 @@ def scenario(disciplines, design_space, uncertain_space, request):
     """A scenario of interest."""
     scn = UDOEScenario(
         disciplines,
-        "f",
         design_space,
         uncertain_space,
-        "Mean",
-        formulation_name="MDF",
         statistic_estimation_settings=TaylorPolynomial_Settings(
             second_order=request.param
         ),
+        formulation_settings=MDF_Settings(),
     )
+    scn.add_objective("f", "Mean")
     scn.add_constraint("c", "Margin", factor=3.0)
     scn.add_observable("o", "Variance")
     return scn
@@ -126,7 +113,7 @@ def scenario(disciplines, design_space, uncertain_space, request):
 
 def test_scenario_execution(scenario, scenario_input_data):
     """Check the execution of an UMDOScenario with the TaylorPolynomial formulation."""
-    scenario.execute(**scenario_input_data)
+    scenario.execute(scenario_input_data)
     optimization_result = scenario.optimization_result
     assert_equal(optimization_result.x_opt, array([1.0, 1.0, 1.0]))
     assert_almost_equal(optimization_result.f_opt, array([-21.0]))
@@ -137,7 +124,7 @@ def test_scenario_serialization(scenario, tmp_path, scenario_input_data):
     file_path = tmp_path / "scenario.h5"
     to_pickle(scenario, file_path)
     saved_scenario = from_pickle(file_path)
-    saved_scenario.execute(**scenario_input_data)
+    saved_scenario.execute(scenario_input_data)
     optimization_result = saved_scenario.optimization_result
     assert_equal(optimization_result.x_opt, array([1.0, 1.0, 1.0]))
     assert_almost_equal(optimization_result.f_opt, array([-21.0]))
@@ -191,7 +178,7 @@ def test_estimate_margin(umdo_formulation):
 
 def test_mdo_formulation_objective(umdo_formulation, mdf_discipline):
     """Check that the MDO formulation can compute the objective correctly."""
-    objective = umdo_formulation.mdo_formulation.optimization_problem.objective
+    objective = umdo_formulation.mdo_formulation.problem.observables[0]
     input_data = {name: array([2.0]) for name in ["u", "u1", "u2"]}
     assert_equal(
         objective.evaluate(array([2.0] * 3)), mdf_discipline.execute(input_data)["f"]
@@ -200,7 +187,7 @@ def test_mdo_formulation_objective(umdo_formulation, mdf_discipline):
 
 def test_mdo_formulation_constraint(umdo_formulation, mdf_discipline):
     """Check that the MDO formulation can compute the constraints correctly."""
-    constraint = umdo_formulation.mdo_formulation.optimization_problem.observables[0]
+    constraint = umdo_formulation.mdo_formulation.problem.observables[1]
     input_data = {name: array([2.0]) for name in ["u", "u1", "u2"]}
     assert_equal(
         constraint.evaluate(array([2.0] * 3)), mdf_discipline.execute(input_data)["c"]
@@ -209,7 +196,7 @@ def test_mdo_formulation_constraint(umdo_formulation, mdf_discipline):
 
 def test_mdo_formulation_observable(umdo_formulation, mdf_discipline):
     """Check that the MDO formulation can compute the observables correctly."""
-    observable = umdo_formulation.mdo_formulation.optimization_problem.observables[1]
+    observable = umdo_formulation.mdo_formulation.problem.observables[2]
     input_data = {name: array([2.0]) for name in ["u", "u1", "u2"]}
     assert_equal(
         observable.evaluate(array([2.0] * 3)), mdf_discipline.execute(input_data)["o"]
@@ -230,7 +217,7 @@ def test_umdo_formulation_objective(umdo_formulation, mdf_discipline):
 
 def test_umdo_formulation_constraint(umdo_formulation, mdf_discipline):
     """Check that the UMDO formulation can compute the constraints correctly."""
-    constraint = umdo_formulation.optimization_problem.constraints[0]
+    constraint = umdo_formulation.problem.constraints[0]
     uncertain_space = umdo_formulation.uncertain_space
     input_data = uncertain_space.convert_array_to_dict(
         uncertain_space.variables.distribution.mean
@@ -255,13 +242,13 @@ def test_umdo_formulation_observable(umdo_formulation, mdf_discipline):
 def test_second_order_approximation(umdo_formulation_with_hessian):
     """Check second-order approximation."""
     problem = umdo_formulation_with_hessian.hessian_fd_problem
-    objective = problem.objective
+    objective = problem.observables[0]
     assert objective.name == "@@f"
     objective_value = objective.evaluate(array([0.0] * 3))
     assert objective_value.shape == (3, 3)
     assert_equal(objective_value, 0.0)
 
-    constraint = problem.observables[0]
+    constraint = problem.observables[1]
     assert constraint.name == "@@c"
     constraint_value = constraint.evaluate(array([0.0] * 3))
     assert constraint_value.shape == (3, 3)
@@ -279,19 +266,15 @@ def test_uncertain_input_data_non_normalization():
     )
     scenario = UDOEScenario(
         [discipline],
-        "f",
         design_space,
         uncertain_space,
-        "Mean",
         statistic_estimation_settings=TaylorPolynomial_Settings(),
-        formulation_name="DisciplinaryOpt",
+        formulation_settings=DisciplinaryOpt_Settings(),
     )
+    scenario.add_objective("f", "Mean")
     scenario.execute(CustomDOE_Settings(samples=array([[1.0]]), eval_jac=True))
-    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data, get(name) or get_merged_data()  # noqa: E501
-    assert_almost_equal(discipline.io.data["x"], array([1.0]))
+    assert_almost_equal(discipline.io.get("x"), array([1.0]))
     # u = 1.125, f = 1+1.125² and dfdu = 2.25 before bug fix
-    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data, get(name) or get_merged_data()  # noqa: E501
-    assert_almost_equal(discipline.io.data["u"], array([0.75]))
-    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data, get(name) or get_merged_data()  # noqa: E501
-    assert_almost_equal(discipline.io.data["f"], array([1.75]))
+    assert_almost_equal(discipline.io.get("u"), array([0.75]))
+    assert_almost_equal(discipline.io.get("f"), array([1.75]))
     assert_almost_equal(discipline.jac["f"]["u"], array([[1.0]]))

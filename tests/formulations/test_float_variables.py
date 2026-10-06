@@ -26,6 +26,7 @@ from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
 from numpy import ndarray  # noqa: TC002
 from gemseo.doe import CustomDOE_Settings
 from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
+from gemseo.formulation import MDF_Settings
 
 
 ZERO = zeros(1)
@@ -63,13 +64,12 @@ def test_float_variables(uncertain_space, design_space, statistic_estimation_set
     discipline = AutoPyDiscipline(f_ndarray)
     umdo_scenario = UDOEScenario(
         [discipline],
-        "y",
         design_space,
         uncertain_space,
-        "Mean",
-        formulation_name="MDF",
         statistic_estimation_settings=statistic_estimation_settings,
+        formulation_settings=MDF_Settings(),
     )
+    umdo_scenario.add_objective("y", "Mean")
     umdo_scenario.execute(algorithm_settings=CustomDOE_Settings(samples=array([[0.0]])))
     reference_f_opt = umdo_scenario.optimization_result.f_opt
 
@@ -77,13 +77,12 @@ def test_float_variables(uncertain_space, design_space, statistic_estimation_set
     discipline = AutoPyDiscipline(f_float)
     umdo_scenario = UDOEScenario(
         [discipline],
-        "y",
         design_space,
         uncertain_space,
-        "Mean",
-        formulation_name="MDF",
         statistic_estimation_settings=statistic_estimation_settings,
+        formulation_settings=MDF_Settings(),
     )
+    umdo_scenario.add_objective("y", "Mean")
     umdo_scenario.execute(algorithm_settings=CustomDOE_Settings(samples=array([[0.0]])))
 
     assert umdo_scenario.optimization_result.f_opt == reference_f_opt

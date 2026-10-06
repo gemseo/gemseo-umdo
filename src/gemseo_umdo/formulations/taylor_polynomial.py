@@ -37,12 +37,10 @@ with mean $\mu$ and variance $\sigma^2$.
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
-from typing import Any
 from typing import ClassVar
 
-from gemseo.core.function.array_function import ArrayFunction
-from gemseo.optimization import OptimizationProblem
-from gemseo.util.constant import read_only_empty_dict
+from gemseo.core.problem.evaluation import EvaluationProblem
+from gemseo.util.pydantic import create_model
 
 from gemseo_umdo.formulations._functions.hessian_function import HessianFunction
 from gemseo_umdo.formulations._functions.statistic_function_for_taylor_polynomial import (  # noqa: E501
@@ -60,10 +58,9 @@ if TYPE_CHECKING:
     from collections.abc import Sequence
 
     from gemseo.discipline import Discipline
-    from gemseo.formulation.core.base_mdo import BaseMDOFormulation
-    from gemseo.space import DesignSpace
+    from gemseo.formulation.core.base_settings import BaseFormulationSettings
+    from gemseo.optimization import OptimizationProblem
     from gemseo.space import RandomSpace
-    from gemseo.util.typing import StrKeyMapping
 
 
 class TaylorPolynomial(BaseUMDOFormulation):
@@ -75,7 +72,7 @@ class TaylorPolynomial(BaseUMDOFormulation):
 
     _USE_AUXILIARY_MDO_FORMULATION: ClassVar[bool] = True
 
-    __hessian_fd_problem: OptimizationProblem | None
+    __hessian_fd_problem: EvaluationProblem | None
     """The problem related to the approximation of the Hessian if any."""
 
     _STATISTIC_FACTORY: ClassVar[TaylorPolynomialEstimatorFactory] = (
@@ -86,48 +83,36 @@ class TaylorPolynomial(BaseUMDOFormulation):
         type[StatisticFunctionForTaylorPolynomial] | None
     ] = StatisticFunctionForTaylorPolynomial
 
-    # TODO(bump-gemseo): pass the problem first, e.g. OptimizationProblem(design_space), then set its objective; the loose settings go into settings=<Formulation>_Settings(...)  # noqa: E501
     def __init__(  # noqa: D107
         self,
+        problem: OptimizationProblem,
         disciplines: Sequence[Discipline],
-        objective_name: str,
-        design_space: DesignSpace,
-        mdo_formulation: BaseMDOFormulation,
+        settings: TaylorPolynomial_Settings | None = None,
+        *,
         uncertain_space: RandomSpace,
-        objective_statistic_name: str,
-        settings: TaylorPolynomial_Settings,
-        minimize_objective: bool = True,
-        objective_statistic_parameters: StrKeyMapping = read_only_empty_dict,
-        mdo_formulation_settings: StrKeyMapping = read_only_empty_dict,
+        mdo_formulation_settings: BaseFormulationSettings | None = None,
     ) -> None:
-        # TODO(bump-gemseo): pass the problem first, e.g. OptimizationProblem(design_space), then set its objective; the loose settings go into settings=<Formulation>_Settings(...)  # noqa: E501
+        settings = create_model(self.settings_class, settings_model=settings)
         super().__init__(
+            problem,
             disciplines,
-            objective_name,
-            design_space,
-            mdo_formulation,
-            uncertain_space,
-            objective_statistic_name,
-            settings,
-            minimize_objective=minimize_objective,
-            objective_statistic_parameters=objective_statistic_parameters,
+            settings=settings,
+            uncertain_space=uncertain_space,
             mdo_formulation_settings=mdo_formulation_settings,
         )
-
         self.__hessian_fd_problem = None
-        problem = self._auxiliary_mdo_formulation.optimization_problem
         if settings.second_order:
-            self.__hessian_fd_problem = OptimizationProblem(self.uncertain_space)
-            self.__hessian_fd_problem.objective = HessianFunction(problem.objective)
+            self.__hessian_fd_problem = EvaluationProblem(self.uncertain_space)
 
-        problem.differentiation_method = settings.differentiation_method
-        problem.design_space = problem.design_space.to_design_space()
+        self._auxiliary_mdo_formulation.problem.differentiation_method = (
+            settings.differentiation_method
+        )
         self.problem.differentiation_method = (
-            self.problem.ApproximationMode.FINITE_DIFFERENCES
+            self.problem.DifferentiationMethod.FINITE_DIFFERENCES
         )
 
     @property
-    def hessian_fd_problem(self) -> OptimizationProblem | None:
+    def hessian_fd_problem(self) -> EvaluationProblem | None:
         """The problem related to the approximation of the Hessian."""
         return self.__hessian_fd_problem
 
@@ -136,50 +121,8 @@ class TaylorPolynomial(BaseUMDOFormulation):
         """Whether to use a second order approximation."""
         return self._settings.second_order
 
-    def add_constraint(  # noqa: D102
-        self,
-        output_name: str | Sequence[str],
-        statistic_name: str,
-        constraint_type: ArrayFunction.ConstraintType = ArrayFunction.ConstraintType.INEQ,
-        constraint_name: str = "",
-        value: float = 0.0,
-        positive: bool = False,
-        **statistic_parameters: Any,
-    ) -> None:
-        super().add_constraint(
-            output_name,
-            statistic_name,
-            constraint_type=constraint_type,
-            constraint_name=constraint_name,
-            value=value,
-            positive=positive,
-            **statistic_parameters,
-        )
-        if self.hessian_fd_problem is not None:
-            self.hessian_fd_problem.add_observable(
-                HessianFunction(
-                    self._auxiliary_mdo_formulation.optimization_problem.observables[-1]
-                )
-            )
-
-    def add_observable(  # noqa: D102
-        self,
-        output_names: Sequence[str],
-        statistic_name: str,
-        observable_name: Sequence[str] = "",
-        discipline: Discipline | None = None,
-        **statistic_parameters: Any,
-    ) -> None:
-        super().add_observable(
-            output_names,
-            statistic_name,
-            observable_name=observable_name,
-            discipline=discipline,
-            **statistic_parameters,
-        )
-        if self.hessian_fd_problem is not None:
-            self.hessian_fd_problem.add_observable(
-                HessianFunction(
-                    self._auxiliary_mdo_formulation.optimization_problem.observables[-1]
-                ),
+    def _post_add_mdo_observable(self) -> None:
+        if self.__hessian_fd_problem is not None:
+            self.__hessian_fd_problem.add_observable(
+                HessianFunction(self._auxiliary_mdo_formulation.problem.observables[-1])
             )

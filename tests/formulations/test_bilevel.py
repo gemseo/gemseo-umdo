@@ -121,13 +121,14 @@ def test_u_bilevel(design_space, rosenbrock, sub_scenarios, reference_database):
 
     u_bilevel_scenario = UMDOScenario(
         [*sub_scenarios, rosenbrock],
-        "f",
         design_space.filter("x_0", copy=True),
         uncertain_space,
-        "Mean",
-        Sampling_Settings(n_samples=3, estimate_statistics_iteratively=False),
-        formulation_name="BiLevel",
+        statistic_estimation_settings=Sampling_Settings(
+            n_samples=3, estimate_statistics_iteratively=False
+        ),
+        formulation_settings=BiLevel_Settings(),
     )
+    u_bilevel_scenario.add_objective("f", "Mean")
     u_bilevel_scenario.execute(
         algorithm_settings=CustomDOE_Settings(samples=array([[1.0]]))
     )

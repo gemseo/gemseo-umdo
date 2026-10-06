@@ -34,7 +34,6 @@ to get more information about the basics of this technique.
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
-from typing import Any
 
 from gemseo.problem.mdo.opt_as_mdo_scenario import LinearLinkDiscipline
 from gemseo.problem.mdo.opt_as_mdo_scenario import create_disciplines
@@ -63,29 +62,24 @@ if TYPE_CHECKING:
 class UOptAsUMDOScenario(UMDOScenario):
     """An optimization scenario under uncertainty made multidisciplinary."""
 
-    # TODO(bump-gemseo): rename would duplicate an existing parameter, not renamed: formulation_settings_model -> formulation_settings  # noqa: E501
     def __init__(
         self,
         discipline: Discipline,
-        objective_name: str,
         design_space: DesignSpace,
         uncertain_space: RandomSpace,
-        objective_statistic_name: str,
         statistic_estimation_settings: BaseUMDOFormulationSettings,
-        objective_statistic_parameters: StrKeyMapping = read_only_empty_dict,
         uncertain_design_variables: Mapping[
             str, str | tuple[str, str]
         ] = read_only_empty_dict,
         name: str = "",
-        formulation_settings_model: BaseFormulationSettings | None = None,
-        maximize_objective: bool = False,
+        formulation_settings: BaseFormulationSettings | None = None,
+        default_input_data: StrKeyMapping = read_only_empty_dict,
         coupling_equations: tuple[
-            Iterable[Discipline, ...],
+            Iterable[Discipline],
             Callable[[RealArray], RealArray],
             Callable[[RealArray], RealArray],
         ] = (),
         link_discipline_class: type[BaseLinkDiscipline] = LinearLinkDiscipline,
-        **formulation_settings: Any,
     ) -> None:
         r"""
         Args:
@@ -114,18 +108,13 @@ class UOptAsUMDOScenario(UMDOScenario):
         disciplines = create_disciplines(
             discipline, design_space, coupling_equations, link_discipline_class
         )
-        # TODO(bump-gemseo): cannot transform: objective_name goes to a call of add_objective() on the result of this call, which is not assigned to a name by a statement of its own  # noqa: E501
         super().__init__(
             disciplines,
-            objective_name,
             design_space,
             uncertain_space,
-            objective_statistic_name,
-            statistic_estimation_settings=statistic_estimation_settings,
-            objective_statistic_parameters=objective_statistic_parameters,
+            statistic_estimation_settings,
             uncertain_design_variables=uncertain_design_variables,
             name=name,
-            maximize_objective=maximize_objective,
-            formulation_settings_model=formulation_settings_model,
-            **formulation_settings,
+            formulation_settings=formulation_settings,
+            default_input_data=default_input_data,
         )

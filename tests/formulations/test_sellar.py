@@ -19,6 +19,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 import pytest
+from gemseo.doe import OT_MONTE_CARLO_Settings
 from gemseo.formulation import MDF_Settings
 from gemseo.mda import MDAChain_Settings
 from gemseo.problem.mdo.sellar import Sellar1
@@ -51,9 +52,9 @@ def maximize_objective(request) -> bool:
 
 
 @pytest.fixture(scope="module")
-def scenario_input_data() -> dict[str, str | int]:
-    """The input data of the scenario."""
-    return {"algo_name": "OT_MONTE_CARLO", "n_samples": 4}
+def scenario_input_data() -> OT_MONTE_CARLO_Settings:
+    """The settings of the DOE algorithm."""
+    return OT_MONTE_CARLO_Settings(n_samples=4)
 
 
 @pytest.fixture(scope="module")
@@ -86,8 +87,7 @@ def reference_data(
     doe_scenario.add_objective("obj", minimize=not maximize_objective)
     doe_scenario.add_constraint("c_1", "ineq")
     doe_scenario.add_constraint("c_2", "ineq")
-    # TODO(bump-gemseo): **kwargs may contain: algo_settings_model -> algorithm_settings  # noqa: E501
-    doe_scenario.execute(**scenario_input_data)
+    doe_scenario.execute(scenario_input_data)
     return doe_scenario.to_dataset().to_numpy()
 
 
@@ -145,19 +145,17 @@ def test_uncertainty_free(
     """
     u_doe_scenario = UDOEScenario(
         disciplines,
-        "obj",
         design_space,
         dirac_uncertain_space,
-        "Mean",
-        formulation_name="MDF",
-        maximize_objective=maximize_objective,
         statistic_estimation_settings=statistic_estimation_settings_for_dirac,
-        main_mda_settings={"max_mda_iter": 3},
+        formulation_settings=MDF_Settings(
+            main_mda_settings=MDAChain_Settings(max_mda_iter=3)
+        ),
     )
+    u_doe_scenario.add_objective("obj", "Mean", minimize=not maximize_objective)
     u_doe_scenario.add_constraint("c_1", "Mean")
     u_doe_scenario.add_constraint("c_2", "Mean")
-    # TODO(bump-gemseo): **kwargs may contain: algo_settings_model -> algorithm_settings  # noqa: E501
-    u_doe_scenario.execute(**scenario_input_data)
+    u_doe_scenario.execute(scenario_input_data)
     assert_almost_equal(u_doe_scenario.to_dataset().to_numpy(), reference_data)
 
 
@@ -178,19 +176,17 @@ def test_weak_uncertainties(
     """
     u_doe_scenario = UDOEScenario(
         disciplines,
-        "obj",
         design_space,
         normal_uncertain_space,
-        "Mean",
-        formulation_name="MDF",
-        maximize_objective=maximize_objective,
         statistic_estimation_settings=statistic_estimation_settings,
-        main_mda_settings={"max_mda_iter": 3},
+        formulation_settings=MDF_Settings(
+            main_mda_settings=MDAChain_Settings(max_mda_iter=3)
+        ),
     )
+    u_doe_scenario.add_objective("obj", "Mean", minimize=not maximize_objective)
     u_doe_scenario.add_constraint("c_1", "Mean")
     u_doe_scenario.add_constraint("c_2", "Mean")
-    # TODO(bump-gemseo): **kwargs may contain: algo_settings_model -> algorithm_settings  # noqa: E501
-    u_doe_scenario.execute(**scenario_input_data)
+    u_doe_scenario.execute(scenario_input_data)
     data = u_doe_scenario.to_dataset().to_numpy()
     if isinstance(statistic_estimation_settings, Surrogate_Settings):
         data = data[:, 0:7] if size == 1 else data[:, 0:11]

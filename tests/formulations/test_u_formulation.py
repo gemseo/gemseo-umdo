@@ -21,7 +21,10 @@ import pytest
 from gemseo.core.function.array_function import ArrayFunction
 from gemseo.discipline import AnalyticDiscipline
 from gemseo.doe import CustomDOE_Settings
-from gemseo.formulation.mdf import MDF
+from gemseo.formulation import MDF_Settings
+from gemseo.mda import MDAChain_Settings
+from gemseo.mda import MDAGaussSeidel_Settings
+from gemseo.optimization import OptimizationProblem
 from gemseo.space import DesignSpace
 from gemseo.space import RandomSpace
 from gemseo.uncertainty.distribution import SPNormalDistribution_Settings
@@ -65,14 +68,12 @@ def uncertain_space() -> RandomSpace:
 
 
 @pytest.fixture
-def mdf(disciplines, uncertain_space) -> MDF:
-    """The MDF formulation."""
-    # TODO(bump-gemseo): pass the problem first, e.g. OptimizationProblem(design_space), then set its objective; the loose settings go into settings=<Formulation>_Settings(...)  # noqa: E501
-    return MDF(
-        disciplines,
-        "f",
-        uncertain_space,
-        main_mda_settings={"inner_mda_name": "MDAGaussSeidel"},
+def mdf_settings() -> MDF_Settings:
+    """The settings of the MDF formulation."""
+    return MDF_Settings(
+        main_mda_settings=MDAChain_Settings(
+            inner_mda_settings=MDAGaussSeidel_Settings()
+        )
     )
 
 
@@ -103,22 +104,20 @@ class MyUMDOFormulation(BaseUMDOFormulation):
     def __init__(self, *args, **kwargs):  # noqa: D107
         self._statistic_function_class = StatisticFunction
         self._statistic_factory = SamplingEstimatorFactory()
-        # TODO(bump-gemseo): **kwargs may contain: settings_model -> settings  # noqa: E501
         super().__init__(*args, **kwargs)
 
 
 @pytest.fixture
-def formulation(disciplines, design_space, mdf, uncertain_space):
+def formulation(disciplines, design_space, mdf_settings, uncertain_space):
     """A dummy formulation with an observable and a constraint."""
     form = MyUMDOFormulation(
+        OptimizationProblem(design_space),
         disciplines,
-        "f",
-        design_space,
-        mdf,
-        uncertain_space,
-        "Mean",
         Sampling_Settings(n_samples=10),
+        uncertain_space=uncertain_space,
+        mdo_formulation_settings=mdf_settings,
     )
+    form.problem.objective = form.create_objective("f", "Mean")
     form.add_constraint("c", "Margin", factor=3.0)
     form.add_observable("o", "Mean")
     return form
@@ -136,13 +135,13 @@ def test_name(formulation):
 
 def test_objective(formulation):
     """Check the objective function is correctly set."""
-    assert formulation.optimization_problem.objective.mock == "f_statistics"
+    assert formulation.problem.objective.mock == "f_statistics"
     assert formulation.problem.objective.name == "E[f]"
 
 
 def test_observable(formulation):
     """Check the observable function is correctly set."""
-    assert formulation.optimization_problem.observables[0].mock == "o_statistics"
+    assert formulation.problem.observables[0].mock == "o_statistics"
     assert formulation.problem.observables[0].name == "E[o]"
 
 
@@ -179,23 +178,19 @@ def test_init_sub_formulation(formulation):
     assert sub_form.__class__.__name__ == "MDF"
     assert sub_form.mda.inner_mdas[0].name == "MDAGaussSeidel"
     assert sub_form.disciplines == formulation.disciplines
-    assert sub_form.problem.objective.name == "f"
-    assert sub_form.problem.observables[0].name == "c"
-    assert sub_form.problem.observables[1].name == "o"
+    assert [o.name for o in sub_form.problem.observables] == ["f", "c", "o"]
     assert list(sub_form.input_space.variables) == ["u"]
 
 
-def test_multiobjective(disciplines, design_space, mdf, uncertain_space):
+def test_multiobjective(disciplines, design_space, uncertain_space):
     """Check the name of the objective function for a multiobjective case."""
     formulation = MyUMDOFormulation(
+        OptimizationProblem(design_space),
         disciplines,
-        ["f", "o"],
-        design_space,
-        mdf,
-        uncertain_space,
-        "Mean",
         Sampling_Settings(n_samples=10),
+        uncertain_space=uncertain_space,
     )
+    formulation.problem.objective = formulation.create_objective(["f", "o"], "Mean")
     assert formulation.problem.objective.name == "E[f_o]"
 
 
@@ -208,15 +203,12 @@ def test_margin(disciplines, design_space, uncertain_space, factor, positive, ma
     # we generate reference results with Margin.factor = abs(factor).
     scenario = UMDOScenario(
         disciplines,
-        "f",
         design_space,
         uncertain_space,
-        "Margin",
-        Sampling_Settings(n_samples=10),
-        objective_statistic_parameters={"factor": abs(factor)},
-        formulation_name="MDF",
-        maximize_objective=maximize,
+        statistic_estimation_settings=Sampling_Settings(n_samples=10),
+        formulation_settings=MDF_Settings(),
     )
+    scenario.add_objective("f", "Margin", minimize=not maximize, factor=abs(factor))
     scenario.add_constraint("c", "Margin", factor=abs(factor), positive=positive)
     scenario.add_observable("o", "Margin", factor=abs(factor))
     scenario.execute(
@@ -228,15 +220,12 @@ def test_margin(disciplines, design_space, uncertain_space, factor, positive, ma
     # we generate results with Margin.factor = factor.
     scenario = UMDOScenario(
         disciplines,
-        "f",
         design_space,
         uncertain_space,
-        "Margin",
-        Sampling_Settings(n_samples=10),
-        objective_statistic_parameters={"factor": factor},
-        formulation_name="MDF",
-        maximize_objective=maximize,
+        statistic_estimation_settings=Sampling_Settings(n_samples=10),
+        formulation_settings=MDF_Settings(),
     )
+    scenario.add_objective("f", "Margin", minimize=not maximize, factor=factor)
     scenario.add_constraint("c", "Margin", factor=factor, positive=positive)
     scenario.add_observable("o", "Margin", factor=factor)
     scenario.execute(

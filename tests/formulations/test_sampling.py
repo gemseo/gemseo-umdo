@@ -25,7 +25,9 @@ from gemseo import to_pickle
 from gemseo.dataset import IODataset
 from gemseo.discipline import AnalyticDiscipline
 from gemseo.doe import CustomDOE_Settings
-from gemseo.formulation.mdf import MDF
+from gemseo.formulation import DisciplinaryOpt_Settings
+from gemseo.formulation import MDF_Settings
+from gemseo.optimization import OptimizationProblem
 from gemseo.space import DesignSpace
 from gemseo.space import RandomSpace
 from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
@@ -80,23 +82,18 @@ if TYPE_CHECKING:
 def umdo_formulation(
     disciplines: Sequence[Discipline],
     design_space: DesignSpace,
-    mdo_formulation: MDF,
     uncertain_space: RandomSpace,
 ) -> Sampling:
     """The UMDO formulation."""
-    # TODO(bump-gemseo): pass the problem first, e.g. OptimizationProblem(design_space), then set its objective; the loose settings go into settings=<Formulation>_Settings(...)  # noqa: E501
-    design_space = MDF(disciplines, "f", design_space).input_space
     formulation = Sampling(
+        OptimizationProblem(design_space),
         disciplines,
-        "f",
-        design_space,
-        mdo_formulation,
-        uncertain_space,
-        "Mean",
         Sampling_Settings(
             doe_algo_settings=CustomDOE_Settings(samples=array([[0.0] * 3, [1.0] * 3])),
         ),
+        uncertain_space=uncertain_space,
     )
+    formulation.problem.objective = formulation.create_objective("f", "Mean")
     formulation.add_constraint("c", "Mean")
     formulation.add_observable("o", "Mean")
     return formulation
@@ -112,9 +109,9 @@ def mdo_samples(mdf_discipline) -> list[dict[str, ndarray]]:
 
 
 @pytest.fixture
-def scenario_input_data() -> dict[str, str | dict[str, ndarray]]:
-    """The input data of the scenario."""
-    return {"algo_name": "CustomDOE", "samples": array([[0.0] * 3])}
+def scenario_input_data() -> CustomDOE_Settings:
+    """The settings of the DOE algorithm."""
+    return CustomDOE_Settings(samples=array([[0.0] * 3]))
 
 
 @pytest.fixture(params=[False, True])
@@ -147,19 +144,17 @@ def scenario(
     """A scenario of interest."""
     scn = UDOEScenario(
         disciplines,
-        "f",
         design_space,
         uncertain_space,
-        "Mean",
-        formulation_name="MDF",
         statistic_estimation_settings=Sampling_Settings(
             doe_algo_settings=CustomDOE_Settings(
                 samples=array([[0.0] * 3, [1.0] * 3]), n_processes=n_processes
             ),
             estimate_statistics_iteratively=estimate_statistics_iteratively,
         ),
-        maximize_objective=maximize_objective,
+        formulation_settings=MDF_Settings(),
     )
+    scn.add_objective("f", "Mean", minimize=not maximize_objective)
     scn.add_constraint("c", "Margin", factor=3.0)
     scn.add_observable("o", "Variance")
     return scn
@@ -167,8 +162,7 @@ def scenario(
 
 def test_scenario_execution(scenario, maximize_objective, scenario_input_data, caplog):
     """Check the execution of an UMDOScenario with the Sampling U-MDO formulation."""
-    # TODO(bump-gemseo): **kwargs may contain: algo_settings_model -> algorithm_settings  # noqa: E501
-    scenario.execute(**scenario_input_data)
+    scenario.execute(scenario_input_data)
     assert_equal(scenario.optimization_result.x_opt, array([0.0, 0.0, 0.0]))
     expected_f_opt = 2.0 if maximize_objective else -2.0
     assert scenario.optimization_result.f_opt == pytest.approx(expected_f_opt, rel=1e-6)
@@ -181,7 +175,7 @@ def test_scenario_serialization(scenario, tmp_path, scenario_input_data):
     file_path = tmp_path / "scenario.h5"
     to_pickle(scenario, file_path)
     saved_scenario = from_pickle(file_path)
-    saved_scenario.execute(**scenario_input_data)
+    saved_scenario.execute(scenario_input_data)
     assert_equal(saved_scenario.optimization_result.x_opt, array([0.0, 0.0, 0.0]))
 
 
@@ -282,7 +276,7 @@ def test_reset_iterative_probability():
 
 def test_mdo_formulation_objective(umdo_formulation, mdf_discipline):
     """Check that the MDO formulation can compute the objective correctly."""
-    objective = umdo_formulation.mdo_formulation.problem.objective
+    objective = umdo_formulation.mdo_formulation.problem.observables[0]
     input_data = {name: array([2.0]) for name in ["u", "u1", "u2"]}
     assert_equal(
         objective.evaluate(array([2.0] * 3)), mdf_discipline.execute(input_data)["f"]
@@ -291,7 +285,7 @@ def test_mdo_formulation_objective(umdo_formulation, mdf_discipline):
 
 def test_mdo_formulation_constraint(umdo_formulation, mdf_discipline):
     """Check that the MDO formulation can compute the constraints correctly."""
-    constraint = umdo_formulation.mdo_formulation.optimization_problem.observables[0]
+    constraint = umdo_formulation.mdo_formulation.problem.observables[1]
     input_data = {name: array([2.0]) for name in ["u", "u1", "u2"]}
     assert_equal(
         constraint.evaluate(array([2.0] * 3)), mdf_discipline.execute(input_data)["c"]
@@ -300,7 +294,7 @@ def test_mdo_formulation_constraint(umdo_formulation, mdf_discipline):
 
 def test_mdo_formulation_observable(umdo_formulation, mdf_discipline):
     """Check that the MDO formulation can compute the observables correctly."""
-    observable = umdo_formulation.mdo_formulation.optimization_problem.observables[1]
+    observable = umdo_formulation.mdo_formulation.problem.observables[2]
     input_data = {name: array([2.0]) for name in ["u", "u1", "u2"]}
     assert_equal(
         observable.evaluate(array([2.0] * 3)), mdf_discipline.execute(input_data)["o"]
@@ -309,7 +303,7 @@ def test_mdo_formulation_observable(umdo_formulation, mdf_discipline):
 
 def test_umdo_formulation_objective(umdo_formulation, mdo_samples):
     """Check that the UMDO formulation can compute the objective correctly."""
-    objective = umdo_formulation.optimization_problem.objective
+    objective = umdo_formulation.problem.objective
     assert_almost_equal(
         objective.evaluate(array([0.0] * 3)),
         sum(mdo_sample["f"][0] for mdo_sample in mdo_samples) / 2,
@@ -327,7 +321,7 @@ def test_umdo_formulation_constraint(umdo_formulation, mdo_samples):
 
 def test_umdo_formulation_observable(umdo_formulation, mdo_samples):
     """Check that the UMDO formulation can compute the observables correctly."""
-    observable = umdo_formulation.optimization_problem.observables[0]
+    observable = umdo_formulation.problem.observables[0]
     assert_almost_equal(
         observable.evaluate(array([0.0] * 3)),
         sum(mdo_sample["o"][0] for mdo_sample in mdo_samples) / 2,
@@ -340,9 +334,7 @@ def test_clear_inner_database(umdo_formulation):
     # when the outer problem changes the values of the design variables
     # to avoid recovering the data stored in the inner database
     # and force new evaluations of the functions attached to the inner problem.
-    obj_value = umdo_formulation.optimization_problem.objective.evaluate(
-        array([0.0] * 3)
-    )
+    obj_value = umdo_formulation.problem.objective.evaluate(array([0.0] * 3))
     assert (
         umdo_formulation.problem.objective.evaluate(array([1.0, 0.0, 0.0])) != obj_value
     )
@@ -351,18 +343,17 @@ def test_clear_inner_database(umdo_formulation):
 def test_save_samples(disciplines, design_space, uncertain_space, tmp_wd):
     scenario = UDOEScenario(
         disciplines,
-        "f",
         design_space,
         uncertain_space,
-        "Mean",
-        formulation_name="MDF",
         statistic_estimation_settings=Sampling_Settings(
             doe_algo_settings=CustomDOE_Settings(
                 samples=array([[0.0, 0.0, 0.0], [1.0, 1.0, 1.0]])
             ),
             samples_directory_path="foo",
         ),
+        formulation_settings=MDF_Settings(),
     )
+    scenario.add_objective("f", "Mean")
     scenario.add_constraint("c", "Margin", factor=3.0)
     scenario.add_observable("o", "Variance")
     scenario.execute(
@@ -418,16 +409,15 @@ def test_standard_deviation_derivative_if_zero(estimate_statistics_iteratively):
 
     scenario = UMDOScenario(
         [AnalyticDiscipline({"y": "x+u", "z": "x"})],
-        "z",
         design_space,
         uncertain_space,
-        "StandardDeviation",
-        formulation_name="DisciplinaryOpt",
         statistic_estimation_settings=Sampling_Settings(
             n_samples=10,
             estimate_statistics_iteratively=estimate_statistics_iteratively,
         ),
+        formulation_settings=DisciplinaryOpt_Settings(),
     )
+    scenario.add_objective("z", "StandardDeviation")
     scenario.execute(
         algorithm_settings=CustomDOE_Settings(samples=array([[1.0]]), eval_jac=True)
     )

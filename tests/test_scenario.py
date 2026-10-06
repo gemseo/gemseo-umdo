@@ -22,8 +22,11 @@ from gemseo.discipline import AnalyticDiscipline
 from gemseo.discipline import AutoPyDiscipline
 from gemseo.discipline import DisciplineChain
 from gemseo.doe import CustomDOE_Settings
+from gemseo.formulation import DisciplinaryOpt_Settings
 from gemseo.formulation import MDF_Settings
 from gemseo.formulation.mdf import MDF
+from gemseo.mda import MDAChain_Settings
+from gemseo.mda import MDAGaussSeidel_Settings
 from gemseo.space import DesignSpace
 from gemseo.space import RandomSpace
 from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
@@ -82,14 +85,16 @@ def scenario(disciplines, design_space, uncertain_space) -> UMDOScenario:
     """The MDO scenario under uncertainty."""
     scn = UMDOScenario(
         disciplines,
-        "f",
         design_space,
         uncertain_space,
-        "Mean",
-        formulation_name="MDF",
         statistic_estimation_settings=Sampling_Settings(n_samples=3),
-        main_mda_settings={"inner_mda_name": "MDAGaussSeidel"},
+        formulation_settings=MDF_Settings(
+            main_mda_settings=MDAChain_Settings(
+                inner_mda_settings=MDAGaussSeidel_Settings()
+            )
+        ),
     )
+    scn.add_objective("f", "Mean")
     scn.add_constraint("c", "Margin", factor=3.0)
     scn.add_observable("o", "Mean")
     return scn
@@ -121,12 +126,12 @@ def test_formulation(scenario):
 
 def test_design_space(scenario):
     """Check that the design space contains the design variables."""
-    assert set(scenario.design_space.variable_names) == {"x0", "x1", "x2"}
+    assert set(scenario.design_space.variables) == {"x0", "x1", "x2"}
 
 
 def test_uncertain_space(scenario):
     """Check that the uncertain space contains the uncertain variables."""
-    assert set(list(scenario.uncertain_space.variables)) == {"u"}
+    assert set(scenario.uncertain_space.variables) == {"u"}
 
 
 def test_repr(scenario):
@@ -152,46 +157,35 @@ def test_mdo_formulation(scenario):
     assert isinstance(mdo_formulation, MDF)
     assert mdo_formulation.mda.inner_mdas[0].name == "MDAGaussSeidel"
     assert mdo_formulation.disciplines == scenario.disciplines
-    assert opt_problem.objective.name == "f"
-    assert [o.name for o in opt_problem.observables] == ["c", "o"]
-    assert scenario.mdo_formulation.design_space.variable_names == ["u"]
+    assert [o.name for o in opt_problem.observables] == ["f", "c", "o"]
+    assert list(scenario.mdo_formulation.input_space.variables) == ["u"]
 
 
 def test_pydantic_mdo_formulation(disciplines, design_space, uncertain_space):
     """Check that the MDO formulation can be passed as a Pydantic model."""
     scenario = UMDOScenario(
         disciplines,
-        "f",
         design_space,
         uncertain_space,
-        "Mean",
-        formulation_settings_model=MDF_Settings(),
         statistic_estimation_settings=Sampling_Settings(n_samples=3),
+        formulation_settings=MDF_Settings(),
     )
+    scenario.add_objective("f", "Mean")
     assert isinstance(scenario.mdo_formulation, MDF)
 
 
-@pytest.mark.parametrize("maximize_objective", [None, False, True])
-def test_maximize_objective(
-    disciplines, design_space, uncertain_space, maximize_objective
-):
-    """Check that the argument maximize_objective is correctly used."""
-    if maximize_objective is None:
-        kwargs = {}
-    else:
-        kwargs = {"maximize_objective": maximize_objective}
+@pytest.mark.parametrize("minimize", [None, True, False])
+def test_minimize_objective(disciplines, design_space, uncertain_space, minimize):
+    """Check that the argument minimize of add_objective is correctly used."""
+    kwargs = {} if minimize is None else {"minimize": minimize}
     scn = UMDOScenario(
         disciplines,
-        "f",
         design_space,
         uncertain_space,
-        "Mean",
-        formulation_name="MDF",
         statistic_estimation_settings=Sampling_Settings(n_samples=3),
-        **kwargs,
     )
-    maximize = bool(maximize_objective)
-    assert scn.formulation.mdo_formulation.optimization_problem.minimize_objective
+    scn.add_objective("f", "Mean", **kwargs)
+    maximize = minimize is False
     assert scn.formulation.problem.minimize_objective is not maximize
     expected_name = "-E[f]" if maximize else "E[f]"
     assert scn.formulation.problem.objective.name == expected_name
@@ -204,18 +198,17 @@ def test_uncertain_design_variables(disciplines, design_space, uncertain_space):
     """
     scn = UMDOScenario(
         disciplines,
-        "f",
         design_space,
         uncertain_space,
-        "Mean",
-        formulation_name="MDF",
+        statistic_estimation_settings=Sampling_Settings(n_samples=3),
         uncertain_design_variables={
             "x0": ("+", "v0"),
             "x1": "{}+v1",
             "x2": ("*", "v2"),
         },
-        statistic_estimation_settings=Sampling_Settings(n_samples=3),
+        formulation_settings=MDF_Settings(),
     )
+    scn.add_objective("f", "Mean")
     design_space = scn.design_space
     for i in range(3):
         assert f"x{i}" not in design_space
@@ -263,16 +256,15 @@ def test_uncertain_design_variables_values(x, u1, u2):
     discipline = AutoPyDiscipline(f)
     scenario = UDOEScenario(
         [discipline],
-        "y",
         design_space,
         uncertain_space,
-        "Mean",
-        formulation_name="DisciplinaryOpt",
         statistic_estimation_settings=Sampling_Settings(
             doe_algo_settings=CustomDOE_Settings(samples=vstack((u1, u2)))
         ),
         uncertain_design_variables={"x": ("+", "u")},
+        formulation_settings=DisciplinaryOpt_Settings(),
     )
+    scenario.add_objective("y", "Mean")
     scenario.execute(algorithm_settings=CustomDOE_Settings(samples=atleast_2d(x)))
     assert scenario.optimization_result.f_opt == (f(x + u1) + f(x + u2)) / 2
 
@@ -286,15 +278,7 @@ def test_statistic_no_estimation_parameters(disciplines, design_space, uncertain
             "'statistic_estimation_settings'"
         ),
     ):
-        UMDOScenario(
-            disciplines,
-            "f",
-            design_space,
-            uncertain_space,
-            "Mean",
-            formulation_name="MDF",
-            maximize_objective=True,
-        )
+        UMDOScenario(disciplines, design_space, uncertain_space)
 
 
 @pytest.mark.parametrize(
@@ -333,16 +317,14 @@ def test_log(
 
     scenario = UDOEScenario(
         [discipline],
-        "y",
         design_space,
         uncertain_space,
-        "Mean",
-        formulation_name="DisciplinaryOpt",
         statistic_estimation_settings=Sampling_Settings(
             doe_algo_settings=CustomDOE_Settings(samples=array([[0.5]]))
         ),
-        maximize_objective=maximize_objective,
+        formulation_settings=DisciplinaryOpt_Settings(),
     )
+    scenario.add_objective("y", "Mean", minimize=not maximize_objective)
 
     scenario.add_constraint(
         "y",

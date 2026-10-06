@@ -49,8 +49,8 @@ from gemseo.doe import MC_Settings
 from gemseo.doe.factory import DOELibraryFactory
 from gemseo.doe.scipy.scipy_doe import SciPyDOE
 from gemseo.machine_learning.regression.quality.factory import RegressorQualityFactory
-from gemseo.util.constant import read_only_empty_dict
 from gemseo.util.logging import LoggingContext
+from gemseo.util.pydantic import create_model
 from numpy import full
 
 from gemseo_umdo.formulations._functions.statistic_function_for_surrogate import (
@@ -68,18 +68,17 @@ if TYPE_CHECKING:
     from collections.abc import Mapping
     from collections.abc import Sequence
 
+    from gemseo.core.problem.evaluation import EvaluationProblem
     from gemseo.dataset import IODataset
     from gemseo.discipline import Discipline
     from gemseo.doe.core.base_doe_library import BaseDOELibrary
-    from gemseo.formulation.core.base_mdo import BaseMDOFormulation
+    from gemseo.formulation.core.base_settings import BaseFormulationSettings
     from gemseo.machine_learning.regression.core.base_regressor_quality import (
         BaseRegressorQuality,
     )
     from gemseo.optimization import OptimizationProblem
-    from gemseo.space import DesignSpace
     from gemseo.space import RandomSpace
     from gemseo.util.typing import RealArray
-    from gemseo.util.typing import StrKeyMapping
 
 
 class Surrogate(BaseUMDOFormulation):
@@ -141,22 +140,17 @@ class Surrogate(BaseUMDOFormulation):
         StatisticFunctionForSurrogate
     )
 
-    # TODO(bump-gemseo): pass the problem first, e.g. OptimizationProblem(design_space), then set its objective; the loose settings go into settings=<Formulation>_Settings(...)  # noqa: E501
     def __init__(  # noqa: D107
         self,
+        problem: OptimizationProblem,
         disciplines: Sequence[Discipline],
-        objective_name: str,
-        design_space: DesignSpace,
-        mdo_formulation: BaseMDOFormulation,
+        settings: Surrogate_Settings | None = None,
+        *,
         uncertain_space: RandomSpace,
-        objective_statistic_name: str,
-        settings: Surrogate_Settings,
-        minimize_objective: bool = True,
-        objective_statistic_parameters: StrKeyMapping = read_only_empty_dict,
-        mdo_formulation_settings: StrKeyMapping = read_only_empty_dict,
+        mdo_formulation_settings: BaseFormulationSettings | None = None,
     ) -> None:
-        # TODO(bump-gemseo): BaseSettings._TARGET_CLASS_NAME was removed; see the GEMSEO 7 changelog.  # noqa: E501
-        algo_name = settings.doe_algo_settings._TARGET_CLASS_NAME
+        settings = create_model(self.settings_class, settings_model=settings)
+        algo_name = settings.doe_algo_settings.target_class_name
         self.input_data_to_output_samples = {}
         self.__doe_algo = DOELibraryFactory().create(algo_name)
         self._estimators = []
@@ -181,17 +175,11 @@ class Surrogate(BaseUMDOFormulation):
 
         self.quality_threshold = settings.quality_threshold
         self.quality_cv_threshold = settings.quality_cv_threshold
-        # TODO(bump-gemseo): pass the problem first, e.g. OptimizationProblem(design_space), then set its objective; the loose settings go into settings=<Formulation>_Settings(...)  # noqa: E501
         super().__init__(
+            problem,
             disciplines,
-            objective_name,
-            design_space,
-            mdo_formulation,
-            uncertain_space,
-            objective_statistic_name,
-            settings,
-            minimize_objective=minimize_objective,
-            objective_statistic_parameters=objective_statistic_parameters,
+            settings=settings,
+            uncertain_space=uncertain_space,
             mdo_formulation_settings=mdo_formulation_settings,
         )
         mdo_formulation = self._mdo_formulation.__class__.__name__
@@ -205,7 +193,7 @@ class Surrogate(BaseUMDOFormulation):
         self.cv_threshold = {}
 
     def compute_samples(
-        self, problem: OptimizationProblem, compute_jacobian: bool = False
+        self, problem: EvaluationProblem, compute_jacobian: bool = False
     ) -> IODataset:
         """Evaluate the functions of a problem with a DOE algorithm.
 

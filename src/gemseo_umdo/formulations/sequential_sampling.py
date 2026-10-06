@@ -41,7 +41,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 from typing import ClassVar
 
-from gemseo.util.constant import read_only_empty_dict
+from gemseo.util.pydantic import create_model
 
 from gemseo_umdo.formulations.sampling import Sampling
 from gemseo_umdo.formulations.sequential_sampling_settings import (
@@ -51,13 +51,12 @@ from gemseo_umdo.formulations.sequential_sampling_settings import (
 if TYPE_CHECKING:
     from collections.abc import Sequence
 
+    from gemseo.core.problem.evaluation import EvaluationProblem
     from gemseo.discipline import Discipline
-    from gemseo.formulation.core.base_mdo import BaseMDOFormulation
+    from gemseo.formulation.core.base_settings import BaseFormulationSettings
     from gemseo.optimization import OptimizationProblem
-    from gemseo.space import DesignSpace
     from gemseo.space import RandomSpace
     from gemseo.util.typing import RealArray
-    from gemseo.util.typing import StrKeyMapping
 
 
 class SequentialSampling(Sampling):
@@ -77,39 +76,29 @@ class SequentialSampling(Sampling):
     __final_n_samples: int
     """The maximum number of samples when evaluating the U-MDO formulation."""
 
-    # TODO(bump-gemseo): pass the problem first, e.g. OptimizationProblem(design_space), then set its objective; the loose settings go into settings=<Formulation>_Settings(...)  # noqa: E501
     def __init__(  # noqa: D107
         self,
+        problem: OptimizationProblem,
         disciplines: Sequence[Discipline],
-        objective_name: str,
-        design_space: DesignSpace,
-        mdo_formulation: BaseMDOFormulation,
+        settings: SequentialSampling_Settings | None = None,
+        *,
         uncertain_space: RandomSpace,
-        objective_statistic_name: str,
-        settings: SequentialSampling_Settings,
-        minimize_objective: bool = True,
-        objective_statistic_parameters: StrKeyMapping = read_only_empty_dict,
-        mdo_formulation_settings: StrKeyMapping = read_only_empty_dict,
+        mdo_formulation_settings: BaseFormulationSettings | None = None,
     ) -> None:
+        settings = create_model(self.settings_class, settings_model=settings)
         self.__final_n_samples = settings.doe_algo_settings.n_samples
         settings.doe_algo_settings.n_samples = settings.initial_n_samples
-        # TODO(bump-gemseo): pass the problem first, e.g. OptimizationProblem(design_space), then set its objective; the loose settings go into settings=<Formulation>_Settings(...)  # noqa: E501
         super().__init__(
+            problem,
             disciplines,
-            objective_name,
-            design_space,
-            mdo_formulation,
-            uncertain_space,
-            objective_statistic_name,
-            settings,
-            minimize_objective=minimize_objective,
-            objective_statistic_parameters=objective_statistic_parameters,
+            settings=settings,
+            uncertain_space=uncertain_space,
             mdo_formulation_settings=mdo_formulation_settings,
         )
 
     def compute_samples(  # noqa: D102
         self,
-        problem: OptimizationProblem,
+        problem: EvaluationProblem,
         input_data: RealArray,
         compute_jacobian: bool = False,
     ) -> None:

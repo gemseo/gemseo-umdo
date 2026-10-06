@@ -18,7 +18,6 @@ from __future__ import annotations
 
 import re
 from typing import TYPE_CHECKING
-from typing import Any
 
 import pytest
 from gemseo import from_pickle
@@ -27,8 +26,10 @@ from gemseo.discipline import AnalyticDiscipline
 from gemseo.doe import CustomDOE_Settings
 from gemseo.doe import MC_Settings
 from gemseo.doe import OT_OPT_LHS_Settings
-from gemseo.formulation.mdf import MDF
+from gemseo.formulation import DisciplinaryOpt_Settings
+from gemseo.formulation import MDF_Settings
 from gemseo.machine_learning import RBFRegressor_Settings
+from gemseo.optimization import OptimizationProblem
 from gemseo.space import DesignSpace
 from gemseo.space import RandomSpace
 from gemseo.uncertainty.distribution import OTUniformDistribution_Settings
@@ -69,34 +70,29 @@ def regressor_settings(request) -> BaseRegressorSettings | None:
 def umdo_formulation(
     disciplines: Sequence[Discipline],
     design_space: DesignSpace,
-    mdo_formulation: MDF,
     uncertain_space: RandomSpace,
     regressor_settings: BaseRegressorSettings,
 ) -> ControlVariate:
     """The UMDO formulation."""
-    # TODO(bump-gemseo): pass the problem first, e.g. OptimizationProblem(design_space), then set its objective; the loose settings go into settings=<Formulation>_Settings(...)  # noqa: E501
-    design_space = MDF(disciplines, "f", design_space).input_space
     formulation = ControlVariate(
+        OptimizationProblem(design_space),
         disciplines,
-        "f",
-        design_space,
-        mdo_formulation,
-        uncertain_space,
-        "Mean",
-        settings_model=ControlVariate_Settings(
+        ControlVariate_Settings(
             doe_algo_settings=CustomDOE_Settings(samples=array([[0.0] * 3, [1.0] * 3])),
             regressor_settings=regressor_settings,
         ),
+        uncertain_space=uncertain_space,
     )
+    formulation.problem.objective = formulation.create_objective("f", "Mean")
     formulation.add_constraint("c", "Mean")
     formulation.add_observable("o", "Mean")
     return formulation
 
 
 @pytest.fixture(scope="module")
-def algo_data() -> dict[str, Any]:
-    """Input data for a DOE-based u-scenario."""
-    return {"algo_name": "CustomDOE", "samples": array([[0.0] * 3])}
+def algo_data() -> CustomDOE_Settings:
+    """The settings of the DOE algorithm."""
+    return CustomDOE_Settings(samples=array([[0.0] * 3]))
 
 
 @pytest.fixture
@@ -104,19 +100,17 @@ def scenario(disciplines, design_space, uncertain_space, algo_data) -> UDOEScena
     """A DOE-based u-scenario."""
     scn = UDOEScenario(
         disciplines,
-        "f",
         design_space,
         uncertain_space,
-        "Mean",
-        formulation_name="MDF",
         statistic_estimation_settings=ControlVariate_Settings(
             doe_algo_settings=CustomDOE_Settings(samples=array([[0.0] * 3, [1.0] * 3])),
         ),
+        formulation_settings=MDF_Settings(),
     )
+    scn.add_objective("f", "Mean")
     scn.add_constraint("c", "Margin", factor=3.0)
     scn.add_observable("o", "Variance")
-    # TODO(bump-gemseo): **kwargs may contain: algo_settings_model -> algorithm_settings  # noqa: E501
-    scn.execute(**algo_data)
+    scn.execute(algo_data)
     return scn
 
 
@@ -131,7 +125,7 @@ def test_scenario_serialization(scenario, tmp_path, algo_data):
     file_path = tmp_path / "scenario.h5"
     to_pickle(scenario, file_path)
     saved_scn = from_pickle(file_path)
-    saved_scn.execute(**algo_data)
+    saved_scn.execute(algo_data)
     assert_equal(scenario.optimization_result.x_opt, array([0.0] * 3))
     assert_allclose(scenario.optimization_result.f_opt, array([-12.0]), atol=1e-6)
     assert_equal(saved_scn.optimization_result.x_opt, array([0.0] * 3))
@@ -140,7 +134,7 @@ def test_scenario_serialization(scenario, tmp_path, algo_data):
 
 def test_mdo_formulation_objective(umdo_formulation, mdf_discipline):
     """Check that the MDO formulation can compute the objective correctly."""
-    objective = umdo_formulation.mdo_formulation.problem.objective
+    objective = umdo_formulation.mdo_formulation.problem.observables[0]
     input_data = {name: array([2.0]) for name in ["u", "u1", "u2"]}
     assert_equal(
         objective.evaluate(array([2.0] * 3)), mdf_discipline.execute(input_data)["f"]
@@ -149,7 +143,7 @@ def test_mdo_formulation_objective(umdo_formulation, mdf_discipline):
 
 def test_mdo_formulation_constraint(umdo_formulation, mdf_discipline):
     """Check that the MDO formulation can compute the constraints correctly."""
-    constraint = umdo_formulation.mdo_formulation.optimization_problem.observables[0]
+    constraint = umdo_formulation.mdo_formulation.problem.observables[1]
     input_data = {name: array([2.0]) for name in ["u", "u1", "u2"]}
     assert_equal(
         constraint.evaluate(array([2.0] * 3)), mdf_discipline.execute(input_data)["c"]
@@ -158,7 +152,7 @@ def test_mdo_formulation_constraint(umdo_formulation, mdf_discipline):
 
 def test_mdo_formulation_observable(umdo_formulation, mdf_discipline):
     """Check that the MDO formulation can compute the observables correctly."""
-    observable = umdo_formulation.mdo_formulation.optimization_problem.observables[1]
+    observable = umdo_formulation.mdo_formulation.problem.observables[2]
     input_data = {name: array([2.0]) for name in ["u", "u1", "u2"]}
     assert_equal(
         observable.evaluate(array([2.0] * 3)), mdf_discipline.execute(input_data)["o"]
@@ -167,14 +161,14 @@ def test_mdo_formulation_observable(umdo_formulation, mdf_discipline):
 
 def test_umdo_formulation_objective(umdo_formulation):
     """Check that the UMDO formulation can compute the objective correctly."""
-    objective = umdo_formulation.optimization_problem.objective
+    objective = umdo_formulation.problem.objective
     expected = -12.0 if umdo_formulation._settings.regressor_settings is None else -2.0
     assert_allclose(objective.evaluate(array([0.0] * 3)), array([expected]), atol=1e-6)
 
 
 def test_umdo_formulation_constraint(umdo_formulation):
     """Check that the UMDO formulation can compute the constraints correctly."""
-    constraint = umdo_formulation.optimization_problem.constraints[0]
+    constraint = umdo_formulation.problem.constraints[0]
     expected = -11.0 if umdo_formulation._settings.regressor_settings is None else -1.5
     assert_allclose(constraint.evaluate(array([0.0] * 3)), array([expected]), atol=1e-6)
 
@@ -298,21 +292,17 @@ def test_uncertain_input_data_non_normalization():
     )
     scenario = UDOEScenario(
         [discipline],
-        "f",
         design_space,
         uncertain_space,
-        "Mean",
         statistic_estimation_settings=ControlVariate_Settings(n_samples=2),
-        formulation_name="DisciplinaryOpt",
+        formulation_settings=DisciplinaryOpt_Settings(),
     )
+    scenario.add_objective("f", "Mean")
     scenario.execute(CustomDOE_Settings(samples=array([[1.0]])))
-    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data, get(name) or get_merged_data()  # noqa: E501
-    assert_almost_equal(discipline.io.data["x"], array([1.0]))
+    assert_almost_equal(discipline.io.get("x"), array([1.0]))
     # u = 1.125, f = 2.125 and dfdu = 1. before bug fix
-    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data, get(name) or get_merged_data()  # noqa: E501
-    assert_almost_equal(discipline.io.data["u"], array([0.75]))
-    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data, get(name) or get_merged_data()  # noqa: E501
-    assert_almost_equal(discipline.io.data["f"], array([1.75]))
+    assert_almost_equal(discipline.io.get("u"), array([0.75]))
+    assert_almost_equal(discipline.io.get("f"), array([1.75]))
 
 
 def test_seeds_validator():
