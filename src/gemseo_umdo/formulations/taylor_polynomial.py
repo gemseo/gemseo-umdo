@@ -125,7 +125,6 @@ class TaylorPolynomial(BaseUMDOFormulation):
         self.problem.differentiation_method = (
             self.problem.ApproximationMode.FINITE_DIFFERENCES
         )
-        self.problem.fd_step = 1e-6
 
     @property
     def hessian_fd_problem(self) -> OptimizationProblem | None:
