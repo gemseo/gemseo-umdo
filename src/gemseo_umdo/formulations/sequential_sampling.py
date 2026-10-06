@@ -64,9 +64,8 @@ class SequentialSampling(Sampling):
 
     !!! note "DOE algorithms"
         This formulation uses a DOE algorithm;
-        read the
-        [GEMSEO documentation](https://gemseo.readthedocs.io/en/stable/algorithms/doe_algos.html).
-        for more information about the available DOE algorithm names and options.
+        read the documentation of the [DOE algorithms][gemseo.doe]
+        for more information about the available DOE algorithms and their settings.
     """
 
     settings_class: ClassVar[type[SequentialSampling_Settings]] = (

@@ -42,7 +42,7 @@ to get a good space-filling design of experiments (DOE),
 with only 10 samples.
 
 !!! question "DOE algorithms"
-    Read the [GEMSEO documentation](https://gemseo.readthedocs.io/en/stable/doe.html#algorithms)
+    Read the documentation of the [DOE algorithms][gemseo.doe]
     for more information about the available DOE algorithms.
 
 This maximum number of samples can be changed with the parameter `n_samples`

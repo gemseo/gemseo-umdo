@@ -86,15 +86,14 @@ class Surrogate(BaseUMDOFormulation):
 
     !!! note "DOE algorithms"
         This formulation uses a DOE algorithm;
-        read the
-        [GEMSEO documentation](https://gemseo.readthedocs.io/en/stable/algorithms/doe_algos.html).
-        for more information about the available DOE algorithm names and options.
+        read the documentation of the [DOE algorithms][gemseo.doe]
+        for more information about the available DOE algorithms and their settings.
 
     !!! note "Regression algorithms"
         This formulation uses a regression algorithm;
-        read the
-        [GEMSEO documentation](https://gemseo.readthedocs.io/en/stable/algorithms/surrogate_algos.html).
-        for more information about the available regression algorithm names and options.
+        read the documentation of the
+        [regression models][gemseo.machine_learning.regression.model]
+        for more information about the available regression models and their settings.
     """
 
     settings_class: ClassVar[type[Surrogate_Settings]] = Surrogate_Settings

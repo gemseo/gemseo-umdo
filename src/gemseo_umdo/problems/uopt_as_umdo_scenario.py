@@ -18,7 +18,7 @@ GEMSEO proposes features
 to make a monodisciplinary optimization problem multidisciplinary.
 Here is an extension to MDO under uncertainty.
 Please read the
-[GEMSEO's documentation](https://gemseo.readthedocs.io/en/stable/modules/gemseo.problems.mdo.opt_as_mdo_scenario.html)
+[GEMSEO's documentation][gemseo.problem.mdo.opt_as_mdo_scenario]
 to get more information about the basics of this technique.
 
 !!! quote "References"

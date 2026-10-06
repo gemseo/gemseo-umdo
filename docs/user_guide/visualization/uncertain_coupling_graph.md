@@ -86,7 +86,7 @@ graph = UncertainCouplingGraph(disciplines, uncertain_space)
 
 Then,
 the disciplines are sampled
-using an [optimized Latin hypercube sampling technique](https://gemseo.readthedocs.io/en/stable/algorithms/doe_algos.html#ot-opt-lhs):
+using an [optimized Latin hypercube sampling technique][gemseo.doe.openturns.settings.ot_opt_lhs.OT_OPT_LHS_Settings]:
 
 ``` py
 graph.sample(OT_OPT_LHS_Settings(n_samples=100))

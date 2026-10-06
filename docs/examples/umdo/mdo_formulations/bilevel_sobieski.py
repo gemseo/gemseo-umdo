@@ -17,7 +17,7 @@ r"""BiLevel applied to the SSBJ problem.
 
 This example illustrates the use of the ``BiLevel`` formulation
 to solve the
-[Sobieski's SSBJ problem](https://gemseo.readthedocs.io/en/stable/problems/index.html#sobieski-s-ssbj-test-case)
+[Sobieski's SSBJ problem][gemseo.problem.mdo.sobieski]
 under uncertainty.
 
 The shared design variables are uncertain
