@@ -30,9 +30,55 @@ and this project adheres to
 
 ### Changed
 
+- GEMSEO-UMDO requires GEMSEO 7.
+- BREAKING CHANGE:
+  [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario],
+  [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario]
+  and [UOptAsUMDOScenario][gemseo_umdo.problems.uopt_as_umdo_scenario.UOptAsUMDOScenario]
+  follow the API of the GEMSEO 7 scenarios:
+    - they are instantiated from the disciplines (or the discipline),
+      the design space, the uncertain space and the statistic estimation settings,
+      e.g. `UMDOScenario(disciplines, design_space, uncertain_space, Sampling_Settings())`;
+    - the objective is set after instantiation with
+      [add_objective()][gemseo_umdo.scenarios.base_u_scenario.BaseUScenario.add_objective],
+      e.g. `scenario.add_objective("f", "Mean")`,
+      and maximized with `minimize=False`;
+      the arguments `objective_name`, `objective_statistic_name`,
+      `objective_statistic_parameters` and `maximize_objective` are removed;
+    - the MDO formulation is defined by the argument `formulation_settings`,
+      a Pydantic model of settings
+      (default: [MDF_Settings][gemseo.formulation.mdf_settings.MDF_Settings]);
+      the arguments `formulation_name`, `formulation_settings_model`
+      and `**formulation_settings` are removed.
+- BREAKING CHANGE: the U-MDO formulations follow the API of the GEMSEO 7 formulations:
+  they are instantiated from an optimization problem defined over the design space,
+  the disciplines, the settings,
+  the uncertain space and the settings of the MDO formulation,
+  and create the objective with
+  [create_objective()][gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation.create_objective].
+  Their MDO formulations evaluate the functions over the uncertain space
+  with an [EvaluationProblem][gemseo.core.problem.evaluation.EvaluationProblem]
+  whose observables include the output of the objective.
+  The settings of the U-MDO formulations derive from
+  [BaseFormulationSettings][gemseo.formulation.core.base_settings.BaseFormulationSettings].
+- BREAKING CHANGE:
+  [UncertainCouplingGraph.sample()][gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph.sample]
+  takes the settings of the DOE algorithm,
+  e.g. `OT_OPT_LHS_Settings(n_samples=100)`,
+  instead of `n_samples`, `algo_name` and `**algo_options`.
+- [PCE_Settings][gemseo_umdo.formulations.pce_settings.PCE_Settings]
+  raises a `ValueError` when `regressor_settings.learn_jacobian_data` is `True`
+  and `approximate_statistics_jacobians` is `False`;
+  this combination used to estimate the Jacobian of the statistics
+  from the derivatives with respect to the uncertain variables
+  instead of the design variables.
 - The `factor` parameter of the statistic ``"Margin"`` is replaced by its absolute value
   in the case of an objective to maximize or a positivity constraint.
   In the case of observables, this parameter is not modified.
+
+### Removed
+
+- Support for Python 3.10.
 
 ## Version 4.3.0 (October 2025)
 
