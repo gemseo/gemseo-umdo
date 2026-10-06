@@ -22,12 +22,13 @@ from typing import Any
 import pytest
 from gemseo import from_pickle
 from gemseo import to_pickle
-from gemseo.space import DesignSpace
-from gemseo.doe import CustomDOE_Settings
-from gemseo.space import RandomSpace
 from gemseo.dataset import IODataset
 from gemseo.discipline import AnalyticDiscipline
+from gemseo.doe import CustomDOE_Settings
 from gemseo.formulation.mdf import MDF
+from gemseo.space import DesignSpace
+from gemseo.space import RandomSpace
+from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 from gemseo.util.comparison import compare_dict_of_arrays
 from numpy import array
 from numpy.testing import assert_almost_equal
@@ -63,7 +64,6 @@ from gemseo_umdo.formulations.sampling import Sampling
 from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
 from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
-from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
@@ -344,8 +344,7 @@ def test_clear_inner_database(umdo_formulation):
         array([0.0] * 3)
     )
     assert (
-        umdo_formulation.problem.objective.evaluate(array([1.0, 0.0, 0.0]))
-        != obj_value
+        umdo_formulation.problem.objective.evaluate(array([1.0, 0.0, 0.0])) != obj_value
     )
 
 
@@ -367,8 +366,10 @@ def test_save_samples(disciplines, design_space, uncertain_space, tmp_wd):
     scenario.add_constraint("c", "Margin", factor=3.0)
     scenario.add_observable("o", "Variance")
     scenario.execute(
-        algorithm_settings=CustomDOE_Settings(samples=array([[0.0, 0.0, 0.0], [1.0, 1.0, 1.0]])
-    ))
+        algorithm_settings=CustomDOE_Settings(
+            samples=array([[0.0, 0.0, 0.0], [1.0, 1.0, 1.0]])
+        )
+    )
     assert set(Path("foo").iterdir()) == {Path("foo") / "1.pkl", Path("foo") / "2.pkl"}
 
     expected_dataset = IODataset()
@@ -427,7 +428,9 @@ def test_standard_deviation_derivative_if_zero(estimate_statistics_iteratively):
             estimate_statistics_iteratively=estimate_statistics_iteratively,
         ),
     )
-    scenario.execute(algorithm_settings=CustomDOE_Settings(samples=array([[1.0]]), eval_jac=True))
+    scenario.execute(
+        algorithm_settings=CustomDOE_Settings(samples=array([[1.0]]), eval_jac=True)
+    )
     get = scenario.formulation.problem.database.get_gradient_history
     # The output z does not depend on u.
     # So its variance is zero and so is its derivative.

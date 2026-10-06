@@ -39,21 +39,21 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from gemseo.space import DesignSpace
-from gemseo.space import RandomSpace
 from gemseo.dataset import Dataset
 from gemseo.discipline import AnalyticDiscipline
-from gemseo.post.dataset import Boxplot
 from gemseo.doe import OT_MONTE_CARLO_Settings
+from gemseo.optimization import NLOPT_SLSQP_Settings
+from gemseo.post.dataset import Boxplot
+from gemseo.post.dataset.boxplot_settings import Boxplot_Settings
+from gemseo.space import DesignSpace
+from gemseo.space import RandomSpace
+from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 from numpy import array
 from numpy.linalg import norm
 
 from gemseo_umdo.formulations.control_variate_settings import ControlVariate_Settings
 from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
-from gemseo.optimization import NLOPT_SLSQP_Settings
-from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
-from gemseo.post.dataset.boxplot_settings import Boxplot_Settings
 
 if TYPE_CHECKING:
     from gemseo.util.typing import RealArray
@@ -152,7 +152,9 @@ dataset_cv.name = "Control variate"
 # %%
 # Below are the boxplots
 # showing the estimation error in the Euclidean norm for the optimal design:
-boxplot = Boxplot(dataset_s, settings=Boxplot_Settings(variables=["x_opt"], datasets=(dataset_cv,)))
+boxplot = Boxplot(
+    dataset_s, settings=Boxplot_Settings(variables=["x_opt"], datasets=(dataset_cv,))
+)
 boxplot.execute(save=False, show=True)
 
 # %%

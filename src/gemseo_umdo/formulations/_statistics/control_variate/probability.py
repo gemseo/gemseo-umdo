@@ -27,6 +27,7 @@ from gemseo_umdo.formulations._statistics.control_variate.base_control_variate_e
 
 if TYPE_CHECKING:
     from collections.abc import Callable
+
     from gemseo.space import RandomSpace
     from gemseo.util.typing import RealArray
 

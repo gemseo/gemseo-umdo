@@ -35,9 +35,9 @@ from gemseo_umdo.formulations._functions.base_statistic_function import (
 if TYPE_CHECKING:
     from collections.abc import Callable
 
+    from gemseo.core.function.array_function import ArrayFunction
     from gemseo.doe import EvaluationProblem
     from gemseo.space import RandomSpace
-    from gemseo.core.function.array_function import ArrayFunction
     from gemseo.util.typing import RealArray
 
     from gemseo_umdo.formulations.taylor_polynomial import TaylorPolynomial

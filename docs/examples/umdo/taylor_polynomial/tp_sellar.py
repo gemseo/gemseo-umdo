@@ -45,17 +45,17 @@ where
 
 from __future__ import annotations
 
+from gemseo.discipline import AnalyticDiscipline
+from gemseo.optimization import NLOPT_COBYLA_Settings
+from gemseo.post import OptHistoryView_Settings
 from gemseo.space import DesignSpace
 from gemseo.space import RandomSpace
-from gemseo.discipline import AnalyticDiscipline
+from gemseo.uncertainty.distribution import OTTriangularDistribution_Settings
 
 from gemseo_umdo.formulations.taylor_polynomial_settings import (
     TaylorPolynomial_Settings,
 )
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
-from gemseo.optimization import NLOPT_COBYLA_Settings
-from gemseo.post import OptHistoryView_Settings
-from gemseo.uncertainty.distribution import OTTriangularDistribution_Settings
 
 # %%
 # Firstly,
@@ -83,8 +83,8 @@ uncertain_space = RandomSpace()
 # %%
 # with an uncertainty over the constant `"a"`:
 uncertain_space.add_variable(
-    "a", OTTriangularDistribution_Settings(minimum=0.1, maximum=0.3, mode=0.2
-))
+    "a", OTTriangularDistribution_Settings(minimum=0.1, maximum=0.3, mode=0.2)
+)
 
 # %%
 # Then,

@@ -64,13 +64,13 @@ from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
 if TYPE_CHECKING:
     from collections.abc import Sequence
 
-    from gemseo.space import DesignSpace
+    from gemseo.discipline import Discipline
     from gemseo.doe.core.base_doe_library import BaseDOELibrary
     from gemseo.doe.core.base_doe_library import CallbackType
-    from gemseo.optimization import OptimizationProblem
-    from gemseo.space import RandomSpace
-    from gemseo.discipline import Discipline
     from gemseo.formulation.core.base_mdo import BaseMDOFormulation
+    from gemseo.optimization import OptimizationProblem
+    from gemseo.space import DesignSpace
+    from gemseo.space import RandomSpace
     from gemseo.util.typing import RealArray
     from gemseo.util.typing import StrKeyMapping
 
@@ -111,7 +111,8 @@ class Sampling(BaseUMDOFormulation):
         settings: Sampling_Settings,
         minimize_objective: bool = True,
         objective_statistic_parameters: StrKeyMapping = read_only_empty_dict,
-        mdo_formulation_settings: StrKeyMapping = read_only_empty_dict) -> None:
+        mdo_formulation_settings: StrKeyMapping = read_only_empty_dict,
+    ) -> None:
         self.callbacks = []
         self.jacobian_callbacks = []
         self.input_data_to_output_samples = {}

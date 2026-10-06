@@ -18,14 +18,16 @@ import re
 from typing import TYPE_CHECKING
 
 import pytest
-from gemseo.space import DesignSpace
-from gemseo.doe import CustomDOE_Settings
-from gemseo.space import RandomSpace
-from gemseo.discipline import DisciplineChain
 from gemseo.discipline import AnalyticDiscipline
 from gemseo.discipline import AutoPyDiscipline
-from gemseo.formulation.mdf import MDF
+from gemseo.discipline import DisciplineChain
+from gemseo.doe import CustomDOE_Settings
 from gemseo.formulation import MDF_Settings
+from gemseo.formulation.mdf import MDF
+from gemseo.space import DesignSpace
+from gemseo.space import RandomSpace
+from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
+from gemseo.uncertainty.distribution import SPNormalDistribution_Settings
 from numpy import array
 from numpy import atleast_2d
 from numpy import vstack
@@ -39,8 +41,6 @@ from gemseo_umdo.formulations.sampling import Sampling
 from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
 from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
-from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
-from gemseo.uncertainty.distribution import SPNormalDistribution_Settings
 
 if TYPE_CHECKING:
     from gemseo.discipline import Discipline

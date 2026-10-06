@@ -19,11 +19,13 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 import pytest
-from gemseo.space import DesignSpace
-from gemseo.doe import OT_MONTE_CARLO_Settings
-from gemseo.space import RandomSpace
 from gemseo.discipline import Discipline
+from gemseo.doe import CustomDOE_Settings
+from gemseo.doe import OT_MONTE_CARLO_Settings
 from gemseo.machine_learning import PCERegressor_Settings
+from gemseo.space import DesignSpace
+from gemseo.space import RandomSpace
+from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 from numpy import diag
 from numpy import hstack
 from numpy import linspace
@@ -35,8 +37,6 @@ from numpy.testing import assert_allclose
 from gemseo_umdo.formulations.pce_settings import PCE_Settings
 from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
 from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
-from gemseo.doe import CustomDOE_Settings
-from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 
 if TYPE_CHECKING:
     from gemseo.util.typing import StrKeyMapping
@@ -118,8 +118,10 @@ def test_derivatives(statistic, symbol, n_x, n_u, settings):
         statistic_estimation_settings=settings,
     )
     scenario.execute(
-        algorithm_settings=CustomDOE_Settings(samples=linspace(1, n_x, n_x)[newaxis, :], eval_jac=True
-    ))
+        algorithm_settings=CustomDOE_Settings(
+            samples=linspace(1, n_x, n_x)[newaxis, :], eval_jac=True
+        )
+    )
     last_item = scenario.formulation.problem.database.last_item
 
     scenario = UDOEScenario(
@@ -133,8 +135,10 @@ def test_derivatives(statistic, symbol, n_x, n_u, settings):
     )
     scenario.set_differentiation_method("finite_differences")
     scenario.execute(
-        algorithm_settings=CustomDOE_Settings(samples=linspace(1, n_x, n_x)[newaxis, :], eval_jac=True
-    ))
+        algorithm_settings=CustomDOE_Settings(
+            samples=linspace(1, n_x, n_x)[newaxis, :], eval_jac=True
+        )
+    )
     new_last_item = scenario.formulation.problem.database.last_item
     name = "@Margin[y; 2.0]" if statistic == "Margin" else f"@{symbol}[y]"
     assert_allclose(

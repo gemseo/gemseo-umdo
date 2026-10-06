@@ -16,12 +16,12 @@ from __future__ import annotations
 
 import pytest
 from gemseo.space import RandomSpace
+from gemseo.uncertainty.distribution import OTUniformDistribution_Settings
 from numpy import pi
 
 from gemseo_umdo.use_cases.heat_equation.uncertain_space import (
     HeatEquationUncertainSpace,
 )
-from gemseo.uncertainty.distribution import OTUniformDistribution_Settings
 
 
 @pytest.mark.parametrize("nu_bounds", [None, (0.002, 0.004)])
@@ -30,30 +30,30 @@ def test_uncertain_space(nu_bounds):
     distribution_name = "OTUniformDistribution"
     uncertain_space = RandomSpace()
     uncertain_space.add_variable(
-        "X_1", OTUniformDistribution_Settings(minimum=-pi, maximum=pi
-    ))
+        "X_1", OTUniformDistribution_Settings(minimum=-pi, maximum=pi)
+    )
     uncertain_space.add_variable(
-        "X_2", OTUniformDistribution_Settings(minimum=-pi, maximum=pi
-    ))
+        "X_2", OTUniformDistribution_Settings(minimum=-pi, maximum=pi)
+    )
     uncertain_space.add_variable(
-        "X_3", OTUniformDistribution_Settings(minimum=-pi, maximum=pi
-    ))
+        "X_3", OTUniformDistribution_Settings(minimum=-pi, maximum=pi)
+    )
     if nu_bounds:
         minimum, maximum = nu_bounds
     else:
         minimum, maximum = 0.001, 0.009
     uncertain_space.add_variable(
-        "X_4", OTUniformDistribution_Settings(minimum=minimum, maximum=maximum
-    ))
+        "X_4", OTUniformDistribution_Settings(minimum=minimum, maximum=maximum)
+    )
     uncertain_space.add_variable(
-        "X_5", OTUniformDistribution_Settings(minimum=-1.0, maximum=1.0
-    ))
+        "X_5", OTUniformDistribution_Settings(minimum=-1.0, maximum=1.0)
+    )
     uncertain_space.add_variable(
-        "X_6", OTUniformDistribution_Settings(minimum=-1.0, maximum=1.0
-    ))
+        "X_6", OTUniformDistribution_Settings(minimum=-1.0, maximum=1.0)
+    )
     uncertain_space.add_variable(
-        "X_7", OTUniformDistribution_Settings(minimum=-1.0, maximum=1.0
-    ))
+        "X_7", OTUniformDistribution_Settings(minimum=-1.0, maximum=1.0)
+    )
 
     if nu_bounds:
         he_uncertain_space = HeatEquationUncertainSpace(nu_bounds)

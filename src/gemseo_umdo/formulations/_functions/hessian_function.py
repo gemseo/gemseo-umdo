@@ -18,8 +18,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from gemseo.core.problem.database import Database
 from gemseo.core.function.array_function import ArrayFunction
+from gemseo.core.problem.database import Database
 from gemseo.util.derivative.approximator.forward_differences import ForwardDifferences
 
 if TYPE_CHECKING:
@@ -44,7 +44,9 @@ class HessianFunction(ArrayFunction):
         Args:
             func: The original function.
         """  # noqa: D205 D212 D415
-        self.__jac = func.jac if func.has_jac else ForwardDifferences(func.func).f_gradient
+        self.__jac = (
+            func.jac if func.has_jac else ForwardDifferences(func.func).f_gradient
+        )
         grad_tag = Database.grad_tag
         super().__init__(
             ForwardDifferences(self._compute_jac).f_gradient,

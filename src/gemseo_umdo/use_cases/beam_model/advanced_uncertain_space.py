@@ -20,6 +20,8 @@ from typing import TYPE_CHECKING
 from typing import ClassVar
 
 from gemseo.space import RandomSpace
+from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
+from gemseo.uncertainty.distribution import OTUniformDistribution_Settings
 
 from gemseo_umdo.use_cases.beam_model.core.variables import E
 from gemseo_umdo.use_cases.beam_model.core.variables import L
@@ -31,8 +33,6 @@ from gemseo_umdo.use_cases.beam_model.core.variables import dy
 from gemseo_umdo.use_cases.beam_model.core.variables import dz
 from gemseo_umdo.use_cases.beam_model.core.variables import h
 from gemseo_umdo.use_cases.beam_model.core.variables import t
-from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
-from gemseo.uncertainty.distribution import OTUniformDistribution_Settings
 
 if TYPE_CHECKING:
     from collections.abc import Mapping
@@ -80,7 +80,10 @@ class AdvancedBeamUncertainSpace(RandomSpace):
             delta = dispersions.get(name, self.__DEFAULT_DISPERSION)
             self.add_variable(
                 name,
-                OTUniformDistribution_Settings(minimum=nominal_value - delta, maximum=nominal_value + delta))
+                OTUniformDistribution_Settings(
+                    minimum=nominal_value - delta, maximum=nominal_value + delta
+                ),
+            )
 
         for variable in variables[4:]:
             self.__add_truncated_normal(variable.name, **dispersions)
@@ -102,4 +105,10 @@ class AdvancedBeamUncertainSpace(RandomSpace):
         sigma = dispersions.get(name, self.__DEFAULT_DISPERSION / 3.0)
         self.add_variable(
             name,
-            OTNormalDistribution_Settings(mu=nominal_value, sigma=sigma, lower_bound=nominal_value - 3 * sigma, upper_bound=nominal_value + 3 * sigma))
+            OTNormalDistribution_Settings(
+                mu=nominal_value,
+                sigma=sigma,
+                lower_bound=nominal_value - 3 * sigma,
+                upper_bound=nominal_value + 3 * sigma,
+            ),
+        )

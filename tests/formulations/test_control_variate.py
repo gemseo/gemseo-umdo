@@ -23,14 +23,15 @@ from typing import Any
 import pytest
 from gemseo import from_pickle
 from gemseo import to_pickle
-from gemseo.space import DesignSpace
-from gemseo.doe import CustomDOE_Settings
-from gemseo.doe import OT_OPT_LHS_Settings
-from gemseo.doe import MC_Settings
-from gemseo.space import RandomSpace
 from gemseo.discipline import AnalyticDiscipline
+from gemseo.doe import CustomDOE_Settings
+from gemseo.doe import MC_Settings
+from gemseo.doe import OT_OPT_LHS_Settings
 from gemseo.formulation.mdf import MDF
 from gemseo.machine_learning import RBFRegressor_Settings
+from gemseo.space import DesignSpace
+from gemseo.space import RandomSpace
+from gemseo.uncertainty.distribution import OTUniformDistribution_Settings
 from numpy import array
 from numpy import diag
 from numpy import diagonal
@@ -48,7 +49,6 @@ from gemseo_umdo.formulations._statistics.control_variate.variance import Varian
 from gemseo_umdo.formulations.control_variate import ControlVariate
 from gemseo_umdo.formulations.control_variate_settings import ControlVariate_Settings
 from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
-from gemseo.uncertainty.distribution import OTUniformDistribution_Settings
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
@@ -188,16 +188,13 @@ def test_umdo_formulation_observable(umdo_formulation):
 
 def test_clear_inner_database(umdo_formulation):
     """Check that the inner database is cleared before sampling."""
-    obj_value = umdo_formulation.problem.objective.evaluate(
-        array([0.0] * 3)
-    )
+    obj_value = umdo_formulation.problem.objective.evaluate(array([0.0] * 3))
     # The inner problem depending on the uncertain variables is reset
     # when the outer problem changes the values of the design variables
     # to avoid recovering the data stored in the inner database
     # and force new evaluations of the functions attached to the inner problem.
     assert (
-        umdo_formulation.problem.objective.evaluate(array([1.0, 0.0, 0.0]))
-        != obj_value
+        umdo_formulation.problem.objective.evaluate(array([1.0, 0.0, 0.0])) != obj_value
     )
 
 
@@ -297,8 +294,8 @@ def test_uncertain_input_data_non_normalization():
     design_space.add_variable("x")
     uncertain_space = RandomSpace()
     uncertain_space.add_variable(
-        "u", OTUniformDistribution_Settings(minimum=0.0, maximum=1.5
-    ))
+        "u", OTUniformDistribution_Settings(minimum=0.0, maximum=1.5)
+    )
     scenario = UDOEScenario(
         [discipline],
         "f",

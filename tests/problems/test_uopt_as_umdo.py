@@ -17,15 +17,15 @@ from __future__ import annotations
 
 from gemseo import create_design_space
 from gemseo import create_discipline
+from gemseo.optimization import NLOPT_SLSQP_Settings
 from gemseo.space import RandomSpace
+from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 from numpy import array
 from pandas._testing import assert_frame_equal
 
 from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
 from gemseo_umdo.problems.uopt_as_umdo_scenario import UOptAsUMDOScenario
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
-from gemseo.optimization import NLOPT_SLSQP_Settings
-from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 
 
 def test_u_opt_as_umdo_scenario():

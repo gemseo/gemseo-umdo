@@ -19,12 +19,12 @@ from __future__ import annotations
 from typing import Final
 
 from gemseo.space import RandomSpace
+from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
+from gemseo.uncertainty.distribution import OTUniformDistribution_Settings
 
 from gemseo_umdo.use_cases.beam_model.core.variables import E
 from gemseo_umdo.use_cases.beam_model.core.variables import F
 from gemseo_umdo.use_cases.beam_model.core.variables import sigma_all
-from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
-from gemseo.uncertainty.distribution import OTUniformDistribution_Settings
 
 
 class BeamUncertainSpace(RandomSpace):
@@ -71,8 +71,12 @@ class BeamUncertainSpace(RandomSpace):
                 ])
                 self.add_variable(
                     name,
-                    OTUniformDistribution_Settings(minimum=minimum, maximum=maximum))
+                    OTUniformDistribution_Settings(minimum=minimum, maximum=maximum),
+                )
             else:
                 self.add_variable(
                     name,
-                    OTNormalDistribution_Settings(mu=nominal, sigma=abs(nominal) * delta / 3))
+                    OTNormalDistribution_Settings(
+                        mu=nominal, sigma=abs(nominal) * delta / 3
+                    ),
+                )

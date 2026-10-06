@@ -41,16 +41,14 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from gemseo.doe import MC_Settings
-from gemseo.space import RandomSpace
 from gemseo.formulation import MDF_Settings
 from gemseo.mda import MDAGaussSeidel_Settings
 from gemseo.problem.mdo.sellar import Sellar1
 from gemseo.problem.mdo.sellar import Sellar2
 from gemseo.problem.mdo.sellar import SellarDesignSpace
 from gemseo.problem.mdo.sellar import SellarSystem
-from gemseo.uncertainty.distribution import (
-    OTTriangularDistribution_Settings,
-)
+from gemseo.space import RandomSpace
+from gemseo.uncertainty.distribution import OTTriangularDistribution_Settings
 from gemseo.util.timer import Timer
 
 from gemseo_umdo.formulations.sampling_settings import Sampling_Settings

@@ -19,11 +19,12 @@ from typing import TYPE_CHECKING
 import pytest
 from gemseo import from_pickle
 from gemseo import to_pickle
-from gemseo.space import DesignSpace
-from gemseo.doe import CustomDOE_Settings
-from gemseo.space import RandomSpace
 from gemseo.discipline import AnalyticDiscipline
+from gemseo.doe import CustomDOE_Settings
 from gemseo.formulation.mdf import MDF
+from gemseo.space import DesignSpace
+from gemseo.space import RandomSpace
+from gemseo.uncertainty.distribution import OTUniformDistribution_Settings
 from numpy import array
 from numpy.testing import assert_almost_equal
 from numpy.testing import assert_equal
@@ -39,7 +40,6 @@ from gemseo_umdo.formulations.taylor_polynomial_settings import (
     TaylorPolynomial_Settings,
 )
 from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
-from gemseo.uncertainty.distribution import OTUniformDistribution_Settings
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
@@ -275,8 +275,8 @@ def test_uncertain_input_data_non_normalization():
     design_space.add_variable("x")
     uncertain_space = RandomSpace()
     uncertain_space.add_variable(
-        "u", OTUniformDistribution_Settings(minimum=0.0, maximum=1.5
-    ))
+        "u", OTUniformDistribution_Settings(minimum=0.0, maximum=1.5)
+    )
     scenario = UDOEScenario(
         [discipline],
         "f",

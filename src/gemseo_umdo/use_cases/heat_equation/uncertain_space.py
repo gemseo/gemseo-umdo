@@ -17,8 +17,8 @@
 from __future__ import annotations
 
 from gemseo.space import RandomSpace
-from numpy import pi
 from gemseo.uncertainty.distribution import OTUniformDistribution_Settings
+from numpy import pi
 
 
 class HeatEquationUncertainSpace(RandomSpace):
@@ -32,12 +32,25 @@ class HeatEquationUncertainSpace(RandomSpace):
         """  # noqa: D205 D212 D415
         distribution_name = "OTUniformDistribution"
         super().__init__()
-        self.add_variable("X_1", OTUniformDistribution_Settings(minimum=-pi, maximum=pi))
-        self.add_variable("X_2", OTUniformDistribution_Settings(minimum=-pi, maximum=pi))
-        self.add_variable("X_3", OTUniformDistribution_Settings(minimum=-pi, maximum=pi))
         self.add_variable(
-            "X_4", OTUniformDistribution_Settings(minimum=nu_bounds[0], maximum=nu_bounds[1]
-        ))
-        self.add_variable("X_5", OTUniformDistribution_Settings(minimum=-1.0, maximum=1.0))
-        self.add_variable("X_6", OTUniformDistribution_Settings(minimum=-1.0, maximum=1.0))
-        self.add_variable("X_7", OTUniformDistribution_Settings(minimum=-1.0, maximum=1.0))
+            "X_1", OTUniformDistribution_Settings(minimum=-pi, maximum=pi)
+        )
+        self.add_variable(
+            "X_2", OTUniformDistribution_Settings(minimum=-pi, maximum=pi)
+        )
+        self.add_variable(
+            "X_3", OTUniformDistribution_Settings(minimum=-pi, maximum=pi)
+        )
+        self.add_variable(
+            "X_4",
+            OTUniformDistribution_Settings(minimum=nu_bounds[0], maximum=nu_bounds[1]),
+        )
+        self.add_variable(
+            "X_5", OTUniformDistribution_Settings(minimum=-1.0, maximum=1.0)
+        )
+        self.add_variable(
+            "X_6", OTUniformDistribution_Settings(minimum=-1.0, maximum=1.0)
+        )
+        self.add_variable(
+            "X_7", OTUniformDistribution_Settings(minimum=-1.0, maximum=1.0)
+        )

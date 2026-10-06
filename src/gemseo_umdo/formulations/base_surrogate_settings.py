@@ -19,10 +19,10 @@ from __future__ import annotations
 from collections.abc import Mapping  # noqa: TC003
 from collections.abc import Sequence  # noqa: TC003
 
+from gemseo.machine_learning import RBFRegressor_Settings
 from gemseo.machine_learning.regression.core.base_regressor_settings import (
     BaseRegressorSettings,  # noqa: TC002
 )
-from gemseo.machine_learning import RBFRegressor_Settings
 from gemseo.util.seeder import seed
 from pydantic import Field
 from pydantic import NonNegativeInt  # noqa: TC002

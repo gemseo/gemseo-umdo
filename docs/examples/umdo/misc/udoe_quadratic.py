@@ -17,15 +17,15 @@
 
 from __future__ import annotations
 
+from gemseo.discipline import AnalyticDiscipline
+from gemseo.doe import PYDOE_FULLFACT_Settings
+from gemseo.post import OptHistoryView_Settings
 from gemseo.space import DesignSpace
 from gemseo.space import RandomSpace
-from gemseo.discipline import AnalyticDiscipline
+from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 
 from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
 from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
-from gemseo.doe import PYDOE_FULLFACT_Settings
-from gemseo.post import OptHistoryView_Settings
-from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 
 # %%
 # Firstly,

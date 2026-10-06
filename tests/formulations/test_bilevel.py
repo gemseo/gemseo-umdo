@@ -17,26 +17,27 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 import pytest
-from gemseo import create_random_space, create_design_space
+from gemseo import create_design_space
 from gemseo import create_discipline
+from gemseo import create_random_space
+from gemseo.doe import CustomDOE_Settings
+from gemseo.formulation import BiLevel_Settings
+from gemseo.formulation import DisciplinaryOpt_Settings
+from gemseo.optimization import SLSQP_Settings
 from gemseo.problem.mdo.opt_as_mdo_scenario import LinearLinkDiscipline
 from gemseo.problem.mdo.opt_as_mdo_scenario import create_disciplines
 from gemseo.scenario import MDOScenario
+from gemseo.uncertainty.distribution import OTDiracDistribution_Settings
 from numpy import array
 from openturns.testing import assert_almost_equal
 
 from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
-from gemseo.doe import CustomDOE_Settings
-from gemseo.optimization import SLSQP_Settings
-from gemseo.formulation import BiLevel_Settings
-from gemseo.formulation import DisciplinaryOpt_Settings
-from gemseo.uncertainty.distribution import OTDiracDistribution_Settings
 
 if TYPE_CHECKING:
-    from gemseo.space import DesignSpace
-    from gemseo.discipline import Discipline
     from gemseo.discipline import AnalyticDiscipline
+    from gemseo.discipline import Discipline
+    from gemseo.space import DesignSpace
     from gemseo.util.typing import RealArray
 
 
@@ -77,13 +78,17 @@ def sub_scenarios(design_space, disciplines):
     """The sub-scenarios used by the BiLevel formulation."""
     scenario_1 = MDOScenario(
         [disciplines[2], disciplines[1], disciplines[0]],
-        design_space=design_space.filter("x_1", copy=True), formulation_settings=DisciplinaryOpt_Settings())
+        design_space=design_space.filter("x_1", copy=True),
+        formulation_settings=DisciplinaryOpt_Settings(),
+    )
     scenario_1.add_objective("f", minimize=True)
     scenario_1.set_algorithm(algorithm_settings=SLSQP_Settings(max_iter=10))
 
     scenario_2 = MDOScenario(
         [disciplines[3], disciplines[1], disciplines[0]],
-        design_space=design_space.filter("x_2", copy=True), formulation_settings=DisciplinaryOpt_Settings())
+        design_space=design_space.filter("x_2", copy=True),
+        formulation_settings=DisciplinaryOpt_Settings(),
+    )
     scenario_2.add_objective("f", minimize=True)
     scenario_2.set_algorithm(algorithm_settings=SLSQP_Settings(max_iter=10))
 
@@ -97,9 +102,13 @@ def reference_database(
     """The reference database obtained using a BiLevel-based MDOScenario."""
     bilevel_scenario = MDOScenario(
         [*sub_scenarios, rosenbrock],
-        design_space=design_space.filter("x_0", copy=True), formulation_settings=BiLevel_Settings())
+        design_space=design_space.filter("x_0", copy=True),
+        formulation_settings=BiLevel_Settings(),
+    )
     bilevel_scenario.add_objective("f", minimize=True)
-    bilevel_scenario.execute(algorithm_settings=CustomDOE_Settings(samples=array([[1.0]])))
+    bilevel_scenario.execute(
+        algorithm_settings=CustomDOE_Settings(samples=array([[1.0]]))
+    )
     database = bilevel_scenario.formulation.problem.database
     return database.get_function_history("f", with_x_vect=True)
 
@@ -119,7 +128,9 @@ def test_u_bilevel(design_space, rosenbrock, sub_scenarios, reference_database):
         Sampling_Settings(n_samples=3, estimate_statistics_iteratively=False),
         formulation_name="BiLevel",
     )
-    u_bilevel_scenario.execute(algorithm_settings=CustomDOE_Settings(samples=array([[1.0]])))
+    u_bilevel_scenario.execute(
+        algorithm_settings=CustomDOE_Settings(samples=array([[1.0]]))
+    )
 
     database = u_bilevel_scenario.formulation.problem.database
     f_history, x_0_history = database.get_function_history("E[f]", with_x_vect=True)

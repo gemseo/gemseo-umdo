@@ -16,12 +16,12 @@
 
 from __future__ import annotations
 
+# TODO(bump-gemseo): strenum.StrEnum: enum.StrEnum gives auto() the lower-cased member name (MC = auto() was "MC", is now "mc"), so write MC = "MC" to keep the values, or keep strenum as a dependency of your own  # noqa: E501
+from enum import StrEnum
 from typing import TYPE_CHECKING
 
 from gemseo.util.seeder import seed
 from numpy import array
-# TODO(bump-gemseo): strenum.StrEnum: enum.StrEnum gives auto() the lower-cased member name (MC = auto() was "MC", is now "mc"), so write MC = "MC" to keep the values, or keep strenum as a dependency of your own  # noqa: E501
-from enum import StrEnum
 
 from gemseo_umdo.statistics.multilevel.mlmc.mlmc import MLMC
 from gemseo_umdo.statistics.multilevel.mlmc_mlcv.pilots.factory import (
@@ -30,8 +30,9 @@ from gemseo_umdo.statistics.multilevel.mlmc_mlcv.pilots.factory import (
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
-    from gemseo.space import RandomSpace
+
     from gemseo.core.function.array_function import ArrayFunction
+    from gemseo.space import RandomSpace
 
     from gemseo_umdo.statistics.multilevel.mlmc_mlcv.level import Level
 

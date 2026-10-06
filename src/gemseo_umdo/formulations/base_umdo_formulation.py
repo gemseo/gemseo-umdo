@@ -33,13 +33,13 @@ if TYPE_CHECKING:
     from collections.abc import Iterable
     from collections.abc import Sequence
 
-    from gemseo.space import DesignSpace
-    from gemseo.util.hashable_ndarray import HashableNdarray
-    from gemseo.space import RandomSpace
     from gemseo.core.base_factory import BaseFactory
     from gemseo.discipline import Discipline
     from gemseo.formulation.core.base_mdo import BaseMDOFormulation
     from gemseo.scenario import EvaluationScenario
+    from gemseo.space import DesignSpace
+    from gemseo.space import RandomSpace
+    from gemseo.util.hashable_ndarray import HashableNdarray
     from gemseo.util.typing import RealArray
     from gemseo.util.typing import StrKeyMapping
 
@@ -146,7 +146,8 @@ class BaseUMDOFormulation(BaseFormulation):
         settings: BaseUMDOFormulationSettings,
         minimize_objective: bool = True,
         objective_statistic_parameters: StrKeyMapping = read_only_empty_dict,
-        mdo_formulation_settings: StrKeyMapping = read_only_empty_dict) -> None:
+        mdo_formulation_settings: StrKeyMapping = read_only_empty_dict,
+    ) -> None:
         """
         Args:
             mdo_formulation: The MDO formulation
@@ -194,7 +195,8 @@ class BaseUMDOFormulation(BaseFormulation):
             new_objective_name,
             design_space,
             minimize_objective=minimize_objective,
-            settings=settings)
+            settings=settings,
+        )
         self.name = f"{self.__class__.__name__}[{mdo_formulation.__class__.__name__}]"
 
         objective = self._statistic_function_class(

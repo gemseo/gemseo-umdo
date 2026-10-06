@@ -40,7 +40,9 @@ class BaseTaylorPolynomialEstimator(BaseStatisticEstimator):
             uncertain_space: The uncertain variables
                 with their probability distributions.
         """  # noqa: D205 D212 D415
-        self._standard_deviations = uncertain_space.variables.distribution.standard_deviation
+        self._standard_deviations = (
+            uncertain_space.variables.distribution.standard_deviation
+        )
 
     @abstractmethod
     def estimate_statistic(

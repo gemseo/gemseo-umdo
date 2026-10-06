@@ -47,11 +47,11 @@ if TYPE_CHECKING:
     from collections.abc import Iterable
     from collections.abc import Mapping
 
-    from gemseo.space import DesignSpace
-    from gemseo.space import RandomSpace
     from gemseo.discipline import Discipline
     from gemseo.formulation.core.base_settings import BaseFormulationSettings
     from gemseo.problem.mdo.opt_as_mdo_scenario import BaseLinkDiscipline
+    from gemseo.space import DesignSpace
+    from gemseo.space import RandomSpace
     from gemseo.util.typing import RealArray
     from gemseo.util.typing import StrKeyMapping
 

@@ -34,12 +34,12 @@ if TYPE_CHECKING:
     from collections.abc import Mapping
     from collections.abc import Sequence
 
+    from gemseo.discipline import Discipline
+    from gemseo.formulation.core.base_mdo import BaseMDOFormulation
+    from gemseo.formulation.core.base_settings import BaseFormulationSettings
+    from gemseo.scenario import EvaluationScenario
     from gemseo.space import DesignSpace
     from gemseo.space import RandomSpace
-    from gemseo.discipline import Discipline
-    from gemseo.formulation.core.base_settings import BaseFormulationSettings
-    from gemseo.formulation.core.base_mdo import BaseMDOFormulation
-    from gemseo.scenario import EvaluationScenario
     from gemseo.util.typing import StrKeyMapping
 
     from gemseo_umdo.formulations.base_umdo_formulation import BaseUMDOFormulation
@@ -151,8 +151,8 @@ class BaseUScenario:
         # whose functions are evaluable over the uncertain space
         # and differentiable with respect to the design variables.
         formulation_settings_model_copy = formulation_settings_model.copy()
-        formulation_settings_model_copy.differentiated_input_names_substitute = (
-            list(mdo_formulation_design_space.variables)
+        formulation_settings_model_copy.differentiated_input_names_substitute = list(
+            mdo_formulation_design_space.variables
         )
         mdo_formulation = mdo_formulation_class(
             disciplines,

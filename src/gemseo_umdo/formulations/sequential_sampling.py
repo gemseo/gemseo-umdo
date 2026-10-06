@@ -51,11 +51,11 @@ from gemseo_umdo.formulations.sequential_sampling_settings import (
 if TYPE_CHECKING:
     from collections.abc import Sequence
 
-    from gemseo.space import DesignSpace
-    from gemseo.optimization import OptimizationProblem
-    from gemseo.space import RandomSpace
     from gemseo.discipline import Discipline
     from gemseo.formulation.core.base_mdo import BaseMDOFormulation
+    from gemseo.optimization import OptimizationProblem
+    from gemseo.space import DesignSpace
+    from gemseo.space import RandomSpace
     from gemseo.util.typing import RealArray
     from gemseo.util.typing import StrKeyMapping
 
@@ -70,7 +70,9 @@ class SequentialSampling(Sampling):
         for more information about the available DOE algorithm names and options.
     """
 
-    settings_class: ClassVar[type[SequentialSampling_Settings]] = SequentialSampling_Settings
+    settings_class: ClassVar[type[SequentialSampling_Settings]] = (
+        SequentialSampling_Settings
+    )
 
     __final_n_samples: int
     """The maximum number of samples when evaluating the U-MDO formulation."""
@@ -87,7 +89,8 @@ class SequentialSampling(Sampling):
         settings: SequentialSampling_Settings,
         minimize_objective: bool = True,
         objective_statistic_parameters: StrKeyMapping = read_only_empty_dict,
-        mdo_formulation_settings: StrKeyMapping = read_only_empty_dict) -> None:
+        mdo_formulation_settings: StrKeyMapping = read_only_empty_dict,
+    ) -> None:
         self.__final_n_samples = settings.doe_algo_settings.n_samples
         settings.doe_algo_settings.n_samples = settings.initial_n_samples
         # TODO(bump-gemseo): pass the problem first, e.g. OptimizationProblem(design_space), then set its objective; the loose settings go into settings=<Formulation>_Settings(...)  # noqa: E501

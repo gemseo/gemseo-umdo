@@ -40,8 +40,8 @@ from typing import TYPE_CHECKING
 from typing import Any
 from typing import ClassVar
 
-from gemseo.optimization import OptimizationProblem
 from gemseo.core.function.array_function import ArrayFunction
+from gemseo.optimization import OptimizationProblem
 from gemseo.util.constant import read_only_empty_dict
 
 from gemseo_umdo.formulations._functions.hessian_function import HessianFunction
@@ -59,17 +59,19 @@ from gemseo_umdo.formulations.taylor_polynomial_settings import (
 if TYPE_CHECKING:
     from collections.abc import Sequence
 
-    from gemseo.space import DesignSpace
-    from gemseo.space import RandomSpace
     from gemseo.discipline import Discipline
     from gemseo.formulation.core.base_mdo import BaseMDOFormulation
+    from gemseo.space import DesignSpace
+    from gemseo.space import RandomSpace
     from gemseo.util.typing import StrKeyMapping
 
 
 class TaylorPolynomial(BaseUMDOFormulation):
     """U-MDO formulation based on Taylor polynomials."""
 
-    settings_class: ClassVar[type[TaylorPolynomial_Settings]] = TaylorPolynomial_Settings
+    settings_class: ClassVar[type[TaylorPolynomial_Settings]] = (
+        TaylorPolynomial_Settings
+    )
 
     _USE_AUXILIARY_MDO_FORMULATION: ClassVar[bool] = True
 
@@ -96,7 +98,8 @@ class TaylorPolynomial(BaseUMDOFormulation):
         settings: TaylorPolynomial_Settings,
         minimize_objective: bool = True,
         objective_statistic_parameters: StrKeyMapping = read_only_empty_dict,
-        mdo_formulation_settings: StrKeyMapping = read_only_empty_dict) -> None:
+        mdo_formulation_settings: StrKeyMapping = read_only_empty_dict,
+    ) -> None:
         # TODO(bump-gemseo): pass the problem first, e.g. OptimizationProblem(design_space), then set its objective; the loose settings go into settings=<Formulation>_Settings(...)  # noqa: E501
         super().__init__(
             disciplines,

@@ -38,9 +38,9 @@ from gemseo_umdo.formulations._functions.base_statistic_function import (
 )
 
 if TYPE_CHECKING:
+    from gemseo.core.function.array_function import ArrayFunction
     from gemseo.optimization import OptimizationProblem
     from gemseo.space import RandomSpace
-    from gemseo.core.function.array_function import ArrayFunction
     from gemseo.util.typing import RealArray
 
     from gemseo_umdo.formulations.control_variate import ControlVariate

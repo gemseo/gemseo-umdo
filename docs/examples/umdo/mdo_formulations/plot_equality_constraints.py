@@ -33,20 +33,20 @@ under the equality constraints $\mathbb{E}[h(x,y)]=r^2$ and $\mathbb{V}[h(x,y)]=
 
 from __future__ import annotations
 
+from gemseo.discipline import AnalyticDiscipline
+from gemseo.doe import OT_FULLFACT_Settings
+from gemseo.formulation import DisciplinaryOpt_Settings
+from gemseo.optimization import SLSQP_Settings
+from gemseo.scenario import MDOScenario
 from gemseo.space import DesignSpace
 from gemseo.space import RandomSpace
-from gemseo.discipline import AnalyticDiscipline
-from gemseo.scenario import MDOScenario
+from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 from matplotlib import pyplot as plt
 from matplotlib.pyplot import colormaps
 from numpy import array
 
 from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
-from gemseo.doe import OT_FULLFACT_Settings
-from gemseo.optimization import SLSQP_Settings
-from gemseo.formulation import DisciplinaryOpt_Settings
-from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 
 # %%
 # ## Discipline and design space
@@ -77,7 +77,9 @@ initial_design = array([1.75, 1.75])
 # we sample the objective function over a regular grid:
 scenario = MDOScenario(
     [discipline],
-    design_space=design_space, formulation_settings=DisciplinaryOpt_Settings())
+    design_space=design_space,
+    formulation_settings=DisciplinaryOpt_Settings(),
+)
 scenario.add_objective("f", minimize=True)
 scenario.execute(algorithm_settings=OT_FULLFACT_Settings(n_samples=20 * 20))
 # %%
@@ -92,7 +94,9 @@ samples = scenario.to_dataset()
 radius = 0.25
 scenario = MDOScenario(
     [discipline],
-    design_space=design_space, formulation_settings=DisciplinaryOpt_Settings())
+    design_space=design_space,
+    formulation_settings=DisciplinaryOpt_Settings(),
+)
 scenario.add_objective("f", minimize=True)
 scenario.add_constraint("h", value=radius**2)
 # %%

@@ -29,8 +29,8 @@ if TYPE_CHECKING:
     from pathlib import Path
 
     from gemseo.machine_learning.regression.model import PCERegressor
-    from gemseo.util.typing import RealArray
     from gemseo.uncertainty.sensitivity import SobolAnalysis
+    from gemseo.util.typing import RealArray
 
 
 class SobolGraph(GraphView):

@@ -18,18 +18,18 @@ from typing import TYPE_CHECKING
 
 import pytest
 from gemseo import execute_algo
-from gemseo.space import DesignSpace
 from gemseo.doe import CustomDOE_Settings
+from gemseo.doe import OT_HALTON_Settings
 from gemseo.doe.factory import DOELibraryFactory
 from gemseo.doe.openturns.openturns import OpenTURNS
-from gemseo.doe import OT_HALTON_Settings
+from gemseo.enum import UniformDistribution
 from gemseo.formulation.disciplinary_opt import DisciplinaryOpt
 from gemseo.machine_learning import LinearRegressor_Settings
-from gemseo.machine_learning.regression.model import RBFRegressor
 from gemseo.machine_learning import RBFRegressor_Settings
+from gemseo.machine_learning.regression.model import RBFRegressor
 from gemseo.problem.uncertainty.ishigami import IshigamiDiscipline
 from gemseo.problem.uncertainty.ishigami import IshigamiProblem
-from gemseo.enum import UniformDistribution
+from gemseo.space import DesignSpace
 from gemseo.util.seeder import seed
 from numpy import array
 from numpy.testing import assert_almost_equal
@@ -40,8 +40,8 @@ from gemseo_umdo.formulations.surrogate_settings import Surrogate_Settings
 from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
 
 if TYPE_CHECKING:
-    from gemseo.doe.core.base_doe_settings import BaseDOESettings
     from gemseo.core.function.collection.observables import Observables
+    from gemseo.doe.core.base_doe_settings import BaseDOESettings
     from gemseo.util.typing import RealArray
 
 
@@ -53,7 +53,11 @@ def ishigami_problem() -> IshigamiProblem:
 @pytest.fixture(scope="module")
 def rbf_regressor(ishigami_problem) -> RBFRegressor:
     """A RBF regressor for the Ishigami function."""
-    execute_algo(ishigami_problem, algo_type="doe", settings_model=OT_HALTON_Settings(n_samples=20))
+    execute_algo(
+        ishigami_problem,
+        algo_type="doe",
+        settings_model=OT_HALTON_Settings(n_samples=20),
+    )
     learning_dataset = ishigami_problem.to_dataset(opt_naming=False)
     learning_dataset.rename_variable("Ishigami", "y")
     regressor = RBFRegressor(learning_dataset)

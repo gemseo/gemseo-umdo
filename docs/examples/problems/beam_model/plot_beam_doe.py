@@ -22,31 +22,38 @@ $t\in[2,10]$.
 
 from __future__ import annotations
 
+from gemseo.doe import PYDOE_FULLFACT_Settings
+from gemseo.formulation import MDF_Settings
 from gemseo.post.dataset import ZvsXY
+from gemseo.post.dataset.zvsxy_settings import ZvsXY_Settings
 from gemseo.scenario import MDOScenario
 
 from gemseo_umdo.use_cases.beam_model.constraints import BeamConstraints
 from gemseo_umdo.use_cases.beam_model.design_space import BeamDesignSpace
 from gemseo_umdo.use_cases.beam_model.discipline import Beam
-from gemseo.doe import PYDOE_FULLFACT_Settings
-from gemseo.formulation import MDF_Settings
-from gemseo.post.dataset.zvsxy_settings import ZvsXY_Settings
 
 disciplines = [Beam(), BeamConstraints()]
 
 design_space = BeamDesignSpace()
 
-scenario = MDOScenario(disciplines, design_space=design_space, formulation_settings=MDF_Settings())
+scenario = MDOScenario(
+    disciplines, design_space=design_space, formulation_settings=MDF_Settings()
+)
 scenario.add_objective("w", minimize=True)
 scenario.add_constraint("c_stress", constraint_type="ineq", value=1.0)
 scenario.add_constraint("c_displ", constraint_type="ineq", positive=True, value=1.0)
 scenario.execute(algorithm_settings=PYDOE_FULLFACT_Settings(n_samples=10**2))
 
 dataset = scenario.formulation.problem.to_dataset()
-ZvsXY(dataset, settings=ZvsXY_Settings(x="h", y="t", z="w")).execute(save=True, show=False, file_name="w")
+ZvsXY(dataset, settings=ZvsXY_Settings(x="h", y="t", z="w")).execute(
+    save=True, show=False, file_name="w"
+)
 for constraint_name in ["-[c_displ-1.0]", "[c_stress-1.0]"]:
     for z_component in range(9):
-        ZvsXY(dataset, settings=ZvsXY_Settings(x="h", y="t", z=(constraint_name, z_component))).execute(
+        ZvsXY(
+            dataset,
+            settings=ZvsXY_Settings(x="h", y="t", z=(constraint_name, z_component)),
+        ).execute(
             save=False,
             show=True,
         )

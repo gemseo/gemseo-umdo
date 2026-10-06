@@ -17,10 +17,12 @@
 
 from __future__ import annotations
 
-from gemseo.space import DesignSpace
-from gemseo.space import RandomSpace
 from gemseo.discipline import AnalyticDiscipline
 from gemseo.doe import OT_LHS_Settings
+from gemseo.optimization import NLOPT_COBYLA_Settings
+from gemseo.space import DesignSpace
+from gemseo.space import RandomSpace
+from gemseo.uncertainty.distribution import OTTriangularDistribution_Settings
 from matplotlib import pyplot as plt
 from numpy import load
 from numpy import save
@@ -29,8 +31,6 @@ from numpy import vstack
 
 from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
-from gemseo.optimization import NLOPT_COBYLA_Settings
-from gemseo.uncertainty.distribution import OTTriangularDistribution_Settings
 
 # %%
 # Firstly,
@@ -62,8 +62,8 @@ uncertain_space = RandomSpace()
 # %%
 # with an uncertainty over the constant `"a"`:
 uncertain_space.add_variable(
-    "a", OTTriangularDistribution_Settings(minimum=0.1, maximum=0.3, mode=0.2
-))
+    "a", OTTriangularDistribution_Settings(minimum=0.1, maximum=0.3, mode=0.2)
+)
 
 # %%
 # Then,
@@ -88,9 +88,7 @@ for i in range(10):
     scenario.add_constraint("c1", "Margin", factor=3.0)
     scenario.add_constraint("c2", "Margin", factor=3.0)
     scenario.execute(algorithm_settings=NLOPT_COBYLA_Settings(max_iter=100))
-    x_hist.append(
-        vstack(scenario.formulation.problem.database.get_x_vect_history())
-    )
+    x_hist.append(vstack(scenario.formulation.problem.database.get_x_vect_history()))
 
 # %%
 # Lastly,

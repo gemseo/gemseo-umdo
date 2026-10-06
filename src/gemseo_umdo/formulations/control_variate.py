@@ -56,12 +56,12 @@ from gemseo_umdo.formulations.control_variate_settings import ControlVariate_Set
 if TYPE_CHECKING:
     from collections.abc import Sequence
 
-    from gemseo.space import DesignSpace
-    from gemseo.doe.core.base_doe_library import BaseDOELibrary
-    from gemseo.optimization import OptimizationProblem
-    from gemseo.space import RandomSpace
     from gemseo.discipline import Discipline
+    from gemseo.doe.core.base_doe_library import BaseDOELibrary
     from gemseo.formulation.core.base_mdo import BaseMDOFormulation
+    from gemseo.optimization import OptimizationProblem
+    from gemseo.space import DesignSpace
+    from gemseo.space import RandomSpace
     from gemseo.util.typing import StrKeyMapping
 
 
@@ -105,7 +105,8 @@ class ControlVariate(BaseUMDOFormulation):
         settings: ControlVariate_Settings,
         minimize_objective: bool = True,
         objective_statistic_parameters: StrKeyMapping = read_only_empty_dict,
-        mdo_formulation_settings: StrKeyMapping = read_only_empty_dict) -> None:
+        mdo_formulation_settings: StrKeyMapping = read_only_empty_dict,
+    ) -> None:
         # TODO(bump-gemseo): BaseSettings._TARGET_CLASS_NAME was removed; see the GEMSEO 7 changelog.  # noqa: E501
         algo_name = settings.doe_algo_settings._TARGET_CLASS_NAME
         self.__doe_algo = DOELibraryFactory().create(algo_name)

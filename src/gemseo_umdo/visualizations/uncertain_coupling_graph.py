@@ -16,28 +16,29 @@
 
 from __future__ import annotations
 
+# TODO(bump-gemseo): strenum.StrEnum: enum.StrEnum gives auto() the lower-cased member name (MC = auto() was "MC", is now "mc"), so write MC = "MC" to keep the values, or keep strenum as a dependency of your own  # noqa: E501
+from enum import StrEnum
 from typing import TYPE_CHECKING
 from typing import Any
 from typing import Final
 
 from gemseo.core.dependency_graph import DependencyGraph
-from gemseo.util.discipline import get_all_outputs
+from gemseo.formulation import MDF_Settings
 from gemseo.post._graph_view import GraphView
 from gemseo.scenario import MDOScenario
+from gemseo.util.discipline import get_all_outputs
 from gemseo.util.string import repr_variable
 from numpy import atleast_1d
 from numpy import quantile
-# TODO(bump-gemseo): strenum.StrEnum: enum.StrEnum gives auto() the lower-cased member name (MC = auto() was "MC", is now "mc"), so write MC = "MC" to keep the values, or keep strenum as a dependency of your own  # noqa: E501
-from enum import StrEnum
-from gemseo.formulation import MDF_Settings
 
 if TYPE_CHECKING:
     from collections.abc import Callable
     from collections.abc import Iterable
     from collections.abc import Sequence
     from pathlib import Path
-    from gemseo.space import RandomSpace
+
     from gemseo.discipline import Discipline
+    from gemseo.space import RandomSpace
     from gemseo.util.typing import RealArray
 
 
@@ -112,7 +113,10 @@ class UncertainCouplingGraph:
             self.__output_names = variable_names
 
         self.__scenario = MDOScenario(
-            disciplines, design_space=uncertain_space, formulation_settings=MDF_Settings())
+            disciplines,
+            design_space=uncertain_space,
+            formulation_settings=MDF_Settings(),
+        )
         self.__scenario.add_objective(self.__output_names[0], minimize=True)
         for output_name in self.__output_names[1:]:
             self.__scenario.add_observable(output_name)

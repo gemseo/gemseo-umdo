@@ -40,8 +40,9 @@ from gemseo_umdo.statistics.multilevel.mlmc.pilots.factory import MLMCPilotFacto
 if TYPE_CHECKING:
     from collections.abc import Iterable
     from pathlib import Path
-    from gemseo.space import RandomSpace
+
     from gemseo.core.base_factory import BaseFactory
+    from gemseo.space import RandomSpace
     from gemseo.util.typing import RealArray
     from numpy.typing import NDArray
 

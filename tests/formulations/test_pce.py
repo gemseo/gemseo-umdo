@@ -21,24 +21,26 @@ from unittest import mock
 
 import pytest
 from gemseo import execute_algo
-from gemseo.space import DesignSpace
+from gemseo.discipline import AnalyticDiscipline
 from gemseo.doe import CustomDOE_Settings
-from gemseo.doe.openturns.openturns import OpenTURNS
 from gemseo.doe import OT_HALTON_Settings
 from gemseo.doe import OT_OPT_LHS_Settings
-from gemseo.space import RandomSpace
-from gemseo.discipline import AnalyticDiscipline
+from gemseo.doe.openturns.openturns import OpenTURNS
+from gemseo.enum import UniformDistribution
 from gemseo.formulation.disciplinary_opt import DisciplinaryOpt
+from gemseo.machine_learning import FCERegressor_Settings
+from gemseo.machine_learning import PCERegressor_Settings
 from gemseo.machine_learning.linear_model_fitting.linear_regression_settings import (
     LinearRegression_Settings,
 )
-from gemseo.machine_learning import FCERegressor_Settings
 from gemseo.machine_learning.regression.model import PCERegressor
-from gemseo.machine_learning import PCERegressor_Settings
 from gemseo.machine_learning.regression.quality import R2Measure
+from gemseo.optimization import NLOPT_SLSQP_Settings
 from gemseo.problem.uncertainty.ishigami import IshigamiDiscipline
 from gemseo.problem.uncertainty.ishigami import IshigamiProblem
-from gemseo.enum import UniformDistribution
+from gemseo.space import DesignSpace
+from gemseo.space import RandomSpace
+from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 from numpy import array
 from numpy import full
 from numpy import ones
@@ -55,12 +57,10 @@ from gemseo_umdo.formulations.pce import PCE
 from gemseo_umdo.formulations.pce_settings import PCE_Settings
 from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
-from gemseo.optimization import NLOPT_SLSQP_Settings
-from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 
 if TYPE_CHECKING:
-    from gemseo.doe.core.base_doe_settings import BaseDOESettings
     from gemseo.core.function.collection.observables import Observables
+    from gemseo.doe.core.base_doe_settings import BaseDOESettings
     from gemseo.util.typing import NumberArray
     from gemseo.util.typing import RealArray
 
@@ -73,7 +73,11 @@ def ishigami_problem() -> IshigamiProblem:
 @pytest.fixture(scope="module")
 def pce_regressor(ishigami_problem) -> PCERegressor:
     """A PCE regressor for the Ishigami function."""
-    execute_algo(ishigami_problem, algo_type="doe", settings_model=OT_HALTON_Settings(n_samples=20))
+    execute_algo(
+        ishigami_problem,
+        algo_type="doe",
+        settings_model=OT_HALTON_Settings(n_samples=20),
+    )
     regressor = PCERegressor(ishigami_problem.to_dataset(opt_naming=False))
     regressor.learn()
     return regressor
@@ -454,8 +458,10 @@ def test_scenario(
         ),
     )
     scenario.execute(
-        algorithm_settings=CustomDOE_Settings(samples=ones((1, input_dimension)), eval_jac=True
-    ))
+        algorithm_settings=CustomDOE_Settings(
+            samples=ones((1, input_dimension)), eval_jac=True
+        )
+    )
     assert_almost_equal(scenario.optimization_result.x_opt, ones(input_dimension))
     assert_almost_equal(scenario.optimization_result.f_opt, f_opt)
     get = scenario.formulation.problem.database.get_gradient_history

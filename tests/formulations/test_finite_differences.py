@@ -17,12 +17,13 @@
 from __future__ import annotations
 
 import pytest
-from gemseo.space import DesignSpace
-from gemseo.doe import CustomDOE_Settings
-from gemseo.util.hashable_ndarray import HashableNdarray
-from gemseo.space import RandomSpace
 from gemseo.discipline import AnalyticDiscipline
+from gemseo.doe import CustomDOE_Settings
+from gemseo.space import DesignSpace
+from gemseo.space import RandomSpace
+from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 from gemseo.util.derivative.approximator.forward_differences import ForwardDifferences
+from gemseo.util.hashable_ndarray import HashableNdarray
 from numpy import array
 from numpy.testing import assert_allclose
 
@@ -31,7 +32,6 @@ from gemseo_umdo.formulations.taylor_polynomial_settings import (
     TaylorPolynomial_Settings,
 )
 from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
-from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 
 
 @pytest.mark.parametrize(
@@ -82,7 +82,11 @@ def test_finite_differences(statistic_estimation_settings, expected):
     scenario.add_constraint("c", "Mean")
     scenario.add_observable("o", "Mean")
     scenario.set_differentiation_method("finite_differences")
-    scenario.execute(algorithm_settings=CustomDOE_Settings(samples=array([[1.0, 1.0]]), eval_jac=True))
+    scenario.execute(
+        algorithm_settings=CustomDOE_Settings(
+            samples=array([[1.0, 1.0]]), eval_jac=True
+        )
+    )
     # The database storing the samples is cleared after each sampling.
     assert not scenario.mdo_formulation.problem.database
 
@@ -103,9 +107,7 @@ def test_finite_differences(statistic_estimation_settings, expected):
     ):
         assert key == expected_key
 
-    get_history = (
-        scenario.formulation.problem.database.get_gradient_history
-    )
+    get_history = scenario.formulation.problem.database.get_gradient_history
 
     grad_history = get_history("E[f]")
     assert_allclose(grad_history, array([[expected]]), atol=1e-3)

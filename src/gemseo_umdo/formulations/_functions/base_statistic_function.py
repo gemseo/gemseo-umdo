@@ -26,9 +26,9 @@ from typing import Any
 from typing import Generic
 from typing import TypeVar
 
+from gemseo.core.function.array_function import ArrayFunction
 from gemseo.core.problem.database import Database
 from gemseo.util.hashable_ndarray import HashableNdarray
-from gemseo.core.function.array_function import ArrayFunction
 from gemseo.util.metaclass import ABCGoogleDocstringInheritanceMeta
 
 if TYPE_CHECKING:
@@ -44,7 +44,9 @@ UMDOFormulationT = TypeVar("UMDOFormulationT", bound="BaseUMDOFormulation")
 
 
 class BaseStatisticFunction(
-    ArrayFunction, Generic[UMDOFormulationT], metaclass=ABCGoogleDocstringInheritanceMeta
+    ArrayFunction,
+    Generic[UMDOFormulationT],
+    metaclass=ABCGoogleDocstringInheritanceMeta,
 ):
     """A function to estimate a statistic from a U-MDO formulation."""
 

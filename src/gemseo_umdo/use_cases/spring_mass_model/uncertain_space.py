@@ -27,4 +27,7 @@ class SpringMassUncertainSpace(RandomSpace):
         super().__init__()
         self.add_variable(
             "stiffness",
-            OTDistribution_Settings(interfaced_distribution="Beta", parameters=(3.0, 2.0, 1.0, 3.5)))
+            OTDistribution_Settings(
+                interfaced_distribution="Beta", parameters=(3.0, 2.0, 1.0, 3.5)
+            ),
+        )

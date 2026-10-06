@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import pytest
 from gemseo.space import RandomSpace
+from gemseo.uncertainty.distribution import OTUniformDistribution_Settings
 
 from gemseo_umdo.statistics.multilevel.mlmc_mlcv.level import Level
 from gemseo_umdo.statistics.multilevel.mlmc_mlcv.mlmc_mlcv import MLMCMLCV
@@ -25,7 +26,6 @@ from gemseo_umdo.statistics.multilevel.mlmc_mlcv.pilots.factory import (
     MLMCMLCVPilotFactory,
 )
 from gemseo_umdo.statistics.multilevel.mlmc_mlcv.pilots.mean import Mean
-from gemseo.uncertainty.distribution import OTUniformDistribution_Settings
 
 
 @pytest.fixture(scope="module")

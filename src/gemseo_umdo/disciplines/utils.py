@@ -18,8 +18,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from gemseo.discipline import DisciplineChain
 from gemseo.discipline import AnalyticDiscipline
+from gemseo.discipline import DisciplineChain
 
 from gemseo_umdo.disciplines.noiser_factory import NoiserFactory
 

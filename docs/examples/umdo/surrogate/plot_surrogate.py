@@ -31,17 +31,17 @@ In the following, we will call $f$ the function computing $(x+U)^2$ given $x$ an
 
 from __future__ import annotations
 
+from gemseo.discipline import AnalyticDiscipline
+from gemseo.optimization import NLOPT_COBYLA_Settings
+from gemseo.post import OptHistoryView_Settings
+from gemseo.post.dataset import Lines
+from gemseo.post.dataset.lines_settings import Lines_Settings
 from gemseo.space import DesignSpace
 from gemseo.space import RandomSpace
-from gemseo.discipline import AnalyticDiscipline
-from gemseo.post.dataset import Lines
+from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 
 from gemseo_umdo.formulations.surrogate_settings import Surrogate_Settings
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
-from gemseo.optimization import NLOPT_COBYLA_Settings
-from gemseo.post import OptHistoryView_Settings
-from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
-from gemseo.post.dataset.lines_settings import Lines_Settings
 
 # %%
 # Firstly,
@@ -96,5 +96,7 @@ scenario.post_process(settings=OptHistoryView_Settings(save=False, show=True))
 # The quality metric is the R2 score
 # and the test quality is estimated by cross-validation.
 dataset = scenario.to_dataset()
-lines = Lines(dataset, settings=Lines_Settings(variables=["y_learning_quality", "y_test_quality"]))
+lines = Lines(
+    dataset, settings=Lines_Settings(variables=["y_learning_quality", "y_test_quality"])
+)
 lines.execute(save=False)

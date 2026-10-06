@@ -18,8 +18,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from gemseo.doe.core.base_doe_settings import BaseDOESettings  # noqa: TC002
 from gemseo.doe import OT_OPT_LHS_Settings
+from gemseo.doe.core.base_doe_settings import BaseDOESettings  # noqa: TC002
 from gemseo.machine_learning.regression.core.base_regressor_settings import (
     BaseRegressorSettings,  # noqa: TC002
 )

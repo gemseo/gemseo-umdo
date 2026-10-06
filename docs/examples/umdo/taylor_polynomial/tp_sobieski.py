@@ -17,20 +17,20 @@
 
 from __future__ import annotations
 
-from gemseo.space import RandomSpace
-from gemseo.problem.mdo.sobieski import SobieskiProblem
+from gemseo.optimization import NLOPT_COBYLA_Settings
+from gemseo.post import OptHistoryView_Settings
 from gemseo.problem.mdo.sobieski import SobieskiAerodynamics
 from gemseo.problem.mdo.sobieski import SobieskiMission
+from gemseo.problem.mdo.sobieski import SobieskiProblem
 from gemseo.problem.mdo.sobieski import SobieskiPropulsion
 from gemseo.problem.mdo.sobieski import SobieskiStructure
+from gemseo.space import RandomSpace
+from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 
 from gemseo_umdo.formulations.taylor_polynomial_settings import (
     TaylorPolynomial_Settings,
 )
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
-from gemseo.optimization import NLOPT_COBYLA_Settings
-from gemseo.post import OptHistoryView_Settings
-from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 
 # %%
 # Firstly,
@@ -51,15 +51,15 @@ uncertain_space = RandomSpace()
 # %%
 # with an uncertainty over the constant `"c_4"`:
 uncertain_space.add_variable(
-    "c_4", OTNormalDistribution_Settings(mu=0.01375, sigma=0.01375 * 0.05
-))
+    "c_4", OTNormalDistribution_Settings(mu=0.01375, sigma=0.01375 * 0.05)
+)
 # %%
 # and an uncertainty over the design variable `"x_2"`,
 # expressed as an additive term `"u_x_2"`
 # defined just after in the [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]:
 uncertain_space.add_variable(
-    "u_x_2", OTNormalDistribution_Settings(mu=0.0, sigma=1 * 0.05
-))
+    "u_x_2", OTNormalDistribution_Settings(mu=0.0, sigma=1 * 0.05)
+)
 
 # %%
 # Then,

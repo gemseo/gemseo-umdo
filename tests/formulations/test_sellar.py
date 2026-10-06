@@ -19,20 +19,20 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 import pytest
-from gemseo.space import RandomSpace
+from gemseo.formulation import MDF_Settings
+from gemseo.mda import MDAChain_Settings
 from gemseo.problem.mdo.sellar import Sellar1
 from gemseo.problem.mdo.sellar import Sellar2
 from gemseo.problem.mdo.sellar import SellarDesignSpace
 from gemseo.problem.mdo.sellar import SellarSystem
 from gemseo.scenario import MDOScenario
+from gemseo.space import RandomSpace
+from gemseo.uncertainty.distribution import OTDiracDistribution_Settings
+from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 from numpy.testing import assert_almost_equal
 
 from gemseo_umdo.formulations.surrogate_settings import Surrogate_Settings
 from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
-from gemseo.formulation import MDF_Settings
-from gemseo.mda import MDAChain_Settings
-from gemseo.uncertainty.distribution import OTDiracDistribution_Settings
-from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 
 if TYPE_CHECKING:
     from gemseo.util.typing import RealArray
@@ -78,7 +78,11 @@ def reference_data(
     """
     doe_scenario = MDOScenario(
         disciplines,
-        design_space=design_space, formulation_settings=MDF_Settings(main_mda_settings=MDAChain_Settings(max_mda_iter=3)))
+        design_space=design_space,
+        formulation_settings=MDF_Settings(
+            main_mda_settings=MDAChain_Settings(max_mda_iter=3)
+        ),
+    )
     doe_scenario.add_objective("obj", minimize=not maximize_objective)
     doe_scenario.add_constraint("c_1", "ineq")
     doe_scenario.add_constraint("c_2", "ineq")
@@ -92,14 +96,14 @@ def dirac_uncertain_space() -> RandomSpace:
     """An uncertain space for the Sellar's U-MDO problem with Dirac distributions."""
     parameter_space = RandomSpace()
     parameter_space.add_variable(
-        "alpha", OTDiracDistribution_Settings(variable_value=3.16
-    ))
+        "alpha", OTDiracDistribution_Settings(variable_value=3.16)
+    )
     parameter_space.add_variable(
-        "beta", OTDiracDistribution_Settings(variable_value=24.0
-    ))
+        "beta", OTDiracDistribution_Settings(variable_value=24.0)
+    )
     parameter_space.add_variable(
-        "gamma", OTDiracDistribution_Settings(variable_value=0.2
-    ))
+        "gamma", OTDiracDistribution_Settings(variable_value=0.2)
+    )
     return parameter_space
 
 
@@ -108,14 +112,14 @@ def normal_uncertain_space() -> RandomSpace:
     """An uncertain space for the Sellar's U-MDO problem with normal distributions."""
     parameter_space = RandomSpace()
     parameter_space.add_variable(
-        "alpha", OTNormalDistribution_Settings(mu=3.16, sigma=1e-6
-    ))
+        "alpha", OTNormalDistribution_Settings(mu=3.16, sigma=1e-6)
+    )
     parameter_space.add_variable(
-        "beta", OTNormalDistribution_Settings(mu=24.0, sigma=1e-6
-    ))
+        "beta", OTNormalDistribution_Settings(mu=24.0, sigma=1e-6)
+    )
     parameter_space.add_variable(
-        "gamma", OTNormalDistribution_Settings(mu=0.2, sigma=1e-6
-    ))
+        "gamma", OTNormalDistribution_Settings(mu=0.2, sigma=1e-6)
+    )
     return parameter_space
 
 

@@ -41,18 +41,22 @@ class TrussUncertainSpace(RandomSpace):
         ):
             self.add_variable(
                 name,
-                OTDistribution_Settings(interfaced_distribution="LogNormal", parameters=self._to_lognormal(
-                    2e-3, factor * 2e-4
-                )))
+                OTDistribution_Settings(
+                    interfaced_distribution="LogNormal",
+                    parameters=self._to_lognormal(2e-3, factor * 2e-4),
+                ),
+            )
 
         for name in (
             (f"A2_{i}" for i in range(1, 13)) if use_different_bars else ("A2",)
         ):
             self.add_variable(
                 name,
-                OTDistribution_Settings(interfaced_distribution="LogNormal", parameters=self._to_lognormal(
-                    1e-3, factor * 2e-4
-                )))
+                OTDistribution_Settings(
+                    interfaced_distribution="LogNormal",
+                    parameters=self._to_lognormal(1e-3, factor * 2e-4),
+                ),
+            )
 
         for name in (
             (
@@ -64,14 +68,20 @@ class TrussUncertainSpace(RandomSpace):
         ):
             self.add_variable(
                 name,
-                OTDistribution_Settings(interfaced_distribution="LogNormal", parameters=self._to_lognormal(
-                    2.1e11, factor * 2.1e10
-                )))
+                OTDistribution_Settings(
+                    interfaced_distribution="LogNormal",
+                    parameters=self._to_lognormal(2.1e11, factor * 2.1e10),
+                ),
+            )
 
         for i in range(1, 7):
             self.add_variable(
                 f"P{i}",
-                OTDistribution_Settings(interfaced_distribution="Gumbel", parameters=self._to_gumbel(5e4, factor * 7.5e3)))
+                OTDistribution_Settings(
+                    interfaced_distribution="Gumbel",
+                    parameters=self._to_gumbel(5e4, factor * 7.5e3),
+                ),
+            )
 
     @staticmethod
     def _to_lognormal(mean, std):

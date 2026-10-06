@@ -18,8 +18,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from gemseo.doe.core.base_doe_settings import BaseDOESettings  # noqa: TC002
 from gemseo.doe import OT_OPT_LHS_Settings
+from gemseo.doe.core.base_doe_settings import BaseDOESettings  # noqa: TC002
 from gemseo.util.seeder import seed
 from pydantic import Field
 from pydantic import PositiveInt

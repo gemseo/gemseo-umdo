@@ -23,7 +23,15 @@ from gemseo.discipline import AnalyticDiscipline
 from gemseo.machine_learning.regression.model import PCERegressor
 from gemseo.problem.uncertainty.ishigami import IshigamiDiscipline
 from gemseo.problem.uncertainty.ishigami import IshigamiSpace
-from gemseo.problem.uncertainty.ishigami.statistics import total_sobol_3, total_sobol_2, total_sobol_1, sobol_3, sobol_23, sobol_2, sobol_13, sobol_12, sobol_1
+from gemseo.problem.uncertainty.ishigami.statistics import sobol_1
+from gemseo.problem.uncertainty.ishigami.statistics import sobol_2
+from gemseo.problem.uncertainty.ishigami.statistics import sobol_3
+from gemseo.problem.uncertainty.ishigami.statistics import sobol_12
+from gemseo.problem.uncertainty.ishigami.statistics import sobol_13
+from gemseo.problem.uncertainty.ishigami.statistics import sobol_23
+from gemseo.problem.uncertainty.ishigami.statistics import total_sobol_1
+from gemseo.problem.uncertainty.ishigami.statistics import total_sobol_2
+from gemseo.problem.uncertainty.ishigami.statistics import total_sobol_3
 from gemseo.uncertainty.sensitivity import SobolAnalysis
 
 from gemseo_umdo.visualizations.sobol_graph import SobolGraph

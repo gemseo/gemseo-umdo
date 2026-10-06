@@ -18,14 +18,14 @@ from pathlib import Path
 from typing import TYPE_CHECKING
 
 import pytest
-from gemseo.space import DesignSpace
 from gemseo.discipline import AnalyticDiscipline
 from gemseo.post._graph_view import GraphView
-from gemseo.problem.mdo.sobieski import SobieskiProblem
 from gemseo.problem.mdo.sobieski import SobieskiAerodynamics
 from gemseo.problem.mdo.sobieski import SobieskiMission
+from gemseo.problem.mdo.sobieski import SobieskiProblem
 from gemseo.problem.mdo.sobieski import SobieskiPropulsion
 from gemseo.problem.mdo.sobieski import SobieskiStructure
+from gemseo.space import DesignSpace
 from gemseo.util.data_conversion import split_array_to_dict_of_arrays
 
 from gemseo_umdo.visualizations.uncertain_coupling_graph import UncertainCouplingGraph

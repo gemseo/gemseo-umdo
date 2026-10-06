@@ -17,11 +17,13 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 import pytest
+from gemseo.discipline import AnalyticDiscipline
+from gemseo.discipline import DisciplineChain
+from gemseo.formulation.mdf import MDF
 from gemseo.space import DesignSpace
 from gemseo.space import RandomSpace
-from gemseo.discipline import DisciplineChain
-from gemseo.discipline import AnalyticDiscipline
-from gemseo.formulation.mdf import MDF
+from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
+from gemseo.uncertainty.distribution import SPNormalDistribution_Settings
 
 from gemseo_umdo.formulations.control_variate_settings import ControlVariate_Settings
 from gemseo_umdo.formulations.pce_settings import PCE_Settings
@@ -33,8 +35,6 @@ from gemseo_umdo.formulations.surrogate_settings import Surrogate_Settings
 from gemseo_umdo.formulations.taylor_polynomial_settings import (
     TaylorPolynomial_Settings,
 )
-from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
-from gemseo.uncertainty.distribution import SPNormalDistribution_Settings
 
 if TYPE_CHECKING:
     from collections.abc import Sequence

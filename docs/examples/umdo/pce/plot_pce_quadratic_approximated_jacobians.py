@@ -31,15 +31,15 @@ In the following, we will call $f$ the function computing $(x+U)^2$ given $x$ an
 
 from __future__ import annotations
 
+from gemseo.discipline import AutoPyDiscipline
+from gemseo.optimization import NLOPT_SLSQP_Settings
+from gemseo.post import OptHistoryView_Settings
 from gemseo.space import DesignSpace
 from gemseo.space import RandomSpace
-from gemseo.discipline import AutoPyDiscipline
+from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 
 from gemseo_umdo.formulations.pce_settings import PCE_Settings
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
-from gemseo.optimization import NLOPT_SLSQP_Settings
-from gemseo.post import OptHistoryView_Settings
-from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 
 
 # %%

@@ -30,24 +30,24 @@ and the same for the constraints using margins of the form
 from __future__ import annotations
 
 from gemseo import configuration
+from gemseo.doe import CustomDOE_Settings
+from gemseo.formulation import MDF_Settings
 from gemseo.optimization import NLOPT_COBYLA_Settings
 from gemseo.optimization import NLOPT_SLSQP_Settings
 from gemseo.optimization import SLSQP_Settings
-from gemseo.space import RandomSpace
-from gemseo.problem.mdo.sobieski import SobieskiProblem
 from gemseo.problem.mdo.sobieski import SobieskiAerodynamics
 from gemseo.problem.mdo.sobieski import SobieskiMission
+from gemseo.problem.mdo.sobieski import SobieskiProblem
 from gemseo.problem.mdo.sobieski import SobieskiPropulsion
 from gemseo.problem.mdo.sobieski import SobieskiStructure
 from gemseo.scenario import MDOScenario
+from gemseo.space import RandomSpace
 from matplotlib import pyplot as plt
 from numpy import atleast_2d
 
 from gemseo_umdo.disciplines.utils import create_noising_discipline_chain
 from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
-from gemseo.doe import CustomDOE_Settings
-from gemseo.formulation import MDF_Settings
 
 # TODO(bump-gemseo): use the methods enable_fast_mode and disable_fast_mode instead  # noqa: E501
 configuration.fast = True
@@ -70,7 +70,9 @@ design_space = SobieskiProblem().design_space
 # an MDF-formulated scenario without uncertainties
 mdf_scenario = MDOScenario(
     [aerodynamics, propulsion, structure, mission],
-    design_space=design_space, formulation_settings=MDF_Settings())
+    design_space=design_space,
+    formulation_settings=MDF_Settings(),
+)
 mdf_scenario.add_objective("y_4", minimize=False)
 mdf_scenario.add_constraint("g_1", constraint_type="ineq")
 mdf_scenario.add_constraint("g_2", constraint_type="ineq")
@@ -192,7 +194,9 @@ noising_discipline_chain = create_noising_discipline_chain(
 # using the gradient-based SLSQP algorithm:
 scenario_aerodynamics = MDOScenario(
     [noising_discipline_chain, aerodynamics, mission],
-    design_space=design_space.filter("x_2", copy=True), formulation_settings=MDF_Settings())
+    design_space=design_space.filter("x_2", copy=True),
+    formulation_settings=MDF_Settings(),
+)
 scenario_aerodynamics.add_objective("y_4", minimize=False)
 scenario_aerodynamics.add_constraint("g_2", constraint_type="ineq")
 scenario_aerodynamics.set_algorithm(algorithm_settings=slsqp_settings)
@@ -202,7 +206,9 @@ scenario_aerodynamics.set_algorithm(algorithm_settings=slsqp_settings)
 # using the gradient-based SLSQP algorithm:
 scenario_propulsion = MDOScenario(
     [noising_discipline_chain, propulsion, mission],
-    design_space=design_space.filter("x_3", copy=True), formulation_settings=MDF_Settings())
+    design_space=design_space.filter("x_3", copy=True),
+    formulation_settings=MDF_Settings(),
+)
 scenario_propulsion.add_objective("y_4", minimize=False)
 scenario_propulsion.add_constraint("g_3", constraint_type="ineq")
 scenario_propulsion.set_algorithm(algorithm_settings=slsqp_settings)
@@ -212,7 +218,9 @@ scenario_propulsion.set_algorithm(algorithm_settings=slsqp_settings)
 # using the gradient-based SLSQP algorithm:
 scenario_structure = MDOScenario(
     [noising_discipline_chain, structure, mission],
-    design_space=design_space.filter("x_1", copy=True), formulation_settings=MDF_Settings())
+    design_space=design_space.filter("x_1", copy=True),
+    formulation_settings=MDF_Settings(),
+)
 scenario_structure.add_objective("y_4", minimize=False)
 scenario_structure.add_constraint("g_1", constraint_type="ineq")
 scenario_structure.set_algorithm(algorithm_settings=slsqp_settings)
@@ -303,7 +311,9 @@ bilevel_uscenario = UMDOScenario(
 bilevel_uscenario.add_constraint("g_1", "Mean")
 bilevel_uscenario.add_constraint("g_2", "Mean")
 bilevel_uscenario.add_constraint("g_3", "Mean")
-bilevel_uscenario.execute(algorithm_settings=CustomDOE_Settings(samples=atleast_2d(bilevel_x_opt)))
+bilevel_uscenario.execute(
+    algorithm_settings=CustomDOE_Settings(samples=atleast_2d(bilevel_x_opt))
+)
 
 # %%
 # which generates samples

@@ -18,12 +18,13 @@ from typing import Any
 from unittest import mock
 
 import pytest
-from gemseo.space import DesignSpace
-from gemseo.doe import CustomDOE_Settings
-from gemseo.space import RandomSpace
 from gemseo.core.function.array_function import ArrayFunction
 from gemseo.discipline import AnalyticDiscipline
+from gemseo.doe import CustomDOE_Settings
 from gemseo.formulation.mdf import MDF
+from gemseo.space import DesignSpace
+from gemseo.space import RandomSpace
+from gemseo.uncertainty.distribution import SPNormalDistribution_Settings
 from numpy import array
 
 from gemseo_umdo.formulations._statistics.sampling.factory import (
@@ -32,7 +33,6 @@ from gemseo_umdo.formulations._statistics.sampling.factory import (
 from gemseo_umdo.formulations.base_umdo_formulation import BaseUMDOFormulation
 from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
-from gemseo.uncertainty.distribution import SPNormalDistribution_Settings
 
 
 @pytest.fixture
