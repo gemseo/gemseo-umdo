@@ -140,7 +140,7 @@ def test_repr(scenario):
       +------+-------------------------+
       | Name |       Distribution      |
       +------+-------------------------+
-      |  u   | norm(mu=0.0, sigma=1.0) |
+      | u    | norm(mu=0.0, sigma=1.0) |
       +------+-------------------------+"""
     assert repr(scenario) == expected
 

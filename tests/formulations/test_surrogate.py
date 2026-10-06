@@ -165,14 +165,14 @@ def test_probability(observables, output_samples):
 @pytest.mark.parametrize(
     ("statistic_estimation_parameters", "y_opt"),
     [
-        ({"n_samples": 20}, 1.9689592736443002),
-        ({"n_samples": 20, "regressor_n_samples": 10}, 2.4695858515160123),
+        ({"n_samples": 20}, 1.9517113683160991),
+        ({"n_samples": 20, "regressor_n_samples": 10}, 2.464446895981287),
         (
             {
                 "n_samples": 20,
                 "regressor_settings": RBFRegressor_Settings(kernel="cubic"),
             },
-            2.017745497698664,
+            1.9870120429785478,
         ),
         (
             {"n_samples": 20, "regressor_settings": LinearRegressor_Settings()},

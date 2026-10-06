@@ -235,7 +235,10 @@ class BaseUScenario:
         msg = MultiLineString()
         msg.add(self.name)
         msg.indent()
-        msg.add("Disciplines: {}", pretty_str(self.disciplines, delimiter=" "))
+        msg.add(
+            "Disciplines: {}",
+            pretty_str(self.disciplines, delimiter=" ", use_and=False),
+        )
         msg.add("Formulation:")
         msg.indent()
         msg.add("MDO formulation: {}", self.mdo_formulation.__class__.__name__)
