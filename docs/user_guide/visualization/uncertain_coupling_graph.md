@@ -89,7 +89,7 @@ the disciplines are sampled
 using an [optimized Latin hypercube sampling technique](https://gemseo.readthedocs.io/en/stable/algorithms/doe_algos.html#ot-opt-lhs):
 
 ``` py
-graph.sample(100)
+graph.sample(OT_OPT_LHS_Settings(n_samples=100))
 ```
 
 !!! warning

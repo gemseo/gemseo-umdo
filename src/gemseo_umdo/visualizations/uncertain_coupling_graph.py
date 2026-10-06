@@ -16,16 +16,14 @@
 
 from __future__ import annotations
 
-# TODO(bump-gemseo): strenum.StrEnum: enum.StrEnum gives auto() the lower-cased member name (MC = auto() was "MC", is now "mc"), so write MC = "MC" to keep the values, or keep strenum as a dependency of your own  # noqa: E501
 from enum import StrEnum
 from typing import TYPE_CHECKING
-from typing import Any
 from typing import Final
 
 from gemseo.core.dependency_graph import DependencyGraph
 from gemseo.formulation import MDF_Settings
 from gemseo.post._graph_view import GraphView
-from gemseo.scenario import MDOScenario
+from gemseo.scenario import EvaluationScenario
 from gemseo.util.discipline import get_all_outputs
 from gemseo.util.string import repr_variable
 from numpy import atleast_1d
@@ -38,6 +36,7 @@ if TYPE_CHECKING:
     from pathlib import Path
 
     from gemseo.discipline import Discipline
+    from gemseo.doe.core.base_doe_settings import BaseDOESettings
     from gemseo.space import RandomSpace
     from gemseo.util.typing import RealArray
 
@@ -112,30 +111,20 @@ class UncertainCouplingGraph:
         else:
             self.__output_names = variable_names
 
-        self.__scenario = MDOScenario(
-            disciplines,
-            design_space=uncertain_space,
-            formulation_settings=MDF_Settings(),
+        self.__scenario = EvaluationScenario(
+            disciplines, uncertain_space, formulation_settings=MDF_Settings()
         )
-        self.__scenario.add_objective(self.__output_names[0], minimize=True)
-        for output_name in self.__output_names[1:]:
+        for output_name in self.__output_names:
             self.__scenario.add_observable(output_name)
 
-    def sample(
-        self, n_samples: int, algo_name: str = "OT_OPT_LHS", **algo_options: Any
-    ) -> None:
+    def sample(self, algorithm_settings: BaseDOESettings) -> None:
         """Sample the multidisciplinary system.
 
         Args:
-            n_samples: The number of evaluations of the multidisciplinary system.
-            algo_name: The name of the DOE algorithm.
-            **algo_options: The options of the DOE algorithm.
+            algorithm_settings: The settings of the DOE algorithm,
+                e.g. `OT_OPT_LHS_Settings(n_samples=100)`.
         """
-        # TODO(bump-gemseo): cannot transform: a **kwargs unpack may hold settings as well as other arguments  # noqa: E501
-        # TODO(bump-gemseo): **kwargs may contain: algo_settings_model -> algorithm_settings  # noqa: E501
-        self.__scenario.execute(
-            algo_name=algo_name, n_samples=n_samples, **algo_options
-        )
+        self.__scenario.execute(algorithm_settings=algorithm_settings)
 
     def visualize(
         self,

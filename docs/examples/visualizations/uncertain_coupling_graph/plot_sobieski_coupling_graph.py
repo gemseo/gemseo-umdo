@@ -17,6 +17,7 @@
 
 from __future__ import annotations
 
+from gemseo.doe import OT_OPT_LHS_Settings
 from gemseo.problem.mdo.sobieski import SobieskiAerodynamics
 from gemseo.problem.mdo.sobieski import SobieskiMission
 from gemseo.problem.mdo.sobieski import SobieskiProblem
@@ -66,7 +67,7 @@ uncertain_coupling_graph = UncertainCouplingGraph(disciplines, uncertain_space)
 
 # %%
 # and sample the multidisciplinary system with 100 evaluations:
-uncertain_coupling_graph.sample(100)
+uncertain_coupling_graph.sample(OT_OPT_LHS_Settings(n_samples=100))
 
 # %%
 # Lastly,

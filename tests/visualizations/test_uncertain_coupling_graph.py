@@ -19,6 +19,7 @@ from typing import TYPE_CHECKING
 
 import pytest
 from gemseo.discipline import AnalyticDiscipline
+from gemseo.doe import OT_OPT_LHS_Settings
 from gemseo.post._graph_view import GraphView
 from gemseo.problem.mdo.sobieski import SobieskiAerodynamics
 from gemseo.problem.mdo.sobieski import SobieskiMission
@@ -72,7 +73,7 @@ def disciplines() -> list[SobieskiDiscipline]:
 def uncertain_coupling_graph(disciplines, uncertain_space) -> UncertainCouplingGraph:
     """The uncertain coupling graph of the Sobieski's SSBJ problem."""
     graph = UncertainCouplingGraph(disciplines, uncertain_space)
-    graph.sample(10)
+    graph.sample(OT_OPT_LHS_Settings(n_samples=10))
     return graph
 
 
@@ -141,7 +142,7 @@ def test_output_names(disciplines, uncertain_space, tmp_wd):
     uncertain_coupling_graph = UncertainCouplingGraph(
         disciplines, uncertain_space, variable_names=["y_21"]
     )
-    uncertain_coupling_graph.sample(10)
+    uncertain_coupling_graph.sample(OT_OPT_LHS_Settings(n_samples=10))
     uncertain_coupling_graph.visualize(show=False, clean_up=False, file_path=file_name)
     check_dot_file(file_name)
 
@@ -156,7 +157,7 @@ def test_self_coupled(tmp_wd):
     uncertain_space = DesignSpace()
     uncertain_space.add_variable("u", lower_bound=0.0, upper_bound=1)
     uncertain_coupling_graph = UncertainCouplingGraph(disciplines, uncertain_space)
-    uncertain_coupling_graph.sample(10)
+    uncertain_coupling_graph.sample(OT_OPT_LHS_Settings(n_samples=10))
     uncertain_coupling_graph.visualize(
         show=False, clean_up=False, file_path=file_name, maximum_thickness=0.1
     )
