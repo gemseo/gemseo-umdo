@@ -93,9 +93,9 @@ class StatisticFunctionForPCE(StatisticFunctionForSurrogate[PCET]):
             regressor_settings.use_special_jacobian_data = False
 
         fce = RegressorFactory().create(
-            regressor_settings._TARGET_CLASS_NAME,
+            regressor_settings.target_class_name,
             samples,
-            settings_model=regressor_settings,
+            settings=regressor_settings,
         )
         fce.learn()
 

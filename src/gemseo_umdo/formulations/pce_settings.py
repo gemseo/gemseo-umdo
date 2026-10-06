@@ -36,8 +36,6 @@ if TYPE_CHECKING:
 class PCE_Settings(Surrogate_Settings, SurrogateQuality_Settings):  # noqa: N801
     """The settings for the FCE-based U-MDO formulation."""
 
-    _TARGET_CLASS_NAME = "PCE"
-
     approximate_statistics_jacobians: bool = Field(
         default=False,
         description=(

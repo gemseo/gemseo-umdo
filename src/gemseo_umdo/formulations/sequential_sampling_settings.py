@@ -37,8 +37,6 @@ if TYPE_CHECKING:
 class SequentialSampling_Settings(Sampling_Settings):  # noqa: N801
     """The settings for the sequential sampling-based U-MDO formulation."""
 
-    _TARGET_CLASS_NAME = "SequentialSampling"
-
     doe_algo_settings: BaseNSamplesBasedDOESettings = Field(
         default=OT_OPT_LHS_Settings(n_samples=10, seed=seed),
         description="The DOE settings.",

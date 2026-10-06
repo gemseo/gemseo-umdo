@@ -47,8 +47,6 @@ class ControlVariate_Settings(  # noqa: N801
     using ``regressor_n_samples`` and ``regressor_sampling_seed``.
     """
 
-    _TARGET_CLASS_NAME = "ControlVariate"
-
     regressor_doe_algo_settings: BaseDOESettings = Field(
         default=OT_OPT_LHS_Settings(n_samples=10, seed=seed + 1),
         description=(
@@ -69,12 +67,11 @@ If ``None``, the control variates use first-order Taylor polynomials.""",
     @model_validator(mode="after")
     def __validate_seeds(self) -> Self:
         """Validate the seeds."""
-        # TODO(bump-gemseo): BaseSettings._TARGET_CLASS_NAME was removed; see the GEMSEO 7 changelog.  # noqa: E501
         if (
-            "seed" in self.doe_algo_settings.model_fields
-            and "seed" in self.regressor_doe_algo_settings.model_fields
-            and self.doe_algo_settings._TARGET_CLASS_NAME
-            == self.regressor_doe_algo_settings._TARGET_CLASS_NAME
+            "seed" in type(self.doe_algo_settings).model_fields
+            and "seed" in type(self.regressor_doe_algo_settings).model_fields
+            and self.doe_algo_settings.target_class_name
+            == self.regressor_doe_algo_settings.target_class_name
             and self.doe_algo_settings.seed == self.regressor_doe_algo_settings.seed
         ):
             msg = (

@@ -26,8 +26,6 @@ from gemseo_umdo.formulations.base_sampling_settings import BaseSamplingSettings
 class Sampling_Settings(BaseSamplingSettings):  # noqa: N801
     """The settings for the sampling-based U-MDO formulation."""
 
-    _TARGET_CLASS_NAME = "Sampling"
-
     estimate_statistics_iteratively: bool = Field(
         default=True,
         description="""Whether to estimate the statistics iteratively.

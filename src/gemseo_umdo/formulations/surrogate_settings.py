@@ -29,5 +29,3 @@ class Surrogate_Settings(  # noqa: N801
     SurrogateQuality_Settings,
 ):
     """The settings for the surrogate-based U-MDO formulation."""
-
-    _TARGET_CLASS_NAME = "Surrogate"
