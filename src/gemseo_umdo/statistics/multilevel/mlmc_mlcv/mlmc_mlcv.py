@@ -16,7 +16,6 @@
 
 from __future__ import annotations
 
-# TODO(bump-gemseo): strenum.StrEnum: enum.StrEnum gives auto() the lower-cased member name (MC = auto() was "MC", is now "mc"), so write MC = "MC" to keep the values, or keep strenum as a dependency of your own  # noqa: E501
 from enum import StrEnum
 from typing import TYPE_CHECKING
 

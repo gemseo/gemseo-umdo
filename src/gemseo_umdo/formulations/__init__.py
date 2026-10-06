@@ -52,10 +52,11 @@ consisting in estimating the statistics with (quasi) Monte Carlo techniques.
 
 from __future__ import annotations
 
-# TODO(bump-gemseo): strenum.StrEnum: enum.StrEnum gives auto() the lower-cased member name (MC = auto() was "MC", is now "mc"), so write MC = "MC" to keep the values, or keep strenum as a dependency of your own  # noqa: E501
 from enum import StrEnum
 
 from gemseo.doe.factory import DOELibraryFactory
 
-DOE_ALGO_NAMES = StrEnum("DOE_ALGO_NAMES", DOELibraryFactory().algorithms)
+DOE_ALGO_NAMES = StrEnum(
+    "DOE_ALGO_NAMES", {name: name for name in DOELibraryFactory().algorithms}
+)
 """The names of the available DOE algorithms."""
