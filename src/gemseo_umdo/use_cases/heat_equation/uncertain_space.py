@@ -30,7 +30,6 @@ class HeatEquationUncertainSpace(RandomSpace):
             nu_bounds: The lower and upper bounds
                 of the thermal diffusivity $\nu$.
         """  # noqa: D205 D212 D415
-        distribution_name = "OTUniformDistribution"
         super().__init__()
         self.add_variable(
             "X_1", OTUniformDistribution_Settings(minimum=-pi, maximum=pi)
