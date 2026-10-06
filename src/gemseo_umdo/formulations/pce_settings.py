@@ -80,4 +80,18 @@ class PCE_Settings(Surrogate_Settings, SurrogateQuality_Settings):  # noqa: N801
             )
             raise ValueError(msg)
 
+        if (
+            not self.approximate_statistics_jacobians
+            and self.regressor_settings.learn_jacobian_data
+        ):
+            msg = (
+                "The setting regressor_settings.learn_jacobian_data cannot be True "
+                "when approximate_statistics_jacobians is False: "
+                "the FCE cannot learn both the Jacobian data "
+                "with respect to the uncertain variables "
+                "and the special Jacobian data "
+                "with respect to the design variables."
+            )
+            raise ValueError(msg)
+
         return self

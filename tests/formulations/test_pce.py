@@ -412,13 +412,6 @@ def test_quality_log_level(
         ),
         (
             1,
-            {},
-            FCERegressor_Settings(learn_jacobian_data=True),
-            2.0,
-            array([[2.0]]),
-        ),
-        (
-            1,
             {"approximate_statistics_jacobians": True},
             FCERegressor_Settings(learn_jacobian_data=True),
             2.0,
@@ -486,6 +479,18 @@ def test_settings_error():
         )
 
 
+def test_settings_error_learn_jacobian_data():
+    """Check the error raised when learning Jacobian data without approximation."""
+    with pytest.raises(
+        ValueError,
+        match=re.escape(
+            "The setting regressor_settings.learn_jacobian_data cannot be True "
+            "when approximate_statistics_jacobians is False"
+        ),
+    ):
+        PCE_Settings(regressor_settings=FCERegressor_Settings(learn_jacobian_data=True))
+
+
 @pytest.fixture
 def rosenbrock_problem() -> tuple[AnalyticDiscipline, DesignSpace, RandomSpace]:
     """The Rosenbrock problem (discipline, design space and uncertain space)."""
@@ -505,11 +510,8 @@ def rosenbrock_problem() -> tuple[AnalyticDiscipline, DesignSpace, RandomSpace]:
 @pytest.mark.parametrize(
     ("n_samples", "learn_jacobian_data", "approximate_statistics_jacobian", "f_opt"),
     [
-        (10, True, True, (1753.56,)),
-        (20, False, True, (1753.56,)),
-        # Two options depending on environment
-        (10, True, False, (1761.70, 2473.94)),
-        (20, True, False, (1753.56,)),
+        (10, True, True, 1753.56),
+        (20, False, True, 1753.56),
     ],
 )
 def test_rosenbrock(
@@ -542,7 +544,4 @@ def test_rosenbrock(
         ),
     )
     scenario.execute(algorithm_settings=NLOPT_SLSQP_Settings(max_iter=100))
-    try:
-        assert scenario.optimization_result.f_opt == pytest.approx(f_opt[0], abs=0.01)
-    except AssertionError:
-        assert scenario.optimization_result.f_opt == pytest.approx(f_opt[1], abs=0.01)
+    assert scenario.optimization_result.f_opt == pytest.approx(f_opt, abs=0.01)
