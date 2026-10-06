@@ -30,7 +30,6 @@ and the same for the constraints using margins of the form
 from __future__ import annotations
 
 from gemseo import configuration
-from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 from gemseo.doe import CustomDOE_Settings
 from gemseo.formulation import BiLevel_Settings
 from gemseo.formulation import MDF_Settings
@@ -44,6 +43,7 @@ from gemseo.problem.mdo.sobieski import SobieskiPropulsion
 from gemseo.problem.mdo.sobieski import SobieskiStructure
 from gemseo.scenario import MDOScenario
 from gemseo.space import RandomSpace
+from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 from matplotlib import pyplot as plt
 from numpy import atleast_2d
 
