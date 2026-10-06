@@ -30,6 +30,7 @@ and the same for the constraints using margins of the form
 from __future__ import annotations
 
 from gemseo import configuration
+from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 from gemseo.doe import CustomDOE_Settings
 from gemseo.formulation import MDF_Settings
 from gemseo.optimization import NLOPT_COBYLA_Settings
@@ -49,8 +50,7 @@ from gemseo_umdo.disciplines.utils import create_noising_discipline_chain
 from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 
-# TODO(bump-gemseo): use the methods enable_fast_mode and disable_fast_mode instead  # noqa: E501
-configuration.fast = True
+configuration.enable_fast_mode()
 
 # %%
 # ## Original discipline and spaces
@@ -96,13 +96,14 @@ x_opt_as_dict = mdf_scenario.get_result().optimization_result.x_opt_as_dict
 # and restricted to the interval $[-3\sigma,3\sigma]$:
 sigma = 0.05 * x_opt_as_dict["x_shared"] / 3
 uncertain_space = RandomSpace()
-# TODO(bump-gemseo): pass the distribution settings models, e.g. SPNormalDistribution_Settings(mu=0.0, sigma=1.0), by position, one per component; a distribution name with its parameters must be written as settings models  # noqa: E501
 uncertain_space.add_variable(
     "u_x_shared",
-    "OTNormalDistribution",
-    sigma=sigma.tolist(),
-    lower_bound=(-3 * sigma).tolist(),
-    upper_bound=(3 * sigma).tolist(),
+    *[
+        OTNormalDistribution_Settings(
+            sigma=sigma_i, lower_bound=-3 * sigma_i, upper_bound=3 * sigma_i
+        )
+        for sigma_i in sigma
+    ],
 )
 
 # %%

@@ -52,8 +52,7 @@ from numpy import atleast_2d
 from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 
-# TODO(bump-gemseo): use the methods enable_fast_mode and disable_fast_mode instead  # noqa: E501
-configuration.fast = True
+configuration.enable_fast_mode()
 
 # %%
 # ## Original discipline and spaces
