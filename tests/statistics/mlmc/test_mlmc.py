@@ -211,6 +211,11 @@ def test_pilot(levels, uncertain_space):
 @pytest.mark.parametrize("log", [False, True])
 def test_plot(executed_mlmc, log, snapshot_matplotlib):
     """Check the plot of the evaluation history."""
+    if log:
+        # The rendering of the tick labels of a log-scale axis
+        # depends on the environment.
+        snapshot_matplotlib.set_defaults(remove_text=True)
+
     executed_mlmc.plot_evaluation_history(
         show=False,
         log_n_evaluations=log,
