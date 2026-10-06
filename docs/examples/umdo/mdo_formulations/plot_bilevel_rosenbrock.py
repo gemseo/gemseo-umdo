@@ -27,7 +27,7 @@ normally distributed
 with mean equal to 1 and standard deviation equal to 0.01[@AzizAlaoui2025].
 
 We use the
-[create_disciplines][gemseo.problems.mdo.opt_as_mdo_scenario.create_disciplines]
+[create_disciplines][gemseo.problem.mdo.opt_as_mdo_scenario.create_disciplines]
 function
 to make this optimization multidisciplinary.
 """

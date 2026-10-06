@@ -30,7 +30,7 @@ from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
 
 # %%
 # Firstly,
-# we define an [AnalyticDiscipline][gemseo.disciplines.analytic.AnalyticDiscipline]
+# we define an [AnalyticDiscipline][gemseo.discipline.analytic.AnalyticDiscipline]
 # implementing the random function $f(x,U)=(x+U)^2$:
 discipline = AnalyticDiscipline({"y": "(x+u)**2"}, name="quadratic_function")
 

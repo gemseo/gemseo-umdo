@@ -39,7 +39,7 @@ class IterativeEstimation:
 
     The [Sampling][gemseo_umdo.formulations.sampling.Sampling] U-MDO formulation
     passes such functors to a
-    [DOELibrary][gemseo.algos.doe.base_doe_library.BaseDOELibrary]
+    [DOELibrary][gemseo.doe.core.base_doe_library.BaseDOELibrary]
     as callback functions
     to update the statistics of the objective, constraints and observables.
     """

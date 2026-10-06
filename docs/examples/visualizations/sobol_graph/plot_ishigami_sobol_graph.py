@@ -102,7 +102,7 @@ sobol_graph
 # ## Indices estimated from a PCE
 #
 # We could also estimate them from a polynomial chaos expansion
-# (PCE, see [PCERegressor][gemseo.mlearning.regression.algos.pce.PCERegressor]).
+# (PCE, see [PCERegressor][gemseo.machine_learning.regression.model.pce.PCERegressor]).
 #
 # ### Create the training dataset
 # First,

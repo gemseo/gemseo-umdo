@@ -114,7 +114,7 @@ class BaseUMDOFormulation(
     """
 
     _statistic_function_class: type[BaseStatisticFunction] | None
-    """A subclass of `MDOFunction` to compute a statistic.
+    """A subclass of `ArrayFunction` to compute a statistic.
 
     Used only when `_STATISTIC_FUNCTION_CLASS` is `None`.
 
@@ -124,7 +124,7 @@ class BaseUMDOFormulation(
     """
 
     _STATISTIC_FUNCTION_CLASS: ClassVar[type[BaseStatisticFunction] | None] = None
-    """A subclass of `MDOFunction` to compute a statistic.
+    """A subclass of `ArrayFunction` to compute a statistic.
 
     If `None`, use `_statistic_function_class`.
 

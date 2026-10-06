@@ -28,9 +28,9 @@ In this case, the batch sampling can be sequential.
 
 To illustrate this new feature,
 GEMSEO v6.2 vectorizes the disciplines of the Sellar problem
-([Sellar1][gemseo.problems.mdo.sellar.sellar_1.Sellar1],
-[Sellar2][gemseo.problems.mdo.sellar.sellar_2.Sellar2] and
-[SellarSystem][gemseo.problems.mdo.sellar.sellar_system.SellarSystem]).
+([Sellar1][gemseo.problem.mdo.sellar.sellar_1.Sellar1],
+[Sellar2][gemseo.problem.mdo.sellar.sellar_2.Sellar2] and
+[SellarSystem][gemseo.problem.mdo.sellar.sellar_system.SellarSystem]).
 This example uses them to demonstrate the interest of vectorization
 when solving an MDO problem under uncertainty
 whose statistics are estimated by Monte Carlo sampling.

@@ -81,11 +81,11 @@ class MonteCarloSampler:
             n_samples: The number of samples.
             seed: The seed value.
                 If `None`,
-                use the [OpenTURNS.seed][gemseo.algos.doe.lib_openturns.OpenTURNS.seed].
+                use the [BaseDOELibrary.seed][gemseo.doe.core.base_doe_library.BaseDOELibrary.seed].
 
         Returns:
             The input and output samples.
-        """
+        """  # noqa: E501
         input_samples = self.__algo.sample_space(
             self.__input_space,
             settings=OT_MONTE_CARLO_Settings(n_samples=n_samples, seed=seed),

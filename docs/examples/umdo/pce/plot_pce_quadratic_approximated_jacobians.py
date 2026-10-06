@@ -45,7 +45,7 @@ from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 
 # %%
 # Firstly,
-# we define an [AnalyticDiscipline][gemseo.disciplines.analytic.AnalyticDiscipline]
+# we define an [AnalyticDiscipline][gemseo.discipline.analytic.AnalyticDiscipline]
 # implementing the function $f$:
 def f(x, u):
     y = (x + u) ** 2

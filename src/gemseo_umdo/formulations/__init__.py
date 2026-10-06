@@ -14,34 +14,34 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 """Formulations for multidisciplinary design problems under uncertainty.
 
-A [BaseMDOFormulation][gemseo.formulations.base_mdo_formulation.BaseMDOFormulation]
+A [BaseMDOFormulation][gemseo.formulation.core.base_mdo.BaseMDOFormulation]
 defines an [OptimizationProblem][gemseo.optimization.problem.OptimizationProblem]
 from one or several [Disciplines][gemseo.core.discipline.discipline.Discipline],
-a [DesignSpace][gemseo.algos.design_space.DesignSpace],
+a [DesignSpace][gemseo.space.design.DesignSpace],
 an objective and constraints.
 The objective can be either minimized (default) or maximized.
 
 In the context of deterministic MDO,
 the [OptimizationProblem][gemseo.optimization.problem.OptimizationProblem]
 is handled by a driver
-(see [DriverLibrary][gemseo.algos.base_driver_library.BaseDriverLibrary]),
+(see [DriverLibrary][gemseo.core.algorithm.base_driver_library.BaseDriverLibrary]),
 typically an optimizer
 (see
-[OptimizationLibrary][gemseo.algos.opt.base_optimization_library.BaseOptimizationLibrary]),
+[OptimizationLibrary][gemseo.optimization.core.base_optimization_library.BaseOptimizationLibrary]),
 or a design of experiments
-(DOE, see [DOELibrary][gemseo.algos.doe.base_doe_library.BaseDOELibrary]).
+(DOE, see [DOELibrary][gemseo.doe.core.base_doe_library.BaseDOELibrary]).
 
 In the frame of U-MDO,
 the
 [BaseUMDOFormulation][gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation]
-uses a [BaseMDOFormulation][gemseo.formulations.base_mdo_formulation.BaseMDOFormulation]
-with a [ParameterSpace][gemseo.algos.parameter_space.ParameterSpace]
+uses a [BaseMDOFormulation][gemseo.formulation.core.base_mdo.BaseMDOFormulation]
+with a [RandomSpace][gemseo.space.random.RandomSpace]
 defining the uncertain variables
 and executes the corresponding
 [OptimizationProblem][gemseo.optimization.problem.OptimizationProblem]
 with a particular DOE.
 Then,
-it post-processed the associated [Database][gemseo.algos.database.Database]
+it post-processed the associated [Database][gemseo.core.problem.database.Database]
 to estimate the statistics applied to the objective and constraints.
 
 The most common
