@@ -93,7 +93,7 @@ graph.sample(OT_OPT_LHS_Settings(n_samples=100))
 ```
 
 !!! warning
-    Setting the number of samples is mandatory.
+    Passing the settings of the DOE algorithm is mandatory.
     In the previous example, we used 100 samples.
 
 Lastly,
@@ -115,9 +115,10 @@ graph.visualize()
 ### Options
 
 At the sampling stage,
-the algorithm can be modified
-by setting the arguments `algo_name` and `algo_options`
-of the method
+the DOE algorithm and its options can be modified
+by passing other DOE settings,
+e.g. `OT_MONTE_CARLO_Settings(n_samples=100)`,
+to the method
 [sample()][gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph.sample].
 
 At the visualization stage,

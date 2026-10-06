@@ -27,13 +27,12 @@ Here is a typical scenario template:
 ``` py
 scenario = UMDOScenario(
     disciplines,
-    mdo_formulation_name,
-    objective_name,
     design_space,
     uncertain_space,
-    statistic_name,
-    statistic_estimation_settings=Surrogate_Settings(doe_n_samples=20),
+    Surrogate_Settings(n_samples=20),
+    formulation_settings=mdo_formulation_settings,
 )
+scenario.add_objective(objective_name, statistic_name)
 ```
 
 ## Settings
@@ -51,24 +50,24 @@ and so to get a better space-filling LHS.
 The default number samples is 10.
 It can be changed with the parameter `n_samples`
 and the DOE algorithm name can be changed with the parameter `doe_algo_settings`,
-which is a Pydantic model deriving from [BaseDOESettings][gemseo.algos.doe.base_doe_settings.BaseDOESettings].
+which is a Pydantic model deriving from [BaseDOESettings][gemseo.doe.core.base_doe_settings.BaseDOESettings].
 When `n_samples` is `None` (default) and `doe_algo_settings` has a field `n_samples`,
 then this field is considered.
 When `doe_algo_settings` has a field `seed` and its value is `None`,
-then the U-MDO formulation will use [SEED][gemseo.utils.seeder.SEED].
+then the U-MDO formulation will use [seed][gemseo.util.seeder.seed].
 
 ### Surrogate's options
 
-This U-MDO formulation is based on a [BaseRegressor][gemseo.mlearning.regression.algos.base_regressor.BaseRegressor].
+This U-MDO formulation is based on a [BaseRegressor][gemseo.machine_learning.regression.core.base_regressor.BaseRegressor].
 By default,
-this surrogate model is the [RBFRegressor][gemseo.mlearning.regression.algos.rbf.RBFRegressor] available in GEMSEO,
+this surrogate model is the [RBFRegressor][gemseo.machine_learning.regression.model.rbf.RBFRegressor] available in GEMSEO,
 which wraps the [SciPy's RBF algorithm](https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.Rbf.html).
 The kind of regressor can be changed
 by setting the `regressor_settings` parameter with a Pydantic model defining the settings of a regressor
 For example,
 set `regressor_settings` to `"LinearRegressor_Settings()"` to use a linear regressor,
 `regressor_settings` to `RBFRegressor_Settings(function="cubic")` for a
-[RBFRegressor][gemseo.mlearning.regression.algos.rbf.RBFRegressor] based on a cubic function
+[RBFRegressor][gemseo.machine_learning.regression.model.rbf.RBFRegressor] based on a cubic function
 and `regressor_n_samples` to `100` to estimate the statistics with 100 Monte Carlo simulations instead of 10000.
 
 !!! note "API"
@@ -84,13 +83,12 @@ and `regressor_n_samples` to `100` to estimate the statistics with 100 Monte Car
     )
     scenario = UMDOScenario(
         disciplines,
-        mdo_formulation_name,
-        objective_name,
         design_space,
         uncertain_space,
-        statistic_name,
-        statistic_estimation_parameters=settings,
+        settings,
+        formulation_settings=mdo_formulation_settings,
     )
+    scenario.add_objective(objective_name, statistic_name)
     ```
 
 ### Quality options
