@@ -32,7 +32,7 @@ from numpy import linspace
 from numpy import pi
 
 if TYPE_CHECKING:
-    from gemseo.typing import RealArray
+    from gemseo.util.typing import RealArray
 
 
 @dataclass

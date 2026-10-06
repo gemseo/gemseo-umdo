@@ -19,11 +19,11 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 import pytest
-from gemseo.algos.design_space import DesignSpace
-from gemseo.algos.doe.openturns.settings.ot_monte_carlo import OT_MONTE_CARLO_Settings
-from gemseo.algos.parameter_space import ParameterSpace
-from gemseo.core.discipline.discipline import Discipline
-from gemseo.mlearning.regression.algos.pce_settings import PCERegressor_Settings
+from gemseo.space import DesignSpace
+from gemseo.doe import OT_MONTE_CARLO_Settings
+from gemseo.space import RandomSpace
+from gemseo.discipline import Discipline
+from gemseo.machine_learning import PCERegressor_Settings
 from numpy import diag
 from numpy import hstack
 from numpy import linspace
@@ -35,9 +35,11 @@ from numpy.testing import assert_allclose
 from gemseo_umdo.formulations.pce_settings import PCE_Settings
 from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
 from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
+from gemseo.doe import CustomDOE_Settings
+from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 
 if TYPE_CHECKING:
-    from gemseo.typing import StrKeyMapping
+    from gemseo.util.typing import StrKeyMapping
 
 
 class A(Discipline):
@@ -52,12 +54,16 @@ class A(Discipline):
         self.n_u = n_u
 
     def _run(self, input_data: StrKeyMapping) -> None:
+        # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data, get(name) or get_merged_data()  # noqa: E501
         x = self.io.data["x"]
+        # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data, get(name) or get_merged_data()  # noqa: E501
         u = self.io.data["u"]
         self.io.update_output_data({"y": self.m @ hstack((x * u.sum(), u))})
 
     def _compute_jacobian(self, inputs=None, outputs=None) -> None:
+        # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data, get(name) or get_merged_data()  # noqa: E501
         x = self.io.data["x"]
+        # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data, get(name) or get_merged_data()  # noqa: E501
         u = self.io.data["u"]
         dydx = self.m_x * u.sum()
         dydu = vstack((
@@ -93,8 +99,9 @@ class A(Discipline):
 )
 def test_derivatives(statistic, symbol, n_x, n_u, settings):
     """Check the analytical derivatives with different estimation techniques."""
-    uncertain_space = ParameterSpace()
-    uncertain_space.add_random_variable("u", "OTNormalDistribution", size=n_u)
+    uncertain_space = RandomSpace()
+    # TODO(bump-gemseo): repeat the settings model size times, i.e. add_variable(name, *[settings] * size)  # noqa: E501
+    uncertain_space.add_variable("u", OTNormalDistribution_Settings(), size=n_u)
 
     discipline = A(n_x, n_u)
 
@@ -111,9 +118,9 @@ def test_derivatives(statistic, symbol, n_x, n_u, settings):
         statistic_estimation_settings=settings,
     )
     scenario.execute(
-        algo_name="CustomDOE", samples=linspace(1, n_x, n_x)[newaxis, :], eval_jac=True
-    )
-    last_item = scenario.formulation.optimization_problem.database.last_item
+        algorithm_settings=CustomDOE_Settings(samples=linspace(1, n_x, n_x)[newaxis, :], eval_jac=True
+    ))
+    last_item = scenario.formulation.problem.database.last_item
 
     scenario = UDOEScenario(
         [discipline],
@@ -126,9 +133,9 @@ def test_derivatives(statistic, symbol, n_x, n_u, settings):
     )
     scenario.set_differentiation_method("finite_differences")
     scenario.execute(
-        algo_name="CustomDOE", samples=linspace(1, n_x, n_x)[newaxis, :], eval_jac=True
-    )
-    new_last_item = scenario.formulation.optimization_problem.database.last_item
+        algorithm_settings=CustomDOE_Settings(samples=linspace(1, n_x, n_x)[newaxis, :], eval_jac=True
+    ))
+    new_last_item = scenario.formulation.problem.database.last_item
     name = "@Margin[y; 2.0]" if statistic == "Margin" else f"@{symbol}[y]"
     assert_allclose(
         new_last_item[name],

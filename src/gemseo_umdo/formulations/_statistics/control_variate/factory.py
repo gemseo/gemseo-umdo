@@ -26,5 +26,5 @@ from gemseo_umdo.formulations._statistics.control_variate.base_control_variate_e
 class ControlVariateEstimatorFactory(BaseFactory):
     """The factory of statistic estimators based on control variates."""
 
-    _CLASS = BaseControlVariateEstimator
-    _PACKAGE_NAMES = ("gemseo_umdo.formulations._statistics.control_variate",)
+    _class = BaseControlVariateEstimator
+    _package_names = ("gemseo_umdo.formulations._statistics.control_variate",)

@@ -17,13 +17,13 @@
 
 from __future__ import annotations
 
-from gemseo.algos.design_space import DesignSpace
-from gemseo.problems.mdo.sobieski.core.problem import SobieskiProblem
-from gemseo.problems.mdo.sobieski.disciplines import SobieskiAerodynamics
-from gemseo.problems.mdo.sobieski.disciplines import SobieskiMission
-from gemseo.problems.mdo.sobieski.disciplines import SobieskiPropulsion
-from gemseo.problems.mdo.sobieski.disciplines import SobieskiStructure
-from gemseo.utils.data_conversion import split_array_to_dict_of_arrays
+from gemseo.space import DesignSpace
+from gemseo.problem.mdo.sobieski import SobieskiProblem
+from gemseo.problem.mdo.sobieski import SobieskiAerodynamics
+from gemseo.problem.mdo.sobieski import SobieskiMission
+from gemseo.problem.mdo.sobieski import SobieskiPropulsion
+from gemseo.problem.mdo.sobieski import SobieskiStructure
+from gemseo.util.data_conversion import split_array_to_dict_of_arrays
 
 from gemseo_umdo.visualizations.uncertain_coupling_graph import UncertainCouplingGraph
 
@@ -35,7 +35,7 @@ design_variable_names = ["x_1", "x_2", "x_3", "x_shared"]
 design_space.filter(design_variable_names)
 optimum_design = split_array_to_dict_of_arrays(
     SobieskiProblem().optimum_design,
-    design_space.variable_sizes,
+    {n: v.size for n, v in design_space.variables.items()},
     design_variable_names,
 )
 

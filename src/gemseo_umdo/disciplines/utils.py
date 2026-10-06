@@ -18,21 +18,21 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from gemseo.core.chains.chain import MDOChain
-from gemseo.disciplines.analytic import AnalyticDiscipline
+from gemseo.discipline import DisciplineChain
+from gemseo.discipline import AnalyticDiscipline
 
 from gemseo_umdo.disciplines.noiser_factory import NoiserFactory
 
 if TYPE_CHECKING:
     from collections.abc import Mapping
 
-    from gemseo import DesignSpace
+    from gemseo.space import DesignSpace
 
 
 def create_noising_discipline_chain(
     input_space: DesignSpace,
     uncertain_input_variables: Mapping[str, str | tuple[str, str]],
-) -> MDOChain:
+) -> DisciplineChain:
     """Create a disciplines chain to noise input variables and rename input variables.
 
     Args:
@@ -99,4 +99,4 @@ def create_noising_discipline_chain(
             NoiserFactory().create(v[0], new_dv_name, dv_name, v[1])
         )
 
-    return MDOChain(noising_disciplines, name="DesignVariablesNoiser")
+    return DisciplineChain(noising_disciplines, name="DesignVariablesNoiser")

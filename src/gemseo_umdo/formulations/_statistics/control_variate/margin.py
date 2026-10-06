@@ -27,8 +27,8 @@ from gemseo_umdo.formulations._statistics.control_variate.standard_deviation imp
 )
 
 if TYPE_CHECKING:
-    from gemseo.algos.parameter_space import ParameterSpace
-    from gemseo.typing import RealArray
+    from gemseo.space import RandomSpace
+    from gemseo.util.typing import RealArray
 
 
 class Margin(BaseControlVariateEstimator):
@@ -45,7 +45,7 @@ class Margin(BaseControlVariateEstimator):
 
     def __init__(
         self,
-        uncertain_space: ParameterSpace,
+        uncertain_space: RandomSpace,
         factor: float,
     ) -> None:
         """

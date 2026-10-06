@@ -100,7 +100,7 @@ from gemseo_umdo._utils.compatibility.numpy import trapezoid
 from gemseo_umdo.use_cases.heat_equation.configuration import HeatEquationConfiguration
 
 if TYPE_CHECKING:
-    from gemseo.typing import RealArray
+    from gemseo.util.typing import RealArray
 
 
 class HeatEquationModel:

@@ -16,17 +16,15 @@
 
 from __future__ import annotations
 
-from gemseo.algos.parameter_space import ParameterSpace
+from gemseo.space import RandomSpace
+from gemseo.uncertainty.distribution import OTDistribution_Settings
 
 
-class SpringMassUncertainSpace(ParameterSpace):
+class SpringMassUncertainSpace(RandomSpace):
     """The space of the uncertain variables of the spring-mass system."""
 
     def __init__(self) -> None:  # noqa: D107
         super().__init__()
-        self.add_random_variable(
+        self.add_variable(
             "stiffness",
-            "OTDistribution",
-            interfaced_distribution="Beta",
-            interfaced_distribution_parameters=(3.0, 2.0, 1.0, 3.5),
-        )
+            OTDistribution_Settings(interfaced_distribution="Beta", parameters=(3.0, 2.0, 1.0, 3.5)))

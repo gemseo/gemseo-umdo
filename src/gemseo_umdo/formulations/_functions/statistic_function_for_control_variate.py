@@ -24,8 +24,8 @@ from typing import Any
 from typing import Final
 from typing import TypeVar
 
-from gemseo.mlearning.regression.algos.factory import RegressorFactory
-from gemseo.utils.data_conversion import split_array_to_dict_of_arrays
+from gemseo.machine_learning.regression.model.factory import RegressorFactory
+from gemseo.util.data_conversion import split_array_to_dict_of_arrays
 from numpy import atleast_1d
 from numpy import atleast_2d
 from numpy import diag
@@ -38,10 +38,10 @@ from gemseo_umdo.formulations._functions.base_statistic_function import (
 )
 
 if TYPE_CHECKING:
-    from gemseo.algos.optimization_problem import OptimizationProblem
-    from gemseo.algos.parameter_space import ParameterSpace
-    from gemseo.core.mdo_functions.mdo_function import MDOFunction
-    from gemseo.typing import RealArray
+    from gemseo.optimization import OptimizationProblem
+    from gemseo.space import RandomSpace
+    from gemseo.core.function.array_function import ArrayFunction
+    from gemseo.util.typing import RealArray
 
     from gemseo_umdo.formulations.control_variate import ControlVariate
 
@@ -79,7 +79,7 @@ class StatisticFunctionForControlVariate(BaseStatisticFunction[ControlVariateT])
         self,
         umdo_formulation: ControlVariateT,
         output_name: str,
-        function_type: MDOFunction.FunctionType,
+        function_type: ArrayFunction.FunctionType,
         statistic_operator_name: str,
         **statistic_options: Any,
     ) -> None:
@@ -98,7 +98,7 @@ class StatisticFunctionForControlVariate(BaseStatisticFunction[ControlVariateT])
         self.__problem = formulation.auxiliary_mdo_formulation.optimization_problem
 
     @property
-    def _statistic_estimator_parameters(self) -> tuple[ParameterSpace]:
+    def _statistic_estimator_parameters(self) -> tuple[RandomSpace]:
         return (self._umdo_formulation.uncertain_space,)
 
     def _compute_data_for_statistic_estimation(

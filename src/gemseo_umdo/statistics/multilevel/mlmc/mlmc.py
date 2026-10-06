@@ -22,11 +22,11 @@ from typing import TYPE_CHECKING
 from typing import Any
 from typing import ClassVar
 
-from gemseo.core.mdo_functions.mdo_function import MDOFunction
-from gemseo.utils.matplotlib_figure import save_show_figure
-from gemseo.utils.seeder import SEED
-from gemseo.utils.string_tools import MultiLineString
-from gemseo.utils.timer import Timer
+from gemseo.core.function.array_function import ArrayFunction
+from gemseo.util.matplotlib_figure import save_show_figure
+from gemseo.util.seeder import seed
+from gemseo.util.string import MultiLineString
+from gemseo.util.timer import Timer
 from matplotlib import pyplot as plt
 from numpy import array
 from numpy import cumsum
@@ -40,10 +40,9 @@ from gemseo_umdo.statistics.multilevel.mlmc.pilots.factory import MLMCPilotFacto
 if TYPE_CHECKING:
     from collections.abc import Iterable
     from pathlib import Path
-
-    from gemseo.algos.parameter_space import ParameterSpace
+    from gemseo.space import RandomSpace
     from gemseo.core.base_factory import BaseFactory
-    from gemseo.typing import RealArray
+    from gemseo.util.typing import RealArray
     from numpy.typing import NDArray
 
     from gemseo_umdo.statistics.multilevel.base_pilot import BasePilot
@@ -108,7 +107,7 @@ class MLMC:
     __delta_n_l: list[int]
     """The current additional numbers of samples of each level."""
 
-    __f_l: list[MDOFunction]
+    __f_l: list[ArrayFunction]
     r"""The models $f_0,f_1,\ldots,f_L$."""
 
     __minimum_budget: float
@@ -154,10 +153,10 @@ class MLMC:
     def __init__(
         self,
         levels: Iterable[Level],
-        uncertain_space: ParameterSpace,
+        uncertain_space: RandomSpace,
         n_samples: float,
         pilot_statistic_name: str = "Mean",
-        seed: int = SEED,
+        seed: int = seed,
     ) -> None:
         r"""
         Args:
@@ -341,7 +340,7 @@ class MLMC:
 
         # At level 0, sample the functions f_0 and f_{-1}: x -> 0.
         self._samplers[0].add_function(self.__f_l[0])
-        self._samplers[0].add_function(MDOFunction(self.__zero_function, "f[-1]"))
+        self._samplers[0].add_function(ArrayFunction(self.__zero_function, "f[-1]"))
 
     @staticmethod
     def __zero_function(x: RealArray) -> RealArray:

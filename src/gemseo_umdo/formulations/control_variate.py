@@ -40,9 +40,9 @@ import logging
 from typing import TYPE_CHECKING
 from typing import ClassVar
 
-from gemseo.algos.doe.factory import DOELibraryFactory
-from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
-from gemseo.utils.logging_tools import LoggingContext
+from gemseo.doe.factory import DOELibraryFactory
+from gemseo.util.constant import read_only_empty_dict
+from gemseo.util.logging import LoggingContext
 
 from gemseo_umdo.formulations._functions.statistic_function_for_control_variate import (
     StatisticFunctionForControlVariate,
@@ -56,13 +56,13 @@ from gemseo_umdo.formulations.control_variate_settings import ControlVariate_Set
 if TYPE_CHECKING:
     from collections.abc import Sequence
 
-    from gemseo.algos.design_space import DesignSpace
-    from gemseo.algos.doe.base_doe_library import BaseDOELibrary
-    from gemseo.algos.optimization_problem import OptimizationProblem
-    from gemseo.algos.parameter_space import ParameterSpace
-    from gemseo.core.discipline.discipline import Discipline
-    from gemseo.formulations.base_mdo_formulation import BaseMDOFormulation
-    from gemseo.typing import StrKeyMapping
+    from gemseo.space import DesignSpace
+    from gemseo.doe.core.base_doe_library import BaseDOELibrary
+    from gemseo.optimization import OptimizationProblem
+    from gemseo.space import RandomSpace
+    from gemseo.discipline import Discipline
+    from gemseo.formulation.core.base_mdo import BaseMDOFormulation
+    from gemseo.util.typing import StrKeyMapping
 
 
 class ControlVariate(BaseUMDOFormulation):
@@ -75,7 +75,7 @@ class ControlVariate(BaseUMDOFormulation):
         for more information about the available DOE algorithm names and options.
     """
 
-    Settings: ClassVar[type[ControlVariate_Settings]] = ControlVariate_Settings
+    settings_class: ClassVar[type[ControlVariate_Settings]] = ControlVariate_Settings
 
     _USE_AUXILIARY_MDO_FORMULATION: ClassVar[bool] = True
 
@@ -93,24 +93,27 @@ class ControlVariate(BaseUMDOFormulation):
         type[StatisticFunctionForControlVariate] | None
     ] = StatisticFunctionForControlVariate
 
+    # TODO(bump-gemseo): pass the problem first, e.g. OptimizationProblem(design_space), then set its objective; the loose settings go into settings=<Formulation>_Settings(...)  # noqa: E501
     def __init__(  # noqa: D107
         self,
         disciplines: Sequence[Discipline],
         objective_name: str,
         design_space: DesignSpace,
         mdo_formulation: BaseMDOFormulation,
-        uncertain_space: ParameterSpace,
+        uncertain_space: RandomSpace,
         objective_statistic_name: str,
-        settings_model: ControlVariate_Settings,
+        settings: ControlVariate_Settings,
         minimize_objective: bool = True,
-        objective_statistic_parameters: StrKeyMapping = READ_ONLY_EMPTY_DICT,
-        mdo_formulation_settings: StrKeyMapping = READ_ONLY_EMPTY_DICT,
-    ) -> None:
-        algo_name = settings_model.doe_algo_settings._TARGET_CLASS_NAME
+        objective_statistic_parameters: StrKeyMapping = read_only_empty_dict,
+        mdo_formulation_settings: StrKeyMapping = read_only_empty_dict) -> None:
+        # TODO(bump-gemseo): BaseSettings._TARGET_CLASS_NAME was removed; see the GEMSEO 7 changelog.  # noqa: E501
+        algo_name = settings.doe_algo_settings._TARGET_CLASS_NAME
         self.__doe_algo = DOELibraryFactory().create(algo_name)
+        # TODO(bump-gemseo): BaseSettings._TARGET_CLASS_NAME was removed; see the GEMSEO 7 changelog.  # noqa: E501
         self.__doe_algo_for_regressor = DOELibraryFactory().create(
-            settings_model.regressor_doe_algo_settings._TARGET_CLASS_NAME
+            settings.regressor_doe_algo_settings._TARGET_CLASS_NAME
         )
+        # TODO(bump-gemseo): pass the problem first, e.g. OptimizationProblem(design_space), then set its objective; the loose settings go into settings=<Formulation>_Settings(...)  # noqa: E501
         super().__init__(
             disciplines,
             objective_name,
@@ -118,7 +121,7 @@ class ControlVariate(BaseUMDOFormulation):
             mdo_formulation,
             uncertain_space,
             objective_statistic_name,
-            settings_model,
+            settings,
             minimize_objective=minimize_objective,
             objective_statistic_parameters=objective_statistic_parameters,
             mdo_formulation_settings=mdo_formulation_settings,
@@ -126,7 +129,7 @@ class ControlVariate(BaseUMDOFormulation):
         self.name = (
             f"{self.__class__.__name__}"
             f"[{mdo_formulation.__class__.__name__}; "
-            f"{algo_name}({settings_model.n_samples})]"
+            f"{algo_name}({settings.n_samples})]"
         )
 
     @property
@@ -152,4 +155,4 @@ class ControlVariate(BaseUMDOFormulation):
             settings_model = self._settings.doe_algo_settings
 
         with LoggingContext(logging.getLogger("gemseo")):
-            doe_algo.execute(problem, settings_model=settings_model)
+            doe_algo.execute(problem, settings=settings_model)

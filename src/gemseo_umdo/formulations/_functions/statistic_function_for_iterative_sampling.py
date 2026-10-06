@@ -29,8 +29,8 @@ from gemseo_umdo.formulations._functions.base_statistic_function_for_sampling im
 from gemseo_umdo.formulations._functions.iterative_estimation import IterativeEstimation
 
 if TYPE_CHECKING:
-    from gemseo.core.mdo_functions.mdo_function import MDOFunction
-    from gemseo.typing import RealArray
+    from gemseo.core.function.array_function import ArrayFunction
+    from gemseo.util.typing import RealArray
 
     from gemseo_umdo.formulations._statistics.iterative_sampling.base_sampling_estimator import (  # noqa: E501
         BaseSamplingEstimator,
@@ -51,7 +51,7 @@ class StatisticFunctionForIterativeSampling(
         self,
         umdo_formulation: SamplingT,
         output_name: str,
-        function_type: MDOFunction.FunctionType,
+        function_type: ArrayFunction.FunctionType,
         statistic_operator_name: str,
         **statistic_options: Any,
     ) -> None:

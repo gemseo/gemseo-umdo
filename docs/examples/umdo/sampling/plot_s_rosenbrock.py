@@ -28,12 +28,15 @@ $x$, $y$ and $U$.
 
 from __future__ import annotations
 
-from gemseo.algos.design_space import DesignSpace
-from gemseo.algos.parameter_space import ParameterSpace
-from gemseo.disciplines.analytic import AnalyticDiscipline
+from gemseo.space import DesignSpace
+from gemseo.space import RandomSpace
+from gemseo.discipline import AnalyticDiscipline
 
 from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
+from gemseo.optimization import NLOPT_SLSQP_Settings
+from gemseo.post import OptHistoryView_Settings
+from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 
 # %%
 # Firstly,
@@ -49,8 +52,8 @@ design_space.add_variable("y", lower_bound=-2, upper_bound=2.0, value=-2.0)
 # %%
 # and $U$ is a Gaussian variable with unit mean
 # and standard deviation equal to 0.05:
-uncertain_space = ParameterSpace()
-uncertain_space.add_random_variable("u", "OTNormalDistribution", mu=1.0, sigma=0.05)
+uncertain_space = RandomSpace()
+uncertain_space.add_variable("u", OTNormalDistribution_Settings(mu=1.0, sigma=0.05))
 
 # %%
 # Then,
@@ -70,11 +73,11 @@ scenario = UMDOScenario(
 
 # %%
 # We execute this scenario using the gradient-based optimizer SLSQP:
-scenario.execute(algo_name="NLOPT_SLSQP", max_iter=100)
+scenario.execute(algorithm_settings=NLOPT_SLSQP_Settings(max_iter=100))
 
 # %%
 # and plot the optimization history:
-scenario.post_process(post_name="OptHistoryView", save=False, show=True)
+scenario.post_process(settings=OptHistoryView_Settings(save=False, show=True))
 
 # %%
 # Lastly,

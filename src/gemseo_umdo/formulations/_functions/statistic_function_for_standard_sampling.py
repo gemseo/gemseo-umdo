@@ -30,7 +30,7 @@ from gemseo_umdo.formulations._functions.base_statistic_function_for_sampling im
 )
 
 if TYPE_CHECKING:
-    from gemseo.typing import RealArray
+    from gemseo.util.typing import RealArray
 
     from gemseo_umdo.formulations.sampling import Sampling
 

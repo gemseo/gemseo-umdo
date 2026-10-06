@@ -19,20 +19,12 @@ from pathlib import Path
 
 import pytest
 from gemseo import sample_disciplines
-from gemseo.disciplines.analytic import AnalyticDiscipline
-from gemseo.mlearning.regression.algos.pce import PCERegressor
-from gemseo.problems.uncertainty.ishigami.ishigami_discipline import IshigamiDiscipline
-from gemseo.problems.uncertainty.ishigami.ishigami_space import IshigamiSpace
-from gemseo.problems.uncertainty.ishigami.statistics import SOBOL_1
-from gemseo.problems.uncertainty.ishigami.statistics import SOBOL_2
-from gemseo.problems.uncertainty.ishigami.statistics import SOBOL_3
-from gemseo.problems.uncertainty.ishigami.statistics import SOBOL_12
-from gemseo.problems.uncertainty.ishigami.statistics import SOBOL_13
-from gemseo.problems.uncertainty.ishigami.statistics import SOBOL_23
-from gemseo.problems.uncertainty.ishigami.statistics import TOTAL_SOBOL_1
-from gemseo.problems.uncertainty.ishigami.statistics import TOTAL_SOBOL_2
-from gemseo.problems.uncertainty.ishigami.statistics import TOTAL_SOBOL_3
-from gemseo.uncertainty.sensitivity.sobol_analysis import SobolAnalysis
+from gemseo.discipline import AnalyticDiscipline
+from gemseo.machine_learning.regression.model import PCERegressor
+from gemseo.problem.uncertainty.ishigami import IshigamiDiscipline
+from gemseo.problem.uncertainty.ishigami import IshigamiSpace
+from gemseo.problem.uncertainty.ishigami.statistics import total_sobol_3, total_sobol_2, total_sobol_1, sobol_3, sobol_23, sobol_2, sobol_13, sobol_12, sobol_1
+from gemseo.uncertainty.sensitivity import SobolAnalysis
 
 from gemseo_umdo.visualizations.sobol_graph import SobolGraph
 
@@ -40,22 +32,22 @@ from gemseo_umdo.visualizations.sobol_graph import SobolGraph
 @pytest.fixture(scope="module")
 def first_order_indices() -> dict[str, float]:
     """The first-order Sobol' indices."""
-    return {"X1": SOBOL_1, "X2": SOBOL_2, "X3": SOBOL_3}
+    return {"X1": sobol_1, "X2": sobol_2, "X3": sobol_3}
 
 
 @pytest.fixture(scope="module")
 def total_order_indices() -> dict[str, float]:
     """The total-order Sobol' indices."""
-    return {"X1": TOTAL_SOBOL_1, "X2": TOTAL_SOBOL_2, "X3": TOTAL_SOBOL_3}
+    return {"X1": total_sobol_1, "X2": total_sobol_2, "X3": total_sobol_3}
 
 
 @pytest.fixture(scope="module")
 def second_order_indices() -> dict[tuple[str, str], float]:
     """The second-order Sobol' indices."""
     return {
-        ("X1", "X2"): SOBOL_12,
-        ("X1", "X3"): SOBOL_13,
-        ("X2", "X3"): SOBOL_23,
+        ("X1", "X2"): sobol_12,
+        ("X1", "X3"): sobol_13,
+        ("X2", "X3"): sobol_23,
     }
 
 

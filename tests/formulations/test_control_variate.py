@@ -23,14 +23,14 @@ from typing import Any
 import pytest
 from gemseo import from_pickle
 from gemseo import to_pickle
-from gemseo.algos.design_space import DesignSpace
-from gemseo.algos.doe.custom_doe.settings.custom_doe_settings import CustomDOE_Settings
-from gemseo.algos.doe.openturns.settings.ot_opt_lhs import OT_OPT_LHS_Settings
-from gemseo.algos.doe.scipy.settings.mc import MC_Settings
-from gemseo.algos.parameter_space import ParameterSpace
-from gemseo.disciplines.analytic import AnalyticDiscipline
-from gemseo.formulations.mdf import MDF
-from gemseo.mlearning.regression.algos.rbf_settings import RBFRegressor_Settings
+from gemseo.space import DesignSpace
+from gemseo.doe import CustomDOE_Settings
+from gemseo.doe import OT_OPT_LHS_Settings
+from gemseo.doe import MC_Settings
+from gemseo.space import RandomSpace
+from gemseo.discipline import AnalyticDiscipline
+from gemseo.formulation.mdf import MDF
+from gemseo.machine_learning import RBFRegressor_Settings
 from numpy import array
 from numpy import diag
 from numpy import diagonal
@@ -48,12 +48,13 @@ from gemseo_umdo.formulations._statistics.control_variate.variance import Varian
 from gemseo_umdo.formulations.control_variate import ControlVariate
 from gemseo_umdo.formulations.control_variate_settings import ControlVariate_Settings
 from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
+from gemseo.uncertainty.distribution import OTUniformDistribution_Settings
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
 
-    from gemseo.core.discipline.discipline import Discipline
-    from gemseo.mlearning.regression.algos.base_regressor_settings import (
+    from gemseo.discipline import Discipline
+    from gemseo.machine_learning.regression.core.base_regressor_settings import (
         BaseRegressorSettings,
     )
 
@@ -69,11 +70,12 @@ def umdo_formulation(
     disciplines: Sequence[Discipline],
     design_space: DesignSpace,
     mdo_formulation: MDF,
-    uncertain_space: ParameterSpace,
+    uncertain_space: RandomSpace,
     regressor_settings: BaseRegressorSettings,
 ) -> ControlVariate:
     """The UMDO formulation."""
-    design_space = MDF(disciplines, "f", design_space).design_space
+    # TODO(bump-gemseo): pass the problem first, e.g. OptimizationProblem(design_space), then set its objective; the loose settings go into settings=<Formulation>_Settings(...)  # noqa: E501
+    design_space = MDF(disciplines, "f", design_space).input_space
     formulation = ControlVariate(
         disciplines,
         "f",
@@ -113,6 +115,7 @@ def scenario(disciplines, design_space, uncertain_space, algo_data) -> UDOEScena
     )
     scn.add_constraint("c", "Margin", factor=3.0)
     scn.add_observable("o", "Variance")
+    # TODO(bump-gemseo): **kwargs may contain: algo_settings_model -> algorithm_settings  # noqa: E501
     scn.execute(**algo_data)
     return scn
 
@@ -137,7 +140,7 @@ def test_scenario_serialization(scenario, tmp_path, algo_data):
 
 def test_mdo_formulation_objective(umdo_formulation, mdf_discipline):
     """Check that the MDO formulation can compute the objective correctly."""
-    objective = umdo_formulation.mdo_formulation.optimization_problem.objective
+    objective = umdo_formulation.mdo_formulation.problem.objective
     input_data = {name: array([2.0]) for name in ["u", "u1", "u2"]}
     assert_equal(
         objective.evaluate(array([2.0] * 3)), mdf_discipline.execute(input_data)["f"]
@@ -178,14 +181,14 @@ def test_umdo_formulation_constraint(umdo_formulation):
 
 def test_umdo_formulation_observable(umdo_formulation):
     """Check that the UMDO formulation can compute the observables correctly."""
-    observable = umdo_formulation.optimization_problem.observables[0]
+    observable = umdo_formulation.problem.observables[0]
     expected = -10.0 if umdo_formulation._settings.regressor_settings is None else -1.0
     assert_allclose(observable.evaluate(array([0.0] * 3)), array([expected]))
 
 
 def test_clear_inner_database(umdo_formulation):
     """Check that the inner database is cleared before sampling."""
-    obj_value = umdo_formulation.optimization_problem.objective.evaluate(
+    obj_value = umdo_formulation.problem.objective.evaluate(
         array([0.0] * 3)
     )
     # The inner problem depending on the uncertain variables is reset
@@ -193,7 +196,7 @@ def test_clear_inner_database(umdo_formulation):
     # to avoid recovering the data stored in the inner database
     # and force new evaluations of the functions attached to the inner problem.
     assert (
-        umdo_formulation.optimization_problem.objective.evaluate(array([1.0, 0.0, 0.0]))
+        umdo_formulation.problem.objective.evaluate(array([1.0, 0.0, 0.0]))
         != obj_value
     )
 
@@ -292,10 +295,10 @@ def test_uncertain_input_data_non_normalization():
     discipline = AnalyticDiscipline({"f": "x+u"})
     design_space = DesignSpace()
     design_space.add_variable("x")
-    uncertain_space = ParameterSpace()
-    uncertain_space.add_random_variable(
-        "u", "OTUniformDistribution", minimum=0.0, maximum=1.5
-    )
+    uncertain_space = RandomSpace()
+    uncertain_space.add_variable(
+        "u", OTUniformDistribution_Settings(minimum=0.0, maximum=1.5
+    ))
     scenario = UDOEScenario(
         [discipline],
         "f",
@@ -306,9 +309,12 @@ def test_uncertain_input_data_non_normalization():
         formulation_name="DisciplinaryOpt",
     )
     scenario.execute(CustomDOE_Settings(samples=array([[1.0]])))
+    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data, get(name) or get_merged_data()  # noqa: E501
     assert_almost_equal(discipline.io.data["x"], array([1.0]))
     # u = 1.125, f = 2.125 and dfdu = 1. before bug fix
+    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data, get(name) or get_merged_data()  # noqa: E501
     assert_almost_equal(discipline.io.data["u"], array([0.75]))
+    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data, get(name) or get_merged_data()  # noqa: E501
     assert_almost_equal(discipline.io.data["f"], array([1.75]))
 
 

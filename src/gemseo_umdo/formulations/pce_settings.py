@@ -18,10 +18,9 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from gemseo.mlearning.regression.algos.base_fce_settings import (  # noqa: TC002
-    BaseFCERegressor_Settings,
-)
-from gemseo.mlearning.regression.algos.pce_settings import PCERegressor_Settings
+from gemseo.machine_learning.regression.core.base_fce_settings import (  # noqa: TC002
+    BaseFCERegressorSettings)
+from gemseo.machine_learning import PCERegressor_Settings
 from pydantic import Field
 from pydantic import PositiveFloat
 from pydantic import model_validator
@@ -64,7 +63,7 @@ class PCE_Settings(Surrogate_Settings, SurrogateQuality_Settings):  # noqa: N801
         ),
     )
 
-    regressor_settings: BaseFCERegressor_Settings = Field(
+    regressor_settings: BaseFCERegressorSettings = Field(
         default=PCERegressor_Settings(),
         description="The FCE settings.",
     )

@@ -18,18 +18,18 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from gemseo.algos.database import Database
-from gemseo.core.mdo_functions.mdo_function import MDOFunction
-from gemseo.utils.derivatives.finite_differences import FirstOrderFD
+from gemseo.core.problem.database import Database
+from gemseo.core.function.array_function import ArrayFunction
+from gemseo.util.derivative.approximator.forward_differences import ForwardDifferences
 
 if TYPE_CHECKING:
     from collections.abc import Callable
 
-    from gemseo.typing import NumberArray
-    from gemseo.typing import RealArray
+    from gemseo.util.typing import NumberArray
+    from gemseo.util.typing import RealArray
 
 
-class HessianFunction(MDOFunction):
+class HessianFunction(ArrayFunction):
     """A function approximating the Hessian matrix by finite differences.
 
     Take an original function and approximate its Hessian with finite differences
@@ -39,15 +39,15 @@ class HessianFunction(MDOFunction):
     __jac: Callable[[NumberArray], NumberArray]
     """The function computing the Jacobian."""
 
-    def __init__(self, func: MDOFunction) -> None:
+    def __init__(self, func: ArrayFunction) -> None:
         """
         Args:
             func: The original function.
         """  # noqa: D205 D212 D415
-        self.__jac = func.jac if func.has_jac else FirstOrderFD(func.func).f_gradient
-        grad_tag = Database.GRAD_TAG
+        self.__jac = func.jac if func.has_jac else ForwardDifferences(func.func).f_gradient
+        grad_tag = Database.grad_tag
         super().__init__(
-            FirstOrderFD(self._compute_jac).f_gradient,
+            ForwardDifferences(self._compute_jac).f_gradient,
             f"{grad_tag}{grad_tag}{func.name}",
         )
 

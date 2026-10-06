@@ -39,21 +39,24 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from gemseo.algos.design_space import DesignSpace
-from gemseo.algos.parameter_space import ParameterSpace
-from gemseo.datasets.dataset import Dataset
-from gemseo.disciplines.analytic import AnalyticDiscipline
-from gemseo.post.dataset.boxplot import Boxplot
-from gemseo.settings.doe import OT_MONTE_CARLO_Settings
+from gemseo.space import DesignSpace
+from gemseo.space import RandomSpace
+from gemseo.dataset import Dataset
+from gemseo.discipline import AnalyticDiscipline
+from gemseo.post.dataset import Boxplot
+from gemseo.doe import OT_MONTE_CARLO_Settings
 from numpy import array
 from numpy.linalg import norm
 
 from gemseo_umdo.formulations.control_variate_settings import ControlVariate_Settings
 from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
+from gemseo.optimization import NLOPT_SLSQP_Settings
+from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
+from gemseo.post.dataset.boxplot_settings import Boxplot_Settings
 
 if TYPE_CHECKING:
-    from gemseo.typing import RealArray
+    from gemseo.util.typing import RealArray
 
     from gemseo_umdo.formulations.base_umdo_formulation_settings import (
         BaseUMDOFormulationSettings,
@@ -73,9 +76,9 @@ design_space.add_variable("x2", lower_bound=-2, upper_bound=2.0, value=-2.0)
 
 # %%
 # and the uncertain space:
-uncertain_space = ParameterSpace()
+uncertain_space = RandomSpace()
 sigma = 0.1
-uncertain_space.add_random_variable("u", "OTNormalDistribution", mu=1.0, sigma=sigma)
+uncertain_space.add_variable("u", OTNormalDistribution_Settings(mu=1.0, sigma=sigma))
 
 
 # %%
@@ -109,7 +112,7 @@ def solve_problem(
         ),
     )
     scenario.set_differentiation_method("finite_differences")
-    scenario.execute(algo_name="NLOPT_SLSQP", max_iter=100)
+    scenario.execute(algorithm_settings=NLOPT_SLSQP_Settings(max_iter=100))
     return scenario.optimization_result.x_opt
 
 
@@ -149,7 +152,7 @@ dataset_cv.name = "Control variate"
 # %%
 # Below are the boxplots
 # showing the estimation error in the Euclidean norm for the optimal design:
-boxplot = Boxplot(dataset_s, dataset_cv, variables=["x_opt"])
+boxplot = Boxplot(dataset_s, settings=Boxplot_Settings(variables=["x_opt"], datasets=(dataset_cv,)))
 boxplot.execute(save=False, show=True)
 
 # %%

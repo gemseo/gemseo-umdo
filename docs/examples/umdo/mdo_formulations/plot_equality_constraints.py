@@ -33,16 +33,20 @@ under the equality constraints $\mathbb{E}[h(x,y)]=r^2$ and $\mathbb{V}[h(x,y)]=
 
 from __future__ import annotations
 
-from gemseo.algos.design_space import DesignSpace
-from gemseo.algos.parameter_space import ParameterSpace
-from gemseo.disciplines.analytic import AnalyticDiscipline
-from gemseo.scenarios.mdo_scenario import MDOScenario
+from gemseo.space import DesignSpace
+from gemseo.space import RandomSpace
+from gemseo.discipline import AnalyticDiscipline
+from gemseo.scenario import MDOScenario
 from matplotlib import pyplot as plt
 from matplotlib.pyplot import colormaps
 from numpy import array
 
 from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
+from gemseo.doe import OT_FULLFACT_Settings
+from gemseo.optimization import SLSQP_Settings
+from gemseo.formulation import DisciplinaryOpt_Settings
+from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 
 # %%
 # ## Discipline and design space
@@ -73,11 +77,9 @@ initial_design = array([1.75, 1.75])
 # we sample the objective function over a regular grid:
 scenario = MDOScenario(
     [discipline],
-    "f",
-    design_space,
-    formulation_name="DisciplinaryOpt",
-)
-scenario.execute(algo_name="OT_FULLFACT", n_samples=20 * 20)
+    design_space=design_space, formulation_settings=DisciplinaryOpt_Settings())
+scenario.add_objective("f", minimize=True)
+scenario.execute(algorithm_settings=OT_FULLFACT_Settings(n_samples=20 * 20))
 # %%
 # and store the 400 samples:
 samples = scenario.to_dataset()
@@ -90,14 +92,12 @@ samples = scenario.to_dataset()
 radius = 0.25
 scenario = MDOScenario(
     [discipline],
-    "f",
-    design_space,
-    formulation_name="DisciplinaryOpt",
-)
+    design_space=design_space, formulation_settings=DisciplinaryOpt_Settings())
+scenario.add_objective("f", minimize=True)
 scenario.add_constraint("h", value=radius**2)
 # %%
 # and solve it using the gradient-based SLSQP algorithm:
-scenario.execute(algo_name="SLSQP", max_iter=100)
+scenario.execute(algorithm_settings=SLSQP_Settings(max_iter=100))
 x_opt = scenario.optimization_result.x_opt
 
 # %%
@@ -111,9 +111,9 @@ x_opt = scenario.optimization_result.x_opt
 # First,
 # we need to define the uncertain space
 # with independent normal variables centered at 1 with standard deviation equal to 1/6:
-uncertain_space = ParameterSpace()
-uncertain_space.add_random_variable("a", "OTNormalDistribution", mu=1.0, sigma=1 / 6)
-uncertain_space.add_random_variable("b", "OTNormalDistribution", mu=1.0, sigma=1 / 6)
+uncertain_space = RandomSpace()
+uncertain_space.add_variable("a", OTNormalDistribution_Settings(mu=1.0, sigma=1 / 6))
+uncertain_space.add_variable("b", OTNormalDistribution_Settings(mu=1.0, sigma=1 / 6))
 
 # %%
 # ### Problem
@@ -138,7 +138,7 @@ scenario.add_constraint("h", "Variance", constraint_type="eq")
 # %%
 # Finally,
 # we solve this optimization problem using the gradient-based SLSQP algorithm:
-scenario.execute(algo_name="SLSQP", max_iter=100)
+scenario.execute(algorithm_settings=SLSQP_Settings(max_iter=100))
 
 # %%
 # ## Results

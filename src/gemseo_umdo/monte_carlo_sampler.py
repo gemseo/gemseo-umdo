@@ -19,14 +19,14 @@ from __future__ import annotations
 from collections.abc import Callable
 from typing import TYPE_CHECKING
 
-from gemseo.algos.doe.openturns.openturns import OpenTURNS
-from gemseo.typing import RealArray
+from gemseo.doe.openturns.openturns import OpenTURNS
+from gemseo.util.typing import RealArray
 from numpy import array
 from numpy import hstack
 from numpy import vstack
 
 if TYPE_CHECKING:
-    from gemseo.algos.design_space import DesignSpace
+    from gemseo.space import DesignSpace
 
 FunctionType = Callable[[RealArray], RealArray]
 
@@ -85,7 +85,7 @@ class MonteCarloSampler:
         Returns:
             The input and output samples.
         """
-        input_samples = self.__algo.compute_doe(
+        input_samples = self.__algo.sample_space(
             self.__input_space, n_samples=n_samples, seed=seed
         )
         if self.__all_functions_are_vectorized:

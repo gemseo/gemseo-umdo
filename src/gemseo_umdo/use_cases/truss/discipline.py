@@ -18,7 +18,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from gemseo.core.discipline.discipline import Discipline
+from gemseo.discipline import Discipline
 from numpy import array
 
 from gemseo_umdo.use_cases.truss.bar import Bar

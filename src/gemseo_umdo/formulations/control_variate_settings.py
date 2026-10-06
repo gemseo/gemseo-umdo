@@ -18,12 +18,12 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from gemseo.algos.doe.base_doe_settings import BaseDOESettings  # noqa: TC002
-from gemseo.algos.doe.openturns.settings.ot_opt_lhs import OT_OPT_LHS_Settings
-from gemseo.mlearning.regression.algos.base_regressor_settings import (
+from gemseo.doe.core.base_doe_settings import BaseDOESettings  # noqa: TC002
+from gemseo.doe import OT_OPT_LHS_Settings
+from gemseo.machine_learning.regression.core.base_regressor_settings import (
     BaseRegressorSettings,  # noqa: TC002
 )
-from gemseo.utils.seeder import SEED
+from gemseo.util.seeder import seed
 from pydantic import Field
 from pydantic import model_validator
 
@@ -50,7 +50,7 @@ class ControlVariate_Settings(  # noqa: N801
     _TARGET_CLASS_NAME = "ControlVariate"
 
     regressor_doe_algo_settings: BaseDOESettings = Field(
-        default=OT_OPT_LHS_Settings(n_samples=10, seed=SEED + 1),
+        default=OT_OPT_LHS_Settings(n_samples=10, seed=seed + 1),
         description=(
             """The DOE settings for creating the training dataset for the regressor.
 
@@ -69,6 +69,7 @@ If ``None``, the control variates use first-order Taylor polynomials.""",
     @model_validator(mode="after")
     def __validate_seeds(self) -> Self:
         """Validate the seeds."""
+        # TODO(bump-gemseo): BaseSettings._TARGET_CLASS_NAME was removed; see the GEMSEO 7 changelog.  # noqa: E501
         if (
             "seed" in self.doe_algo_settings.model_fields
             and "seed" in self.regressor_doe_algo_settings.model_fields

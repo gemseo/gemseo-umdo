@@ -22,8 +22,8 @@ variables defined by `BeamUncertainSpace`.
 
 from __future__ import annotations
 
-from gemseo.core.chains.chain import MDOChain
-from gemseo.uncertainty.sensitivity.sobol_analysis import SobolAnalysis
+from gemseo.discipline import DisciplineChain
+from gemseo.uncertainty.sensitivity import SobolAnalysis
 
 from gemseo_umdo.use_cases.beam_model.constraints import BeamConstraints
 from gemseo_umdo.use_cases.beam_model.discipline import Beam
@@ -33,12 +33,13 @@ uncertain_space = BeamUncertainSpace()
 
 n_y = n_z = 10
 
-mdo_chain = MDOChain([Beam(n_y=n_y, n_z=n_z), BeamConstraints()])
+mdo_chain = DisciplineChain([Beam(n_y=n_y, n_z=n_z), BeamConstraints()])
 
 sobol = SobolAnalysis()
 sobol.compute_samples(
     [mdo_chain], uncertain_space, 500, output_names=["c_displ", "c_stress"]
 )
+# TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data, get(name) or get_merged_data()  # noqa: E501
 mesh = mdo_chain.disciplines[0].io.data["yz_grid"].reshape((-1, 2))
 sobol.main_method = "total"
 sobol.compute_indices()

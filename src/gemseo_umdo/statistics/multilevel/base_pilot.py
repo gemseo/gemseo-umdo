@@ -20,7 +20,7 @@ from abc import abstractmethod
 from typing import TYPE_CHECKING
 from typing import Any
 
-from gemseo.utils.metaclasses import ABCGoogleDocstringInheritanceMeta
+from gemseo.util.metaclass import ABCGoogleDocstringInheritanceMeta
 from numpy import argmax
 from numpy import array
 from numpy import nan
@@ -29,7 +29,7 @@ if TYPE_CHECKING:
     from collections.abc import Iterable
     from collections.abc import Sequence
 
-    from gemseo.typing import RealArray
+    from gemseo.util.typing import RealArray
     from numpy.typing import NDArray
 
 

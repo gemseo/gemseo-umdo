@@ -29,6 +29,8 @@ from gemseo_umdo.use_cases.beam_model.constraints import BeamConstraints
 from gemseo_umdo.use_cases.beam_model.design_space import BeamDesignSpace
 from gemseo_umdo.use_cases.beam_model.discipline import Beam
 from gemseo_umdo.use_cases.beam_model.uncertain_space import BeamUncertainSpace
+from gemseo.optimization import NLOPT_COBYLA_Settings
+from gemseo.post import OptHistoryView_Settings
 
 scenario = UMDOScenario(
     [Beam(), BeamConstraints()],
@@ -45,6 +47,6 @@ scenario.add_constraint(
 scenario.add_constraint(
     "c_displ", "Probability", greater=True, threshold=1.0, positive=True, value=0.9
 )
-scenario.execute(algo_name="NLOPT_COBYLA", max_iter=30)
+scenario.execute(algorithm_settings=NLOPT_COBYLA_Settings(max_iter=30))
 
-scenario.post_process(post_name="OptHistoryView", save=False, show=True)
+scenario.post_process(settings=OptHistoryView_Settings(save=False, show=True))

@@ -19,7 +19,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 import pytest
-from gemseo.core.mdo_functions.mdo_function import MDOFunction
+from gemseo.core.function.array_function import ArrayFunction
 from numpy import array
 from numpy.testing import assert_equal
 
@@ -74,7 +74,7 @@ def test_default(model, surrogate_model, difference_surrogate_model):
     assert isinstance(level.surrogate_model, tuple)
     assert len(level.surrogate_model) == 2
     g = level.surrogate_model[0]
-    assert isinstance(g, MDOFunction)
+    assert isinstance(g, ArrayFunction)
     assert g.name == "g"
     assert g.evaluate(array([2.0])) == array([3.6])
     assert level.surrogate_model[1] == 0.0
@@ -82,12 +82,12 @@ def test_default(model, surrogate_model, difference_surrogate_model):
     assert isinstance(level.difference_surrogate_model, tuple)
     assert len(level.difference_surrogate_model) == 2
     h = level.difference_surrogate_model[0]
-    assert isinstance(h, MDOFunction)
+    assert isinstance(h, ArrayFunction)
     assert h.name == "h"
     assert h.evaluate(array([2.0])) == array([0.1])
     assert level.difference_surrogate_model[1] == 0.0
 
-    assert isinstance(level.model, MDOFunction)
+    assert isinstance(level.model, ArrayFunction)
     assert level.model.name == "f"
     assert level.model.evaluate(array([1.0])) == array([2.0])
 

@@ -19,11 +19,11 @@ from __future__ import annotations
 from collections.abc import Mapping  # noqa: TC003
 from collections.abc import Sequence  # noqa: TC003
 
-from gemseo.mlearning.regression.algos.base_regressor_settings import (
+from gemseo.machine_learning.regression.core.base_regressor_settings import (
     BaseRegressorSettings,  # noqa: TC002
 )
-from gemseo.mlearning.regression.algos.rbf_settings import RBFRegressor_Settings
-from gemseo.utils.seeder import SEED
+from gemseo.machine_learning import RBFRegressor_Settings
+from gemseo.util.seeder import seed
 from pydantic import Field
 from pydantic import NonNegativeInt  # noqa: TC002
 from pydantic import PositiveInt  # noqa: TC002
@@ -59,7 +59,7 @@ to estimate the statistics from the regressor.""",
     )
 
     regressor_sampling_seed: NonNegativeInt = Field(
-        default=SEED,
+        default=seed,
         description="""The seed of the Monte Carlo sampler.
 to estimate the statistics from the regressor.""",
     )

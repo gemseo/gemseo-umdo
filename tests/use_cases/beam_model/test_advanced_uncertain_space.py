@@ -59,4 +59,5 @@ def test_nominal_values():
 )
 def test_variables(uncertain_space, name, repr_):
     """Check the probability distributions of the random variables."""
+    # TODO(bump-gemseo): use space.variables[name].distribution instead  # noqa: E501
     assert repr(uncertain_space.distributions[name]) == repr_

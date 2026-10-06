@@ -18,9 +18,10 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from gemseo.utils.seeder import SEED
+from gemseo.util.seeder import seed
 from numpy import array
-from strenum import StrEnum
+# TODO(bump-gemseo): strenum.StrEnum: enum.StrEnum gives auto() the lower-cased member name (MC = auto() was "MC", is now "mc"), so write MC = "MC" to keep the values, or keep strenum as a dependency of your own  # noqa: E501
+from enum import StrEnum
 
 from gemseo_umdo.statistics.multilevel.mlmc.mlmc import MLMC
 from gemseo_umdo.statistics.multilevel.mlmc_mlcv.pilots.factory import (
@@ -29,9 +30,8 @@ from gemseo_umdo.statistics.multilevel.mlmc_mlcv.pilots.factory import (
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
-
-    from gemseo.algos.parameter_space import ParameterSpace
-    from gemseo.core.mdo_functions.mdo_function import MDOFunction
+    from gemseo.space import RandomSpace
+    from gemseo.core.function.array_function import ArrayFunction
 
     from gemseo_umdo.statistics.multilevel.mlmc_mlcv.level import Level
 
@@ -49,13 +49,13 @@ class MLMCMLCV(MLMC):
 
     _PILOT_FACTORY = MLMCMLCVPilotFactory
 
-    __g_l: tuple[MDOFunction]
+    __g_l: tuple[ArrayFunction]
     r"""The control variates $g_0$, $g_1$, ..., $g_L$.
 
     $g_\ell$ is an approximation of $f_\ell$.
     """
 
-    __h_l: tuple[MDOFunction]
+    __h_l: tuple[ArrayFunction]
     r"""The control variates $h_1$, ..., $h_L$.
 
     $h_\ell$ is an approximation of $f_\ell-f_{\ell-1}$.
@@ -67,11 +67,11 @@ class MLMCMLCV(MLMC):
     def __init__(  # noqa: D107
         self,
         levels: Sequence[Level],
-        uncertain_space: ParameterSpace,
+        uncertain_space: RandomSpace,
         n_samples: float,
         pilot: str = "Mean",
         variant: Variant = Variant.MLMC_MLCV,
-        seed: int = SEED,
+        seed: int = seed,
     ) -> None:
         self.__g_l = tuple(level.surrogate_model[0] for level in levels)
         for l, g_l in enumerate(self.__g_l):  # noqa: E741

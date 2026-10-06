@@ -28,7 +28,7 @@ from gemseo_umdo.formulations._statistics.sampling.base_sampling_estimator impor
 if TYPE_CHECKING:
     from collections.abc import Callable
 
-    from gemseo.typing import RealArray
+    from gemseo.util.typing import RealArray
 
 
 class Probability(BaseSamplingEstimator):

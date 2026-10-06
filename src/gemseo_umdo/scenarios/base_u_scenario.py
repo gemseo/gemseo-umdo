@@ -20,12 +20,12 @@ from typing import TYPE_CHECKING
 from typing import Any
 from typing import ClassVar
 
-from gemseo.core.mdo_functions.mdo_function import MDOFunction
-from gemseo.formulations.factory import MDOFormulationFactory
-from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
-from gemseo.utils.pydantic import create_model
-from gemseo.utils.string_tools import MultiLineString
-from gemseo.utils.string_tools import pretty_str
+from gemseo.core.function.array_function import ArrayFunction
+from gemseo.formulation.factory import MDOFormulationFactory
+from gemseo.util.constant import read_only_empty_dict
+from gemseo.util.pydantic import create_model
+from gemseo.util.string import MultiLineString
+from gemseo.util.string import pretty_str
 
 from gemseo_umdo.disciplines.utils import create_noising_discipline_chain
 from gemseo_umdo.formulations.factory import UMDO_FORMULATION_FACTORY
@@ -34,13 +34,13 @@ if TYPE_CHECKING:
     from collections.abc import Mapping
     from collections.abc import Sequence
 
-    from gemseo.algos.design_space import DesignSpace
-    from gemseo.algos.parameter_space import ParameterSpace
-    from gemseo.core.discipline.discipline import Discipline
-    from gemseo.formulations.base_formulation_settings import BaseFormulationSettings
-    from gemseo.formulations.base_mdo_formulation import BaseMDOFormulation
-    from gemseo.scenarios.base_scenario import BaseScenario
-    from gemseo.typing import StrKeyMapping
+    from gemseo.space import DesignSpace
+    from gemseo.space import RandomSpace
+    from gemseo.discipline import Discipline
+    from gemseo.formulation.core.base_settings import BaseFormulationSettings
+    from gemseo.formulation.core.base_mdo import BaseMDOFormulation
+    from gemseo.scenario import EvaluationScenario
+    from gemseo.util.typing import StrKeyMapping
 
     from gemseo_umdo.formulations.base_umdo_formulation import BaseUMDOFormulation
     from gemseo_umdo.formulations.base_umdo_formulation_settings import (
@@ -58,16 +58,16 @@ class BaseUScenario:
 
     def __init__(
         self,
-        disciplines: Sequence[Discipline | BaseScenario],
+        disciplines: Sequence[Discipline | EvaluationScenario],
         objective_name: str,
         design_space: DesignSpace,
-        uncertain_space: ParameterSpace,
+        uncertain_space: RandomSpace,
         objective_statistic_name: str,
         statistic_estimation_settings: BaseUMDOFormulationSettings,
-        objective_statistic_parameters: StrKeyMapping = READ_ONLY_EMPTY_DICT,
+        objective_statistic_parameters: StrKeyMapping = read_only_empty_dict,
         uncertain_design_variables: Mapping[
             str, str | tuple[str, str]
-        ] = READ_ONLY_EMPTY_DICT,
+        ] = read_only_empty_dict,
         name: str = "",
         formulation_settings_model: BaseFormulationSettings | None = None,
         maximize_objective: bool = False,
@@ -128,11 +128,12 @@ class BaseUScenario:
         if formulation_settings_model is None:
             formulation_name = formulation_settings.pop("formulation_name")
         else:
+            # TODO(bump-gemseo): BaseSettings._TARGET_CLASS_NAME was removed; see the GEMSEO 7 changelog.  # noqa: E501
             formulation_name = formulation_settings_model._TARGET_CLASS_NAME
 
         mdo_formulation_class = MDOFormulationFactory().get_class(formulation_name)
         formulation_settings_model = create_model(
-            mdo_formulation_class.Settings,
+            mdo_formulation_class.settings_class,
             formulation_settings_model,
             **formulation_settings,
         )
@@ -144,14 +145,14 @@ class BaseUScenario:
             objective_name,
             design_space,
             settings_model=formulation_settings_model,
-        ).design_space
+        ).input_space
 
         # Create the MDO formulation
         # whose functions are evaluable over the uncertain space
         # and differentiable with respect to the design variables.
         formulation_settings_model_copy = formulation_settings_model.copy()
         formulation_settings_model_copy.differentiated_input_names_substitute = (
-            mdo_formulation_design_space.variable_names
+            list(mdo_formulation_design_space.variables)
         )
         mdo_formulation = mdo_formulation_class(
             disciplines,
@@ -182,7 +183,7 @@ class BaseUScenario:
         self,
         output_name: str | Sequence[str],
         statistic_name: str,
-        constraint_type: MDOFunction.ConstraintType = MDOFunction.ConstraintType.INEQ,
+        constraint_type: ArrayFunction.ConstraintType = ArrayFunction.ConstraintType.INEQ,
         constraint_name: str = "",
         value: float = 0,
         positive: bool = False,
@@ -247,7 +248,7 @@ class BaseUScenario:
         return str(msg)
 
     @property
-    def uncertain_space(self) -> ParameterSpace:
+    def uncertain_space(self) -> RandomSpace:
         """The uncertain variable space."""
         return self.formulation.uncertain_space
 

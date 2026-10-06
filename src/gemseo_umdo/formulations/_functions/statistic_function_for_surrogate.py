@@ -24,16 +24,16 @@ from typing import TYPE_CHECKING
 from typing import Any
 from typing import TypeVar
 
-from gemseo.mlearning.regression.algos.factory import RegressorFactory
+from gemseo.machine_learning.regression.model.factory import RegressorFactory
 
 from gemseo_umdo.formulations._functions.base_statistic_function import (
     BaseStatisticFunction,
 )
 
 if TYPE_CHECKING:
-    from gemseo.algos.database import DatabaseKeyType
-    from gemseo.mlearning.regression.algos.base_regressor import BaseRegressor
-    from gemseo.typing import RealArray
+    from gemseo.core.problem.database import DatabaseKeyType
+    from gemseo.machine_learning.regression.core.base_regressor import BaseRegressor
+    from gemseo.util.typing import RealArray
 
     from gemseo_umdo.formulations._functions.base_statistic_function import (
         UMDOFormulationT,

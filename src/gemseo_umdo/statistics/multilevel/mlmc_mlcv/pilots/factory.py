@@ -26,5 +26,5 @@ from gemseo_umdo.statistics.multilevel.mlmc_mlcv.pilots.base_mlmc_mlcv_pilot imp
 class MLMCMLCVPilotFactory(BaseFactory):
     """A factory of pilots for the MLMC-MLCV algorithm."""
 
-    _CLASS = BaseMLMCMLCVPilot
-    _PACKAGE_NAMES = ("gemseo_umdo.statistics.multilevel.mlmc_mlcv.pilots",)
+    _class = BaseMLMCMLCVPilot
+    _package_names = ("gemseo_umdo.statistics.multilevel.mlmc_mlcv.pilots",)

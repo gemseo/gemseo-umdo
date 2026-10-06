@@ -23,7 +23,7 @@ from typing import TYPE_CHECKING
 from typing import Any
 from typing import TypeVar
 
-from gemseo.algos.database import Database
+from gemseo.core.problem.database import Database
 from numpy import atleast_1d
 from numpy import atleast_2d
 from numpy import newaxis
@@ -35,10 +35,10 @@ from gemseo_umdo.formulations._functions.base_statistic_function import (
 if TYPE_CHECKING:
     from collections.abc import Callable
 
-    from gemseo.algos.evaluation_problem import EvaluationProblem
-    from gemseo.algos.parameter_space import ParameterSpace
-    from gemseo.core.mdo_functions.mdo_function import MDOFunction
-    from gemseo.typing import RealArray
+    from gemseo.doe import EvaluationProblem
+    from gemseo.space import RandomSpace
+    from gemseo.core.function.array_function import ArrayFunction
+    from gemseo.util.typing import RealArray
 
     from gemseo_umdo.formulations.taylor_polynomial import TaylorPolynomial
 
@@ -61,7 +61,7 @@ class StatisticFunctionForTaylorPolynomial(BaseStatisticFunction[TaylorPolynomia
         self,
         umdo_formulation: TaylorPolynomialT,
         output_name: str,
-        function_type: MDOFunction.FunctionType,
+        function_type: ArrayFunction.FunctionType,
         statistic_operator_name: str,
         **statistic_options: Any,
     ) -> None:
@@ -78,7 +78,7 @@ class StatisticFunctionForTaylorPolynomial(BaseStatisticFunction[TaylorPolynomia
         self.__mean_input_value = formulation.uncertain_space.distribution.mean
 
     @property
-    def _statistic_estimator_parameters(self) -> tuple[ParameterSpace]:
+    def _statistic_estimator_parameters(self) -> tuple[RandomSpace]:
         return (self._umdo_formulation.uncertain_space,)
 
     def _compute_statistic_estimation(self, data: dict[str, RealArray]) -> RealArray:

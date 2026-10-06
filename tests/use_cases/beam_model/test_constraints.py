@@ -17,7 +17,7 @@
 from __future__ import annotations
 
 import pytest
-from gemseo.utils.comparisons import compare_dict_of_arrays
+from gemseo.util.comparison import compare_dict_of_arrays
 from numpy import array
 from numpy.testing import assert_almost_equal
 
@@ -56,10 +56,12 @@ def test_default_inputs(discipline):
 
 def test_default_outputs(discipline):
     """Check the default values of the outputs."""
+    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data, get(name) or get_merged_data()  # noqa: E501
     assert_almost_equal(
         discipline.io.data["c_stress"],
         discipline.io.data["sigma_vm"] / discipline.io.data["sigma_all"],
     )
+    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data, get(name) or get_merged_data()  # noqa: E501
     assert_almost_equal(
         discipline.io.data["c_displ"], discipline.io.data["displ"] / 100.0
     )

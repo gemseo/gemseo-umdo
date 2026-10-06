@@ -18,14 +18,14 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from gemseo.core.mdo_functions.mdo_function import MDOFunction
+from gemseo.core.function.array_function import ArrayFunction
 
 
 @dataclass
 class Level:
     r"""A level $\ell$ for the MLMC algorithm."""
 
-    model: MDOFunction
+    model: ArrayFunction
     r"""The model $f_\ell$ to sample.
 
     This model can be set from any callable taking a NumPy array of float numbers as
@@ -48,4 +48,4 @@ class Level:
     r"""The number $r_\ell$ by which $n_\ell$ is increased."""
 
     def __post_init__(self) -> None:
-        self.model = MDOFunction(self.model, "f")
+        self.model = ArrayFunction(self.model, "f")

@@ -27,9 +27,8 @@ from gemseo_umdo.formulations._statistics.control_variate.base_control_variate_e
 
 if TYPE_CHECKING:
     from collections.abc import Callable
-
-    from gemseo.algos.parameter_space import ParameterSpace
-    from gemseo.typing import RealArray
+    from gemseo.space import RandomSpace
+    from gemseo.util.typing import RealArray
 
 
 class Probability(BaseControlVariateEstimator):
@@ -43,7 +42,7 @@ class Probability(BaseControlVariateEstimator):
 
     def __init__(
         self,
-        uncertain_space: ParameterSpace,
+        uncertain_space: RandomSpace,
         threshold: float = 0.0,
         greater: bool = True,
     ) -> None:

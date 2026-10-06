@@ -18,14 +18,14 @@ import re
 from typing import TYPE_CHECKING
 
 import pytest
-from gemseo.algos.design_space import DesignSpace
-from gemseo.algos.doe.custom_doe.settings.custom_doe_settings import CustomDOE_Settings
-from gemseo.algos.parameter_space import ParameterSpace
-from gemseo.core.chains.chain import MDOChain
-from gemseo.disciplines.analytic import AnalyticDiscipline
-from gemseo.disciplines.auto_py import AutoPyDiscipline
-from gemseo.formulations.mdf import MDF
-from gemseo.formulations.mdf_settings import MDF_Settings
+from gemseo.space import DesignSpace
+from gemseo.doe import CustomDOE_Settings
+from gemseo.space import RandomSpace
+from gemseo.discipline import DisciplineChain
+from gemseo.discipline import AnalyticDiscipline
+from gemseo.discipline import AutoPyDiscipline
+from gemseo.formulation.mdf import MDF
+from gemseo.formulation import MDF_Settings
 from numpy import array
 from numpy import atleast_2d
 from numpy import vstack
@@ -39,9 +39,11 @@ from gemseo_umdo.formulations.sampling import Sampling
 from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
 from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
+from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
+from gemseo.uncertainty.distribution import SPNormalDistribution_Settings
 
 if TYPE_CHECKING:
-    from gemseo.core.discipline.discipline import Discipline
+    from gemseo.discipline import Discipline
 
 AVAILABLE_FORMULATIONS = UMDO_FORMULATION_FACTORY.class_names
 
@@ -68,10 +70,10 @@ def design_space() -> DesignSpace:
 
 
 @pytest.fixture
-def uncertain_space() -> ParameterSpace:
+def uncertain_space() -> RandomSpace:
     """The space defining the uncertain variable."""
-    space = ParameterSpace()
-    space.add_random_variable("u", "SPNormalDistribution")
+    space = RandomSpace()
+    space.add_variable("u", SPNormalDistribution_Settings())
     return space
 
 
@@ -124,7 +126,7 @@ def test_design_space(scenario):
 
 def test_uncertain_space(scenario):
     """Check that the uncertain space contains the uncertain variables."""
-    assert set(scenario.uncertain_space.variable_names) == {"u"}
+    assert set(list(scenario.uncertain_space.variables)) == {"u"}
 
 
 def test_repr(scenario):
@@ -146,7 +148,7 @@ def test_repr(scenario):
 def test_mdo_formulation(scenario):
     """Check the content of the MDO formulation."""
     mdo_formulation = scenario.mdo_formulation
-    opt_problem = mdo_formulation.optimization_problem
+    opt_problem = mdo_formulation.problem
     assert isinstance(mdo_formulation, MDF)
     assert mdo_formulation.mda.inner_mdas[0].name == "MDAGaussSeidel"
     assert mdo_formulation.disciplines == scenario.disciplines
@@ -190,9 +192,9 @@ def test_maximize_objective(
     )
     maximize = bool(maximize_objective)
     assert scn.formulation.mdo_formulation.optimization_problem.minimize_objective
-    assert scn.formulation.optimization_problem.minimize_objective is not maximize
+    assert scn.formulation.problem.minimize_objective is not maximize
     expected_name = "-E[f]" if maximize else "E[f]"
-    assert scn.formulation.optimization_problem.objective.name == expected_name
+    assert scn.formulation.problem.objective.name == expected_name
 
 
 def test_uncertain_design_variables(disciplines, design_space, uncertain_space):
@@ -221,7 +223,7 @@ def test_uncertain_design_variables(disciplines, design_space, uncertain_space):
 
     assert len(scn.disciplines) == len(disciplines) + 1
     mdo_chain = scn.disciplines[0]
-    assert isinstance(mdo_chain, MDOChain)
+    assert isinstance(mdo_chain, DisciplineChain)
 
     discipline = mdo_chain.disciplines[0]
     assert isinstance(discipline, AnalyticDiscipline)
@@ -248,8 +250,10 @@ def test_uncertain_design_variables_values(x, u1, u2):
 
     Here we check the disciplines.
     """
-    uncertain_space = ParameterSpace()
-    uncertain_space.add_random_vector("u", "OTNormalDistribution", size=len(u1))
+    uncertain_space = RandomSpace()
+    # TODO(bump-gemseo): pass the distribution settings models, e.g. SPNormalDistribution_Settings(mu=0.0, sigma=1.0), by position, one per component; a distribution name with its parameters must be written as settings models  # noqa: E501
+    # TODO(bump-gemseo): pass one distribution settings model per component, i.e. add_variable(name, *settings)  # noqa: E501
+    uncertain_space.add_variable("u", "OTNormalDistribution", size=len(u1))
 
     def f(x):
         y = norm(x) ** 2
@@ -271,7 +275,7 @@ def test_uncertain_design_variables_values(x, u1, u2):
         ),
         uncertain_design_variables={"x": ("+", "u")},
     )
-    scenario.execute(algo_name="CustomDOE", samples=atleast_2d(x))
+    scenario.execute(algorithm_settings=CustomDOE_Settings(samples=atleast_2d(x)))
     assert scenario.optimization_result.f_opt == (f(x + u1) + f(x + u2)) / 2
 
 
@@ -326,8 +330,8 @@ def test_log(
     design_space = DesignSpace()
     design_space.add_variable("x", lower_bound=-1, upper_bound=1.0, value=0.5)
 
-    uncertain_space = ParameterSpace()
-    uncertain_space.add_random_variable("u", "OTNormalDistribution")
+    uncertain_space = RandomSpace()
+    uncertain_space.add_variable("u", OTNormalDistribution_Settings())
 
     scenario = UDOEScenario(
         [discipline],
@@ -350,7 +354,7 @@ def test_log(
         constraint_name=constraint_name,
     )
     scenario.use_standardized_objective = use_standardized_objective
-    scenario.execute(algo_name="CustomDOE", samples=array([[1.0]]))
+    scenario.execute(algorithm_settings=CustomDOE_Settings(samples=array([[1.0]])))
     assert objective_expr in caplog.text
     assert constraint_expr in caplog.text
     assert constraint_res in caplog.text

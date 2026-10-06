@@ -17,12 +17,15 @@
 
 from __future__ import annotations
 
-from gemseo.algos.design_space import DesignSpace
-from gemseo.algos.parameter_space import ParameterSpace
-from gemseo.disciplines.analytic import AnalyticDiscipline
+from gemseo.space import DesignSpace
+from gemseo.space import RandomSpace
+from gemseo.discipline import AnalyticDiscipline
 
 from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
 from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
+from gemseo.doe import PYDOE_FULLFACT_Settings
+from gemseo.post import OptHistoryView_Settings
+from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 
 # %%
 # Firstly,
@@ -37,8 +40,8 @@ design_space.add_variable("x", lower_bound=-1, upper_bound=1.0, value=0.5)
 
 # %%
 # and $U$ is a standard Gaussian variable:
-uncertain_space = ParameterSpace()
-uncertain_space.add_random_variable("u", "OTNormalDistribution")
+uncertain_space = RandomSpace()
+uncertain_space.add_variable("u", OTNormalDistribution_Settings())
 
 # %%
 # Then,
@@ -57,11 +60,11 @@ scenario = UDOEScenario(
 
 # %%
 # We execute it with a full-factorial design of experiments:
-scenario.execute(algo_name="PYDOE_FULLFACT", n_samples=100)
+scenario.execute(algorithm_settings=PYDOE_FULLFACT_Settings(n_samples=100))
 
 # %%
 # and plot the history:
-scenario.post_process(post_name="OptHistoryView", save=True, show=True)
+scenario.post_process(settings=OptHistoryView_Settings(save=True, show=True))
 
 # %%
 # Notice that the numerical solution is close to $(x^*,f^*)=(0,1)$ as expected

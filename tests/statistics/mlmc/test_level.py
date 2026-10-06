@@ -16,7 +16,7 @@
 
 from __future__ import annotations
 
-from gemseo.core.mdo_functions.mdo_function import MDOFunction
+from gemseo.core.function.array_function import ArrayFunction
 from numpy import array
 
 from gemseo_umdo.statistics.multilevel.mlmc.level import Level
@@ -26,7 +26,7 @@ def test_default(model):
     """Check default configuration."""
     level = Level(model)
     assert level.model.evaluate(array([1.0])) == array([2.0])
-    assert isinstance(level.model, MDOFunction)
+    assert isinstance(level.model, ArrayFunction)
     assert level.model.name == "f"
     assert level.cost is None
     assert level.n_cost_estimation_samples == 1

@@ -19,11 +19,11 @@ from typing import TYPE_CHECKING
 import pytest
 from gemseo import from_pickle
 from gemseo import to_pickle
-from gemseo.algos.design_space import DesignSpace
-from gemseo.algos.doe.custom_doe.settings.custom_doe_settings import CustomDOE_Settings
-from gemseo.algos.parameter_space import ParameterSpace
-from gemseo.disciplines.analytic import AnalyticDiscipline
-from gemseo.formulations.mdf import MDF
+from gemseo.space import DesignSpace
+from gemseo.doe import CustomDOE_Settings
+from gemseo.space import RandomSpace
+from gemseo.discipline import AnalyticDiscipline
+from gemseo.formulation.mdf import MDF
 from numpy import array
 from numpy.testing import assert_almost_equal
 from numpy.testing import assert_equal
@@ -39,11 +39,12 @@ from gemseo_umdo.formulations.taylor_polynomial_settings import (
     TaylorPolynomial_Settings,
 )
 from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
+from gemseo.uncertainty.distribution import OTUniformDistribution_Settings
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
 
-    from gemseo.core.discipline.discipline import Discipline
+    from gemseo.discipline import Discipline
     from numpy import ndarray
 
 
@@ -52,10 +53,11 @@ def umdo_formulation(
     disciplines: Sequence[Discipline],
     design_space: DesignSpace,
     mdo_formulation: MDF,
-    uncertain_space: ParameterSpace,
+    uncertain_space: RandomSpace,
 ) -> TaylorPolynomial:
     """The UMDO formulation based on Taylor polynomial."""
-    design_space = MDF(disciplines, "f", design_space).design_space
+    # TODO(bump-gemseo): pass the problem first, e.g. OptimizationProblem(design_space), then set its objective; the loose settings go into settings=<Formulation>_Settings(...)  # noqa: E501
+    design_space = MDF(disciplines, "f", design_space).input_space
     formulation = TaylorPolynomial(
         disciplines,
         "f",
@@ -75,10 +77,11 @@ def umdo_formulation_with_hessian(
     disciplines: Sequence[Discipline],
     design_space: DesignSpace,
     mdo_formulation: MDF,
-    uncertain_space: ParameterSpace,
+    uncertain_space: RandomSpace,
 ) -> TaylorPolynomial:
     """The UMDO formulation based on second-order approximation."""
-    design_space = MDF(disciplines, "f", design_space).design_space
+    # TODO(bump-gemseo): pass the problem first, e.g. OptimizationProblem(design_space), then set its objective; the loose settings go into settings=<Formulation>_Settings(...)  # noqa: E501
+    design_space = MDF(disciplines, "f", design_space).input_space
     formulation = TaylorPolynomial(
         disciplines,
         "f",
@@ -152,8 +155,8 @@ HESS = array([
 
 def test_init_differentiation_method(umdo_formulation):
     """Check that the default method to derive wrt uncertainties is USER_GRAD."""
-    problem = umdo_formulation.mdo_formulation.optimization_problem
-    assert problem.differentiation_method == problem.DifferentiationMethod.USER_GRAD
+    problem = umdo_formulation.mdo_formulation.problem
+    assert problem.differentiation_method == problem.DifferentiationMethod.USER
 
 
 def test_estimate_mean(umdo_formulation):
@@ -215,7 +218,7 @@ def test_mdo_formulation_observable(umdo_formulation, mdf_discipline):
 
 def test_umdo_formulation_objective(umdo_formulation, mdf_discipline):
     """Check that the UMDO formulation can compute the objective correctly."""
-    objective = umdo_formulation.optimization_problem.objective
+    objective = umdo_formulation.problem.objective
     uncertain_space = umdo_formulation.uncertain_space
     input_data = uncertain_space.convert_array_to_dict(
         uncertain_space.distribution.mean
@@ -230,7 +233,7 @@ def test_umdo_formulation_constraint(umdo_formulation, mdf_discipline):
     constraint = umdo_formulation.optimization_problem.constraints[0]
     uncertain_space = umdo_formulation.uncertain_space
     input_data = uncertain_space.convert_array_to_dict(
-        uncertain_space.distribution.mean
+        uncertain_space.variables.distribution.mean
     )
     assert_almost_equal(
         constraint.evaluate(array([0.0] * 3)), mdf_discipline.execute(input_data)["c"]
@@ -239,7 +242,7 @@ def test_umdo_formulation_constraint(umdo_formulation, mdf_discipline):
 
 def test_umdo_formulation_observable(umdo_formulation, mdf_discipline):
     """Check that the UMDO formulation can compute the observables correctly."""
-    observable = umdo_formulation.optimization_problem.observables[0]
+    observable = umdo_formulation.problem.observables[0]
     uncertain_space = umdo_formulation.uncertain_space
     input_data = uncertain_space.convert_array_to_dict(
         uncertain_space.distribution.mean
@@ -270,10 +273,10 @@ def test_uncertain_input_data_non_normalization():
     discipline = AnalyticDiscipline({"f": "x+u"})
     design_space = DesignSpace()
     design_space.add_variable("x")
-    uncertain_space = ParameterSpace()
-    uncertain_space.add_random_variable(
-        "u", "OTUniformDistribution", minimum=0.0, maximum=1.5
-    )
+    uncertain_space = RandomSpace()
+    uncertain_space.add_variable(
+        "u", OTUniformDistribution_Settings(minimum=0.0, maximum=1.5
+    ))
     scenario = UDOEScenario(
         [discipline],
         "f",
@@ -284,8 +287,11 @@ def test_uncertain_input_data_non_normalization():
         formulation_name="DisciplinaryOpt",
     )
     scenario.execute(CustomDOE_Settings(samples=array([[1.0]]), eval_jac=True))
+    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data, get(name) or get_merged_data()  # noqa: E501
     assert_almost_equal(discipline.io.data["x"], array([1.0]))
     # u = 1.125, f = 1+1.125² and dfdu = 2.25 before bug fix
+    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data, get(name) or get_merged_data()  # noqa: E501
     assert_almost_equal(discipline.io.data["u"], array([0.75]))
+    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data, get(name) or get_merged_data()  # noqa: E501
     assert_almost_equal(discipline.io.data["f"], array([1.75]))
     assert_almost_equal(discipline.jac["f"]["u"], array([[1.0]]))

@@ -24,5 +24,5 @@ from gemseo_umdo.statistics.multilevel.mlmc.pilots.base_mlmc_pilot import BaseML
 class MLMCPilotFactory(BaseFactory):
     """A factory of pilots for the MLMC algorithm."""
 
-    _CLASS = BaseMLMCPilot
-    _PACKAGE_NAMES = ("gemseo_umdo._statistics.multilevel.mlmc.pilots",)
+    _class = BaseMLMCPilot
+    _package_names = ("gemseo_umdo._statistics.multilevel.mlmc.pilots",)

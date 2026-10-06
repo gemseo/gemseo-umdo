@@ -22,9 +22,10 @@ from time import sleep
 from typing import TYPE_CHECKING
 
 import pytest
-from gemseo.algos.parameter_space import ParameterSpace
-from gemseo.utils.platform import PLATFORM_IS_WINDOWS
-from gemseo.utils.testing.helpers import image_comparison
+from gemseo.space import RandomSpace
+from gemseo.util.platform import platform_is_windows
+# TODO(bump-gemseo): gemseo.utils.testing.helpers.image_comparison: use the snapshot_matplotlib fixture of syrupy-matplotlib instead; add syrupy-matplotlib to the test dependencies, set snapshot_matplotlib_tolerance = 0.01 in .pytest.ini, replace the @image_comparison([...]) decorator by a snapshot_matplotlib argument of the test, then run pytest --snapshot-update without -n (the baseline_images directories are no longer used)  # noqa: E501
+from gemseo.util.testing.helper import image_comparison
 from numpy import array
 from numpy.testing import assert_almost_equal
 from numpy.testing import assert_equal
@@ -37,6 +38,7 @@ from gemseo_umdo.use_cases.heat_equation.model import HeatEquationModel
 from gemseo_umdo.use_cases.heat_equation.uncertain_space import (
     HeatEquationUncertainSpace,
 )
+from gemseo.uncertainty.distribution import OTUniformDistribution_Settings
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -54,10 +56,10 @@ def levels() -> list[Level]:
 
 
 @pytest.fixture(scope="module")
-def uncertain_space() -> ParameterSpace:
+def uncertain_space() -> RandomSpace:
     """The uncertain space."""
-    space = ParameterSpace()
-    space.add_random_variable("x", "OTUniformDistribution")
+    space = RandomSpace()
+    space.add_variable("x", OTUniformDistribution_Settings())
     return space
 
 
@@ -213,7 +215,7 @@ def test_pilot(levels, uncertain_space):
     ("log", "baseline_images"),
     [
         (False, ["mlmc"]),
-        (True, ["mlmc_log" if PLATFORM_IS_WINDOWS else "mlmc_log_linux"]),
+        (True, ["mlmc_log" if platform_is_windows else "mlmc_log_linux"]),
     ],
 )
 @image_comparison(None)

@@ -23,8 +23,8 @@ from typing import TYPE_CHECKING
 from typing import Any
 from typing import TypeVar
 
-from gemseo.mlearning.regression.algos.factory import RegressorFactory
-from gemseo.utils.data_conversion import split_array_to_dict_of_arrays as array_to_dict
+from gemseo.machine_learning.regression.model.factory import RegressorFactory
+from gemseo.util.data_conversion import split_array_to_dict_of_arrays as array_to_dict
 from numpy import array
 from numpy import vstack
 from scipy.linalg import solve
@@ -35,9 +35,9 @@ from gemseo_umdo.formulations._functions.statistic_function_for_surrogate import
 from gemseo_umdo.formulations._statistics.pce.base_pce_estimator import BasePCEEstimator
 
 if TYPE_CHECKING:
-    from gemseo.mlearning.regression.algos.base_fce import BaseFCERegressor
-    from gemseo.mlearning.regression.algos.pce import PCERegressor
-    from gemseo.typing import RealArray
+    from gemseo.machine_learning.regression.core.base_fce import BaseFCERegressor
+    from gemseo.machine_learning.regression.model import PCERegressor
+    from gemseo.util.typing import RealArray
 
     from gemseo_umdo.formulations.pce import PCE
 

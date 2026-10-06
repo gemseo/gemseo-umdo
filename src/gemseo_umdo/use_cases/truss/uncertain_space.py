@@ -20,10 +20,11 @@ from math import log
 from math import pi
 from math import sqrt
 
-from gemseo.algos.parameter_space import ParameterSpace
+from gemseo.space import RandomSpace
+from gemseo.uncertainty.distribution import OTDistribution_Settings
 
 
-class TrussUncertainSpace(ParameterSpace):
+class TrussUncertainSpace(RandomSpace):
     """The uncertain space of the truss problem."""
 
     def __init__(self, factor: float = 1.0, use_different_bars: bool = False) -> None:
@@ -38,26 +39,20 @@ class TrussUncertainSpace(ParameterSpace):
         for name in (
             (f"A1_{i}" for i in range(1, 12)) if use_different_bars else ("A1",)
         ):
-            self.add_random_variable(
+            self.add_variable(
                 name,
-                "OTDistribution",
-                interfaced_distribution="LogNormal",
-                interfaced_distribution_parameters=self._to_lognormal(
+                OTDistribution_Settings(interfaced_distribution="LogNormal", parameters=self._to_lognormal(
                     2e-3, factor * 2e-4
-                ),
-            )
+                )))
 
         for name in (
             (f"A2_{i}" for i in range(1, 13)) if use_different_bars else ("A2",)
         ):
-            self.add_random_variable(
+            self.add_variable(
                 name,
-                "OTDistribution",
-                interfaced_distribution="LogNormal",
-                interfaced_distribution_parameters=self._to_lognormal(
+                OTDistribution_Settings(interfaced_distribution="LogNormal", parameters=self._to_lognormal(
                     1e-3, factor * 2e-4
-                ),
-            )
+                )))
 
         for name in (
             (
@@ -67,22 +62,16 @@ class TrussUncertainSpace(ParameterSpace):
             if use_different_bars
             else ("E1", "E2")
         ):
-            self.add_random_variable(
+            self.add_variable(
                 name,
-                "OTDistribution",
-                interfaced_distribution="LogNormal",
-                interfaced_distribution_parameters=self._to_lognormal(
+                OTDistribution_Settings(interfaced_distribution="LogNormal", parameters=self._to_lognormal(
                     2.1e11, factor * 2.1e10
-                ),
-            )
+                )))
 
         for i in range(1, 7):
-            self.add_random_variable(
+            self.add_variable(
                 f"P{i}",
-                "OTDistribution",
-                interfaced_distribution="Gumbel",
-                interfaced_distribution_parameters=self._to_gumbel(5e4, factor * 7.5e3),
-            )
+                OTDistribution_Settings(interfaced_distribution="Gumbel", parameters=self._to_gumbel(5e4, factor * 7.5e3)))
 
     @staticmethod
     def _to_lognormal(mean, std):

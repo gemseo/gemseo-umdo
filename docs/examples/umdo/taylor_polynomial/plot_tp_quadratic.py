@@ -31,14 +31,17 @@ In the following, we will call $f$ the function computing $(x+U)^2$ given $x$ an
 
 from __future__ import annotations
 
-from gemseo.algos.design_space import DesignSpace
-from gemseo.algos.parameter_space import ParameterSpace
-from gemseo.disciplines.analytic import AnalyticDiscipline
+from gemseo.space import DesignSpace
+from gemseo.space import RandomSpace
+from gemseo.discipline import AnalyticDiscipline
 
 from gemseo_umdo.formulations.taylor_polynomial_settings import (
     TaylorPolynomial_Settings,
 )
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
+from gemseo.optimization import NLOPT_COBYLA_Settings
+from gemseo.post import OptHistoryView_Settings
+from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 
 # %%
 # Firstly,
@@ -53,8 +56,8 @@ design_space.add_variable("x", lower_bound=-1, upper_bound=1.0, value=0.5)
 
 # %%
 # and the uncertain space:
-uncertain_space = ParameterSpace()
-uncertain_space.add_random_variable("u", "OTNormalDistribution")
+uncertain_space = RandomSpace()
+uncertain_space.add_variable("u", OTNormalDistribution_Settings())
 
 # %%
 # Then,
@@ -74,11 +77,11 @@ scenario = UMDOScenario(
 
 # %%
 # We execute this scenario using the gradient-free optimizer COBYLA:
-scenario.execute(algo_name="NLOPT_COBYLA", max_iter=100)
+scenario.execute(algorithm_settings=NLOPT_COBYLA_Settings(max_iter=100))
 
 # %%
 # and plot the optimization history:
-scenario.post_process(post_name="OptHistoryView", save=False, show=True)
+scenario.post_process(settings=OptHistoryView_Settings(save=False, show=True))
 
 # %%
 # Notice that the numerical solution
@@ -102,7 +105,7 @@ scenario = UMDOScenario(
     formulation_name="DisciplinaryOpt",
     statistic_estimation_settings=TaylorPolynomial_Settings(second_order=True),
 )
-scenario.execute(algo_name="NLOPT_COBYLA", max_iter=100)
+scenario.execute(algorithm_settings=NLOPT_COBYLA_Settings(max_iter=100))
 
 # %%
 # and see that it gives the exact solution:

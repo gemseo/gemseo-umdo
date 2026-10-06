@@ -17,12 +17,12 @@
 from __future__ import annotations
 
 import pytest
-from gemseo.algos.design_space import DesignSpace
-from gemseo.algos.doe.custom_doe.settings.custom_doe_settings import CustomDOE_Settings
-from gemseo.algos.hashable_ndarray import HashableNdarray
-from gemseo.algos.parameter_space import ParameterSpace
-from gemseo.disciplines.analytic import AnalyticDiscipline
-from gemseo.utils.derivatives.finite_differences import FirstOrderFD
+from gemseo.space import DesignSpace
+from gemseo.doe import CustomDOE_Settings
+from gemseo.util.hashable_ndarray import HashableNdarray
+from gemseo.space import RandomSpace
+from gemseo.discipline import AnalyticDiscipline
+from gemseo.util.derivative.approximator.forward_differences import ForwardDifferences
 from numpy import array
 from numpy.testing import assert_allclose
 
@@ -31,6 +31,7 @@ from gemseo_umdo.formulations.taylor_polynomial_settings import (
     TaylorPolynomial_Settings,
 )
 from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
+from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 
 
 @pytest.mark.parametrize(
@@ -66,8 +67,8 @@ def test_finite_differences(statistic_estimation_settings, expected):
     design_space.add_variable("x1", lower_bound=-1, upper_bound=1.0, value=0.5)
     design_space.add_variable("x2", lower_bound=-1, upper_bound=1.0, value=0.5)
 
-    uncertain_space = ParameterSpace()
-    uncertain_space.add_random_variable("u", "OTNormalDistribution")
+    uncertain_space = RandomSpace()
+    uncertain_space.add_variable("u", OTNormalDistribution_Settings())
 
     scenario = UDOEScenario(
         [discipline],
@@ -81,16 +82,16 @@ def test_finite_differences(statistic_estimation_settings, expected):
     scenario.add_constraint("c", "Mean")
     scenario.add_observable("o", "Mean")
     scenario.set_differentiation_method("finite_differences")
-    scenario.execute(algo_name="CustomDOE", samples=array([[1.0, 1.0]]), eval_jac=True)
+    scenario.execute(algorithm_settings=CustomDOE_Settings(samples=array([[1.0, 1.0]]), eval_jac=True))
     # The database storing the samples is cleared after each sampling.
-    assert not scenario.mdo_formulation.optimization_problem.database
+    assert not scenario.mdo_formulation.problem.database
 
     # input_data_to_output_samples stores the samples
     # at points (x1, x2), (x1+dx1, x2) and (x1, x2+dx2)
     # where (x1, x2) is the design value at the current iteration.
     input_data_to_output_data = scenario.formulation.input_data_to_output_data
     assert len(input_data_to_output_data) == 3
-    step = FirstOrderFD._DEFAULT_STEP
+    step = ForwardDifferences._default_step
     for key, expected_key in zip(
         input_data_to_output_data,
         [
@@ -103,7 +104,7 @@ def test_finite_differences(statistic_estimation_settings, expected):
         assert key == expected_key
 
     get_history = (
-        scenario.formulation.optimization_problem.database.get_gradient_history
+        scenario.formulation.problem.database.get_gradient_history
     )
 
     grad_history = get_history("E[f]")

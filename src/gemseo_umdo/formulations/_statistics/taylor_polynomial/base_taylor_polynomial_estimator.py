@@ -24,8 +24,8 @@ from gemseo_umdo.formulations._statistics.base_statistic_estimator import (
 )
 
 if TYPE_CHECKING:
-    from gemseo.algos.parameter_space import ParameterSpace
-    from gemseo.typing import RealArray
+    from gemseo.space import RandomSpace
+    from gemseo.util.typing import RealArray
 
 
 class BaseTaylorPolynomialEstimator(BaseStatisticEstimator):
@@ -34,13 +34,13 @@ class BaseTaylorPolynomialEstimator(BaseStatisticEstimator):
     _standard_deviations: RealArray
     """The standard deviations associated with each component of the uncertain space."""
 
-    def __init__(self, uncertain_space: ParameterSpace) -> None:
+    def __init__(self, uncertain_space: RandomSpace) -> None:
         """
         Args:
             uncertain_space: The uncertain variables
                 with their probability distributions.
         """  # noqa: D205 D212 D415
-        self._standard_deviations = uncertain_space.distribution.standard_deviation
+        self._standard_deviations = uncertain_space.variables.distribution.standard_deviation
 
     @abstractmethod
     def estimate_statistic(

@@ -31,13 +31,17 @@ In the following, we will call $f$ the function computing $(x+U)^2$ given $x$ an
 
 from __future__ import annotations
 
-from gemseo.algos.design_space import DesignSpace
-from gemseo.algos.parameter_space import ParameterSpace
-from gemseo.disciplines.analytic import AnalyticDiscipline
-from gemseo.post.dataset.lines import Lines
+from gemseo.space import DesignSpace
+from gemseo.space import RandomSpace
+from gemseo.discipline import AnalyticDiscipline
+from gemseo.post.dataset import Lines
 
 from gemseo_umdo.formulations.surrogate_settings import Surrogate_Settings
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
+from gemseo.optimization import NLOPT_COBYLA_Settings
+from gemseo.post import OptHistoryView_Settings
+from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
+from gemseo.post.dataset.lines_settings import Lines_Settings
 
 # %%
 # Firstly,
@@ -52,8 +56,8 @@ design_space.add_variable("x", lower_bound=-1, upper_bound=1.0, value=0.5)
 
 # %%
 # and the uncertain space:
-uncertain_space = ParameterSpace()
-uncertain_space.add_random_variable("u", "OTNormalDistribution")
+uncertain_space = RandomSpace()
+uncertain_space.add_variable("u", OTNormalDistribution_Settings())
 
 # %%
 # Then,
@@ -73,11 +77,11 @@ scenario = UMDOScenario(
 
 # %%
 # We execute this scenario using the gradient-free optimizer COBYLA:
-scenario.execute(algo_name="NLOPT_COBYLA", max_iter=100)
+scenario.execute(algorithm_settings=NLOPT_COBYLA_Settings(max_iter=100))
 
 # %%
 # and plot the optimization history:
-scenario.post_process(post_name="OptHistoryView", save=False, show=True)
+scenario.post_process(settings=OptHistoryView_Settings(save=False, show=True))
 
 # %%
 # Notice that the numerical solution
@@ -92,5 +96,5 @@ scenario.post_process(post_name="OptHistoryView", save=False, show=True)
 # The quality metric is the R2 score
 # and the test quality is estimated by cross-validation.
 dataset = scenario.to_dataset()
-lines = Lines(dataset, variables=["y_learning_quality", "y_test_quality"])
+lines = Lines(dataset, settings=Lines_Settings(variables=["y_learning_quality", "y_test_quality"]))
 lines.execute(save=False)

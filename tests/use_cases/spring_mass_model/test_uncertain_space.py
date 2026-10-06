@@ -16,7 +16,7 @@
 
 from __future__ import annotations
 
-from gemseo.uncertainty.distributions.openturns.joint import OTJointDistribution
+from gemseo.uncertainty.distribution import OTJointDistribution
 
 from gemseo_umdo.use_cases.spring_mass_model.uncertain_space import (
     SpringMassUncertainSpace,
@@ -27,9 +27,11 @@ def test_uncertain_space():
     """Check the content of the uncertain space used in the spring-mass use case."""
     uncertain_space = SpringMassUncertainSpace()
     assert len(uncertain_space) == 1
-    assert "stiffness" in uncertain_space.uncertain_variables
+    assert "stiffness" in list(uncertain_space.variables)
+    # TODO(bump-gemseo): use space.variables[name].distribution instead  # noqa: E501
     distribution = uncertain_space.distributions["stiffness"]
     assert isinstance(distribution, OTJointDistribution)
     assert len(distribution.marginals) == 1
+    # TODO(bump-gemseo): use space.variables[name].distribution instead  # noqa: E501
     distribution = uncertain_space.distributions["stiffness"]
     assert repr(distribution) == "Beta(3.0, 2.0, 1.0, 3.5)"

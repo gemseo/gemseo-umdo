@@ -20,7 +20,7 @@ from typing import TYPE_CHECKING
 from typing import ClassVar
 
 from gemseo.post._graph_view import GraphView
-from gemseo.utils.string_tools import repr_variable
+from gemseo.util.string import repr_variable
 from numpy import atleast_1d
 from numpy import atleast_2d
 
@@ -28,9 +28,9 @@ if TYPE_CHECKING:
     from collections.abc import Mapping
     from pathlib import Path
 
-    from gemseo.mlearning.regression.algos.pce import PCERegressor
-    from gemseo.typing import RealArray
-    from gemseo.uncertainty.sensitivity.sobol_analysis import SobolAnalysis
+    from gemseo.machine_learning.regression.model import PCERegressor
+    from gemseo.util.typing import RealArray
+    from gemseo.uncertainty.sensitivity import SobolAnalysis
 
 
 class SobolGraph(GraphView):

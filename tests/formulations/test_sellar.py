@@ -19,19 +19,23 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 import pytest
-from gemseo.algos.parameter_space import ParameterSpace
-from gemseo.problems.mdo.sellar.sellar_1 import Sellar1
-from gemseo.problems.mdo.sellar.sellar_2 import Sellar2
-from gemseo.problems.mdo.sellar.sellar_design_space import SellarDesignSpace
-from gemseo.problems.mdo.sellar.sellar_system import SellarSystem
-from gemseo.scenarios.doe_scenario import DOEScenario
+from gemseo.space import RandomSpace
+from gemseo.problem.mdo.sellar import Sellar1
+from gemseo.problem.mdo.sellar import Sellar2
+from gemseo.problem.mdo.sellar import SellarDesignSpace
+from gemseo.problem.mdo.sellar import SellarSystem
+from gemseo.scenario import MDOScenario
 from numpy.testing import assert_almost_equal
 
 from gemseo_umdo.formulations.surrogate_settings import Surrogate_Settings
 from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
+from gemseo.formulation import MDF_Settings
+from gemseo.mda import MDAChain_Settings
+from gemseo.uncertainty.distribution import OTDiracDistribution_Settings
+from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 
 if TYPE_CHECKING:
-    from gemseo.typing import RealArray
+    from gemseo.util.typing import RealArray
 
 
 @pytest.fixture(scope="module", params=[1, 2])
@@ -72,49 +76,46 @@ def reference_data(
 
     Monte Carlo samples of the Sellar's multidisciplinary system orchestrated by MDF.
     """
-    doe_scenario = DOEScenario(
+    doe_scenario = MDOScenario(
         disciplines,
-        "obj",
-        design_space,
-        formulation_name="MDF",
-        maximize_objective=maximize_objective,
-        main_mda_settings={"max_mda_iter": 3},
-    )
+        design_space=design_space, formulation_settings=MDF_Settings(main_mda_settings=MDAChain_Settings(max_mda_iter=3)))
+    doe_scenario.add_objective("obj", minimize=not maximize_objective)
     doe_scenario.add_constraint("c_1", "ineq")
     doe_scenario.add_constraint("c_2", "ineq")
+    # TODO(bump-gemseo): **kwargs may contain: algo_settings_model -> algorithm_settings  # noqa: E501
     doe_scenario.execute(**scenario_input_data)
     return doe_scenario.to_dataset().to_numpy()
 
 
 @pytest.fixture(scope="module")
-def dirac_uncertain_space() -> ParameterSpace:
+def dirac_uncertain_space() -> RandomSpace:
     """An uncertain space for the Sellar's U-MDO problem with Dirac distributions."""
-    parameter_space = ParameterSpace()
-    parameter_space.add_random_variable(
-        "alpha", "OTDiracDistribution", variable_value=3.16
-    )
-    parameter_space.add_random_variable(
-        "beta", "OTDiracDistribution", variable_value=24.0
-    )
-    parameter_space.add_random_variable(
-        "gamma", "OTDiracDistribution", variable_value=0.2
-    )
+    parameter_space = RandomSpace()
+    parameter_space.add_variable(
+        "alpha", OTDiracDistribution_Settings(variable_value=3.16
+    ))
+    parameter_space.add_variable(
+        "beta", OTDiracDistribution_Settings(variable_value=24.0
+    ))
+    parameter_space.add_variable(
+        "gamma", OTDiracDistribution_Settings(variable_value=0.2
+    ))
     return parameter_space
 
 
 @pytest.fixture(scope="module")
-def normal_uncertain_space() -> ParameterSpace:
+def normal_uncertain_space() -> RandomSpace:
     """An uncertain space for the Sellar's U-MDO problem with normal distributions."""
-    parameter_space = ParameterSpace()
-    parameter_space.add_random_variable(
-        "alpha", "OTNormalDistribution", mu=3.16, sigma=1e-6
-    )
-    parameter_space.add_random_variable(
-        "beta", "OTNormalDistribution", mu=24.0, sigma=1e-6
-    )
-    parameter_space.add_random_variable(
-        "gamma", "OTNormalDistribution", mu=0.2, sigma=1e-6
-    )
+    parameter_space = RandomSpace()
+    parameter_space.add_variable(
+        "alpha", OTNormalDistribution_Settings(mu=3.16, sigma=1e-6
+    ))
+    parameter_space.add_variable(
+        "beta", OTNormalDistribution_Settings(mu=24.0, sigma=1e-6
+    ))
+    parameter_space.add_variable(
+        "gamma", OTNormalDistribution_Settings(mu=0.2, sigma=1e-6
+    ))
     return parameter_space
 
 
@@ -151,6 +152,7 @@ def test_uncertainty_free(
     )
     u_doe_scenario.add_constraint("c_1", "Mean")
     u_doe_scenario.add_constraint("c_2", "Mean")
+    # TODO(bump-gemseo): **kwargs may contain: algo_settings_model -> algorithm_settings  # noqa: E501
     u_doe_scenario.execute(**scenario_input_data)
     assert_almost_equal(u_doe_scenario.to_dataset().to_numpy(), reference_data)
 
@@ -183,6 +185,7 @@ def test_weak_uncertainties(
     )
     u_doe_scenario.add_constraint("c_1", "Mean")
     u_doe_scenario.add_constraint("c_2", "Mean")
+    # TODO(bump-gemseo): **kwargs may contain: algo_settings_model -> algorithm_settings  # noqa: E501
     u_doe_scenario.execute(**scenario_input_data)
     data = u_doe_scenario.to_dataset().to_numpy()
     if isinstance(statistic_estimation_settings, Surrogate_Settings):

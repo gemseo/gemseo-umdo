@@ -40,24 +40,24 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from gemseo.algos.doe.scipy.settings.mc import MC_Settings
-from gemseo.algos.parameter_space import ParameterSpace
-from gemseo.formulations.mdf_settings import MDF_Settings
-from gemseo.mda.gauss_seidel_settings import MDAGaussSeidel_Settings
-from gemseo.problems.mdo.sellar.sellar_1 import Sellar1
-from gemseo.problems.mdo.sellar.sellar_2 import Sellar2
-from gemseo.problems.mdo.sellar.sellar_design_space import SellarDesignSpace
-from gemseo.problems.mdo.sellar.sellar_system import SellarSystem
-from gemseo.uncertainty.distributions.openturns.triangular_settings import (
+from gemseo.doe import MC_Settings
+from gemseo.space import RandomSpace
+from gemseo.formulation import MDF_Settings
+from gemseo.mda import MDAGaussSeidel_Settings
+from gemseo.problem.mdo.sellar import Sellar1
+from gemseo.problem.mdo.sellar import Sellar2
+from gemseo.problem.mdo.sellar import SellarDesignSpace
+from gemseo.problem.mdo.sellar import SellarSystem
+from gemseo.uncertainty.distribution import (
     OTTriangularDistribution_Settings,
 )
-from gemseo.utils.timer import Timer
+from gemseo.util.timer import Timer
 
 from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 
 if TYPE_CHECKING:
-    from gemseo.datasets.optimization_dataset import OptimizationDataset
+    from gemseo.dataset import OptimizationDataset
 
 # %%
 # First,
@@ -82,10 +82,10 @@ def solve_problem(vectorize: bool) -> tuple[float, OptimizationDataset]:
 
     disciplines = [Sellar1(), Sellar2(), SellarSystem()]
 
-    design_space = SellarDesignSpace(dtype="float")
+    design_space = SellarDesignSpace()
 
-    uncertain_space = ParameterSpace()
-    uncertain_space.add_random_variable(
+    uncertain_space = RandomSpace()
+    uncertain_space.add_variable(
         "gamma", OTTriangularDistribution_Settings(minimum=0.1, mode=0.2, maximum=0.3)
     )
 

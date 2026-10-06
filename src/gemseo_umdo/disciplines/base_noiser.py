@@ -18,7 +18,7 @@ from __future__ import annotations
 
 from typing import ClassVar
 
-from gemseo.core.discipline.discipline import Discipline
+from gemseo.discipline import Discipline
 
 
 class BaseNoiser(Discipline):

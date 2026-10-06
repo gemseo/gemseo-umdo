@@ -23,8 +23,8 @@ from numpy import atleast_1d
 from numpy import atleast_2d
 
 if TYPE_CHECKING:
-    from gemseo.algos.optimization_problem import EvaluationType
-    from gemseo.typing import RealArray
+    from gemseo.optimization.problem import EvaluationType
+    from gemseo.util.typing import RealArray
 
     from gemseo_umdo.formulations._statistics.iterative_sampling.base_sampling_estimator import (  # noqa: E501
         BaseSamplingEstimator,

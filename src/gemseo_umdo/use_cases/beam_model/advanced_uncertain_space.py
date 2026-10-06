@@ -19,7 +19,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 from typing import ClassVar
 
-from gemseo.algos.parameter_space import ParameterSpace
+from gemseo.space import RandomSpace
 
 from gemseo_umdo.use_cases.beam_model.core.variables import E
 from gemseo_umdo.use_cases.beam_model.core.variables import L
@@ -31,12 +31,14 @@ from gemseo_umdo.use_cases.beam_model.core.variables import dy
 from gemseo_umdo.use_cases.beam_model.core.variables import dz
 from gemseo_umdo.use_cases.beam_model.core.variables import h
 from gemseo_umdo.use_cases.beam_model.core.variables import t
+from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
+from gemseo.uncertainty.distribution import OTUniformDistribution_Settings
 
 if TYPE_CHECKING:
     from collections.abc import Mapping
 
 
-class AdvancedBeamUncertainSpace(ParameterSpace):
+class AdvancedBeamUncertainSpace(RandomSpace):
     """The advanced uncertain space for the beam use case."""
 
     __DEFAULT_DISPERSION: ClassVar[float] = 1.0
@@ -76,12 +78,9 @@ class AdvancedBeamUncertainSpace(ParameterSpace):
             name = variable.name
             nominal_value = variable.value
             delta = dispersions.get(name, self.__DEFAULT_DISPERSION)
-            self.add_random_variable(
+            self.add_variable(
                 name,
-                "OTUniformDistribution",
-                minimum=nominal_value - delta,
-                maximum=nominal_value + delta,
-            )
+                OTUniformDistribution_Settings(minimum=nominal_value - delta, maximum=nominal_value + delta))
 
         for variable in variables[4:]:
             self.__add_truncated_normal(variable.name, **dispersions)
@@ -101,11 +100,6 @@ class AdvancedBeamUncertainSpace(ParameterSpace):
         """
         nominal_value = self.__nominal_values[name]
         sigma = dispersions.get(name, self.__DEFAULT_DISPERSION / 3.0)
-        self.add_random_variable(
+        self.add_variable(
             name,
-            "OTNormalDistribution",
-            mu=nominal_value,
-            sigma=sigma,
-            lower_bound=nominal_value - 3 * sigma,
-            upper_bound=nominal_value + 3 * sigma,
-        )
+            OTNormalDistribution_Settings(mu=nominal_value, sigma=sigma, lower_bound=nominal_value - 3 * sigma, upper_bound=nominal_value + 3 * sigma))

@@ -18,14 +18,16 @@ from __future__ import annotations
 
 from typing import Final
 
-from gemseo.algos.parameter_space import ParameterSpace
+from gemseo.space import RandomSpace
 
 from gemseo_umdo.use_cases.beam_model.core.variables import E
 from gemseo_umdo.use_cases.beam_model.core.variables import F
 from gemseo_umdo.use_cases.beam_model.core.variables import sigma_all
+from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
+from gemseo.uncertainty.distribution import OTUniformDistribution_Settings
 
 
-class BeamUncertainSpace(ParameterSpace):
+class BeamUncertainSpace(RandomSpace):
     r"""The advanced uncertain space for the beam use case.
 
     $F$, $E$ and $\sigma_{\text{all}}$ are random variables
@@ -67,16 +69,10 @@ class BeamUncertainSpace(ParameterSpace):
                     nominal * (1 - delta),
                     nominal * (1 + delta),
                 ])
-                self.add_random_variable(
+                self.add_variable(
                     name,
-                    "OTUniformDistribution",
-                    minimum=minimum,
-                    maximum=maximum,
-                )
+                    OTUniformDistribution_Settings(minimum=minimum, maximum=maximum))
             else:
-                self.add_random_variable(
+                self.add_variable(
                     name,
-                    "OTNormalDistribution",
-                    mu=nominal,
-                    sigma=abs(nominal) * delta / 3,
-                )
+                    OTNormalDistribution_Settings(mu=nominal, sigma=abs(nominal) * delta / 3))

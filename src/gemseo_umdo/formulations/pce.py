@@ -57,7 +57,7 @@ class PCE(Surrogate):
         for more information about the available DOE algorithm names and options.
     """
 
-    Settings: ClassVar[type[PCE_Settings]] = PCE_Settings
+    settings_class: ClassVar[type[PCE_Settings]] = PCE_Settings
 
     _STATISTIC_FACTORY: ClassVar[PCEEstimatorFactory] = PCEEstimatorFactory()
 

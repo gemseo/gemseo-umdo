@@ -19,11 +19,11 @@ from __future__ import annotations
 from collections.abc import Callable
 from typing import TYPE_CHECKING
 
-from gemseo.algos.doe.base_n_samples_based_doe_settings import (
+from gemseo.doe.core.base_n_samples_based_doe_settings import (
     BaseNSamplesBasedDOESettings,  # noqa: TC002
 )
-from gemseo.algos.doe.openturns.settings.ot_opt_lhs import OT_OPT_LHS_Settings
-from gemseo.utils.seeder import SEED
+from gemseo.doe import OT_OPT_LHS_Settings
+from gemseo.util.seeder import seed
 from pydantic import Field
 from pydantic import PositiveInt
 from pydantic import model_validator
@@ -40,7 +40,7 @@ class SequentialSampling_Settings(Sampling_Settings):  # noqa: N801
     _TARGET_CLASS_NAME = "SequentialSampling"
 
     doe_algo_settings: BaseNSamplesBasedDOESettings = Field(
-        default=OT_OPT_LHS_Settings(n_samples=10, seed=SEED),
+        default=OT_OPT_LHS_Settings(n_samples=10, seed=seed),
         description="The DOE settings.",
     )
 

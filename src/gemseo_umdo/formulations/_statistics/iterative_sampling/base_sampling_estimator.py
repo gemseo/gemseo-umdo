@@ -24,7 +24,7 @@ from gemseo_umdo.formulations._statistics.base_statistic_estimator import (
 )
 
 if TYPE_CHECKING:
-    from gemseo.typing import RealArray
+    from gemseo.util.typing import RealArray
     from openturns import IterativeAlgorithmImplementation
 
 

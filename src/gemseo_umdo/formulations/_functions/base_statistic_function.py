@@ -26,14 +26,14 @@ from typing import Any
 from typing import Generic
 from typing import TypeVar
 
-from gemseo.algos.database import Database
-from gemseo.algos.hashable_ndarray import HashableNdarray
-from gemseo.core.mdo_functions.mdo_function import MDOFunction
-from gemseo.utils.metaclasses import ABCGoogleDocstringInheritanceMeta
+from gemseo.core.problem.database import Database
+from gemseo.util.hashable_ndarray import HashableNdarray
+from gemseo.core.function.array_function import ArrayFunction
+from gemseo.util.metaclass import ABCGoogleDocstringInheritanceMeta
 
 if TYPE_CHECKING:
-    from gemseo.algos.evaluation_problem import EvaluationProblem
-    from gemseo.typing import RealArray
+    from gemseo.doe import EvaluationProblem
+    from gemseo.util.typing import RealArray
 
     from gemseo_umdo.formulations._statistics.base_statistic_estimator import (
         BaseStatisticEstimator,
@@ -44,7 +44,7 @@ UMDOFormulationT = TypeVar("UMDOFormulationT", bound="BaseUMDOFormulation")
 
 
 class BaseStatisticFunction(
-    MDOFunction, Generic[UMDOFormulationT], metaclass=ABCGoogleDocstringInheritanceMeta
+    ArrayFunction, Generic[UMDOFormulationT], metaclass=ABCGoogleDocstringInheritanceMeta
 ):
     """A function to estimate a statistic from a U-MDO formulation."""
 
@@ -70,7 +70,7 @@ class BaseStatisticFunction(
         self,
         umdo_formulation: UMDOFormulationT,
         output_name: str,
-        function_type: MDOFunction.FunctionType,
+        function_type: ArrayFunction.FunctionType,
         statistic_operator_name: str,
         **statistic_options: Any,
     ) -> None:
@@ -131,7 +131,7 @@ class BaseStatisticFunction(
                 problems.append(formulation.optimization_problem)
             problems.extend(self._other_evaluation_problems)
             for problem in problems:
-                problem.reset(preprocessing=False)
+                problem.reset()
 
         # 2. We test whether the output has already been evaluated at this input point.
         #    Note: output means output f or its derivative @f.

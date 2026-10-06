@@ -27,7 +27,7 @@ from gemseo_umdo.formulations._statistics.iterative_sampling.standard_deviation 
 )
 
 if TYPE_CHECKING:
-    from gemseo.typing import RealArray
+    from gemseo.util.typing import RealArray
 
 
 class Margin(BaseSamplingEstimator):

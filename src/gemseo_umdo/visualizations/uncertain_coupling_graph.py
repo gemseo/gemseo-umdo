@@ -21,23 +21,24 @@ from typing import Any
 from typing import Final
 
 from gemseo.core.dependency_graph import DependencyGraph
-from gemseo.disciplines.utils import get_all_outputs
+from gemseo.util.discipline import get_all_outputs
 from gemseo.post._graph_view import GraphView
-from gemseo.scenarios.doe_scenario import DOEScenario
-from gemseo.utils.string_tools import repr_variable
+from gemseo.scenario import MDOScenario
+from gemseo.util.string import repr_variable
 from numpy import atleast_1d
 from numpy import quantile
-from strenum import StrEnum
+# TODO(bump-gemseo): strenum.StrEnum: enum.StrEnum gives auto() the lower-cased member name (MC = auto() was "MC", is now "mc"), so write MC = "MC" to keep the values, or keep strenum as a dependency of your own  # noqa: E501
+from enum import StrEnum
+from gemseo.formulation import MDF_Settings
 
 if TYPE_CHECKING:
     from collections.abc import Callable
     from collections.abc import Iterable
     from collections.abc import Sequence
     from pathlib import Path
-
-    from gemseo.algos.parameter_space import ParameterSpace
-    from gemseo.core.discipline.discipline import Discipline
-    from gemseo.typing import RealArray
+    from gemseo.space import RandomSpace
+    from gemseo.discipline import Discipline
+    from gemseo.util.typing import RealArray
 
 
 def _compute_qcd(x: RealArray) -> RealArray:
@@ -95,7 +96,7 @@ class UncertainCouplingGraph:
     def __init__(
         self,
         disciplines: Sequence[Discipline],
-        uncertain_space: ParameterSpace,
+        uncertain_space: RandomSpace,
         variable_names: Iterable[str] | None = None,
     ) -> None:
         """
@@ -110,9 +111,9 @@ class UncertainCouplingGraph:
         else:
             self.__output_names = variable_names
 
-        self.__scenario = DOEScenario(
-            disciplines, self.__output_names[0], uncertain_space, formulation_name="MDF"
-        )
+        self.__scenario = MDOScenario(
+            disciplines, design_space=uncertain_space, formulation_settings=MDF_Settings())
+        self.__scenario.add_objective(self.__output_names[0], minimize=True)
         for output_name in self.__output_names[1:]:
             self.__scenario.add_observable(output_name)
 
@@ -126,6 +127,8 @@ class UncertainCouplingGraph:
             algo_name: The name of the DOE algorithm.
             **algo_options: The options of the DOE algorithm.
         """
+        # TODO(bump-gemseo): cannot transform: a **kwargs unpack may hold settings as well as other arguments  # noqa: E501
+        # TODO(bump-gemseo): **kwargs may contain: algo_settings_model -> algorithm_settings  # noqa: E501
         self.__scenario.execute(
             algo_name=algo_name, n_samples=n_samples, **algo_options
         )
@@ -163,7 +166,7 @@ class UncertainCouplingGraph:
         else:
             all_output_names = variable_names
 
-        database = self.__scenario.formulation.optimization_problem.database
+        database = self.__scenario.formulation.problem.database
         output_names_to_measures = {
             output_name: self.__DISP_MEAS_TO_FUNCTION[dispersion_measure](
                 database.get_function_history(output_name)

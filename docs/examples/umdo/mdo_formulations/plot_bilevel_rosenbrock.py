@@ -34,19 +34,24 @@ to make this optimization multidisciplinary.
 
 from __future__ import annotations
 
-from gemseo import configuration
+from gemseo import create_random_space, configuration
 from gemseo import create_design_space
 from gemseo import create_discipline
-from gemseo import create_parameter_space
-from gemseo.problems.mdo.opt_as_mdo_scenario import create_disciplines
-from gemseo.scenarios.mdo_scenario import MDOScenario
+from gemseo.problem.mdo.opt_as_mdo_scenario import create_disciplines
+from gemseo.scenario import MDOScenario
 from matplotlib import pyplot as plt
 from numpy import array
 from numpy import atleast_2d
 
 from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
+from gemseo.doe import CustomDOE_Settings
+from gemseo.optimization import NLOPT_COBYLA_Settings
+from gemseo.optimization import SLSQP_Settings
+from gemseo.formulation import DisciplinaryOpt_Settings
+from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 
+# TODO(bump-gemseo): use the methods enable_fast_mode and disable_fast_mode instead  # noqa: E501
 configuration.fast = True
 
 # %%
@@ -71,9 +76,9 @@ design_space.add_variable("z_2", lower_bound=-1, upper_bound=1)
 
 # %%
 # and the uncertain space:
-uncertain_space = create_parameter_space()
-uncertain_space.add_random_variable("u", "OTNormalDistribution", mu=1.0, sigma=0.01)
-uncertain_space.add_random_variable("v", "OTNormalDistribution", mu=1.0, sigma=0.01)
+uncertain_space = create_random_space()
+uncertain_space.add_variable("u", OTNormalDistribution_Settings(mu=1.0, sigma=0.01))
+uncertain_space.add_variable("v", OTNormalDistribution_Settings(mu=1.0, sigma=0.01))
 
 # %%
 # Then,
@@ -118,7 +123,7 @@ mdf_uscenario = UMDOScenario(
 )
 # %%
 # and solve it using the gradient-based SLSQP algorithm:
-mdf_uscenario.execute(algo_name="SLSQP", max_iter=max_iter)
+mdf_uscenario.execute(algorithm_settings=SLSQP_Settings(max_iter=max_iter))
 
 # %%
 # ## BiLevel
@@ -136,22 +141,18 @@ design_space.set_current_value(initial_point)
 # using the gradient-based SLSQP algorithm:
 scenario_1 = MDOScenario(
     [discipline_1, link_discipline, rosenbrock],
-    "f",
-    design_space.filter("x_1", copy=True),
-    formulation_name="DisciplinaryOpt",
-)
-scenario_1.set_algorithm(algo_name="SLSQP", max_iter=max_iter)
+    design_space=design_space.filter("x_1", copy=True), formulation_settings=DisciplinaryOpt_Settings())
+scenario_1.add_objective("f", minimize=True)
+scenario_1.set_algorithm(algorithm_settings=SLSQP_Settings(max_iter=max_iter))
 # %%
 # and the one to minimize the objective function
 # with respect to the local design variable $x_2$
 # using the gradient-based SLSQP algorithm:
 scenario_2 = MDOScenario(
     [discipline_2, link_discipline, rosenbrock],
-    "f",
-    design_space.filter("x_2", copy=True),
-    formulation_name="DisciplinaryOpt",
-)
-scenario_2.set_algorithm(algo_name="SLSQP", max_iter=max_iter)
+    design_space=design_space.filter("x_2", copy=True), formulation_settings=DisciplinaryOpt_Settings())
+scenario_2.add_objective("f", minimize=True)
+scenario_2.set_algorithm(algorithm_settings=SLSQP_Settings(max_iter=max_iter))
 # %%
 # ### Main scenario
 #
@@ -170,7 +171,7 @@ bilevel_uscenario = UMDOScenario(
 )
 # %%
 # and solve the MDO problem using the gradient-free COBYLA algorithm:
-bilevel_uscenario.execute(algo_name="NLOPT_COBYLA", max_iter=max_iter)
+bilevel_uscenario.execute(algorithm_settings=NLOPT_COBYLA_Settings(max_iter=max_iter))
 
 # %%
 # ## Results
@@ -221,7 +222,7 @@ bilevel_uscenario = UMDOScenario(
     formulation_name="BiLevel",
     save_opt_history=False,
 )
-bilevel_uscenario.execute(algo_name="CustomDOE", samples=atleast_2d(bilevel_x_opt))
+bilevel_uscenario.execute(algorithm_settings=CustomDOE_Settings(samples=atleast_2d(bilevel_x_opt)))
 
 # %%
 # This process generates samples

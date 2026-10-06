@@ -36,9 +36,9 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 from typing import Any
 
-from gemseo.problems.mdo.opt_as_mdo_scenario import LinearLinkDiscipline
-from gemseo.problems.mdo.opt_as_mdo_scenario import create_disciplines
-from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
+from gemseo.problem.mdo.opt_as_mdo_scenario import LinearLinkDiscipline
+from gemseo.problem.mdo.opt_as_mdo_scenario import create_disciplines
+from gemseo.util.constant import read_only_empty_dict
 
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 
@@ -47,13 +47,13 @@ if TYPE_CHECKING:
     from collections.abc import Iterable
     from collections.abc import Mapping
 
-    from gemseo.algos.design_space import DesignSpace
-    from gemseo.algos.parameter_space import ParameterSpace
-    from gemseo.core.discipline.discipline import Discipline
-    from gemseo.formulations.base_formulation_settings import BaseFormulationSettings
-    from gemseo.problems.mdo.opt_as_mdo_scenario import BaseLinkDiscipline
-    from gemseo.typing import RealArray
-    from gemseo.typing import StrKeyMapping
+    from gemseo.space import DesignSpace
+    from gemseo.space import RandomSpace
+    from gemseo.discipline import Discipline
+    from gemseo.formulation.core.base_settings import BaseFormulationSettings
+    from gemseo.problem.mdo.opt_as_mdo_scenario import BaseLinkDiscipline
+    from gemseo.util.typing import RealArray
+    from gemseo.util.typing import StrKeyMapping
 
     from gemseo_umdo.formulations.base_umdo_formulation_settings import (
         BaseUMDOFormulationSettings,
@@ -63,18 +63,19 @@ if TYPE_CHECKING:
 class UOptAsUMDOScenario(UMDOScenario):
     """An optimization scenario under uncertainty made multidisciplinary."""
 
+    # TODO(bump-gemseo): rename would duplicate an existing parameter, not renamed: formulation_settings_model -> formulation_settings  # noqa: E501
     def __init__(
         self,
         discipline: Discipline,
         objective_name: str,
         design_space: DesignSpace,
-        uncertain_space: ParameterSpace,
+        uncertain_space: RandomSpace,
         objective_statistic_name: str,
         statistic_estimation_settings: BaseUMDOFormulationSettings,
-        objective_statistic_parameters: StrKeyMapping = READ_ONLY_EMPTY_DICT,
+        objective_statistic_parameters: StrKeyMapping = read_only_empty_dict,
         uncertain_design_variables: Mapping[
             str, str | tuple[str, str]
-        ] = READ_ONLY_EMPTY_DICT,
+        ] = read_only_empty_dict,
         name: str = "",
         formulation_settings_model: BaseFormulationSettings | None = None,
         maximize_objective: bool = False,
@@ -113,6 +114,7 @@ class UOptAsUMDOScenario(UMDOScenario):
         disciplines = create_disciplines(
             discipline, design_space, coupling_equations, link_discipline_class
         )
+        # TODO(bump-gemseo): cannot transform: objective_name goes to a call of add_objective() on the result of this call, which is not assigned to a name by a statement of its own  # noqa: E501
         super().__init__(
             disciplines,
             objective_name,

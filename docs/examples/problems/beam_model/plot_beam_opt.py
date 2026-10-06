@@ -22,19 +22,23 @@ $c_{\text{displacement}}(h,t)\leq 1.0$.
 
 from __future__ import annotations
 
-from gemseo.scenarios.mdo_scenario import MDOScenario
+from gemseo.scenario import MDOScenario
 
 from gemseo_umdo.use_cases.beam_model.constraints import BeamConstraints
 from gemseo_umdo.use_cases.beam_model.design_space import BeamDesignSpace
 from gemseo_umdo.use_cases.beam_model.discipline import Beam
+from gemseo.optimization import NLOPT_COBYLA_Settings
+from gemseo.formulation import MDF_Settings
+from gemseo.post import OptHistoryView_Settings
 
 disciplines = [Beam(), BeamConstraints()]
 
 design_space = BeamDesignSpace()
 
-scenario = MDOScenario(disciplines, "w", design_space, formulation_name="MDF")
+scenario = MDOScenario(disciplines, design_space=design_space, formulation_settings=MDF_Settings())
+scenario.add_objective("w", minimize=True)
 scenario.add_constraint("c_stress", constraint_type="ineq", value=1.0)
 scenario.add_constraint("c_displ", constraint_type="ineq", positive=True, value=1.0)
-scenario.execute(algo_name="NLOPT_COBYLA", max_iter=1000)
+scenario.execute(algorithm_settings=NLOPT_COBYLA_Settings(max_iter=1000))
 
-scenario.post_process(post_name="OptHistoryView", save=False, show=True)
+scenario.post_process(settings=OptHistoryView_Settings(save=False, show=True))

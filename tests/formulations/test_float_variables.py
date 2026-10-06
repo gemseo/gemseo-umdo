@@ -16,14 +16,16 @@ from __future__ import annotations  # noqa: I001
 
 
 import pytest
-from gemseo.algos.design_space import DesignSpace
-from gemseo.algos.parameter_space import ParameterSpace
-from gemseo.disciplines.auto_py import AutoPyDiscipline
+from gemseo.space import DesignSpace
+from gemseo.space import RandomSpace
+from gemseo.discipline import AutoPyDiscipline
 from numpy import array
 from numpy import zeros
 
 from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
 from numpy import ndarray  # noqa: TC002
+from gemseo.doe import CustomDOE_Settings
+from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 
 
 ZERO = zeros(1)
@@ -48,10 +50,10 @@ def design_space() -> DesignSpace:
 
 
 @pytest.fixture(scope="module")
-def uncertain_space() -> ParameterSpace():
+def uncertain_space() -> RandomSpace():
     """The uncertain space."""
-    uncertain_space_ = ParameterSpace()
-    uncertain_space_.add_random_variable("u", "OTNormalDistribution")
+    uncertain_space_ = RandomSpace()
+    uncertain_space_.add_variable("u", OTNormalDistribution_Settings())
     return uncertain_space_
 
 
@@ -68,7 +70,7 @@ def test_float_variables(uncertain_space, design_space, statistic_estimation_set
         formulation_name="MDF",
         statistic_estimation_settings=statistic_estimation_settings,
     )
-    umdo_scenario.execute(algo_name="CustomDOE", samples=array([[0.0]]))
+    umdo_scenario.execute(algorithm_settings=CustomDOE_Settings(samples=array([[0.0]])))
     reference_f_opt = umdo_scenario.optimization_result.f_opt
 
     design_space.set_current_value(initial_current_value)
@@ -82,6 +84,6 @@ def test_float_variables(uncertain_space, design_space, statistic_estimation_set
         formulation_name="MDF",
         statistic_estimation_settings=statistic_estimation_settings,
     )
-    umdo_scenario.execute(algo_name="CustomDOE", samples=array([[0.0]]))
+    umdo_scenario.execute(algorithm_settings=CustomDOE_Settings(samples=array([[0.0]])))
 
     assert umdo_scenario.optimization_result.f_opt == reference_f_opt
