@@ -39,7 +39,9 @@ from gemseo import create_design_space
 from gemseo import create_discipline
 from gemseo import create_random_space
 from gemseo.doe import CustomDOE_Settings
+from gemseo.formulation import BiLevel_Settings
 from gemseo.formulation import DisciplinaryOpt_Settings
+from gemseo.formulation import MDF_Settings
 from gemseo.optimization import NLOPT_COBYLA_Settings
 from gemseo.optimization import SLSQP_Settings
 from gemseo.problem.mdo.opt_as_mdo_scenario import create_disciplines
@@ -114,13 +116,12 @@ initial_point = array([-0.25, 0.75, -0.9])
 design_space.set_current_value(initial_point)
 mdf_uscenario = UMDOScenario(
     [rosenbrock, link_discipline, discipline_1, discipline_2],
-    "f",
     design_space,
     uncertain_space,
-    "Mean",
-    Sampling_Settings(n_samples=n_samples),
-    formulation_name="MDF",
+    statistic_estimation_settings=Sampling_Settings(n_samples=n_samples),
+    formulation_settings=MDF_Settings(),
 )
+mdf_uscenario.add_objective("f", "Mean")
 # %%
 # and solve it using the gradient-based SLSQP algorithm:
 mdf_uscenario.execute(algorithm_settings=SLSQP_Settings(max_iter=max_iter))
@@ -165,14 +166,12 @@ scenario_2.set_algorithm(algorithm_settings=SLSQP_Settings(max_iter=max_iter))
 # to minimize the objective function with respect to the global design variable $x_0$:
 bilevel_uscenario = UMDOScenario(
     [scenario_1, scenario_2],
-    "f",
     design_space.filter("x_0", copy=True),
     uncertain_space,
-    "Mean",
-    Sampling_Settings(n_samples=n_samples),
-    formulation_name="BiLevel",
-    keep_opt_history=False,
+    statistic_estimation_settings=Sampling_Settings(n_samples=n_samples),
+    formulation_settings=BiLevel_Settings(keep_opt_history=False),
 )
+bilevel_uscenario.add_objective("f", "Mean")
 # %%
 # and solve the MDO problem using the gradient-free COBYLA algorithm:
 bilevel_uscenario.execute(algorithm_settings=NLOPT_COBYLA_Settings(max_iter=max_iter))
@@ -218,14 +217,14 @@ bilevel_f_opt
 # by disabling the option ``estimate_statistics_iteratively``:
 bilevel_uscenario = UMDOScenario(
     [scenario_1, scenario_2],
-    "f",
     design_space.filter("x_0", copy=True),
     uncertain_space,
-    "Mean",
-    Sampling_Settings(n_samples=n_samples, estimate_statistics_iteratively=False),
-    formulation_name="BiLevel",
-    save_opt_history=False,
+    statistic_estimation_settings=Sampling_Settings(
+        n_samples=n_samples, estimate_statistics_iteratively=False
+    ),
+    formulation_settings=BiLevel_Settings(save_opt_history=False),
 )
+bilevel_uscenario.add_objective("f", "Mean")
 bilevel_uscenario.execute(
     algorithm_settings=CustomDOE_Settings(samples=atleast_2d(bilevel_x_opt))
 )
@@ -235,7 +234,7 @@ bilevel_uscenario.execute(
 # $\left(f(x_0^*,u^{(i)},v^{(i)})\right)_{1\leq i \leq N}$
 # where $u^{(1)},\ldots,u^{(N)}$ (resp. $v^{(1)},\ldots,v^{(N)}$)
 # are independent realizations of the random variable $U$ (resp. $V$).
-database = bilevel_uscenario.formulation.mdo_formulation.optimization_problem.database
+database = bilevel_uscenario.formulation.mdo_formulation.problem.database
 f_samples = database.get_function_history("f").ravel()
 
 # %%

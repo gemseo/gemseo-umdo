@@ -32,6 +32,7 @@ In the following, we will call $f$ the function computing $(x+U)^2$ given $x$ an
 from __future__ import annotations
 
 from gemseo.discipline import AnalyticDiscipline
+from gemseo.formulation import DisciplinaryOpt_Settings
 from gemseo.optimization import NLOPT_COBYLA_Settings
 from gemseo.post import OptHistoryView_Settings
 from gemseo.post.dataset import Lines
@@ -67,13 +68,12 @@ uncertain_space.add_variable("u", OTNormalDistribution_Settings())
 # trained from 20 samples at each iteration of the optimization loop:
 scenario = UMDOScenario(
     [discipline],
-    "y",
     design_space,
     uncertain_space,
-    "Mean",
-    formulation_name="DisciplinaryOpt",
     statistic_estimation_settings=Surrogate_Settings(n_samples=20),
+    formulation_settings=DisciplinaryOpt_Settings(),
 )
+scenario.add_objective("y", "Mean")
 
 # %%
 # We execute this scenario using the gradient-free optimizer COBYLA:

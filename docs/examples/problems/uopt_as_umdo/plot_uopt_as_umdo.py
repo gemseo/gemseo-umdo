@@ -47,6 +47,8 @@ from __future__ import annotations
 from gemseo import create_design_space
 from gemseo import create_discipline
 from gemseo import generate_coupling_graph
+from gemseo.formulation import DisciplinaryOpt_Settings
+from gemseo.formulation import MDF_Settings
 from gemseo.optimization import NLOPT_SLSQP_Settings
 from gemseo.space import RandomSpace
 from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
@@ -91,13 +93,12 @@ design_space.set_current_value(initial_point)
 # with statistics estimated by sampling:
 u_opt_scenario = UMDOScenario(
     [discipline],
-    "f",
     design_space,
     uncertain_space,
-    "Mean",
-    Sampling_Settings(n_samples=50),
-    formulation_name="DisciplinaryOpt",
+    statistic_estimation_settings=Sampling_Settings(n_samples=50),
+    formulation_settings=DisciplinaryOpt_Settings(),
 )
+u_opt_scenario.add_objective("f", "Mean")
 # %%
 # and solve it using the SLSQP algorithm:
 u_opt_scenario.execute(algorithm_settings=NLOPT_SLSQP_Settings(max_iter=100))
@@ -118,13 +119,12 @@ design_space.set_current_value(initial_point)
 # orchestrated by an MDF formulation:
 umdo_scenario = UOptAsUMDOScenario(
     discipline,
-    "f",
     design_space,
     uncertain_space,
-    "Mean",
-    Sampling_Settings(n_samples=50),
-    formulation_name="MDF",
+    statistic_estimation_settings=Sampling_Settings(n_samples=50),
+    formulation_settings=MDF_Settings(),
 )
+umdo_scenario.add_objective("f", "Mean")
 # %%
 # Then,
 # we can see that the design variables have been renamed:

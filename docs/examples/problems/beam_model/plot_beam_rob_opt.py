@@ -23,6 +23,7 @@ $\sigma_{\text{all}}$ are random variables defined by `BeamUncertainSpace`.
 
 from __future__ import annotations
 
+from gemseo.formulation import MDF_Settings
 from gemseo.optimization import NLOPT_COBYLA_Settings
 from gemseo.post import OptHistoryView_Settings
 
@@ -35,13 +36,12 @@ from gemseo_umdo.use_cases.beam_model.uncertain_space import BeamUncertainSpace
 
 scenario = UMDOScenario(
     [Beam(), BeamConstraints()],
-    "w",
     BeamDesignSpace(),
     BeamUncertainSpace(uniform=False),
-    "Mean",
-    formulation_name="MDF",
     statistic_estimation_settings=Sampling_Settings(n_samples=200),
+    formulation_settings=MDF_Settings(),
 )
+scenario.add_objective("w", "Mean")
 scenario.add_constraint(
     "c_stress", "Probability", greater=False, threshold=1.0, positive=True, value=0.9
 )

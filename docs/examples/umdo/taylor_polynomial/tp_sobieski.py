@@ -17,6 +17,7 @@
 
 from __future__ import annotations
 
+from gemseo.formulation import MDF_Settings
 from gemseo.optimization import NLOPT_COBYLA_Settings
 from gemseo.post import OptHistoryView_Settings
 from gemseo.problem.mdo.sobieski import SobieskiAerodynamics
@@ -68,16 +69,13 @@ uncertain_space.add_variable(
 # of the expectation $\mathbb{E}[y_4]$:
 scenario = UMDOScenario(
     [mission, structure, propulsion, aerodynamics],
-    "y_4",
     design_space,
     uncertain_space,
-    "Mean",
-    formulation_name="MDF",
     statistic_estimation_settings=TaylorPolynomial_Settings(),
-    # statistic_estimation_settings=TaylorPolynomialSettings(second_order=True),
-    maximize_objective=True,
     uncertain_design_variables={"x_2": ("+", "u_x_2")},
+    formulation_settings=MDF_Settings(),
 )
+scenario.add_objective("y_4", "Mean", minimize=False)
 
 # %%
 # while satisfying margin constraints

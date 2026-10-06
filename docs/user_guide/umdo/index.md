@@ -56,7 +56,7 @@ can be reduced to such a standard optimization problem:
 
     In [GEMSEO](https://www.gemseo.org),
     the user instantiates an
-    [OptimizationProblem][gemseo.algos.optimization_problem.OptimizationProblem]
+    [OptimizationProblem][gemseo.optimization.problem.OptimizationProblem]
     from a [DesignSpace][gemseo.algos.design_space.DesignSpace],
     defines its objective functions and constraints
     with
@@ -80,7 +80,7 @@ can be reduced to such a standard optimization problem:
 
         ``` py
         from gemseo import execute_algo
-        from gemseo.algos.optimization_problem import Optimization
+        from gemseo.optimization.problem import Optimization
         from gemseo.algos.design_space import DesignSpace
         from gemseo.core.mdo_functions.mdo_function import MDOFunction
 
@@ -655,7 +655,7 @@ due to the error of the surrogate models.
     [Disciplines][gemseo.core.discipline.discipline.Discipline],
     a [DOEScenario][gemseo.scenarios.doe_scenario.DOEScenario]
     generates and solves an
-    [OptimizationProblem][gemseo.algos.optimization_problem.OptimizationProblem]
+    [OptimizationProblem][gemseo.optimization.problem.OptimizationProblem]
     that corresponds to a
     [BaseMDOFormulation][gemseo.formulations.base_mdo_formulation.BaseMDOFormulation].
     The resolution consists in sampling the objective and constraints
@@ -682,7 +682,7 @@ due to the error of the surrogate models.
     $\hat{\mathbb{K}}_g[g(x,U)]$ and
     $\hat{\mathbb{K}}_h[h(x,U)]$
     are then used to build a new
-    [OptimizationProblem][gemseo.algos.optimization_problem.OptimizationProblem]
+    [OptimizationProblem][gemseo.optimization.problem.OptimizationProblem]
     over the [DesignSpace][gemseo.algos.design_space.DesignSpace]:
 
     $$

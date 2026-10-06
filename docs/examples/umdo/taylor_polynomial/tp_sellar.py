@@ -46,6 +46,7 @@ where
 from __future__ import annotations
 
 from gemseo.discipline import AnalyticDiscipline
+from gemseo.formulation import MDF_Settings
 from gemseo.optimization import NLOPT_COBYLA_Settings
 from gemseo.post import OptHistoryView_Settings
 from gemseo.space import DesignSpace
@@ -94,13 +95,12 @@ uncertain_space.add_variable(
 # at each iteration of the optimization loop:
 scenario = UMDOScenario(
     [system, disc1, disc2],
-    "obj",
     design_space,
     uncertain_space,
-    "Mean",
-    formulation_name="MDF",
     statistic_estimation_settings=TaylorPolynomial_Settings(),
+    formulation_settings=MDF_Settings(),
 )
+scenario.add_objective("obj", "Mean")
 
 # %%
 # while satisfying the constraints

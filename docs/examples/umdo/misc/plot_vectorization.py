@@ -89,18 +89,15 @@ def solve_problem(vectorize: bool) -> tuple[float, OptimizationDataset]:
 
     scenario = UMDOScenario(
         disciplines,
-        "obj",
         design_space,
         uncertain_space,
-        "Mean",
-        Sampling_Settings(
+        statistic_estimation_settings=Sampling_Settings(
             # Note: The default value of vectorize is False, whatever the DOE algorithm.
             doe_algo_settings=MC_Settings(n_samples=100, vectorize=vectorize)
         ),
-        formulation_settings_model=MDF_Settings(
-            main_mda_settings=MDAGaussSeidel_Settings()
-        ),
+        formulation_settings=MDF_Settings(main_mda_settings=MDAGaussSeidel_Settings()),
     )
+    scenario.add_objective("obj", "Mean")
     scenario.add_constraint("c_1", "Margin")
     scenario.add_constraint("c_2", "Margin")
     with Timer() as timer:

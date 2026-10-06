@@ -19,6 +19,7 @@ from __future__ import annotations
 
 from gemseo.discipline import AnalyticDiscipline
 from gemseo.doe import PYDOE_FULLFACT_Settings
+from gemseo.formulation import DisciplinaryOpt_Settings
 from gemseo.post import OptHistoryView_Settings
 from gemseo.space import DesignSpace
 from gemseo.space import RandomSpace
@@ -50,13 +51,12 @@ uncertain_space.add_variable("u", OTNormalDistribution_Settings())
 # of the expectation $\mathbb{E}[Y]$ where $Y=f(x,U)$:
 scenario = UDOEScenario(
     [discipline],
-    "y",
     design_space,
     uncertain_space,
-    "Mean",
-    formulation_name="DisciplinaryOpt",
     statistic_estimation_settings=Sampling_Settings(n_samples=100),
+    formulation_settings=DisciplinaryOpt_Settings(),
 )
+scenario.add_objective("y", "Mean")
 
 # %%
 # We execute it with a full-factorial design of experiments:

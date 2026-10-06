@@ -130,13 +130,14 @@ design_space.set_current_value(initial_design)
 # by forcing the mean of $h(x,y)$ to be equal to $r^2$ and its variance to be zero:
 scenario = UMDOScenario(
     [discipline],
-    "f",
     design_space,
     uncertain_space,
-    "Mean",
-    Sampling_Settings(n_samples=100, estimate_statistics_iteratively=False),
-    formulation_name="DisciplinaryOpt",
+    statistic_estimation_settings=Sampling_Settings(
+        n_samples=100, estimate_statistics_iteratively=False
+    ),
+    formulation_settings=DisciplinaryOpt_Settings(),
 )
+scenario.add_objective("f", "Mean")
 scenario.add_constraint("h", "Mean", constraint_type="eq", value=radius**2)
 scenario.add_constraint("h", "Variance", constraint_type="eq")
 # %%

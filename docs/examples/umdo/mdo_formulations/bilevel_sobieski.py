@@ -32,6 +32,7 @@ from __future__ import annotations
 from gemseo import configuration
 from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 from gemseo.doe import CustomDOE_Settings
+from gemseo.formulation import BiLevel_Settings
 from gemseo.formulation import MDF_Settings
 from gemseo.optimization import NLOPT_COBYLA_Settings
 from gemseo.optimization import NLOPT_SLSQP_Settings
@@ -131,15 +132,15 @@ for k, v in x_opt_as_dict.items():
     design_space.set_current_variable(k, v)
 mdf_uscenario = UMDOScenario(
     [aerodynamics, propulsion, structure, mission],
-    "y_4",
     design_space,
     uncertain_space,
-    "Mean",
-    Sampling_Settings(n_samples=n_samples, estimate_statistics_iteratively=False),
-    maximize_objective=True,
+    statistic_estimation_settings=Sampling_Settings(
+        n_samples=n_samples, estimate_statistics_iteratively=False
+    ),
     uncertain_design_variables={"x_shared": ("+", "u_x_shared")},
-    formulation_name="MDF",
+    formulation_settings=MDF_Settings(),
 )
+mdf_uscenario.add_objective("y_4", "Mean", minimize=False)
 mdf_uscenario.add_constraint("g_1", "Margin")
 mdf_uscenario.add_constraint("g_2", "Margin")
 mdf_uscenario.add_constraint("g_3", "Margin")
@@ -236,15 +237,12 @@ scenario_structure.set_algorithm(algorithm_settings=slsqp_settings)
 # and under equality constraints set as margins:
 bilevel_uscenario = UMDOScenario(
     [scenario_aerodynamics, scenario_propulsion, scenario_structure],
-    "y_4",
     design_space.filter("dv_x_shared", copy=True),
     uncertain_space,
-    "Mean",
-    Sampling_Settings(n_samples=n_samples),
-    formulation_name="BiLevel",
-    keep_opt_history=False,
-    maximize_objective=True,
+    statistic_estimation_settings=Sampling_Settings(n_samples=n_samples),
+    formulation_settings=BiLevel_Settings(keep_opt_history=False),
 )
+bilevel_uscenario.add_objective("y_4", "Mean", minimize=False)
 bilevel_uscenario.add_constraint("g_1", "Margin")
 bilevel_uscenario.add_constraint("g_2", "Margin")
 bilevel_uscenario.add_constraint("g_3", "Margin")
@@ -300,15 +298,12 @@ bilevel_f_opt
 # taking care to save the samples with the option ``estimate_statistics_iteratively``:
 bilevel_uscenario = UMDOScenario(
     [scenario_aerodynamics, scenario_propulsion, scenario_structure],
-    "y_4",
     design_space.filter("dv_x_shared", copy=True),
     uncertain_space,
-    "Mean",
-    Sampling_Settings(n_samples=n_samples),
-    formulation_name="BiLevel",
-    maximize_objective=True,
-    save_opt_history=False,
+    statistic_estimation_settings=Sampling_Settings(n_samples=n_samples),
+    formulation_settings=BiLevel_Settings(save_opt_history=False),
 )
+bilevel_uscenario.add_objective("y_4", "Mean", minimize=False)
 bilevel_uscenario.add_constraint("g_1", "Mean")
 bilevel_uscenario.add_constraint("g_2", "Mean")
 bilevel_uscenario.add_constraint("g_3", "Mean")
@@ -319,7 +314,7 @@ bilevel_uscenario.execute(
 # %%
 # which generates samples
 # $\left(y_4\!\left(dv_{x_{\text{shared}}}^*,u_{x_{\text{shared}}}^{(i)}\right)\right)_{1\leq i \leq N}$:
-database = bilevel_uscenario.formulation.mdo_formulation.optimization_problem.database
+database = bilevel_uscenario.formulation.mdo_formulation.problem.database
 f_samples = -database.get_function_history("y_4").ravel()
 
 # %%

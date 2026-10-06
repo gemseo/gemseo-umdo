@@ -29,6 +29,7 @@ $x$, $y$ and $U$.
 from __future__ import annotations
 
 from gemseo.discipline import AnalyticDiscipline
+from gemseo.formulation import DisciplinaryOpt_Settings
 from gemseo.optimization import NLOPT_SLSQP_Settings
 from gemseo.post import OptHistoryView_Settings
 from gemseo.space import DesignSpace
@@ -63,13 +64,12 @@ uncertain_space.add_variable("u", OTNormalDistribution_Settings(mu=1.0, sigma=0.
 # at each iteration of the optimization loop:
 scenario = UMDOScenario(
     [discipline],
-    "z",
     design_space,
     uncertain_space,
-    "Mean",
-    formulation_name="DisciplinaryOpt",
     statistic_estimation_settings=Sampling_Settings(n_samples=30),
+    formulation_settings=DisciplinaryOpt_Settings(),
 )
+scenario.add_objective("z", "Mean")
 
 # %%
 # We execute this scenario using the gradient-based optimizer SLSQP:

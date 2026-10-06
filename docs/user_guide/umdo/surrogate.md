@@ -20,7 +20,7 @@ namely mean, standard deviation, variance, probability and margin.
 
 The quality of the surrogate model is logged
 and stored in the database attached to the scenario
-(see `scenario.formulation.optimization_problem.database`).
+(see `scenario.formulation.problem.database`).
 
 Here is a typical scenario template:
 
