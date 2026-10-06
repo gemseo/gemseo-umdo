@@ -153,8 +153,16 @@ class StatisticFunctionForSurrogate(BaseStatisticFunction[SurrogateT]):
                         thresh[index],
                     )
 
-        surrogate_formulation.problem.database.add_new_iter_listener(
-            self._store_surrogate_model_quality
+        # Declare the qualities as outputs of the listener
+        # so that the problem exports them to a dataset.
+        database = surrogate_formulation.problem.database
+        database.add_new_iter_listener(
+            self._store_surrogate_model_quality,
+            output_names=[
+                name
+                for name in names_to_qualities
+                if name not in database.listener_output_names
+            ],
         )
 
     def _store_surrogate_model_quality(self, input_data: DatabaseKeyType) -> None:

@@ -198,3 +198,5 @@ def test_scenario(quadratic_problem, statistic_estimation_parameters, y_opt):
     assert last_item.keys() == {"y_learning_quality", "y_test_quality", "E[y]"}
     assert last_item["y_learning_quality"].shape == (1,)
     assert last_item["y_test_quality"].shape == (1,)
+    dataset = scenario.to_dataset()
+    assert {"y_learning_quality", "y_test_quality"} <= set(dataset.variable_names)
