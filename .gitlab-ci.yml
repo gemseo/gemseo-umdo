@@ -10,3 +10,9 @@ variables:
   - 311
   - 312
   - 313
+
+# Keep the report of the image snapshots to analyze their failures.
+.test-base:
+  artifacts:
+    when: always
+    paths: [$COVERAGE_FILE, figure-report/]
