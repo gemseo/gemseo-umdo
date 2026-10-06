@@ -295,12 +295,15 @@ bilevel_f_opt
 #
 # Finally,
 # we execute the ``BiLevel`` formulation at the bi-level optimum,
-# taking care to save the samples with the option ``estimate_statistics_iteratively``:
+# taking care to save the samples
+# by disabling the option ``estimate_statistics_iteratively``:
 bilevel_uscenario = UMDOScenario(
     [scenario_aerodynamics, scenario_propulsion, scenario_structure],
     design_space.filter("dv_x_shared", copy=True),
     uncertain_space,
-    statistic_estimation_settings=Sampling_Settings(n_samples=n_samples),
+    statistic_estimation_settings=Sampling_Settings(
+        n_samples=n_samples, estimate_statistics_iteratively=False
+    ),
     formulation_settings=BiLevel_Settings(save_opt_history=False),
 )
 bilevel_uscenario.add_objective("y_4", "Mean", minimize=False)
