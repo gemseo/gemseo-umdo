@@ -212,9 +212,9 @@ def test_pilot(levels, uncertain_space):
 def test_plot(executed_mlmc, log, snapshot_matplotlib):
     """Check the plot of the evaluation history."""
     if log:
-        # The rendering of the tick labels of a log-scale axis
-        # depends on the environment.
-        snapshot_matplotlib.set_defaults(remove_text=True)
+        # The minor grid lines of the log-scale axes can be shifted by one pixel
+        # from one machine to another (RMS 3.465 between a local run and the CI).
+        snapshot_matplotlib.set_defaults(tolerance=5.0)
 
     executed_mlmc.plot_evaluation_history(
         show=False,
