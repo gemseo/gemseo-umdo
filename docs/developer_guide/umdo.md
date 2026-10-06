@@ -28,17 +28,23 @@ gemseo_umdo
     base_noiser.py # Base class for noising disciplines
     multiplicative_noiser.py # Noising discipline multiplying a deterministic variable by a random one
     noiser_factory.py # Factory of noising disciplines
+    utils.py # Function creating the chain of noising disciplines
   formulations # Subpackage including U-MDO formulations
     factory.py # Factory of U-MDO formulations
     base_umdo_formulation.py # Base class for U-MDO formulations
+    base_umdo_formulation_settings.py # Base class for the settings of the U-MDO formulations
+    base_sampling_settings.py # Base class for the settings of the sampling-based U-MDO formulations
+    base_surrogate_settings.py # Base classes for the settings of the surrogate-based U-MDO formulations
     control_variate.py # U-MDO formulation estimating statistics using Taylor-based control variates
     control_variate_settings.py # Settings for ControlVariate
     pce.py # U-MDO formulation estimating statistics using polynomial chaos expansions (PCE)
     pce_settings.py # Settings for PCE
     sampling.py # U-MDO formulation estimating statistics using Monte Carlo sampling
     sampling_settings.py # Settings for Sampling
-    sequential_sampling.py # U-MDO formulation estimating statistics using Monte Carlo sampling
-    sequential_sampling_settings.py # SequentialSettings for Sampling
+    sequential_sampling.py # U-MDO formulation estimating statistics using sequential Monte Carlo sampling
+    sequential_sampling_settings.py # Settings for SequentialSampling
+    surrogate.py # U-MDO formulation estimating statistics using Monte Carlo sampling of a surrogate model
+    surrogate_settings.py # Settings for Surrogate
     taylor_polynomial.py # U-MDO formulation estimating statistics using Taylor polynomials
     taylor_polynomial_settings.py # Settings for TaylorPolynomial
     _functions # Subpackage of statistic estimation functions to be used with EvaluationProblem
@@ -61,22 +67,43 @@ gemseo_umdo
 
 ## Class diagram
 
-A `BaseUScenario` is a `Scenario`
-with an API adapted to the definition of the uncertain space, statistics and the associated estimation techniques.
+A `BaseUScenario` is a mixin
+adapting the API of an `MDOScenario`
+to the definition of the uncertain space, statistics and the associated estimation techniques;
+`UMDOScenario` and `UDOEScenario` derive from both `BaseUScenario` and `MDOScenario`.
 
-A `BaseUScenario` is made of
+As any `MDOScenario`,
+a `BaseUScenario` creates an `OptimizationProblem` over the design space
+and passes it to its formulation,
+which is a `BaseUMDOFormulation`.
+The objective, constraints and observables are then added
+with the methods `add_objective()`, `add_constraint()` and `add_observable()`,
+which take the name of the statistic to be applied to the outputs.
+When uncertain design variables are defined,
+the `BaseUScenario` also prepends a chain of `BaseNoiser` disciplines to the disciplines.
 
-- a `BaseUMDOFormulation`, which is an `MDOFormulation` depending on a standard `MDOFormulation`, e.g. `MDF`,
-- the settings of a specific statistics estimation technique, e.g. `Sampling_Settings` for sampling.
+A `BaseUMDOFormulation` is a `BaseFormulation` made of
 
-The standard `MDOFormulation` is in charge to define the multidisciplinary process
+- the settings of a specific statistics estimation technique,
+  i.e. a `BaseUMDOFormulationSettings`, e.g. `Sampling_Settings` for sampling,
+- a standard `BaseMDOFormulation`, e.g. `MDF`,
+  created from its settings (`MDF_Settings` by default)
+  over an `EvaluationProblem` defined over the uncertain space,
+  i.e. a `RandomSpace`;
+  the outputs of the objective, constraints and observables
+  are observables of this `EvaluationProblem`,
+- optionally, an auxiliary `BaseMDOFormulation`
+  whose functions are differentiable with respect to the uncertain variables
+  (see `_USE_AUXILIARY_MDO_FORMULATION`).
+
+The standard `BaseMDOFormulation` is in charge to define the multidisciplinary process
 for a specific design value and a specific uncertainty value
 while the estimation technique is in charge to
 
 1. sample this multidisciplinary process over the uncertain space,
 2. estimate the statistics by means of `BaseStatisticFunction`s
-   which are particular `MDOFunction`s
-   associated with the `OptimizationProblem` attached to the `UMDOFormulation`.
+   which are particular `ArrayFunction`s
+   attached to the `OptimizationProblem` of the `BaseUMDOFormulation`.
 
 A `BaseStatisticFunction` relies on a basic functor, called `BaseStatisticEstimator`.
 
@@ -84,36 +111,47 @@ So,
 adding a new U-MDO formulation `Foo` implies to
 
 - subclass `BaseUMDOFormulation` to `Foo`,
-- subclass `BaseUMDOFormulationSettings` to `Foo_Settings`,
-- subclass `BaseStatisticFunction` to `StasticFunctionForFoo`,
+  whose constructor has the signature
+  `(problem, disciplines, settings=None, *, uncertain_space, mdo_formulation_settings=None)`,
+- subclass `BaseUMDOFormulationSettings` to `Foo_Settings`
+  (the naming convention `Foo_Settings` binds the settings to `Foo`),
+- subclass `BaseStatisticFunction` to `StatisticFunctionForFoo`,
 - subclass `BaseStatisticEstimator` to `BaseFooEstimator`,
 - subclass `BaseFooEstimator` to `Mean`, `Variance`, etc.
 
 ``` mermaid
 classDiagram
 
-   BaseUScenario --|> Scenario
    BaseUScenario <|-- UMDOScenario
    MDOScenario <|-- UMDOScenario
+   BaseUScenario <|-- UDOEScenario
+   MDOScenario <|-- UDOEScenario
 
    class BaseUScenario {
+    +add_objective()
     +add_constraint()
     +add_observable()
+    +available_statistics
     +formulation_name
     +mdo_formulation
     +uncertain_space
    }
 
    BaseUScenario *-- BaseUMDOFormulation
-   BaseUMDOFormulation <|-- BaseMDOFormulation
-   BaseUMDOFormulation o-- BaseMDOFormulation
+   BaseUScenario "1" *-- "n" BaseNoiser
+   BaseNoiser --|> Discipline
+   BaseFormulation <|-- BaseUMDOFormulation
+   BaseFormulation <|-- BaseMDOFormulation
+   BaseUMDOFormulation o-- BaseMDOFormulation: MDO formulation(s)
 
    class BaseUMDOFormulation {
      +add_constraint()
      +add_observable()
-     +get_expected_dataflow()
-     +get_expected_workflow()
-     +get_top_level_disc()
+     +auxiliary_mdo_formulation
+     +available_statistics
+     +create_constraint()
+     +create_objective()
+     +get_top_level_disciplines()
      +input_data_to_output_data
      +mdo_formulation
      +name
@@ -121,12 +159,16 @@ classDiagram
      +update_top_level_disciplines()
    }
 
-   BaseUMDOFormulation o-- ParameterSpace: uncertain space
+   BaseUMDOFormulation *-- OptimizationProblem: over the design space
+   OptimizationProblem "1" o-- "n" BaseStatisticFunction
+   BaseMDOFormulation *-- EvaluationProblem: over the uncertain space
+   EvaluationProblem o-- RandomSpace
+   BaseUMDOFormulation o-- RandomSpace: uncertain space
    BaseUMDOFormulation "1" --> "n" BaseStatisticFunction
    BaseStatisticFunction *-- BaseStatisticEstimator
 
    BaseUMDOFormulation <|-- Sampling
-   MDOFunction <|-- BaseStatisticFunction
+   ArrayFunction <|-- BaseStatisticFunction
    BaseStatisticFunction <|-- StatisticFunctionForStandardSampling
    Sampling "1" --> "n" StatisticFunctionForStandardSampling
    StatisticFunctionForStandardSampling *-- BaseSamplingEstimator
@@ -134,14 +176,10 @@ classDiagram
    BaseSamplingEstimator <|-- Mean
 
    BaseUMDOFormulation *-- BaseUMDOFormulationSettings
+   BaseFormulationSettings <|-- BaseUMDOFormulationSettings
 
-   BaseUMDOFormulation *-- OptimizationProblem
-   OptimizationProblem "1" o-- "n" BaseStatisticFunction
-
-   BaseUMDOFormulation "1" *-- "n" BaseNoiser
-   BaseNoiser --|> Discipline
-
-   <<abstract>> BaseUScenario
+   <<mixin>> BaseUScenario
+   <<abstract>> BaseFormulation
    <<abstract>> BaseMDOFormulation
    <<abstract>> BaseUMDOFormulation
    <<abstract>> BaseStatisticFunction
@@ -157,12 +195,14 @@ classDiagram
    }
 
    namespace gemseo {
+     class ArrayFunction
+     class BaseFormulation
+     class BaseFormulationSettings
      class BaseMDOFormulation
      class Discipline
-     class MDOFunction
+     class EvaluationProblem
      class MDOScenario
      class OptimizationProblem
-     class ParameterSpace
-     class Scenario
+     class RandomSpace
    }
 ```
