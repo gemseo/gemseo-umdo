@@ -109,6 +109,5 @@ def test_default_outputs(discipline):
 
 def test_ny_nz(custom_discipline):
     """Check the use of a custom grid size."""
-    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data, get(name) or get_merged_data()  # noqa: E501
-    for name, value in custom_discipline.io.data.items():
+    for name, value in custom_discipline.io.get_merged_data().items():
         assert value.shape == (16,) if name == "yz_grid" else (8,)

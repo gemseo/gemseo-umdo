@@ -76,12 +76,9 @@ class SpringMassDiscipline(Discipline):
         self.default_input_data = {self.__STIFFNESS: array([2.25])}
 
     def _run(self, input_data: StrKeyMapping) -> None:
-        # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data, get(name) or get_merged_data()  # noqa: E501
-        disp, max_disp = self.__model(self.io.data[self.__STIFFNESS][0])
-        # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data, get(name) or get_merged_data()  # noqa: E501
-        self.io.data[self.__DISPLACEMENT] = disp
-        # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data, get(name) or get_merged_data()  # noqa: E501
-        self.io.data[self.__MAX_DISPLACEMENT] = array([max_disp])
+        disp, max_disp = self.__model(self.io.input_data[self.__STIFFNESS][0])
+        self.io.output_data[self.__DISPLACEMENT] = disp
+        self.io.output_data[self.__MAX_DISPLACEMENT] = array([max_disp])
 
     @property
     def cost(self) -> float:

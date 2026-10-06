@@ -37,11 +37,10 @@ class MultiplicativeNoiser(BaseNoiser):
     SHORT_NAME: ClassVar[str] = "*"
 
     def _run(self, input_data: StrKeyMapping) -> None:
-        # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data, get(name) or get_merged_data()  # noqa: E501
         self.io.update_output_data({
             self._noised_variable_name: (
-                self.io.data[self._variable_name]
-                * (1 + self.io.data[self._uncertain_variable_name])
+                self.io.input_data[self._variable_name]
+                * (1 + self.io.input_data[self._uncertain_variable_name])
             )
         })
 
@@ -50,10 +49,8 @@ class MultiplicativeNoiser(BaseNoiser):
         inputs: Iterable[str] | None = None,
         outputs: Iterable[str] | None = None,
     ) -> None:
-        # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data, get(name) or get_merged_data()  # noqa: E501
-        uncertain_variable_value = self.io.data[self._uncertain_variable_name]
-        # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data, get(name) or get_merged_data()  # noqa: E501
-        variable_value = self.io.data[self._variable_name]
+        uncertain_variable_value = self.io.input_data[self._uncertain_variable_name]
+        variable_value = self.io.input_data[self._variable_name]
         if uncertain_variable_value.size == 1:
             x_jacobian = eye(variable_value.size) * (1 + uncertain_variable_value)
             u_jacobian = variable_value[:, newaxis]

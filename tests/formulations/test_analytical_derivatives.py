@@ -54,17 +54,13 @@ class A(Discipline):
         self.n_u = n_u
 
     def _run(self, input_data: StrKeyMapping) -> None:
-        # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data, get(name) or get_merged_data()  # noqa: E501
-        x = self.io.data["x"]
-        # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data, get(name) or get_merged_data()  # noqa: E501
-        u = self.io.data["u"]
+        x = self.io.input_data["x"]
+        u = self.io.input_data["u"]
         self.io.update_output_data({"y": self.m @ hstack((x * u.sum(), u))})
 
     def _compute_jacobian(self, inputs=None, outputs=None) -> None:
-        # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data, get(name) or get_merged_data()  # noqa: E501
-        x = self.io.data["x"]
-        # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data, get(name) or get_merged_data()  # noqa: E501
-        u = self.io.data["u"]
+        x = self.io.input_data["x"]
+        u = self.io.input_data["u"]
         dydx = self.m_x * u.sum()
         dydu = vstack((
             (x * linspace(1, self.n_x, self.n_x)).reshape(-1, 1) * ones((1, self.n_u)),

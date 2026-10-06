@@ -39,8 +39,7 @@ sobol = SobolAnalysis()
 sobol.compute_samples(
     [mdo_chain], uncertain_space, 500, output_names=["c_displ", "c_stress"]
 )
-# TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data, get(name) or get_merged_data()  # noqa: E501
-mesh = mdo_chain.disciplines[0].io.data["yz_grid"].reshape((-1, 2))
+mesh = mdo_chain.disciplines[0].io.get("yz_grid").reshape((-1, 2))
 sobol.main_method = "total"
 sobol.compute_indices()
 sobol.plot_field("c_displ", mesh=mesh, save=False, show=True)

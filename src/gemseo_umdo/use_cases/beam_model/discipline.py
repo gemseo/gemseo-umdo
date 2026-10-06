@@ -72,5 +72,4 @@ class Beam(Discipline):
     def _run(self, input_data: StrKeyMapping) -> None:
         input_data = {key: val[0] for key, val in self.get_input_data().items()}
         for name, value in asdict(self.__beam_model(**input_data)).items():
-            # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data, get(name) or get_merged_data()  # noqa: E501
-            self.io.data[name] = value.ravel()
+            self.io.output_data[name] = value.ravel()

@@ -495,9 +495,9 @@ can take them into account.
             self.default_input_data = {"x1": array([0.]), "x2": array([0.]), "U": array([0.5])}
 
         def _run(self, input_data):
-            x1 = self.io.data["x1"]
-            x2 = self.io.data["x2"]
-            U = self.io.data["U"]
+            x1 = self.io.input_data["x1"]
+            x2 = self.io.input_data["x2"]
+            U = self.io.input_data["U"]
             y = (x1+U)**2 + (x2+U)**2
             self.io.update_output_data({"y": y})
     ```

@@ -58,9 +58,7 @@ class BeamConstraints(Discipline):
         }
 
     def _run(self, input_data: StrKeyMapping) -> None:
-        # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data, get(name) or get_merged_data()  # noqa: E501
-        self.io.data[self.__C_STRESS] = (
-            self.io.data[self.__SIGMA_VM] / self.io.data[sigma_all.name]
+        self.io.output_data[self.__C_STRESS] = (
+            self.io.input_data[self.__SIGMA_VM] / self.io.input_data[sigma_all.name]
         )
-        # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data, get(name) or get_merged_data()  # noqa: E501
-        self.io.data[self.__C_DISPL] = self.io.data[self.__DISPL] / 100.0
+        self.io.output_data[self.__C_DISPL] = self.io.input_data[self.__DISPL] / 100.0
