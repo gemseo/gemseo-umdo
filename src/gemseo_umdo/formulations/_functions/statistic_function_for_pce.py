@@ -74,15 +74,15 @@ class StatisticFunctionForPCE(StatisticFunctionForSurrogate[PCET]):
         regressor_settings = settings.regressor_settings
         if regressor_settings.learn_jacobian_data:
             # FCE(u) trained from samples of df(x,u)du (i.e. gradient-enhanced FCE)
-            problem = pce_formulation.auxiliary_mdo_formulation.optimization_problem
+            problem = pce_formulation.auxiliary_mdo_formulation.problem
             compute_jacobian = True
         elif estimate_jacobian and not settings.approximate_statistics_jacobians:
             # FCE(u) trained from samples of df(x,u)dx
-            problem = pce_formulation.mdo_formulation.optimization_problem
+            problem = pce_formulation.mdo_formulation.problem
             compute_jacobian = True
         else:
             # Standard FCE(u) trained without samples of derivatives
-            problem = pce_formulation.mdo_formulation.optimization_problem
+            problem = pce_formulation.mdo_formulation.problem
             compute_jacobian = False
 
         samples = pce_formulation.compute_samples(problem, compute_jacobian)

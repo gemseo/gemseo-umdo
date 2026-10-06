@@ -73,9 +73,11 @@ class StatisticFunctionForTaylorPolynomial(BaseStatisticFunction[TaylorPolynomia
             **statistic_options,
         )
         formulation = self._umdo_formulation
-        self.__problem = formulation.auxiliary_mdo_formulation.optimization_problem
+        self.__problem = formulation.auxiliary_mdo_formulation.problem
         self.__get_gradient_name = self.__problem.database.get_gradient_name
-        self.__mean_input_value = formulation.uncertain_space.distribution.mean
+        self.__mean_input_value = (
+            formulation.uncertain_space.variables.distribution.mean
+        )
 
     @property
     def _statistic_estimator_parameters(self) -> tuple[RandomSpace]:

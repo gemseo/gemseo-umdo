@@ -75,13 +75,13 @@ class StatisticFunctionForSurrogate(BaseStatisticFunction[SurrogateT]):
         self, input_data: RealArray, estimate_jacobian: bool
     ) -> dict[str, Any]:
         umdo_formulation = self._umdo_formulation
-        problem = umdo_formulation.mdo_formulation.optimization_problem
+        problem = umdo_formulation.mdo_formulation.problem
         samples = umdo_formulation.compute_samples(problem)
         regressor_settings = umdo_formulation._settings.regressor_settings
         regressor = RegressorFactory().create(
             regressor_settings.__class__.__name__.rsplit("_Settings", 1)[0],
             samples,
-            settings_model=regressor_settings,
+            settings=regressor_settings,
         )
         regressor.learn()
         output_samples = regressor.predict(umdo_formulation.input_samples)
@@ -153,7 +153,7 @@ class StatisticFunctionForSurrogate(BaseStatisticFunction[SurrogateT]):
                         thresh[index],
                     )
 
-        surrogate_formulation.optimization_problem.database.add_new_iter_listener(
+        surrogate_formulation.problem.database.add_new_iter_listener(
             self._store_surrogate_model_quality
         )
 
@@ -163,6 +163,6 @@ class StatisticFunctionForSurrogate(BaseStatisticFunction[SurrogateT]):
         Args:
             input_data: The input point.
         """
-        self._umdo_formulation.optimization_problem.database.store(
+        self._umdo_formulation.problem.database.store(
             input_data, self.__output_names_to_qualities
         )

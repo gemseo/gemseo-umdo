@@ -58,7 +58,7 @@ class StatisticFunctionForStandardSampling(BaseStatisticFunctionForSampling[Samp
         self, input_data: RealArray, estimate_jacobian: bool
     ) -> dict[str, Any]:
         formulation = self._umdo_formulation
-        problem = formulation.mdo_formulation.optimization_problem
+        problem = formulation.mdo_formulation.problem
         database = problem.database
         formulation.compute_samples(
             problem, input_data, compute_jacobian=estimate_jacobian

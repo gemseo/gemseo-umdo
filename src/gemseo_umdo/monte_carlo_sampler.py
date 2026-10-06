@@ -19,6 +19,7 @@ from __future__ import annotations
 from collections.abc import Callable
 from typing import TYPE_CHECKING
 
+from gemseo.doe import OT_MONTE_CARLO_Settings
 from gemseo.doe.openturns.openturns import OpenTURNS
 from gemseo.util.typing import RealArray
 from numpy import array
@@ -86,7 +87,8 @@ class MonteCarloSampler:
             The input and output samples.
         """
         input_samples = self.__algo.sample_space(
-            self.__input_space, n_samples=n_samples, seed=seed
+            self.__input_space,
+            settings=OT_MONTE_CARLO_Settings(n_samples=n_samples, seed=seed),
         )
         if self.__all_functions_are_vectorized:
             output_samples = [

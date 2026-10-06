@@ -60,7 +60,10 @@ the field `doe_algo_settings.n_samples` is ignored.
         if self.n_samples is not None:
             doe_algo_settings.n_samples = self.n_samples
 
-        if "seed" in doe_algo_settings.model_fields and doe_algo_settings.seed is None:
+        if (
+            "seed" in type(doe_algo_settings).model_fields
+            and doe_algo_settings.seed is None
+        ):
             doe_algo_settings.seed = seed
 
         return self

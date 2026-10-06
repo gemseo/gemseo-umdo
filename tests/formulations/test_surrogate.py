@@ -19,6 +19,7 @@ from typing import TYPE_CHECKING
 import pytest
 from gemseo import execute_algo
 from gemseo.doe import CustomDOE_Settings
+from gemseo.doe import MC_Settings
 from gemseo.doe import OT_HALTON_Settings
 from gemseo.doe.factory import DOELibraryFactory
 from gemseo.doe.openturns.openturns import OpenTURNS
@@ -58,7 +59,7 @@ def rbf_regressor(ishigami_problem) -> RBFRegressor:
         algo_type="doe",
         settings_model=OT_HALTON_Settings(n_samples=20),
     )
-    learning_dataset = ishigami_problem.to_dataset(opt_naming=False)
+    learning_dataset = ishigami_problem.to_dataset()
     learning_dataset.rename_variable("Ishigami", "y")
     regressor = RBFRegressor(learning_dataset)
     regressor.learn()
@@ -68,7 +69,9 @@ def rbf_regressor(ishigami_problem) -> RBFRegressor:
 @pytest.fixture(scope="module")
 def samples(ishigami_problem) -> RealArray:
     lib = OpenTURNS("OT_HALTON")
-    return lib.sample_space(ishigami_problem.design_space, n_samples=20)
+    return lib.sample_space(
+        ishigami_problem.input_space, settings=OT_HALTON_Settings(n_samples=20)
+    )
 
 
 @pytest.fixture(scope="module", params=("CustomDOE", "OT_HALTON"))
@@ -106,7 +109,9 @@ def output_samples(umdo_formulation, rbf_regressor) -> RealArray:
     uncertain_space = umdo_formulation.uncertain_space
     convert_array_to_dict = uncertain_space.convert_array_to_dict
     doe_algo = DOELibraryFactory().create("MC")
-    input_samples = doe_algo.compute_doe(uncertain_space, n_samples=10, seed=seed)
+    input_samples = doe_algo.sample_space(
+        uncertain_space, settings=MC_Settings(n_samples=10, seed=seed)
+    )
     return rbf_regressor.predict(convert_array_to_dict(input_samples))["y"]
 
 

@@ -251,9 +251,7 @@ def test_uncertain_design_variables_values(x, u1, u2):
     Here we check the disciplines.
     """
     uncertain_space = RandomSpace()
-    # TODO(bump-gemseo): pass the distribution settings models, e.g. SPNormalDistribution_Settings(mu=0.0, sigma=1.0), by position, one per component; a distribution name with its parameters must be written as settings models  # noqa: E501
-    # TODO(bump-gemseo): pass one distribution settings model per component, i.e. add_variable(name, *settings)  # noqa: E501
-    uncertain_space.add_variable("u", "OTNormalDistribution", size=len(u1))
+    uncertain_space.add_variable("u", *[OTNormalDistribution_Settings()] * len(u1))
 
     def f(x):
         y = norm(x) ** 2

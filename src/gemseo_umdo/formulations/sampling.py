@@ -152,7 +152,7 @@ class Sampling(BaseUMDOFormulation):
         mdo_formulation = self._mdo_formulation.__class__.__name__
         formulation = self.__class__.__name__
         self.name = f"{formulation}[{mdo_formulation}; {algo_name}"
-        if "n_samples" in doe_algo_settings.model_fields:
+        if "n_samples" in type(doe_algo_settings).model_fields:
             self.name += f"({doe_algo_settings.n_samples})]"
 
     def compute_samples(
@@ -173,18 +173,16 @@ class Sampling(BaseUMDOFormulation):
         new_callbacks = self.jacobian_callbacks if compute_jacobian else self.callbacks
         doe_algo_settings.callbacks = list(original_callbacks) + new_callbacks
         doe_algo_settings.eval_jac = compute_jacobian
+        doe_algo_settings.evaluate_observable_jacobian = compute_jacobian
         with LoggingContext(logging.getLogger("gemseo"), level=logging.ERROR):
-            # TODO(bump-gemseo): cannot transform: the Settings class is named by the algo_name of the receiver, which is not a string literal passed to the call creating it, and eval_obs_jac has a rule in a Settings class: migrate it by hand  # noqa: E501
-            self.__doe_algo.execute(
-                problem, eval_obs_jac=compute_jacobian, settings=doe_algo_settings
-            )
+            self.__doe_algo.execute(problem, settings=doe_algo_settings)
 
         if self.__samples_directory_path:
             main_problem = self.problem
             iteration = main_problem.evaluation_counter.current + 1
-            dataset = problem.to_dataset(f"Iteration {iteration}", opt_naming=False)
+            dataset = problem.to_dataset(f"Iteration {iteration}")
             dataset.misc.update(
-                main_problem.design_space.convert_array_to_dict(input_data)
+                main_problem.input_space.convert_array_to_dict(input_data)
             )
             to_pickle(dataset, self.__samples_directory_path / f"{iteration}.pkl")
 

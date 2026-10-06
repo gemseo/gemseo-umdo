@@ -221,7 +221,7 @@ def test_umdo_formulation_objective(umdo_formulation, mdf_discipline):
     objective = umdo_formulation.problem.objective
     uncertain_space = umdo_formulation.uncertain_space
     input_data = uncertain_space.convert_array_to_dict(
-        uncertain_space.distribution.mean
+        uncertain_space.variables.distribution.mean
     )
     assert_almost_equal(
         objective.evaluate(array([0.0] * 3)), mdf_discipline.execute(input_data)["f"]
@@ -245,7 +245,7 @@ def test_umdo_formulation_observable(umdo_formulation, mdf_discipline):
     observable = umdo_formulation.problem.observables[0]
     uncertain_space = umdo_formulation.uncertain_space
     input_data = uncertain_space.convert_array_to_dict(
-        uncertain_space.distribution.mean
+        uncertain_space.variables.distribution.mean
     )
     assert_almost_equal(
         observable.evaluate(array([0.0] * 3)), mdf_discipline.execute(input_data)["o"]

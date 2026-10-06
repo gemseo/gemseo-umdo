@@ -128,9 +128,9 @@ class BaseStatisticFunction(
         last_input_data = next(reversed(i_to_o)) if i_to_o else None
         if hashable_input_data != last_input_data:
             # This is a new design point, so we reset the evaluation sub-problems.
-            problems = [umdo_formulation.mdo_formulation.optimization_problem]
+            problems = [umdo_formulation.mdo_formulation.problem]
             if (formulation := umdo_formulation.auxiliary_mdo_formulation) is not None:
-                problems.append(formulation.optimization_problem)
+                problems.append(formulation.problem)
             problems.extend(self._other_evaluation_problems)
             for problem in problems:
                 problem.reset()

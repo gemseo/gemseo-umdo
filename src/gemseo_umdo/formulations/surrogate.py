@@ -45,6 +45,7 @@ from operator import lt
 from typing import TYPE_CHECKING
 from typing import ClassVar
 
+from gemseo.doe import MC_Settings
 from gemseo.doe.factory import DOELibraryFactory
 from gemseo.doe.scipy.scipy_doe import SciPyDOE
 from gemseo.machine_learning.regression.quality.factory import RegressorQualityFactory
@@ -162,8 +163,10 @@ class Surrogate(BaseUMDOFormulation):
         self.input_samples = uncertain_space.convert_array_to_dict(
             SciPyDOE("MC").sample_space(
                 uncertain_space,
-                n_samples=settings.regressor_n_samples,
-                seed=settings.regressor_sampling_seed,
+                settings=MC_Settings(
+                    n_samples=settings.regressor_n_samples,
+                    seed=settings.regressor_sampling_seed,
+                ),
             )
         )
         self.quality = RegressorQualityFactory().get_class(settings.quality_name)
@@ -193,7 +196,7 @@ class Surrogate(BaseUMDOFormulation):
         )
         mdo_formulation = self._mdo_formulation.__class__.__name__
         formulation = self.__class__.__name__
-        smaller_is_better = self.quality.SMALLER_IS_BETTER
+        smaller_is_better = self.quality.smaller_is_better
         doe_n_samples = settings.n_samples
         self.name = f"{formulation}[{mdo_formulation}; {algo_name}({doe_n_samples})]"
         self.is_surrogate_quality_bad = gt if smaller_is_better else lt
@@ -212,18 +215,15 @@ class Surrogate(BaseUMDOFormulation):
         """
         doe_algo_settings = self._settings.doe_algo_settings
         doe_algo_settings.eval_jac = compute_jacobian
+        doe_algo_settings.evaluate_observable_jacobian = compute_jacobian
         with LoggingContext(logging.getLogger("gemseo")):
-            # TODO(bump-gemseo): cannot transform: the Settings class is named by the algo_name of the receiver, which is not a string literal passed to the call creating it, and eval_obs_jac has a rule in a Settings class: migrate it by hand  # noqa: E501
-            self.__doe_algo.execute(
-                problem, eval_obs_jac=compute_jacobian, settings=doe_algo_settings
-            )
+            self.__doe_algo.execute(problem, settings=doe_algo_settings)
 
-        io_dataset = problem.to_dataset(opt_naming=False, export_gradients=True)
+        io_dataset = problem.to_dataset(export_gradients=True)
         if not self.threshold:
-            # TODO(bump-gemseo): cannot transform: the receiver of OUTPUT_GROUP may be of several types (IODataset, OptimizationDataset), whose rules of OUTPUT_GROUP differ  # noqa: E501
             names_to_sizes = {
                 name: len(
-                    io_dataset.get_variable_components(io_dataset.OUTPUT_GROUP, name)
+                    io_dataset.get_variable_components(io_dataset.output_group, name)
                 )
                 for name in io_dataset.output_names
             }

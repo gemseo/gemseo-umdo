@@ -96,8 +96,7 @@ class A(Discipline):
 def test_derivatives(statistic, symbol, n_x, n_u, settings):
     """Check the analytical derivatives with different estimation techniques."""
     uncertain_space = RandomSpace()
-    # TODO(bump-gemseo): repeat the settings model size times, i.e. add_variable(name, *[settings] * size)  # noqa: E501
-    uncertain_space.add_variable("u", OTNormalDistribution_Settings(), size=n_u)
+    uncertain_space.add_variable("u", *[OTNormalDistribution_Settings()] * n_u)
 
     discipline = A(n_x, n_u)
 

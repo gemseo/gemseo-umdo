@@ -15,14 +15,14 @@
 """Formulations for multidisciplinary design problems under uncertainty.
 
 A [BaseMDOFormulation][gemseo.formulations.base_mdo_formulation.BaseMDOFormulation]
-defines an [OptimizationProblem][gemseo.algos.optimization_problem.OptimizationProblem]
+defines an [OptimizationProblem][gemseo.optimization.problem.OptimizationProblem]
 from one or several [Disciplines][gemseo.core.discipline.discipline.Discipline],
 a [DesignSpace][gemseo.algos.design_space.DesignSpace],
 an objective and constraints.
 The objective can be either minimized (default) or maximized.
 
 In the context of deterministic MDO,
-the [OptimizationProblem][gemseo.algos.optimization_problem.OptimizationProblem]
+the [OptimizationProblem][gemseo.optimization.problem.OptimizationProblem]
 is handled by a driver
 (see [DriverLibrary][gemseo.algos.base_driver_library.BaseDriverLibrary]),
 typically an optimizer
@@ -38,7 +38,7 @@ uses a [BaseMDOFormulation][gemseo.formulations.base_mdo_formulation.BaseMDOForm
 with a [ParameterSpace][gemseo.algos.parameter_space.ParameterSpace]
 defining the uncertain variables
 and executes the corresponding
-[OptimizationProblem][gemseo.algos.optimization_problem.OptimizationProblem]
+[OptimizationProblem][gemseo.optimization.problem.OptimizationProblem]
 with a particular DOE.
 Then,
 it post-processed the associated [Database][gemseo.algos.database.Database]

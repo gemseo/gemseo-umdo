@@ -28,10 +28,8 @@ def test_uncertain_space():
     uncertain_space = SpringMassUncertainSpace()
     assert len(uncertain_space) == 1
     assert "stiffness" in list(uncertain_space.variables)
-    # TODO(bump-gemseo): use space.variables[name].distribution instead  # noqa: E501
-    distribution = uncertain_space.distributions["stiffness"]
+    distribution = uncertain_space.variables["stiffness"].distribution
     assert isinstance(distribution, OTJointDistribution)
     assert len(distribution.marginals) == 1
-    # TODO(bump-gemseo): use space.variables[name].distribution instead  # noqa: E501
-    distribution = uncertain_space.distributions["stiffness"]
+    distribution = uncertain_space.variables["stiffness"].distribution
     assert repr(distribution) == "Beta(3.0, 2.0, 1.0, 3.5)"

@@ -103,7 +103,7 @@ class StatisticFunctionForIterativeSampling(
     ) -> dict[str, Any]:
         formulation = self._umdo_formulation
         formulation.compute_samples(
-            formulation.mdo_formulation.optimization_problem,
+            formulation.mdo_formulation.problem,
             input_data,
             compute_jacobian=estimate_jacobian,
         )

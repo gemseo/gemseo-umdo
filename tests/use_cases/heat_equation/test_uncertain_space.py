@@ -27,7 +27,6 @@ from gemseo_umdo.use_cases.heat_equation.uncertain_space import (
 @pytest.mark.parametrize("nu_bounds", [None, (0.002, 0.004)])
 def test_uncertain_space(nu_bounds):
     """Check the content of the uncertain space."""
-    distribution_name = "OTUniformDistribution"
     uncertain_space = RandomSpace()
     uncertain_space.add_variable(
         "X_1", OTUniformDistribution_Settings(minimum=-pi, maximum=pi)
@@ -62,7 +61,6 @@ def test_uncertain_space(nu_bounds):
 
     assert list(he_uncertain_space.variables) == list(uncertain_space.variables)
     for name in list(he_uncertain_space.variables):
-        # TODO(bump-gemseo): use space.variables[name].distribution instead  # noqa: E501
-        assert repr(he_uncertain_space.distributions[name]) == repr(
-            uncertain_space.distributions[name]
+        assert repr(he_uncertain_space.variables[name].distribution) == repr(
+            uncertain_space.variables[name].distribution
         )

@@ -78,7 +78,7 @@ def pce_regressor(ishigami_problem) -> PCERegressor:
         algo_type="doe",
         settings_model=OT_HALTON_Settings(n_samples=20),
     )
-    regressor = PCERegressor(ishigami_problem.to_dataset(opt_naming=False))
+    regressor = PCERegressor(ishigami_problem.to_dataset())
     regressor.learn()
     return regressor
 
@@ -86,7 +86,9 @@ def pce_regressor(ishigami_problem) -> PCERegressor:
 @pytest.fixture(scope="module")
 def samples(ishigami_problem) -> RealArray:
     lib = OpenTURNS("OT_HALTON")
-    return lib.sample_space(ishigami_problem.design_space, n_samples=20)
+    return lib.sample_space(
+        ishigami_problem.input_space, settings=OT_HALTON_Settings(n_samples=20)
+    )
 
 
 @pytest.fixture(scope="module", params=("CustomDOE", "OT_HALTON"))
