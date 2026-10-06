@@ -39,9 +39,9 @@ and this project adheres to
 ### Added
 
 - The U-MDO formulation [PCE][gemseo_umdo.formulations.pce.PCE] can support any type of
-  [BaseFCERegressor][gemseo.mlearning.regression.algos.base_fce.BaseFCERegressor],
-  e.g., [PCERegressor][gemseo.mlearning.regression.algos.pce.PCERegressor] (default)
-  and [FCERegressor][gemseo.mlearning.regression.algos.fce.FCERegressor].
+  [BaseFCERegressor][gemseo.machine_learning.regression.core.base_fce.BaseFCERegressor],
+  e.g., [PCERegressor][gemseo.machine_learning.regression.model.pce.PCERegressor] (default)
+  and [FCERegressor][gemseo.machine_learning.regression.model.fce.FCERegressor].
 - Support for Python 3.13.
 
 ### Removed
@@ -52,7 +52,7 @@ and this project adheres to
 
 ### Added
 
-- The [ControlVariate][gemseo_umdo.formulations.control_variate.ControlVariate] U-MDO formulation can create the control variates from any [BaseRegressor][gemseo.mlearning.regression.algos.base_regressor.BaseRegressor] using the arguments `regressor_settings` (for defining the regressor) and `regressor_doe_algo_settings` (for creating the training dataset). By default, this U-MDO formulation uses control variates based on Taylor polynomials.
+- The [ControlVariate][gemseo_umdo.formulations.control_variate.ControlVariate] U-MDO formulation can create the control variates from any [BaseRegressor][gemseo.machine_learning.regression.core.base_regressor.BaseRegressor] using the arguments `regressor_settings` (for defining the regressor) and `regressor_doe_algo_settings` (for creating the training dataset). By default, this U-MDO formulation uses control variates based on Taylor polynomials.
 - The subpackage [truss][gemseo_umdo.use_cases.truss] includes modules for implementing a truss structure problem from the literature.
 - The function [create_noising_discipline_chain][gemseo_umdo.disciplines.utils.create_noising_discipline_chain] returns a disciplines chain to noise input variables.
   This function is used by the [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario] and [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
@@ -78,7 +78,7 @@ and this project adheres to
 ### Added
 
 - A [SobolGraph][gemseo_umdo.visualizations.sobol_graph.SobolGraph] can be defined
-  from a [PCERegressor][gemseo.mlearning.regression.algos.pce.PCERegressor]
+  from a [PCERegressor][gemseo.machine_learning.regression.model.pce.PCERegressor]
   by using its [from_pce][gemseo_umdo.visualizations.sobol_graph.SobolGraph.from_pce] method.
 
 ### Fixed
@@ -115,7 +115,7 @@ and this project adheres to
   and is parametrized by the option `differentiation_step` (default: `1e-6`).
 - [UOptAsUMDOScenario][gemseo_umdo.problems.uopt_as_umdo_scenario.UOptAsUMDOScenario]
   can make a monodisciplinary optimization problem under uncertainty multidisciplinary.
-- An example illustrates the use of the [BiLevel][gemseo.formulations.bilevel.BiLevel] MDO formulation
+- An example illustrates the use of the [BiLevel][gemseo.formulation.bilevel.BiLevel] MDO formulation
   in the U-MDO formulation [Sampling][gemseo_umdo.formulations.sampling.Sampling].
 
 ### Changed
@@ -227,7 +227,7 @@ and this project adheres to
   the uncertain design variables can be propagated
   through the multidisciplinary process
   even with MDO formulations that do not ensure the satisfaction of couplings,
-  such as [DisciplinaryOpt][gemseo.formulations.disciplinary_opt.DisciplinaryOpt].
+  such as [DisciplinaryOpt][gemseo.formulation.disciplinary_opt.DisciplinaryOpt].
 
 ## Version 2.0.1 (January 2024)
 
