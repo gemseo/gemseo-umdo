@@ -15,9 +15,6 @@
 from __future__ import annotations
 
 import pytest
-
-# TODO(bump-gemseo): gemseo.utils.testing.helpers.image_comparison: use the snapshot_matplotlib fixture of syrupy-matplotlib instead; add syrupy-matplotlib to the test dependencies, set snapshot_matplotlib_tolerance = 0.01 in .pytest.ini, replace the @image_comparison([...]) decorator by a snapshot_matplotlib argument of the test, then run pytest --snapshot-update without -n (the baseline_images directories are no longer used)  # noqa: E501
-from gemseo.util.testing.helper import image_comparison
 from numpy import array
 from numpy import float64
 from numpy import ndarray
@@ -90,21 +87,18 @@ def test_compute_custom(truss_model):
     )
 
 
-@image_comparison(["default"])
-def test_plot_default(truss_model):
+def test_plot_default(truss_model, snapshot_matplotlib):
     """Check TrussModel.plot with default values."""
     truss_model.plot(show=False)
 
 
-@image_comparison(["displacements"])
-def test_plot_displacements(truss_model):
+def test_plot_displacements(truss_model, snapshot_matplotlib):
     """Check TrussModel.plot with displacements."""
     _, displacements = truss_model.compute()
     truss_model.plot(displacements=displacements, show=False)
 
 
-@image_comparison(["displacements_scale"])
-def test_plot_displacements_scale(truss_model):
+def test_plot_displacements_scale(truss_model, snapshot_matplotlib):
     """Check TrussModel.plot with displacements and scaling."""
     _, displacements = truss_model.compute()
     truss_model.plot(displacements=displacements, scale=10, show=False)

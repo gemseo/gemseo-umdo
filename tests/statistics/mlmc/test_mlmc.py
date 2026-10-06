@@ -24,10 +24,6 @@ from typing import TYPE_CHECKING
 import pytest
 from gemseo.space import RandomSpace
 from gemseo.uncertainty.distribution import OTUniformDistribution_Settings
-from gemseo.util.platform import platform_is_windows
-
-# TODO(bump-gemseo): gemseo.utils.testing.helpers.image_comparison: use the snapshot_matplotlib fixture of syrupy-matplotlib instead; add syrupy-matplotlib to the test dependencies, set snapshot_matplotlib_tolerance = 0.01 in .pytest.ini, replace the @image_comparison([...]) decorator by a snapshot_matplotlib argument of the test, then run pytest --snapshot-update without -n (the baseline_images directories are no longer used)  # noqa: E501
-from gemseo.util.testing.helper import image_comparison
 from numpy import array
 from numpy.testing import assert_almost_equal
 from numpy.testing import assert_equal
@@ -212,15 +208,8 @@ def test_pilot(levels, uncertain_space):
     assert isinstance(mlmc._MLMC__pilot_statistic_estimator, Variance)
 
 
-@pytest.mark.parametrize(
-    ("log", "baseline_images"),
-    [
-        (False, ["mlmc"]),
-        (True, ["mlmc_log" if platform_is_windows else "mlmc_log_linux"]),
-    ],
-)
-@image_comparison(None)
-def test_plot(baseline_images, executed_mlmc, log):
+@pytest.mark.parametrize("log", [False, True])
+def test_plot(executed_mlmc, log, snapshot_matplotlib):
     """Check the plot of the evaluation history."""
     executed_mlmc.plot_evaluation_history(
         show=False,
