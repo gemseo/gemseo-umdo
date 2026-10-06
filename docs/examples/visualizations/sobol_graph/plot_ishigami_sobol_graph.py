@@ -31,6 +31,7 @@ using a [SobolGraph][gemseo_umdo.visualizations.sobol_graph.SobolGraph].
 from __future__ import annotations
 
 from gemseo import sample_disciplines
+from gemseo.doe import OT_OPT_LHS_Settings
 from gemseo.machine_learning import PCERegressor_Settings
 from gemseo.machine_learning.regression.model import PCERegressor
 from gemseo.problem.uncertainty.ishigami import IshigamiDiscipline
@@ -112,8 +113,7 @@ samples = sample_disciplines(
         uniform_distribution_name=IshigamiSpace.UniformDistribution.OPENTURNS
     ),
     ["y"],
-    algo_name="OT_OPT_LHS",
-    n_samples=50,
+    algo_settings_model=OT_OPT_LHS_Settings(n_samples=50),
 )
 
 # %%
