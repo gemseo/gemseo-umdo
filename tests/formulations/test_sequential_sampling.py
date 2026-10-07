@@ -62,8 +62,7 @@ def test_scenario(
             n_samples_increment=n_samples_increment,
             estimate_statistics_iteratively=estimate_statistics_iteratively,
         ),
-        formulation_settings=DisciplinaryOpt_Settings(),
     )
     scenario.add_objective("y", "Mean")
-    scenario.execute(algorithm_settings=PYDOE_FULLFACT_Settings(n_samples=5))
+    scenario.execute(PYDOE_FULLFACT_Settings(n_samples=5))
     assert discipline.execution_statistics.n_executions == (3 + 5 + 7 + 7 + 7)

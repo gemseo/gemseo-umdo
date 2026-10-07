@@ -66,8 +66,7 @@ scenario = UMDOScenario(
     [discipline],
     design_space,
     uncertain_space,
-    statistic_estimation_settings=ControlVariate_Settings(n_samples=30),
-    formulation_settings=DisciplinaryOpt_Settings(),
+    ControlVariate_Settings(n_samples=30),
 )
 scenario.add_objective("z", "Mean")
 
@@ -79,11 +78,11 @@ scenario.add_objective("z", "Mean")
 #     to use analytical derivatives.
 #     Please use finite differences or complex step to approximate the gradients.
 scenario.set_differentiation_method("finite_differences")
-scenario.execute(algorithm_settings=NLOPT_SLSQP_Settings(max_iter=100))
+scenario.execute(NLOPT_SLSQP_Settings(max_iter=100))
 
 # %%
 # and plot the optimization history:
-scenario.post_process(settings=OptHistoryView_Settings(save=False, show=True))
+scenario.post_process(OptHistoryView_Settings(save=False, show=True))
 
 # %%
 # Lastly,

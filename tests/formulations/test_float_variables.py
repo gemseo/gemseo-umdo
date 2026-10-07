@@ -66,7 +66,7 @@ def test_float_variables(uncertain_space, design_space, statistic_estimation_set
         [discipline],
         design_space,
         uncertain_space,
-        statistic_estimation_settings=statistic_estimation_settings,
+        statistic_estimation_settings,
         formulation_settings=MDF_Settings(),
     )
     umdo_scenario.add_objective("y", "Mean")
@@ -79,10 +79,9 @@ def test_float_variables(uncertain_space, design_space, statistic_estimation_set
         [discipline],
         design_space,
         uncertain_space,
-        statistic_estimation_settings=statistic_estimation_settings,
-        formulation_settings=MDF_Settings(),
+        statistic_estimation_settings,
     )
     umdo_scenario.add_objective("y", "Mean")
-    umdo_scenario.execute(algorithm_settings=CustomDOE_Settings(samples=array([[0.0]])))
+    umdo_scenario.execute(CustomDOE_Settings(samples=array([[0.0]])))
 
     assert umdo_scenario.optimization_result.f_opt == reference_f_opt

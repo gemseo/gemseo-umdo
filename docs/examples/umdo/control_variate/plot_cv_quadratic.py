@@ -68,18 +68,17 @@ scenario = UMDOScenario(
     [discipline],
     design_space,
     uncertain_space,
-    statistic_estimation_settings=ControlVariate_Settings(n_samples=25),
-    formulation_settings=DisciplinaryOpt_Settings(),
+    ControlVariate_Settings(n_samples=25),
 )
 scenario.add_objective("y", "Mean")
 
 # %%
 # We execute this scenario using the gradient-free optimizer COBYLA:
-scenario.execute(algorithm_settings=NLOPT_COBYLA_Settings(max_iter=100))
+scenario.execute(NLOPT_COBYLA_Settings(max_iter=100))
 
 # %%
 # and plot the optimization history:
-scenario.post_process(settings=OptHistoryView_Settings(save=False, show=True))
+scenario.post_process(OptHistoryView_Settings(save=False, show=True))
 
 # %%
 # Notice that the numerical solution

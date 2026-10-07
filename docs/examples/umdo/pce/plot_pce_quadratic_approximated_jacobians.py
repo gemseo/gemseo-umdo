@@ -75,10 +75,9 @@ scenario = UMDOScenario(
     [discipline],
     design_space,
     uncertain_space,
-    statistic_estimation_settings=PCE_Settings(
+    PCE_Settings(
         n_samples=20, approximate_statistics_jacobians=True
     ),
-    formulation_settings=DisciplinaryOpt_Settings(),
 )
 scenario.add_objective("y", "Mean")
 
@@ -100,11 +99,11 @@ scenario.add_objective("y", "Mean")
 #     and parametrized by the `differentiation_step` option (default: `1e-6`) .
 #
 # We execute this scenario using the gradient-base optimizer SLSQP:
-scenario.execute(algorithm_settings=NLOPT_SLSQP_Settings(max_iter=100))
+scenario.execute(NLOPT_SLSQP_Settings(max_iter=100))
 
 # %%
 # and plot the optimization history:
-scenario.post_process(settings=OptHistoryView_Settings(save=False, show=True))
+scenario.post_process(OptHistoryView_Settings(save=False, show=True))
 
 # %%
 # Notice that the numerical solution

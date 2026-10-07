@@ -35,12 +35,10 @@ disciplines = [Beam(), BeamConstraints()]
 
 design_space = BeamDesignSpace()
 
-scenario = MDOScenario(
-    disciplines, design_space=design_space, formulation_settings=MDF_Settings()
-)
-scenario.add_objective("w", minimize=True)
+scenario = MDOScenario(disciplines, design_space)
+scenario.add_objective("w")
 scenario.add_constraint("c_stress", constraint_type="ineq", value=1.0)
 scenario.add_constraint("c_displ", constraint_type="ineq", positive=True, value=1.0)
-scenario.execute(algorithm_settings=NLOPT_COBYLA_Settings(max_iter=1000))
+scenario.execute(NLOPT_COBYLA_Settings(max_iter=1000))
 
-scenario.post_process(settings=OptHistoryView_Settings(save=False, show=True))
+scenario.post_process(OptHistoryView_Settings(save=False, show=True))

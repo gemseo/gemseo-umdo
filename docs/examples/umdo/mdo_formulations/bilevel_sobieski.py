@@ -71,8 +71,7 @@ design_space = SobieskiProblem().design_space
 # an MDF-formulated scenario without uncertainties
 mdf_scenario = MDOScenario(
     [aerodynamics, propulsion, structure, mission],
-    design_space=design_space,
-    formulation_settings=MDF_Settings(),
+    design_space,
 )
 mdf_scenario.add_objective("y_4", minimize=False)
 mdf_scenario.add_constraint("g_1", constraint_type="ineq")
@@ -81,7 +80,7 @@ mdf_scenario.add_constraint("g_3", constraint_type="ineq")
 # %%
 # and solve it using the gradient-based SLSQP algorithm:
 slsqp_settings = NLOPT_SLSQP_Settings(max_iter=100, ineq_tolerance=1e-3)
-mdf_scenario.execute(algorithm_settings=slsqp_settings)
+mdf_scenario.execute(slsqp_settings)
 
 # %%
 # In what follows,
@@ -134,11 +133,10 @@ mdf_uscenario = UMDOScenario(
     [aerodynamics, propulsion, structure, mission],
     design_space,
     uncertain_space,
-    statistic_estimation_settings=Sampling_Settings(
+    Sampling_Settings(
         n_samples=n_samples, estimate_statistics_iteratively=False
     ),
     uncertain_design_variables={"x_shared": ("+", "u_x_shared")},
-    formulation_settings=MDF_Settings(),
 )
 mdf_uscenario.add_objective("y_4", "Mean", minimize=False)
 mdf_uscenario.add_constraint("g_1", "Margin")
@@ -197,35 +195,32 @@ noising_discipline_chain = create_noising_discipline_chain(
 scenario_aerodynamics = MDOScenario(
     [noising_discipline_chain, aerodynamics, mission],
     design_space=design_space.filter("x_2", copy=True),
-    formulation_settings=MDF_Settings(),
 )
 scenario_aerodynamics.add_objective("y_4", minimize=False)
 scenario_aerodynamics.add_constraint("g_2", constraint_type="ineq")
-scenario_aerodynamics.set_algorithm(algorithm_settings=slsqp_settings)
+scenario_aerodynamics.set_algorithm(slsqp_settings)
 # %%
 # the one to maximize the objective function
 # with respect to the design variable specific to the propulsion
 # using the gradient-based SLSQP algorithm:
 scenario_propulsion = MDOScenario(
     [noising_discipline_chain, propulsion, mission],
-    design_space=design_space.filter("x_3", copy=True),
-    formulation_settings=MDF_Settings(),
+    design_space.filter("x_3", copy=True),
 )
 scenario_propulsion.add_objective("y_4", minimize=False)
 scenario_propulsion.add_constraint("g_3", constraint_type="ineq")
-scenario_propulsion.set_algorithm(algorithm_settings=slsqp_settings)
+scenario_propulsion.set_algorithm(slsqp_settings)
 # %%
 # and the one to maximize the objective function
 # with respect to the design variable specific to the structure
 # using the gradient-based SLSQP algorithm:
 scenario_structure = MDOScenario(
     [noising_discipline_chain, structure, mission],
-    design_space=design_space.filter("x_1", copy=True),
-    formulation_settings=MDF_Settings(),
+    design_space.filter("x_1", copy=True),
 )
 scenario_structure.add_objective("y_4", minimize=False)
 scenario_structure.add_constraint("g_1", constraint_type="ineq")
-scenario_structure.set_algorithm(algorithm_settings=slsqp_settings)
+scenario_structure.set_algorithm(slsqp_settings)
 
 # %%
 # ### Main scenario
@@ -239,7 +234,7 @@ bilevel_uscenario = UMDOScenario(
     [scenario_aerodynamics, scenario_propulsion, scenario_structure],
     design_space.filter("dv_x_shared", copy=True),
     uncertain_space,
-    statistic_estimation_settings=Sampling_Settings(n_samples=n_samples),
+    Sampling_Settings(n_samples=n_samples),
     formulation_settings=BiLevel_Settings(keep_opt_history=False),
 )
 bilevel_uscenario.add_objective("y_4", "Mean", minimize=False)
@@ -250,7 +245,7 @@ bilevel_uscenario.add_constraint("g_3", "Margin")
 # %%
 # and solve the MDO problem using the gradient-free COBYLA algorithm:
 bilevel_uscenario.execute(
-    algorithm_settings=NLOPT_COBYLA_Settings(max_iter=max_iter, ineq_tolerance=1e-3)
+    NLOPT_COBYLA_Settings(max_iter=max_iter, ineq_tolerance=1e-3)
 )
 
 # %%
@@ -301,7 +296,7 @@ bilevel_uscenario = UMDOScenario(
     [scenario_aerodynamics, scenario_propulsion, scenario_structure],
     design_space.filter("dv_x_shared", copy=True),
     uncertain_space,
-    statistic_estimation_settings=Sampling_Settings(
+    Sampling_Settings(
         n_samples=n_samples, estimate_statistics_iteratively=False
     ),
     formulation_settings=BiLevel_Settings(save_opt_history=False),
@@ -311,7 +306,7 @@ bilevel_uscenario.add_constraint("g_1", "Mean")
 bilevel_uscenario.add_constraint("g_2", "Mean")
 bilevel_uscenario.add_constraint("g_3", "Mean")
 bilevel_uscenario.execute(
-    algorithm_settings=CustomDOE_Settings(samples=atleast_2d(bilevel_x_opt))
+    CustomDOE_Settings(samples=atleast_2d(bilevel_x_opt))
 )
 
 # %%

@@ -206,7 +206,6 @@ def test_uncertain_design_variables(disciplines, design_space, uncertain_space):
             "x1": "{}+v1",
             "x2": ("*", "v2"),
         },
-        formulation_settings=MDF_Settings(),
     )
     scn.add_objective("f", "Mean")
     design_space = scn.design_space
@@ -262,10 +261,9 @@ def test_uncertain_design_variables_values(x, u1, u2):
             doe_algo_settings=CustomDOE_Settings(samples=vstack((u1, u2)))
         ),
         uncertain_design_variables={"x": ("+", "u")},
-        formulation_settings=DisciplinaryOpt_Settings(),
     )
     scenario.add_objective("y", "Mean")
-    scenario.execute(algorithm_settings=CustomDOE_Settings(samples=atleast_2d(x)))
+    scenario.execute(CustomDOE_Settings(samples=atleast_2d(x)))
     assert scenario.optimization_result.f_opt == (f(x + u1) + f(x + u2)) / 2
 
 
@@ -322,7 +320,6 @@ def test_log(
         statistic_estimation_settings=Sampling_Settings(
             doe_algo_settings=CustomDOE_Settings(samples=array([[0.5]]))
         ),
-        formulation_settings=DisciplinaryOpt_Settings(),
     )
     scenario.add_objective("y", "Mean", minimize=not maximize_objective)
 

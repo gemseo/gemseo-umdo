@@ -76,12 +76,9 @@ initial_design = array([1.75, 1.75])
 # For visualization purposes,
 # we sample the objective function over a regular grid:
 scenario = MDOScenario(
-    [discipline],
-    design_space=design_space,
-    formulation_settings=DisciplinaryOpt_Settings(),
-)
-scenario.add_objective("f", minimize=True)
-scenario.execute(algorithm_settings=OT_FULLFACT_Settings(n_samples=20 * 20))
+scenario = MDOScenario([discipline], design_space)
+scenario.add_objective("f")
+scenario.execute(OT_FULLFACT_Settings(n_samples=20 * 20))
 # %%
 # and store the 400 samples:
 samples = scenario.to_dataset()
@@ -93,15 +90,12 @@ samples = scenario.to_dataset()
 # we define the uncertainty-free constrained optimization problem:
 radius = 0.25
 scenario = MDOScenario(
-    [discipline],
-    design_space=design_space,
-    formulation_settings=DisciplinaryOpt_Settings(),
-)
-scenario.add_objective("f", minimize=True)
+scenario = MDOScenario([discipline], design_space)
+scenario.add_objective("f")
 scenario.add_constraint("h", value=radius**2)
 # %%
 # and solve it using the gradient-based SLSQP algorithm:
-scenario.execute(algorithm_settings=SLSQP_Settings(max_iter=100))
+scenario.execute(SLSQP_Settings(max_iter=100))
 x_opt = scenario.optimization_result.x_opt
 
 # %%
@@ -132,10 +126,9 @@ scenario = UMDOScenario(
     [discipline],
     design_space,
     uncertain_space,
-    statistic_estimation_settings=Sampling_Settings(
+    Sampling_Settings(
         n_samples=100, estimate_statistics_iteratively=False
     ),
-    formulation_settings=DisciplinaryOpt_Settings(),
 )
 scenario.add_objective("f", "Mean")
 scenario.add_constraint("h", "Mean", constraint_type="eq", value=radius**2)
@@ -143,7 +136,7 @@ scenario.add_constraint("h", "Variance", constraint_type="eq")
 # %%
 # Finally,
 # we solve this optimization problem using the gradient-based SLSQP algorithm:
-scenario.execute(algorithm_settings=SLSQP_Settings(max_iter=100))
+scenario.execute(SLSQP_Settings(max_iter=100))
 
 # %%
 # ## Results

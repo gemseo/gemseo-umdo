@@ -118,13 +118,12 @@ mdf_uscenario = UMDOScenario(
     [rosenbrock, link_discipline, discipline_1, discipline_2],
     design_space,
     uncertain_space,
-    statistic_estimation_settings=Sampling_Settings(n_samples=n_samples),
-    formulation_settings=MDF_Settings(),
+    Sampling_Settings(n_samples=n_samples),
 )
 mdf_uscenario.add_objective("f", "Mean")
 # %%
 # and solve it using the gradient-based SLSQP algorithm:
-mdf_uscenario.execute(algorithm_settings=SLSQP_Settings(max_iter=max_iter))
+mdf_uscenario.execute(SLSQP_Settings(max_iter=max_iter))
 
 # %%
 # ## BiLevel
@@ -142,22 +141,20 @@ design_space.set_current_value(initial_point)
 # using the gradient-based SLSQP algorithm:
 scenario_1 = MDOScenario(
     [discipline_1, link_discipline, rosenbrock],
-    design_space=design_space.filter("x_1", copy=True),
-    formulation_settings=DisciplinaryOpt_Settings(),
+    design_space.filter("x_1", copy=True),
 )
-scenario_1.add_objective("f", minimize=True)
-scenario_1.set_algorithm(algorithm_settings=SLSQP_Settings(max_iter=max_iter))
+scenario_1.add_objective("f")
+scenario_1.set_algorithm(SLSQP_Settings(max_iter=max_iter))
 # %%
 # and the one to minimize the objective function
 # with respect to the local design variable $x_2$
 # using the gradient-based SLSQP algorithm:
 scenario_2 = MDOScenario(
     [discipline_2, link_discipline, rosenbrock],
-    design_space=design_space.filter("x_2", copy=True),
-    formulation_settings=DisciplinaryOpt_Settings(),
+    design_space.filter("x_2", copy=True),
 )
-scenario_2.add_objective("f", minimize=True)
-scenario_2.set_algorithm(algorithm_settings=SLSQP_Settings(max_iter=max_iter))
+scenario_2.add_objective("f")
+scenario_2.set_algorithm(SLSQP_Settings(max_iter=max_iter))
 # %%
 # ### Main scenario
 #
@@ -168,13 +165,13 @@ bilevel_uscenario = UMDOScenario(
     [scenario_1, scenario_2],
     design_space.filter("x_0", copy=True),
     uncertain_space,
-    statistic_estimation_settings=Sampling_Settings(n_samples=n_samples),
+    Sampling_Settings(n_samples=n_samples),
     formulation_settings=BiLevel_Settings(keep_opt_history=False),
 )
 bilevel_uscenario.add_objective("f", "Mean")
 # %%
 # and solve the MDO problem using the gradient-free COBYLA algorithm:
-bilevel_uscenario.execute(algorithm_settings=NLOPT_COBYLA_Settings(max_iter=max_iter))
+bilevel_uscenario.execute(NLOPT_COBYLA_Settings(max_iter=max_iter))
 
 # %%
 # ## Results
@@ -219,14 +216,14 @@ bilevel_uscenario = UMDOScenario(
     [scenario_1, scenario_2],
     design_space.filter("x_0", copy=True),
     uncertain_space,
-    statistic_estimation_settings=Sampling_Settings(
+    Sampling_Settings(
         n_samples=n_samples, estimate_statistics_iteratively=False
     ),
     formulation_settings=BiLevel_Settings(save_opt_history=False),
 )
 bilevel_uscenario.add_objective("f", "Mean")
 bilevel_uscenario.execute(
-    algorithm_settings=CustomDOE_Settings(samples=atleast_2d(bilevel_x_opt))
+    CustomDOE_Settings(samples=atleast_2d(bilevel_x_opt))
 )
 
 # %%

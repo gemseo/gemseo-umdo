@@ -191,7 +191,7 @@ def test_scenario(quadratic_problem, statistic_estimation_parameters, y_opt):
         formulation_settings=DisciplinaryOpt_Settings(),
     )
     scenario.add_objective("y", "Mean")
-    scenario.execute(algorithm_settings=CustomDOE_Settings(samples=array([[1.0]])))
+    scenario.execute(CustomDOE_Settings(samples=array([[1.0]])))
     assert_almost_equal(scenario.optimization_result.x_opt, array([1.0]))
     assert_almost_equal(scenario.optimization_result.f_opt, y_opt)
     last_item = scenario.formulation.problem.database.last_item

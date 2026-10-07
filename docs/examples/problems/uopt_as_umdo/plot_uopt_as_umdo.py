@@ -95,13 +95,12 @@ u_opt_scenario = UMDOScenario(
     [discipline],
     design_space,
     uncertain_space,
-    statistic_estimation_settings=Sampling_Settings(n_samples=50),
-    formulation_settings=DisciplinaryOpt_Settings(),
+    Sampling_Settings(n_samples=50),
 )
 u_opt_scenario.add_objective("f", "Mean")
 # %%
 # and solve it using the SLSQP algorithm:
-u_opt_scenario.execute(algorithm_settings=NLOPT_SLSQP_Settings(max_iter=100))
+u_opt_scenario.execute(NLOPT_SLSQP_Settings(max_iter=100))
 # %%
 # ## MDO problem under uncertainty
 # Now,
@@ -121,8 +120,7 @@ umdo_scenario = UOptAsUMDOScenario(
     discipline,
     design_space,
     uncertain_space,
-    statistic_estimation_settings=Sampling_Settings(n_samples=50),
-    formulation_settings=MDF_Settings(),
+    Sampling_Settings(n_samples=50),
 )
 umdo_scenario.add_objective("f", "Mean")
 # %%

@@ -78,19 +78,17 @@ def sub_scenarios(design_space, disciplines):
     """The sub-scenarios used by the BiLevel formulation."""
     scenario_1 = MDOScenario(
         [disciplines[2], disciplines[1], disciplines[0]],
-        design_space=design_space.filter("x_1", copy=True),
-        formulation_settings=DisciplinaryOpt_Settings(),
+        design_space.filter("x_1", copy=True),
     )
-    scenario_1.add_objective("f", minimize=True)
-    scenario_1.set_algorithm(algorithm_settings=SLSQP_Settings(max_iter=10))
+    scenario_1.add_objective("f")
+    scenario_1.set_algorithm(SLSQP_Settings(max_iter=10))
 
     scenario_2 = MDOScenario(
         [disciplines[3], disciplines[1], disciplines[0]],
-        design_space=design_space.filter("x_2", copy=True),
-        formulation_settings=DisciplinaryOpt_Settings(),
+        design_space.filter("x_2", copy=True),
     )
-    scenario_2.add_objective("f", minimize=True)
-    scenario_2.set_algorithm(algorithm_settings=SLSQP_Settings(max_iter=10))
+    scenario_2.add_objective("f")
+    scenario_2.set_algorithm(SLSQP_Settings(max_iter=10))
 
     return scenario_1, scenario_2
 
@@ -102,12 +100,12 @@ def reference_database(
     """The reference database obtained using a BiLevel-based MDOScenario."""
     bilevel_scenario = MDOScenario(
         [*sub_scenarios, rosenbrock],
-        design_space=design_space.filter("x_0", copy=True),
+        design_space.filter("x_0", copy=True),
         formulation_settings=BiLevel_Settings(),
     )
-    bilevel_scenario.add_objective("f", minimize=True)
+    bilevel_scenario.add_objective("f")
     bilevel_scenario.execute(
-        algorithm_settings=CustomDOE_Settings(samples=array([[1.0]]))
+        CustomDOE_Settings(samples=array([[1.0]]))
     )
     database = bilevel_scenario.formulation.problem.database
     return database.get_function_history("f", with_x_vect=True)
@@ -130,7 +128,7 @@ def test_u_bilevel(design_space, rosenbrock, sub_scenarios, reference_database):
     )
     u_bilevel_scenario.add_objective("f", "Mean")
     u_bilevel_scenario.execute(
-        algorithm_settings=CustomDOE_Settings(samples=array([[1.0]]))
+        CustomDOE_Settings(samples=array([[1.0]]))
     )
 
     database = u_bilevel_scenario.formulation.problem.database

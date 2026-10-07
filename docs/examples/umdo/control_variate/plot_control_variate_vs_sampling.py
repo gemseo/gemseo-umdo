@@ -105,14 +105,13 @@ def solve_problem(
         [discipline],
         design_space,
         uncertain_space,
-        statistic_estimation_settings=settings_class(
+        settings_class(
             doe_algo_settings=OT_MONTE_CARLO_Settings(n_samples=50, seed=i)
         ),
-        formulation_settings=DisciplinaryOpt_Settings(),
     )
     scenario.add_objective("z", "Mean")
     scenario.set_differentiation_method("finite_differences")
-    scenario.execute(algorithm_settings=NLOPT_SLSQP_Settings(max_iter=100))
+    scenario.execute(NLOPT_SLSQP_Settings(max_iter=100))
     return scenario.optimization_result.x_opt
 
 

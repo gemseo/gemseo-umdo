@@ -56,10 +56,9 @@ def test_u_opt_as_umdo_scenario():
         [discipline],
         design_space,
         uncertain_space,
-        statistic_estimation_settings=Sampling_Settings(
+        Sampling_Settings(
             n_samples=5, estimate_statistics_iteratively=False
         ),
-        formulation_settings=DisciplinaryOpt_Settings(),
     )
     u_opt_scenario.add_objective("f", "Mean")
     u_opt_scenario.execute(algorithm_settings=NLOPT_SLSQP_Settings(max_iter=5))
@@ -70,13 +69,12 @@ def test_u_opt_as_umdo_scenario():
         discipline,
         design_space,
         uncertain_space,
-        statistic_estimation_settings=Sampling_Settings(
+        Sampling_Settings(
             n_samples=5, estimate_statistics_iteratively=False
         ),
-        formulation_settings=MDF_Settings(),
     )
     umdo_scenario.add_objective("f", "Mean")
-    umdo_scenario.execute(algorithm_settings=NLOPT_SLSQP_Settings(max_iter=5))
+    umdo_scenario.execute(NLOPT_SLSQP_Settings(max_iter=5))
 
     assert_frame_equal(
         umdo_scenario.formulation.problem.database.to_dataset(),

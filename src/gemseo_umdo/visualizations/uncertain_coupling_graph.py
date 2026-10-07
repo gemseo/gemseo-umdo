@@ -111,9 +111,7 @@ class UncertainCouplingGraph:
         else:
             self.__output_names = variable_names
 
-        self.__scenario = EvaluationScenario(
-            disciplines, uncertain_space, formulation_settings=MDF_Settings()
-        )
+        self.__scenario = EvaluationScenario(disciplines, uncertain_space)
         for output_name in self.__output_names:
             self.__scenario.add_observable(output_name)
 
@@ -124,7 +122,7 @@ class UncertainCouplingGraph:
             algorithm_settings: The settings of the DOE algorithm,
                 e.g. `OT_OPT_LHS_Settings(n_samples=100)`.
         """
-        self.__scenario.execute(algorithm_settings=algorithm_settings)
+        self.__scenario.execute(algorithm_settings)
 
     def visualize(
         self,

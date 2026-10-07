@@ -91,7 +91,7 @@ def solve_problem(vectorize: bool) -> tuple[float, OptimizationDataset]:
         disciplines,
         design_space,
         uncertain_space,
-        statistic_estimation_settings=Sampling_Settings(
+        Sampling_Settings(
             # Note: The default value of vectorize is False, whatever the DOE algorithm.
             doe_algo_settings=MC_Settings(n_samples=100, vectorize=vectorize)
         ),

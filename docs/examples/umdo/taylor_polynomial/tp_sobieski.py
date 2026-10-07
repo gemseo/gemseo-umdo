@@ -71,9 +71,8 @@ scenario = UMDOScenario(
     [mission, structure, propulsion, aerodynamics],
     design_space,
     uncertain_space,
-    statistic_estimation_settings=TaylorPolynomial_Settings(),
+    TaylorPolynomial_Settings(),
     uncertain_design_variables={"x_2": ("+", "u_x_2")},
-    formulation_settings=MDF_Settings(),
 )
 scenario.add_objective("y_4", "Mean", minimize=False)
 
@@ -86,9 +85,9 @@ scenario.add_constraint("g_3", "Margin")
 
 # %%
 # and execute it with a gradient-free optimizer:
-scenario.execute(algorithm_settings=NLOPT_COBYLA_Settings(max_iter=100))
+scenario.execute(NLOPT_COBYLA_Settings(max_iter=100))
 
 # %%
 # Lastly,
 # we can plot the optimization history view:
-scenario.post_process(settings=OptHistoryView_Settings(save=False, show=True))
+scenario.post_process(OptHistoryView_Settings(save=False, show=True))

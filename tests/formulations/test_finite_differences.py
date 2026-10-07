@@ -83,7 +83,7 @@ def test_finite_differences(statistic_estimation_settings, expected):
     scenario.add_observable("o", "Mean")
     scenario.set_differentiation_method("finite_differences")
     scenario.execute(
-        algorithm_settings=CustomDOE_Settings(
+        CustomDOE_Settings(
             samples=array([[1.0, 1.0]]), eval_jac=True
         )
     )

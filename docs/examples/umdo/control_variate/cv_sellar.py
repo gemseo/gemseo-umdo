@@ -95,8 +95,7 @@ scenario = UMDOScenario(
     [system, disc1, disc2],
     design_space,
     uncertain_space,
-    statistic_estimation_settings=ControlVariate_Settings(n_samples=100),
-    formulation_settings=MDF_Settings(),
+    ControlVariate_Settings(n_samples=100),
 )
 scenario.add_objective("obj", "Mean")
 
@@ -110,11 +109,11 @@ scenario.add_constraint("c2", "Margin", factor=3.0)
 
 # %%
 # We execute this scenario using the gradient-free optimizer COBYLA:
-scenario.execute(algorithm_settings=NLOPT_COBYLA_Settings(max_iter=200))
+scenario.execute(NLOPT_COBYLA_Settings(max_iter=200))
 
 # %%
 # and plot the optimization history:
-scenario.post_process(settings=OptHistoryView_Settings(save=True, show=False))
+scenario.post_process(OptHistoryView_Settings(save=True, show=False))
 
 # %%
 # Lastly,

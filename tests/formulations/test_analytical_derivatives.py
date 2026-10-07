@@ -108,12 +108,11 @@ def test_derivatives(statistic, symbol, n_x, n_u, settings):
         [discipline],
         design_space,
         uncertain_space,
-        statistic_estimation_settings=settings,
-        formulation_settings=DisciplinaryOpt_Settings(),
+        settings,
     )
     scenario.add_objective("y", statistic)
     scenario.execute(
-        algorithm_settings=CustomDOE_Settings(
+        CustomDOE_Settings(
             samples=linspace(1, n_x, n_x)[newaxis, :], eval_jac=True
         )
     )
@@ -123,13 +122,12 @@ def test_derivatives(statistic, symbol, n_x, n_u, settings):
         [discipline],
         design_space,
         uncertain_space,
-        statistic_estimation_settings=settings,
-        formulation_settings=DisciplinaryOpt_Settings(),
+        settings,
     )
     scenario.add_objective("y", statistic)
     scenario.set_differentiation_method("finite_differences")
     scenario.execute(
-        algorithm_settings=CustomDOE_Settings(
+        CustomDOE_Settings(
             samples=linspace(1, n_x, n_x)[newaxis, :], eval_jac=True
         )
     )

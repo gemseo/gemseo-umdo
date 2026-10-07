@@ -79,15 +79,14 @@ for i in range(10):
         [system, disc1, disc2],
         create_design_space(),
         uncertain_space,
-        statistic_estimation_settings=Sampling_Settings(
+        Sampling_Settings(
             doe_algo_settings=OT_LHS_Settings(n_samples=100, seed=i + 1)
         ),
-        formulation_settings=MDF_Settings(),
     )
     scenario.add_objective("obj", "Mean")
     scenario.add_constraint("c1", "Margin", factor=3.0)
     scenario.add_constraint("c2", "Margin", factor=3.0)
-    scenario.execute(algorithm_settings=NLOPT_COBYLA_Settings(max_iter=100))
+    scenario.execute(NLOPT_COBYLA_Settings(max_iter=100))
     x_hist.append(vstack(scenario.formulation.problem.database.get_x_vect_history()))
 
 # %%

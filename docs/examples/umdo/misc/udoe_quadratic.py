@@ -53,18 +53,17 @@ scenario = UDOEScenario(
     [discipline],
     design_space,
     uncertain_space,
-    statistic_estimation_settings=Sampling_Settings(n_samples=100),
-    formulation_settings=DisciplinaryOpt_Settings(),
+    Sampling_Settings(n_samples=100),
 )
 scenario.add_objective("y", "Mean")
 
 # %%
 # We execute it with a full-factorial design of experiments:
-scenario.execute(algorithm_settings=PYDOE_FULLFACT_Settings(n_samples=100))
+scenario.execute(PYDOE_FULLFACT_Settings(n_samples=100))
 
 # %%
 # and plot the history:
-scenario.post_process(settings=OptHistoryView_Settings(save=True, show=True))
+scenario.post_process(OptHistoryView_Settings(save=True, show=True))
 
 # %%
 # Notice that the numerical solution is close to $(x^*,f^*)=(0,1)$ as expected
