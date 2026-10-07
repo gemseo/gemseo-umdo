@@ -23,7 +23,6 @@ $\sigma_{\text{all}}$ are random variables defined by `BeamUncertainSpace`.
 
 from __future__ import annotations
 
-from gemseo.formulation import MDF_Settings
 from gemseo.optimization import NLOPT_COBYLA_Settings
 from gemseo.post import OptHistoryView_Settings
 

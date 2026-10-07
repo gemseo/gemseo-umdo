@@ -47,8 +47,6 @@ from __future__ import annotations
 from gemseo import create_design_space
 from gemseo import create_discipline
 from gemseo import generate_coupling_graph
-from gemseo.formulation import DisciplinaryOpt_Settings
-from gemseo.formulation import MDF_Settings
 from gemseo.optimization import NLOPT_SLSQP_Settings
 from gemseo.space import RandomSpace
 from gemseo.uncertainty.distribution import OTNormalDistribution_Settings

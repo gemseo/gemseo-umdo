@@ -418,9 +418,7 @@ def test_standard_deviation_derivative_if_zero(estimate_statistics_iteratively):
         formulation_settings=DisciplinaryOpt_Settings(),
     )
     scenario.add_objective("z", "StandardDeviation")
-    scenario.execute(
-        CustomDOE_Settings(samples=array([[1.0]]), eval_jac=True)
-    )
+    scenario.execute(CustomDOE_Settings(samples=array([[1.0]]), eval_jac=True))
     get = scenario.formulation.problem.database.get_gradient_history
     # The output z does not depend on u.
     # So its variance is zero and so is its derivative.

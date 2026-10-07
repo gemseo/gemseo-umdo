@@ -35,7 +35,6 @@ from __future__ import annotations
 
 from gemseo.discipline import AnalyticDiscipline
 from gemseo.doe import OT_FULLFACT_Settings
-from gemseo.formulation import DisciplinaryOpt_Settings
 from gemseo.optimization import SLSQP_Settings
 from gemseo.scenario import MDOScenario
 from gemseo.space import DesignSpace
@@ -75,7 +74,6 @@ initial_design = array([1.75, 1.75])
 # %%
 # For visualization purposes,
 # we sample the objective function over a regular grid:
-scenario = MDOScenario(
 scenario = MDOScenario([discipline], design_space)
 scenario.add_objective("f")
 scenario.execute(OT_FULLFACT_Settings(n_samples=20 * 20))
@@ -89,7 +87,6 @@ samples = scenario.to_dataset()
 # Then,
 # we define the uncertainty-free constrained optimization problem:
 radius = 0.25
-scenario = MDOScenario(
 scenario = MDOScenario([discipline], design_space)
 scenario.add_objective("f")
 scenario.add_constraint("h", value=radius**2)
@@ -126,9 +123,7 @@ scenario = UMDOScenario(
     [discipline],
     design_space,
     uncertain_space,
-    Sampling_Settings(
-        n_samples=100, estimate_statistics_iteratively=False
-    ),
+    Sampling_Settings(n_samples=100, estimate_statistics_iteratively=False),
 )
 scenario.add_objective("f", "Mean")
 scenario.add_constraint("h", "Mean", constraint_type="eq", value=radius**2)

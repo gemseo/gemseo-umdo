@@ -19,7 +19,6 @@ from __future__ import annotations
 
 from gemseo.discipline import AnalyticDiscipline
 from gemseo.doe import OT_LHS_Settings
-from gemseo.formulation import MDF_Settings
 from gemseo.optimization import NLOPT_COBYLA_Settings
 from gemseo.space import DesignSpace
 from gemseo.space import RandomSpace
@@ -79,9 +78,7 @@ for i in range(10):
         [system, disc1, disc2],
         create_design_space(),
         uncertain_space,
-        Sampling_Settings(
-            doe_algo_settings=OT_LHS_Settings(n_samples=100, seed=i + 1)
-        ),
+        Sampling_Settings(doe_algo_settings=OT_LHS_Settings(n_samples=100, seed=i + 1)),
     )
     scenario.add_objective("obj", "Mean")
     scenario.add_constraint("c1", "Margin", factor=3.0)

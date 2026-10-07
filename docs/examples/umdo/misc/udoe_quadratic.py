@@ -19,7 +19,6 @@ from __future__ import annotations
 
 from gemseo.discipline import AnalyticDiscipline
 from gemseo.doe import PYDOE_FULLFACT_Settings
-from gemseo.formulation import DisciplinaryOpt_Settings
 from gemseo.post import OptHistoryView_Settings
 from gemseo.space import DesignSpace
 from gemseo.space import RandomSpace

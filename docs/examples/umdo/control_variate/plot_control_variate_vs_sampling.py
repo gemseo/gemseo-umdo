@@ -42,7 +42,6 @@ from typing import TYPE_CHECKING
 from gemseo.dataset import Dataset
 from gemseo.discipline import AnalyticDiscipline
 from gemseo.doe import OT_MONTE_CARLO_Settings
-from gemseo.formulation import DisciplinaryOpt_Settings
 from gemseo.optimization import NLOPT_SLSQP_Settings
 from gemseo.post.dataset import Boxplot
 from gemseo.post.dataset.boxplot_settings import Boxplot_Settings
@@ -105,9 +104,7 @@ def solve_problem(
         [discipline],
         design_space,
         uncertain_space,
-        settings_class(
-            doe_algo_settings=OT_MONTE_CARLO_Settings(n_samples=50, seed=i)
-        ),
+        settings_class(doe_algo_settings=OT_MONTE_CARLO_Settings(n_samples=50, seed=i)),
     )
     scenario.add_objective("z", "Mean")
     scenario.set_differentiation_method("finite_differences")

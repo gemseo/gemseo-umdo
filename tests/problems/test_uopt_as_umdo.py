@@ -17,8 +17,6 @@ from __future__ import annotations
 
 from gemseo import create_design_space
 from gemseo import create_discipline
-from gemseo.formulation import DisciplinaryOpt_Settings
-from gemseo.formulation import MDF_Settings
 from gemseo.optimization import NLOPT_SLSQP_Settings
 from gemseo.space import RandomSpace
 from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
@@ -56,9 +54,7 @@ def test_u_opt_as_umdo_scenario():
         [discipline],
         design_space,
         uncertain_space,
-        Sampling_Settings(
-            n_samples=5, estimate_statistics_iteratively=False
-        ),
+        Sampling_Settings(n_samples=5, estimate_statistics_iteratively=False),
     )
     u_opt_scenario.add_objective("f", "Mean")
     u_opt_scenario.execute(algorithm_settings=NLOPT_SLSQP_Settings(max_iter=5))
@@ -69,9 +65,7 @@ def test_u_opt_as_umdo_scenario():
         discipline,
         design_space,
         uncertain_space,
-        Sampling_Settings(
-            n_samples=5, estimate_statistics_iteratively=False
-        ),
+        Sampling_Settings(n_samples=5, estimate_statistics_iteratively=False),
     )
     umdo_scenario.add_objective("f", "Mean")
     umdo_scenario.execute(NLOPT_SLSQP_Settings(max_iter=5))

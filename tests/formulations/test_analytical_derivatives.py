@@ -22,7 +22,6 @@ import pytest
 from gemseo.discipline import Discipline
 from gemseo.doe import CustomDOE_Settings
 from gemseo.doe import OT_MONTE_CARLO_Settings
-from gemseo.formulation import DisciplinaryOpt_Settings
 from gemseo.machine_learning import PCERegressor_Settings
 from gemseo.space import DesignSpace
 from gemseo.space import RandomSpace
@@ -112,9 +111,7 @@ def test_derivatives(statistic, symbol, n_x, n_u, settings):
     )
     scenario.add_objective("y", statistic)
     scenario.execute(
-        CustomDOE_Settings(
-            samples=linspace(1, n_x, n_x)[newaxis, :], eval_jac=True
-        )
+        CustomDOE_Settings(samples=linspace(1, n_x, n_x)[newaxis, :], eval_jac=True)
     )
     last_item = scenario.formulation.problem.database.last_item
 
@@ -127,9 +124,7 @@ def test_derivatives(statistic, symbol, n_x, n_u, settings):
     scenario.add_objective("y", statistic)
     scenario.set_differentiation_method("finite_differences")
     scenario.execute(
-        CustomDOE_Settings(
-            samples=linspace(1, n_x, n_x)[newaxis, :], eval_jac=True
-        )
+        CustomDOE_Settings(samples=linspace(1, n_x, n_x)[newaxis, :], eval_jac=True)
     )
     new_last_item = scenario.formulation.problem.database.last_item
     name = "@Margin[y; 2.0]" if statistic == "Margin" else f"@{symbol}[y]"

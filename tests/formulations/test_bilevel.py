@@ -22,7 +22,6 @@ from gemseo import create_discipline
 from gemseo import create_random_space
 from gemseo.doe import CustomDOE_Settings
 from gemseo.formulation import BiLevel_Settings
-from gemseo.formulation import DisciplinaryOpt_Settings
 from gemseo.optimization import SLSQP_Settings
 from gemseo.problem.mdo.opt_as_mdo_scenario import LinearLinkDiscipline
 from gemseo.problem.mdo.opt_as_mdo_scenario import create_disciplines
@@ -104,9 +103,7 @@ def reference_database(
         formulation_settings=BiLevel_Settings(),
     )
     bilevel_scenario.add_objective("f")
-    bilevel_scenario.execute(
-        CustomDOE_Settings(samples=array([[1.0]]))
-    )
+    bilevel_scenario.execute(CustomDOE_Settings(samples=array([[1.0]])))
     database = bilevel_scenario.formulation.problem.database
     return database.get_function_history("f", with_x_vect=True)
 
@@ -127,9 +124,7 @@ def test_u_bilevel(design_space, rosenbrock, sub_scenarios, reference_database):
         formulation_settings=BiLevel_Settings(),
     )
     u_bilevel_scenario.add_objective("f", "Mean")
-    u_bilevel_scenario.execute(
-        CustomDOE_Settings(samples=array([[1.0]]))
-    )
+    u_bilevel_scenario.execute(CustomDOE_Settings(samples=array([[1.0]])))
 
     database = u_bilevel_scenario.formulation.problem.database
     f_history, x_0_history = database.get_function_history("E[f]", with_x_vect=True)

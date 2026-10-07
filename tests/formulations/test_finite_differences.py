@@ -82,11 +82,7 @@ def test_finite_differences(statistic_estimation_settings, expected):
     scenario.add_constraint("c", "Mean")
     scenario.add_observable("o", "Mean")
     scenario.set_differentiation_method("finite_differences")
-    scenario.execute(
-        CustomDOE_Settings(
-            samples=array([[1.0, 1.0]]), eval_jac=True
-        )
-    )
+    scenario.execute(CustomDOE_Settings(samples=array([[1.0, 1.0]]), eval_jac=True))
     # The database storing the samples is cleared after each sampling.
     assert not scenario.mdo_formulation.problem.database
 

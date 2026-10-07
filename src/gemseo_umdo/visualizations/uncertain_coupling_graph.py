@@ -21,7 +21,6 @@ from typing import TYPE_CHECKING
 from typing import Final
 
 from gemseo.core.dependency_graph import DependencyGraph
-from gemseo.formulation import MDF_Settings
 from gemseo.post._graph_view import GraphView
 from gemseo.scenario import EvaluationScenario
 from gemseo.util.discipline import get_all_outputs

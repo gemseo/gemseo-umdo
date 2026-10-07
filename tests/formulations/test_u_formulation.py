@@ -211,9 +211,7 @@ def test_margin(disciplines, design_space, uncertain_space, factor, positive, ma
     scenario.add_objective("f", "Margin", minimize=not maximize, factor=abs(factor))
     scenario.add_constraint("c", "Margin", factor=abs(factor), positive=positive)
     scenario.add_observable("o", "Margin", factor=abs(factor))
-    scenario.execute(
-        CustomDOE_Settings(samples=array([[1.0, 1.0, 1.0]]))
-    )
+    scenario.execute(CustomDOE_Settings(samples=array([[1.0, 1.0, 1.0]])))
     reference = scenario.formulation.problem.database.last_item
 
     # Secondly,
@@ -228,9 +226,7 @@ def test_margin(disciplines, design_space, uncertain_space, factor, positive, ma
     scenario.add_objective("f", "Margin", minimize=not maximize, factor=factor)
     scenario.add_constraint("c", "Margin", factor=factor, positive=positive)
     scenario.add_observable("o", "Margin", factor=factor)
-    scenario.execute(
-        CustomDOE_Settings(samples=array([[1.0, 1.0, 1.0]]))
-    )
+    scenario.execute(CustomDOE_Settings(samples=array([[1.0, 1.0, 1.0]])))
     last_item = scenario.formulation.problem.database.last_item
 
     # Finally,

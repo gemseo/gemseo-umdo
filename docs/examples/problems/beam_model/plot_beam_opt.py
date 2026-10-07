@@ -22,7 +22,6 @@ $c_{\text{displacement}}(h,t)\leq 1.0$.
 
 from __future__ import annotations
 
-from gemseo.formulation import MDF_Settings
 from gemseo.optimization import NLOPT_COBYLA_Settings
 from gemseo.post import OptHistoryView_Settings
 from gemseo.scenario import MDOScenario

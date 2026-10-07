@@ -18,7 +18,6 @@ import pytest
 from gemseo.discipline import AnalyticDiscipline
 from gemseo.doe import OT_OPT_LHS_Settings
 from gemseo.doe import PYDOE_FULLFACT_Settings
-from gemseo.formulation import DisciplinaryOpt_Settings
 from gemseo.space import DesignSpace
 from gemseo.space import RandomSpace
 from gemseo.uncertainty.distribution import OTNormalDistribution_Settings

@@ -46,7 +46,6 @@ where
 from __future__ import annotations
 
 from gemseo.discipline import AnalyticDiscipline
-from gemseo.formulation import MDF_Settings
 from gemseo.optimization import NLOPT_SLSQP_Settings
 from gemseo.post import OptHistoryView_Settings
 from gemseo.space import DesignSpace

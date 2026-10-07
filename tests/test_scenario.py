@@ -22,7 +22,6 @@ from gemseo.discipline import AnalyticDiscipline
 from gemseo.discipline import AutoPyDiscipline
 from gemseo.discipline import DisciplineChain
 from gemseo.doe import CustomDOE_Settings
-from gemseo.formulation import DisciplinaryOpt_Settings
 from gemseo.formulation import MDF_Settings
 from gemseo.formulation.mdf import MDF
 from gemseo.mda import MDAChain_Settings

@@ -32,7 +32,6 @@ from __future__ import annotations
 from gemseo import configuration
 from gemseo.doe import CustomDOE_Settings
 from gemseo.formulation import BiLevel_Settings
-from gemseo.formulation import MDF_Settings
 from gemseo.optimization import NLOPT_COBYLA_Settings
 from gemseo.optimization import NLOPT_SLSQP_Settings
 from gemseo.optimization import SLSQP_Settings
@@ -133,9 +132,7 @@ mdf_uscenario = UMDOScenario(
     [aerodynamics, propulsion, structure, mission],
     design_space,
     uncertain_space,
-    Sampling_Settings(
-        n_samples=n_samples, estimate_statistics_iteratively=False
-    ),
+    Sampling_Settings(n_samples=n_samples, estimate_statistics_iteratively=False),
     uncertain_design_variables={"x_shared": ("+", "u_x_shared")},
 )
 mdf_uscenario.add_objective("y_4", "Mean", minimize=False)
@@ -244,9 +241,7 @@ bilevel_uscenario.add_constraint("g_3", "Margin")
 
 # %%
 # and solve the MDO problem using the gradient-free COBYLA algorithm:
-bilevel_uscenario.execute(
-    NLOPT_COBYLA_Settings(max_iter=max_iter, ineq_tolerance=1e-3)
-)
+bilevel_uscenario.execute(NLOPT_COBYLA_Settings(max_iter=max_iter, ineq_tolerance=1e-3))
 
 # %%
 # ## Results
@@ -296,18 +291,14 @@ bilevel_uscenario = UMDOScenario(
     [scenario_aerodynamics, scenario_propulsion, scenario_structure],
     design_space.filter("dv_x_shared", copy=True),
     uncertain_space,
-    Sampling_Settings(
-        n_samples=n_samples, estimate_statistics_iteratively=False
-    ),
+    Sampling_Settings(n_samples=n_samples, estimate_statistics_iteratively=False),
     formulation_settings=BiLevel_Settings(save_opt_history=False),
 )
 bilevel_uscenario.add_objective("y_4", "Mean", minimize=False)
 bilevel_uscenario.add_constraint("g_1", "Mean")
 bilevel_uscenario.add_constraint("g_2", "Mean")
 bilevel_uscenario.add_constraint("g_3", "Mean")
-bilevel_uscenario.execute(
-    CustomDOE_Settings(samples=atleast_2d(bilevel_x_opt))
-)
+bilevel_uscenario.execute(CustomDOE_Settings(samples=atleast_2d(bilevel_x_opt)))
 
 # %%
 # which generates samples

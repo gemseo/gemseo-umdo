@@ -23,7 +23,6 @@ $t\in[2,10]$.
 from __future__ import annotations
 
 from gemseo.doe import PYDOE_FULLFACT_Settings
-from gemseo.formulation import MDF_Settings
 from gemseo.post.dataset import ZvsXY
 from gemseo.post.dataset.zvsxy_settings import ZvsXY_Settings
 from gemseo.scenario import MDOScenario

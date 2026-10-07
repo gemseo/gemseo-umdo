@@ -40,8 +40,6 @@ from gemseo import create_discipline
 from gemseo import create_random_space
 from gemseo.doe import CustomDOE_Settings
 from gemseo.formulation import BiLevel_Settings
-from gemseo.formulation import DisciplinaryOpt_Settings
-from gemseo.formulation import MDF_Settings
 from gemseo.optimization import NLOPT_COBYLA_Settings
 from gemseo.optimization import SLSQP_Settings
 from gemseo.problem.mdo.opt_as_mdo_scenario import create_disciplines
@@ -216,15 +214,11 @@ bilevel_uscenario = UMDOScenario(
     [scenario_1, scenario_2],
     design_space.filter("x_0", copy=True),
     uncertain_space,
-    Sampling_Settings(
-        n_samples=n_samples, estimate_statistics_iteratively=False
-    ),
+    Sampling_Settings(n_samples=n_samples, estimate_statistics_iteratively=False),
     formulation_settings=BiLevel_Settings(save_opt_history=False),
 )
 bilevel_uscenario.add_objective("f", "Mean")
-bilevel_uscenario.execute(
-    CustomDOE_Settings(samples=atleast_2d(bilevel_x_opt))
-)
+bilevel_uscenario.execute(CustomDOE_Settings(samples=atleast_2d(bilevel_x_opt)))
 
 # %%
 # This process generates samples
