@@ -59,8 +59,8 @@ def test_default_inputs(heat_equation):
 def test_output_data(heat_equation):
     """Check the output values and sizes."""
     heat_equation.execute()
-    u = heat_equation.io.get("u")
-    u_mesh = heat_equation.io.get("u_mesh")
+    u = heat_equation.io.output_data["u"]
+    u_mesh = heat_equation.io.output_data["u_mesh"]
     assert u.shape == (1,)
     assert u_mesh.shape == (heat_equation.configuration.mesh_size,)
     assert_almost_equal(u, -31.052594621006744)

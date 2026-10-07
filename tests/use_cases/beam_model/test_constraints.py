@@ -57,9 +57,9 @@ def test_default_inputs(discipline):
 def test_default_outputs(discipline):
     """Check the default values of the outputs."""
     assert_almost_equal(
-        discipline.io.get("c_stress"),
-        discipline.io.get("sigma_vm") / discipline.io.get("sigma_all"),
+        discipline.io.output_data["c_stress"],
+        discipline.io.output_data["sigma_vm"] / discipline.io.output_data["sigma_all"],
     )
     assert_almost_equal(
-        discipline.io.get("c_displ"), discipline.io.get("displ") / 100.0
+        discipline.io.output_data["c_displ"], discipline.io.output_data["displ"] / 100.0
     )

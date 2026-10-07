@@ -273,8 +273,8 @@ def test_uncertain_input_data_non_normalization():
     )
     scenario.add_objective("f", "Mean")
     scenario.execute(CustomDOE_Settings(samples=array([[1.0]]), eval_jac=True))
-    assert_almost_equal(discipline.io.get("x"), array([1.0]))
+    assert_almost_equal(discipline.io.input_data["x"], array([1.0]))
     # u = 1.125, f = 1+1.125² and dfdu = 2.25 before bug fix
-    assert_almost_equal(discipline.io.get("u"), array([0.75]))
-    assert_almost_equal(discipline.io.get("f"), array([1.75]))
+    assert_almost_equal(discipline.io.input_data["u"], array([0.75]))
+    assert_almost_equal(discipline.io.output_data["f"], array([1.75]))
     assert_almost_equal(discipline.jac["f"]["u"], array([[1.0]]))

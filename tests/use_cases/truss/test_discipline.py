@@ -61,8 +61,8 @@ def test_default():
     truss = TrussModel()
     v1, displacements = truss.compute()
     discipline.execute()
-    assert_allclose(discipline.io.get("V1"), array([v1]))
-    assert_allclose(discipline.io.get("displacements"), displacements.ravel())
+    assert_allclose(discipline.io.output_data["V1"], array([v1]))
+    assert_allclose(discipline.io.output_data["displacements"], displacements.ravel())
 
 
 def test_custom():
@@ -180,5 +180,5 @@ def test_custom():
     truss = TrussModel()
     v1, displacements = truss.compute()
     discipline.execute()
-    assert_allclose(discipline.io.get("V1"), array([v1]))
-    assert_allclose(discipline.io.get("displacements"), displacements.ravel())
+    assert_allclose(discipline.io.output_data["V1"], array([v1]))
+    assert_allclose(discipline.io.output_data["displacements"], displacements.ravel())

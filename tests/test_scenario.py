@@ -331,7 +331,7 @@ def test_log(
         constraint_name=constraint_name,
     )
     scenario.use_standardized_objective = use_standardized_objective
-    scenario.execute(algorithm_settings=CustomDOE_Settings(samples=array([[1.0]])))
+    scenario.execute(CustomDOE_Settings(samples=array([[1.0]])))
     assert objective_expr in caplog.text
     assert constraint_expr in caplog.text
     assert constraint_res in caplog.text
