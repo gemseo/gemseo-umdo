@@ -67,7 +67,7 @@ class StatisticFunctionForStandardSampling(BaseStatisticFunctionForSampling[Samp
         for output_name in database.get_function_names(skip_grad=False):
             history = database.get_function_history(output_name)
             ndim = history.ndim
-            if output_name.startswith(database.GRAD_TAG):
+            if output_name.startswith(database.grad_tag):
                 if ndim == 2:
                     history = history[:, newaxis, :]
                 elif ndim == 1:
