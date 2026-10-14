@@ -1,93 +1,104 @@
+# commitizen runs at the commit-msg stage,
+# its shim shall be installed too.
+default_install_hook_types: [pre-commit, commit-msg]
+# Without this, a hook runs at every installed stage,
+# the file hooks would run again when checking the commit message.
+default_stages: [pre-commit]
+# For the builtin repository and this very key.
+minimum_prek_version: "0.5.1"
+
 repos:
+  # The hooks bundled with prek: nothing to clone, no environment to create.
+  - repo: builtin
+    hooks:
+      - id: trailing-whitespace
+        exclude: \.ambr$
+      - id: end-of-file-fixer
+        exclude: LICENSES/headers
+      - id: check-yaml
+        exclude: ^mkdocs\.yml$
+      # The !!python/name tag of mkdocs cannot be loaded,
+      # check the syntax only.
+      - id: check-yaml
+        name: check yaml syntax only
+        args: [--unsafe]
+        files: ^mkdocs\.yml$
+      - id: check-added-large-files
+      - id: check-json
+      - id: check-toml
+      - id: check-symlinks
+      - id: destroyed-symlinks
+      - id: check-case-conflict
+      # The tests are also run on Windows.
+      - id: check-illegal-windows-names
+      - id: check-merge-conflict
+      - id: detect-private-key
+      - id: fix-byte-order-marker
 
-- repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v6.0.0
-  hooks:
-    - id: trailing-whitespace
-    - id: end-of-file-fixer
-      exclude: LICENSES/headers
-    - id: check-yaml
-      # !reference is specific to gitlab
-      # !! prefix is specific to mkdocs
-      exclude: \.gitlab-ci.yml|mkdocs.yml
-    - id: check-added-large-files
-    - id: check-json
-    - id: pretty-format-json
-      args: [
-        --autofix,
-        --no-sort-keys,
-      ]
-      exclude: \.ipynb
-    - id: check-toml
-    - id: destroyed-symlinks
-    - id: check-symlinks
+  # The builtin implementation of pretty-format-json renders the floats
+  # differently (1e-06 becomes 1e-6) and would rewrite the JSON test data.
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: pretty-format-json
+        args: [--autofix, --no-sort-keys]
+        exclude: \.ipynb$
 
-- repo: https://github.com/pre-commit/pygrep-hooks
-  rev: v1.10.0
-  hooks:
-    - id: rst-backticks
-    - id: rst-directive-colons
-    - id: rst-inline-touching-normal
+  - repo: https://github.com/astral-sh/uv-pre-commit
+    rev: 0.12.10
+    hooks:
+      - id: uv-lock
 
-- repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.14.13
-  hooks:
-    - id: ruff-check
-      types_or: [ python, pyi, jupyter ]
-      args: [ --exit-non-zero-on-fix ]
-    - id: ruff-format
-      types_or: [ python, pyi, jupyter ]
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.16.6
+    hooks:
+      # The markdown files are handled by rumdl,
+      # which itself delegates the code blocks to ruff,
+      # the default types of ruff-format include markdown.
+      - id: ruff-check
+        types_or: [python, pyi, jupyter]
+        args: [--exit-non-zero-on-fix]
+      - id: ruff-format
+        types_or: [python, pyi, jupyter]
 
-- repo: https://github.com/commitizen-tools/commitizen
-  rev: v4.11.6
-  hooks:
-    - id: commitizen
-      stages: [commit-msg]
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: v4.18.0
+    hooks:
+      - id: commitizen
+        stages: [commit-msg]
 
-- repo: https://github.com/kynan/nbstripout
-  rev: 0.9.0
-  hooks:
-    - id: nbstripout
+  - repo: https://github.com/rvben/rumdl-pre-commit
+    rev: v0.2.68
+    hooks:
+      - id: rumdl-fmt
+        exclude: ^\.gitlab
 
-- repo: https://github.com/igorshubovych/markdownlint-cli
-  rev: v0.47.0
-  hooks:
-  - id: markdownlint
-    args: [
-      --fix,
-      --disable,
-      MD024,
-      ]
-
-- repo: https://github.com/Lucas-C/pre-commit-hooks
-  rev: v1.5.6
-  hooks:
-    - id: insert-license
-      name: insert LGPL license
-      exclude: ^docs
-      files: \.py$
-      args:
-        - --license-filepath
-        - LICENSES/headers/LGPL-3.0.txt
-    - id: insert-license
-      name: insert BSD license
-      files: ^docs/(examples|tutorials).*\.py$
-      args:
-        - --license-filepath
-        - LICENSES/headers/BSD-0-Clause.txt
-    - id: insert-license
-      name: insert CC BY-SA license for rst files
-      files: \.rst$
-      args:
-        - --license-filepath
-        - LICENSES/headers/CC-BY-SA-4.0.txt
-        - --comment-style
-        - ..|   |
-    - id: insert-license
-      name: insert CC BY-SA license for md files
-      files: \.md$
-      args:
-        - --license-filepath
-        - LICENSES/headers/CC-BY-SA-4.0.txt
-        - --comment-style
-        - <!--||-->
+  - repo: https://github.com/Lucas-C/pre-commit-hooks
+    rev: v1.5.6
+    hooks:
+      - id: insert-license
+        name: insert LGPL license
+        exclude: ^docs
+        files: \.py$
+        args:
+          - --license-filepath
+          - LICENSES/headers/LGPL-3.0.txt
+      - id: insert-license
+        name: insert BSD license
+        files: ^docs/(examples|tutorials).*\.py$
+        args:
+          - --license-filepath
+          - LICENSES/headers/BSD-0-Clause.txt
+      - id: insert-license
+        name: insert CC BY-SA license for md files
+        files: \.md$
+        args:
+          - --license-filepath
+          - LICENSES/headers/CC-BY-SA-4.0.txt
+          - --comment-style
+          - <!--||-->
+          # Some files use metadata that must be first,
+          # then the license is after the metadata,
+          # offsetting the license header shall be done manually.
+          - --detect-license-in-X-top-lines
+          - "20"

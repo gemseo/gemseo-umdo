@@ -33,7 +33,7 @@ from gemseo_umdo.formulations.base_surrogate_settings import (
 from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
 
 if TYPE_CHECKING:
-    from typing_extensions import Self
+    from typing import Self
 
 
 class ControlVariate_Settings(  # noqa: N801

@@ -30,7 +30,7 @@ from gemseo_umdo.formulations.base_surrogate_settings import SurrogateQuality_Se
 from gemseo_umdo.formulations.surrogate_settings import Surrogate_Settings
 
 if TYPE_CHECKING:
-    from typing_extensions import Self
+    from typing import Self
 
 
 class PCE_Settings(Surrogate_Settings, SurrogateQuality_Settings):  # noqa: N801

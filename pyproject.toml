@@ -5,7 +5,7 @@ authors = [
 ]
 description = "Robust MDO and advanced UQ with GEMSEO."
 readme = "README.md"
-license = "LGPL-3.0"
+license = "LGPL-3.0-only"
 license-files = ["LICENSE.txt"]
 classifiers = [
     "Intended Audience :: Science/Research",
@@ -17,9 +17,10 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
 ]
 dynamic = ["version"]
-requires-python = ">=3.11, <3.14"
+requires-python = ">=3.11, <3.15"
 dependencies = [
     "gemseo[all] @ git+https://gitlab.com/gemseo/dev/gemseo.git@develop",
     "matplotlib",
@@ -29,26 +30,45 @@ dependencies = [
 
 [dependency-groups]
 dev = [
-    "covdefaults >=2",
-    "pytest >=7,<9",
+    { include-group = "check" },
+    { include-group = "test" },
+]
+test = [
+    "covdefaults >=2.3.0",
+    "pytest >=8,<10",
     "pytest-cov >=5",
-    "pytest-xdist >=3",
+    "pytest-xdist >=3.6",
+    "pytest-sugar >=1",
     "syrupy-matplotlib >=0.3.0",
+    "syrupy >=4.7",
+    "diff-cover >=10.4,<11",
 ]
 doc = [
     "black",
+    "click",
     "griffe-fieldz",
     "griffe-inherited-docstrings",
     "markdown-exec[ansi]",
     "mike",
+    "mkdocs <2",
     "mkdocs-bibtex",
     "mkdocs-gallery",
     "mkdocs-gen-files",
     "mkdocs-include-markdown-plugin",
     "mkdocs-literate-nav",
+    "mkdocs-macros-plugin",
     "mkdocs-material",
     "mkdocs-section-index",
     "mkdocstrings[python]",
+    "mkdocs-autorefs",
+    "mkdocs-minify-plugin",
+]
+check = [
+    "prek",
+    "ruff",
+]
+dist = [
+    "check-wheel-contents",
 ]
 
 [project.urls]
@@ -67,3 +87,15 @@ requires = [
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools_scm]
+
+[tool.uv]
+# The project version is derived from the git state by setuptools-scm,
+# add that state to the default cache key so that uv rebuilds the project
+# when the commit or the tags change.
+cache-keys = [
+    { file = "pyproject.toml" },
+    { git = { commit = true, tags = true } },
+]
+
+[tool.uv.sources]
+gemseo = { git = "https://gitlab.com/gemseo/dev/gemseo.git", branch = "develop" }

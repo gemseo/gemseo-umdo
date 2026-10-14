@@ -102,7 +102,6 @@ can be reduced to such a standard optimization problem:
         )
         ```
 
-
 ### Optimization problem under uncertainty
 
 The models are often subject to uncertainties.
@@ -360,7 +359,7 @@ into a top-level optimization problem controlling the shared design variables $x
 and a sublevel optimization problem controlling the local design variables $x_{1\ldots M}$.
 
 In particular,
-Gazaix *et al.* (2019)[@Gazaix2019] proposed to
+Gazaix *et al.* [@Gazaix2019](2019) proposed to
 rewrite the initial MDO problem into a sequence of bi-level optimization problems
 whose sublevels are split into independent disciplinary optimization problems.
 This decomposition according to the disciplines makes
@@ -397,7 +396,7 @@ with $x_{-i}^{(k-1)}=\left(x_j^{(k-1)}\right)_{j\in\{1,\ldots,M\}\setminus\{i\}}
 and $y\!\left(x_0,x_{1\ldots M}^{(k-1)}\right)$ the MDA solution at the design point $\left(x_0,x_{1\ldots M}^{(k-1)}\right)$.
 
 In presence of uncertainties,
-Aziz Alaoui (2025)[@AzizAlaoui2025] proposed a similar bi-level formulation.
+Aziz Alaoui [@AzizAlaoui2025](2025) proposed a similar bi-level formulation.
 The main problem can be written as
 
 $$
@@ -444,7 +443,7 @@ $$
 \begin{align}
 &\underset{x_0\in\mathcal{X}_0}{\operatorname{minimize}}&&\widehat{K}_f\!\left[f\!\left(x_0, X_{1\ldots M}^{(k)}, y\!\left(x_0, X_{1\ldots M}^{(k)}, U\right), U\right)\right]\\
 &\operatorname{subject\;to}
-& &  \widehat{K}_g\!\left[g\!\left(x_0, X_{1\ldots M}^{(k)}, y\!\left(x_0, X_{1\ldots M}^{(k)}, U\right), U\right)\right]\leq 0
+& & \widehat{K}_g\!\left[g\!\left(x_0, X_{1\ldots M}^{(k)}, y\!\left(x_0, X_{1\ldots M}^{(k)}, U\right), U\right)\right]\leq 0
 \end{align}
 $$
 

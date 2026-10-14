@@ -30,7 +30,7 @@ from gemseo_umdo.formulations.base_umdo_formulation_settings import (
 )
 
 if TYPE_CHECKING:
-    from typing_extensions import Self
+    from typing import Self
 
 
 class BaseSamplingSettings(BaseUMDOFormulationSettings):

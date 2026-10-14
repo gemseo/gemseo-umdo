@@ -259,7 +259,7 @@ and this project adheres to
 ### Fixed
 
 - The U-MDO formulation [Sampling][gemseo_umdo.formulations.sampling.Sampling]
-  works properly when the option `estimate_statistics_iteratively`  is `True`
+  works properly when the option `estimate_statistics_iteratively` is `True`
   and the DOE option `n_processes` is greater than 1.
 - The docstring of the `uncertain_design_variables` argument of
   [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario]
@@ -324,12 +324,12 @@ and this project adheres to
   used by the U-MDO formulation [Sampling][gemseo_umdo.formulations.sampling.Sampling]
   with `estimate_statistics_iteratively=False` is now unbiased.
 - API changes:
-  - The options of the statistics estimators
+    - The options of the statistics estimators
     are now set at instantiation instead of execution.
-  - `gemseo_umdo.estimators` has been renamed to `gemseo_umdo.formulations.statistics`.
+    - `gemseo_umdo.estimators` has been renamed to `gemseo_umdo.formulations.statistics`.
 - The log of the statistics no longer includes design variables and uncertain inputs
   (e.g. `E[y(x; u)]`),
-  but only uncertain output  (e.g. `E[y]`) to avoid display problems in large dimensions.
+  but only uncertain output (e.g. `E[y]`) to avoid display problems in large dimensions.
 
 ### Fixed
 
