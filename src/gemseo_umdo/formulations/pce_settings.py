@@ -19,7 +19,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from gemseo.machine_learning import PCERegressor_Settings
-from gemseo.machine_learning.regression.core.base_fce_settings import (  # noqa: TC002
+from gemseo.machine_learning.regression.core.base_fce_settings import (
     BaseFCERegressorSettings,
 )
 from pydantic import Field

@@ -21,7 +21,7 @@ from collections.abc import Sequence  # noqa: TC003
 
 from gemseo.machine_learning import RBFRegressor_Settings
 from gemseo.machine_learning.regression.core.base_regressor_settings import (
-    BaseRegressorSettings,  # noqa: TC002
+    BaseRegressorSettings,
 )
 from gemseo.util.seeder import seed
 from pydantic import Field

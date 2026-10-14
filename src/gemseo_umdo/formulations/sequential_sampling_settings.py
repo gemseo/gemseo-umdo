@@ -21,7 +21,7 @@ from typing import TYPE_CHECKING
 
 from gemseo.doe import OT_OPT_LHS_Settings
 from gemseo.doe.core.base_n_samples_based_doe_settings import (
-    BaseNSamplesBasedDOESettings,  # noqa: TC002
+    BaseNSamplesBasedDOESettings,
 )
 from gemseo.util.seeder import seed
 from pydantic import Field
