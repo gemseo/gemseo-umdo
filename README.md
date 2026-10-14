@@ -70,7 +70,7 @@ to submit bugs or questions.
 
 ## Contributing
 
-See the [contributing section of GEMSEO](https://gemseo.readthedocs.io/en/stable/software/developing.html#dev).
+See the [contributing guide of GEMSEO](https://gemseo.org/contribute/contributing/).
 
 ## Contributors
 
