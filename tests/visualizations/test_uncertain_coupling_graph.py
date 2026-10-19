@@ -18,20 +18,21 @@ from pathlib import Path
 from typing import TYPE_CHECKING
 
 import pytest
-from gemseo.algos.design_space import DesignSpace
-from gemseo.disciplines.analytic import AnalyticDiscipline
+from gemseo.discipline import AnalyticDiscipline
+from gemseo.doe import OT_OPT_LHS_Settings
 from gemseo.post._graph_view import GraphView
-from gemseo.problems.mdo.sobieski.core.problem import SobieskiProblem
-from gemseo.problems.mdo.sobieski.disciplines import SobieskiAerodynamics
-from gemseo.problems.mdo.sobieski.disciplines import SobieskiMission
-from gemseo.problems.mdo.sobieski.disciplines import SobieskiPropulsion
-from gemseo.problems.mdo.sobieski.disciplines import SobieskiStructure
-from gemseo.utils.data_conversion import split_array_to_dict_of_arrays
+from gemseo.problem.mdo.sobieski import SobieskiAerodynamics
+from gemseo.problem.mdo.sobieski import SobieskiMission
+from gemseo.problem.mdo.sobieski import SobieskiProblem
+from gemseo.problem.mdo.sobieski import SobieskiPropulsion
+from gemseo.problem.mdo.sobieski import SobieskiStructure
+from gemseo.space import DesignSpace
+from gemseo.util.data_conversion import split_array_to_dict_of_arrays
 
 from gemseo_umdo.visualizations.uncertain_coupling_graph import UncertainCouplingGraph
 
 if TYPE_CHECKING:
-    from gemseo.problems.mdo.sobieski.disciplines import SobieskiDiscipline
+    from gemseo.problem.mdo.sobieski.discipline import SobieskiDiscipline
 
 
 @pytest.fixture(scope="module")
@@ -42,7 +43,7 @@ def uncertain_space() -> DesignSpace:
     design_space.filter(design_variable_names)
     optimum_design = split_array_to_dict_of_arrays(
         SobieskiProblem().optimum_design,
-        design_space.variable_sizes,
+        {n: v.size for n, v in design_space.variables.items()},
         design_variable_names,
     )
     space = DesignSpace()
@@ -72,7 +73,7 @@ def disciplines() -> list[SobieskiDiscipline]:
 def uncertain_coupling_graph(disciplines, uncertain_space) -> UncertainCouplingGraph:
     """The uncertain coupling graph of the Sobieski's SSBJ problem."""
     graph = UncertainCouplingGraph(disciplines, uncertain_space)
-    graph.sample(10)
+    graph.sample(OT_OPT_LHS_Settings(n_samples=10))
     return graph
 
 
@@ -141,7 +142,7 @@ def test_output_names(disciplines, uncertain_space, tmp_wd):
     uncertain_coupling_graph = UncertainCouplingGraph(
         disciplines, uncertain_space, variable_names=["y_21"]
     )
-    uncertain_coupling_graph.sample(10)
+    uncertain_coupling_graph.sample(OT_OPT_LHS_Settings(n_samples=10))
     uncertain_coupling_graph.visualize(show=False, clean_up=False, file_path=file_name)
     check_dot_file(file_name)
 
@@ -156,7 +157,7 @@ def test_self_coupled(tmp_wd):
     uncertain_space = DesignSpace()
     uncertain_space.add_variable("u", lower_bound=0.0, upper_bound=1)
     uncertain_coupling_graph = UncertainCouplingGraph(disciplines, uncertain_space)
-    uncertain_coupling_graph.sample(10)
+    uncertain_coupling_graph.sample(OT_OPT_LHS_Settings(n_samples=10))
     uncertain_coupling_graph.visualize(
         show=False, clean_up=False, file_path=file_name, maximum_thickness=0.1
     )

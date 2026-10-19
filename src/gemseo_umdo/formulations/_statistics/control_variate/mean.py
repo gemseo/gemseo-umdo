@@ -23,7 +23,7 @@ from gemseo_umdo.formulations._statistics.control_variate.base_control_variate_e
 )
 
 if TYPE_CHECKING:
-    from gemseo.typing import RealArray
+    from gemseo.util.typing import RealArray
 
 
 class Mean(BaseControlVariateEstimator):

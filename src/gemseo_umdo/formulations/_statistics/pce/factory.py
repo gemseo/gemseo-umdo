@@ -24,5 +24,5 @@ from gemseo_umdo.formulations._statistics.pce.base_pce_estimator import BasePCEE
 class PCEEstimatorFactory(BaseFactory):
     """The factory of statistic estimators based on PCE."""
 
-    _CLASS = BasePCEEstimator
-    _PACKAGE_NAMES = ("gemseo_umdo.formulations._statistics.pce",)
+    _class = BasePCEEstimator
+    _package_names = ("gemseo_umdo.formulations._statistics.pce",)

@@ -18,10 +18,10 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from gemseo.mlearning.regression.algos.base_fce_settings import (  # noqa: TC002
-    BaseFCERegressor_Settings,
+from gemseo.machine_learning import PCERegressor_Settings
+from gemseo.machine_learning.regression.core.base_fce_settings import (
+    BaseFCERegressorSettings,
 )
-from gemseo.mlearning.regression.algos.pce_settings import PCERegressor_Settings
 from pydantic import Field
 from pydantic import PositiveFloat
 from pydantic import model_validator
@@ -30,13 +30,11 @@ from gemseo_umdo.formulations.base_surrogate_settings import SurrogateQuality_Se
 from gemseo_umdo.formulations.surrogate_settings import Surrogate_Settings
 
 if TYPE_CHECKING:
-    from typing_extensions import Self
+    from typing import Self
 
 
 class PCE_Settings(Surrogate_Settings, SurrogateQuality_Settings):  # noqa: N801
     """The settings for the FCE-based U-MDO formulation."""
-
-    _TARGET_CLASS_NAME = "PCE"
 
     approximate_statistics_jacobians: bool = Field(
         default=False,
@@ -64,7 +62,7 @@ class PCE_Settings(Surrogate_Settings, SurrogateQuality_Settings):  # noqa: N801
         ),
     )
 
-    regressor_settings: BaseFCERegressor_Settings = Field(
+    regressor_settings: BaseFCERegressorSettings = Field(
         default=PCERegressor_Settings(),
         description="The FCE settings.",
     )
@@ -79,6 +77,20 @@ class PCE_Settings(Surrogate_Settings, SurrogateQuality_Settings):  # noqa: N801
             msg = (
                 "The settings approximate_statistics_jacobians "
                 "and regressor_settings.use_special_jacobian_data cannot be both True."
+            )
+            raise ValueError(msg)
+
+        if (
+            not self.approximate_statistics_jacobians
+            and self.regressor_settings.learn_jacobian_data
+        ):
+            msg = (
+                "The setting regressor_settings.learn_jacobian_data cannot be True "
+                "when approximate_statistics_jacobians is False: "
+                "the FCE cannot learn both the Jacobian data "
+                "with respect to the uncertain variables "
+                "and the special Jacobian data "
+                "with respect to the design variables."
             )
             raise ValueError(msg)
 

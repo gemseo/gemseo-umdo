@@ -1,11 +1,11 @@
 site_name: gemseo-umdo
-site_url: https://gemseo.gitlab.io/gemseo-umdo
+site_url: https://gemseo.gitlab.io/dev/gemseo-umdo
 repo_url: https://gitlab.com/gemseo/dev/gemseo-umdo
 repo_name: gemseo-umdo
 
 theme:
   name: material
-  favicon: images/favicon.ico
+  favicon: images/monogram.png
   features:
     - navigation.tabs
     - navigation.instant
@@ -36,9 +36,9 @@ plugins:
     handlers:
       python:
         paths: [src]
-        import:
+        inventories:
         - https://docs.python.org/3/objects.inv
-        - https://gemseo.readthedocs.io/en/stable/objects.inv
+        - https://gemseo.gitlab.io/dev/gemseo/develop/objects.inv
         - https://matplotlib.org/stable/objects.inv
         - https://numpy.org/doc/stable/objects.inv
         - https://docs.scipy.org/doc/scipy/objects.inv
@@ -134,7 +134,6 @@ extra_css:
 extra_javascript:
 - javascripts/mathjax.js
 - javascripts/xdsmjs.js
-- https://polyfill.io/v3/polyfill.min.js?features=es6
 - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
 
 watch:

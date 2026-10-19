@@ -16,16 +16,8 @@
 
 from __future__ import annotations
 
-from typing import ClassVar
-
-from pydantic import BaseModel
-from pydantic import ConfigDict
+from gemseo.formulation.core.base_settings import BaseFormulationSettings
 
 
-class BaseUMDOFormulationSettings(BaseModel):
+class BaseUMDOFormulationSettings(BaseFormulationSettings):
     """The base class for the settings of U-MDO formulations."""
-
-    _TARGET_CLASS_NAME: ClassVar[str]
-    """The name of the UMDO formulation class."""
-
-    model_config = ConfigDict(extra="forbid", arbitrary_types_allowed=True)

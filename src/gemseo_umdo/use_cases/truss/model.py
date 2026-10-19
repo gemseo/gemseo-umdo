@@ -21,7 +21,7 @@ from typing import TYPE_CHECKING
 from typing import Final
 
 import matplotlib.pyplot as plt
-from gemseo.utils.matplotlib_figure import save_show_figure
+from gemseo.util.matplotlib_figure import save_show_figure
 from numpy import arange
 from numpy import array
 from numpy import block

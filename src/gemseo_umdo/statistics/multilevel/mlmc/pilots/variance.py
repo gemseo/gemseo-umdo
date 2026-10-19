@@ -30,7 +30,7 @@ if TYPE_CHECKING:
     from collections.abc import Iterable
     from collections.abc import Sequence
 
-    from gemseo.typing import RealArray
+    from gemseo.util.typing import RealArray
 
 
 class Variance(BaseMLMCPilot):

@@ -27,8 +27,8 @@ from gemseo_umdo.formulations._statistics.taylor_polynomial.standard_deviation i
 )
 
 if TYPE_CHECKING:
-    from gemseo.algos.parameter_space import ParameterSpace
-    from gemseo.typing import RealArray
+    from gemseo.space import RandomSpace
+    from gemseo.util.typing import RealArray
 
 
 class Margin(BaseTaylorPolynomialEstimator):
@@ -45,7 +45,7 @@ class Margin(BaseTaylorPolynomialEstimator):
 
     def __init__(
         self,
-        uncertain_space: ParameterSpace,
+        uncertain_space: RandomSpace,
         factor: float,
     ) -> None:
         """

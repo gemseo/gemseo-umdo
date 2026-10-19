@@ -31,16 +31,19 @@ In the following, we will call $f$ the function computing $(x+U)^2$ given $x$ an
 
 from __future__ import annotations
 
-from gemseo.algos.design_space import DesignSpace
-from gemseo.algos.parameter_space import ParameterSpace
-from gemseo.disciplines.analytic import AnalyticDiscipline
+from gemseo.discipline import AnalyticDiscipline
+from gemseo.optimization import NLOPT_SLSQP_Settings
+from gemseo.post import OptHistoryView_Settings
+from gemseo.space import DesignSpace
+from gemseo.space import RandomSpace
+from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 
 from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 
 # %%
 # Firstly,
-# we define an [AnalyticDiscipline][gemseo.disciplines.analytic.AnalyticDiscipline]
+# we define an [AnalyticDiscipline][gemseo.discipline.analytic.AnalyticDiscipline]
 # implementing the function $f$:
 discipline = AnalyticDiscipline({"y": "(x+u)**2"}, name="f")
 
@@ -51,8 +54,8 @@ design_space.add_variable("x", lower_bound=-1, upper_bound=1.0, value=0.5)
 
 # %%
 # and the uncertain space:
-uncertain_space = ParameterSpace()
-uncertain_space.add_random_variable("u", "OTNormalDistribution")
+uncertain_space = RandomSpace()
+uncertain_space.add_variable("u", OTNormalDistribution_Settings())
 
 # %%
 # Then,
@@ -62,21 +65,19 @@ uncertain_space.add_random_variable("u", "OTNormalDistribution")
 # with 50 samples at each iteration of the optimization loop:
 scenario = UMDOScenario(
     [discipline],
-    "y",
     design_space,
     uncertain_space,
-    "Mean",
-    formulation_name="DisciplinaryOpt",
-    statistic_estimation_settings=Sampling_Settings(n_samples=50),
+    Sampling_Settings(n_samples=50),
 )
+scenario.add_objective("y", "Mean")
 
 # %%
 # We execute this scenario using the gradient-based optimizer SLSQP:
-scenario.execute(algo_name="NLOPT_SLSQP", max_iter=100)
+scenario.execute(NLOPT_SLSQP_Settings(max_iter=100))
 
 # %%
 # and plot the optimization history:
-scenario.post_process(post_name="OptHistoryView", save=False, show=True)
+scenario.post_process(OptHistoryView_Settings(save=False, show=True))
 
 # %%
 # Notice that the numerical solution

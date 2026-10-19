@@ -42,9 +42,9 @@ from typing import TYPE_CHECKING
 from typing import ClassVar
 
 from gemseo import to_pickle
-from gemseo.algos.doe.factory import DOELibraryFactory
-from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
-from gemseo.utils.logging_tools import LoggingContext
+from gemseo.doe.factory import DOELibraryFactory
+from gemseo.util.logging import LoggingContext
+from gemseo.util.pydantic import create_model
 
 from gemseo_umdo.formulations._functions.statistic_function_for_iterative_sampling import (  # noqa: E501
     StatisticFunctionForIterativeSampling,
@@ -64,15 +64,14 @@ from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
 if TYPE_CHECKING:
     from collections.abc import Sequence
 
-    from gemseo.algos.design_space import DesignSpace
-    from gemseo.algos.doe.base_doe_library import BaseDOELibrary
-    from gemseo.algos.doe.base_doe_library import CallbackType
-    from gemseo.algos.optimization_problem import OptimizationProblem
-    from gemseo.algos.parameter_space import ParameterSpace
-    from gemseo.core.discipline.discipline import Discipline
-    from gemseo.formulations.base_mdo_formulation import BaseMDOFormulation
-    from gemseo.typing import RealArray
-    from gemseo.typing import StrKeyMapping
+    from gemseo.core.problem.evaluation import EvaluationProblem
+    from gemseo.discipline import Discipline
+    from gemseo.doe.core.base_doe_library import BaseDOELibrary
+    from gemseo.doe.core.base_doe_library import CallbackType
+    from gemseo.formulation.core.base_settings import BaseFormulationSettings
+    from gemseo.optimization import OptimizationProblem
+    from gemseo.space import RandomSpace
+    from gemseo.util.typing import RealArray
 
 
 class Sampling(BaseUMDOFormulation):
@@ -80,12 +79,11 @@ class Sampling(BaseUMDOFormulation):
 
     !!! note "DOE algorithms"
         This formulation uses a DOE algorithm;
-        read the
-        [GEMSEO documentation](https://gemseo.readthedocs.io/en/stable/algorithms/doe_algos.html).
-        for more information about the available DOE algorithm names and options.
+        read the documentation of the [DOE algorithms][gemseo.doe]
+        for more information about the available DOE algorithms and their settings.
     """
 
-    Settings: ClassVar[type[Sampling_Settings]] = Sampling_Settings
+    settings_class: ClassVar[type[Sampling_Settings]] = Sampling_Settings
 
     __doe_algo: BaseDOELibrary
     """The DOE library to execute the DOE algorithm."""
@@ -101,28 +99,25 @@ class Sampling(BaseUMDOFormulation):
 
     def __init__(  # noqa: D107
         self,
+        problem: OptimizationProblem,
         disciplines: Sequence[Discipline],
-        objective_name: str,
-        design_space: DesignSpace,
-        mdo_formulation: BaseMDOFormulation,
-        uncertain_space: ParameterSpace,
-        objective_statistic_name: str,
-        settings_model: Sampling_Settings,
-        minimize_objective: bool = True,
-        objective_statistic_parameters: StrKeyMapping = READ_ONLY_EMPTY_DICT,
-        mdo_formulation_settings: StrKeyMapping = READ_ONLY_EMPTY_DICT,
+        settings: Sampling_Settings | None = None,
+        *,
+        uncertain_space: RandomSpace,
+        mdo_formulation_settings: BaseFormulationSettings | None = None,
     ) -> None:
+        settings = create_model(self.settings_class, settings_model=settings)
         self.callbacks = []
         self.jacobian_callbacks = []
         self.input_data_to_output_samples = {}
-        if settings_model.samples_directory_path:
-            self.__samples_directory_path = Path(settings_model.samples_directory_path)
+        if settings.samples_directory_path:
+            self.__samples_directory_path = Path(settings.samples_directory_path)
             self.__samples_directory_path.mkdir()
-            settings_model.estimate_statistics_iteratively = False
+            settings.estimate_statistics_iteratively = False
         else:
             self.__samples_directory_path = ""
 
-        estimate_statistics_iteratively = settings_model.estimate_statistics_iteratively
+        estimate_statistics_iteratively = settings.estimate_statistics_iteratively
         if estimate_statistics_iteratively:
             self._statistic_factory = IterativeSamplingEstimatorFactory()
             self._statistic_function_class = StatisticFunctionForIterativeSampling
@@ -130,31 +125,26 @@ class Sampling(BaseUMDOFormulation):
             self._statistic_factory = SamplingEstimatorFactory()
             self._statistic_function_class = StatisticFunctionForStandardSampling
 
-        doe_algo_settings = settings_model.doe_algo_settings
+        doe_algo_settings = settings.doe_algo_settings
         doe_algo_settings.use_database = not estimate_statistics_iteratively
-        algo_name = doe_algo_settings._TARGET_CLASS_NAME
+        algo_name = doe_algo_settings.target_class_name
         self.__doe_algo = DOELibraryFactory().create(algo_name)
         super().__init__(
+            problem,
             disciplines,
-            objective_name,
-            design_space,
-            mdo_formulation,
-            uncertain_space,
-            objective_statistic_name,
-            settings_model,
-            minimize_objective=minimize_objective,
-            objective_statistic_parameters=objective_statistic_parameters,
+            settings=settings,
+            uncertain_space=uncertain_space,
             mdo_formulation_settings=mdo_formulation_settings,
         )
         mdo_formulation = self._mdo_formulation.__class__.__name__
         formulation = self.__class__.__name__
         self.name = f"{formulation}[{mdo_formulation}; {algo_name}"
-        if "n_samples" in doe_algo_settings.model_fields:
+        if "n_samples" in type(doe_algo_settings).model_fields:
             self.name += f"({doe_algo_settings.n_samples})]"
 
     def compute_samples(
         self,
-        problem: OptimizationProblem,
+        problem: EvaluationProblem,
         input_data: RealArray,
         compute_jacobian: bool = False,
     ) -> None:
@@ -170,17 +160,16 @@ class Sampling(BaseUMDOFormulation):
         new_callbacks = self.jacobian_callbacks if compute_jacobian else self.callbacks
         doe_algo_settings.callbacks = list(original_callbacks) + new_callbacks
         doe_algo_settings.eval_jac = compute_jacobian
+        doe_algo_settings.evaluate_observable_jacobian = compute_jacobian
         with LoggingContext(logging.getLogger("gemseo"), level=logging.ERROR):
-            self.__doe_algo.execute(
-                problem, eval_obs_jac=compute_jacobian, settings_model=doe_algo_settings
-            )
+            self.__doe_algo.execute(problem, settings=doe_algo_settings)
 
         if self.__samples_directory_path:
-            main_problem = self.optimization_problem
+            main_problem = self.problem
             iteration = main_problem.evaluation_counter.current + 1
-            dataset = problem.to_dataset(f"Iteration {iteration}", opt_naming=False)
+            dataset = problem.to_dataset(f"Iteration {iteration}")
             dataset.misc.update(
-                main_problem.design_space.convert_array_to_dict(input_data)
+                main_problem.input_space.convert_array_to_dict(input_data)
             )
             to_pickle(dataset, self.__samples_directory_path / f"{iteration}.pkl")
 

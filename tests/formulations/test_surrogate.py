@@ -18,19 +18,21 @@ from typing import TYPE_CHECKING
 
 import pytest
 from gemseo import execute_algo
-from gemseo.algos.design_space import DesignSpace
-from gemseo.algos.doe.custom_doe.settings.custom_doe_settings import CustomDOE_Settings
-from gemseo.algos.doe.factory import DOELibraryFactory
-from gemseo.algos.doe.openturns.openturns import OpenTURNS
-from gemseo.algos.doe.openturns.settings.ot_halton import OT_HALTON_Settings
-from gemseo.formulations.disciplinary_opt import DisciplinaryOpt
-from gemseo.mlearning.regression.algos.linreg_settings import LinearRegressor_Settings
-from gemseo.mlearning.regression.algos.rbf import RBFRegressor
-from gemseo.mlearning.regression.algos.rbf_settings import RBFRegressor_Settings
-from gemseo.problems.uncertainty.ishigami.ishigami_discipline import IshigamiDiscipline
-from gemseo.problems.uncertainty.ishigami.ishigami_problem import IshigamiProblem
-from gemseo.problems.uncertainty.utils import UniformDistribution
-from gemseo.utils.seeder import SEED
+from gemseo.doe import CustomDOE_Settings
+from gemseo.doe import MC_Settings
+from gemseo.doe import OT_HALTON_Settings
+from gemseo.doe.factory import DOELibraryFactory
+from gemseo.doe.openturns.openturns import OpenTURNS
+from gemseo.enum import UniformDistribution
+from gemseo.formulation import DisciplinaryOpt_Settings
+from gemseo.machine_learning import LinearRegressor_Settings
+from gemseo.machine_learning import RBFRegressor_Settings
+from gemseo.machine_learning.regression.model import RBFRegressor
+from gemseo.optimization import OptimizationProblem
+from gemseo.problem.uncertainty.ishigami import IshigamiDiscipline
+from gemseo.problem.uncertainty.ishigami import IshigamiProblem
+from gemseo.space import DesignSpace
+from gemseo.util.seeder import seed
 from numpy import array
 from numpy.testing import assert_almost_equal
 from numpy.testing import assert_equal
@@ -40,9 +42,9 @@ from gemseo_umdo.formulations.surrogate_settings import Surrogate_Settings
 from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
 
 if TYPE_CHECKING:
-    from gemseo.algos.doe.base_doe_settings import BaseDOESettings
-    from gemseo.core.mdo_functions.collections.observables import Observables
-    from gemseo.typing import RealArray
+    from gemseo.core.function.collection.observables import Observables
+    from gemseo.doe.core.base_doe_settings import BaseDOESettings
+    from gemseo.util.typing import RealArray
 
 
 @pytest.fixture(scope="module")
@@ -53,8 +55,12 @@ def ishigami_problem() -> IshigamiProblem:
 @pytest.fixture(scope="module")
 def rbf_regressor(ishigami_problem) -> RBFRegressor:
     """A RBF regressor for the Ishigami function."""
-    execute_algo(ishigami_problem, algo_name="OT_HALTON", algo_type="doe", n_samples=20)
-    learning_dataset = ishigami_problem.to_dataset(opt_naming=False)
+    execute_algo(
+        ishigami_problem,
+        algo_type="doe",
+        settings_model=OT_HALTON_Settings(n_samples=20),
+    )
+    learning_dataset = ishigami_problem.to_dataset()
     learning_dataset.rename_variable("Ishigami", "y")
     regressor = RBFRegressor(learning_dataset)
     regressor.learn()
@@ -64,7 +70,9 @@ def rbf_regressor(ishigami_problem) -> RBFRegressor:
 @pytest.fixture(scope="module")
 def samples(ishigami_problem) -> RealArray:
     lib = OpenTURNS("OT_HALTON")
-    return lib.compute_doe(ishigami_problem.design_space, n_samples=20)
+    return lib.sample_space(
+        ishigami_problem.input_space, settings=OT_HALTON_Settings(n_samples=20)
+    )
 
 
 @pytest.fixture(scope="module", params=("CustomDOE", "OT_HALTON"))
@@ -80,14 +88,13 @@ def umdo_formulation(ishigami_problem, doe_settings):
     """The UMDO formulation."""
     discipline = IshigamiDiscipline()
     formulation = Surrogate(
+        OptimizationProblem(DesignSpace()),
         [discipline],
-        "y",
-        DesignSpace(),
-        DisciplinaryOpt([discipline], "y", ishigami_problem.design_space),
-        ishigami_problem.design_space,
-        "Mean",
         Surrogate_Settings(regressor_n_samples=10, doe_algo_settings=doe_settings),
+        uncertain_space=ishigami_problem.input_space,
+        mdo_formulation_settings=DisciplinaryOpt_Settings(),
     )
+    formulation.problem.objective = formulation.create_objective("y", "Mean")
     formulation.add_constraint("y", "StandardDeviation")
     formulation.add_observable("y", "Variance")
     formulation.add_observable("y", "Margin", factor=3)
@@ -101,14 +108,16 @@ def output_samples(umdo_formulation, rbf_regressor) -> RealArray:
     uncertain_space = umdo_formulation.uncertain_space
     convert_array_to_dict = uncertain_space.convert_array_to_dict
     doe_algo = DOELibraryFactory().create("MC")
-    input_samples = doe_algo.compute_doe(uncertain_space, n_samples=10, seed=SEED)
+    input_samples = doe_algo.sample_space(
+        uncertain_space, settings=MC_Settings(n_samples=10, seed=seed)
+    )
     return rbf_regressor.predict(convert_array_to_dict(input_samples))["y"]
 
 
 @pytest.fixture(scope="module")
 def observables(umdo_formulation) -> Observables:
     """The observable functions."""
-    return umdo_formulation.optimization_problem.observables
+    return umdo_formulation.problem.observables
 
 
 def test_output_samples(output_samples):
@@ -122,13 +131,13 @@ _X = array([0.0])
 def test_mean(umdo_formulation, output_samples):
     """Check the estimation of the mean from a surrogate-based UMDO formulation."""
     mean = output_samples.mean(0)
-    assert_equal(umdo_formulation.optimization_problem.objective.evaluate(_X), mean)
+    assert_equal(umdo_formulation.problem.objective.evaluate(_X), mean)
 
 
 def test_standard_deviation(umdo_formulation, output_samples):
     """Check the estimation of the std from a surrogate-based UMDO formulation."""
     std = output_samples.std(0, ddof=1)
-    constraint = umdo_formulation.optimization_problem.constraints[0]
+    constraint = umdo_formulation.problem.constraints[0]
     assert_equal(constraint.evaluate(_X), std)
 
 
@@ -154,14 +163,14 @@ def test_probability(observables, output_samples):
 @pytest.mark.parametrize(
     ("statistic_estimation_parameters", "y_opt"),
     [
-        ({"n_samples": 20}, 1.9689592736443002),
-        ({"n_samples": 20, "regressor_n_samples": 10}, 2.4695858515160123),
+        ({"n_samples": 20}, 1.9517113683160991),
+        ({"n_samples": 20, "regressor_n_samples": 10}, 2.464446895981287),
         (
             {
                 "n_samples": 20,
-                "regressor_settings": RBFRegressor_Settings(function="cubic"),
+                "regressor_settings": RBFRegressor_Settings(kernel="cubic"),
             },
-            2.017745497698664,
+            1.9870120429785478,
         ),
         (
             {"n_samples": 20, "regressor_settings": LinearRegressor_Settings()},
@@ -174,19 +183,20 @@ def test_scenario(quadratic_problem, statistic_estimation_parameters, y_opt):
     discipline, design_space, uncertain_space = quadratic_problem
     scenario = UDOEScenario(
         [discipline],
-        "y",
         design_space,
         uncertain_space,
-        "Mean",
-        formulation_name="DisciplinaryOpt",
         statistic_estimation_settings=Surrogate_Settings(
             **statistic_estimation_parameters
         ),
+        formulation_settings=DisciplinaryOpt_Settings(),
     )
-    scenario.execute(algo_name="CustomDOE", samples=array([[1.0]]))
+    scenario.add_objective("y", "Mean")
+    scenario.execute(CustomDOE_Settings(samples=array([[1.0]])))
     assert_almost_equal(scenario.optimization_result.x_opt, array([1.0]))
     assert_almost_equal(scenario.optimization_result.f_opt, y_opt)
-    last_item = scenario.formulation.optimization_problem.database.last_item
+    last_item = scenario.formulation.problem.database.last_item
     assert last_item.keys() == {"y_learning_quality", "y_test_quality", "E[y]"}
     assert last_item["y_learning_quality"].shape == (1,)
     assert last_item["y_test_quality"].shape == (1,)
+    dataset = scenario.to_dataset()
+    assert {"y_learning_quality", "y_test_quality"} <= set(dataset.variable_names)

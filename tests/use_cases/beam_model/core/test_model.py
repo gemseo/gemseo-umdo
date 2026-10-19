@@ -20,7 +20,7 @@ from dataclasses import asdict
 from typing import TYPE_CHECKING
 
 import pytest
-from gemseo.utils.comparisons import compare_dict_of_arrays
+from gemseo.util.comparison import compare_dict_of_arrays
 from numpy import array
 
 from gemseo_umdo.use_cases.beam_model.core.model import BeamModel

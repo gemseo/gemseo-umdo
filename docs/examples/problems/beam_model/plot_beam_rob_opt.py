@@ -23,6 +23,9 @@ $\sigma_{\text{all}}$ are random variables defined by `BeamUncertainSpace`.
 
 from __future__ import annotations
 
+from gemseo.optimization import NLOPT_COBYLA_Settings
+from gemseo.post import OptHistoryView_Settings
+
 from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 from gemseo_umdo.use_cases.beam_model.constraints import BeamConstraints
@@ -32,19 +35,17 @@ from gemseo_umdo.use_cases.beam_model.uncertain_space import BeamUncertainSpace
 
 scenario = UMDOScenario(
     [Beam(), BeamConstraints()],
-    "w",
     BeamDesignSpace(),
     BeamUncertainSpace(uniform=False),
-    "Mean",
-    formulation_name="MDF",
-    statistic_estimation_settings=Sampling_Settings(n_samples=200),
+    Sampling_Settings(n_samples=200),
 )
+scenario.add_objective("w", "Mean")
 scenario.add_constraint(
     "c_stress", "Probability", greater=False, threshold=1.0, positive=True, value=0.9
 )
 scenario.add_constraint(
     "c_displ", "Probability", greater=True, threshold=1.0, positive=True, value=0.9
 )
-scenario.execute(algo_name="NLOPT_COBYLA", max_iter=30)
+scenario.execute(NLOPT_COBYLA_Settings(max_iter=30))
 
-scenario.post_process(post_name="OptHistoryView", save=False, show=True)
+scenario.post_process(OptHistoryView_Settings(save=False, show=True))

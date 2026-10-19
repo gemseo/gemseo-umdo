@@ -19,7 +19,7 @@ from __future__ import annotations
 from dataclasses import asdict
 
 import pytest
-from gemseo.utils.comparisons import compare_dict_of_arrays
+from gemseo.util.comparison import compare_dict_of_arrays
 from numpy import array
 from numpy import atleast_1d
 
@@ -109,5 +109,5 @@ def test_default_outputs(discipline):
 
 def test_ny_nz(custom_discipline):
     """Check the use of a custom grid size."""
-    for name, value in custom_discipline.io.data.items():
+    for name, value in custom_discipline.io.get_merged_data().items():
         assert value.shape == (16,) if name == "yz_grid" else (8,)

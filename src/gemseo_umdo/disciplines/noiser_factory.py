@@ -16,7 +16,7 @@
 
 from __future__ import annotations
 
-from gemseo.disciplines.factory import DisciplineFactory
+from gemseo.discipline.factory import DisciplineFactory
 
 from gemseo_umdo.disciplines.base_noiser import BaseNoiser
 
@@ -24,8 +24,8 @@ from gemseo_umdo.disciplines.base_noiser import BaseNoiser
 class NoiserFactory(DisciplineFactory):
     """A factory of noising disciplines."""
 
-    _CLASS = BaseNoiser
-    _PACKAGE_NAMES = ("gemseo_umdo.disciplines",)
+    _class = BaseNoiser
+    _package_names = ("gemseo_umdo.disciplines",)
 
     __short_names_to_class_names: dict[str, str]
     """The {short name: class_name} mapping."""

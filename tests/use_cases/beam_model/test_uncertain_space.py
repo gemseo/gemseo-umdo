@@ -59,6 +59,6 @@ def test_dimension(uncertain_space):
 )
 def test_variables(uncertain_space, name, repr_):
     """Check the probability distributions of the random variables."""
-    joint_distribution = uncertain_space[0].distributions[name]
+    joint_distribution = uncertain_space[0].variables[name].distribution
     assert joint_distribution.dimension == 1
     assert repr(joint_distribution) == repr_[int(bool(uncertain_space[1]))]

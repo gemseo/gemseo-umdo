@@ -24,7 +24,7 @@ from numpy import where
 from gemseo_umdo.formulations._statistics.sampling.variance import Variance
 
 if TYPE_CHECKING:
-    from gemseo.typing import RealArray
+    from gemseo.util.typing import RealArray
 
 
 class StandardDeviation(Variance):

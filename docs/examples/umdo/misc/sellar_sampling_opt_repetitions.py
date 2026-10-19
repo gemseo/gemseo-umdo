@@ -17,10 +17,12 @@
 
 from __future__ import annotations
 
-from gemseo.algos.design_space import DesignSpace
-from gemseo.algos.parameter_space import ParameterSpace
-from gemseo.disciplines.analytic import AnalyticDiscipline
-from gemseo.settings.doe import OT_LHS_Settings
+from gemseo.discipline import AnalyticDiscipline
+from gemseo.doe import OT_LHS_Settings
+from gemseo.optimization import NLOPT_COBYLA_Settings
+from gemseo.space import DesignSpace
+from gemseo.space import RandomSpace
+from gemseo.uncertainty.distribution import OTTriangularDistribution_Settings
 from matplotlib import pyplot as plt
 from numpy import load
 from numpy import save
@@ -56,11 +58,11 @@ def create_design_space() -> DesignSpace:
 # %%
 # Secondly,
 # we define the uncertain space:
-uncertain_space = ParameterSpace()
+uncertain_space = RandomSpace()
 # %%
 # with an uncertainty over the constant `"a"`:
-uncertain_space.add_random_variable(
-    "a", "OTTriangularDistribution", minimum=0.1, maximum=0.3, mode=0.2
+uncertain_space.add_variable(
+    "a", OTTriangularDistribution_Settings(minimum=0.1, maximum=0.3, mode=0.2)
 )
 
 # %%
@@ -74,21 +76,15 @@ for i in range(10):
     print(i)
     scenario = UMDOScenario(
         [system, disc1, disc2],
-        "obj",
         create_design_space(),
         uncertain_space,
-        "Mean",
-        formulation_name="MDF",
-        statistic_estimation_settings=Sampling_Settings(
-            doe_algo_settings=OT_LHS_Settings(n_samples=100, seed=i + 1)
-        ),
+        Sampling_Settings(doe_algo_settings=OT_LHS_Settings(n_samples=100, seed=i + 1)),
     )
+    scenario.add_objective("obj", "Mean")
     scenario.add_constraint("c1", "Margin", factor=3.0)
     scenario.add_constraint("c2", "Margin", factor=3.0)
-    scenario.execute(algo_name="NLOPT_COBYLA", max_iter=100)
-    x_hist.append(
-        vstack(scenario.formulation.optimization_problem.database.get_x_vect_history())
-    )
+    scenario.execute(NLOPT_COBYLA_Settings(max_iter=100))
+    x_hist.append(vstack(scenario.formulation.problem.database.get_x_vect_history()))
 
 # %%
 # Lastly,

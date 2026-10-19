@@ -16,7 +16,7 @@
 
 from __future__ import annotations
 
-from gemseo.algos.optimization_problem import OptimizationProblem
+from gemseo.optimization import OptimizationProblem
 from pydantic import Field
 
 from gemseo_umdo.formulations.base_umdo_formulation_settings import (
@@ -27,10 +27,8 @@ from gemseo_umdo.formulations.base_umdo_formulation_settings import (
 class TaylorPolynomial_Settings(BaseUMDOFormulationSettings):  # noqa: N801
     """The settings for the U-MDO formulation based on Taylor polynomials."""
 
-    _TARGET_CLASS_NAME = "TaylorPolynomial"
-
     differentiation_method: OptimizationProblem.DifferentiationMethod = Field(
-        default=OptimizationProblem.DifferentiationMethod.USER_GRAD,
+        default=OptimizationProblem.DifferentiationMethod.USER,
         description="The type of method to compute the gradients.",
     )
 

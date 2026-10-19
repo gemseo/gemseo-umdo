@@ -16,16 +16,16 @@
 
 from __future__ import annotations
 
+from functools import partial
+from types import SimpleNamespace
 from typing import TYPE_CHECKING
 from typing import Any
 from typing import ClassVar
 
-from gemseo.core.mdo_functions.mdo_function import MDOFunction
-from gemseo.formulations.factory import MDOFormulationFactory
-from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
-from gemseo.utils.pydantic import create_model
-from gemseo.utils.string_tools import MultiLineString
-from gemseo.utils.string_tools import pretty_str
+from gemseo.core.function.array_function import ArrayFunction
+from gemseo.util.constant import read_only_empty_dict
+from gemseo.util.string import MultiLineString
+from gemseo.util.string import pretty_str
 
 from gemseo_umdo.disciplines.utils import create_noising_discipline_chain
 from gemseo_umdo.formulations.factory import UMDO_FORMULATION_FACTORY
@@ -34,13 +34,13 @@ if TYPE_CHECKING:
     from collections.abc import Mapping
     from collections.abc import Sequence
 
-    from gemseo.algos.design_space import DesignSpace
-    from gemseo.algos.parameter_space import ParameterSpace
-    from gemseo.core.discipline.discipline import Discipline
-    from gemseo.formulations.base_formulation_settings import BaseFormulationSettings
-    from gemseo.formulations.base_mdo_formulation import BaseMDOFormulation
-    from gemseo.scenarios.base_scenario import BaseScenario
-    from gemseo.typing import StrKeyMapping
+    from gemseo.discipline import Discipline
+    from gemseo.formulation.core.base_mdo import BaseMDOFormulation
+    from gemseo.formulation.core.base_settings import BaseFormulationSettings
+    from gemseo.scenario import EvaluationScenario
+    from gemseo.space import DesignSpace
+    from gemseo.space import RandomSpace
+    from gemseo.util.typing import StrKeyMapping
 
     from gemseo_umdo.formulations.base_umdo_formulation import BaseUMDOFormulation
     from gemseo_umdo.formulations.base_umdo_formulation_settings import (
@@ -58,32 +58,25 @@ class BaseUScenario:
 
     def __init__(
         self,
-        disciplines: Sequence[Discipline | BaseScenario],
-        objective_name: str,
+        disciplines: Sequence[Discipline | EvaluationScenario],
         design_space: DesignSpace,
-        uncertain_space: ParameterSpace,
-        objective_statistic_name: str,
+        uncertain_space: RandomSpace,
         statistic_estimation_settings: BaseUMDOFormulationSettings,
-        objective_statistic_parameters: StrKeyMapping = READ_ONLY_EMPTY_DICT,
         uncertain_design_variables: Mapping[
             str, str | tuple[str, str]
-        ] = READ_ONLY_EMPTY_DICT,
+        ] = read_only_empty_dict,
         name: str = "",
-        formulation_settings_model: BaseFormulationSettings | None = None,
-        maximize_objective: bool = False,
-        **formulation_settings: Any,
+        formulation_settings: BaseFormulationSettings | None = None,
+        default_input_data: StrKeyMapping = read_only_empty_dict,
     ) -> None:
         """
         Args:
+            disciplines: The disciplines.
+            design_space: The design space.
             uncertain_space: The uncertain variables
                 with their probability distributions.
-            objective_statistic_name: The name of the statistic
-                to be applied to the objective, e.g. "margin".
             statistic_estimation_settings: The settings
                 of the statistics' estimation technique.
-            objective_statistic_parameters: The parameters of the statistics
-                to be applied to the objective,
-                e.g. `{"factor": 2.}` when `objective_statistic="margin"`.
             uncertain_design_variables: This argument facilitates
                 the definition of uncertain design variables in two ways.
                 The first way consists of passing a dictionary
@@ -113,10 +106,16 @@ class BaseUScenario:
                 and `"{}"` is the optimization variable.
                 Leave `"{}"` as is; it will be automatically replaced by `"dv_x"`.
                 This more complex format assumes variables of dimension 1.
-                If `None`,
+                If empty,
                 do not consider other variable relations
                 than those defined by `disciplines`.
-            maximize_objective: Whether to maximize the statistic of the objective.
+            name: The name to be given to the scenario.
+                If empty, use the name of the class.
+            formulation_settings: The settings of the MDO formulation
+                generating the functions evaluable over the uncertain space.
+                If `None`,
+                use [MDF_Settings][gemseo.formulation.mdf_settings.MDF_Settings].
+            default_input_data: Some default input data of the disciplines.
         """  # noqa: D205 D212 D415
         disciplines = list(disciplines)
         if uncertain_design_variables:
@@ -125,54 +124,57 @@ class BaseUScenario:
             )
             disciplines.insert(0, noising_discipline_chain)
 
-        if formulation_settings_model is None:
-            formulation_name = formulation_settings.pop("formulation_name")
-        else:
-            formulation_name = formulation_settings_model._TARGET_CLASS_NAME
-
-        mdo_formulation_class = MDOFormulationFactory().get_class(formulation_name)
-        formulation_settings_model = create_model(
-            mdo_formulation_class.Settings,
-            formulation_settings_model,
-            **formulation_settings,
+        # The U-MDO formulation requires arguments
+        # that the scenario does not pass to the factory of formulations.
+        self._formulation_factory = SimpleNamespace(
+            create=partial(
+                self._formulation_factory.create,
+                uncertain_space=uncertain_space,
+                mdo_formulation_settings=formulation_settings,
+            )
         )
+        try:
+            super().__init__(
+                disciplines,
+                design_space,
+                name=name,
+                formulation_settings=statistic_estimation_settings,
+                default_input_data=default_input_data,
+            )
+        finally:
+            del self._formulation_factory
 
-        # Create the design space associated with the optimization problem
-        # generated by the MDO formulation
-        mdo_formulation_design_space = mdo_formulation_class(
-            disciplines,
-            objective_name,
-            design_space,
-            settings_model=formulation_settings_model,
-        ).design_space
+    def add_objective(
+        self,
+        output_names: str | Sequence[str],
+        statistic_name: str,
+        minimize: bool = True,
+        objective_name: str = "",
+        **statistic_parameters: Any,
+    ) -> None:
+        """Set the objective.
 
-        # Create the MDO formulation
-        # whose functions are evaluable over the uncertain space
-        # and differentiable with respect to the design variables.
-        formulation_settings_model_copy = formulation_settings_model.copy()
-        formulation_settings_model_copy.differentiated_input_names_substitute = (
-            mdo_formulation_design_space.variable_names
+        Args:
+            output_names: The names of the outputs used as objective.
+            statistic_name: The name of the statistic
+                to be applied to the objective, e.g. "Margin".
+            minimize: Whether to minimize the statistic of the objective.
+            objective_name: The name of the objective to be stored.
+                If empty,
+                the name is generated from `output_names` and `statistic_name`.
+            **statistic_parameters: The parameters of the statistic
+                to be applied to the objective,
+                e.g. `factor=2.` when `statistic_name="Margin"`.
+        """
+        problem = self.formulation.problem
+        problem.objective = self.formulation.create_objective(
+            output_names,
+            statistic_name,
+            objective_name=objective_name,
+            minimize=minimize,
+            **statistic_parameters,
         )
-        mdo_formulation = mdo_formulation_class(
-            disciplines,
-            objective_name,
-            uncertain_space,
-            settings_model=formulation_settings_model_copy,
-        )
-
-        super().__init__(
-            disciplines,
-            objective_name,
-            mdo_formulation_design_space,
-            name=name,
-            mdo_formulation=mdo_formulation,
-            objective_statistic_name=objective_statistic_name,
-            objective_statistic_parameters=objective_statistic_parameters,
-            uncertain_space=uncertain_space,
-            maximize_objective=maximize_objective,
-            mdo_formulation_settings=formulation_settings,
-            formulation_settings_model=statistic_estimation_settings,
-        )
+        problem.minimize_objective = minimize
 
     @property
     def formulation_name(self) -> str:  # noqa: D102
@@ -182,7 +184,9 @@ class BaseUScenario:
         self,
         output_name: str | Sequence[str],
         statistic_name: str,
-        constraint_type: MDOFunction.ConstraintType = MDOFunction.ConstraintType.INEQ,
+        constraint_type: ArrayFunction.ConstraintType = (
+            ArrayFunction.ConstraintType.INEQ
+        ),
         constraint_name: str = "",
         value: float = 0,
         positive: bool = False,
@@ -234,7 +238,10 @@ class BaseUScenario:
         msg = MultiLineString()
         msg.add(self.name)
         msg.indent()
-        msg.add("Disciplines: {}", pretty_str(self.disciplines, delimiter=" "))
+        msg.add(
+            "Disciplines: {}",
+            pretty_str(self.disciplines, delimiter=" ", use_and=False),
+        )
         msg.add("Formulation:")
         msg.indent()
         msg.add("MDO formulation: {}", self.mdo_formulation.__class__.__name__)
@@ -247,7 +254,7 @@ class BaseUScenario:
         return str(msg)
 
     @property
-    def uncertain_space(self) -> ParameterSpace:
+    def uncertain_space(self) -> RandomSpace:
         """The uncertain variable space."""
         return self.formulation.uncertain_space
 

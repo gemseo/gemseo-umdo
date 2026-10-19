@@ -21,27 +21,32 @@ from typing import Any
 from typing import ClassVar
 from typing import Final
 
-from gemseo.core.mdo_functions.mdo_function import MDOFunction
-from gemseo.formulations.base_formulation import BaseFormulation
-from gemseo.uncertainty.statistics.base_statistics import BaseStatistics
-from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
-from gemseo.utils.data_conversion import split_array_to_dict_of_arrays
-from gemseo.utils.file_path_manager import FilePathManager
-from gemseo.utils.string_tools import convert_strings_to_iterable
+from gemseo.core.function.array_function import ArrayFunction
+from gemseo.core.problem.evaluation import EvaluationProblem
+from gemseo.formulation import MDF_Settings
+from gemseo.formulation.core.base import BaseFormulation
+from gemseo.formulation.factory import mdo_formulation_factory
+from gemseo.optimization.core.constraints import Constraints
+from gemseo.space import DesignSpace
+from gemseo.uncertainty.statistic.core.base import BaseStatistics
+from gemseo.util.data_conversion import split_array_to_dict_of_arrays
+from gemseo.util.file_path_manager import FilePathManager
+from gemseo.util.string import convert_strings_to_iterable
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
     from collections.abc import Sequence
 
-    from gemseo.algos.design_space import DesignSpace
-    from gemseo.algos.hashable_ndarray import HashableNdarray
-    from gemseo.algos.parameter_space import ParameterSpace
     from gemseo.core.base_factory import BaseFactory
-    from gemseo.core.discipline.discipline import Discipline
-    from gemseo.formulations.base_mdo_formulation import BaseMDOFormulation
-    from gemseo.scenarios.base_scenario import BaseScenario
-    from gemseo.typing import RealArray
-    from gemseo.typing import StrKeyMapping
+    from gemseo.discipline import Discipline
+    from gemseo.formulation.core.base_mdo import BaseMDOFormulation
+    from gemseo.formulation.core.base_settings import BaseFormulationSettings
+    from gemseo.optimization import OptimizationProblem
+    from gemseo.scenario import EvaluationScenario
+    from gemseo.space import RandomSpace
+    from gemseo.util.hashable_ndarray import HashableNdarray
+    from gemseo.util.typing import RealArray
+    from gemseo.util.typing import StrKeyMapping
 
     from gemseo_umdo.formulations._functions.base_statistic_function import (
         BaseStatisticFunction,
@@ -51,7 +56,7 @@ if TYPE_CHECKING:
     )
 
 
-class BaseUMDOFormulation(BaseFormulation):
+class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignSpace]):
     """Base class for U-MDO formulations.
 
     A U-MDO formulation rewrites a multidisciplinary optimization problem under
@@ -108,7 +113,7 @@ class BaseUMDOFormulation(BaseFormulation):
     """
 
     _statistic_function_class: type[BaseStatisticFunction] | None
-    """A subclass of `MDOFunction` to compute a statistic.
+    """A subclass of `ArrayFunction` to compute a statistic.
 
     Used only when `_STATISTIC_FUNCTION_CLASS` is `None`.
 
@@ -118,14 +123,14 @@ class BaseUMDOFormulation(BaseFormulation):
     """
 
     _STATISTIC_FUNCTION_CLASS: ClassVar[type[BaseStatisticFunction] | None] = None
-    """A subclass of `MDOFunction` to compute a statistic.
+    """A subclass of `ArrayFunction` to compute a statistic.
 
     If `None`, use `_statistic_function_class`.
 
     To be used when a U-MDO formulation has only one way to estimate statistics.
     """
 
-    _uncertain_space: ParameterSpace
+    _uncertain_space: RandomSpace
     """The uncertain space."""
 
     __available_statistics: list[str]
@@ -136,81 +141,86 @@ class BaseUMDOFormulation(BaseFormulation):
 
     def __init__(
         self,
-        disciplines: Sequence[Discipline | BaseScenario],
-        objective_name: str,
-        design_space: DesignSpace,
-        mdo_formulation: BaseMDOFormulation,
-        uncertain_space: ParameterSpace,
-        objective_statistic_name: str,
-        settings_model: BaseUMDOFormulationSettings,
-        minimize_objective: bool = True,
-        objective_statistic_parameters: StrKeyMapping = READ_ONLY_EMPTY_DICT,
-        mdo_formulation_settings: StrKeyMapping = READ_ONLY_EMPTY_DICT,
+        problem: OptimizationProblem,
+        disciplines: Sequence[Discipline | EvaluationScenario],
+        settings: BaseUMDOFormulationSettings | None = None,
+        *,
+        uncertain_space: RandomSpace,
+        mdo_formulation_settings: BaseFormulationSettings | None = None,
     ) -> None:
         """
         Args:
-            mdo_formulation: The MDO formulation
-                generating functions evaluable over the uncertain space
-                and differentiable with respect to the design variables.
+            problem: The optimization problem
+                defined over the design space,
+                to which the statistics of the functions will be attached.
             uncertain_space: The uncertain variables
                 with their probability distributions.
-            objective_statistic_name: The name of the statistic
-                to be applied to the objective.
-            objective_statistic_parameters: The values of the parameters
-                of the statistic to be applied to the objective, if any.
-            mdo_formulation_settings: The settings of the MDO formulation.
+            mdo_formulation_settings: The settings of the MDO formulation
+                generating the functions evaluable over the uncertain space.
+                If `None`,
+                use [MDF_Settings][gemseo.formulation.mdf_settings.MDF_Settings].
         """  # noqa: D205 D212 D415
         if self._STATISTIC_FUNCTION_CLASS is not None:
             self._statistic_function_class = self._STATISTIC_FUNCTION_CLASS
             self._statistic_factory = self._STATISTIC_FACTORY
 
         self.__available_statistics = self._statistic_factory.class_names
-        self._mdo_formulation = mdo_formulation
         self._uncertain_space = uncertain_space
+        if mdo_formulation_settings is None:
+            mdo_formulation_settings = MDF_Settings()
+
+        mdo_formulation_class = mdo_formulation_factory.get_class(
+            mdo_formulation_settings.target_class_name
+        )
+
+        # Update the design space as the MDO formulation would do it,
+        # e.g. IDF adds the coupling variables to the design space.
+        mdo_formulation_class(
+            problem.__class__(problem.input_space),
+            disciplines,
+            settings=mdo_formulation_settings,
+        )
+
+        # Create the MDO formulation
+        # whose functions are evaluable over the uncertain space
+        # and differentiable with respect to the design variables.
+        self._mdo_formulation = mdo_formulation_class(
+            EvaluationProblem(uncertain_space),
+            disciplines,
+            settings=mdo_formulation_settings.model_copy(
+                update={
+                    "differentiated_input_names_substitute": list(
+                        problem.input_space.variables
+                    )
+                }
+            ),
+        )
 
         if self._USE_AUXILIARY_MDO_FORMULATION:
-            self._auxiliary_mdo_formulation = mdo_formulation.__class__(
+            self._auxiliary_mdo_formulation = mdo_formulation_class(
+                EvaluationProblem(uncertain_space),
                 disciplines,
-                objective_name,
-                uncertain_space,
-                **mdo_formulation_settings,
+                settings=mdo_formulation_settings,
             )
         else:
             self._auxiliary_mdo_formulation = None
 
-        objective_statistic_parameters = self.__update_statistic_parameters(
-            objective_statistic_name,
-            objective_statistic_parameters,
-            not minimize_objective,
+        super().__init__(problem, disciplines, settings=settings)
+        self.name = (
+            f"{self.__class__.__name__}[{self._mdo_formulation.__class__.__name__}]"
         )
-        new_objective_name = self.__compute_name(
-            objective_name,
-            objective_statistic_name,
-            **objective_statistic_parameters,
-        )
-        super().__init__(
-            disciplines,
-            new_objective_name,
-            design_space,
-            minimize_objective=minimize_objective,
-            settings_model=settings_model,
-        )
-        self.name = f"{self.__class__.__name__}[{mdo_formulation.__class__.__name__}]"
-
-        objective = self._statistic_function_class(
-            self,
-            mdo_formulation.optimization_problem.objective.name,
-            MDOFunction.FunctionType.OBJ,
-            objective_statistic_name,
-            **objective_statistic_parameters,
-        )
-        objective.name = new_objective_name
-        self.optimization_problem.objective = objective
-        self.optimization_problem.minimize_objective = minimize_objective
 
         # Initialize the cache mechanism.
         self.input_data_to_output_data = {}
-        self.optimization_problem.add_listener(self._clear_input_data_to_output_data)
+        self.problem.add_listener(self._clear_input_data_to_output_data)
+
+    def _create_multidisciplinary_process(self) -> None:
+        # The multidisciplinary processes are created by the MDO formulations.
+        pass
+
+    def _update_input_space(self) -> None:
+        # The input space has been updated at instantiation by the MDO formulation.
+        pass
 
     @classmethod
     def __update_statistic_parameters(
@@ -240,15 +250,6 @@ class BaseUMDOFormulation(BaseFormulation):
 
         return statistic_parameters
 
-    def _build_objective(
-        self,
-        objective_name: str | Sequence[str],
-        minimize_objective: bool,
-        discipline: Discipline | None = None,
-        top_level_disc: bool = True,
-    ) -> None:
-        return None
-
     def _clear_input_data_to_output_data(self, x_vect: RealArray) -> None:
         """Clear the attribute `input_data_to_output_data`.
 
@@ -276,7 +277,7 @@ class BaseUMDOFormulation(BaseFormulation):
         return self._auxiliary_mdo_formulation
 
     @property
-    def uncertain_space(self) -> ParameterSpace:
+    def uncertain_space(self) -> RandomSpace:
         """The uncertain variable space."""
         return self._uncertain_space
 
@@ -285,9 +286,89 @@ class BaseUMDOFormulation(BaseFormulation):
         """The names of the statistics to quantify the output uncertainties."""
         return self.__available_statistics
 
-    def add_observable(
+    def __add_mdo_observable(
         self,
         output_names: Sequence[str],
+        observable_name: str = "",
+        discipline: Discipline | None = None,
+    ) -> str:
+        """Add an observable to the MDO formulations if missing.
+
+        Args:
+            output_names: The names of the outputs to observe.
+            observable_name: The name of the observable.
+                If empty, concatenate the output names.
+            discipline: The discipline computing the observed outputs.
+                If `None`, the discipline is detected from inner disciplines.
+
+        Returns:
+            The name of the observable.
+        """
+        function_name = observable_name or "_".join(output_names)
+        function_names = [
+            function_.name
+            for function_ in self._mdo_formulation.problem.functions
+            if function_ is not None
+        ]
+        if function_name not in function_names:
+            for formulation in (
+                self._auxiliary_mdo_formulation,
+                self._mdo_formulation,
+            ):
+                if formulation is not None:
+                    formulation.add_observable(
+                        output_names,
+                        observable_name=observable_name,
+                        discipline=discipline,
+                    )
+
+            self._post_add_mdo_observable()
+
+        return function_name
+
+    def create_objective(  # type: ignore[override]
+        self,
+        output_names: str | Iterable[str],
+        statistic_name: str,
+        objective_name: str = "",
+        minimize: bool = True,
+        **statistic_parameters: Any,
+    ) -> ArrayFunction:
+        """Create an objective function associated with outputs to be minimized.
+
+        Args:
+            output_names: The names of the outputs.
+            statistic_name: The name of the statistic to be applied to the objective.
+            objective_name: The name of the objective.
+                If empty,
+                the name is generated from `output_names` and `statistic_name`.
+            minimize: Whether the statistic of the objective will be minimized.
+            **statistic_parameters: The values of the parameters
+                of the statistic to be applied to the objective, if any.
+
+        Returns:
+            The objective function.
+        """
+        output_names = convert_strings_to_iterable(output_names)
+        function_name = self.__add_mdo_observable(output_names)
+        statistic_parameters = self.__update_statistic_parameters(
+            statistic_name, statistic_parameters, not minimize
+        )
+        objective = self._statistic_function_class(
+            self,
+            function_name,
+            ArrayFunction.FunctionType.OBJ,
+            statistic_name,
+            **statistic_parameters,
+        )
+        objective.name = objective_name or self.__compute_name(
+            output_names, statistic_name, **statistic_parameters
+        )
+        return objective
+
+    def add_observable(  # type: ignore[override]
+        self,
+        output_names: str | Sequence[str],
         statistic_name: str,
         observable_name: str = "",
         discipline: Discipline | None = None,
@@ -300,67 +381,53 @@ class BaseUMDOFormulation(BaseFormulation):
                 of the statistic to be applied to the observable, if any.
         """  # noqa: D205 D212 D415
         output_names = convert_strings_to_iterable(output_names)
-        function_name = observable_name or "_".join(output_names)
-        function_names = [
-            function_.name
-            for function_ in self._mdo_formulation.optimization_problem.functions
-            if function_ is not None
-        ]
-        if function_name not in function_names:
-            if self._auxiliary_mdo_formulation is not None:
-                self._auxiliary_mdo_formulation.add_observable(
-                    output_names,
-                    observable_name=observable_name,
-                    discipline=discipline,
-                )
-
-            self._mdo_formulation.add_observable(
-                output_names,
-                observable_name=observable_name,
-                discipline=discipline,
-            )
-
+        function_name = self.__add_mdo_observable(
+            output_names, observable_name=observable_name, discipline=discipline
+        )
         observable = self._statistic_function_class(
             self,
             function_name,
-            MDOFunction.FunctionType.NONE,
+            ArrayFunction.FunctionType.NONE,
             statistic_name,
             **statistic_parameters,
         )
         observable.name = self.__compute_name(
             observable_name or output_names, statistic_name, **statistic_parameters
         )
-        self.optimization_problem.add_observable(observable)
+        self.problem.add_observable(observable)
         self._post_add_observable()
 
-    def add_constraint(
+    def create_constraint(  # type: ignore[override]
         self,
-        output_name: str | Sequence[str],
+        output_names: str | Sequence[str],
         statistic_name: str,
-        constraint_type: MDOFunction.ConstraintType = MDOFunction.ConstraintType.INEQ,
+        constraint_type: ArrayFunction.ConstraintType = (
+            ArrayFunction.ConstraintType.INEQ
+        ),
         constraint_name: str = "",
         value: float = 0.0,
         positive: bool = False,
         **statistic_parameters: Any,
-    ) -> None:
-        """
+    ) -> ArrayFunction:
+        """Create a constraint function associated with outputs names.
+
         Args:
+            output_names: The names of the outputs.
             statistic_name: The name of the statistic to be applied to the constraint.
-            statistic_parameters: The values of the parameters of the statistic
+            constraint_type: The type of constraint.
+            constraint_name: The name of the constraint to be stored.
+                If empty,
+                the name is generated from `output_names` and `statistic_name`.
+            value: The value $a$.
+            positive: Whether the inequality constraint is positive.
+            **statistic_parameters: The values of the parameters of the statistic
                 to be applied to the constraint, if any.
-        """  # noqa: D205 D212 D415
-        function_name = "_".join(convert_strings_to_iterable(output_name))
-        function_names = [
-            function_.name
-            for function_ in self._mdo_formulation.optimization_problem.functions
-            if function_ is not None
-        ]
-        if function_name not in function_names:
-            if self._auxiliary_mdo_formulation is not None:
-                self._auxiliary_mdo_formulation.add_observable(output_name)
 
-            self._mdo_formulation.add_observable(output_name)
-
+        Returns:
+            The constraint function.
+        """
+        output_names = convert_strings_to_iterable(output_names)
+        function_name = self.__add_mdo_observable(output_names)
         statistic_parameters = self.__update_statistic_parameters(
             statistic_name,
             statistic_parameters,
@@ -369,12 +436,11 @@ class BaseUMDOFormulation(BaseFormulation):
         constraint = self._statistic_function_class(
             self,
             function_name,
-            MDOFunction.FunctionType.NONE,
+            ArrayFunction.FunctionType.NONE,
             statistic_name,
             **statistic_parameters,
         )
-
-        name = self.__compute_name(output_name, statistic_name, **statistic_parameters)
+        name = self.__compute_name(output_names, statistic_name, **statistic_parameters)
         constraint.output_names = [name]
         if constraint_name:
             constraint.name = constraint_name
@@ -382,13 +448,55 @@ class BaseUMDOFormulation(BaseFormulation):
         else:
             constraint.name = name
             constraint.has_default_name = True
-        self.optimization_problem.add_constraint(
+
+        return Constraints.format(
             constraint,
             value=value,
-            positive=positive,
             constraint_type=constraint_type,
+            positive=positive,
+        )
+
+    def add_constraint(
+        self,
+        output_names: str | Sequence[str],
+        statistic_name: str,
+        constraint_type: ArrayFunction.ConstraintType = (
+            ArrayFunction.ConstraintType.INEQ
+        ),
+        constraint_name: str = "",
+        value: float = 0.0,
+        positive: bool = False,
+        **statistic_parameters: Any,
+    ) -> None:
+        """Add a constraint to the optimization problem.
+
+        Args:
+            output_names: The names of the outputs.
+            statistic_name: The name of the statistic to be applied to the constraint.
+            constraint_type: The type of constraint.
+            constraint_name: The name of the constraint to be stored.
+                If empty,
+                the name is generated from `output_names` and `statistic_name`.
+            value: The value $a$.
+            positive: Whether the inequality constraint is positive.
+            **statistic_parameters: The values of the parameters of the statistic
+                to be applied to the constraint, if any.
+        """
+        self.problem.add_constraint(
+            self.create_constraint(
+                output_names,
+                statistic_name,
+                constraint_type=constraint_type,
+                constraint_name=constraint_name,
+                value=value,
+                positive=positive,
+                **statistic_parameters,
+            )
         )
         self._post_add_constraint()
+
+    def _post_add_mdo_observable(self) -> None:
+        """Apply actions after adding an observable to the MDO formulations."""
 
     def _post_add_constraint(self) -> None:
         """Apply actions after adding a constraint."""
@@ -432,8 +540,8 @@ class BaseUMDOFormulation(BaseFormulation):
         """
         design_values = split_array_to_dict_of_arrays(
             design_values,
-            self.design_space.variable_sizes,
-            self.design_space.variable_names,
+            {n: v.size for n, v in self.input_space.variables.items()},
+            list(self.input_space.variables),
         )
         for formulation in (self._mdo_formulation, self._auxiliary_mdo_formulation):
             if formulation is None:
@@ -450,5 +558,9 @@ class BaseUMDOFormulation(BaseFormulation):
                     if name in input_grammar
                 })
 
-    def get_top_level_disciplines(self) -> list[Discipline]:  # noqa: D102
-        return self._mdo_formulation.get_top_level_disciplines()
+    def get_top_level_disciplines(  # noqa: D102
+        self, include_sub_formulations: bool = False
+    ) -> tuple[Discipline, ...]:
+        return self._mdo_formulation.get_top_level_disciplines(
+            include_sub_formulations=include_sub_formulations
+        )

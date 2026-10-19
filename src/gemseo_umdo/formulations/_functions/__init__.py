@@ -18,7 +18,7 @@ ns.base_umdo_formulation.BaseUMDOFormulation].
 The base function is a
 [BaseStatisticFunction][gemseo_umdo.formulations._functions.base_statistic_function.BaseStatisticFunction]
 and derives from an
-[MDOFunction][gemseo.core.mdo_functions.mdo_function.MDOFunction].
+[ArrayFunction][gemseo.core.function.array_function.ArrayFunction].
 Most of the other _functions derive from
 [BaseStatisticFunction][gemseo_umdo.formulations._functions.base_statistic_function.BaseStatisticFunction]
 and are associated with an

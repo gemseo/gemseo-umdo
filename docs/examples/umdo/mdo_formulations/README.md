@@ -12,4 +12,4 @@ The outputs of interest can be obtained using different MDO formulations,
 in particular ``DisciplinaryOpt`` and ``MDF`` in a very simple way,
 but also ``IDF`` and ``BiLevel`` in a more advanced manner.
 
-Read more in the [GEMSEO's user guide](https://gemseo.readthedocs.io/en/stable/mdo/mdo_formulations.html)
+Read more in the [GEMSEO's documentation of the MDO formulations][gemseo.formulation]

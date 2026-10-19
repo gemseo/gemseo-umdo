@@ -27,7 +27,7 @@ from gemseo_umdo.disciplines.base_noiser import BaseNoiser
 if TYPE_CHECKING:
     from collections.abc import Iterable
 
-    from gemseo.typing import StrKeyMapping
+    from gemseo.util.typing import StrKeyMapping
 
 
 class AdditiveNoiser(BaseNoiser):
@@ -38,8 +38,8 @@ class AdditiveNoiser(BaseNoiser):
     def _run(self, input_data: StrKeyMapping) -> None:
         self.io.update_output_data({
             self._noised_variable_name: (
-                self.io.data[self._variable_name]
-                + self.io.data[self._uncertain_variable_name]
+                self.io.input_data[self._variable_name]
+                + self.io.input_data[self._uncertain_variable_name]
             )
         })
 
@@ -48,8 +48,8 @@ class AdditiveNoiser(BaseNoiser):
         inputs: Iterable[str] | None = None,
         outputs: Iterable[str] | None = None,
     ) -> None:
-        variable_size = self.io.data[self._variable_name].size
-        uncertain_variable_size = self.io.data[self._uncertain_variable_name].size
+        variable_size = self.io.input_data[self._variable_name].size
+        uncertain_variable_size = self.io.input_data[self._uncertain_variable_name].size
         if uncertain_variable_size == 1:
             u_jacobian = ones((variable_size, 1))
         else:

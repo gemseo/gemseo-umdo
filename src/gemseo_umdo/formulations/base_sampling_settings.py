@@ -18,9 +18,9 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from gemseo.algos.doe.base_doe_settings import BaseDOESettings  # noqa: TC002
-from gemseo.algos.doe.openturns.settings.ot_opt_lhs import OT_OPT_LHS_Settings
-from gemseo.utils.seeder import SEED
+from gemseo.doe import OT_OPT_LHS_Settings
+from gemseo.doe.core.base_doe_settings import BaseDOESettings
+from gemseo.util.seeder import seed
 from pydantic import Field
 from pydantic import PositiveInt
 from pydantic import model_validator
@@ -30,14 +30,14 @@ from gemseo_umdo.formulations.base_umdo_formulation_settings import (
 )
 
 if TYPE_CHECKING:
-    from typing_extensions import Self
+    from typing import Self
 
 
 class BaseSamplingSettings(BaseUMDOFormulationSettings):
     """The base class for the settings of U-MDO formulations using a DOE."""
 
     doe_algo_settings: BaseDOESettings = Field(
-        default=OT_OPT_LHS_Settings(n_samples=10, seed=SEED),
+        default=OT_OPT_LHS_Settings(n_samples=10, seed=seed),
         description="The DOE settings.",
     )
 
@@ -60,7 +60,10 @@ the field `doe_algo_settings.n_samples` is ignored.
         if self.n_samples is not None:
             doe_algo_settings.n_samples = self.n_samples
 
-        if "seed" in doe_algo_settings.model_fields and doe_algo_settings.seed is None:
-            doe_algo_settings.seed = SEED
+        if (
+            "seed" in type(doe_algo_settings).model_fields
+            and doe_algo_settings.seed is None
+        ):
+            doe_algo_settings.seed = seed
 
         return self

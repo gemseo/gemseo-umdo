@@ -26,5 +26,5 @@ from gemseo_umdo.formulations._statistics.taylor_polynomial.base_taylor_polynomi
 class TaylorPolynomialEstimatorFactory(BaseFactory):
     """The factory of statistic estimators based on Taylor polynomials."""
 
-    _CLASS = BaseTaylorPolynomialEstimator
-    _PACKAGE_NAMES = ("gemseo_umdo.formulations._statistics.taylor_polynomial",)
+    _class = BaseTaylorPolynomialEstimator
+    _package_names = ("gemseo_umdo.formulations._statistics.taylor_polynomial",)

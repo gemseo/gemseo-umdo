@@ -16,7 +16,7 @@
 
 from __future__ import annotations
 
-from pathlib import Path  # noqa: TC003
+from pathlib import Path
 
 from pydantic import Field
 
@@ -25,8 +25,6 @@ from gemseo_umdo.formulations.base_sampling_settings import BaseSamplingSettings
 
 class Sampling_Settings(BaseSamplingSettings):  # noqa: N801
     """The settings for the sampling-based U-MDO formulation."""
-
-    _TARGET_CLASS_NAME = "Sampling"
 
     estimate_statistics_iteratively: bool = Field(
         default=True,

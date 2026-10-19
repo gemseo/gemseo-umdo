@@ -41,7 +41,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 from typing import ClassVar
 
-from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
+from gemseo.util.pydantic import create_model
 
 from gemseo_umdo.formulations.sampling import Sampling
 from gemseo_umdo.formulations.sequential_sampling_settings import (
@@ -51,13 +51,12 @@ from gemseo_umdo.formulations.sequential_sampling_settings import (
 if TYPE_CHECKING:
     from collections.abc import Sequence
 
-    from gemseo.algos.design_space import DesignSpace
-    from gemseo.algos.optimization_problem import OptimizationProblem
-    from gemseo.algos.parameter_space import ParameterSpace
-    from gemseo.core.discipline.discipline import Discipline
-    from gemseo.formulations.base_mdo_formulation import BaseMDOFormulation
-    from gemseo.typing import RealArray
-    from gemseo.typing import StrKeyMapping
+    from gemseo.core.problem.evaluation import EvaluationProblem
+    from gemseo.discipline import Discipline
+    from gemseo.formulation.core.base_settings import BaseFormulationSettings
+    from gemseo.optimization import OptimizationProblem
+    from gemseo.space import RandomSpace
+    from gemseo.util.typing import RealArray
 
 
 class SequentialSampling(Sampling):
@@ -65,47 +64,40 @@ class SequentialSampling(Sampling):
 
     !!! note "DOE algorithms"
         This formulation uses a DOE algorithm;
-        read the
-        [GEMSEO documentation](https://gemseo.readthedocs.io/en/stable/algorithms/doe_algos.html).
-        for more information about the available DOE algorithm names and options.
+        read the documentation of the [DOE algorithms][gemseo.doe]
+        for more information about the available DOE algorithms and their settings.
     """
 
-    Settings: ClassVar[type[SequentialSampling_Settings]] = SequentialSampling_Settings
+    settings_class: ClassVar[type[SequentialSampling_Settings]] = (
+        SequentialSampling_Settings
+    )
 
     __final_n_samples: int
     """The maximum number of samples when evaluating the U-MDO formulation."""
 
     def __init__(  # noqa: D107
         self,
+        problem: OptimizationProblem,
         disciplines: Sequence[Discipline],
-        objective_name: str,
-        design_space: DesignSpace,
-        mdo_formulation: BaseMDOFormulation,
-        uncertain_space: ParameterSpace,
-        objective_statistic_name: str,
-        settings_model: SequentialSampling_Settings,
-        minimize_objective: bool = True,
-        objective_statistic_parameters: StrKeyMapping = READ_ONLY_EMPTY_DICT,
-        mdo_formulation_settings: StrKeyMapping = READ_ONLY_EMPTY_DICT,
+        settings: SequentialSampling_Settings | None = None,
+        *,
+        uncertain_space: RandomSpace,
+        mdo_formulation_settings: BaseFormulationSettings | None = None,
     ) -> None:
-        self.__final_n_samples = settings_model.doe_algo_settings.n_samples
-        settings_model.doe_algo_settings.n_samples = settings_model.initial_n_samples
+        settings = create_model(self.settings_class, settings_model=settings)
+        self.__final_n_samples = settings.doe_algo_settings.n_samples
+        settings.doe_algo_settings.n_samples = settings.initial_n_samples
         super().__init__(
+            problem,
             disciplines,
-            objective_name,
-            design_space,
-            mdo_formulation,
-            uncertain_space,
-            objective_statistic_name,
-            settings_model,
-            minimize_objective=minimize_objective,
-            objective_statistic_parameters=objective_statistic_parameters,
+            settings=settings,
+            uncertain_space=uncertain_space,
             mdo_formulation_settings=mdo_formulation_settings,
         )
 
     def compute_samples(  # noqa: D102
         self,
-        problem: OptimizationProblem,
+        problem: EvaluationProblem,
         input_data: RealArray,
         compute_jacobian: bool = False,
     ) -> None:

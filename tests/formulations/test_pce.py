@@ -21,24 +21,28 @@ from unittest import mock
 
 import pytest
 from gemseo import execute_algo
-from gemseo.algos.design_space import DesignSpace
-from gemseo.algos.doe.custom_doe.settings.custom_doe_settings import CustomDOE_Settings
-from gemseo.algos.doe.openturns.openturns import OpenTURNS
-from gemseo.algos.doe.openturns.settings.ot_halton import OT_HALTON_Settings
-from gemseo.algos.doe.openturns.settings.ot_opt_lhs import OT_OPT_LHS_Settings
-from gemseo.algos.parameter_space import ParameterSpace
-from gemseo.disciplines.analytic import AnalyticDiscipline
-from gemseo.formulations.disciplinary_opt import DisciplinaryOpt
-from gemseo.mlearning.linear_model_fitting.linear_regression_settings import (
+from gemseo.discipline import AnalyticDiscipline
+from gemseo.doe import CustomDOE_Settings
+from gemseo.doe import OT_HALTON_Settings
+from gemseo.doe import OT_OPT_LHS_Settings
+from gemseo.doe.openturns.openturns import OpenTURNS
+from gemseo.enum import UniformDistribution
+from gemseo.formulation import DisciplinaryOpt_Settings
+from gemseo.machine_learning import FCERegressor_Settings
+from gemseo.machine_learning import PCERegressor_Settings
+from gemseo.machine_learning.linear_model_fitting.linear_regression_settings import (
     LinearRegression_Settings,
 )
-from gemseo.mlearning.regression.algos.fce_settings import FCERegressor_Settings
-from gemseo.mlearning.regression.algos.pce import PCERegressor
-from gemseo.mlearning.regression.algos.pce_settings import PCERegressor_Settings
-from gemseo.mlearning.regression.quality.r2_measure import R2Measure
-from gemseo.problems.uncertainty.ishigami.ishigami_discipline import IshigamiDiscipline
-from gemseo.problems.uncertainty.ishigami.ishigami_problem import IshigamiProblem
-from gemseo.problems.uncertainty.utils import UniformDistribution
+from gemseo.machine_learning.regression.model import PCERegressor
+from gemseo.machine_learning.regression.quality import R2Measure
+from gemseo.optimization import NLOPT_SLSQP_Settings
+from gemseo.optimization import OptimizationProblem
+from gemseo.problem.uncertainty.ishigami import IshigamiDiscipline
+from gemseo.problem.uncertainty.ishigami import IshigamiProblem
+from gemseo.space import DesignSpace
+from gemseo.space import RandomSpace
+from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
+from gemseo.util.testing.helper import assert_exception
 from numpy import array
 from numpy import full
 from numpy import ones
@@ -57,10 +61,10 @@ from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 
 if TYPE_CHECKING:
-    from gemseo.algos.doe.base_doe_settings import BaseDOESettings
-    from gemseo.core.mdo_functions.collections.observables import Observables
-    from gemseo.typing import NumberArray
-    from gemseo.typing import RealArray
+    from gemseo.core.function.collection.observables import Observables
+    from gemseo.doe.core.base_doe_settings import BaseDOESettings
+    from gemseo.util.typing import NumberArray
+    from gemseo.util.typing import RealArray
 
 
 @pytest.fixture(scope="module")
@@ -71,8 +75,12 @@ def ishigami_problem() -> IshigamiProblem:
 @pytest.fixture(scope="module")
 def pce_regressor(ishigami_problem) -> PCERegressor:
     """A PCE regressor for the Ishigami function."""
-    execute_algo(ishigami_problem, algo_name="OT_HALTON", algo_type="doe", n_samples=20)
-    regressor = PCERegressor(ishigami_problem.to_dataset(opt_naming=False))
+    execute_algo(
+        ishigami_problem,
+        algo_type="doe",
+        settings_model=OT_HALTON_Settings(n_samples=20),
+    )
+    regressor = PCERegressor(ishigami_problem.to_dataset())
     regressor.learn()
     return regressor
 
@@ -80,7 +88,9 @@ def pce_regressor(ishigami_problem) -> PCERegressor:
 @pytest.fixture(scope="module")
 def samples(ishigami_problem) -> RealArray:
     lib = OpenTURNS("OT_HALTON")
-    return lib.compute_doe(ishigami_problem.design_space, n_samples=20)
+    return lib.sample_space(
+        ishigami_problem.input_space, settings=OT_HALTON_Settings(n_samples=20)
+    )
 
 
 @pytest.fixture(scope="module", params=("CustomDOE", "OT_HALTON"))
@@ -96,14 +106,13 @@ def umdo_formulation(pce_regressor, ishigami_problem, doe_settings):
     """The UMDO formulation."""
     discipline = IshigamiDiscipline()
     formulation = PCE(
+        OptimizationProblem(DesignSpace()),
         [discipline],
-        "y",
-        DesignSpace(),
-        DisciplinaryOpt([discipline], "y", ishigami_problem.design_space),
-        ishigami_problem.design_space,
-        "Mean",
         PCE_Settings(doe_algo_settings=doe_settings),
+        uncertain_space=ishigami_problem.input_space,
+        mdo_formulation_settings=DisciplinaryOpt_Settings(),
     )
+    formulation.problem.objective = formulation.create_objective("y", "Mean")
     formulation.add_constraint("y", "StandardDeviation")
     formulation.add_observable("y", "Variance")
     formulation.add_observable("y", "Margin", factor=3)
@@ -157,7 +166,7 @@ def test_margin(mean, standard_deviation):
 @pytest.fixture(scope="module")
 def observables(umdo_formulation) -> Observables:
     """The observable functions."""
-    return umdo_formulation.optimization_problem.observables
+    return umdo_formulation.problem.observables
 
 
 _X = array([0.0])
@@ -166,13 +175,13 @@ _X = array([0.0])
 def test_mean_from_formulation(umdo_formulation, pce_regressor):
     """Check the estimation of the mean from a PCE-based UMDO formulation."""
     mean = pce_regressor.mean
-    assert_equal(umdo_formulation.optimization_problem.objective.evaluate(_X), mean)
+    assert_equal(umdo_formulation.problem.objective.evaluate(_X), mean)
 
 
 def test_std_from_formulation(umdo_formulation, pce_regressor):
     """Check the estimation of the std from a PCE-based UMDO formulation."""
     std = pce_regressor.standard_deviation
-    assert_equal(umdo_formulation.optimization_problem.constraints[0].evaluate(_X), std)
+    assert_equal(umdo_formulation.problem.constraints[0].evaluate(_X), std)
 
 
 def test_variance_from_formulation(observables, pce_regressor):
@@ -191,17 +200,16 @@ def test_margin_from_formulation(observables, pce_regressor):
 def test_quality(caplog, pce_regressor, ishigami_problem):
     """Check that the PCE quality is logged."""
     discipline = IshigamiDiscipline()
-    design_space = ishigami_problem.design_space
+    design_space = ishigami_problem.input_space
     pce = PCE(
+        OptimizationProblem(DesignSpace()),
         [discipline],
-        "y",
-        DesignSpace(),
-        DisciplinaryOpt([discipline], "y", design_space),
-        design_space,
-        "Mean",
-        settings_model=PCE_Settings(doe_algo_settings=OT_HALTON_Settings(n_samples=20)),
+        PCE_Settings(doe_algo_settings=OT_HALTON_Settings(n_samples=20)),
+        uncertain_space=design_space,
+        mdo_formulation_settings=DisciplinaryOpt_Settings(),
     )
-    pce.optimization_problem.objective.evaluate(array([0.0]))
+    pce.problem.objective = pce.create_objective("y", "Mean")
+    pce.problem.objective.evaluate(array([0.0]))
     module, level, message = caplog.record_tuples[0]
     assert (
         module == "gemseo_umdo.formulations._functions.statistic_function_for_surrogate"
@@ -229,21 +237,20 @@ def test_quality(caplog, pce_regressor, ishigami_problem):
 def test_quality_cv(caplog, pce_regressor, ishigami_problem, quality_cv_compute, regex):
     """Check that the PCE quality with and without cross-validation and custom name."""
     discipline = IshigamiDiscipline()
-    design_space = ishigami_problem.design_space
+    design_space = ishigami_problem.input_space
     pce = PCE(
+        OptimizationProblem(DesignSpace()),
         [discipline],
-        "y",
-        DesignSpace(),
-        DisciplinaryOpt([discipline], "y", design_space),
-        design_space,
-        "Mean",
-        settings_model=PCE_Settings(
+        PCE_Settings(
             doe_algo_settings=OT_HALTON_Settings(n_samples=20),
             quality_name="MSEMeasure",
             quality_cv_compute=quality_cv_compute,
         ),
+        uncertain_space=design_space,
+        mdo_formulation_settings=DisciplinaryOpt_Settings(),
     )
-    pce.optimization_problem.objective.evaluate(array([0.0]))
+    pce.problem.objective = pce.create_objective("y", "Mean")
+    pce.problem.objective.evaluate(array([0.0]))
     module, level, message = caplog.record_tuples[1]
     assert (
         module == "gemseo_umdo.formulations._functions.statistic_function_for_surrogate"
@@ -255,24 +262,23 @@ def test_quality_cv(caplog, pce_regressor, ishigami_problem, quality_cv_compute,
 def test_quality_cv_options(pce_regressor, ishigami_problem):
     """Check that the PCE quality options."""
     discipline = IshigamiDiscipline()
-    design_space = ishigami_problem.design_space
+    design_space = ishigami_problem.input_space
     with mock.patch.object(R2Measure, "compute_cross_validation_measure") as compute:
         pce = PCE(
+            OptimizationProblem(DesignSpace()),
             [discipline],
-            "y",
-            DesignSpace(),
-            DisciplinaryOpt([discipline], "y", design_space),
-            design_space,
-            "Mean",
-            settings_model=PCE_Settings(
+            PCE_Settings(
                 doe_algo_settings=OT_HALTON_Settings(n_samples=20),
                 quality_cv_n_folds=3,
                 quality_cv_randomize=False,
                 quality_cv_seed=12,
             ),
+            uncertain_space=design_space,
+            mdo_formulation_settings=DisciplinaryOpt_Settings(),
         )
+        pce.problem.objective = pce.create_objective("y", "Mean")
         compute.return_value = {"y": array([0.0])}
-        pce.optimization_problem.objective.evaluate(array([0.0]))
+        pce.problem.objective.evaluate(array([0.0]))
 
     assert compute.call_args.kwargs == {
         "as_dict": True,
@@ -328,22 +334,21 @@ def test_quality_log_level(
 ):
     """Check that the log level of the PCE quality."""
     discipline = IshigamiDiscipline()
-    design_space = ishigami_problem.design_space
+    design_space = ishigami_problem.input_space
     pce = PCE(
+        OptimizationProblem(DesignSpace()),
         [discipline],
-        "y",
-        DesignSpace(),
-        DisciplinaryOpt([discipline], "y", design_space),
-        design_space,
-        "Mean",
-        settings_model=PCE_Settings(
+        PCE_Settings(
             doe_algo_settings=OT_HALTON_Settings(n_samples=20),
             quality_threshold=threshold,
             quality_cv_threshold=cv_threshold,
             quality_cv_compute=cv_compute,
         ),
+        uncertain_space=design_space,
+        mdo_formulation_settings=DisciplinaryOpt_Settings(),
     )
-    pce.optimization_problem.objective.evaluate(array([0.0]))
+    pce.problem.objective = pce.create_objective("y", "Mean")
+    pce.problem.objective.evaluate(array([0.0]))
     _, level, message = caplog.record_tuples[1]
     assert level == expected_level
     assert re.match(regex, message)
@@ -399,13 +404,6 @@ def test_quality_log_level(
         ),
         (
             1,
-            {},
-            FCERegressor_Settings(learn_jacobian_data=True),
-            2.0,
-            array([[2.0]]),
-        ),
-        (
-            1,
             {"approximate_statistics_jacobians": True},
             FCERegressor_Settings(learn_jacobian_data=True),
             2.0,
@@ -432,47 +430,50 @@ def test_scenario(
     discipline, design_space, uncertain_space = quadratic_problem
     if input_dimension == 2:
         design_space.add_variable("z", lower_bound=-1, upper_bound=1.0, value=0.5)
-        uncertain_space.add_random_variable("v", "OTNormalDistribution")
+        uncertain_space.add_variable("v", OTNormalDistribution_Settings())
     scenario = UDOEScenario(
         [discipline],
-        "y",
         design_space,
         uncertain_space,
-        "Mean",
-        formulation_name="DisciplinaryOpt",
         statistic_estimation_settings=PCE_Settings(
             n_samples=20,
             regressor_settings=regressor_settings,
             **pce_settings,
         ),
+        formulation_settings=DisciplinaryOpt_Settings(),
     )
+    scenario.add_objective("y", "Mean")
     scenario.execute(
-        algo_name="CustomDOE", samples=ones((1, input_dimension)), eval_jac=True
+        algorithm_settings=CustomDOE_Settings(
+            samples=ones((1, input_dimension)), eval_jac=True
+        )
     )
     assert_almost_equal(scenario.optimization_result.x_opt, ones(input_dimension))
     assert_almost_equal(scenario.optimization_result.f_opt, f_opt)
-    get = scenario.formulation.optimization_problem.database.get_gradient_history
+    get = scenario.formulation.problem.database.get_gradient_history
     jac = get("E[y]")
     assert_almost_equal(jac, jac_opt)
 
 
-def test_settings_error():
-    """Check the error raised when using special variables and jac approximation."""
-    with pytest.raises(
-        ValueError,
-        match=re.escape(
-            "The settings approximate_statistics_jacobians "
-            "and regressor_settings.use_special_jacobian_data cannot be both True."
-        ),
-    ):
-        PCE_Settings(
-            approximate_statistics_jacobians=True,
-            regressor_settings=FCERegressor_Settings(use_special_jacobian_data=True),
-        )
+@pytest.mark.parametrize(
+    "settings",
+    [
+        {
+            "approximate_statistics_jacobians": True,
+            "regressor_settings": FCERegressor_Settings(use_special_jacobian_data=True),
+        },
+        {"regressor_settings": FCERegressor_Settings(learn_jacobian_data=True)},
+    ],
+    ids=["special_jacobian_data", "learn_jacobian_data"],
+)
+def test_settings_error(settings, snapshot):
+    """Check the errors raised by inconsistent Jacobian settings."""
+    with assert_exception(ValueError, snapshot):
+        PCE_Settings(**settings)
 
 
 @pytest.fixture
-def rosenbrock_problem() -> tuple[AnalyticDiscipline, DesignSpace, ParameterSpace]:
+def rosenbrock_problem() -> tuple[AnalyticDiscipline, DesignSpace, RandomSpace]:
     """The Rosenbrock problem (discipline, design space and uncertain space)."""
     discipline = AnalyticDiscipline({"f": "(1-x-ux)**2+100*(y+uy-(x+ux)**2)**2"})
 
@@ -480,9 +481,9 @@ def rosenbrock_problem() -> tuple[AnalyticDiscipline, DesignSpace, ParameterSpac
     design_space.add_variable("x", lower_bound=-2, upper_bound=2)
     design_space.add_variable("y", lower_bound=-2, upper_bound=2)
 
-    uncertain_space = ParameterSpace()
-    uncertain_space.add_random_variable("ux", "OTNormalDistribution", mu=0.0, sigma=1.0)
-    uncertain_space.add_random_variable("uy", "OTNormalDistribution", mu=0.0, sigma=1.0)
+    uncertain_space = RandomSpace()
+    uncertain_space.add_variable("ux", OTNormalDistribution_Settings(mu=0.0, sigma=1.0))
+    uncertain_space.add_variable("uy", OTNormalDistribution_Settings(mu=0.0, sigma=1.0))
 
     return discipline, design_space, uncertain_space
 
@@ -490,11 +491,8 @@ def rosenbrock_problem() -> tuple[AnalyticDiscipline, DesignSpace, ParameterSpac
 @pytest.mark.parametrize(
     ("n_samples", "learn_jacobian_data", "approximate_statistics_jacobian", "f_opt"),
     [
-        (10, True, True, (1753.56,)),
-        (20, False, True, (1753.56,)),
-        # Two options depending on environment
-        (10, True, False, (1761.70, 2473.94)),
-        (20, True, False, (1753.56,)),
+        (10, True, True, 1753.56),
+        (20, False, True, 1753.56),
     ],
 )
 def test_rosenbrock(
@@ -511,11 +509,8 @@ def test_rosenbrock(
     discipline, design_space, uncertain_space = rosenbrock_problem
     scenario = UMDOScenario(
         [discipline],
-        "f",
         design_space,
         uncertain_space,
-        "Margin",
-        formulation_name="DisciplinaryOpt",
         statistic_estimation_settings=PCE_Settings(
             doe_algo_settings=OT_OPT_LHS_Settings(n_samples=n_samples),
             regressor_settings=FCERegressor_Settings(
@@ -525,9 +520,8 @@ def test_rosenbrock(
             ),
             approximate_statistics_jacobians=approximate_statistics_jacobian,
         ),
+        formulation_settings=DisciplinaryOpt_Settings(),
     )
-    scenario.execute(algo_name="NLOPT_SLSQP", max_iter=100)
-    try:
-        assert scenario.optimization_result.f_opt == pytest.approx(f_opt[0], abs=0.01)
-    except AssertionError:
-        assert scenario.optimization_result.f_opt == pytest.approx(f_opt[1], abs=0.01)
+    scenario.add_objective("f", "Margin")
+    scenario.execute(algorithm_settings=NLOPT_SLSQP_Settings(max_iter=100))
+    assert scenario.optimization_result.f_opt == pytest.approx(f_opt, abs=0.01)

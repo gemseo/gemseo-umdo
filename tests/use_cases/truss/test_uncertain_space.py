@@ -57,11 +57,11 @@ def test_default(factor, use_different_bars):
         n2 = 1
 
     space = TrussUncertainSpace(**kwargs)
-    assert [type(m.distribution) for m in space.distribution.marginals] == [
+    assert [type(m.distribution) for m in space.variables.distribution.marginals] == [
         *[LogNormal] * 2 * (n1 + n2),
         *[Gumbel] * 6,
     ]
-    assert space.uncertain_variables == [
+    assert list(space.variables) == [
         *a1_names,
         *a2_names,
         *e1_names,
@@ -74,7 +74,7 @@ def test_default(factor, use_different_bars):
         "P6",
     ]
     assert_allclose(
-        space.distribution.mean,
+        space.variables.distribution.mean,
         array([
             *[2e-03] * n1,
             *[1e-03] * n2,
@@ -85,7 +85,7 @@ def test_default(factor, use_different_bars):
         rtol=1e-6,
     )
     assert_allclose(
-        space.distribution.standard_deviation,
+        space.variables.distribution.standard_deviation,
         factor
         * array([
             *[2e-04] * n1,

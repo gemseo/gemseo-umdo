@@ -19,7 +19,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 import pytest
-from gemseo.algos.design_space import DesignSpace
+from gemseo.space import DesignSpace
 from numpy import array
 from numpy import array_equal
 from numpy import newaxis

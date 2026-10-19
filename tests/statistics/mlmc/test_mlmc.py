@@ -22,9 +22,8 @@ from time import sleep
 from typing import TYPE_CHECKING
 
 import pytest
-from gemseo.algos.parameter_space import ParameterSpace
-from gemseo.utils.platform import PLATFORM_IS_WINDOWS
-from gemseo.utils.testing.helpers import image_comparison
+from gemseo.space import RandomSpace
+from gemseo.uncertainty.distribution import OTUniformDistribution_Settings
 from numpy import array
 from numpy.testing import assert_almost_equal
 from numpy.testing import assert_equal
@@ -54,10 +53,10 @@ def levels() -> list[Level]:
 
 
 @pytest.fixture(scope="module")
-def uncertain_space() -> ParameterSpace:
+def uncertain_space() -> RandomSpace:
     """The uncertain space."""
-    space = ParameterSpace()
-    space.add_random_variable("x", "OTUniformDistribution")
+    space = RandomSpace()
+    space.add_variable("x", OTUniformDistribution_Settings())
     return space
 
 
@@ -209,16 +208,14 @@ def test_pilot(levels, uncertain_space):
     assert isinstance(mlmc._MLMC__pilot_statistic_estimator, Variance)
 
 
-@pytest.mark.parametrize(
-    ("log", "baseline_images"),
-    [
-        (False, ["mlmc"]),
-        (True, ["mlmc_log" if PLATFORM_IS_WINDOWS else "mlmc_log_linux"]),
-    ],
-)
-@image_comparison(None)
-def test_plot(baseline_images, executed_mlmc, log):
+@pytest.mark.parametrize("log", [False, True])
+def test_plot(executed_mlmc, log, snapshot_matplotlib):
     """Check the plot of the evaluation history."""
+    if log:
+        # The minor grid lines of the log-scale axes can be shifted by one pixel
+        # from one machine to another (RMS 3.465 between a local run and the CI).
+        snapshot_matplotlib.set_defaults(tolerance=5.0)
+
     executed_mlmc.plot_evaluation_history(
         show=False,
         log_n_evaluations=log,

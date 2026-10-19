@@ -15,7 +15,8 @@
 from __future__ import annotations
 
 import pytest
-from gemseo.algos.parameter_space import ParameterSpace
+from gemseo.space import RandomSpace
+from gemseo.uncertainty.distribution import OTUniformDistribution_Settings
 from numpy import pi
 
 from gemseo_umdo.use_cases.heat_equation.uncertain_space import (
@@ -26,32 +27,31 @@ from gemseo_umdo.use_cases.heat_equation.uncertain_space import (
 @pytest.mark.parametrize("nu_bounds", [None, (0.002, 0.004)])
 def test_uncertain_space(nu_bounds):
     """Check the content of the uncertain space."""
-    distribution_name = "OTUniformDistribution"
-    uncertain_space = ParameterSpace()
-    uncertain_space.add_random_variable(
-        "X_1", distribution_name, minimum=-pi, maximum=pi
+    uncertain_space = RandomSpace()
+    uncertain_space.add_variable(
+        "X_1", OTUniformDistribution_Settings(minimum=-pi, maximum=pi)
     )
-    uncertain_space.add_random_variable(
-        "X_2", distribution_name, minimum=-pi, maximum=pi
+    uncertain_space.add_variable(
+        "X_2", OTUniformDistribution_Settings(minimum=-pi, maximum=pi)
     )
-    uncertain_space.add_random_variable(
-        "X_3", distribution_name, minimum=-pi, maximum=pi
+    uncertain_space.add_variable(
+        "X_3", OTUniformDistribution_Settings(minimum=-pi, maximum=pi)
     )
     if nu_bounds:
         minimum, maximum = nu_bounds
     else:
         minimum, maximum = 0.001, 0.009
-    uncertain_space.add_random_variable(
-        "X_4", distribution_name, minimum=minimum, maximum=maximum
+    uncertain_space.add_variable(
+        "X_4", OTUniformDistribution_Settings(minimum=minimum, maximum=maximum)
     )
-    uncertain_space.add_random_variable(
-        "X_5", distribution_name, minimum=-1.0, maximum=1.0
+    uncertain_space.add_variable(
+        "X_5", OTUniformDistribution_Settings(minimum=-1.0, maximum=1.0)
     )
-    uncertain_space.add_random_variable(
-        "X_6", distribution_name, minimum=-1.0, maximum=1.0
+    uncertain_space.add_variable(
+        "X_6", OTUniformDistribution_Settings(minimum=-1.0, maximum=1.0)
     )
-    uncertain_space.add_random_variable(
-        "X_7", distribution_name, minimum=-1.0, maximum=1.0
+    uncertain_space.add_variable(
+        "X_7", OTUniformDistribution_Settings(minimum=-1.0, maximum=1.0)
     )
 
     if nu_bounds:
@@ -59,8 +59,8 @@ def test_uncertain_space(nu_bounds):
     else:
         he_uncertain_space = HeatEquationUncertainSpace()
 
-    assert he_uncertain_space.variable_names == uncertain_space.variable_names
-    for name in he_uncertain_space.variable_names:
-        assert repr(he_uncertain_space.distributions[name]) == repr(
-            uncertain_space.distributions[name]
+    assert list(he_uncertain_space.variables) == list(uncertain_space.variables)
+    for name in list(he_uncertain_space.variables):
+        assert repr(he_uncertain_space.variables[name].distribution) == repr(
+            uncertain_space.variables[name].distribution
         )

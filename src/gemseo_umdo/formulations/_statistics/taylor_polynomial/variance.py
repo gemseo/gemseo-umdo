@@ -27,7 +27,7 @@ from gemseo_umdo.formulations._statistics.taylor_polynomial.base_taylor_polynomi
 )
 
 if TYPE_CHECKING:
-    from gemseo.typing import RealArray
+    from gemseo.util.typing import RealArray
 
 
 class Variance(BaseTaylorPolynomialEstimator):

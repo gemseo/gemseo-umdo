@@ -27,8 +27,8 @@ from gemseo_umdo.formulations._statistics.base_statistic_estimator import (
 )
 
 if TYPE_CHECKING:
-    from gemseo.algos.parameter_space import ParameterSpace
-    from gemseo.typing import RealArray
+    from gemseo.space import RandomSpace
+    from gemseo.util.typing import RealArray
 
 
 class BaseControlVariateEstimator(BaseStatisticEstimator):
@@ -37,7 +37,7 @@ class BaseControlVariateEstimator(BaseStatisticEstimator):
     __EPSILON: Final[float] = finfo(float).eps
     """A number to avoid division by zero when normalizing the covariance."""
 
-    def __init__(self, uncertain_space: ParameterSpace) -> None:
+    def __init__(self, uncertain_space: RandomSpace) -> None:
         """
         Args:
             uncertain_space: The uncertain space.

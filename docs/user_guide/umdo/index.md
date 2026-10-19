@@ -56,13 +56,13 @@ can be reduced to such a standard optimization problem:
 
     In [GEMSEO](https://www.gemseo.org),
     the user instantiates an
-    [OptimizationProblem][gemseo.algos.optimization_problem.OptimizationProblem]
-    from a [DesignSpace][gemseo.algos.design_space.DesignSpace],
+    [OptimizationProblem][gemseo.optimization.problem.OptimizationProblem]
+    from a [DesignSpace][gemseo.space.design.DesignSpace],
     defines its objective functions and constraints
     with
-    [MDOFunction][gemseo.core.mdo_functions.mdo_function.MDOFunction] objects
+    [ArrayFunction][gemseo.core.function.array_function.ArrayFunction] objects
     and solves it with an algorithm
-    from a [BaseDriverLibrary][gemseo.algos.base_driver_library.BaseDriverLibrary].
+    from a [BaseDriverLibrary][gemseo.core.algorithm.base_driver_library.BaseDriverLibrary].
     This algorithm can be either an optimizer or a design of experiments (DOE).
 
     ??? example
@@ -80,20 +80,27 @@ can be reduced to such a standard optimization problem:
 
         ``` py
         from gemseo import execute_algo
-        from gemseo.algos.optimization_problem import Optimization
-        from gemseo.algos.design_space import DesignSpace
-        from gemseo.core.mdo_functions.mdo_function import MDOFunction
+        from gemseo.core.function.array_function import ArrayFunction
+        from gemseo.doe import PYDOE_FULLFACT_Settings
+        from gemseo.optimization import OptimizationProblem
+        from gemseo.space import DesignSpace
 
         design_space = DesignSpace()
-        design_space.add_variable("x", lower_bound=-1., upper_bound=1.)
+        design_space.add_variable("x", lower_bound=-1.0, upper_bound=1.0)
 
         problem = OptimizationProblem(design_space)
-        problem.objective = MDOFunction(lambda x: x**2, "f")
-        problem.add_constraint(MDOFunction(lambda x: x**3, "g"), positive=True, value=0.1)
+        problem.objective = ArrayFunction(lambda x: x**2, "f")
+        problem.add_constraint(
+            ArrayFunction(lambda x: x**3, "g"),
+            constraint_type="ineq",
+            positive=True,
+            value=0.1,
+        )
 
-        execute_algo(problem, algo_name="PYDOE_FULLFACT", n_samples=10, algo_type="doe")
+        execute_algo(
+            problem, algo_type="doe", settings_model=PYDOE_FULLFACT_Settings(n_samples=10)
+        )
         ```
-
 
 ### Optimization problem under uncertainty
 
@@ -352,7 +359,7 @@ into a top-level optimization problem controlling the shared design variables $x
 and a sublevel optimization problem controlling the local design variables $x_{1\ldots M}$.
 
 In particular,
-Gazaix *et al.* (2019)[@Gazaix2019] proposed to
+Gazaix *et al.* (2019) [@Gazaix2019] proposed to
 rewrite the initial MDO problem into a sequence of bi-level optimization problems
 whose sublevels are split into independent disciplinary optimization problems.
 This decomposition according to the disciplines makes
@@ -389,7 +396,7 @@ with $x_{-i}^{(k-1)}=\left(x_j^{(k-1)}\right)_{j\in\{1,\ldots,M\}\setminus\{i\}}
 and $y\!\left(x_0,x_{1\ldots M}^{(k-1)}\right)$ the MDA solution at the design point $\left(x_0,x_{1\ldots M}^{(k-1)}\right)$.
 
 In presence of uncertainties,
-Aziz Alaoui (2025)[@AzizAlaoui2025] proposed a similar bi-level formulation.
+Aziz Alaoui (2025) [@AzizAlaoui2025] proposed a similar bi-level formulation.
 The main problem can be written as
 
 $$
@@ -436,7 +443,7 @@ $$
 \begin{align}
 &\underset{x_0\in\mathcal{X}_0}{\operatorname{minimize}}&&\widehat{K}_f\!\left[f\!\left(x_0, X_{1\ldots M}^{(k)}, y\!\left(x_0, X_{1\ldots M}^{(k)}, U\right), U\right)\right]\\
 &\operatorname{subject\;to}
-& &  \widehat{K}_g\!\left[g\!\left(x_0, X_{1\ldots M}^{(k)}, y\!\left(x_0, X_{1\ldots M}^{(k)}, U\right), U\right)\right]\leq 0
+& & \widehat{K}_g\!\left[g\!\left(x_0, X_{1\ldots M}^{(k)}, y\!\left(x_0, X_{1\ldots M}^{(k)}, U\right), U\right)\right]\leq 0
 \end{align}
 $$
 
@@ -492,14 +499,14 @@ can take them into account.
         def __init__(self):
             super().__init__()
             self.input_grammar.update_from_names(["x1", "x2", "U"])
+            self.output_grammar.update_from_names(["y"])
             self.default_input_data = {"x1": array([0.]), "x2": array([0.]), "U": array([0.5])}
 
         def _run(self, input_data):
-            x1 = self.io.data["x1"]
-            x2 = self.io.data["x2"]
-            U = self.io.data["U"]
-            y = (x1+U)**2 + (x2+U)**2
-            self.io.update_output_data({"y": y})
+            x1 = input_data["x1"]
+            x2 = input_data["x2"]
+            U = input_data["U"]
+            return {"y": (x1+U)**2 + (x2+U)**2}
     ```
 
     This discipline can be executed
@@ -512,8 +519,9 @@ can take them into account.
 ### Uncertain space
 
 The uncertain variables have to be defined
-in a [ParameterSpace][gemseo.algos.parameter_space.ParameterSpace]
-with the method [add_random_variable][gemseo.algos.parameter_space.ParameterSpace.add_random_variable].
+in a [RandomSpace][gemseo.space.random.RandomSpace]
+with the method [add_variable][gemseo.space.random.RandomSpace.add_variable]
+and probability distribution settings.
 
 !!! example
 
@@ -523,11 +531,12 @@ with the method [add_random_variable][gemseo.algos.parameter_space.ParameterSpac
     between 0.2 and 0.7 with a mode of 0.4:
 
     ``` py
-    from gemseo.algos.parameter_space import ParameterSpace
+    from gemseo.space import RandomSpace
+    from gemseo.uncertainty.distribution import OTTriangularDistribution_Settings
 
-    uncertain_space = ParameterSpace()
-    uncertan_space.add_random_variable(
-        "U", "OTTriangularDistribution", minimum=0.2, maximum=0.7, mode=0.4
+    uncertain_space = RandomSpace()
+    uncertain_space.add_variable(
+        "U", OTTriangularDistribution_Settings(minimum=0.2, maximum=0.7, mode=0.4)
     )
     ```
 
@@ -543,20 +552,34 @@ the MDO problem under uncertainty can be set up by
   to solve it using an optimizer or a DOE.
 
 You also need to fill in the statistics associated with the objective(s) and constraint(s),
-and the U-MDO formulation, combining an statistics estimation technique and an MDO formulation.
+and the U-MDO formulation, combining a statistics estimation technique and an MDO formulation.
 
 !!! note "API"
 
     The API of [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario]
+    and [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
     is deliberately similar to
-    the API of [DOEScenario][gemseo.scenarios.doe_scenario.DOEScenario].
-    And the same for
-    [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
-    and
-    [MDOScenario][gemseo.scenarios.mdo_scenario.MDOScenario].
+    the API of [MDOScenario][gemseo.scenario.mdo.MDOScenario].
     This choice was made not only to simplify the user's life,
     but also because an MDO problem under uncertainty
     is first and foremost an MDO problem.
+
+    A U-scenario is instantiated from
+    the disciplines,
+    the design space,
+    the uncertain space,
+    the settings of the statistic estimation technique
+    and, optionally, the settings of the MDO formulation
+    (default: [MDF_Settings][gemseo.formulation.mdf_settings.MDF_Settings]).
+    Then,
+    the objective is set with
+    [add_objective()][gemseo_umdo.scenarios.base_u_scenario.BaseUScenario.add_objective],
+    the constraints are added with
+    [add_constraint()][gemseo_umdo.scenarios.base_u_scenario.BaseUScenario.add_constraint]
+    and the observables with
+    [add_observable()][gemseo_umdo.scenarios.base_u_scenario.BaseUScenario.add_observable],
+    each of these methods taking the name of the statistic
+    to be applied to the output(s).
 
 !!! example
 
@@ -567,24 +590,25 @@ and the U-MDO formulation, combining an statistics estimation technique and an M
     and a Monte Carlo estimator of the expectation.
 
     ``` py
-    from gemseo.algos.design_space import DesignSpace
+    from gemseo.formulation import DisciplinaryOpt_Settings
+    from gemseo.optimization import NLOPT_COBYLA_Settings
+    from gemseo.space import DesignSpace
     from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
     from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 
     design_space = DesignSpace()
     design_space.add_variable("x1", lower_bound=-1., upper_bound=1.)
-    design_space.add_variable("x2", lower_bound=-1, upper_bound=1.)
+    design_space.add_variable("x2", lower_bound=-1., upper_bound=1.)
 
     scenario = UMDOScenario(
         [discipline],
-        "DisciplinaryOpt",
-        "y",
         design_space,
         uncertain_space,
-        "Mean",
-        statistic_estimation_settings=Sampling_Settings(n_samples=100),
+        Sampling_Settings(n_samples=100),
+        formulation_settings=DisciplinaryOpt_Settings(),
     )
-    scenario.execute(algo_name="NLOPT_COBYLA", max_iter=50)
+    scenario.add_objective("y", "Mean")
+    scenario.execute(NLOPT_COBYLA_Settings(max_iter=50))
     ```
 
 ### Statistic estimation
@@ -638,7 +662,7 @@ it is advisable to copy and paste the scenario
 and replay it with [Sampling_Settings][gemseo_umdo.formulations.sampling_settings.Sampling_Settings]
 parameterized by a non-negligible `n_samples`
 at the design solution point `x_opt` found with T
-(i.e. `scenario.execute(algo_name="CustomDOE", samples=at_least2d(x_opt))`)
+(i.e. `scenario.execute(CustomDOE_Settings(samples=atleast_2d(x_opt)))`)
 to obtain a better estimate of the statistics at this point.
 This avoids pitfalls,
 such as concluding that a constraint is satisfied when it is not.
@@ -650,23 +674,23 @@ due to the error of the surrogate models.
 ??? info "Implementation"
 
     Given a
-    [DesignSpace][gemseo.algos.design_space.DesignSpace]
+    [DesignSpace][gemseo.space.design.DesignSpace]
     and a collection of
     [Disciplines][gemseo.core.discipline.discipline.Discipline],
-    a [DOEScenario][gemseo.scenarios.doe_scenario.DOEScenario]
+    an [MDOScenario][gemseo.scenario.mdo.MDOScenario] using a DOE algorithm
     generates and solves an
-    [OptimizationProblem][gemseo.algos.optimization_problem.OptimizationProblem]
+    [OptimizationProblem][gemseo.optimization.problem.OptimizationProblem]
     that corresponds to a
-    [BaseMDOFormulation][gemseo.formulations.base_mdo_formulation.BaseMDOFormulation].
+    [BaseMDOFormulation][gemseo.formulation.core.base_mdo.BaseMDOFormulation].
     The resolution consists in sampling the objective and constraints
-    over the [DesignSpace][gemseo.algos.design_space.DesignSpace],
+    over the [DesignSpace][gemseo.space.design.DesignSpace],
     i.e. $(x^{(i)},f(x^{(i)},U),g(x^{(i)},U),h(x^{(i)},U))_{1\leq i \leq N}$,
     and returning either the $x^*$ minimizing $f$ while satisying $g$ and $h$
     or the $x^*$ that violates the least $g$ and $h$.
 
     GEMSEO-UMDO uses this sampling mechanism a first time
-    with a [ParameterSpace][gemseo.algos.parameter_space.ParameterSpace]
-    instead of the [DesignSpace][gemseo.algos.design_space.DesignSpace]
+    with a [RandomSpace][gemseo.space.random.RandomSpace]
+    instead of the [DesignSpace][gemseo.space.design.DesignSpace]
     to estimate the statistics
     $\mathbb{K}_f[f(x,U)]$, $\mathbb{K}_g[g(x,U)]$ and $\mathbb{K}_h[h(x,U)]$
     based on the samples
@@ -682,8 +706,8 @@ due to the error of the surrogate models.
     $\hat{\mathbb{K}}_g[g(x,U)]$ and
     $\hat{\mathbb{K}}_h[h(x,U)]$
     are then used to build a new
-    [OptimizationProblem][gemseo.algos.optimization_problem.OptimizationProblem]
-    over the [DesignSpace][gemseo.algos.design_space.DesignSpace]:
+    [OptimizationProblem][gemseo.optimization.problem.OptimizationProblem]
+    over the [DesignSpace][gemseo.space.design.DesignSpace]:
 
     $$
     \begin{align}
@@ -698,7 +722,7 @@ due to the error of the surrogate models.
     Thus implemented,
     GEMSEO-UMDO should be able
     to set up any MDO problem under uncertainty
-    from any [BaseMDOFormulation][gemseo.formulations.base_mdo_formulation.BaseMDOFormulation]
+    from any [BaseMDOFormulation][gemseo.formulation.core.base_mdo.BaseMDOFormulation]
     and any statistic estimation technique.
     This vision may be theoretical at the moment,
     but the ambition of GEMSEO-UMDO is to be

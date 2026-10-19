@@ -17,22 +17,22 @@
 
 from __future__ import annotations
 
-from gemseo.problems.mdo.sellar.sellar_1 import Sellar1
-from gemseo.problems.mdo.sellar.sellar_2 import Sellar2
-from gemseo.problems.mdo.sellar.sellar_design_space import SellarDesignSpace
-from gemseo.problems.mdo.sellar.sellar_system import SellarSystem
-from gemseo.uncertainty.sensitivity.sobol_analysis import SobolAnalysis
+from gemseo.problem.mdo.sellar import Sellar1
+from gemseo.problem.mdo.sellar import Sellar2
+from gemseo.problem.mdo.sellar import SellarDesignSpace
+from gemseo.problem.mdo.sellar import SellarSystem
+from gemseo.uncertainty.sensitivity import SobolAnalysis
 
 from gemseo_umdo.visualizations.sobol_graph import SobolGraph
 
 # %%
 # First,
 # we consider the
-# [SellarDesignSpace][gemseo.problems.mdo.sellar.sellar_design_space.SellarDesignSpace]
+# [SellarDesignSpace][gemseo.problem.mdo.sellar.sellar_design_space.SellarDesignSpace]
 # as the uncertain space,
 # which means that the uncertain variables are the design variables
 # uniformly distributed between their lower and upper bounds:
-design_space = SellarDesignSpace(dtype="float64")
+design_space = SellarDesignSpace()
 
 # %%
 # Then,

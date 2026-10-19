@@ -16,7 +16,7 @@
 
 from __future__ import annotations
 
-from gemseo.utils.testing.helpers import concretize_classes
+from gemseo.util.testing.helper import concretize_classes
 
 from gemseo_umdo.disciplines.additive_noiser import AdditiveNoiser
 

@@ -26,5 +26,5 @@ from gemseo_umdo.formulations._statistics.sampling.base_sampling_estimator impor
 class SamplingEstimatorFactory(BaseFactory):
     """The factory of sampling-based statistic estimators."""
 
-    _CLASS = BaseSamplingEstimator
-    _PACKAGE_NAMES = ("gemseo_umdo.formulations._statistics.sampling",)
+    _class = BaseSamplingEstimator
+    _package_names = ("gemseo_umdo.formulations._statistics.sampling",)

@@ -17,16 +17,19 @@
 
 from __future__ import annotations
 
-from gemseo.algos.design_space import DesignSpace
-from gemseo.algos.parameter_space import ParameterSpace
-from gemseo.disciplines.analytic import AnalyticDiscipline
+from gemseo.discipline import AnalyticDiscipline
+from gemseo.doe import PYDOE_FULLFACT_Settings
+from gemseo.post import OptHistoryView_Settings
+from gemseo.space import DesignSpace
+from gemseo.space import RandomSpace
+from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 
 from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
 from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
 
 # %%
 # Firstly,
-# we define an [AnalyticDiscipline][gemseo.disciplines.analytic.AnalyticDiscipline]
+# we define an [AnalyticDiscipline][gemseo.discipline.analytic.AnalyticDiscipline]
 # implementing the random function $f(x,U)=(x+U)^2$:
 discipline = AnalyticDiscipline({"y": "(x+u)**2"}, name="quadratic_function")
 
@@ -37,8 +40,8 @@ design_space.add_variable("x", lower_bound=-1, upper_bound=1.0, value=0.5)
 
 # %%
 # and $U$ is a standard Gaussian variable:
-uncertain_space = ParameterSpace()
-uncertain_space.add_random_variable("u", "OTNormalDistribution")
+uncertain_space = RandomSpace()
+uncertain_space.add_variable("u", OTNormalDistribution_Settings())
 
 # %%
 # Then,
@@ -47,21 +50,19 @@ uncertain_space.add_random_variable("u", "OTNormalDistribution")
 # of the expectation $\mathbb{E}[Y]$ where $Y=f(x,U)$:
 scenario = UDOEScenario(
     [discipline],
-    "y",
     design_space,
     uncertain_space,
-    "Mean",
-    formulation_name="DisciplinaryOpt",
-    statistic_estimation_settings=Sampling_Settings(n_samples=100),
+    Sampling_Settings(n_samples=100),
 )
+scenario.add_objective("y", "Mean")
 
 # %%
 # We execute it with a full-factorial design of experiments:
-scenario.execute(algo_name="PYDOE_FULLFACT", n_samples=100)
+scenario.execute(PYDOE_FULLFACT_Settings(n_samples=100))
 
 # %%
 # and plot the history:
-scenario.post_process(post_name="OptHistoryView", save=True, show=True)
+scenario.post_process(OptHistoryView_Settings(save=True, show=True))
 
 # %%
 # Notice that the numerical solution is close to $(x^*,f^*)=(0,1)$ as expected

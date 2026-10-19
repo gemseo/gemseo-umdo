@@ -45,11 +45,12 @@ from operator import lt
 from typing import TYPE_CHECKING
 from typing import ClassVar
 
-from gemseo.algos.doe.factory import DOELibraryFactory
-from gemseo.algos.doe.scipy.scipy_doe import SciPyDOE
-from gemseo.mlearning.regression.quality.factory import RegressorQualityFactory
-from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
-from gemseo.utils.logging_tools import LoggingContext
+from gemseo.doe import MC_Settings
+from gemseo.doe.factory import DOELibraryFactory
+from gemseo.doe.scipy.scipy_doe import SciPyDOE
+from gemseo.machine_learning.regression.quality.factory import RegressorQualityFactory
+from gemseo.util.logging import LoggingContext
+from gemseo.util.pydantic import create_model
 from numpy import full
 
 from gemseo_umdo.formulations._functions.statistic_function_for_surrogate import (
@@ -67,18 +68,17 @@ if TYPE_CHECKING:
     from collections.abc import Mapping
     from collections.abc import Sequence
 
-    from gemseo.algos.design_space import DesignSpace
-    from gemseo.algos.doe.base_doe_library import BaseDOELibrary
-    from gemseo.algos.optimization_problem import OptimizationProblem
-    from gemseo.algos.parameter_space import ParameterSpace
-    from gemseo.core.discipline.discipline import Discipline
-    from gemseo.datasets.io_dataset import IODataset
-    from gemseo.formulations.base_mdo_formulation import BaseMDOFormulation
-    from gemseo.mlearning.regression.quality.base_regressor_quality import (
+    from gemseo.core.problem.evaluation import EvaluationProblem
+    from gemseo.dataset import IODataset
+    from gemseo.discipline import Discipline
+    from gemseo.doe.core.base_doe_library import BaseDOELibrary
+    from gemseo.formulation.core.base_settings import BaseFormulationSettings
+    from gemseo.machine_learning.regression.core.base_regressor_quality import (
         BaseRegressorQuality,
     )
-    from gemseo.typing import RealArray
-    from gemseo.typing import StrKeyMapping
+    from gemseo.optimization import OptimizationProblem
+    from gemseo.space import RandomSpace
+    from gemseo.util.typing import RealArray
 
 
 class Surrogate(BaseUMDOFormulation):
@@ -86,18 +86,17 @@ class Surrogate(BaseUMDOFormulation):
 
     !!! note "DOE algorithms"
         This formulation uses a DOE algorithm;
-        read the
-        [GEMSEO documentation](https://gemseo.readthedocs.io/en/stable/algorithms/doe_algos.html).
-        for more information about the available DOE algorithm names and options.
+        read the documentation of the [DOE algorithms][gemseo.doe]
+        for more information about the available DOE algorithms and their settings.
 
     !!! note "Regression algorithms"
         This formulation uses a regression algorithm;
-        read the
-        [GEMSEO documentation](https://gemseo.readthedocs.io/en/stable/algorithms/surrogate_algos.html).
-        for more information about the available regression algorithm names and options.
+        read the documentation of the
+        [regression models][gemseo.machine_learning.regression.model]
+        for more information about the available regression models and their settings.
     """
 
-    Settings: ClassVar[type[Surrogate_Settings]] = Surrogate_Settings
+    settings_class: ClassVar[type[Surrogate_Settings]] = Surrogate_Settings
 
     __doe_algo: BaseDOELibrary
     """The DOE library to execute the DOE algorithm."""
@@ -142,56 +141,50 @@ class Surrogate(BaseUMDOFormulation):
 
     def __init__(  # noqa: D107
         self,
+        problem: OptimizationProblem,
         disciplines: Sequence[Discipline],
-        objective_name: str,
-        design_space: DesignSpace,
-        mdo_formulation: BaseMDOFormulation,
-        uncertain_space: ParameterSpace,
-        objective_statistic_name: str,
-        settings_model: Surrogate_Settings,
-        minimize_objective: bool = True,
-        objective_statistic_parameters: StrKeyMapping = READ_ONLY_EMPTY_DICT,
-        mdo_formulation_settings: StrKeyMapping = READ_ONLY_EMPTY_DICT,
+        settings: Surrogate_Settings | None = None,
+        *,
+        uncertain_space: RandomSpace,
+        mdo_formulation_settings: BaseFormulationSettings | None = None,
     ) -> None:
-        algo_name = settings_model.doe_algo_settings._TARGET_CLASS_NAME
+        settings = create_model(self.settings_class, settings_model=settings)
+        algo_name = settings.doe_algo_settings.target_class_name
         self.input_data_to_output_samples = {}
         self.__doe_algo = DOELibraryFactory().create(algo_name)
         self._estimators = []
         self.input_samples = uncertain_space.convert_array_to_dict(
-            SciPyDOE("MC").compute_doe(
+            SciPyDOE("MC").sample_space(
                 uncertain_space,
-                n_samples=settings_model.regressor_n_samples,
-                seed=settings_model.regressor_sampling_seed,
+                settings=MC_Settings(
+                    n_samples=settings.regressor_n_samples,
+                    seed=settings.regressor_sampling_seed,
+                ),
             )
         )
-        self.quality = RegressorQualityFactory().get_class(settings_model.quality_name)
-        if settings_model.quality_cv_compute:
+        self.quality = RegressorQualityFactory().get_class(settings.quality_name)
+        if settings.quality_cv_compute:
             self.quality_cv_options = {
-                "n_folds": settings_model.quality_cv_n_folds,
-                "seed": settings_model.quality_cv_seed,
-                "randomize": settings_model.quality_cv_randomize,
+                "n_folds": settings.quality_cv_n_folds,
+                "seed": settings.quality_cv_seed,
+                "randomize": settings.quality_cv_randomize,
             }
         else:
             self.quality_cv_options = {}
 
-        self.quality_threshold = settings_model.quality_threshold
-        self.quality_cv_threshold = settings_model.quality_cv_threshold
+        self.quality_threshold = settings.quality_threshold
+        self.quality_cv_threshold = settings.quality_cv_threshold
         super().__init__(
+            problem,
             disciplines,
-            objective_name,
-            design_space,
-            mdo_formulation,
-            uncertain_space,
-            objective_statistic_name,
-            settings_model,
-            minimize_objective=minimize_objective,
-            objective_statistic_parameters=objective_statistic_parameters,
+            settings=settings,
+            uncertain_space=uncertain_space,
             mdo_formulation_settings=mdo_formulation_settings,
         )
         mdo_formulation = self._mdo_formulation.__class__.__name__
         formulation = self.__class__.__name__
-        smaller_is_better = self.quality.SMALLER_IS_BETTER
-        doe_n_samples = settings_model.n_samples
+        smaller_is_better = self.quality.smaller_is_better
+        doe_n_samples = settings.n_samples
         self.name = f"{formulation}[{mdo_formulation}; {algo_name}({doe_n_samples})]"
         self.is_surrogate_quality_bad = gt if smaller_is_better else lt
         self.quality_operators = ("<=", ">") if smaller_is_better else (">=", "<")
@@ -199,7 +192,7 @@ class Surrogate(BaseUMDOFormulation):
         self.cv_threshold = {}
 
     def compute_samples(
-        self, problem: OptimizationProblem, compute_jacobian: bool = False
+        self, problem: EvaluationProblem, compute_jacobian: bool = False
     ) -> IODataset:
         """Evaluate the functions of a problem with a DOE algorithm.
 
@@ -209,16 +202,15 @@ class Surrogate(BaseUMDOFormulation):
         """
         doe_algo_settings = self._settings.doe_algo_settings
         doe_algo_settings.eval_jac = compute_jacobian
+        doe_algo_settings.evaluate_observable_jacobian = compute_jacobian
         with LoggingContext(logging.getLogger("gemseo")):
-            self.__doe_algo.execute(
-                problem, eval_obs_jac=compute_jacobian, settings_model=doe_algo_settings
-            )
+            self.__doe_algo.execute(problem, settings=doe_algo_settings)
 
-        io_dataset = problem.to_dataset(opt_naming=False, export_gradients=True)
+        io_dataset = problem.to_dataset(export_gradients=True)
         if not self.threshold:
             names_to_sizes = {
                 name: len(
-                    io_dataset.get_variable_components(io_dataset.OUTPUT_GROUP, name)
+                    io_dataset.get_variable_components(io_dataset.output_group, name)
                 )
                 for name in io_dataset.output_names
             }
