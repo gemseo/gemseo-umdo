@@ -173,7 +173,9 @@ def test_pydantic_mdo_formulation(disciplines, design_space, uncertain_space):
     assert isinstance(scenario.mdo_formulation, MDF)
 
 
-@pytest.mark.parametrize("minimize", [None, True, False])
+@pytest.mark.parametrize(
+    "minimize", [None, True, False], ids=["default", "minimize", "maximize"]
+)
 def test_minimize_objective(disciplines, design_space, uncertain_space, minimize):
     """Check that the argument minimize of add_objective is correctly used."""
     kwargs = {} if minimize is None else {"minimize": minimize}
