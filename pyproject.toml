@@ -72,7 +72,7 @@ dist = [
 ]
 
 [project.urls]
-Homepage = "https://gemseo.org"
+Homepage = "https://gemseo.gitlab.io/dev/gemseo-umdo"
 Source = "https://gitlab.com/gemseo/dev/gemseo-umdo"
 Issues = "https://gitlab.com/gemseo/dev/gemseo-umdo/-/issues"
 
