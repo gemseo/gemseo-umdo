@@ -42,6 +42,7 @@ from gemseo.problem.uncertainty.ishigami import IshigamiProblem
 from gemseo.space import DesignSpace
 from gemseo.space import RandomSpace
 from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
+from gemseo.util.testing.helper import assert_exception
 from numpy import array
 from numpy import full
 from numpy import ones
@@ -454,31 +455,21 @@ def test_scenario(
     assert_almost_equal(jac, jac_opt)
 
 
-def test_settings_error():
-    """Check the error raised when using special variables and jac approximation."""
-    with pytest.raises(
-        ValueError,
-        match=re.escape(
-            "The settings approximate_statistics_jacobians "
-            "and regressor_settings.use_special_jacobian_data cannot be both True."
-        ),
-    ):
-        PCE_Settings(
-            approximate_statistics_jacobians=True,
-            regressor_settings=FCERegressor_Settings(use_special_jacobian_data=True),
-        )
-
-
-def test_settings_error_learn_jacobian_data():
-    """Check the error raised when learning Jacobian data without approximation."""
-    with pytest.raises(
-        ValueError,
-        match=re.escape(
-            "The setting regressor_settings.learn_jacobian_data cannot be True "
-            "when approximate_statistics_jacobians is False"
-        ),
-    ):
-        PCE_Settings(regressor_settings=FCERegressor_Settings(learn_jacobian_data=True))
+@pytest.mark.parametrize(
+    "settings",
+    [
+        {
+            "approximate_statistics_jacobians": True,
+            "regressor_settings": FCERegressor_Settings(use_special_jacobian_data=True),
+        },
+        {"regressor_settings": FCERegressor_Settings(learn_jacobian_data=True)},
+    ],
+    ids=["special_jacobian_data", "learn_jacobian_data"],
+)
+def test_settings_error(settings, snapshot):
+    """Check the errors raised by inconsistent Jacobian settings."""
+    with assert_exception(ValueError, snapshot):
+        PCE_Settings(**settings)
 
 
 @pytest.fixture
