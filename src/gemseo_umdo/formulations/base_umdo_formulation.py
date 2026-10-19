@@ -27,6 +27,7 @@ from gemseo.formulation import MDF_Settings
 from gemseo.formulation.core.base import BaseFormulation
 from gemseo.formulation.factory import mdo_formulation_factory
 from gemseo.optimization.core.constraints import Constraints
+from gemseo.space import DesignSpace
 from gemseo.uncertainty.statistic.core.base import BaseStatistics
 from gemseo.util.data_conversion import split_array_to_dict_of_arrays
 from gemseo.util.file_path_manager import FilePathManager
@@ -55,9 +56,7 @@ if TYPE_CHECKING:
     )
 
 
-class BaseUMDOFormulation(
-    BaseFormulation["BaseUMDOFormulationSettings", "DesignSpace"]
-):
+class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignSpace]):
     """Base class for U-MDO formulations.
 
     A U-MDO formulation rewrites a multidisciplinary optimization problem under
