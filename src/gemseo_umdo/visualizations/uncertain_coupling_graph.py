@@ -36,7 +36,7 @@ if TYPE_CHECKING:
 
     from gemseo.discipline import Discipline
     from gemseo.doe.core.base_doe_settings import BaseDOESettings
-    from gemseo.space import RandomSpace
+    from gemseo.space.base import BaseVariableSpace
     from gemseo.util.typing import RealArray
 
 
@@ -95,7 +95,7 @@ class UncertainCouplingGraph:
     def __init__(
         self,
         disciplines: Sequence[Discipline],
-        uncertain_space: RandomSpace,
+        uncertain_space: BaseVariableSpace,
         variable_names: Iterable[str] | None = None,
     ) -> None:
         """
