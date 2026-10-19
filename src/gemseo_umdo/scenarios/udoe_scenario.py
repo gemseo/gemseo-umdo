@@ -16,10 +16,10 @@
 
 from __future__ import annotations
 
-from gemseo.scenarios.doe_scenario import DOEScenario
+from gemseo.scenario import MDOScenario
 
 from gemseo_umdo.scenarios.base_u_scenario import BaseUScenario
 
 
-class UDOEScenario(BaseUScenario, DOEScenario):
+class UDOEScenario(BaseUScenario, MDOScenario):
     """A DOE-based scenario for multidisciplinary design under uncertainty."""

@@ -15,10 +15,12 @@
 from __future__ import annotations
 
 import pytest
-from gemseo.algos.design_space import DesignSpace
-from gemseo.algos.doe.openturns.settings.ot_opt_lhs import OT_OPT_LHS_Settings
-from gemseo.algos.parameter_space import ParameterSpace
-from gemseo.disciplines.analytic import AnalyticDiscipline
+from gemseo.discipline import AnalyticDiscipline
+from gemseo.doe import OT_OPT_LHS_Settings
+from gemseo.doe import PYDOE_FULLFACT_Settings
+from gemseo.space import DesignSpace
+from gemseo.space import RandomSpace
+from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 
 from gemseo_umdo.formulations.sequential_sampling_settings import (
     SequentialSampling_Settings,
@@ -47,15 +49,12 @@ def test_scenario(
     discipline = AnalyticDiscipline({"y": "(x+u)**2"}, name="quadratic_function")
     design_space = DesignSpace()
     design_space.add_variable("x", lower_bound=-1, upper_bound=1.0, value=0.5)
-    uncertain_space = ParameterSpace()
-    uncertain_space.add_random_variable("u", "OTNormalDistribution")
+    uncertain_space = RandomSpace()
+    uncertain_space.add_variable("u", OTNormalDistribution_Settings())
     scenario = UDOEScenario(
         [discipline],
-        "y",
         design_space,
         uncertain_space,
-        "Mean",
-        formulation_name="DisciplinaryOpt",
         statistic_estimation_settings=SequentialSampling_Settings(
             doe_algo_settings=OT_OPT_LHS_Settings(n_samples=7),
             initial_n_samples=3,
@@ -63,5 +62,6 @@ def test_scenario(
             estimate_statistics_iteratively=estimate_statistics_iteratively,
         ),
     )
-    scenario.execute(algo_name="PYDOE_FULLFACT", n_samples=5)
+    scenario.add_objective("y", "Mean")
+    scenario.execute(PYDOE_FULLFACT_Settings(n_samples=5))
     assert discipline.execution_statistics.n_executions == (3 + 5 + 7 + 7 + 7)

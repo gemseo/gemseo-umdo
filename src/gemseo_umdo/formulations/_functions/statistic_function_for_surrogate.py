@@ -24,16 +24,16 @@ from typing import TYPE_CHECKING
 from typing import Any
 from typing import TypeVar
 
-from gemseo.mlearning.regression.algos.factory import RegressorFactory
+from gemseo.machine_learning.regression.model.factory import RegressorFactory
 
 from gemseo_umdo.formulations._functions.base_statistic_function import (
     BaseStatisticFunction,
 )
 
 if TYPE_CHECKING:
-    from gemseo.algos.database import DatabaseKeyType
-    from gemseo.mlearning.regression.algos.base_regressor import BaseRegressor
-    from gemseo.typing import RealArray
+    from gemseo.core.problem.database import DatabaseKeyType
+    from gemseo.machine_learning.regression.core.base_regressor import BaseRegressor
+    from gemseo.util.typing import RealArray
 
     from gemseo_umdo.formulations._functions.base_statistic_function import (
         UMDOFormulationT,
@@ -75,13 +75,13 @@ class StatisticFunctionForSurrogate(BaseStatisticFunction[SurrogateT]):
         self, input_data: RealArray, estimate_jacobian: bool
     ) -> dict[str, Any]:
         umdo_formulation = self._umdo_formulation
-        problem = umdo_formulation.mdo_formulation.optimization_problem
+        problem = umdo_formulation.mdo_formulation.problem
         samples = umdo_formulation.compute_samples(problem)
         regressor_settings = umdo_formulation._settings.regressor_settings
         regressor = RegressorFactory().create(
             regressor_settings.__class__.__name__.rsplit("_Settings", 1)[0],
             samples,
-            settings_model=regressor_settings,
+            settings=regressor_settings,
         )
         regressor.learn()
         output_samples = regressor.predict(umdo_formulation.input_samples)
@@ -153,8 +153,16 @@ class StatisticFunctionForSurrogate(BaseStatisticFunction[SurrogateT]):
                         thresh[index],
                     )
 
-        surrogate_formulation.optimization_problem.database.add_new_iter_listener(
-            self._store_surrogate_model_quality
+        # Declare the qualities as outputs of the listener
+        # so that the problem exports them to a dataset.
+        database = surrogate_formulation.problem.database
+        database.add_new_iter_listener(
+            self._store_surrogate_model_quality,
+            output_names=[
+                name
+                for name in names_to_qualities
+                if name not in database.listener_output_names
+            ],
         )
 
     def _store_surrogate_model_quality(self, input_data: DatabaseKeyType) -> None:
@@ -163,6 +171,6 @@ class StatisticFunctionForSurrogate(BaseStatisticFunction[SurrogateT]):
         Args:
             input_data: The input point.
         """
-        self._umdo_formulation.optimization_problem.database.store(
+        self._umdo_formulation.problem.database.store(
             input_data, self.__output_names_to_qualities
         )

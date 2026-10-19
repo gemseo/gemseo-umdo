@@ -18,21 +18,21 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from gemseo.core.mdo_functions.mdo_function import MDOFunction
+from gemseo.core.function.array_function import ArrayFunction
 
 
 @dataclass
 class Level:
     r"""A level $\ell$ for the MLMC-MLCV algorithm."""
 
-    model: MDOFunction
+    model: ArrayFunction
     r"""The model $f_\ell$ to sample.
 
     This model can be set from any callable taking a NumPy array of float numbers as
     input and outputting either a float number or a NumPy array of float numbers.
     """
 
-    surrogate_model: tuple[MDOFunction, float]
+    surrogate_model: tuple[ArrayFunction, float]
     r"""The surrogate model $g_\ell$ approximating $f_\ell$.
 
     More precisely,
@@ -45,7 +45,7 @@ class Level:
     and outputting either a float number or a NumPy array of float numbers.
     """
 
-    difference_surrogate_model: tuple[MDOFunction, float] = ()
+    difference_surrogate_model: tuple[ArrayFunction, float] = ()
     r"""The surrogate model $h_\ell$ approximating $f_\ell-f_{\ell-1}$.
 
     More precisely,
@@ -78,11 +78,11 @@ class Level:
     def __post_init__(self) -> None:
         if self.difference_surrogate_model:
             self.difference_surrogate_model = (
-                MDOFunction(self.difference_surrogate_model[0], "h"),
+                ArrayFunction(self.difference_surrogate_model[0], "h"),
                 self.difference_surrogate_model[1],
             )
-        self.model = MDOFunction(self.model, "f")
+        self.model = ArrayFunction(self.model, "f")
         self.surrogate_model = (
-            MDOFunction(self.surrogate_model[0], "g"),
+            ArrayFunction(self.surrogate_model[0], "g"),
             self.surrogate_model[1],
         )

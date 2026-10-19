@@ -45,9 +45,12 @@ where
 
 from __future__ import annotations
 
-from gemseo.algos.design_space import DesignSpace
-from gemseo.algos.parameter_space import ParameterSpace
-from gemseo.disciplines.analytic import AnalyticDiscipline
+from gemseo.discipline import AnalyticDiscipline
+from gemseo.optimization import NLOPT_COBYLA_Settings
+from gemseo.post import OptHistoryView_Settings
+from gemseo.space import DesignSpace
+from gemseo.space import RandomSpace
+from gemseo.uncertainty.distribution import OTTriangularDistribution_Settings
 
 from gemseo_umdo.formulations.control_variate_settings import ControlVariate_Settings
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
@@ -74,11 +77,11 @@ design_space.add_variable("z2", lower_bound=0.0, upper_bound=10.0, value=3.0)
 # %%
 # Secondly,
 # we define the uncertain space:
-uncertain_space = ParameterSpace()
+uncertain_space = RandomSpace()
 # %%
 # with an uncertainty over the constant `"a"`:
-uncertain_space.add_random_variable(
-    "a", "OTTriangularDistribution", minimum=0.1, maximum=0.3, mode=0.2
+uncertain_space.add_variable(
+    "a", OTTriangularDistribution_Settings(minimum=0.1, maximum=0.3, mode=0.2)
 )
 
 # %%
@@ -89,13 +92,11 @@ uncertain_space.add_random_variable(
 # based on Taylor polynomials and 50 samples at each iteration of the optimization loop:
 scenario = UMDOScenario(
     [system, disc1, disc2],
-    "obj",
     design_space,
     uncertain_space,
-    "Mean",
-    formulation_name="MDF",
-    statistic_estimation_settings=ControlVariate_Settings(n_samples=100),
+    ControlVariate_Settings(n_samples=100),
 )
+scenario.add_objective("obj", "Mean")
 
 # %%
 # while satisfying the constraints
@@ -107,11 +108,11 @@ scenario.add_constraint("c2", "Margin", factor=3.0)
 
 # %%
 # We execute this scenario using the gradient-free optimizer COBYLA:
-scenario.execute(algo_name="NLOPT_COBYLA", max_iter=200)
+scenario.execute(NLOPT_COBYLA_Settings(max_iter=200))
 
 # %%
 # and plot the optimization history:
-scenario.post_process(post_name="OptHistoryView", save=True, show=False)
+scenario.post_process(OptHistoryView_Settings(save=True, show=False))
 
 # %%
 # Lastly,

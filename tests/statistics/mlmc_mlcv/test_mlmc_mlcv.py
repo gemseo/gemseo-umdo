@@ -17,7 +17,8 @@
 from __future__ import annotations
 
 import pytest
-from gemseo.algos.parameter_space import ParameterSpace
+from gemseo.space import RandomSpace
+from gemseo.uncertainty.distribution import OTUniformDistribution_Settings
 
 from gemseo_umdo.statistics.multilevel.mlmc_mlcv.level import Level
 from gemseo_umdo.statistics.multilevel.mlmc_mlcv.mlmc_mlcv import MLMCMLCV
@@ -48,10 +49,10 @@ def levels() -> list[Level]:
 
 
 @pytest.fixture(scope="module")
-def uncertain_space() -> ParameterSpace:
+def uncertain_space() -> RandomSpace:
     """The uncertain space."""
-    space = ParameterSpace()
-    space.add_random_variable("x", "OTUniformDistribution")
+    space = RandomSpace()
+    space.add_variable("x", OTUniformDistribution_Settings())
     return space
 
 

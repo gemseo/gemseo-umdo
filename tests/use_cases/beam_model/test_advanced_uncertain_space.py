@@ -59,4 +59,4 @@ def test_nominal_values():
 )
 def test_variables(uncertain_space, name, repr_):
     """Check the probability distributions of the random variables."""
-    assert repr(uncertain_space.distributions[name]) == repr_
+    assert repr(uncertain_space.variables[name].distribution) == repr_

@@ -24,8 +24,8 @@ from typing import Any
 from typing import Final
 from typing import TypeVar
 
-from gemseo.mlearning.regression.algos.factory import RegressorFactory
-from gemseo.utils.data_conversion import split_array_to_dict_of_arrays
+from gemseo.machine_learning.regression.model.factory import RegressorFactory
+from gemseo.util.data_conversion import split_array_to_dict_of_arrays
 from numpy import atleast_1d
 from numpy import atleast_2d
 from numpy import diag
@@ -38,10 +38,10 @@ from gemseo_umdo.formulations._functions.base_statistic_function import (
 )
 
 if TYPE_CHECKING:
-    from gemseo.algos.optimization_problem import OptimizationProblem
-    from gemseo.algos.parameter_space import ParameterSpace
-    from gemseo.core.mdo_functions.mdo_function import MDOFunction
-    from gemseo.typing import RealArray
+    from gemseo.core.function.array_function import ArrayFunction
+    from gemseo.optimization import OptimizationProblem
+    from gemseo.space import RandomSpace
+    from gemseo.util.typing import RealArray
 
     from gemseo_umdo.formulations.control_variate import ControlVariate
 
@@ -79,7 +79,7 @@ class StatisticFunctionForControlVariate(BaseStatisticFunction[ControlVariateT])
         self,
         umdo_formulation: ControlVariateT,
         output_name: str,
-        function_type: MDOFunction.FunctionType,
+        function_type: ArrayFunction.FunctionType,
         statistic_operator_name: str,
         **statistic_options: Any,
     ) -> None:
@@ -90,15 +90,15 @@ class StatisticFunctionForControlVariate(BaseStatisticFunction[ControlVariateT])
             statistic_operator_name,
             **statistic_options,
         )
-        self.__mc_problem = self._umdo_formulation.mdo_formulation.optimization_problem
+        self.__mc_problem = self._umdo_formulation.mdo_formulation.problem
         formulation = self._umdo_formulation
-        distribution = formulation.uncertain_space.distribution
+        distribution = formulation.uncertain_space.variables.distribution
         self.__input_mean = distribution.mean
         self.__input_variance = distribution.standard_deviation**2
-        self.__problem = formulation.auxiliary_mdo_formulation.optimization_problem
+        self.__problem = formulation.auxiliary_mdo_formulation.problem
 
     @property
-    def _statistic_estimator_parameters(self) -> tuple[ParameterSpace]:
+    def _statistic_estimator_parameters(self) -> tuple[RandomSpace]:
         return (self._umdo_formulation.uncertain_space,)
 
     def _compute_data_for_statistic_estimation(
@@ -110,13 +110,13 @@ class StatisticFunctionForControlVariate(BaseStatisticFunction[ControlVariateT])
         problem = self.__mc_problem
         if settings.regressor_settings is not None:
             compute_samples(problem, settings.regressor_doe_algo_settings)
-            samples = problem.to_dataset(opt_naming=False, export_gradients=True)
-            problem.reset(preprocessing=False)
+            samples = problem.to_dataset(export_gradients=True)
+            problem.reset()
             regressor_settings = settings.regressor_settings
             regressor = RegressorFactory().create(
                 regressor_settings.__class__.__name__.rsplit("_Settings", 1)[0],
                 samples,
-                settings_model=regressor_settings,
+                settings=regressor_settings,
             )
             regressor.learn()
 
@@ -153,13 +153,13 @@ class StatisticFunctionForControlVariate(BaseStatisticFunction[ControlVariateT])
         else:
             doe = split_array_to_dict_of_arrays(
                 doe,
-                uncertain_space.variable_sizes,
-                uncertain_space.variable_names,
+                {n: v.size for n, v in uncertain_space.variables.items()},
+                list(uncertain_space.variables),
             )
             large_doe = split_array_to_dict_of_arrays(
                 large_doe,
-                uncertain_space.variable_sizes,
-                uncertain_space.variable_names,
+                {n: v.size for n, v in uncertain_space.variables.items()},
+                list(uncertain_space.variables),
             )
             doe_pred = regressor.predict(doe)
             large_doe_pred = regressor.predict(large_doe)

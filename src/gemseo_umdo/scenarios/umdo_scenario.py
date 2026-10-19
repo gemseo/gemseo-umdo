@@ -16,7 +16,7 @@
 
 from __future__ import annotations
 
-from gemseo.scenarios.mdo_scenario import MDOScenario
+from gemseo.scenario import MDOScenario
 
 from gemseo_umdo.scenarios.base_u_scenario import BaseUScenario
 

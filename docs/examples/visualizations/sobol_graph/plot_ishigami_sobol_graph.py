@@ -31,20 +31,21 @@ using a [SobolGraph][gemseo_umdo.visualizations.sobol_graph.SobolGraph].
 from __future__ import annotations
 
 from gemseo import sample_disciplines
-from gemseo.mlearning.regression.algos.pce import PCERegressor
-from gemseo.mlearning.regression.algos.pce_settings import PCERegressor_Settings
-from gemseo.problems.uncertainty.ishigami.ishigami_discipline import IshigamiDiscipline
-from gemseo.problems.uncertainty.ishigami.ishigami_space import IshigamiSpace
-from gemseo.problems.uncertainty.ishigami.statistics import SOBOL_1
-from gemseo.problems.uncertainty.ishigami.statistics import SOBOL_2
-from gemseo.problems.uncertainty.ishigami.statistics import SOBOL_3
-from gemseo.problems.uncertainty.ishigami.statistics import SOBOL_12
-from gemseo.problems.uncertainty.ishigami.statistics import SOBOL_13
-from gemseo.problems.uncertainty.ishigami.statistics import SOBOL_23
-from gemseo.problems.uncertainty.ishigami.statistics import TOTAL_SOBOL_1
-from gemseo.problems.uncertainty.ishigami.statistics import TOTAL_SOBOL_2
-from gemseo.problems.uncertainty.ishigami.statistics import TOTAL_SOBOL_3
-from gemseo.uncertainty.sensitivity.sobol_analysis import SobolAnalysis
+from gemseo.doe import OT_OPT_LHS_Settings
+from gemseo.machine_learning import PCERegressor_Settings
+from gemseo.machine_learning.regression.model import PCERegressor
+from gemseo.problem.uncertainty.ishigami import IshigamiDiscipline
+from gemseo.problem.uncertainty.ishigami import IshigamiSpace
+from gemseo.problem.uncertainty.ishigami.statistics import sobol_1
+from gemseo.problem.uncertainty.ishigami.statistics import sobol_2
+from gemseo.problem.uncertainty.ishigami.statistics import sobol_3
+from gemseo.problem.uncertainty.ishigami.statistics import sobol_12
+from gemseo.problem.uncertainty.ishigami.statistics import sobol_13
+from gemseo.problem.uncertainty.ishigami.statistics import sobol_23
+from gemseo.problem.uncertainty.ishigami.statistics import total_sobol_1
+from gemseo.problem.uncertainty.ishigami.statistics import total_sobol_2
+from gemseo.problem.uncertainty.ishigami.statistics import total_sobol_3
+from gemseo.uncertainty.sensitivity import SobolAnalysis
 
 from gemseo_umdo.visualizations.sobol_graph import SobolGraph
 
@@ -54,16 +55,16 @@ from gemseo_umdo.visualizations.sobol_graph import SobolGraph
 # As the Sobol' indices of the Ishigami function are perfectly known,
 # we can draw the Sobol' graph directly from these indices:
 sobol_graph = SobolGraph(
-    {"X1": SOBOL_1, "X2": SOBOL_2, "X3": SOBOL_3},
+    {"X1": sobol_1, "X2": sobol_2, "X3": sobol_3},
     {
-        "X1": TOTAL_SOBOL_1,
-        "X2": TOTAL_SOBOL_2,
-        "X3": TOTAL_SOBOL_3,
+        "X1": total_sobol_1,
+        "X2": total_sobol_2,
+        "X3": total_sobol_3,
     },
     {
-        ("X1", "X2"): SOBOL_12,
-        ("X1", "X3"): SOBOL_13,
-        ("X2", "X3"): SOBOL_23,
+        ("X1", "X2"): sobol_12,
+        ("X1", "X3"): sobol_13,
+        ("X2", "X3"): sobol_23,
     },
 )
 sobol_graph
@@ -101,7 +102,7 @@ sobol_graph
 # ## Indices estimated from a PCE
 #
 # We could also estimate them from a polynomial chaos expansion
-# (PCE, see [PCERegressor][gemseo.mlearning.regression.algos.pce.PCERegressor]).
+# (PCE, see [PCERegressor][gemseo.machine_learning.regression.model.pce.PCERegressor]).
 #
 # ### Create the training dataset
 # First,
@@ -112,8 +113,7 @@ samples = sample_disciplines(
         uniform_distribution_name=IshigamiSpace.UniformDistribution.OPENTURNS
     ),
     ["y"],
-    algo_name="OT_OPT_LHS",
-    n_samples=50,
+    algo_settings_model=OT_OPT_LHS_Settings(n_samples=50),
 )
 
 # %%
@@ -121,7 +121,7 @@ samples = sample_disciplines(
 # Then,
 # we create a PCE using the LARS technique:
 pce_settings = PCERegressor_Settings(degree=6, use_lars=True)
-pce = PCERegressor(samples, settings_model=pce_settings)
+pce = PCERegressor(samples, settings=pce_settings)
 pce.learn()
 
 # %%

@@ -23,8 +23,8 @@ from typing import TYPE_CHECKING
 from typing import Any
 from typing import TypeVar
 
-from gemseo.mlearning.regression.algos.factory import RegressorFactory
-from gemseo.utils.data_conversion import split_array_to_dict_of_arrays as array_to_dict
+from gemseo.machine_learning.regression.model.factory import RegressorFactory
+from gemseo.util.data_conversion import split_array_to_dict_of_arrays as array_to_dict
 from numpy import array
 from numpy import vstack
 from scipy.linalg import solve
@@ -35,9 +35,9 @@ from gemseo_umdo.formulations._functions.statistic_function_for_surrogate import
 from gemseo_umdo.formulations._statistics.pce.base_pce_estimator import BasePCEEstimator
 
 if TYPE_CHECKING:
-    from gemseo.mlearning.regression.algos.base_fce import BaseFCERegressor
-    from gemseo.mlearning.regression.algos.pce import PCERegressor
-    from gemseo.typing import RealArray
+    from gemseo.machine_learning.regression.core.base_fce import BaseFCERegressor
+    from gemseo.machine_learning.regression.model import PCERegressor
+    from gemseo.util.typing import RealArray
 
     from gemseo_umdo.formulations.pce import PCE
 
@@ -74,15 +74,15 @@ class StatisticFunctionForPCE(StatisticFunctionForSurrogate[PCET]):
         regressor_settings = settings.regressor_settings
         if regressor_settings.learn_jacobian_data:
             # FCE(u) trained from samples of df(x,u)du (i.e. gradient-enhanced FCE)
-            problem = pce_formulation.auxiliary_mdo_formulation.optimization_problem
+            problem = pce_formulation.auxiliary_mdo_formulation.problem
             compute_jacobian = True
         elif estimate_jacobian and not settings.approximate_statistics_jacobians:
             # FCE(u) trained from samples of df(x,u)dx
-            problem = pce_formulation.mdo_formulation.optimization_problem
+            problem = pce_formulation.mdo_formulation.problem
             compute_jacobian = True
         else:
             # Standard FCE(u) trained without samples of derivatives
-            problem = pce_formulation.mdo_formulation.optimization_problem
+            problem = pce_formulation.mdo_formulation.problem
             compute_jacobian = False
 
         samples = pce_formulation.compute_samples(problem, compute_jacobian)
@@ -93,9 +93,9 @@ class StatisticFunctionForPCE(StatisticFunctionForSurrogate[PCET]):
             regressor_settings.use_special_jacobian_data = False
 
         fce = RegressorFactory().create(
-            regressor_settings._TARGET_CLASS_NAME,
+            regressor_settings.target_class_name,
             samples,
-            settings_model=regressor_settings,
+            settings=regressor_settings,
         )
         fce.learn()
 

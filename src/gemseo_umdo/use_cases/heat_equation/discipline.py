@@ -23,14 +23,14 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from gemseo.core.discipline.discipline import Discipline
+from gemseo.discipline import Discipline
 from numpy import array
 from numpy import concatenate
 
 from gemseo_umdo.use_cases.heat_equation.model import HeatEquationModel
 
 if TYPE_CHECKING:
-    from gemseo.typing import StrKeyMapping
+    from gemseo.util.typing import StrKeyMapping
 
     from gemseo_umdo.use_cases.heat_equation.configuration import (
         HeatEquationConfiguration,
@@ -87,8 +87,8 @@ class HeatEquation(Discipline):
         From Geraci et al., 2015 (Equation 5.4).
         """
         inputs_array = concatenate([
-            self.io.data[name] for name in self.io.input_grammar
+            self.io.input_data[name] for name in self.io.input_grammar
         ])
         u, u_mesh = self.__heat_equation_model(inputs_array)
-        self.io.data["u_mesh"] = u_mesh
-        self.io.data["u"] = array([u])
+        self.io.output_data["u_mesh"] = u_mesh
+        self.io.output_data["u"] = array([u])

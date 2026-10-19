@@ -13,7 +13,7 @@
 is a U-MDO formulation that estimates the statistics
 using functional chaos expansions (FCEs),
 including polynomial chaos expansions (PCEs).
-By default, this U-MDO formulation is based on the [PCERegressor][gemseo.mlearning.regression.algos.pce.PCERegressor].
+By default, this U-MDO formulation is based on the [PCERegressor][gemseo.machine_learning.regression.model.pce.PCERegressor].
 
 At each iteration of the optimization loop,
 an FCE is built over the uncertain space
@@ -25,13 +25,12 @@ Here is a typical scenario template:
 ``` py
 scenario = UMDOScenario(
     disciplines,
-    mdo_formulation_name,
-    objective_name,
     design_space,
     uncertain_space,
-    statistic_name,
-    statistic_estimation_settings=PCE_Settings(doe_n_samples=20),
+    PCE_Settings(n_samples=20),
+    formulation_settings=mdo_formulation_settings,
 )
+scenario.add_objective(objective_name, statistic_name)
 ```
 
 ## Settings
@@ -49,21 +48,21 @@ and so to get a better space-filling LHS.
 The default number samples is 10.
 It can be changed with the parameter `n_samples`
 and the DOE algorithm name can be changed with the parameter `doe_algo_settings`,
-which is a Pydantic model deriving from [BaseDOESettings][gemseo.algos.doe.base_doe_settings.BaseDOESettings].
+which is a Pydantic model deriving from [BaseDOESettings][gemseo.doe.core.base_doe_settings.BaseDOESettings].
 When `n_samples` is `None` (default) and `doe_algo_settings` has a field `n_samples`,
 then this field is considered.
 When `doe_algo_settings` has a field `seed` and its value is `None`,
-then the U-MDO formulation will use [SEED][gemseo.utils.seeder.SEED].
+then the U-MDO formulation will use [seed][gemseo.util.seeder.seed].
 
 ### PCE's options
 
-This U-MDO formulation can use any [BaseFCERegressor][gemseo.mlearning.regression.algos.base_fce.BaseFCERegressor],
-including the [PCERegressor][gemseo.mlearning.regression.algos.pce.PCERegressor] available in GEMSEO,
+This U-MDO formulation can use any [BaseFCERegressor][gemseo.machine_learning.regression.core.base_fce.BaseFCERegressor],
+including the [PCERegressor][gemseo.machine_learning.regression.model.pce.PCERegressor] available in GEMSEO,
 which wraps the [OpenTURNS' PCE algorithm](https://openturns.github.io/openturns/latest/user_manual/response_surface/_generated/openturns.FunctionalChaosAlgorithm.html).
-Use the `regressor_settings` parameter to set the options of the [BaseFCERegressor][gemseo.mlearning.regression.algos.base_fce.BaseFCERegressor],
-using a Pydantic model of type [BaseFCERegressorSettings][gemseo.mlearning.regression.algos.base_fce_settings.BaseFCERegressor_Settings].
+Use the `regressor_settings` parameter to set the options of the [BaseFCERegressor][gemseo.machine_learning.regression.core.base_fce.BaseFCERegressor],
+using a Pydantic model of type [BaseFCERegressorSettings][gemseo.machine_learning.regression.core.base_fce_settings.BaseFCERegressorSettings].
 For example,
-in the case of [PCERegressorSettings][gemseo.mlearning.regression.algos.pce_settings.PCERegressor_Settings],
+in the case of [PCERegressorSettings][gemseo.machine_learning.regression.model.pce_settings.PCERegressor_Settings],
 set `use_lars` to `True` to obtain a more sparse PCE and avoid overfitting
 ([more details](https://openturns.github.io/openturns/latest/theory/meta_modeling/polynomial_sparse_least_squares.html))
 and `degree` to `3` for a maximum degree of 3.
@@ -81,18 +80,17 @@ You only have to enable the option `approximate_statistics_jacobians`.
 
     ``` py
     settings = PCE_Settings(
-        doe_algo_settings=OT_MONTE_CARLO(n_samples=20, n_processes=2),
-        regressor_settings=PCERegressorSettings(use_lars=True, degree=3),
+        doe_algo_settings=OT_MONTE_CARLO_Settings(n_samples=20, n_processes=2),
+        regressor_settings=PCERegressor_Settings(use_lars=True, degree=3),
         )
     scenario = UMDOScenario(
         disciplines,
-        mdo_formulation_name,
-        objective_name,
         design_space,
         uncertain_space,
-        statistic_name,
-        statistic_estimation_settings=settings,
+        settings,
+        formulation_settings=mdo_formulation_settings,
     )
+    scenario.add_objective(objective_name, statistic_name)
     ```
 
 ### Quality options

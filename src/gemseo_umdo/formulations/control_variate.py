@@ -40,9 +40,9 @@ import logging
 from typing import TYPE_CHECKING
 from typing import ClassVar
 
-from gemseo.algos.doe.factory import DOELibraryFactory
-from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
-from gemseo.utils.logging_tools import LoggingContext
+from gemseo.doe.factory import DOELibraryFactory
+from gemseo.util.logging import LoggingContext
+from gemseo.util.pydantic import create_model
 
 from gemseo_umdo.formulations._functions.statistic_function_for_control_variate import (
     StatisticFunctionForControlVariate,
@@ -56,13 +56,12 @@ from gemseo_umdo.formulations.control_variate_settings import ControlVariate_Set
 if TYPE_CHECKING:
     from collections.abc import Sequence
 
-    from gemseo.algos.design_space import DesignSpace
-    from gemseo.algos.doe.base_doe_library import BaseDOELibrary
-    from gemseo.algos.optimization_problem import OptimizationProblem
-    from gemseo.algos.parameter_space import ParameterSpace
-    from gemseo.core.discipline.discipline import Discipline
-    from gemseo.formulations.base_mdo_formulation import BaseMDOFormulation
-    from gemseo.typing import StrKeyMapping
+    from gemseo.core.problem.evaluation import EvaluationProblem
+    from gemseo.discipline import Discipline
+    from gemseo.doe.core.base_doe_library import BaseDOELibrary
+    from gemseo.formulation.core.base_settings import BaseFormulationSettings
+    from gemseo.optimization import OptimizationProblem
+    from gemseo.space import RandomSpace
 
 
 class ControlVariate(BaseUMDOFormulation):
@@ -70,12 +69,11 @@ class ControlVariate(BaseUMDOFormulation):
 
     !!! note "DOE algorithms"
         This formulation uses a DOE algorithm;
-        read the
-        [GEMSEO documentation](https://gemseo.readthedocs.io/en/stable/algorithms/doe_algos.html).
-        for more information about the available DOE algorithm names and options.
+        read the documentation of the [DOE algorithms][gemseo.doe]
+        for more information about the available DOE algorithms and their settings.
     """
 
-    Settings: ClassVar[type[ControlVariate_Settings]] = ControlVariate_Settings
+    settings_class: ClassVar[type[ControlVariate_Settings]] = ControlVariate_Settings
 
     _USE_AUXILIARY_MDO_FORMULATION: ClassVar[bool] = True
 
@@ -95,38 +93,30 @@ class ControlVariate(BaseUMDOFormulation):
 
     def __init__(  # noqa: D107
         self,
+        problem: OptimizationProblem,
         disciplines: Sequence[Discipline],
-        objective_name: str,
-        design_space: DesignSpace,
-        mdo_formulation: BaseMDOFormulation,
-        uncertain_space: ParameterSpace,
-        objective_statistic_name: str,
-        settings_model: ControlVariate_Settings,
-        minimize_objective: bool = True,
-        objective_statistic_parameters: StrKeyMapping = READ_ONLY_EMPTY_DICT,
-        mdo_formulation_settings: StrKeyMapping = READ_ONLY_EMPTY_DICT,
+        settings: ControlVariate_Settings | None = None,
+        *,
+        uncertain_space: RandomSpace,
+        mdo_formulation_settings: BaseFormulationSettings | None = None,
     ) -> None:
-        algo_name = settings_model.doe_algo_settings._TARGET_CLASS_NAME
+        settings = create_model(self.settings_class, settings_model=settings)
+        algo_name = settings.doe_algo_settings.target_class_name
         self.__doe_algo = DOELibraryFactory().create(algo_name)
         self.__doe_algo_for_regressor = DOELibraryFactory().create(
-            settings_model.regressor_doe_algo_settings._TARGET_CLASS_NAME
+            settings.regressor_doe_algo_settings.target_class_name
         )
         super().__init__(
+            problem,
             disciplines,
-            objective_name,
-            design_space,
-            mdo_formulation,
-            uncertain_space,
-            objective_statistic_name,
-            settings_model,
-            minimize_objective=minimize_objective,
-            objective_statistic_parameters=objective_statistic_parameters,
+            settings=settings,
+            uncertain_space=uncertain_space,
             mdo_formulation_settings=mdo_formulation_settings,
         )
         self.name = (
             f"{self.__class__.__name__}"
-            f"[{mdo_formulation.__class__.__name__}; "
-            f"{algo_name}({settings_model.n_samples})]"
+            f"[{self._mdo_formulation.__class__.__name__}; "
+            f"{algo_name}({settings.n_samples})]"
         )
 
     @property
@@ -135,7 +125,7 @@ class ControlVariate(BaseUMDOFormulation):
         return self.__doe_algo
 
     def compute_samples(
-        self, problem: OptimizationProblem, create_training_dataset: bool = False
+        self, problem: EvaluationProblem, create_training_dataset: bool = False
     ) -> None:
         """Evaluate the functions of a problem with a DOE algorithm.
 
@@ -152,4 +142,4 @@ class ControlVariate(BaseUMDOFormulation):
             settings_model = self._settings.doe_algo_settings
 
         with LoggingContext(logging.getLogger("gemseo")):
-            doe_algo.execute(problem, settings_model=settings_model)
+            doe_algo.execute(problem, settings=settings_model)

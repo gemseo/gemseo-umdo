@@ -23,7 +23,7 @@ from gemseo_umdo.formulations._statistics.pce.base_pce_estimator import BasePCEE
 if TYPE_CHECKING:
     from typing import ClassVar
 
-    from gemseo.typing import RealArray
+    from gemseo.util.typing import RealArray
 
 
 class Mean(BasePCEEstimator):

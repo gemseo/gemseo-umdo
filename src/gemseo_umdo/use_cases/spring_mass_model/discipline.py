@@ -19,13 +19,13 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 from typing import Final
 
-from gemseo.core.discipline.discipline import Discipline
+from gemseo.discipline import Discipline
 from numpy import array
 
 from gemseo_umdo.use_cases.spring_mass_model.model import SpringMassModel
 
 if TYPE_CHECKING:
-    from gemseo.typing import StrKeyMapping
+    from gemseo.util.typing import StrKeyMapping
 
 
 class SpringMassDiscipline(Discipline):
@@ -76,9 +76,9 @@ class SpringMassDiscipline(Discipline):
         self.default_input_data = {self.__STIFFNESS: array([2.25])}
 
     def _run(self, input_data: StrKeyMapping) -> None:
-        disp, max_disp = self.__model(self.io.data[self.__STIFFNESS][0])
-        self.io.data[self.__DISPLACEMENT] = disp
-        self.io.data[self.__MAX_DISPLACEMENT] = array([max_disp])
+        disp, max_disp = self.__model(self.io.input_data[self.__STIFFNESS][0])
+        self.io.output_data[self.__DISPLACEMENT] = disp
+        self.io.output_data[self.__MAX_DISPLACEMENT] = array([max_disp])
 
     @property
     def cost(self) -> float:

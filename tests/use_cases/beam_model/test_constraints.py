@@ -17,7 +17,7 @@
 from __future__ import annotations
 
 import pytest
-from gemseo.utils.comparisons import compare_dict_of_arrays
+from gemseo.util.comparison import compare_dict_of_arrays
 from numpy import array
 from numpy.testing import assert_almost_equal
 
@@ -57,9 +57,9 @@ def test_default_inputs(discipline):
 def test_default_outputs(discipline):
     """Check the default values of the outputs."""
     assert_almost_equal(
-        discipline.io.data["c_stress"],
-        discipline.io.data["sigma_vm"] / discipline.io.data["sigma_all"],
+        discipline.io.output_data["c_stress"],
+        discipline.io.input_data["sigma_vm"] / discipline.io.input_data["sigma_all"],
     )
     assert_almost_equal(
-        discipline.io.data["c_displ"], discipline.io.data["displ"] / 100.0
+        discipline.io.output_data["c_displ"], discipline.io.input_data["displ"] / 100.0
     )

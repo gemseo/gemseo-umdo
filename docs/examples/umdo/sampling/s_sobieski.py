@@ -17,12 +17,15 @@
 
 from __future__ import annotations
 
-from gemseo.algos.parameter_space import ParameterSpace
-from gemseo.problems.mdo.sobieski.core.problem import SobieskiProblem
-from gemseo.problems.mdo.sobieski.disciplines import SobieskiAerodynamics
-from gemseo.problems.mdo.sobieski.disciplines import SobieskiMission
-from gemseo.problems.mdo.sobieski.disciplines import SobieskiPropulsion
-from gemseo.problems.mdo.sobieski.disciplines import SobieskiStructure
+from gemseo.optimization import NLOPT_SLSQP_Settings
+from gemseo.post import OptHistoryView_Settings
+from gemseo.problem.mdo.sobieski import SobieskiAerodynamics
+from gemseo.problem.mdo.sobieski import SobieskiMission
+from gemseo.problem.mdo.sobieski import SobieskiProblem
+from gemseo.problem.mdo.sobieski import SobieskiPropulsion
+from gemseo.problem.mdo.sobieski import SobieskiStructure
+from gemseo.space import RandomSpace
+from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 
 from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
@@ -42,18 +45,18 @@ design_space = SobieskiProblem().design_space
 # %%
 # Secondly,
 # we define the uncertain space:
-uncertain_space = ParameterSpace()
+uncertain_space = RandomSpace()
 # %%
 # with an uncertainty over the constant `"c_4"`:
-uncertain_space.add_random_variable(
-    "c_4", "OTNormalDistribution", mu=0.01375, sigma=0.01375 * 0.05
+uncertain_space.add_variable(
+    "c_4", OTNormalDistribution_Settings(mu=0.01375, sigma=0.01375 * 0.05)
 )
 # %%
 # and an uncertainty over the design variable `"x_2"`,
 # expressed as an additive term `"u_x_2"`
 # defined just after in the [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]:
-uncertain_space.add_random_variable(
-    "u_x_2", "OTNormalDistribution", mu=0.0, sigma=1 * 0.05
+uncertain_space.add_variable(
+    "u_x_2", OTNormalDistribution_Settings(mu=0.0, sigma=1 * 0.05)
 )
 
 # %%
@@ -63,15 +66,12 @@ uncertain_space.add_random_variable(
 # of the expectation $\mathbb{E}[y_4]$:
 scenario = UMDOScenario(
     [mission, structure, propulsion, aerodynamics],
-    "y_4",
     design_space,
     uncertain_space,
-    "Mean",
-    formulation_name="MDF",
-    statistic_estimation_settings=Sampling_Settings(n_samples=20),
-    maximize_objective=True,
+    Sampling_Settings(n_samples=20),
     uncertain_design_variables={"x_2": ("+", "u_x_2")},
 )
+scenario.add_objective("y_4", "Mean", minimize=False)
 
 # %%
 # while satisfying margin constraints
@@ -82,9 +82,9 @@ scenario.add_constraint("g_3", "Margin")
 
 # %%
 # We execute this scenario using the gradient-based optimizer SLSQP:
-scenario.execute(algo_name="NLOPT_SLSQP", max_iter=100)
+scenario.execute(NLOPT_SLSQP_Settings(max_iter=100))
 
 # %%
 # Lastly,
 # we can plot the optimization history view:
-scenario.post_process(post_name="OptHistoryView", save=False, show=True)
+scenario.post_process(OptHistoryView_Settings(save=False, show=True))

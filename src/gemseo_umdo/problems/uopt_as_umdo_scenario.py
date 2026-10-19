@@ -18,7 +18,7 @@ GEMSEO proposes features
 to make a monodisciplinary optimization problem multidisciplinary.
 Here is an extension to MDO under uncertainty.
 Please read the
-[GEMSEO's documentation](https://gemseo.readthedocs.io/en/stable/modules/gemseo.problems.mdo.opt_as_mdo_scenario.html)
+[GEMSEO's documentation][gemseo.problem.mdo.opt_as_mdo_scenario]
 to get more information about the basics of this technique.
 
 !!! quote "References"
@@ -34,11 +34,10 @@ to get more information about the basics of this technique.
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
-from typing import Any
 
-from gemseo.problems.mdo.opt_as_mdo_scenario import LinearLinkDiscipline
-from gemseo.problems.mdo.opt_as_mdo_scenario import create_disciplines
-from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
+from gemseo.problem.mdo.opt_as_mdo_scenario import LinearLinkDiscipline
+from gemseo.problem.mdo.opt_as_mdo_scenario import create_disciplines
+from gemseo.util.constant import read_only_empty_dict
 
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 
@@ -47,13 +46,13 @@ if TYPE_CHECKING:
     from collections.abc import Iterable
     from collections.abc import Mapping
 
-    from gemseo.algos.design_space import DesignSpace
-    from gemseo.algos.parameter_space import ParameterSpace
-    from gemseo.core.discipline.discipline import Discipline
-    from gemseo.formulations.base_formulation_settings import BaseFormulationSettings
-    from gemseo.problems.mdo.opt_as_mdo_scenario import BaseLinkDiscipline
-    from gemseo.typing import RealArray
-    from gemseo.typing import StrKeyMapping
+    from gemseo.discipline import Discipline
+    from gemseo.formulation.core.base_settings import BaseFormulationSettings
+    from gemseo.problem.mdo.opt_as_mdo_scenario import BaseLinkDiscipline
+    from gemseo.space import DesignSpace
+    from gemseo.space import RandomSpace
+    from gemseo.util.typing import RealArray
+    from gemseo.util.typing import StrKeyMapping
 
     from gemseo_umdo.formulations.base_umdo_formulation_settings import (
         BaseUMDOFormulationSettings,
@@ -66,25 +65,21 @@ class UOptAsUMDOScenario(UMDOScenario):
     def __init__(
         self,
         discipline: Discipline,
-        objective_name: str,
         design_space: DesignSpace,
-        uncertain_space: ParameterSpace,
-        objective_statistic_name: str,
+        uncertain_space: RandomSpace,
         statistic_estimation_settings: BaseUMDOFormulationSettings,
-        objective_statistic_parameters: StrKeyMapping = READ_ONLY_EMPTY_DICT,
         uncertain_design_variables: Mapping[
             str, str | tuple[str, str]
-        ] = READ_ONLY_EMPTY_DICT,
+        ] = read_only_empty_dict,
         name: str = "",
-        formulation_settings_model: BaseFormulationSettings | None = None,
-        maximize_objective: bool = False,
+        formulation_settings: BaseFormulationSettings | None = None,
+        default_input_data: StrKeyMapping = read_only_empty_dict,
         coupling_equations: tuple[
-            Iterable[Discipline, ...],
+            Iterable[Discipline],
             Callable[[RealArray], RealArray],
             Callable[[RealArray], RealArray],
         ] = (),
         link_discipline_class: type[BaseLinkDiscipline] = LinearLinkDiscipline,
-        **formulation_settings: Any,
     ) -> None:
         r"""
         Args:
@@ -115,15 +110,11 @@ class UOptAsUMDOScenario(UMDOScenario):
         )
         super().__init__(
             disciplines,
-            objective_name,
             design_space,
             uncertain_space,
-            objective_statistic_name,
-            statistic_estimation_settings=statistic_estimation_settings,
-            objective_statistic_parameters=objective_statistic_parameters,
+            statistic_estimation_settings,
             uncertain_design_variables=uncertain_design_variables,
             name=name,
-            maximize_objective=maximize_objective,
-            formulation_settings_model=formulation_settings_model,
-            **formulation_settings,
+            formulation_settings=formulation_settings,
+            default_input_data=default_input_data,
         )

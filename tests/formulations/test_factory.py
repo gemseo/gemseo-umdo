@@ -14,7 +14,7 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 from __future__ import annotations
 
-from gemseo.formulations.factory import MDOFormulationFactory
+from gemseo.formulation.factory import MDOFormulationFactory
 
 from gemseo_umdo.formulations.factory import UMDO_FORMULATION_FACTORY
 

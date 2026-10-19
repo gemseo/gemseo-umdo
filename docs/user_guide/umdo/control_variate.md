@@ -27,13 +27,12 @@ Here is a typical scenario template:
 ``` py
 scenario = UMDOScenario(
     disciplines,
-    mdo_formulation_name,
-    objective_name,
     design_space,
     uncertain_space,
-    statistic_name,
-    statistic_estimation_settings=ControlVariate_Settings(n_samples=20),
+    ControlVariate_Settings(n_samples=20),
+    formulation_settings=mdo_formulation_settings,
 )
+scenario.add_objective(objective_name, statistic_name)
 ```
 
 ## Settings
@@ -43,13 +42,13 @@ scenario = UMDOScenario(
 The control variates are built from approximations of the original objective, constraint and observable functions.
 These approximations can be
 either Taylor polynomials centered at the mean input value (default)
-or regression models defined as [BaseRegressor][gemseo.mlearning.regression.algos.base_regressor.BaseRegressor]s.
+or regression models defined as [BaseRegressor][gemseo.machine_learning.regression.core.base_regressor.BaseRegressor]s.
 In the latter case,
 the regression model is defined by the Pydantic models
 `regressor_settings` for the settings of the regressor
-(e.g. [RBFRegressor_Settings][gemseo.mlearning.regression.algos.rbf_settings.RBFRegressor_Settings])
+(e.g. [RBFRegressor_Settings][gemseo.machine_learning.regression.model.rbf_settings.RBFRegressor_Settings])
 and `regressor_doe_algo_settings` for the settings of the DOE algorithm used to create the training dataset
-(e.g. [OT_HALTON_Settings][gemseo.algos.doe.openturns.settings.ot_halton.OT_HALTON_Settings]).
+(e.g. [OT_HALTON_Settings][gemseo.doe.openturns.settings.ot_halton.OT_HALTON_Settings]).
 
 ### Sampling
 
@@ -65,30 +64,29 @@ and so to get a better space-filling LHS.
 
 The number of samples can be changed with the parameter `n_samples`
 and the DOE algorithm name can be changed with the parameter `doe_algo_settings` ,
-which is a Pydantic model deriving from [BaseDOESettings][gemseo.algos.doe.base_doe_settings.BaseDOESettings].
+which is a Pydantic model deriving from [BaseDOESettings][gemseo.doe.core.base_doe_settings.BaseDOESettings].
 When `n_samples` is `None` (default) and `doe_algo_settings` has a field `n_samples`,
 then this field is considered.
 When `doe_algo_settings` has a field `seed` and its value is `None`,
-then the U-MDO formulation will use [SEED][gemseo.utils.seeder.SEED].
+then the U-MDO formulation will use [seed][gemseo.util.seeder.seed].
 
 !!! note "API"
     Here is an example of code that considers an RBF regressor and different DOE algorithms:
 
     ``` py
     settings = ControlVariate_Settings(
-        doe_algo_settings=OT_MONTE_CARLO(n_samples=20, n_processes=2),
+        doe_algo_settings=OT_MONTE_CARLO_Settings(n_samples=20, n_processes=2),
         regressor_settings=RBFRegressor_Settings(),
-        regressor_doe_algo_settings=OT_OPT_LHS(n_samples=15),
+        regressor_doe_algo_settings=OT_OPT_LHS_Settings(n_samples=15),
     )
     scenario = UMDOScenario(
         disciplines,
-        mdo_formulation_name,
-        objective_name,
         design_space,
         uncertain_space,
-        statistic_name,
-        statistic_estimation_settings=settings,
+        settings,
+        formulation_settings=mdo_formulation_settings,
     )
+    scenario.add_objective(objective_name, statistic_name)
     ```
 
     !!! warning
@@ -96,9 +94,9 @@ then the U-MDO formulation will use [SEED][gemseo.utils.seeder.SEED].
         when their classes are the same, e.g.
         ``` py
         settings = ControlVariate_Settings(
-            doe_algo_settings=OT_MONTE_CARLO(n_samples=20, n_processes=2, seed=2),
+            doe_algo_settings=OT_MONTE_CARLO_Settings(n_samples=20, n_processes=2, seed=2),
             regressor_settings=RBFRegressor_Settings(),
-            regressor_doe_algo_settings=OT_MONTE_CARLO(n_samples=15, seed=3),
+            regressor_doe_algo_settings=OT_MONTE_CARLO_Settings(n_samples=15, seed=3),
         )
         ```
 

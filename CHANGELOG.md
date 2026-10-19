@@ -30,18 +30,64 @@ and this project adheres to
 
 ### Changed
 
+- GEMSEO-UMDO requires GEMSEO 7.
+- BREAKING CHANGE:
+  [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario],
+  [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario]
+  and [UOptAsUMDOScenario][gemseo_umdo.problems.uopt_as_umdo_scenario.UOptAsUMDOScenario]
+  follow the API of the GEMSEO 7 scenarios:
+    - they are instantiated from the disciplines (or the discipline),
+      the design space, the uncertain space and the statistic estimation settings,
+      e.g. `UMDOScenario(disciplines, design_space, uncertain_space, Sampling_Settings())`;
+    - the objective is set after instantiation with
+      [add_objective()][gemseo_umdo.scenarios.base_u_scenario.BaseUScenario.add_objective],
+      e.g. `scenario.add_objective("f", "Mean")`,
+      and maximized with `minimize=False`;
+      the arguments `objective_name`, `objective_statistic_name`,
+      `objective_statistic_parameters` and `maximize_objective` are removed;
+    - the MDO formulation is defined by the argument `formulation_settings`,
+      a Pydantic model of settings
+      (default: [MDF_Settings][gemseo.formulation.mdf_settings.MDF_Settings]);
+      the arguments `formulation_name`, `formulation_settings_model`
+      and `**formulation_settings` are removed.
+- BREAKING CHANGE: the U-MDO formulations follow the API of the GEMSEO 7 formulations:
+  they are instantiated from an optimization problem defined over the design space,
+  the disciplines, the settings,
+  the uncertain space and the settings of the MDO formulation,
+  and create the objective with
+  [create_objective()][gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation.create_objective].
+  Their MDO formulations evaluate the functions over the uncertain space
+  with an [EvaluationProblem][gemseo.core.problem.evaluation.EvaluationProblem]
+  whose observables include the output of the objective.
+  The settings of the U-MDO formulations derive from
+  [BaseFormulationSettings][gemseo.formulation.core.base_settings.BaseFormulationSettings].
+- BREAKING CHANGE:
+  [UncertainCouplingGraph.sample()][gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph.sample]
+  takes the settings of the DOE algorithm,
+  e.g. `OT_OPT_LHS_Settings(n_samples=100)`,
+  instead of `n_samples`, `algo_name` and `**algo_options`.
+- [PCE_Settings][gemseo_umdo.formulations.pce_settings.PCE_Settings]
+  raises a `ValueError` when `regressor_settings.learn_jacobian_data` is `True`
+  and `approximate_statistics_jacobians` is `False`;
+  this combination used to estimate the Jacobian of the statistics
+  from the derivatives with respect to the uncertain variables
+  instead of the design variables.
 - The `factor` parameter of the statistic ``"Margin"`` is replaced by its absolute value
   in the case of an objective to maximize or a positivity constraint.
   In the case of observables, this parameter is not modified.
+
+### Removed
+
+- Support for Python 3.10.
 
 ## Version 4.3.0 (October 2025)
 
 ### Added
 
 - The U-MDO formulation [PCE][gemseo_umdo.formulations.pce.PCE] can support any type of
-  [BaseFCERegressor][gemseo.mlearning.regression.algos.base_fce.BaseFCERegressor],
-  e.g., [PCERegressor][gemseo.mlearning.regression.algos.pce.PCERegressor] (default)
-  and [FCERegressor][gemseo.mlearning.regression.algos.fce.FCERegressor].
+  [BaseFCERegressor][gemseo.machine_learning.regression.core.base_fce.BaseFCERegressor],
+  e.g., [PCERegressor][gemseo.machine_learning.regression.model.pce.PCERegressor] (default)
+  and [FCERegressor][gemseo.machine_learning.regression.model.fce.FCERegressor].
 - Support for Python 3.13.
 
 ### Removed
@@ -52,7 +98,7 @@ and this project adheres to
 
 ### Added
 
-- The [ControlVariate][gemseo_umdo.formulations.control_variate.ControlVariate] U-MDO formulation can create the control variates from any [BaseRegressor][gemseo.mlearning.regression.algos.base_regressor.BaseRegressor] using the arguments `regressor_settings` (for defining the regressor) and `regressor_doe_algo_settings` (for creating the training dataset). By default, this U-MDO formulation uses control variates based on Taylor polynomials.
+- The [ControlVariate][gemseo_umdo.formulations.control_variate.ControlVariate] U-MDO formulation can create the control variates from any [BaseRegressor][gemseo.machine_learning.regression.core.base_regressor.BaseRegressor] using the arguments `regressor_settings` (for defining the regressor) and `regressor_doe_algo_settings` (for creating the training dataset). By default, this U-MDO formulation uses control variates based on Taylor polynomials.
 - The subpackage [truss][gemseo_umdo.use_cases.truss] includes modules for implementing a truss structure problem from the literature.
 - The function [create_noising_discipline_chain][gemseo_umdo.disciplines.utils.create_noising_discipline_chain] returns a disciplines chain to noise input variables.
   This function is used by the [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario] and [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
@@ -78,7 +124,7 @@ and this project adheres to
 ### Added
 
 - A [SobolGraph][gemseo_umdo.visualizations.sobol_graph.SobolGraph] can be defined
-  from a [PCERegressor][gemseo.mlearning.regression.algos.pce.PCERegressor]
+  from a [PCERegressor][gemseo.machine_learning.regression.model.pce.PCERegressor]
   by using its [from_pce][gemseo_umdo.visualizations.sobol_graph.SobolGraph.from_pce] method.
 
 ### Fixed
@@ -115,7 +161,7 @@ and this project adheres to
   and is parametrized by the option `differentiation_step` (default: `1e-6`).
 - [UOptAsUMDOScenario][gemseo_umdo.problems.uopt_as_umdo_scenario.UOptAsUMDOScenario]
   can make a monodisciplinary optimization problem under uncertainty multidisciplinary.
-- An example illustrates the use of the [BiLevel][gemseo.formulations.bilevel.BiLevel] MDO formulation
+- An example illustrates the use of the [BiLevel][gemseo.formulation.bilevel.BiLevel] MDO formulation
   in the U-MDO formulation [Sampling][gemseo_umdo.formulations.sampling.Sampling].
 
 ### Changed
@@ -213,7 +259,7 @@ and this project adheres to
 ### Fixed
 
 - The U-MDO formulation [Sampling][gemseo_umdo.formulations.sampling.Sampling]
-  works properly when the option `estimate_statistics_iteratively`  is `True`
+  works properly when the option `estimate_statistics_iteratively` is `True`
   and the DOE option `n_processes` is greater than 1.
 - The docstring of the `uncertain_design_variables` argument of
   [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario]
@@ -227,7 +273,7 @@ and this project adheres to
   the uncertain design variables can be propagated
   through the multidisciplinary process
   even with MDO formulations that do not ensure the satisfaction of couplings,
-  such as [DisciplinaryOpt][gemseo.formulations.disciplinary_opt.DisciplinaryOpt].
+  such as [DisciplinaryOpt][gemseo.formulation.disciplinary_opt.DisciplinaryOpt].
 
 ## Version 2.0.1 (January 2024)
 
@@ -278,12 +324,12 @@ and this project adheres to
   used by the U-MDO formulation [Sampling][gemseo_umdo.formulations.sampling.Sampling]
   with `estimate_statistics_iteratively=False` is now unbiased.
 - API changes:
-  - The options of the statistics estimators
+    - The options of the statistics estimators
     are now set at instantiation instead of execution.
-  - `gemseo_umdo.estimators` has been renamed to `gemseo_umdo.formulations.statistics`.
+    - `gemseo_umdo.estimators` has been renamed to `gemseo_umdo.formulations.statistics`.
 - The log of the statistics no longer includes design variables and uncertain inputs
   (e.g. `E[y(x; u)]`),
-  but only uncertain output  (e.g. `E[y]`) to avoid display problems in large dimensions.
+  but only uncertain output (e.g. `E[y]`) to avoid display problems in large dimensions.
 
 ### Fixed
 

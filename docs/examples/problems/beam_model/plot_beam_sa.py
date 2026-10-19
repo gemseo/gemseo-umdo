@@ -22,8 +22,8 @@ variables defined by `BeamUncertainSpace`.
 
 from __future__ import annotations
 
-from gemseo.core.chains.chain import MDOChain
-from gemseo.uncertainty.sensitivity.sobol_analysis import SobolAnalysis
+from gemseo.discipline import DisciplineChain
+from gemseo.uncertainty.sensitivity import SobolAnalysis
 
 from gemseo_umdo.use_cases.beam_model.constraints import BeamConstraints
 from gemseo_umdo.use_cases.beam_model.discipline import Beam
@@ -33,13 +33,13 @@ uncertain_space = BeamUncertainSpace()
 
 n_y = n_z = 10
 
-mdo_chain = MDOChain([Beam(n_y=n_y, n_z=n_z), BeamConstraints()])
+mdo_chain = DisciplineChain([Beam(n_y=n_y, n_z=n_z), BeamConstraints()])
 
 sobol = SobolAnalysis()
 sobol.compute_samples(
     [mdo_chain], uncertain_space, 500, output_names=["c_displ", "c_stress"]
 )
-mesh = mdo_chain.disciplines[0].io.data["yz_grid"].reshape((-1, 2))
+mesh = mdo_chain.disciplines[0].io.get("yz_grid").reshape((-1, 2))
 sobol.main_method = "total"
 sobol.compute_indices()
 sobol.plot_field("c_displ", mesh=mesh, save=False, show=True)

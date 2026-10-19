@@ -22,7 +22,7 @@ associated with taking the uncertainties into account.
 Otherwise,
 finite differences are computed
 and so the additional cost is $d+1$ evaluations of the process
-associated with the [BaseMDOFormulation][gemseo.formulations.base_mdo_formulation.BaseMDOFormulation]
+associated with the [BaseMDOFormulation][gemseo.formulation.core.base_mdo.BaseMDOFormulation]
 where $d$ is the dimension of the uncertain space.
 
 This U-MDO formulation has no mandatory parameters.
@@ -32,13 +32,12 @@ Here is a typical scenario template:
 ``` py
 scenario = UMDOScenario(
     disciplines,
-    mdo_formulation_name,
-    objective_name,
     design_space,
     uncertain_space,
-    statistic_name,
-    statistic_estimation_settings=TaylorPolynomial_Settings(),
+    TaylorPolynomial_Settings(),
+    formulation_settings=mdo_formulation_settings,
 )
+scenario.add_objective(objective_name, statistic_name)
 ```
 
 ## Settings
@@ -47,7 +46,7 @@ scenario = UMDOScenario(
 
 When the derivatives with respect to the uncertain variables are missing
 or when the process
-resulting from the [BaseMDOFormulation][gemseo.formulations.base_mdo_formulation.BaseMDOFormulation]
+resulting from the [BaseMDOFormulation][gemseo.formulation.core.base_mdo.BaseMDOFormulation]
 cannot be differentiated with respect to these variables,
 this U-MDO formulation uses finite difference approximations.
 One can also force the use of finite difference approximations
@@ -61,13 +60,12 @@ to `"finite_differences"`.
     ``` py
     scenario = UMDOScenario(
         disciplines,
-        mdo_formulation_name,
-        objective_name,
         design_space,
         uncertain_space,
-        statistic_name,
-        statistic_estimation_settings=TaylorPolynomial_Settings(differentiation_method="finite_differences"),
+        TaylorPolynomial_Settings(differentiation_method="finite_differences"),
+        formulation_settings=mdo_formulation_settings,
     )
+    scenario.add_objective(objective_name, statistic_name)
     ```
 
 ### Second-order

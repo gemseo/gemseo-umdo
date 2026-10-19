@@ -31,17 +31,21 @@ In the following, we will call $f$ the function computing $(x+U)^2$ given $x$ an
 
 from __future__ import annotations
 
-from gemseo.algos.design_space import DesignSpace
-from gemseo.algos.parameter_space import ParameterSpace
-from gemseo.disciplines.analytic import AnalyticDiscipline
-from gemseo.post.dataset.lines import Lines
+from gemseo.discipline import AnalyticDiscipline
+from gemseo.optimization import NLOPT_COBYLA_Settings
+from gemseo.post import OptHistoryView_Settings
+from gemseo.post.dataset import Lines
+from gemseo.post.dataset.lines_settings import Lines_Settings
+from gemseo.space import DesignSpace
+from gemseo.space import RandomSpace
+from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 
 from gemseo_umdo.formulations.surrogate_settings import Surrogate_Settings
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 
 # %%
 # Firstly,
-# we define an [AnalyticDiscipline][gemseo.disciplines.analytic.AnalyticDiscipline]
+# we define an [AnalyticDiscipline][gemseo.discipline.analytic.AnalyticDiscipline]
 # implementing the function $f$:
 discipline = AnalyticDiscipline({"y": "(x+u)**2"}, name="f")
 
@@ -52,8 +56,8 @@ design_space.add_variable("x", lower_bound=-1, upper_bound=1.0, value=0.5)
 
 # %%
 # and the uncertain space:
-uncertain_space = ParameterSpace()
-uncertain_space.add_random_variable("u", "OTNormalDistribution")
+uncertain_space = RandomSpace()
+uncertain_space.add_variable("u", OTNormalDistribution_Settings())
 
 # %%
 # Then,
@@ -63,21 +67,19 @@ uncertain_space.add_random_variable("u", "OTNormalDistribution")
 # trained from 20 samples at each iteration of the optimization loop:
 scenario = UMDOScenario(
     [discipline],
-    "y",
     design_space,
     uncertain_space,
-    "Mean",
-    formulation_name="DisciplinaryOpt",
-    statistic_estimation_settings=Surrogate_Settings(n_samples=20),
+    Surrogate_Settings(n_samples=20),
 )
+scenario.add_objective("y", "Mean")
 
 # %%
 # We execute this scenario using the gradient-free optimizer COBYLA:
-scenario.execute(algo_name="NLOPT_COBYLA", max_iter=100)
+scenario.execute(NLOPT_COBYLA_Settings(max_iter=100))
 
 # %%
 # and plot the optimization history:
-scenario.post_process(post_name="OptHistoryView", save=False, show=True)
+scenario.post_process(OptHistoryView_Settings(save=False, show=True))
 
 # %%
 # Notice that the numerical solution
@@ -92,5 +94,7 @@ scenario.post_process(post_name="OptHistoryView", save=False, show=True)
 # The quality metric is the R2 score
 # and the test quality is estimated by cross-validation.
 dataset = scenario.to_dataset()
-lines = Lines(dataset, variables=["y_learning_quality", "y_test_quality"])
+lines = Lines(
+    dataset, settings=Lines_Settings(variables=["y_learning_quality", "y_test_quality"])
+)
 lines.execute(save=False)

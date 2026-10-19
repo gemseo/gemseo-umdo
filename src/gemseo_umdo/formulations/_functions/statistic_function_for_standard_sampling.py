@@ -30,7 +30,7 @@ from gemseo_umdo.formulations._functions.base_statistic_function_for_sampling im
 )
 
 if TYPE_CHECKING:
-    from gemseo.typing import RealArray
+    from gemseo.util.typing import RealArray
 
     from gemseo_umdo.formulations.sampling import Sampling
 
@@ -58,7 +58,7 @@ class StatisticFunctionForStandardSampling(BaseStatisticFunctionForSampling[Samp
         self, input_data: RealArray, estimate_jacobian: bool
     ) -> dict[str, Any]:
         formulation = self._umdo_formulation
-        problem = formulation.mdo_formulation.optimization_problem
+        problem = formulation.mdo_formulation.problem
         database = problem.database
         formulation.compute_samples(
             problem, input_data, compute_jacobian=estimate_jacobian
@@ -67,7 +67,7 @@ class StatisticFunctionForStandardSampling(BaseStatisticFunctionForSampling[Samp
         for output_name in database.get_function_names(skip_grad=False):
             history = database.get_function_history(output_name)
             ndim = history.ndim
-            if output_name.startswith(database.GRAD_TAG):
+            if output_name.startswith(database.grad_tag):
                 if ndim == 2:
                     history = history[:, newaxis, :]
                 elif ndim == 1:

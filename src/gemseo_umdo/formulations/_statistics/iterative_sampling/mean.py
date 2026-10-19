@@ -26,7 +26,7 @@ from gemseo_umdo.formulations._statistics.iterative_sampling.base_central_moment
 )
 
 if TYPE_CHECKING:
-    from gemseo.typing import RealArray
+    from gemseo.util.typing import RealArray
 
 
 class Mean(BaseCentralMoment):

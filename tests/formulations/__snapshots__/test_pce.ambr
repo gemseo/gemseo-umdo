@@ -1,0 +1,15 @@
+# serializer version: 1
+# name: test_settings_error[learn_jacobian_data]
+  '''
+  1 validation error for PCE_Settings
+    Value error, The setting regressor_settings.learn_jacobian_data cannot be True when approximate_statistics_jacobians is False: the FCE cannot learn both the Jacobian data with respect to the uncertain variables and the special Jacobian data with respect to the design variables. [type=value_error, input_value={'regressor_settings': FC...YNOMIAL: 'Polynomial'>)}, input_type=dict]
+      For further information visit https://errors.pydantic.dev/X.Y/v/value_error
+  '''
+# ---
+# name: test_settings_error[special_jacobian_data]
+  '''
+  1 validation error for PCE_Settings
+    Value error, The settings approximate_statistics_jacobians and regressor_settings.use_special_jacobian_data cannot be both True. [type=value_error, input_value={'approximate_statistics_...YNOMIAL: 'Polynomial'>)}, input_type=dict]
+      For further information visit https://errors.pydantic.dev/X.Y/v/value_error
+  '''
+# ---
