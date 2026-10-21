@@ -15,3 +15,4 @@
 """A plug-in for multidisciplinary design under uncertainty."""
 
 from __future__ import annotations
+# CI check of the 2.0.0 pipeline, not to be merged.
