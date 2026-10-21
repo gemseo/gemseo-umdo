@@ -30,6 +30,7 @@ and this project adheres to
 
 ### Changed
 
+- CI check of the 2.0.0 pipeline, not to be merged.
 - GEMSEO-UMDO requires GEMSEO 7.
 - BREAKING CHANGE:
   [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario],
