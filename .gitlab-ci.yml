@@ -1,2 +1,2 @@
 include:
-  - component: gitlab.com/gemseo/dev/ci/pipeline@1.1.0
+  - component: gitlab.com/gemseo/dev/ci/pipeline@2.0.0
