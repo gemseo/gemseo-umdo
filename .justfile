@@ -4,7 +4,8 @@ set windows-shell := ["powershell.exe", "-NoLogo", "-Command"]
 # override it with UV_PYTHON.
 
 # Recursive invocations shall use the very same just binary and justfile.
-just := quote(just_executable()) + ' --justfile ' + quote(justfile())
+# PowerShell, the windows-shell, needs its call operator to run a quoted path.
+just := (if os_family() == "windows" { "& " } else { "" }) + quote(just_executable()) + ' --justfile ' + quote(justfile())
 
 [private]
 default:
