@@ -8,7 +8,7 @@
       
       
       
-        <link rel="canonical" href="https://gemseo.gitlab.io/gemseo-umdo/latest/user_guide/umdo/pce/">
+        <link rel="canonical" href="https://gemseo.gitlab.io/dev/gemseo-umdo/latest/user_guide/umdo/pce/">
       
       
         <link rel="prev" href="../surrogate/">
@@ -20,8 +20,8 @@
         
       
       
-      <link rel="icon" href="../../../images/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+      <link rel="icon" href="../../../images/monogram.png">
+      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.7.7">
     
     
       
@@ -29,7 +29,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -2118,14 +2118,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../generated/examples/umdo/sampling/s_sellar/" class="md-nav__link">
+      <a href="../../../generated/examples/umdo/sampling/s_sobieski/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sellar's MDO problem
+    The Sobieski's SSBJ MDO problem.
   
 
     
@@ -2146,14 +2146,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../generated/examples/umdo/sampling/s_sobieski/" class="md-nav__link">
+      <a href="../../../generated/examples/umdo/sampling/s_sellar/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sobieski's SSBJ MDO problem.
+    The Sellar's MDO problem
   
 
     
@@ -2448,14 +2448,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../generated/examples/umdo/taylor_polynomial/tp_sellar/" class="md-nav__link">
+      <a href="../../../generated/examples/umdo/taylor_polynomial/tp_sobieski/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sellar's MDO problem
+    The Sobieski's SSBJ MDO problem
   
 
     
@@ -2476,14 +2476,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../generated/examples/umdo/taylor_polynomial/tp_sobieski/" class="md-nav__link">
+      <a href="../../../generated/examples/umdo/taylor_polynomial/tp_sellar/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sobieski's SSBJ MDO problem
+    The Sellar's MDO problem
   
 
     
@@ -8565,7 +8565,7 @@
 is a U-MDO formulation that estimates the statistics
 using functional chaos expansions (FCEs),
 including polynomial chaos expansions (PCEs).
-By default, this U-MDO formulation is based on the [PCERegressor][gemseo.mlearning.regression.algos.pce.PCERegressor].</p>
+By default, this U-MDO formulation is based on the <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/machine_learning/regression/model/pce/#gemseo.machine_learning.regression.model.pce.PCERegressor">PCERegressor</a>.</p>
 <p>At each iteration of the optimization loop,
 an FCE is built over the uncertain space
 and its coefficients are used to estimate specific statistics,
@@ -8573,13 +8573,12 @@ namely mean, standard deviation, variance and margin.</p>
 <p>Here is a typical scenario template:</p>
 <div class="highlight"><pre><span></span><code><span class="n">scenario</span> <span class="o">=</span> <span class="n">UMDOScenario</span><span class="p">(</span>
     <span class="n">disciplines</span><span class="p">,</span>
-    <span class="n">mdo_formulation_name</span><span class="p">,</span>
-    <span class="n">objective_name</span><span class="p">,</span>
     <span class="n">design_space</span><span class="p">,</span>
     <span class="n">uncertain_space</span><span class="p">,</span>
-    <span class="n">statistic_name</span><span class="p">,</span>
-    <span class="n">statistic_estimation_settings</span><span class="o">=</span><span class="n">PCE_Settings</span><span class="p">(</span><span class="n">doe_n_samples</span><span class="o">=</span><span class="mi">20</span><span class="p">),</span>
+    <span class="n">PCE_Settings</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">20</span><span class="p">),</span>
+    <span class="n">formulation_settings</span><span class="o">=</span><span class="n">mdo_formulation_settings</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="n">scenario</span><span class="o">.</span><span class="n">add_objective</span><span class="p">(</span><span class="n">objective_name</span><span class="p">,</span> <span class="n">statistic_name</span><span class="p">)</span>
 </code></pre></div>
 <h2 id="settings">Settings<a class="headerlink" href="#settings" title="Permanent link">&para;</a></h2>
 <h3 id="doe-algorithm">DOE algorithm<a class="headerlink" href="#doe-algorithm" title="Permanent link">&para;</a></h3>
@@ -8593,19 +8592,19 @@ and so to get a better space-filling LHS.</p>
 <p>The default number samples is 10.
 It can be changed with the parameter <code>n_samples</code>
 and the DOE algorithm name can be changed with the parameter <code>doe_algo_settings</code>,
-which is a Pydantic model deriving from [BaseDOESettings][gemseo.algos.doe.base_doe_settings.BaseDOESettings].
+which is a Pydantic model deriving from <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/doe/core/base_doe_settings/#gemseo.doe.core.base_doe_settings.BaseDOESettings">BaseDOESettings</a>.
 When <code>n_samples</code> is <code>None</code> (default) and <code>doe_algo_settings</code> has a field <code>n_samples</code>,
 then this field is considered.
 When <code>doe_algo_settings</code> has a field <code>seed</code> and its value is <code>None</code>,
-then the U-MDO formulation will use [SEED][gemseo.utils.seeder.SEED].</p>
+then the U-MDO formulation will use <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/util/seeder/#gemseo.util.seeder.seed">seed</a>.</p>
 <h3 id="pces-options">PCE's options<a class="headerlink" href="#pces-options" title="Permanent link">&para;</a></h3>
-<p>This U-MDO formulation can use any [BaseFCERegressor][gemseo.mlearning.regression.algos.base_fce.BaseFCERegressor],
-including the [PCERegressor][gemseo.mlearning.regression.algos.pce.PCERegressor] available in GEMSEO,
+<p>This U-MDO formulation can use any <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/machine_learning/regression/core/base_fce/#gemseo.machine_learning.regression.core.base_fce.BaseFCERegressor">BaseFCERegressor</a>,
+including the <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/machine_learning/regression/model/pce/#gemseo.machine_learning.regression.model.pce.PCERegressor">PCERegressor</a> available in GEMSEO,
 which wraps the <a href="https://openturns.github.io/openturns/latest/user_manual/response_surface/_generated/openturns.FunctionalChaosAlgorithm.html">OpenTURNS' PCE algorithm</a>.
-Use the <code>regressor_settings</code> parameter to set the options of the [BaseFCERegressor][gemseo.mlearning.regression.algos.base_fce.BaseFCERegressor],
-using a Pydantic model of type [BaseFCERegressorSettings][gemseo.mlearning.regression.algos.base_fce_settings.BaseFCERegressor_Settings].
+Use the <code>regressor_settings</code> parameter to set the options of the <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/machine_learning/regression/core/base_fce/#gemseo.machine_learning.regression.core.base_fce.BaseFCERegressor">BaseFCERegressor</a>,
+using a Pydantic model of type <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/machine_learning/regression/core/base_fce_settings/#gemseo.machine_learning.regression.core.base_fce_settings.BaseFCERegressorSettings">BaseFCERegressorSettings</a>.
 For example,
-in the case of [PCERegressorSettings][gemseo.mlearning.regression.algos.pce_settings.PCERegressor_Settings],
+in the case of <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/machine_learning/regression/model/pce_settings/#gemseo.machine_learning.regression.model.pce_settings.PCERegressor_Settings">PCERegressorSettings</a>,
 set <code>use_lars</code> to <code>True</code> to obtain a more sparse PCE and avoid overfitting
 (<a href="https://openturns.github.io/openturns/latest/theory/meta_modeling/polynomial_sparse_least_squares.html">more details</a>)
 and <code>degree</code> to <code>3</code> for a maximum degree of 3.
@@ -8621,18 +8620,17 @@ You only have to enable the option <code>approximate_statistics_jacobians</code>
 to set the DOE algorithm and the FCE's settings,
 e.g.</p>
 <div class="highlight"><pre><span></span><code><span class="n">settings</span> <span class="o">=</span> <span class="n">PCE_Settings</span><span class="p">(</span>
-    <span class="n">doe_algo_settings</span><span class="o">=</span><span class="n">OT_MONTE_CARLO</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">n_processes</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
-    <span class="n">regressor_settings</span><span class="o">=</span><span class="n">PCERegressorSettings</span><span class="p">(</span><span class="n">use_lars</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span>
+    <span class="n">doe_algo_settings</span><span class="o">=</span><span class="n">OT_MONTE_CARLO_Settings</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">n_processes</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+    <span class="n">regressor_settings</span><span class="o">=</span><span class="n">PCERegressor_Settings</span><span class="p">(</span><span class="n">use_lars</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span>
     <span class="p">)</span>
 <span class="n">scenario</span> <span class="o">=</span> <span class="n">UMDOScenario</span><span class="p">(</span>
     <span class="n">disciplines</span><span class="p">,</span>
-    <span class="n">mdo_formulation_name</span><span class="p">,</span>
-    <span class="n">objective_name</span><span class="p">,</span>
     <span class="n">design_space</span><span class="p">,</span>
     <span class="n">uncertain_space</span><span class="p">,</span>
-    <span class="n">statistic_name</span><span class="p">,</span>
-    <span class="n">statistic_estimation_settings</span><span class="o">=</span><span class="n">settings</span><span class="p">,</span>
+    <span class="n">settings</span><span class="p">,</span>
+    <span class="n">formulation_settings</span><span class="o">=</span><span class="n">mdo_formulation_settings</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="n">scenario</span><span class="o">.</span><span class="n">add_objective</span><span class="p">(</span><span class="n">objective_name</span><span class="p">,</span> <span class="n">statistic_name</span><span class="p">)</span>
 </code></pre></div>
 </div>
 <h3 id="quality-options">Quality options<a class="headerlink" href="#quality-options" title="Permanent link">&para;</a></h3>
@@ -8779,14 +8777,13 @@ mean, standard deviation, variance and margin.</p>
       <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.instant", "navigation.indexes"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
         <script src="../../../assets/_markdown_exec_pyodide.js"></script>
       
         <script src="../../../javascripts/mathjax.js"></script>
       
         <script src="../../../javascripts/xdsmjs.js"></script>
-      
       
         <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
       

@@ -8,7 +8,7 @@
       
       
       
-        <link rel="canonical" href="https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/scenarios/umdo_scenario/">
+        <link rel="canonical" href="https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/scenarios/umdo_scenario/">
       
       
         <link rel="prev" href="../udoe_scenario/">
@@ -20,8 +20,8 @@
         
       
       
-      <link rel="icon" href="../../../../images/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+      <link rel="icon" href="../../../../images/monogram.png">
+      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.7.7">
     
     
       
@@ -29,7 +29,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1992,14 +1992,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../generated/examples/umdo/sampling/s_sellar/" class="md-nav__link">
+      <a href="../../../../generated/examples/umdo/sampling/s_sobieski/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sellar's MDO problem
+    The Sobieski's SSBJ MDO problem.
   
 
     
@@ -2020,14 +2020,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../generated/examples/umdo/sampling/s_sobieski/" class="md-nav__link">
+      <a href="../../../../generated/examples/umdo/sampling/s_sellar/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sobieski's SSBJ MDO problem.
+    The Sellar's MDO problem
   
 
     
@@ -2322,14 +2322,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../generated/examples/umdo/taylor_polynomial/tp_sellar/" class="md-nav__link">
+      <a href="../../../../generated/examples/umdo/taylor_polynomial/tp_sobieski/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sellar's MDO problem
+    The Sobieski's SSBJ MDO problem
   
 
     
@@ -2350,14 +2350,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../generated/examples/umdo/taylor_polynomial/tp_sobieski/" class="md-nav__link">
+      <a href="../../../../generated/examples/umdo/taylor_polynomial/tp_sellar/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sobieski's SSBJ MDO problem
+    The Sellar's MDO problem
   
 
     
@@ -6363,12 +6363,12 @@
   <a href="#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario-functions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Functions
+        Methods:
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Functions">
+    <nav class="md-nav" aria-label="Methods:">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -6376,6 +6376,17 @@
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;add_constraint
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario.add_objective" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;add_objective
       
     </span>
   </a>
@@ -8611,12 +8622,12 @@
   <a href="#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario-functions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Functions
+        Methods:
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Functions">
+    <nav class="md-nav" aria-label="Methods:">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -8624,6 +8635,17 @@
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;add_constraint
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario.add_objective" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;add_objective
       
     </span>
   </a>
@@ -8726,28 +8748,24 @@
 
 <a href="#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario" class="headerlink" title="Permanent link">&para;</a></h4>
 <div class="doc-signature highlight"><pre><span></span><code><span class="nf">UMDOScenario</span><span class="p">(</span>
-    <span class="n">disciplines</span><span class="p">:</span> <span class="n"><span title="collections.abc.Sequence">Sequence</span></span><span class="p">[</span><span class="n"><span title="gemseo.core.discipline.discipline.Discipline">Discipline</span></span> <span class="o">|</span> <span class="n"><span title="gemseo.scenarios.base_scenario.BaseScenario">BaseScenario</span></span><span class="p">],</span>
-    <span class="n">objective_name</span><span class="p">:</span> <span class="n"><span title="str">str</span></span><span class="p">,</span>
-    <span class="n">design_space</span><span class="p">:</span> <span class="n"><span title="gemseo.algos.design_space.DesignSpace">DesignSpace</span></span><span class="p">,</span>
-    <span class="n">uncertain_space</span><span class="p">:</span> <span class="n"><span title="gemseo.algos.parameter_space.ParameterSpace">ParameterSpace</span></span><span class="p">,</span>
-    <span class="n">objective_statistic_name</span><span class="p">:</span> <span class="n"><span title="str">str</span></span><span class="p">,</span>
+    <span class="n">disciplines</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="collections.abc.Sequence" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Sequence">Sequence</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" title="gemseo.discipline.Discipline" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/discipline/#gemseo.discipline.Discipline">Discipline</a></span> <span class="o">|</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.scenario.EvaluationScenario" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/scenario/#gemseo.scenario.EvaluationScenario">EvaluationScenario</a></span><span class="p">],</span>
+    <span class="n">design_space</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.space.DesignSpace" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/space/#gemseo.space.DesignSpace">DesignSpace</a></span><span class="p">,</span>
+    <span class="n">uncertain_space</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.space.RandomSpace" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/space/#gemseo.space.RandomSpace">RandomSpace</a></span><span class="p">,</span>
     <span class="n">statistic_estimation_settings</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="            BaseUMDOFormulationSettings (gemseo_umdo.formulations.base_umdo_formulation_settings.BaseUMDOFormulationSettings)" href="../../formulations/base_umdo_formulation_settings/#gemseo_umdo.formulations.base_umdo_formulation_settings.BaseUMDOFormulationSettings">BaseUMDOFormulationSettings</a></span><span class="p">,</span>
-    <span class="n">objective_statistic_parameters</span><span class="p">:</span> <span class="n"><span title="gemseo.typing.StrKeyMapping">StrKeyMapping</span></span> <span class="o">=</span> <span class="n"><span title="gemseo.utils.constants.READ_ONLY_EMPTY_DICT">READ_ONLY_EMPTY_DICT</span></span><span class="p">,</span>
-    <span class="n">uncertain_design_variables</span><span class="p">:</span> <span class="n"><span title="collections.abc.Mapping">Mapping</span></span><span class="p">[</span>
-        <span class="n"><span title="str">str</span></span><span class="p">,</span> <span class="n"><span title="str">str</span></span> <span class="o">|</span> <span class="n"><span title="tuple">tuple</span></span><span class="p">[</span><span class="n"><span title="str">str</span></span><span class="p">,</span> <span class="n"><span title="str">str</span></span><span class="p">]</span>
-    <span class="p">]</span> <span class="o">=</span> <span class="n"><span title="gemseo.utils.constants.READ_ONLY_EMPTY_DICT">READ_ONLY_EMPTY_DICT</span></span><span class="p">,</span>
-    <span class="n">name</span><span class="p">:</span> <span class="n"><span title="str">str</span></span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-    <span class="n">formulation_settings_model</span><span class="p">:</span> <span class="p">(</span>
-        <span class="n"><span title="gemseo.formulations.base_formulation_settings.BaseFormulationSettings">BaseFormulationSettings</span></span> <span class="o">|</span> <span class="kc">None</span>
+    <span class="n">uncertain_design_variables</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="collections.abc.Mapping" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping">Mapping</a></span><span class="p">[</span>
+        <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a></span> <span class="o">|</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#tuple">tuple</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a></span><span class="p">]</span>
+    <span class="p">]</span> <span class="o">=</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.util.constant.read_only_empty_dict" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/util/constant/#gemseo.util.constant.read_only_empty_dict">read_only_empty_dict</a></span><span class="p">,</span>
+    <span class="n">name</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a></span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+    <span class="n">formulation_settings</span><span class="p">:</span> <span class="p">(</span>
+        <span class="n"><a class="autorefs autorefs-external" title="gemseo.formulation.core.base_settings.BaseFormulationSettings" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/formulation/core/base_settings/#gemseo.formulation.core.base_settings.BaseFormulationSettings">BaseFormulationSettings</a></span> <span class="o">|</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">maximize_objective</span><span class="p">:</span> <span class="n"><span title="bool">bool</span></span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="o">**</span><span class="n">formulation_settings</span><span class="p">:</span> <span class="n"><span title="typing.Any">Any</span></span>
+    <span class="n">default_input_data</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.util.typing.StrKeyMapping" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/util/typing/#gemseo.util.typing.StrKeyMapping">StrKeyMapping</a></span> <span class="o">=</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.util.constant.read_only_empty_dict" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/util/constant/#gemseo.util.constant.read_only_empty_dict">read_only_empty_dict</a></span><span class="p">,</span>
 <span class="p">)</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
-              Bases: <code><a class="autorefs autorefs-internal" title="            BaseUScenario (gemseo_umdo.scenarios.base_u_scenario.BaseUScenario)" href="../base_u_scenario/#gemseo_umdo.scenarios.base_u_scenario.BaseUScenario">BaseUScenario</a></code>, <code><span title="gemseo.scenarios.mdo_scenario.MDOScenario">MDOScenario</span></code></p>
+              Bases: <code><a class="autorefs autorefs-internal" title="            BaseUScenario (gemseo_umdo.scenarios.base_u_scenario.BaseUScenario)" href="../base_u_scenario/#gemseo_umdo.scenarios.base_u_scenario.BaseUScenario">BaseUScenario</a></code>, <code><a class="autorefs autorefs-external" title="gemseo.scenario.MDOScenario" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/scenario/#gemseo.scenario.MDOScenario">MDOScenario</a></code></p>
 
 
 
@@ -8765,6 +8783,38 @@
       <tbody>
           <tr class="doc-section-item">
             <td>
+                <code>disciplines</code>
+            </td>
+            <td class="doc-param-details">
+              <div class="doc-md-description">
+                <p>The disciplines.</p>
+              </div>
+              <p>
+                  <span class="doc-param-annotation">
+                    <b>TYPE:</b>
+                      <code><a class="autorefs autorefs-external" title="collections.abc.Sequence" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Sequence">Sequence</a>[<a class="autorefs autorefs-external" title="gemseo.discipline.Discipline" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/discipline/#gemseo.discipline.Discipline">Discipline</a> | <a class="autorefs autorefs-external" title="gemseo.scenario.EvaluationScenario" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/scenario/#gemseo.scenario.EvaluationScenario">EvaluationScenario</a>]</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>design_space</code>
+            </td>
+            <td class="doc-param-details">
+              <div class="doc-md-description">
+                <p>The design space.</p>
+              </div>
+              <p>
+                  <span class="doc-param-annotation">
+                    <b>TYPE:</b>
+                      <code><a class="autorefs autorefs-external" title="gemseo.space.DesignSpace" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/space/#gemseo.space.DesignSpace">DesignSpace</a></code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
                 <code>uncertain_space</code>
             </td>
             <td class="doc-param-details">
@@ -8775,24 +8825,7 @@ with their probability distributions.</p>
               <p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
-                      <code><span title="gemseo.algos.parameter_space.ParameterSpace">ParameterSpace</span></code>
-                  </span>
-              </p>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>objective_statistic_name</code>
-            </td>
-            <td class="doc-param-details">
-              <div class="doc-md-description">
-                <p>The name of the statistic
-to be applied to the objective, e.g. "margin".</p>
-              </div>
-              <p>
-                  <span class="doc-param-annotation">
-                    <b>TYPE:</b>
-                      <code><span title="str">str</span></code>
+                      <code><a class="autorefs autorefs-external" title="gemseo.space.RandomSpace" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/space/#gemseo.space.RandomSpace">RandomSpace</a></code>
                   </span>
               </p>
             </td>
@@ -8810,28 +8843,6 @@ of the statistics' estimation technique.</p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
                       <code><a class="autorefs autorefs-internal" title="            BaseUMDOFormulationSettings (gemseo_umdo.formulations.base_umdo_formulation_settings.BaseUMDOFormulationSettings)" href="../../formulations/base_umdo_formulation_settings/#gemseo_umdo.formulations.base_umdo_formulation_settings.BaseUMDOFormulationSettings">BaseUMDOFormulationSettings</a></code>
-                  </span>
-              </p>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>objective_statistic_parameters</code>
-            </td>
-            <td class="doc-param-details">
-              <div class="doc-md-description">
-                <p>The parameters of the statistics
-to be applied to the objective,
-e.g. <code>{"factor": 2.}</code> when <code>objective_statistic="margin"</code>.</p>
-              </div>
-              <p>
-                  <span class="doc-param-annotation">
-                    <b>TYPE:</b>
-                      <code><span title="gemseo.typing.StrKeyMapping">StrKeyMapping</span></code>
-                  </span>
-                  <span class="doc-param-default">
-                    <b>DEFAULT:</b>
-                      <code><span title="gemseo.utils.constants.READ_ONLY_EMPTY_DICT">READ_ONLY_EMPTY_DICT</span></code>
                   </span>
               </p>
             </td>
@@ -8876,38 +8887,82 @@ defined in the <code>uncertain_space</code>
 and <code>"{}"</code> is the optimization variable.
 Leave <code>"{}"</code> as is; it will be automatically replaced by <code>"dv_x"</code>.
 This more complex format assumes variables of dimension 1.
-If <code>None</code>,
+If empty,
 do not consider other variable relations
 than those defined by <code>disciplines</code>.</p>
               </div>
               <p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
-                      <code><span title="collections.abc.Mapping">Mapping</span>[<span title="str">str</span>, <span title="str">str</span> | <span title="tuple">tuple</span>[<span title="str">str</span>, <span title="str">str</span>]]</code>
+                      <code><a class="autorefs autorefs-external" title="collections.abc.Mapping" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping">Mapping</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a>, <a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a> | <a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#tuple">tuple</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a>, <a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a>]]</code>
                   </span>
                   <span class="doc-param-default">
                     <b>DEFAULT:</b>
-                      <code><span title="gemseo.utils.constants.READ_ONLY_EMPTY_DICT">READ_ONLY_EMPTY_DICT</span></code>
+                      <code><a class="autorefs autorefs-external" title="gemseo.util.constant.read_only_empty_dict" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/util/constant/#gemseo.util.constant.read_only_empty_dict">read_only_empty_dict</a></code>
                   </span>
               </p>
             </td>
           </tr>
           <tr class="doc-section-item">
             <td>
-                <code>maximize_objective</code>
+                <code>name</code>
             </td>
             <td class="doc-param-details">
               <div class="doc-md-description">
-                <p>Whether to maximize the statistic of the objective.</p>
+                <p>The name to be given to the scenario.
+If empty, use the name of the class.</p>
               </div>
               <p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
-                      <code><span title="bool">bool</span></code>
+                      <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a></code>
                   </span>
                   <span class="doc-param-default">
                     <b>DEFAULT:</b>
-                      <code>False</code>
+                      <code>&#39;&#39;</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>formulation_settings</code>
+            </td>
+            <td class="doc-param-details">
+              <div class="doc-md-description">
+                <p>The settings of the MDO formulation
+generating the functions evaluable over the uncertain space.
+If <code>None</code>,
+use <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/formulation/mdf_settings/#gemseo.formulation.mdf_settings.MDF_Settings">MDF_Settings</a>.</p>
+              </div>
+              <p>
+                  <span class="doc-param-annotation">
+                    <b>TYPE:</b>
+                      <code><a class="autorefs autorefs-external" title="gemseo.formulation.core.base_settings.BaseFormulationSettings" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/formulation/core/base_settings/#gemseo.formulation.core.base_settings.BaseFormulationSettings">BaseFormulationSettings</a> | None</code>
+                  </span>
+                  <span class="doc-param-default">
+                    <b>DEFAULT:</b>
+                      <code>None</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>default_input_data</code>
+            </td>
+            <td class="doc-param-details">
+              <div class="doc-md-description">
+                <p>Some default input data of the disciplines.</p>
+              </div>
+              <p>
+                  <span class="doc-param-annotation">
+                    <b>TYPE:</b>
+                      <code><a class="autorefs autorefs-external" title="gemseo.util.typing.StrKeyMapping" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/util/typing/#gemseo.util.typing.StrKeyMapping">StrKeyMapping</a></code>
+                  </span>
+                  <span class="doc-param-default">
+                    <b>DEFAULT:</b>
+                      <code><a class="autorefs autorefs-external" title="gemseo.util.constant.read_only_empty_dict" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/util/constant/#gemseo.util.constant.read_only_empty_dict">read_only_empty_dict</a></code>
                   </span>
               </p>
             </td>
@@ -9010,9 +9065,454 @@ than those defined by <code>disciplines</code>.</p>
 <span class="normal">142</span>
 <span class="normal">143</span>
 <span class="normal">144</span>
-<span class="normal">145</span>
-<span class="normal">146</span>
-<span class="normal">147</span>
+<span class="normal">145</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">disciplines</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Discipline</span> <span class="o">|</span> <span class="n">EvaluationScenario</span><span class="p">],</span>
+    <span class="n">design_space</span><span class="p">:</span> <span class="n">DesignSpace</span><span class="p">,</span>
+    <span class="n">uncertain_space</span><span class="p">:</span> <span class="n">RandomSpace</span><span class="p">,</span>
+    <span class="n">statistic_estimation_settings</span><span class="p">:</span> <span class="n">BaseUMDOFormulationSettings</span><span class="p">,</span>
+    <span class="n">uncertain_design_variables</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span>
+        <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>
+    <span class="p">]</span> <span class="o">=</span> <span class="n">read_only_empty_dict</span><span class="p">,</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+    <span class="n">formulation_settings</span><span class="p">:</span> <span class="n">BaseFormulationSettings</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">default_input_data</span><span class="p">:</span> <span class="n">StrKeyMapping</span> <span class="o">=</span> <span class="n">read_only_empty_dict</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Args:</span>
+<span class="sd">        disciplines: The disciplines.</span>
+<span class="sd">        design_space: The design space.</span>
+<span class="sd">        uncertain_space: The uncertain variables</span>
+<span class="sd">            with their probability distributions.</span>
+<span class="sd">        statistic_estimation_settings: The settings</span>
+<span class="sd">            of the statistics' estimation technique.</span>
+<span class="sd">        uncertain_design_variables: This argument facilitates</span>
+<span class="sd">            the definition of uncertain design variables in two ways.</span>
+<span class="sd">            The first way consists of passing a dictionary</span>
+<span class="sd">            of the form `{"x1": ("+", "u1"), "x2": ("*", "u2"), ...}`</span>
+<span class="sd">            which defines the uncertain design variables as</span>
+<span class="sd">            `x1 = dv_x1 + u1` and `x2 = dv_x2 * (1 + u2)`.</span>
+<span class="sd">            Here `"x1"` and `"x2"` are the names of the design variables</span>
+<span class="sd">            made uncertain by the random variables `"u_1"` and `"u_2"`</span>
+<span class="sd">            which typically have zero mean.</span>
+<span class="sd">            `"x1"` and `"x2"` are the names of the design variables</span>
+<span class="sd">            actually used in `disciplines`</span>
+<span class="sd">            while the names `"dv_x1"` and `dv_x2` are generated by the scenario.</span>
+<span class="sd">            More generally,</span>
+<span class="sd">            the first element of the tuple is assumed</span>
+<span class="sd">            to be either the class name or the</span>
+<span class="sd">            [SHORT_NAME][gemseo_umdo.disciplines.base_noiser.BaseNoiser.SHORT_NAME]</span>
+<span class="sd">            of a</span>
+<span class="sd">            [BaseNoiser][gemseo_umdo.disciplines.base_noiser.BaseNoiser]</span>
+<span class="sd">            (feel free to create new noising disciplines).</span>
+<span class="sd">            The second way of defining these uncertain design variables</span>
+<span class="sd">            consists of passing a set of more complex expressions</span>
+<span class="sd">            of the form `{"x": "{} + u", ...}`</span>
+<span class="sd">            where `"x"` is the name of the design variable</span>
+<span class="sd">            actually used in the equations,</span>
+<span class="sd">            `"u"` is the name of the uncertain variable</span>
+<span class="sd">            defined in the `uncertain_space`</span>
+<span class="sd">            and `"{}"` is the optimization variable.</span>
+<span class="sd">            Leave `"{}"` as is; it will be automatically replaced by `"dv_x"`.</span>
+<span class="sd">            This more complex format assumes variables of dimension 1.</span>
+<span class="sd">            If empty,</span>
+<span class="sd">            do not consider other variable relations</span>
+<span class="sd">            than those defined by `disciplines`.</span>
+<span class="sd">        name: The name to be given to the scenario.</span>
+<span class="sd">            If empty, use the name of the class.</span>
+<span class="sd">        formulation_settings: The settings of the MDO formulation</span>
+<span class="sd">            generating the functions evaluable over the uncertain space.</span>
+<span class="sd">            If `None`,</span>
+<span class="sd">            use [MDF_Settings][gemseo.formulation.mdf_settings.MDF_Settings].</span>
+<span class="sd">        default_input_data: Some default input data of the disciplines.</span>
+<span class="sd">    """</span>  <span class="c1"># noqa: D205 D212 D415</span>
+    <span class="n">disciplines</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">disciplines</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">uncertain_design_variables</span><span class="p">:</span>
+        <span class="n">noising_discipline_chain</span> <span class="o">=</span> <span class="n">create_noising_discipline_chain</span><span class="p">(</span>
+            <span class="n">design_space</span><span class="p">,</span> <span class="n">uncertain_design_variables</span>
+        <span class="p">)</span>
+        <span class="n">disciplines</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">noising_discipline_chain</span><span class="p">)</span>
+
+    <span class="c1"># The U-MDO formulation requires arguments</span>
+    <span class="c1"># that the scenario does not pass to the factory of formulations.</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_formulation_factory</span> <span class="o">=</span> <span class="n">SimpleNamespace</span><span class="p">(</span>
+        <span class="n">create</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_formulation_factory</span><span class="o">.</span><span class="n">create</span><span class="p">,</span>
+            <span class="n">uncertain_space</span><span class="o">=</span><span class="n">uncertain_space</span><span class="p">,</span>
+            <span class="n">mdo_formulation_settings</span><span class="o">=</span><span class="n">formulation_settings</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">disciplines</span><span class="p">,</span>
+            <span class="n">design_space</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">formulation_settings</span><span class="o">=</span><span class="n">statistic_estimation_settings</span><span class="p">,</span>
+            <span class="n">default_input_data</span><span class="o">=</span><span class="n">default_input_data</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_formulation_factory</span>
+</code></pre></div></td></tr></table></div>
+                  </details>
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+<h5 id="gemseo_umdo.scenarios.umdo_scenario.UMDOScenario-attributes">Attributes<a href="#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario-attributes" class="headerlink" title="Permanent link">&para;</a></h5>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h6 id="gemseo_umdo.scenarios.umdo_scenario.UMDOScenario.available_statistics" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">available_statistics</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario.available_statistics" class="headerlink" title="Permanent link">&para;</a></h6>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">available_statistics</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#list">list</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a></span><span class="p">]</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>The names of the available statistics.</p>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h6 id="gemseo_umdo.scenarios.umdo_scenario.UMDOScenario.mdo_formulation" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">mdo_formulation</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario.mdo_formulation" class="headerlink" title="Permanent link">&para;</a></h6>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">mdo_formulation</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.formulation.core.base_mdo.BaseMDOFormulation" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/formulation/core/base_mdo/#gemseo.formulation.core.base_mdo.BaseMDOFormulation">BaseMDOFormulation</a></span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>The MDO formulation over the uncertain space.</p>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h6 id="gemseo_umdo.scenarios.umdo_scenario.UMDOScenario.uncertain_space" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">uncertain_space</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario.uncertain_space" class="headerlink" title="Permanent link">&para;</a></h6>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">uncertain_space</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.space.RandomSpace" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/space/#gemseo.space.RandomSpace">RandomSpace</a></span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>The uncertain variable space.</p>
+
+    </div>
+
+</div>
+
+
+<h5 id="gemseo_umdo.scenarios.umdo_scenario.UMDOScenario-functions">Methods:<a href="#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario-functions" class="headerlink" title="Permanent link">&para;</a></h5>
+
+<div class="doc doc-object doc-function">
+
+
+<h6 id="gemseo_umdo.scenarios.umdo_scenario.UMDOScenario.add_constraint" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">add_constraint</span>
+
+
+<a href="#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario.add_constraint" class="headerlink" title="Permanent link">&para;</a></h6>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">add_constraint</span><span class="p">(</span>
+    <span class="n">output_name</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a></span> <span class="o">|</span> <span class="n"><a class="autorefs autorefs-external" title="collections.abc.Sequence" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Sequence">Sequence</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a></span><span class="p">],</span>
+    <span class="n">statistic_name</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a></span><span class="p">,</span>
+    <span class="n">constraint_type</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.core.function.array_function.ArrayFunction.ConstraintType" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/core/function/array_function/#gemseo.core.function.array_function.ArrayFunction.ConstraintType">ConstraintType</a></span> <span class="o">=</span> <span class="n"><span title="gemseo.core.function.array_function.ArrayFunction.ConstraintType.INEQ">INEQ</span></span><span class="p">,</span>
+    <span class="n">constraint_name</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a></span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+    <span class="n">value</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/functions.html#float">float</a></span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">positive</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/functions.html#bool">bool</a></span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">statistic_parameters</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+
+
+<table>
+      <thead>
+        <tr>
+          <th><span class="doc-section-title">PARAMETER</span></th>
+          <th><span>DESCRIPTION</span></th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>statistic_name</code>
+            </td>
+            <td class="doc-param-details">
+              <div class="doc-md-description">
+                <p>The name of the statistic
+to be applied to the constraint, e.g. "margin".</p>
+              </div>
+              <p>
+                  <span class="doc-param-annotation">
+                    <b>TYPE:</b>
+                      <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a></code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>statistic_parameters</code>
+            </td>
+            <td class="doc-param-details">
+              <div class="doc-md-description">
+                <p>The parameters of the statistics
+to be applied to the constraint,
+<code>{"factor": 2.}</code> when <code>objective_statistic="margin"</code>.</p>
+              </div>
+              <p>
+                  <span class="doc-param-annotation">
+                    <b>TYPE:</b>
+                      <code><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></code>
+                  </span>
+                  <span class="doc-param-default">
+                    <b>DEFAULT:</b>
+                      <code>{}</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/gemseo_umdo/scenarios/base_u_scenario.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_constraint</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">output_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="n">statistic_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">constraint_type</span><span class="p">:</span> <span class="n">ArrayFunction</span><span class="o">.</span><span class="n">ConstraintType</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">ArrayFunction</span><span class="o">.</span><span class="n">ConstraintType</span><span class="o">.</span><span class="n">INEQ</span>
+    <span class="p">),</span>
+    <span class="n">constraint_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+    <span class="n">value</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">positive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">statistic_parameters</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Args:</span>
+<span class="sd">        statistic_name: The name of the statistic</span>
+<span class="sd">            to be applied to the constraint, e.g. "margin".</span>
+<span class="sd">        statistic_parameters: The parameters of the statistics</span>
+<span class="sd">            to be applied to the constraint,</span>
+<span class="sd">            `{"factor": 2.}` when `objective_statistic="margin"`.</span>
+<span class="sd">    """</span>  <span class="c1"># noqa: D205 D212 D415</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">formulation</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span>
+        <span class="n">output_name</span><span class="p">,</span>
+        <span class="n">statistic_name</span><span class="p">,</span>
+        <span class="n">constraint_type</span><span class="o">=</span><span class="n">constraint_type</span><span class="p">,</span>
+        <span class="n">constraint_name</span><span class="o">=</span><span class="n">constraint_name</span><span class="p">,</span>
+        <span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">,</span>
+        <span class="n">positive</span><span class="o">=</span><span class="n">positive</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">statistic_parameters</span><span class="p">,</span>
+    <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h6 id="gemseo_umdo.scenarios.umdo_scenario.UMDOScenario.add_objective" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">add_objective</span>
+
+
+<a href="#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario.add_objective" class="headerlink" title="Permanent link">&para;</a></h6>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">add_objective</span><span class="p">(</span>
+    <span class="n">output_names</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a></span> <span class="o">|</span> <span class="n"><a class="autorefs autorefs-external" title="collections.abc.Sequence" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Sequence">Sequence</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a></span><span class="p">],</span>
+    <span class="n">statistic_name</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a></span><span class="p">,</span>
+    <span class="n">minimize</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/functions.html#bool">bool</a></span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">objective_name</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a></span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">statistic_parameters</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Set the objective.</p>
+
+
+<table>
+      <thead>
+        <tr>
+          <th><span class="doc-section-title">PARAMETER</span></th>
+          <th><span>DESCRIPTION</span></th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>output_names</code>
+            </td>
+            <td class="doc-param-details">
+              <div class="doc-md-description">
+                <p>The names of the outputs used as objective.</p>
+              </div>
+              <p>
+                  <span class="doc-param-annotation">
+                    <b>TYPE:</b>
+                      <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a> | <a class="autorefs autorefs-external" title="collections.abc.Sequence" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Sequence">Sequence</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a>]</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>statistic_name</code>
+            </td>
+            <td class="doc-param-details">
+              <div class="doc-md-description">
+                <p>The name of the statistic
+to be applied to the objective, e.g. "Margin".</p>
+              </div>
+              <p>
+                  <span class="doc-param-annotation">
+                    <b>TYPE:</b>
+                      <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a></code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>minimize</code>
+            </td>
+            <td class="doc-param-details">
+              <div class="doc-md-description">
+                <p>Whether to minimize the statistic of the objective.</p>
+              </div>
+              <p>
+                  <span class="doc-param-annotation">
+                    <b>TYPE:</b>
+                      <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/functions.html#bool">bool</a></code>
+                  </span>
+                  <span class="doc-param-default">
+                    <b>DEFAULT:</b>
+                      <code>True</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>objective_name</code>
+            </td>
+            <td class="doc-param-details">
+              <div class="doc-md-description">
+                <p>The name of the objective to be stored.
+If empty,
+the name is generated from <code>output_names</code> and <code>statistic_name</code>.</p>
+              </div>
+              <p>
+                  <span class="doc-param-annotation">
+                    <b>TYPE:</b>
+                      <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a></code>
+                  </span>
+                  <span class="doc-param-default">
+                    <b>DEFAULT:</b>
+                      <code>&#39;&#39;</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>**statistic_parameters</code>
+            </td>
+            <td class="doc-param-details">
+              <div class="doc-md-description">
+                <p>The parameters of the statistic
+to be applied to the objective,
+e.g. <code>factor=2.</code> when <code>statistic_name="Margin"</code>.</p>
+              </div>
+              <p>
+                  <span class="doc-param-annotation">
+                    <b>TYPE:</b>
+                      <code><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></code>
+                  </span>
+                  <span class="doc-param-default">
+                    <b>DEFAULT:</b>
+                      <code>{}</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/gemseo_umdo/scenarios/base_u_scenario.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">147</span>
 <span class="normal">148</span>
 <span class="normal">149</span>
 <span class="normal">150</span>
@@ -9040,340 +9540,39 @@ than those defined by <code>disciplines</code>.</p>
 <span class="normal">172</span>
 <span class="normal">173</span>
 <span class="normal">174</span>
-<span class="normal">175</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_objective</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
-    <span class="n">disciplines</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Discipline</span> <span class="o">|</span> <span class="n">BaseScenario</span><span class="p">],</span>
-    <span class="n">objective_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-    <span class="n">design_space</span><span class="p">:</span> <span class="n">DesignSpace</span><span class="p">,</span>
-    <span class="n">uncertain_space</span><span class="p">:</span> <span class="n">ParameterSpace</span><span class="p">,</span>
-    <span class="n">objective_statistic_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-    <span class="n">statistic_estimation_settings</span><span class="p">:</span> <span class="n">BaseUMDOFormulationSettings</span><span class="p">,</span>
-    <span class="n">objective_statistic_parameters</span><span class="p">:</span> <span class="n">StrKeyMapping</span> <span class="o">=</span> <span class="n">READ_ONLY_EMPTY_DICT</span><span class="p">,</span>
-    <span class="n">uncertain_design_variables</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span>
-        <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>
-    <span class="p">]</span> <span class="o">=</span> <span class="n">READ_ONLY_EMPTY_DICT</span><span class="p">,</span>
-    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-    <span class="n">formulation_settings_model</span><span class="p">:</span> <span class="n">BaseFormulationSettings</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">maximize_objective</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="o">**</span><span class="n">formulation_settings</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Args:</span>
-<span class="sd">        uncertain_space: The uncertain variables</span>
-<span class="sd">            with their probability distributions.</span>
-<span class="sd">        objective_statistic_name: The name of the statistic</span>
-<span class="sd">            to be applied to the objective, e.g. &quot;margin&quot;.</span>
-<span class="sd">        statistic_estimation_settings: The settings</span>
-<span class="sd">            of the statistics&#39; estimation technique.</span>
-<span class="sd">        objective_statistic_parameters: The parameters of the statistics</span>
-<span class="sd">            to be applied to the objective,</span>
-<span class="sd">            e.g. `{&quot;factor&quot;: 2.}` when `objective_statistic=&quot;margin&quot;`.</span>
-<span class="sd">        uncertain_design_variables: This argument facilitates</span>
-<span class="sd">            the definition of uncertain design variables in two ways.</span>
-<span class="sd">            The first way consists of passing a dictionary</span>
-<span class="sd">            of the form `{&quot;x1&quot;: (&quot;+&quot;, &quot;u1&quot;), &quot;x2&quot;: (&quot;*&quot;, &quot;u2&quot;), ...}`</span>
-<span class="sd">            which defines the uncertain design variables as</span>
-<span class="sd">            `x1 = dv_x1 + u1` and `x2 = dv_x2 * (1 + u2)`.</span>
-<span class="sd">            Here `&quot;x1&quot;` and `&quot;x2&quot;` are the names of the design variables</span>
-<span class="sd">            made uncertain by the random variables `&quot;u_1&quot;` and `&quot;u_2&quot;`</span>
-<span class="sd">            which typically have zero mean.</span>
-<span class="sd">            `&quot;x1&quot;` and `&quot;x2&quot;` are the names of the design variables</span>
-<span class="sd">            actually used in `disciplines`</span>
-<span class="sd">            while the names `&quot;dv_x1&quot;` and `dv_x2` are generated by the scenario.</span>
-<span class="sd">            More generally,</span>
-<span class="sd">            the first element of the tuple is assumed</span>
-<span class="sd">            to be either the class name or the</span>
-<span class="sd">            [SHORT_NAME][gemseo_umdo.disciplines.base_noiser.BaseNoiser.SHORT_NAME]</span>
-<span class="sd">            of a</span>
-<span class="sd">            [BaseNoiser][gemseo_umdo.disciplines.base_noiser.BaseNoiser]</span>
-<span class="sd">            (feel free to create new noising disciplines).</span>
-<span class="sd">            The second way of defining these uncertain design variables</span>
-<span class="sd">            consists of passing a set of more complex expressions</span>
-<span class="sd">            of the form `{&quot;x&quot;: &quot;{} + u&quot;, ...}`</span>
-<span class="sd">            where `&quot;x&quot;` is the name of the design variable</span>
-<span class="sd">            actually used in the equations,</span>
-<span class="sd">            `&quot;u&quot;` is the name of the uncertain variable</span>
-<span class="sd">            defined in the `uncertain_space`</span>
-<span class="sd">            and `&quot;{}&quot;` is the optimization variable.</span>
-<span class="sd">            Leave `&quot;{}&quot;` as is; it will be automatically replaced by `&quot;dv_x&quot;`.</span>
-<span class="sd">            This more complex format assumes variables of dimension 1.</span>
-<span class="sd">            If `None`,</span>
-<span class="sd">            do not consider other variable relations</span>
-<span class="sd">            than those defined by `disciplines`.</span>
-<span class="sd">        maximize_objective: Whether to maximize the statistic of the objective.</span>
-<span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: D205 D212 D415</span>
-    <span class="n">disciplines</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">disciplines</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">uncertain_design_variables</span><span class="p">:</span>
-        <span class="n">noising_discipline_chain</span> <span class="o">=</span> <span class="n">create_noising_discipline_chain</span><span class="p">(</span>
-            <span class="n">design_space</span><span class="p">,</span> <span class="n">uncertain_design_variables</span>
-        <span class="p">)</span>
-        <span class="n">disciplines</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">noising_discipline_chain</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">formulation_settings_model</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">formulation_name</span> <span class="o">=</span> <span class="n">formulation_settings</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;formulation_name&quot;</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">formulation_name</span> <span class="o">=</span> <span class="n">formulation_settings_model</span><span class="o">.</span><span class="n">_TARGET_CLASS_NAME</span>
-
-    <span class="n">mdo_formulation_class</span> <span class="o">=</span> <span class="n">MDOFormulationFactory</span><span class="p">()</span><span class="o">.</span><span class="n">get_class</span><span class="p">(</span><span class="n">formulation_name</span><span class="p">)</span>
-    <span class="n">formulation_settings_model</span> <span class="o">=</span> <span class="n">create_model</span><span class="p">(</span>
-        <span class="n">mdo_formulation_class</span><span class="o">.</span><span class="n">Settings</span><span class="p">,</span>
-        <span class="n">formulation_settings_model</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">formulation_settings</span><span class="p">,</span>
-    <span class="p">)</span>
-
-    <span class="c1"># Create the design space associated with the optimization problem</span>
-    <span class="c1"># generated by the MDO formulation</span>
-    <span class="n">mdo_formulation_design_space</span> <span class="o">=</span> <span class="n">mdo_formulation_class</span><span class="p">(</span>
-        <span class="n">disciplines</span><span class="p">,</span>
-        <span class="n">objective_name</span><span class="p">,</span>
-        <span class="n">design_space</span><span class="p">,</span>
-        <span class="n">settings_model</span><span class="o">=</span><span class="n">formulation_settings_model</span><span class="p">,</span>
-    <span class="p">)</span><span class="o">.</span><span class="n">design_space</span>
-
-    <span class="c1"># Create the MDO formulation</span>
-    <span class="c1"># whose functions are evaluable over the uncertain space</span>
-    <span class="c1"># and differentiable with respect to the design variables.</span>
-    <span class="n">formulation_settings_model_copy</span> <span class="o">=</span> <span class="n">formulation_settings_model</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-    <span class="n">formulation_settings_model_copy</span><span class="o">.</span><span class="n">differentiated_input_names_substitute</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">mdo_formulation_design_space</span><span class="o">.</span><span class="n">variable_names</span>
-    <span class="p">)</span>
-    <span class="n">mdo_formulation</span> <span class="o">=</span> <span class="n">mdo_formulation_class</span><span class="p">(</span>
-        <span class="n">disciplines</span><span class="p">,</span>
-        <span class="n">objective_name</span><span class="p">,</span>
-        <span class="n">uncertain_space</span><span class="p">,</span>
-        <span class="n">settings_model</span><span class="o">=</span><span class="n">formulation_settings_model_copy</span><span class="p">,</span>
-    <span class="p">)</span>
-
-    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-        <span class="n">disciplines</span><span class="p">,</span>
-        <span class="n">objective_name</span><span class="p">,</span>
-        <span class="n">mdo_formulation_design_space</span><span class="p">,</span>
-        <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
-        <span class="n">mdo_formulation</span><span class="o">=</span><span class="n">mdo_formulation</span><span class="p">,</span>
-        <span class="n">objective_statistic_name</span><span class="o">=</span><span class="n">objective_statistic_name</span><span class="p">,</span>
-        <span class="n">objective_statistic_parameters</span><span class="o">=</span><span class="n">objective_statistic_parameters</span><span class="p">,</span>
-        <span class="n">uncertain_space</span><span class="o">=</span><span class="n">uncertain_space</span><span class="p">,</span>
-        <span class="n">maximize_objective</span><span class="o">=</span><span class="n">maximize_objective</span><span class="p">,</span>
-        <span class="n">mdo_formulation_settings</span><span class="o">=</span><span class="n">formulation_settings</span><span class="p">,</span>
-        <span class="n">formulation_settings_model</span><span class="o">=</span><span class="n">statistic_estimation_settings</span><span class="p">,</span>
-    <span class="p">)</span>
-</code></pre></div></td></tr></table></div>
-                  </details>
-
-
-
-<div class="doc doc-children">
-
-
-
-
-
-<h5 id="gemseo_umdo.scenarios.umdo_scenario.UMDOScenario-attributes">Attributes<a href="#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario-attributes" class="headerlink" title="Permanent link">&para;</a></h5>
-
-<div class="doc doc-object doc-attribute">
-
-
-
-<h6 id="gemseo_umdo.scenarios.umdo_scenario.UMDOScenario.available_statistics" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">available_statistics</span>
-
-
-  <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-property"><code>property</code></small>
-  </span>
-
-<a href="#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario.available_statistics" class="headerlink" title="Permanent link">&para;</a></h6>
-<div class="doc-signature highlight"><pre><span></span><code><span class="n">available_statistics</span><span class="p">:</span> <span class="n"><span title="list">list</span></span><span class="p">[</span><span class="n"><span title="str">str</span></span><span class="p">]</span>
-</code></pre></div>
-
-    <div class="doc doc-contents ">
-
-        <p>The names of the available statistics.</p>
-
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-attribute">
-
-
-
-<h6 id="gemseo_umdo.scenarios.umdo_scenario.UMDOScenario.mdo_formulation" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">mdo_formulation</span>
-
-
-  <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-property"><code>property</code></small>
-  </span>
-
-<a href="#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario.mdo_formulation" class="headerlink" title="Permanent link">&para;</a></h6>
-<div class="doc-signature highlight"><pre><span></span><code><span class="n">mdo_formulation</span><span class="p">:</span> <span class="n"><span title="gemseo.formulations.base_mdo_formulation.BaseMDOFormulation">BaseMDOFormulation</span></span>
-</code></pre></div>
-
-    <div class="doc doc-contents ">
-
-        <p>The MDO formulation over the uncertain space.</p>
-
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-attribute">
-
-
-
-<h6 id="gemseo_umdo.scenarios.umdo_scenario.UMDOScenario.uncertain_space" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">uncertain_space</span>
-
-
-  <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-property"><code>property</code></small>
-  </span>
-
-<a href="#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario.uncertain_space" class="headerlink" title="Permanent link">&para;</a></h6>
-<div class="doc-signature highlight"><pre><span></span><code><span class="n">uncertain_space</span><span class="p">:</span> <span class="n"><span title="gemseo.algos.parameter_space.ParameterSpace">ParameterSpace</span></span>
-</code></pre></div>
-
-    <div class="doc doc-contents ">
-
-        <p>The uncertain variable space.</p>
-
-    </div>
-
-</div>
-
-
-<h5 id="gemseo_umdo.scenarios.umdo_scenario.UMDOScenario-functions">Functions<a href="#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario-functions" class="headerlink" title="Permanent link">&para;</a></h5>
-
-<div class="doc doc-object doc-function">
-
-
-<h6 id="gemseo_umdo.scenarios.umdo_scenario.UMDOScenario.add_constraint" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">add_constraint</span>
-
-
-<a href="#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario.add_constraint" class="headerlink" title="Permanent link">&para;</a></h6>
-<div class="doc-signature highlight"><pre><span></span><code><span class="nf">add_constraint</span><span class="p">(</span>
-    <span class="n">output_name</span><span class="p">:</span> <span class="n"><span title="str">str</span></span> <span class="o">|</span> <span class="n"><span title="collections.abc.Sequence">Sequence</span></span><span class="p">[</span><span class="n"><span title="str">str</span></span><span class="p">],</span>
-    <span class="n">statistic_name</span><span class="p">:</span> <span class="n"><span title="str">str</span></span><span class="p">,</span>
-    <span class="n">constraint_type</span><span class="p">:</span> <span class="n"><span title="gemseo.core.mdo_functions.mdo_function.MDOFunction.ConstraintType">ConstraintType</span></span> <span class="o">=</span> <span class="n"><span title="gemseo.core.mdo_functions.mdo_function.MDOFunction.ConstraintType.INEQ">INEQ</span></span><span class="p">,</span>
-    <span class="n">constraint_name</span><span class="p">:</span> <span class="n"><span title="str">str</span></span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-    <span class="n">value</span><span class="p">:</span> <span class="n"><span title="float">float</span></span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="n">positive</span><span class="p">:</span> <span class="n"><span title="bool">bool</span></span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="o">**</span><span class="n">statistic_parameters</span><span class="p">:</span> <span class="n"><span title="typing.Any">Any</span></span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
-</code></pre></div>
-
-    <div class="doc doc-contents ">
-
-
-
-<table>
-      <thead>
-        <tr>
-          <th><span class="doc-section-title">PARAMETER</span></th>
-          <th><span>DESCRIPTION</span></th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                <code>statistic_name</code>
-            </td>
-            <td class="doc-param-details">
-              <div class="doc-md-description">
-                <p>The name of the statistic
-to be applied to the constraint, e.g. "margin".</p>
-              </div>
-              <p>
-                  <span class="doc-param-annotation">
-                    <b>TYPE:</b>
-                      <code><span title="str">str</span></code>
-                  </span>
-              </p>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>statistic_parameters</code>
-            </td>
-            <td class="doc-param-details">
-              <div class="doc-md-description">
-                <p>The parameters of the statistics
-to be applied to the constraint,
-<code>{"factor": 2.}</code> when <code>objective_statistic="margin"</code>.</p>
-              </div>
-              <p>
-                  <span class="doc-param-annotation">
-                    <b>TYPE:</b>
-                      <code><span title="typing.Any">Any</span></code>
-                  </span>
-                  <span class="doc-param-default">
-                    <b>DEFAULT:</b>
-                      <code>{}</code>
-                  </span>
-              </p>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-            <details class="mkdocstrings-source">
-              <summary>Source code in <code>src/gemseo_umdo/scenarios/base_u_scenario.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">181</span>
-<span class="normal">182</span>
-<span class="normal">183</span>
-<span class="normal">184</span>
-<span class="normal">185</span>
-<span class="normal">186</span>
-<span class="normal">187</span>
-<span class="normal">188</span>
-<span class="normal">189</span>
-<span class="normal">190</span>
-<span class="normal">191</span>
-<span class="normal">192</span>
-<span class="normal">193</span>
-<span class="normal">194</span>
-<span class="normal">195</span>
-<span class="normal">196</span>
-<span class="normal">197</span>
-<span class="normal">198</span>
-<span class="normal">199</span>
-<span class="normal">200</span>
-<span class="normal">201</span>
-<span class="normal">202</span>
-<span class="normal">203</span>
-<span class="normal">204</span>
-<span class="normal">205</span>
-<span class="normal">206</span>
-<span class="normal">207</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_constraint</span><span class="p">(</span>
-    <span class="bp">self</span><span class="p">,</span>
-    <span class="n">output_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="n">output_names</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
     <span class="n">statistic_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-    <span class="n">constraint_type</span><span class="p">:</span> <span class="n">MDOFunction</span><span class="o">.</span><span class="n">ConstraintType</span> <span class="o">=</span> <span class="n">MDOFunction</span><span class="o">.</span><span class="n">ConstraintType</span><span class="o">.</span><span class="n">INEQ</span><span class="p">,</span>
-    <span class="n">constraint_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-    <span class="n">value</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="n">positive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">minimize</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">objective_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
     <span class="o">**</span><span class="n">statistic_parameters</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Set the objective.</span>
+
 <span class="sd">    Args:</span>
+<span class="sd">        output_names: The names of the outputs used as objective.</span>
 <span class="sd">        statistic_name: The name of the statistic</span>
-<span class="sd">            to be applied to the constraint, e.g. &quot;margin&quot;.</span>
-<span class="sd">        statistic_parameters: The parameters of the statistics</span>
-<span class="sd">            to be applied to the constraint,</span>
-<span class="sd">            `{&quot;factor&quot;: 2.}` when `objective_statistic=&quot;margin&quot;`.</span>
-<span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: D205 D212 D415</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">formulation</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span>
-        <span class="n">output_name</span><span class="p">,</span>
+<span class="sd">            to be applied to the objective, e.g. "Margin".</span>
+<span class="sd">        minimize: Whether to minimize the statistic of the objective.</span>
+<span class="sd">        objective_name: The name of the objective to be stored.</span>
+<span class="sd">            If empty,</span>
+<span class="sd">            the name is generated from `output_names` and `statistic_name`.</span>
+<span class="sd">        **statistic_parameters: The parameters of the statistic</span>
+<span class="sd">            to be applied to the objective,</span>
+<span class="sd">            e.g. `factor=2.` when `statistic_name="Margin"`.</span>
+<span class="sd">    """</span>
+    <span class="n">problem</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">formulation</span><span class="o">.</span><span class="n">problem</span>
+    <span class="n">problem</span><span class="o">.</span><span class="n">objective</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">formulation</span><span class="o">.</span><span class="n">create_objective</span><span class="p">(</span>
+        <span class="n">output_names</span><span class="p">,</span>
         <span class="n">statistic_name</span><span class="p">,</span>
-        <span class="n">constraint_type</span><span class="o">=</span><span class="n">constraint_type</span><span class="p">,</span>
-        <span class="n">constraint_name</span><span class="o">=</span><span class="n">constraint_name</span><span class="p">,</span>
-        <span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">,</span>
-        <span class="n">positive</span><span class="o">=</span><span class="n">positive</span><span class="p">,</span>
+        <span class="n">objective_name</span><span class="o">=</span><span class="n">objective_name</span><span class="p">,</span>
+        <span class="n">minimize</span><span class="o">=</span><span class="n">minimize</span><span class="p">,</span>
         <span class="o">**</span><span class="n">statistic_parameters</span><span class="p">,</span>
     <span class="p">)</span>
+    <span class="n">problem</span><span class="o">.</span><span class="n">minimize_objective</span> <span class="o">=</span> <span class="n">minimize</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -9389,11 +9588,11 @@ to be applied to the constraint,
 
 <a href="#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario.add_observable" class="headerlink" title="Permanent link">&para;</a></h6>
 <div class="doc-signature highlight"><pre><span></span><code><span class="nf">add_observable</span><span class="p">(</span>
-    <span class="n">output_names</span><span class="p">:</span> <span class="n"><span title="collections.abc.Sequence">Sequence</span></span><span class="p">[</span><span class="n"><span title="str">str</span></span><span class="p">],</span>
-    <span class="n">statistic_name</span><span class="p">:</span> <span class="n"><span title="str">str</span></span><span class="p">,</span>
-    <span class="n">observable_name</span><span class="p">:</span> <span class="n"><span title="str">str</span></span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-    <span class="n">discipline</span><span class="p">:</span> <span class="n"><span title="gemseo.core.discipline.discipline.Discipline">Discipline</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="o">**</span><span class="n">statistic_parameters</span><span class="p">:</span> <span class="n"><span title="typing.Any">Any</span></span>
+    <span class="n">output_names</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="collections.abc.Sequence" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Sequence">Sequence</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a></span><span class="p">],</span>
+    <span class="n">statistic_name</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a></span><span class="p">,</span>
+    <span class="n">observable_name</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a></span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+    <span class="n">discipline</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.discipline.Discipline" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/discipline/#gemseo.discipline.Discipline">Discipline</a></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">statistic_parameters</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
 
@@ -9421,7 +9620,7 @@ to be applied to the constraint, e.g. "margin".</p>
               <p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
-                      <code><span title="str">str</span></code>
+                      <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a></code>
                   </span>
               </p>
             </td>
@@ -9439,7 +9638,7 @@ to be applied to the constraint,
               <p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
-                      <code><span title="typing.Any">Any</span></code>
+                      <code><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></code>
                   </span>
                   <span class="doc-param-default">
                     <b>DEFAULT:</b>
@@ -9454,11 +9653,7 @@ to be applied to the constraint,
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/gemseo_umdo/scenarios/base_u_scenario.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">209</span>
-<span class="normal">210</span>
-<span class="normal">211</span>
-<span class="normal">212</span>
-<span class="normal">213</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">213</span>
 <span class="normal">214</span>
 <span class="normal">215</span>
 <span class="normal">216</span>
@@ -9476,22 +9671,26 @@ to be applied to the constraint,
 <span class="normal">228</span>
 <span class="normal">229</span>
 <span class="normal">230</span>
-<span class="normal">231</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_observable</span><span class="p">(</span>
+<span class="normal">231</span>
+<span class="normal">232</span>
+<span class="normal">233</span>
+<span class="normal">234</span>
+<span class="normal">235</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_observable</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">output_names</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
     <span class="n">statistic_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-    <span class="n">observable_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">observable_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
     <span class="n">discipline</span><span class="p">:</span> <span class="n">Discipline</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="o">**</span><span class="n">statistic_parameters</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Args:</span>
 <span class="sd">        statistic_name: The name of the statistic</span>
-<span class="sd">            to be applied to the constraint, e.g. &quot;margin&quot;.</span>
+<span class="sd">            to be applied to the constraint, e.g. "margin".</span>
 <span class="sd">        statistic_parameters: The parameters of the statistics</span>
 <span class="sd">            to be applied to the constraint,</span>
-<span class="sd">            `{&quot;factor&quot;: 2.}` when `objective_statistic=&quot;margin&quot;`.</span>
-<span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: D205 D212 D415</span>
+<span class="sd">            `{"factor": 2.}` when `objective_statistic="margin"`.</span>
+<span class="sd">    """</span>  <span class="c1"># noqa: D205 D212 D415</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">formulation</span><span class="o">.</span><span class="n">add_observable</span><span class="p">(</span>
         <span class="n">output_names</span><span class="p">,</span>
         <span class="n">statistic_name</span><span class="p">,</span>
@@ -9573,14 +9772,13 @@ to be applied to the constraint,
       <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["navigation.tabs", "navigation.instant", "navigation.indexes"], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
         <script src="../../../../assets/_markdown_exec_pyodide.js"></script>
       
         <script src="../../../../javascripts/mathjax.js"></script>
       
         <script src="../../../../javascripts/xdsmjs.js"></script>
-      
       
         <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
       

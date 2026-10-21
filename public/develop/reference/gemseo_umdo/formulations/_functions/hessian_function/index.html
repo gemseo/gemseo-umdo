@@ -8,7 +8,7 @@
       
       
       
-        <link rel="canonical" href="https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_functions/hessian_function/">
+        <link rel="canonical" href="https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_functions/hessian_function/">
       
       
         <link rel="prev" href="../base_statistic_function_for_sampling/">
@@ -20,8 +20,8 @@
         
       
       
-      <link rel="icon" href="../../../../../images/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+      <link rel="icon" href="../../../../../images/monogram.png">
+      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.7.7">
     
     
       
@@ -29,7 +29,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1992,14 +1992,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../generated/examples/umdo/sampling/s_sellar/" class="md-nav__link">
+      <a href="../../../../../generated/examples/umdo/sampling/s_sobieski/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sellar's MDO problem
+    The Sobieski's SSBJ MDO problem.
   
 
     
@@ -2020,14 +2020,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../generated/examples/umdo/sampling/s_sobieski/" class="md-nav__link">
+      <a href="../../../../../generated/examples/umdo/sampling/s_sellar/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sobieski's SSBJ MDO problem.
+    The Sellar's MDO problem
   
 
     
@@ -2322,14 +2322,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../generated/examples/umdo/taylor_polynomial/tp_sellar/" class="md-nav__link">
+      <a href="../../../../../generated/examples/umdo/taylor_polynomial/tp_sobieski/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sellar's MDO problem
+    The Sobieski's SSBJ MDO problem
   
 
     
@@ -2350,14 +2350,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../generated/examples/umdo/taylor_polynomial/tp_sobieski/" class="md-nav__link">
+      <a href="../../../../../generated/examples/umdo/taylor_polynomial/tp_sellar/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sobieski's SSBJ MDO problem
+    The Sellar's MDO problem
   
 
     
@@ -8537,12 +8537,12 @@
 
 
 <a href="#gemseo_umdo.formulations._functions.hessian_function.HessianFunction" class="headerlink" title="Permanent link">&para;</a></h4>
-<div class="doc-signature highlight"><pre><span></span><code><span class="nf">HessianFunction</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n"><span title="gemseo.core.mdo_functions.mdo_function.MDOFunction">MDOFunction</span></span><span class="p">)</span>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">HessianFunction</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.core.function.array_function.ArrayFunction" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/core/function/array_function/#gemseo.core.function.array_function.ArrayFunction">ArrayFunction</a></span><span class="p">)</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
-              Bases: <code><span title="gemseo.core.mdo_functions.mdo_function.MDOFunction">MDOFunction</span></code></p>
+              Bases: <code><a class="autorefs autorefs-external" title="gemseo.core.function.array_function.ArrayFunction" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/core/function/array_function/#gemseo.core.function.array_function.ArrayFunction">ArrayFunction</a></code></p>
 
 
 
@@ -8557,7 +8557,7 @@ applied to its analytical or approximated Jacobian.</p>
 when the user does not want to use a callable
 but a database to browse for the output vector corresponding to an input vector
 (see
-[set_pt_from_database()][gemseo.core.mdo_functions.mdo_function.MDOFunction.set_pt_from_database]).</p>
+<a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/core/function/array_function/#gemseo.core.function.array_function.ArrayFunction.set_pt_from_database">set_pt_from_database()</a>).</p>
 </details>
 
 <details class="warning" open>
@@ -8565,8 +8565,8 @@ but a database to browse for the output vector corresponding to an input vector
   <p>For the literal expression,
 do not use <code>"f(x) = 2*x"</code> nor <code>"f = 2*x"</code> but <code>"2*x"</code>.
 The other elements will be added automatically
-in the string representation of the MDO function
-based on the name of the MDO function and the names of its inputs.</p>
+in the string representation of the function
+based on the name of the function and the names of its inputs.</p>
 </details>
 
 
@@ -8589,7 +8589,7 @@ based on the name of the MDO function and the names of its inputs.</p>
               <p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
-                      <code><span title="gemseo.core.mdo_functions.mdo_function.MDOFunction">MDOFunction</span></code>
+                      <code><a class="autorefs autorefs-external" title="gemseo.core.function.array_function.ArrayFunction" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/core/function/array_function/#gemseo.core.function.array_function.ArrayFunction">ArrayFunction</a></code>
                   </span>
               </p>
             </td>
@@ -8616,16 +8616,20 @@ based on the name of the MDO function and the names of its inputs.</p>
 <span class="normal">49</span>
 <span class="normal">50</span>
 <span class="normal">51</span>
-<span class="normal">52</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">MDOFunction</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">ArrayFunction</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Args:</span>
 <span class="sd">        func: The original function.</span>
-<span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: D205 D212 D415</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">__jac</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="n">jac</span> <span class="k">if</span> <span class="n">func</span><span class="o">.</span><span class="n">has_jac</span> <span class="k">else</span> <span class="n">FirstOrderFD</span><span class="p">(</span><span class="n">func</span><span class="o">.</span><span class="n">func</span><span class="p">)</span><span class="o">.</span><span class="n">f_gradient</span>
-    <span class="n">grad_tag</span> <span class="o">=</span> <span class="n">Database</span><span class="o">.</span><span class="n">GRAD_TAG</span>
+<span class="sd">    """</span>  <span class="c1"># noqa: D205 D212 D415</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__jac</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">func</span><span class="o">.</span><span class="n">jac</span> <span class="k">if</span> <span class="n">func</span><span class="o">.</span><span class="n">has_jac</span> <span class="k">else</span> <span class="n">ForwardDifferences</span><span class="p">(</span><span class="n">func</span><span class="o">.</span><span class="n">func</span><span class="p">)</span><span class="o">.</span><span class="n">f_gradient</span>
+    <span class="p">)</span>
+    <span class="n">grad_tag</span> <span class="o">=</span> <span class="n">Database</span><span class="o">.</span><span class="n">grad_tag</span>
     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-        <span class="n">FirstOrderFD</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_compute_jac</span><span class="p">)</span><span class="o">.</span><span class="n">f_gradient</span><span class="p">,</span>
-        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">grad_tag</span><span class="si">}{</span><span class="n">grad_tag</span><span class="si">}{</span><span class="n">func</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="n">ForwardDifferences</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_compute_jac</span><span class="p">)</span><span class="o">.</span><span class="n">f_gradient</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">grad_tag</span><span class="si">}{</span><span class="n">grad_tag</span><span class="si">}{</span><span class="n">func</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
                   </details>
@@ -8711,14 +8715,13 @@ based on the name of the MDO function and the names of its inputs.</p>
       <script id="__config" type="application/json">{"annotate": null, "base": "../../../../..", "features": ["navigation.tabs", "navigation.instant", "navigation.indexes"], "search": "../../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../../../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
         <script src="../../../../../assets/_markdown_exec_pyodide.js"></script>
       
         <script src="../../../../../javascripts/mathjax.js"></script>
       
         <script src="../../../../../javascripts/xdsmjs.js"></script>
-      
       
         <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
       

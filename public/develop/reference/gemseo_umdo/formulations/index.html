@@ -8,7 +8,7 @@
       
       
       
-        <link rel="canonical" href="https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/">
+        <link rel="canonical" href="https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/formulations/">
       
       
         <link rel="prev" href="../disciplines/utils/">
@@ -20,8 +20,8 @@
         
       
       
-      <link rel="icon" href="../../../images/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+      <link rel="icon" href="../../../images/monogram.png">
+      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.7.7">
     
     
       
@@ -29,7 +29,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1992,14 +1992,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../generated/examples/umdo/sampling/s_sellar/" class="md-nav__link">
+      <a href="../../../generated/examples/umdo/sampling/s_sobieski/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sellar's MDO problem
+    The Sobieski's SSBJ MDO problem.
   
 
     
@@ -2020,14 +2020,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../generated/examples/umdo/sampling/s_sobieski/" class="md-nav__link">
+      <a href="../../../generated/examples/umdo/sampling/s_sellar/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sobieski's SSBJ MDO problem.
+    The Sellar's MDO problem
   
 
     
@@ -2322,14 +2322,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../generated/examples/umdo/taylor_polynomial/tp_sellar/" class="md-nav__link">
+      <a href="../../../generated/examples/umdo/taylor_polynomial/tp_sobieski/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sellar's MDO problem
+    The Sobieski's SSBJ MDO problem
   
 
     
@@ -2350,14 +2350,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../generated/examples/umdo/taylor_polynomial/tp_sobieski/" class="md-nav__link">
+      <a href="../../../generated/examples/umdo/taylor_polynomial/tp_sellar/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sobieski's SSBJ MDO problem
+    The Sellar's MDO problem
   
 
     
@@ -8418,32 +8418,32 @@
     <div class="doc doc-contents first">
 
         <p>Formulations for multidisciplinary design problems under uncertainty.</p>
-<p>A [BaseMDOFormulation][gemseo.formulations.base_mdo_formulation.BaseMDOFormulation]
-defines an [OptimizationProblem][gemseo.algos.optimization_problem.OptimizationProblem]
-from one or several [Disciplines][gemseo.core.discipline.discipline.Discipline],
-a [DesignSpace][gemseo.algos.design_space.DesignSpace],
+<p>A <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/formulation/core/base_mdo/#gemseo.formulation.core.base_mdo.BaseMDOFormulation">BaseMDOFormulation</a>
+defines an <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/optimization/problem/#gemseo.optimization.problem.OptimizationProblem">OptimizationProblem</a>
+from one or several <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/core/discipline/discipline/#gemseo.core.discipline.discipline.Discipline">Disciplines</a>,
+a <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/space/design/#gemseo.space.design.DesignSpace">DesignSpace</a>,
 an objective and constraints.
 The objective can be either minimized (default) or maximized.</p>
 <p>In the context of deterministic MDO,
-the [OptimizationProblem][gemseo.algos.optimization_problem.OptimizationProblem]
+the <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/optimization/problem/#gemseo.optimization.problem.OptimizationProblem">OptimizationProblem</a>
 is handled by a driver
-(see [DriverLibrary][gemseo.algos.base_driver_library.BaseDriverLibrary]),
+(see <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/core/algorithm/base_driver_library/#gemseo.core.algorithm.base_driver_library.BaseDriverLibrary">DriverLibrary</a>),
 typically an optimizer
 (see
-[OptimizationLibrary][gemseo.algos.opt.base_optimization_library.BaseOptimizationLibrary]),
+<a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/optimization/core/base_optimization_library/#gemseo.optimization.core.base_optimization_library.BaseOptimizationLibrary">OptimizationLibrary</a>),
 or a design of experiments
-(DOE, see [DOELibrary][gemseo.algos.doe.base_doe_library.BaseDOELibrary]).</p>
+(DOE, see <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/doe/core/base_doe_library/#gemseo.doe.core.base_doe_library.BaseDOELibrary">DOELibrary</a>).</p>
 <p>In the frame of U-MDO,
 the
 <a class="autorefs autorefs-internal" title="            BaseUMDOFormulation" href="base_umdo_formulation/#gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation">BaseUMDOFormulation</a>
-uses a [BaseMDOFormulation][gemseo.formulations.base_mdo_formulation.BaseMDOFormulation]
-with a [ParameterSpace][gemseo.algos.parameter_space.ParameterSpace]
+uses a <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/formulation/core/base_mdo/#gemseo.formulation.core.base_mdo.BaseMDOFormulation">BaseMDOFormulation</a>
+with a <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/space/random/#gemseo.space.random.RandomSpace">RandomSpace</a>
 defining the uncertain variables
 and executes the corresponding
-[OptimizationProblem][gemseo.algos.optimization_problem.OptimizationProblem]
+<a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/optimization/problem/#gemseo.optimization.problem.OptimizationProblem">OptimizationProblem</a>
 with a particular DOE.
 Then,
-it post-processed the associated [Database][gemseo.algos.database.Database]
+it post-processed the associated <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/core/problem/database/#gemseo.core.problem.database.Database">Database</a>
 to estimate the statistics applied to the objective and constraints.</p>
 <p>The most common
 <a class="autorefs autorefs-internal" title="            BaseUMDOFormulation" href="base_umdo_formulation/#gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation">BaseUMDOFormulation</a>
@@ -8480,7 +8480,10 @@ consisting in estimating the statistics with (quasi) Monte Carlo techniques.</p>
   </span>
 
 <a href="#gemseo_umdo.formulations.DOE_ALGO_NAMES" class="headerlink" title="Permanent link">&para;</a></h4>
-<div class="doc-signature highlight"><pre><span></span><code><span class="n">DOE_ALGO_NAMES</span> <span class="o">=</span> <span class="n"><span title="strenum.StrEnum">StrEnum</span></span><span class="p">(</span><span class="s1">&#39;DOE_ALGO_NAMES&#39;</span><span class="p">,</span> <span class="n"><span title="algorithms">algorithms</span></span><span class="p">)</span>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">DOE_ALGO_NAMES</span> <span class="o">=</span> <span class="n"><a class="autorefs autorefs-external" title="enum.StrEnum" href="https://docs.python.org/3/library/enum.html#enum.StrEnum">StrEnum</a></span><span class="p">(</span>
+    <span class="s2">"DOE_ALGO_NAMES"</span><span class="p">,</span>
+    <span class="p">{</span><span class="n"><span title="name">name</span></span><span class="p">:</span> <span class="n"><span title="name">name</span></span> <span class="k">for</span> <span class="n"><span title="name">name</span></span> <span class="ow">in</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.doe.factory.DOELibraryFactory" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/doe/factory/#gemseo.doe.factory.DOELibraryFactory">DOELibraryFactory</a></span><span class="p">()</span><span class="o">.</span><span class="n"><span title="algorithms">algorithms</span></span><span class="p">},</span>
+<span class="p">)</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -8553,14 +8556,13 @@ consisting in estimating the statistics with (quasi) Monte Carlo techniques.</p>
       <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.instant", "navigation.indexes"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
         <script src="../../../assets/_markdown_exec_pyodide.js"></script>
       
         <script src="../../../javascripts/mathjax.js"></script>
       
         <script src="../../../javascripts/xdsmjs.js"></script>
-      
       
         <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
       

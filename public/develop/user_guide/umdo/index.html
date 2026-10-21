@@ -8,7 +8,7 @@
       
       
       
-        <link rel="canonical" href="https://gemseo.gitlab.io/gemseo-umdo/latest/user_guide/umdo/">
+        <link rel="canonical" href="https://gemseo.gitlab.io/dev/gemseo-umdo/latest/user_guide/umdo/">
       
       
         <link rel="prev" href="../">
@@ -20,8 +20,8 @@
         
       
       
-      <link rel="icon" href="../../images/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+      <link rel="icon" href="../../images/monogram.png">
+      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.7.7">
     
     
       
@@ -29,7 +29,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1999,14 +1999,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../generated/examples/umdo/sampling/s_sellar/" class="md-nav__link">
+      <a href="../../generated/examples/umdo/sampling/s_sobieski/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sellar's MDO problem
+    The Sobieski's SSBJ MDO problem.
   
 
     
@@ -2027,14 +2027,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../generated/examples/umdo/sampling/s_sobieski/" class="md-nav__link">
+      <a href="../../generated/examples/umdo/sampling/s_sellar/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sobieski's SSBJ MDO problem.
+    The Sellar's MDO problem
   
 
     
@@ -2329,14 +2329,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../generated/examples/umdo/taylor_polynomial/tp_sellar/" class="md-nav__link">
+      <a href="../../generated/examples/umdo/taylor_polynomial/tp_sobieski/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sellar's MDO problem
+    The Sobieski's SSBJ MDO problem
   
 
     
@@ -2357,14 +2357,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../generated/examples/umdo/taylor_polynomial/tp_sobieski/" class="md-nav__link">
+      <a href="../../generated/examples/umdo/taylor_polynomial/tp_sellar/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sobieski's SSBJ MDO problem
+    The Sellar's MDO problem
   
 
     
@@ -8571,13 +8571,13 @@ and <span class="arithmatex">\(h:\mathcal{X}\to\mathbb{R}^{p_h}\)</span>.</p>
 <p class="admonition-title">API</p>
 <p>In <a href="https://www.gemseo.org">GEMSEO</a>,
 the user instantiates an
-[OptimizationProblem][gemseo.algos.optimization_problem.OptimizationProblem]
-from a [DesignSpace][gemseo.algos.design_space.DesignSpace],
+<a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/optimization/problem/#gemseo.optimization.problem.OptimizationProblem">OptimizationProblem</a>
+from a <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/space/design/#gemseo.space.design.DesignSpace">DesignSpace</a>,
 defines its objective functions and constraints
 with
-[MDOFunction][gemseo.core.mdo_functions.mdo_function.MDOFunction] objects
+<a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/core/function/array_function/#gemseo.core.function.array_function.ArrayFunction">ArrayFunction</a> objects
 and solves it with an algorithm
-from a [BaseDriverLibrary][gemseo.algos.base_driver_library.BaseDriverLibrary].
+from a <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/core/algorithm/base_driver_library/#gemseo.core.algorithm.base_driver_library.BaseDriverLibrary">BaseDriverLibrary</a>.
 This algorithm can be either an optimizer or a design of experiments (DOE).</p>
 <details class="example">
 <summary>Example</summary>
@@ -8590,18 +8590,26 @@ This algorithm can be either an optimizer or a design of experiments (DOE).</p>
 \]</div>
 <p>can be solved with the Python lines</p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">gemseo</span><span class="w"> </span><span class="kn">import</span> <span class="n">execute_algo</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.algos.optimization_problem</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optimization</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.algos.design_space</span><span class="w"> </span><span class="kn">import</span> <span class="n">DesignSpace</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.core.mdo_functions.mdo_function</span><span class="w"> </span><span class="kn">import</span> <span class="n">MDOFunction</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.core.function.array_function</span><span class="w"> </span><span class="kn">import</span> <span class="n">ArrayFunction</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.doe</span><span class="w"> </span><span class="kn">import</span> <span class="n">PYDOE_FULLFACT_Settings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.optimization</span><span class="w"> </span><span class="kn">import</span> <span class="n">OptimizationProblem</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.space</span><span class="w"> </span><span class="kn">import</span> <span class="n">DesignSpace</span>
 
 <span class="n">design_space</span> <span class="o">=</span> <span class="n">DesignSpace</span><span class="p">()</span>
-<span class="n">design_space</span><span class="o">.</span><span class="n">add_variable</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">lower_bound</span><span class="o">=-</span><span class="mf">1.</span><span class="p">,</span> <span class="n">upper_bound</span><span class="o">=</span><span class="mf">1.</span><span class="p">)</span>
+<span class="n">design_space</span><span class="o">.</span><span class="n">add_variable</span><span class="p">(</span><span class="s2">"x"</span><span class="p">,</span> <span class="n">lower_bound</span><span class="o">=-</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">upper_bound</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
 
 <span class="n">problem</span> <span class="o">=</span> <span class="n">OptimizationProblem</span><span class="p">(</span><span class="n">design_space</span><span class="p">)</span>
-<span class="n">problem</span><span class="o">.</span><span class="n">objective</span> <span class="o">=</span> <span class="n">MDOFunction</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;f&quot;</span><span class="p">)</span>
-<span class="n">problem</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="n">MDOFunction</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">**</span><span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;g&quot;</span><span class="p">),</span> <span class="n">positive</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="n">problem</span><span class="o">.</span><span class="n">objective</span> <span class="o">=</span> <span class="n">ArrayFunction</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="s2">"f"</span><span class="p">)</span>
+<span class="n">problem</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span>
+    <span class="n">ArrayFunction</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">**</span><span class="mi">3</span><span class="p">,</span> <span class="s2">"g"</span><span class="p">),</span>
+    <span class="n">constraint_type</span><span class="o">=</span><span class="s2">"ineq"</span><span class="p">,</span>
+    <span class="n">positive</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">value</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+<span class="p">)</span>
 
-<span class="n">execute_algo</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span> <span class="n">algo_name</span><span class="o">=</span><span class="s2">&quot;PYDOE_FULLFACT&quot;</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">algo_type</span><span class="o">=</span><span class="s2">&quot;doe&quot;</span><span class="p">)</span>
+<span class="n">execute_algo</span><span class="p">(</span>
+    <span class="n">problem</span><span class="p">,</span> <span class="n">algo_type</span><span class="o">=</span><span class="s2">"doe"</span><span class="p">,</span> <span class="n">settings_model</span><span class="o">=</span><span class="n">PYDOE_FULLFACT_Settings</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="p">)</span>
 </code></pre></div>
 </details>
 </div>
@@ -8824,7 +8832,7 @@ especially when the dimension of the coupling variables space is large.</p>
 into a top-level optimization problem controlling the shared design variables <span class="arithmatex">\(x_0\)</span>
 and a sublevel optimization problem controlling the local design variables <span class="arithmatex">\(x_{1\ldots M}\)</span>.</p>
 <p>In particular,
-Gazaix <em>et al.</em> (2019)<sup id="fnref:Gazaix2019"><a class="footnote-ref" href="#fn:Gazaix2019">2</a></sup> proposed to
+Gazaix <em>et al.</em> (2019) <sup id="fnref:Gazaix2019"><a class="footnote-ref" href="#fn:Gazaix2019">2</a></sup> proposed to
 rewrite the initial MDO problem into a sequence of bi-level optimization problems
 whose sublevels are split into independent disciplinary optimization problems.
 This decomposition according to the disciplines makes
@@ -8855,7 +8863,7 @@ the top-level optimization problem of the <span class="arithmatex">\(k\)</span>-
 <p>with <span class="arithmatex">\(x_{-i}^{(k-1)}=\left(x_j^{(k-1)}\right)_{j\in\{1,\ldots,M\}\setminus\{i\}}\)</span>
 and <span class="arithmatex">\(y\!\left(x_0,x_{1\ldots M}^{(k-1)}\right)\)</span> the MDA solution at the design point <span class="arithmatex">\(\left(x_0,x_{1\ldots M}^{(k-1)}\right)\)</span>.</p>
 <p>In presence of uncertainties,
-Aziz Alaoui (2025)<sup id="fnref:AzizAlaoui2025"><a class="footnote-ref" href="#fn:AzizAlaoui2025">3</a></sup> proposed a similar bi-level formulation.
+Aziz Alaoui (2025) <sup id="fnref:AzizAlaoui2025"><a class="footnote-ref" href="#fn:AzizAlaoui2025">3</a></sup> proposed a similar bi-level formulation.
 The main problem can be written as</p>
 <div class="arithmatex">\[
 \begin{align}
@@ -8898,7 +8906,7 @@ i.e. a better objective value.</p>
 \begin{align}
 &amp;\underset{x_0\in\mathcal{X}_0}{\operatorname{minimize}}&amp;&amp;\widehat{K}_f\!\left[f\!\left(x_0, X_{1\ldots M}^{(k)}, y\!\left(x_0, X_{1\ldots M}^{(k)}, U\right), U\right)\right]\\
 &amp;\operatorname{subject\;to}
-&amp; &amp;  \widehat{K}_g\!\left[g\!\left(x_0, X_{1\ldots M}^{(k)}, y\!\left(x_0, X_{1\ldots M}^{(k)}, U\right), U\right)\right]\leq 0
+&amp; &amp; \widehat{K}_g\!\left[g\!\left(x_0, X_{1\ldots M}^{(k)}, y\!\left(x_0, X_{1\ldots M}^{(k)}, U\right), U\right)\right]\leq 0
 \end{align}
 \]</div>
 <p>where <span class="arithmatex">\(\widehat{K}_{\phi}\!\left[\phi\!\left(x_0, X_{1\ldots M}^{(k)}, y\!\left(x_0, X_{1\ldots M}^{(k)}, U\right), U\right)\right]\)</span>
@@ -8934,7 +8942,7 @@ and
 can take them into account.</p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
-<p>Let us implement an [Discipline][gemseo.core.discipline.discipline.Discipline]
+<p>Let us implement an <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/core/discipline/discipline/#gemseo.core.discipline.discipline.Discipline">Discipline</a>
 outputting <span class="arithmatex">\(f(x,U)=(x_1+U)^2+(x_2+U)^2\)</span>:
 <div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="kn">import</span> <span class="n">array</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.core.discipline.discipline</span><span class="w"> </span><span class="kn">import</span> <span class="n">Discipline</span>
@@ -8944,37 +8952,39 @@ outputting <span class="arithmatex">\(f(x,U)=(x_1+U)^2+(x_2+U)^2\)</span>:
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">input_grammar</span><span class="o">.</span><span class="n">update_from_names</span><span class="p">([</span><span class="s2">&quot;x1&quot;</span><span class="p">,</span> <span class="s2">&quot;x2&quot;</span><span class="p">,</span> <span class="s2">&quot;U&quot;</span><span class="p">])</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">default_input_data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;x1&quot;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="mf">0.</span><span class="p">]),</span> <span class="s2">&quot;x2&quot;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="mf">0.</span><span class="p">]),</span> <span class="s2">&quot;U&quot;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="mf">0.5</span><span class="p">])}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_grammar</span><span class="o">.</span><span class="n">update_from_names</span><span class="p">([</span><span class="s2">"x1"</span><span class="p">,</span> <span class="s2">"x2"</span><span class="p">,</span> <span class="s2">"U"</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_grammar</span><span class="o">.</span><span class="n">update_from_names</span><span class="p">([</span><span class="s2">"y"</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">default_input_data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"x1"</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="mf">0.</span><span class="p">]),</span> <span class="s2">"x2"</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="mf">0.</span><span class="p">]),</span> <span class="s2">"U"</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="mf">0.5</span><span class="p">])}</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_data</span><span class="p">):</span>
-        <span class="n">x1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;x1&quot;</span><span class="p">]</span>
-        <span class="n">x2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;x2&quot;</span><span class="p">]</span>
-        <span class="n">U</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;U&quot;</span><span class="p">]</span>
-        <span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="n">x1</span><span class="o">+</span><span class="n">U</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">x2</span><span class="o">+</span><span class="n">U</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">update_output_data</span><span class="p">({</span><span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="n">y</span><span class="p">})</span>
+        <span class="n">x1</span> <span class="o">=</span> <span class="n">input_data</span><span class="p">[</span><span class="s2">"x1"</span><span class="p">]</span>
+        <span class="n">x2</span> <span class="o">=</span> <span class="n">input_data</span><span class="p">[</span><span class="s2">"x2"</span><span class="p">]</span>
+        <span class="n">U</span> <span class="o">=</span> <span class="n">input_data</span><span class="p">[</span><span class="s2">"U"</span><span class="p">]</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">"y"</span><span class="p">:</span> <span class="p">(</span><span class="n">x1</span><span class="o">+</span><span class="n">U</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">x2</span><span class="o">+</span><span class="n">U</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">}</span>
 </code></pre></div></p>
 <p>This discipline can be executed
 with different values of the uncertain variable <span class="arithmatex">\(U\)</span>:
 <div class="highlight"><pre><span></span><code><span class="n">discipline</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>  <span class="c1"># default value, i.e. U=0.5</span>
-<span class="n">discipline</span><span class="o">.</span><span class="n">execute</span><span class="p">({</span><span class="s2">&quot;U&quot;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="mf">0.2</span><span class="p">])})</span>  <span class="c1"># custom value: U=0.2</span>
+<span class="n">discipline</span><span class="o">.</span><span class="n">execute</span><span class="p">({</span><span class="s2">"U"</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="mf">0.2</span><span class="p">])})</span>  <span class="c1"># custom value: U=0.2</span>
 </code></pre></div></p>
 </div>
 <h3 id="uncertain-space">Uncertain space<a class="headerlink" href="#uncertain-space" title="Permanent link">&para;</a></h3>
 <p>The uncertain variables have to be defined
-in a [ParameterSpace][gemseo.algos.parameter_space.ParameterSpace]
-with the method [add_random_variable][gemseo.algos.parameter_space.ParameterSpace.add_random_variable].</p>
+in a <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/space/random/#gemseo.space.random.RandomSpace">RandomSpace</a>
+with the method <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/space/random/#gemseo.space.random.RandomSpace.add_variable">add_variable</a>
+and probability distribution settings.</p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
 <p>In the previous example,
 we could model the uncertain variable <span class="arithmatex">\(U\)</span> as a random variable
 triangularly distributed
 between 0.2 and 0.7 with a mode of 0.4:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.algos.parameter_space</span><span class="w"> </span><span class="kn">import</span> <span class="n">ParameterSpace</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.space</span><span class="w"> </span><span class="kn">import</span> <span class="n">RandomSpace</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.uncertainty.distribution</span><span class="w"> </span><span class="kn">import</span> <span class="n">OTTriangularDistribution_Settings</span>
 
-<span class="n">uncertain_space</span> <span class="o">=</span> <span class="n">ParameterSpace</span><span class="p">()</span>
-<span class="n">uncertan_space</span><span class="o">.</span><span class="n">add_random_variable</span><span class="p">(</span>
-    <span class="s2">&quot;U&quot;</span><span class="p">,</span> <span class="s2">&quot;OTTriangularDistribution&quot;</span><span class="p">,</span> <span class="n">minimum</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">maximum</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="mf">0.4</span>
+<span class="n">uncertain_space</span> <span class="o">=</span> <span class="n">RandomSpace</span><span class="p">()</span>
+<span class="n">uncertain_space</span><span class="o">.</span><span class="n">add_variable</span><span class="p">(</span>
+    <span class="s2">"U"</span><span class="p">,</span> <span class="n">OTTriangularDistribution_Settings</span><span class="p">(</span><span class="n">minimum</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">maximum</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
 <span class="p">)</span>
 </code></pre></div>
 </div>
@@ -8989,19 +8999,32 @@ the MDO problem under uncertainty can be set up by</p>
   to solve it using an optimizer or a DOE.</li>
 </ul>
 <p>You also need to fill in the statistics associated with the objective(s) and constraint(s),
-and the U-MDO formulation, combining an statistics estimation technique and an MDO formulation.</p>
+and the U-MDO formulation, combining a statistics estimation technique and an MDO formulation.</p>
 <div class="admonition note">
 <p class="admonition-title">API</p>
 <p>The API of <a class="autorefs autorefs-internal" title="            UDOEScenario" href="../../reference/gemseo_umdo/scenarios/udoe_scenario/#gemseo_umdo.scenarios.udoe_scenario.UDOEScenario">UDOEScenario</a>
+and <a class="autorefs autorefs-internal" title="            UMDOScenario" href="../../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>
 is deliberately similar to
-the API of [DOEScenario][gemseo.scenarios.doe_scenario.DOEScenario].
-And the same for
-<a class="autorefs autorefs-internal" title="            UMDOScenario" href="../../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>
-and
-[MDOScenario][gemseo.scenarios.mdo_scenario.MDOScenario].
+the API of <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/scenario/mdo/#gemseo.scenario.mdo.MDOScenario">MDOScenario</a>.
 This choice was made not only to simplify the user's life,
 but also because an MDO problem under uncertainty
 is first and foremost an MDO problem.</p>
+<p>A U-scenario is instantiated from
+the disciplines,
+the design space,
+the uncertain space,
+the settings of the statistic estimation technique
+and, optionally, the settings of the MDO formulation
+(default: <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/formulation/mdf_settings/#gemseo.formulation.mdf_settings.MDF_Settings">MDF_Settings</a>).
+Then,
+the objective is set with
+<a class="autorefs autorefs-internal" title="            add_objective" href="../../reference/gemseo_umdo/scenarios/base_u_scenario/#gemseo_umdo.scenarios.base_u_scenario.BaseUScenario.add_objective">add_objective()</a>,
+the constraints are added with
+<a class="autorefs autorefs-internal" title="            add_constraint" href="../../reference/gemseo_umdo/scenarios/base_u_scenario/#gemseo_umdo.scenarios.base_u_scenario.BaseUScenario.add_constraint">add_constraint()</a>
+and the observables with
+<a class="autorefs autorefs-internal" title="            add_observable" href="../../reference/gemseo_umdo/scenarios/base_u_scenario/#gemseo_umdo.scenarios.base_u_scenario.BaseUScenario.add_observable">add_observable()</a>,
+each of these methods taking the name of the statistic
+to be applied to the output(s).</p>
 </div>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
@@ -9010,24 +9033,25 @@ we seek to minimize <span class="arithmatex">\(\mathbf{E}[(x_1+U)^2+(x_2+U)^2]\)
 over the domain <span class="arithmatex">\([-1,1]^2\)</span>
 with the gradient-free optimization algorithm COBYLA
 and a Monte Carlo estimator of the expectation.</p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.algos.design_space</span><span class="w"> </span><span class="kn">import</span> <span class="n">DesignSpace</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.formulation</span><span class="w"> </span><span class="kn">import</span> <span class="n">DisciplinaryOpt_Settings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.optimization</span><span class="w"> </span><span class="kn">import</span> <span class="n">NLOPT_COBYLA_Settings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.space</span><span class="w"> </span><span class="kn">import</span> <span class="n">DesignSpace</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">gemseo_umdo.formulations.sampling_settings</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sampling_Settings</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">gemseo_umdo.scenarios.umdo_scenario</span><span class="w"> </span><span class="kn">import</span> <span class="n">UMDOScenario</span>
 
 <span class="n">design_space</span> <span class="o">=</span> <span class="n">DesignSpace</span><span class="p">()</span>
-<span class="n">design_space</span><span class="o">.</span><span class="n">add_variable</span><span class="p">(</span><span class="s2">&quot;x1&quot;</span><span class="p">,</span> <span class="n">lower_bound</span><span class="o">=-</span><span class="mf">1.</span><span class="p">,</span> <span class="n">upper_bound</span><span class="o">=</span><span class="mf">1.</span><span class="p">)</span>
-<span class="n">design_space</span><span class="o">.</span><span class="n">add_variable</span><span class="p">(</span><span class="s2">&quot;x2&quot;</span><span class="p">,</span> <span class="n">lower_bound</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">upper_bound</span><span class="o">=</span><span class="mf">1.</span><span class="p">)</span>
+<span class="n">design_space</span><span class="o">.</span><span class="n">add_variable</span><span class="p">(</span><span class="s2">"x1"</span><span class="p">,</span> <span class="n">lower_bound</span><span class="o">=-</span><span class="mf">1.</span><span class="p">,</span> <span class="n">upper_bound</span><span class="o">=</span><span class="mf">1.</span><span class="p">)</span>
+<span class="n">design_space</span><span class="o">.</span><span class="n">add_variable</span><span class="p">(</span><span class="s2">"x2"</span><span class="p">,</span> <span class="n">lower_bound</span><span class="o">=-</span><span class="mf">1.</span><span class="p">,</span> <span class="n">upper_bound</span><span class="o">=</span><span class="mf">1.</span><span class="p">)</span>
 
 <span class="n">scenario</span> <span class="o">=</span> <span class="n">UMDOScenario</span><span class="p">(</span>
     <span class="p">[</span><span class="n">discipline</span><span class="p">],</span>
-    <span class="s2">&quot;DisciplinaryOpt&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;y&quot;</span><span class="p">,</span>
     <span class="n">design_space</span><span class="p">,</span>
     <span class="n">uncertain_space</span><span class="p">,</span>
-    <span class="s2">&quot;Mean&quot;</span><span class="p">,</span>
-    <span class="n">statistic_estimation_settings</span><span class="o">=</span><span class="n">Sampling_Settings</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">100</span><span class="p">),</span>
+    <span class="n">Sampling_Settings</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">100</span><span class="p">),</span>
+    <span class="n">formulation_settings</span><span class="o">=</span><span class="n">DisciplinaryOpt_Settings</span><span class="p">(),</span>
 <span class="p">)</span>
-<span class="n">scenario</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">algo_name</span><span class="o">=</span><span class="s2">&quot;NLOPT_COBYLA&quot;</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">scenario</span><span class="o">.</span><span class="n">add_objective</span><span class="p">(</span><span class="s2">"y"</span><span class="p">,</span> <span class="s2">"Mean"</span><span class="p">)</span>
+<span class="n">scenario</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">NLOPT_COBYLA_Settings</span><span class="p">(</span><span class="n">max_iter</span><span class="o">=</span><span class="mi">50</span><span class="p">))</span>
 </code></pre></div>
 </div>
 <h3 id="statistic-estimation">Statistic estimation<a class="headerlink" href="#statistic-estimation" title="Permanent link">&para;</a></h3>
@@ -9076,7 +9100,7 @@ it is advisable to copy and paste the scenario
 and replay it with <a class="autorefs autorefs-internal" title="            Sampling_Settings" href="../../reference/gemseo_umdo/formulations/sampling_settings/#gemseo_umdo.formulations.sampling_settings.Sampling_Settings">Sampling_Settings</a>
 parameterized by a non-negligible <code>n_samples</code>
 at the design solution point <code>x_opt</code> found with T
-(i.e. <code>scenario.execute(algo_name="CustomDOE", samples=at_least2d(x_opt))</code>)
+(i.e. <code>scenario.execute(CustomDOE_Settings(samples=atleast_2d(x_opt)))</code>)
 to obtain a better estimate of the statistics at this point.
 This avoids pitfalls,
 such as concluding that a constraint is satisfied when it is not.
@@ -9087,22 +9111,22 @@ due to the error of the surrogate models.</p>
 <details class="info">
 <summary>Implementation</summary>
 <p>Given a
-[DesignSpace][gemseo.algos.design_space.DesignSpace]
+<a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/space/design/#gemseo.space.design.DesignSpace">DesignSpace</a>
 and a collection of
-[Disciplines][gemseo.core.discipline.discipline.Discipline],
-a [DOEScenario][gemseo.scenarios.doe_scenario.DOEScenario]
+<a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/core/discipline/discipline/#gemseo.core.discipline.discipline.Discipline">Disciplines</a>,
+an <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/scenario/mdo/#gemseo.scenario.mdo.MDOScenario">MDOScenario</a> using a DOE algorithm
 generates and solves an
-[OptimizationProblem][gemseo.algos.optimization_problem.OptimizationProblem]
+<a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/optimization/problem/#gemseo.optimization.problem.OptimizationProblem">OptimizationProblem</a>
 that corresponds to a
-[BaseMDOFormulation][gemseo.formulations.base_mdo_formulation.BaseMDOFormulation].
+<a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/formulation/core/base_mdo/#gemseo.formulation.core.base_mdo.BaseMDOFormulation">BaseMDOFormulation</a>.
 The resolution consists in sampling the objective and constraints
-over the [DesignSpace][gemseo.algos.design_space.DesignSpace],
+over the <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/space/design/#gemseo.space.design.DesignSpace">DesignSpace</a>,
 i.e. <span class="arithmatex">\((x^{(i)},f(x^{(i)},U),g(x^{(i)},U),h(x^{(i)},U))_{1\leq i \leq N}\)</span>,
 and returning either the <span class="arithmatex">\(x^*\)</span> minimizing <span class="arithmatex">\(f\)</span> while satisying <span class="arithmatex">\(g\)</span> and <span class="arithmatex">\(h\)</span>
 or the <span class="arithmatex">\(x^*\)</span> that violates the least <span class="arithmatex">\(g\)</span> and <span class="arithmatex">\(h\)</span>.</p>
 <p>GEMSEO-UMDO uses this sampling mechanism a first time
-with a [ParameterSpace][gemseo.algos.parameter_space.ParameterSpace]
-instead of the [DesignSpace][gemseo.algos.design_space.DesignSpace]
+with a <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/space/random/#gemseo.space.random.RandomSpace">RandomSpace</a>
+instead of the <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/space/design/#gemseo.space.design.DesignSpace">DesignSpace</a>
 to estimate the statistics
 <span class="arithmatex">\(\mathbb{K}_f[f(x,U)]\)</span>, <span class="arithmatex">\(\mathbb{K}_g[g(x,U)]\)</span> and <span class="arithmatex">\(\mathbb{K}_h[h(x,U)]\)</span>
 based on the samples
@@ -9118,8 +9142,8 @@ These statistics estimators
 <span class="arithmatex">\(\hat{\mathbb{K}}_g[g(x,U)]\)</span> and
 <span class="arithmatex">\(\hat{\mathbb{K}}_h[h(x,U)]\)</span>
 are then used to build a new
-[OptimizationProblem][gemseo.algos.optimization_problem.OptimizationProblem]
-over the [DesignSpace][gemseo.algos.design_space.DesignSpace]:</p>
+<a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/optimization/problem/#gemseo.optimization.problem.OptimizationProblem">OptimizationProblem</a>
+over the <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/space/design/#gemseo.space.design.DesignSpace">DesignSpace</a>:</p>
 <div class="arithmatex">\[
 \begin{align}
 &amp;\underset{x\in\mathcal{X}}{\operatorname{minimize}}
@@ -9132,7 +9156,7 @@ over the [DesignSpace][gemseo.algos.design_space.DesignSpace]:</p>
 <p>Thus implemented,
 GEMSEO-UMDO should be able
 to set up any MDO problem under uncertainty
-from any [BaseMDOFormulation][gemseo.formulations.base_mdo_formulation.BaseMDOFormulation]
+from any <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/formulation/core/base_mdo/#gemseo.formulation.core.base_mdo.BaseMDOFormulation">BaseMDOFormulation</a>
 and any statistic estimation technique.
 This vision may be theoretical at the moment,
 but the ambition of GEMSEO-UMDO is to be
@@ -9205,14 +9229,13 @@ based on any MDO formulation and any statistic estimators.</p>
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.instant", "navigation.indexes"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
         <script src="../../assets/_markdown_exec_pyodide.js"></script>
       
         <script src="../../javascripts/mathjax.js"></script>
       
         <script src="../../javascripts/xdsmjs.js"></script>
-      
       
         <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
       

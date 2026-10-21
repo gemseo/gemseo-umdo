@@ -8,7 +8,7 @@
       
       
       
-        <link rel="canonical" href="https://gemseo.gitlab.io/gemseo-umdo/latest/generated/examples/problems/uopt_as_umdo/plot_uopt_as_umdo/">
+        <link rel="canonical" href="https://gemseo.gitlab.io/dev/gemseo-umdo/latest/generated/examples/problems/uopt_as_umdo/plot_uopt_as_umdo/">
       
       
         <link rel="prev" href="../../beam_model/plot_beam_doe/">
@@ -20,8 +20,8 @@
         
       
       
-      <link rel="icon" href="../../../../../images/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+      <link rel="icon" href="../../../../../images/monogram.png">
+      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.7.7">
     
     
       
@@ -29,7 +29,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1999,14 +1999,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../umdo/sampling/s_sellar/" class="md-nav__link">
+      <a href="../../../umdo/sampling/s_sobieski/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sellar's MDO problem
+    The Sobieski's SSBJ MDO problem.
   
 
     
@@ -2027,14 +2027,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../umdo/sampling/s_sobieski/" class="md-nav__link">
+      <a href="../../../umdo/sampling/s_sellar/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sobieski's SSBJ MDO problem.
+    The Sellar's MDO problem
   
 
     
@@ -2329,14 +2329,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../umdo/taylor_polynomial/tp_sellar/" class="md-nav__link">
+      <a href="../../../umdo/taylor_polynomial/tp_sobieski/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sellar's MDO problem
+    The Sobieski's SSBJ MDO problem
   
 
     
@@ -2357,14 +2357,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../umdo/taylor_polynomial/tp_sobieski/" class="md-nav__link">
+      <a href="../../../umdo/taylor_polynomial/tp_sellar/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sobieski's SSBJ MDO problem
+    The Sellar's MDO problem
   
 
     
@@ -8533,96 +8533,92 @@ especially in the case of MDO under uncertainty.</p>
 in the case of the minimization of the 3-dimensional Rosenbrock function</p>
 <div class="arithmatex">\[\mathbb{E}[f(z,U,V)] = \mathbb{E}[100(z_2-(Uz_1)^2)^2 + (1-Vz_1)^2 + 100(z_1-(Uz_0)^2)^2 + (1-Vz_0)^2]\]</div>
 <p>over the hypercube <span class="arithmatex">\([-1,1]^3\)</span>.</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 44-57 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 44-59 -->
 
 <div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">gemseo</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_design_space</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">gemseo</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_discipline</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">gemseo</span><span class="w"> </span><span class="kn">import</span> <span class="n">generate_coupling_graph</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.algos.parameter_space</span><span class="w"> </span><span class="kn">import</span> <span class="n">ParameterSpace</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.optimization</span><span class="w"> </span><span class="kn">import</span> <span class="n">NLOPT_SLSQP_Settings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.space</span><span class="w"> </span><span class="kn">import</span> <span class="n">RandomSpace</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.uncertainty.distribution</span><span class="w"> </span><span class="kn">import</span> <span class="n">OTNormalDistribution_Settings</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="kn">import</span> <span class="n">array</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">gemseo_umdo.formulations.sampling_settings</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sampling_Settings</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">gemseo_umdo.problems.uopt_as_umdo_scenario</span><span class="w"> </span><span class="kn">import</span> <span class="n">UOptAsUMDOScenario</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">gemseo_umdo.scenarios.umdo_scenario</span><span class="w"> </span><span class="kn">import</span> <span class="n">UMDOScenario</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 58-61 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 60-63 -->
 
 <h2 id="discipline-and-spaces">Discipline and spaces<a class="headerlink" href="#discipline-and-spaces" title="Permanent link">&para;</a></h2>
 <p>First,
 we create the discipline implementing the Rosenbrock function:</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 61-68 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 63-70 -->
 
 <div class="highlight"><pre><span></span><code><span class="n">discipline</span> <span class="o">=</span> <span class="n">create_discipline</span><span class="p">(</span>
-    <span class="s2">&quot;AnalyticDiscipline&quot;</span><span class="p">,</span>
+    <span class="s2">"AnalyticDiscipline"</span><span class="p">,</span>
     <span class="n">expressions</span><span class="o">=</span><span class="p">{</span>
-        <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;100*(z_2-(u*z_1)**2)**2+(1-v*z_1)**2+100*(z_1-(u*z_0)**2)**2+(1-v*z_0)**2&quot;</span>
+        <span class="s2">"f"</span><span class="p">:</span> <span class="s2">"100*(z_2-(u*z_1)**2)**2+(1-v*z_1)**2+100*(z_1-(u*z_0)**2)**2+(1-v*z_0)**2"</span>
     <span class="p">},</span>
-    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Rosenbrock&quot;</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">"Rosenbrock"</span><span class="p">,</span>
 <span class="p">)</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 69-70 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 71-72 -->
 
 <p>as well as the design space:</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 70-74 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 72-76 -->
 
 <div class="highlight"><pre><span></span><code><span class="n">design_space</span> <span class="o">=</span> <span class="n">create_design_space</span><span class="p">()</span>
-<span class="n">design_space</span><span class="o">.</span><span class="n">add_variable</span><span class="p">(</span><span class="s2">&quot;z_0&quot;</span><span class="p">,</span> <span class="n">lower_bound</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">upper_bound</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">design_space</span><span class="o">.</span><span class="n">add_variable</span><span class="p">(</span><span class="s2">&quot;z_1&quot;</span><span class="p">,</span> <span class="n">lower_bound</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">upper_bound</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">design_space</span><span class="o">.</span><span class="n">add_variable</span><span class="p">(</span><span class="s2">&quot;z_2&quot;</span><span class="p">,</span> <span class="n">lower_bound</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">upper_bound</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">design_space</span><span class="o">.</span><span class="n">add_variable</span><span class="p">(</span><span class="s2">"z_0"</span><span class="p">,</span> <span class="n">lower_bound</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">upper_bound</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">design_space</span><span class="o">.</span><span class="n">add_variable</span><span class="p">(</span><span class="s2">"z_1"</span><span class="p">,</span> <span class="n">lower_bound</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">upper_bound</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">design_space</span><span class="o">.</span><span class="n">add_variable</span><span class="p">(</span><span class="s2">"z_2"</span><span class="p">,</span> <span class="n">lower_bound</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">upper_bound</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 75-76 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 77-78 -->
 
 <p>and the uncertain space:</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 76-79 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 78-81 -->
 
-<div class="highlight"><pre><span></span><code><span class="n">uncertain_space</span> <span class="o">=</span> <span class="n">ParameterSpace</span><span class="p">()</span>
-<span class="n">uncertain_space</span><span class="o">.</span><span class="n">add_random_variable</span><span class="p">(</span><span class="s2">&quot;u&quot;</span><span class="p">,</span> <span class="s2">&quot;OTNormalDistribution&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
-<span class="n">uncertain_space</span><span class="o">.</span><span class="n">add_random_variable</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="s2">&quot;OTNormalDistribution&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">uncertain_space</span> <span class="o">=</span> <span class="n">RandomSpace</span><span class="p">()</span>
+<span class="n">uncertain_space</span><span class="o">.</span><span class="n">add_variable</span><span class="p">(</span><span class="s2">"u"</span><span class="p">,</span> <span class="n">OTNormalDistribution_Settings</span><span class="p">(</span><span class="n">mu</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">0.01</span><span class="p">))</span>
+<span class="n">uncertain_space</span><span class="o">.</span><span class="n">add_variable</span><span class="p">(</span><span class="s2">"v"</span><span class="p">,</span> <span class="n">OTNormalDistribution_Settings</span><span class="p">(</span><span class="n">mu</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">0.01</span><span class="p">))</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 80-82 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 82-84 -->
 
 <p>We choose <span class="arithmatex">\(x^{(0)}=(-0.25, 0.75, -0.9)\)</span>
 as the starting point of the optimization:</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 82-85 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 84-87 -->
 
 <div class="highlight"><pre><span></span><code><span class="n">initial_point</span> <span class="o">=</span> <span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.9</span><span class="p">])</span>
 <span class="n">design_space</span><span class="o">.</span><span class="n">set_current_value</span><span class="p">(</span><span class="n">initial_point</span><span class="p">)</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 86-90 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 88-92 -->
 
 <h2 id="optimization-problem-under-uncertainty">Optimization problem under uncertainty<a class="headerlink" href="#optimization-problem-under-uncertainty" title="Permanent link">&para;</a></h2>
 <p>Then,
 we define the optimization problem under uncertainty,
 with statistics estimated by sampling:</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 90-99 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 92-99 -->
 
 <div class="highlight"><pre><span></span><code><span class="n">u_opt_scenario</span> <span class="o">=</span> <span class="n">UMDOScenario</span><span class="p">(</span>
     <span class="p">[</span><span class="n">discipline</span><span class="p">],</span>
-    <span class="s2">&quot;f&quot;</span><span class="p">,</span>
     <span class="n">design_space</span><span class="p">,</span>
     <span class="n">uncertain_space</span><span class="p">,</span>
-    <span class="s2">&quot;Mean&quot;</span><span class="p">,</span>
     <span class="n">Sampling_Settings</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">50</span><span class="p">),</span>
-    <span class="n">formulation_name</span><span class="o">=</span><span class="s2">&quot;DisciplinaryOpt&quot;</span><span class="p">,</span>
 <span class="p">)</span>
-</code></pre></div>
-<p class="mkd-glr-script-out">Out:</p>
-<div class="mkd-glr-script-out-disp highlight"><pre><span></span><code>/builds/gemseo/dev/gemseo-umdo/src/gemseo_umdo/formulations/base_sampling_settings.py:63:<span class="w"> </span>PydanticDeprecatedSince211:<span class="w"> </span>Accessing<span class="w"> </span>the<span class="w"> </span><span class="s1">&#39;model_fields&#39;</span><span class="w"> </span>attribute<span class="w"> </span>on<span class="w"> </span>the<span class="w"> </span>instance<span class="w"> </span>is<span class="w"> </span>deprecated.<span class="w"> </span>Instead,<span class="w"> </span>you<span class="w"> </span>should<span class="w"> </span>access<span class="w"> </span>this<span class="w"> </span>attribute<span class="w"> </span>from<span class="w"> </span>the<span class="w"> </span>model<span class="w"> </span>class.<span class="w"> </span>Deprecated<span class="w"> </span><span class="k">in</span><span class="w"> </span>Pydantic<span class="w"> </span>V2.11<span class="w"> </span>to<span class="w"> </span>be<span class="w"> </span>removed<span class="w"> </span><span class="k">in</span><span class="w"> </span>V3.0.
-<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="s2">&quot;seed&quot;</span><span class="w"> </span><span class="k">in</span><span class="w"> </span>doe_algo_settings.model_fields<span class="w"> </span>and<span class="w"> </span>doe_algo_settings.seed<span class="w"> </span>is<span class="w"> </span>None:
-/builds/gemseo/dev/gemseo-umdo/src/gemseo_umdo/scenarios/base_u_scenario.py:152:<span class="w"> </span>PydanticDeprecatedSince20:<span class="w"> </span>The<span class="w"> </span><span class="sb">`</span>copy<span class="sb">`</span><span class="w"> </span>method<span class="w"> </span>is<span class="w"> </span>deprecated<span class="p">;</span><span class="w"> </span>use<span class="w"> </span><span class="sb">`</span>model_copy<span class="sb">`</span><span class="w"> </span>instead.<span class="w"> </span>See<span class="w"> </span>the<span class="w"> </span>docstring<span class="w"> </span>of<span class="w"> </span><span class="sb">`</span>BaseModel.copy<span class="sb">`</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>details<span class="w"> </span>about<span class="w"> </span>how<span class="w"> </span>to<span class="w"> </span>handle<span class="w"> </span><span class="sb">`</span>include<span class="sb">`</span><span class="w"> </span>and<span class="w"> </span><span class="sb">`</span>exclude<span class="sb">`</span>.<span class="w"> </span>Deprecated<span class="w"> </span><span class="k">in</span><span class="w"> </span>Pydantic<span class="w"> </span>V2.0<span class="w"> </span>to<span class="w"> </span>be<span class="w"> </span>removed<span class="w"> </span><span class="k">in</span><span class="w"> </span>V3.0.<span class="w"> </span>See<span class="w"> </span>Pydantic<span class="w"> </span>V2<span class="w"> </span>Migration<span class="w"> </span>Guide<span class="w"> </span>at<span class="w"> </span>https://errors.pydantic.dev/2.12/migration/
-<span class="w">  </span><span class="nv">formulation_settings_model_copy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>formulation_settings_model.copy<span class="o">()</span>
-/builds/gemseo/dev/gemseo-umdo/src/gemseo_umdo/formulations/sampling.py:152:<span class="w"> </span>PydanticDeprecatedSince211:<span class="w"> </span>Accessing<span class="w"> </span>the<span class="w"> </span><span class="s1">&#39;model_fields&#39;</span><span class="w"> </span>attribute<span class="w"> </span>on<span class="w"> </span>the<span class="w"> </span>instance<span class="w"> </span>is<span class="w"> </span>deprecated.<span class="w"> </span>Instead,<span class="w"> </span>you<span class="w"> </span>should<span class="w"> </span>access<span class="w"> </span>this<span class="w"> </span>attribute<span class="w"> </span>from<span class="w"> </span>the<span class="w"> </span>model<span class="w"> </span>class.<span class="w"> </span>Deprecated<span class="w"> </span><span class="k">in</span><span class="w"> </span>Pydantic<span class="w"> </span>V2.11<span class="w"> </span>to<span class="w"> </span>be<span class="w"> </span>removed<span class="w"> </span><span class="k">in</span><span class="w"> </span>V3.0.
-<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="s2">&quot;n_samples&quot;</span><span class="w"> </span><span class="k">in</span><span class="w"> </span>doe_algo_settings.model_fields:
+<span class="n">u_opt_scenario</span><span class="o">.</span><span class="n">add_objective</span><span class="p">(</span><span class="s2">"f"</span><span class="p">,</span> <span class="s2">"Mean"</span><span class="p">)</span>
 </code></pre></div>
 <!-- GENERATED FROM PYTHON SOURCE LINES 100-101 -->
 
 <p>and solve it using the SLSQP algorithm:</p>
 <!-- GENERATED FROM PYTHON SOURCE LINES 101-102 -->
 
-<div class="highlight"><pre><span></span><code><span class="n">u_opt_scenario</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">algo_name</span><span class="o">=</span><span class="s2">&quot;NLOPT_SLSQP&quot;</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">u_opt_scenario</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">NLOPT_SLSQP_Settings</span><span class="p">(</span><span class="n">max_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">))</span>
 </code></pre></div>
+<div class="output_subarea output_html rendered_html output_result">
+    <div style='margin: 1em;'>Optimization result:<br/><ul><li>Design variables: [0.96142088 0.92466758 0.85518239]</li><li>Objective function: 0.067648240879481</li><li>Feasible solution: True</li></ul></div>
+</div>
+
 <!-- GENERATED FROM PYTHON SOURCE LINES 103-112 -->
 
 <h2 id="mdo-problem-under-uncertainty">MDO problem under uncertainty<a class="headerlink" href="#mdo-problem-under-uncertainty" title="Permanent link">&para;</a></h2>
@@ -8642,31 +8638,21 @@ we reset the design space to the initial point:</p>
 <p>and create the
 <a class="autorefs autorefs-internal" title="            UOptAsUMDOScenario" href="../../../../../reference/gemseo_umdo/problems/uopt_as_umdo_scenario/#gemseo_umdo.problems.uopt_as_umdo_scenario.UOptAsUMDOScenario">UOptAsUMDOScenario</a>,
 orchestrated by an MDF formulation:</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 117-126 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 117-124 -->
 
 <div class="highlight"><pre><span></span><code><span class="n">umdo_scenario</span> <span class="o">=</span> <span class="n">UOptAsUMDOScenario</span><span class="p">(</span>
     <span class="n">discipline</span><span class="p">,</span>
-    <span class="s2">&quot;f&quot;</span><span class="p">,</span>
     <span class="n">design_space</span><span class="p">,</span>
     <span class="n">uncertain_space</span><span class="p">,</span>
-    <span class="s2">&quot;Mean&quot;</span><span class="p">,</span>
     <span class="n">Sampling_Settings</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">50</span><span class="p">),</span>
-    <span class="n">formulation_name</span><span class="o">=</span><span class="s2">&quot;MDF&quot;</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="n">umdo_scenario</span><span class="o">.</span><span class="n">add_objective</span><span class="p">(</span><span class="s2">"f"</span><span class="p">,</span> <span class="s2">"Mean"</span><span class="p">)</span>
 </code></pre></div>
-<p class="mkd-glr-script-out">Out:</p>
-<div class="mkd-glr-script-out-disp highlight"><pre><span></span><code>/builds/gemseo/dev/gemseo-umdo/src/gemseo_umdo/formulations/base_sampling_settings.py:63:<span class="w"> </span>PydanticDeprecatedSince211:<span class="w"> </span>Accessing<span class="w"> </span>the<span class="w"> </span><span class="s1">&#39;model_fields&#39;</span><span class="w"> </span>attribute<span class="w"> </span>on<span class="w"> </span>the<span class="w"> </span>instance<span class="w"> </span>is<span class="w"> </span>deprecated.<span class="w"> </span>Instead,<span class="w"> </span>you<span class="w"> </span>should<span class="w"> </span>access<span class="w"> </span>this<span class="w"> </span>attribute<span class="w"> </span>from<span class="w"> </span>the<span class="w"> </span>model<span class="w"> </span>class.<span class="w"> </span>Deprecated<span class="w"> </span><span class="k">in</span><span class="w"> </span>Pydantic<span class="w"> </span>V2.11<span class="w"> </span>to<span class="w"> </span>be<span class="w"> </span>removed<span class="w"> </span><span class="k">in</span><span class="w"> </span>V3.0.
-<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="s2">&quot;seed&quot;</span><span class="w"> </span><span class="k">in</span><span class="w"> </span>doe_algo_settings.model_fields<span class="w"> </span>and<span class="w"> </span>doe_algo_settings.seed<span class="w"> </span>is<span class="w"> </span>None:
-/builds/gemseo/dev/gemseo-umdo/src/gemseo_umdo/scenarios/base_u_scenario.py:152:<span class="w"> </span>PydanticDeprecatedSince20:<span class="w"> </span>The<span class="w"> </span><span class="sb">`</span>copy<span class="sb">`</span><span class="w"> </span>method<span class="w"> </span>is<span class="w"> </span>deprecated<span class="p">;</span><span class="w"> </span>use<span class="w"> </span><span class="sb">`</span>model_copy<span class="sb">`</span><span class="w"> </span>instead.<span class="w"> </span>See<span class="w"> </span>the<span class="w"> </span>docstring<span class="w"> </span>of<span class="w"> </span><span class="sb">`</span>BaseModel.copy<span class="sb">`</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>details<span class="w"> </span>about<span class="w"> </span>how<span class="w"> </span>to<span class="w"> </span>handle<span class="w"> </span><span class="sb">`</span>include<span class="sb">`</span><span class="w"> </span>and<span class="w"> </span><span class="sb">`</span>exclude<span class="sb">`</span>.<span class="w"> </span>Deprecated<span class="w"> </span><span class="k">in</span><span class="w"> </span>Pydantic<span class="w"> </span>V2.0<span class="w"> </span>to<span class="w"> </span>be<span class="w"> </span>removed<span class="w"> </span><span class="k">in</span><span class="w"> </span>V3.0.<span class="w"> </span>See<span class="w"> </span>Pydantic<span class="w"> </span>V2<span class="w"> </span>Migration<span class="w"> </span>Guide<span class="w"> </span>at<span class="w"> </span>https://errors.pydantic.dev/2.12/migration/
-<span class="w">  </span><span class="nv">formulation_settings_model_copy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>formulation_settings_model.copy<span class="o">()</span>
-/builds/gemseo/dev/gemseo-umdo/src/gemseo_umdo/formulations/sampling.py:152:<span class="w"> </span>PydanticDeprecatedSince211:<span class="w"> </span>Accessing<span class="w"> </span>the<span class="w"> </span><span class="s1">&#39;model_fields&#39;</span><span class="w"> </span>attribute<span class="w"> </span>on<span class="w"> </span>the<span class="w"> </span>instance<span class="w"> </span>is<span class="w"> </span>deprecated.<span class="w"> </span>Instead,<span class="w"> </span>you<span class="w"> </span>should<span class="w"> </span>access<span class="w"> </span>this<span class="w"> </span>attribute<span class="w"> </span>from<span class="w"> </span>the<span class="w"> </span>model<span class="w"> </span>class.<span class="w"> </span>Deprecated<span class="w"> </span><span class="k">in</span><span class="w"> </span>Pydantic<span class="w"> </span>V2.11<span class="w"> </span>to<span class="w"> </span>be<span class="w"> </span>removed<span class="w"> </span><span class="k">in</span><span class="w"> </span>V3.0.
-<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="s2">&quot;n_samples&quot;</span><span class="w"> </span><span class="k">in</span><span class="w"> </span>doe_algo_settings.model_fields:
-</code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 127-129 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 125-127 -->
 
 <p>Then,
 we can see that the design variables have been renamed:</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 129-130 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 127-128 -->
 
 <div class="highlight"><pre><span></span><code><span class="n">design_space</span>
 </code></pre></div>
@@ -8687,27 +8673,27 @@ we can see that the design variables have been renamed:</p>
                 <td>-1</td>
                 <td>-0.25</td>
                 <td>1</td>
-                <td>float</td>
+                <td>real</td>
             </tr>
             <tr>
                 <td>x_1</td>
                 <td>-1</td>
                 <td>0.75</td>
                 <td>1</td>
-                <td>float</td>
+                <td>real</td>
             </tr>
             <tr>
                 <td>x_2</td>
                 <td>-1</td>
                 <td>-0.9</td>
                 <td>1</td>
-                <td>float</td>
+                <td>real</td>
             </tr>
         </tbody>
     </table></div>
 </div>
 
-<!-- GENERATED FROM PYTHON SOURCE LINES 131-139 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 129-137 -->
 
 <p>This renaming is based on the convention:</p>
 <ul>
@@ -8717,40 +8703,40 @@ we can see that the design variables have been renamed:</p>
   and is named <span class="arithmatex">\(x_{1+i}\)</span>.</li>
 </ul>
 <p>We can also have a look to the coupling graph:</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 139-140 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 137-138 -->
 
-<div class="highlight"><pre><span></span><code><span class="n">generate_coupling_graph</span><span class="p">(</span><span class="n">umdo_scenario</span><span class="o">.</span><span class="n">disciplines</span><span class="p">,</span> <span class="n">file_path</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">generate_coupling_graph</span><span class="p">(</span><span class="n">umdo_scenario</span><span class="o">.</span><span class="n">disciplines</span><span class="p">,</span> <span class="n">file_path</span><span class="o">=</span><span class="s2">""</span><span class="p">)</span>
 </code></pre></div>
 <div class="output_subarea output_html rendered_html output_result">
     <?xml version="1.0" encoding="UTF-8" standalone="no"?>
     <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
      "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-    <!-- Generated by graphviz version 12.2.1 (20241206.2353)
+    <!-- Generated by graphviz version 13.1.2 (20250808.2320)
      -->
     <!-- Pages: 1 -->
     <svg width="139pt" height="389pt"
-     viewBox="0.00 0.00 139.49 389.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+     viewBox="0.00 0.00 139.00 389.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 385)">
     <polygon fill="white" stroke="none" points="-4,4 -4,-385 135.49,-385 135.49,4 -4,4"/>
     <!-- L -->
     <g id="node1" class="node">
     <title>L</title>
     <ellipse fill="none" stroke="black" cx="55.49" cy="-190.5" rx="27" ry="18"/>
-    <text text-anchor="middle" x="55.49" y="-184.32" font-family="Times,serif" font-size="14.00">L</text>
+    <text xml:space="preserve" text-anchor="middle" x="55.49" y="-184.32" font-family="Times,serif" font-size="14.00">L</text>
     </g>
     <!-- Rosenbrock -->
     <g id="node2" class="node">
     <title>Rosenbrock</title>
     <ellipse fill="none" stroke="black" cx="55.49" cy="-104.25" rx="51.2" ry="18"/>
-    <text text-anchor="middle" x="55.49" y="-98.08" font-family="Times,serif" font-size="14.00">Rosenbrock</text>
+    <text xml:space="preserve" text-anchor="middle" x="55.49" y="-98.08" font-family="Times,serif" font-size="14.00">Rosenbrock</text>
     </g>
     <!-- L&#45;&gt;Rosenbrock -->
     <g id="edge1" class="edge">
     <title>L&#45;&gt;Rosenbrock</title>
     <path fill="none" stroke="black" d="M55.49,-172.04C55.49,-161.09 55.49,-146.69 55.49,-134.07"/>
     <polygon fill="black" stroke="black" points="58.99,-134.2 55.49,-124.2 51.99,-134.2 58.99,-134.2"/>
-    <g id="a_edge1&#45;label"><a xlink:title="Global name, Name in discipline &#39;L&#39;, Name in discipline &#39;Rosenbrock&#39;&#10;&#10;z_0, z_0, z_0&#10;z_2, z_2, z_2&#10;z_1, z_1, z_1">
-    <text text-anchor="middle" x="92.24" y="-141.2" font-family="Times,serif" font-size="14.00">z_0, z_1, z_2</text>
+    <g id="a_edge1&#45;label"><a xlink:title="Global name, Name in discipline &#39;L&#39;, Name in discipline &#39;Rosenbrock&#39;&#10;&#10;z_0, z_0, z_0&#10;z_1, z_1, z_1&#10;z_2, z_2, z_2">
+    <text xml:space="preserve" text-anchor="middle" x="92.24" y="-141.2" font-family="Times,serif" font-size="14.00">z_0, z_1, z_2</text>
     </a>
     </g>
     </g>
@@ -8761,7 +8747,7 @@ we can see that the design variables have been renamed:</p>
     <path fill="none" stroke="black" d="M55.49,-85.79C55.49,-74.84 55.49,-60.44 55.49,-47.82"/>
     <polygon fill="black" stroke="black" points="58.99,-47.95 55.49,-37.95 51.99,-47.95 58.99,-47.95"/>
     <g id="a_edge6&#45;label"><a xlink:title="Global name, Name in discipline &#39;Rosenbrock&#39;&#10;&#10;f, f">
-    <text text-anchor="middle" x="57.74" y="-54.95" font-family="Times,serif" font-size="14.00">f</text>
+    <text xml:space="preserve" text-anchor="middle" x="57.74" y="-54.95" font-family="Times,serif" font-size="14.00">f</text>
     </a>
     </g>
     </g>
@@ -8769,7 +8755,7 @@ we can see that the design variables have been renamed:</p>
     <g id="node3" class="node">
     <title>D1</title>
     <ellipse fill="none" stroke="black" cx="72.49" cy="-363" rx="27" ry="18"/>
-    <text text-anchor="middle" x="72.49" y="-356.82" font-family="Times,serif" font-size="14.00">D1</text>
+    <text xml:space="preserve" text-anchor="middle" x="72.49" y="-356.82" font-family="Times,serif" font-size="14.00">D1</text>
     </g>
     <!-- D1&#45;&gt;L -->
     <g id="edge2" class="edge">
@@ -8777,7 +8763,7 @@ we can see that the design variables have been renamed:</p>
     <path fill="none" stroke="black" d="M64.64,-345.31C58.81,-331.96 51.36,-312.6 48.24,-294.75 43.87,-269.74 46.53,-240.89 49.8,-220.06"/>
     <polygon fill="black" stroke="black" points="53.23,-220.75 51.48,-210.3 46.33,-219.55 53.23,-220.75"/>
     <g id="a_edge2&#45;label"><a xlink:title="Global name, Name in discipline &#39;D1&#39;, Name in discipline &#39;L&#39;&#10;&#10;y_1, y_1, y_1">
-    <text text-anchor="middle" x="58.37" y="-270.57" font-family="Times,serif" font-size="14.00">y_1</text>
+    <text xml:space="preserve" text-anchor="middle" x="58.37" y="-270.57" font-family="Times,serif" font-size="14.00">y_1</text>
     </a>
     </g>
     </g>
@@ -8785,7 +8771,7 @@ we can see that the design variables have been renamed:</p>
     <g id="node4" class="node">
     <title>D2</title>
     <ellipse fill="none" stroke="black" cx="104.49" cy="-276.75" rx="27" ry="18"/>
-    <text text-anchor="middle" x="104.49" y="-270.57" font-family="Times,serif" font-size="14.00">D2</text>
+    <text xml:space="preserve" text-anchor="middle" x="104.49" y="-270.57" font-family="Times,serif" font-size="14.00">D2</text>
     </g>
     <!-- D1&#45;&gt;D2 -->
     <g id="edge3" class="edge">
@@ -8793,7 +8779,7 @@ we can see that the design variables have been renamed:</p>
     <path fill="none" stroke="black" d="M69.88,-345.02C69.08,-335.26 69.26,-322.95 73.24,-312.75 75.01,-308.23 77.65,-303.91 80.66,-299.95"/>
     <polygon fill="black" stroke="black" points="83.16,-302.4 87.12,-292.57 77.9,-297.79 83.16,-302.4"/>
     <g id="a_edge3&#45;label"><a xlink:title="Global name, Name in discipline &#39;D1&#39;, Name in discipline &#39;D2&#39;&#10;&#10;y_1, y_1, y_1">
-    <text text-anchor="middle" x="83.37" y="-313.7" font-family="Times,serif" font-size="14.00">y_1</text>
+    <text xml:space="preserve" text-anchor="middle" x="83.37" y="-313.7" font-family="Times,serif" font-size="14.00">y_1</text>
     </a>
     </g>
     </g>
@@ -8803,7 +8789,7 @@ we can see that the design variables have been renamed:</p>
     <path fill="none" stroke="black" d="M95.05,-259.51C88.13,-247.62 78.61,-231.24 70.63,-217.53"/>
     <polygon fill="black" stroke="black" points="73.73,-215.89 65.67,-209 67.67,-219.41 73.73,-215.89"/>
     <g id="a_edge4&#45;label"><a xlink:title="Global name, Name in discipline &#39;D2&#39;, Name in discipline &#39;L&#39;&#10;&#10;y_2, y_2, y_2">
-    <text text-anchor="middle" x="93.05" y="-227.45" font-family="Times,serif" font-size="14.00">y_2</text>
+    <text xml:space="preserve" text-anchor="middle" x="93.05" y="-227.45" font-family="Times,serif" font-size="14.00">y_2</text>
     </a>
     </g>
     </g>
@@ -8813,7 +8799,7 @@ we can see that the design variables have been renamed:</p>
     <path fill="none" stroke="black" d="M102.03,-295.02C100.32,-304.66 97.59,-316.75 93.49,-327 92.26,-330.08 90.78,-333.21 89.17,-336.27"/>
     <polygon fill="black" stroke="black" points="86.17,-334.46 84.21,-344.87 92.24,-337.95 86.17,-334.46"/>
     <g id="a_edge5&#45;label"><a xlink:title="Global name, Name in discipline &#39;D2&#39;, Name in discipline &#39;D1&#39;&#10;&#10;y_2, y_2, y_2">
-    <text text-anchor="middle" x="107.96" y="-313.7" font-family="Times,serif" font-size="14.00">y_2</text>
+    <text xml:space="preserve" text-anchor="middle" x="107.96" y="-313.7" font-family="Times,serif" font-size="14.00">y_2</text>
     </a>
     </g>
     </g>
@@ -8822,7 +8808,7 @@ we can see that the design variables have been renamed:</p>
 
 </div>
 
-<!-- GENERATED FROM PYTHON SOURCE LINES 141-150 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 139-148 -->
 
 <p>and see that there are two strongly coupled disciplines <span class="arithmatex">\(D_1\)</span> and <span class="arithmatex">\(D_2\)</span>,
 connected by the coupling variables <span class="arithmatex">\(y_1\)</span> and <span class="arithmatex">\(y_2\)</span>.
@@ -8832,7 +8818,7 @@ Let us note that the link discipline computes
 the values of the design variables in the original optimization problem
 from the values of the design and coupling variables in the MDO problem.</p>
 <p>We can also represent the MDO process using an XDSM:</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 150-151 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 148-149 -->
 
 <div class="highlight"><pre><span></span><code><span class="n">umdo_scenario</span><span class="o">.</span><span class="n">xdsmize</span><span class="p">(</span><span class="n">save_html</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">pdf_build</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </code></pre></div>
@@ -9004,19 +8990,23 @@ from the values of the design and coupling variables in the MDO problem.</p>
         <div class='xdsm-toolbar'></div><div class='xdsm2'></div>
 </div>
 
-<!-- GENERATED FROM PYTHON SOURCE LINES 152-154 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 150-152 -->
 
 <p>Lastly,
 we solve this scenario using the SLSQP algorithm:</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 154-155 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 152-153 -->
 
-<div class="highlight"><pre><span></span><code><span class="n">umdo_scenario</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">algo_name</span><span class="o">=</span><span class="s2">&quot;NLOPT_SLSQP&quot;</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">umdo_scenario</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">algorithm_settings</span><span class="o">=</span><span class="n">NLOPT_SLSQP_Settings</span><span class="p">(</span><span class="n">max_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">))</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 156-158 -->
+<div class="output_subarea output_html rendered_html output_result">
+    <div style='margin: 1em;'>Optimization result:<br/><ul><li>Design variables: [0.96142088 0.92466758 0.85518239]</li><li>Objective function: 0.06764824087948075</li><li>Feasible solution: True</li></ul></div>
+</div>
+
+<!-- GENERATED FROM PYTHON SOURCE LINES 154-156 -->
 
 <p>We can see that
 the numerical solution corresponds to the one found in the monodisciplinary case.</p>
-<p><strong>Total running time of the script:</strong> ( 0 minutes  21.392 seconds)</p>
+<p><strong>Total running time of the script:</strong> ( 0 minutes  20.984 seconds)</p>
 <div id="download_links"></div>
 
 <p><a class="md-button center" href="../plot_uopt_as_umdo.py"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M256 32c0-17.7-14.3-32-32-32s-32 14.3-32 32v210.7l-41.4-41.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l96 96c12.5 12.5 32.8 12.5 45.3 0l96-96c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 242.7zM64 320c-35.3 0-64 28.7-64 64v32c0 35.3 28.7 64 64 64h320c35.3 0 64-28.7 64-64v-32c0-35.3-28.7-64-64-64h-46.9l-56.6 56.6c-31.2 31.2-81.9 31.2-113.1 0L110.9 320zm304 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48"/></svg></span> Download Python source code: plot_uopt_as_umdo.py</a></p>
@@ -9082,14 +9072,13 @@ the numerical solution corresponds to the one found in the monodisciplinary case
       <script id="__config" type="application/json">{"annotate": null, "base": "../../../../..", "features": ["navigation.tabs", "navigation.instant", "navigation.indexes"], "search": "../../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../../../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
         <script src="../../../../../assets/_markdown_exec_pyodide.js"></script>
       
         <script src="../../../../../javascripts/mathjax.js"></script>
       
         <script src="../../../../../javascripts/xdsmjs.js"></script>
-      
       
         <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
       

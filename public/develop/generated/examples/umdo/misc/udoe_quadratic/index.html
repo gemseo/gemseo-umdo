@@ -8,7 +8,7 @@
       
       
       
-        <link rel="canonical" href="https://gemseo.gitlab.io/gemseo-umdo/latest/generated/examples/umdo/misc/udoe_quadratic/">
+        <link rel="canonical" href="https://gemseo.gitlab.io/dev/gemseo-umdo/latest/generated/examples/umdo/misc/udoe_quadratic/">
       
       
         <link rel="prev" href="../../mdo_formulations/bilevel_sobieski/">
@@ -20,8 +20,8 @@
         
       
       
-      <link rel="icon" href="../../../../../images/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+      <link rel="icon" href="../../../../../images/monogram.png">
+      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.7.7">
     
     
       
@@ -29,7 +29,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -2013,14 +2013,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../sampling/s_sellar/" class="md-nav__link">
+      <a href="../../sampling/s_sobieski/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sellar's MDO problem
+    The Sobieski's SSBJ MDO problem.
   
 
     
@@ -2041,14 +2041,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../sampling/s_sobieski/" class="md-nav__link">
+      <a href="../../sampling/s_sellar/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sobieski's SSBJ MDO problem.
+    The Sellar's MDO problem
   
 
     
@@ -2343,14 +2343,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../taylor_polynomial/tp_sellar/" class="md-nav__link">
+      <a href="../../taylor_polynomial/tp_sobieski/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sellar's MDO problem
+    The Sobieski's SSBJ MDO problem
   
 
     
@@ -2371,14 +2371,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../taylor_polynomial/tp_sobieski/" class="md-nav__link">
+      <a href="../../taylor_polynomial/tp_sellar/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sobieski's SSBJ MDO problem
+    The Sellar's MDO problem
   
 
     
@@ -8380,75 +8380,76 @@
 to download the full example code</p>
 </div>
 <h1 id="doe">DOE<a class="headerlink" href="#doe" title="Permanent link">&para;</a></h1>
-<!-- GENERATED FROM PYTHON SOURCE LINES 17-27 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 17-30 -->
 
 <div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.algos.design_space</span><span class="w"> </span><span class="kn">import</span> <span class="n">DesignSpace</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.algos.parameter_space</span><span class="w"> </span><span class="kn">import</span> <span class="n">ParameterSpace</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.disciplines.analytic</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnalyticDiscipline</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.discipline</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnalyticDiscipline</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.doe</span><span class="w"> </span><span class="kn">import</span> <span class="n">PYDOE_FULLFACT_Settings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.post</span><span class="w"> </span><span class="kn">import</span> <span class="n">OptHistoryView_Settings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.space</span><span class="w"> </span><span class="kn">import</span> <span class="n">DesignSpace</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.space</span><span class="w"> </span><span class="kn">import</span> <span class="n">RandomSpace</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.uncertainty.distribution</span><span class="w"> </span><span class="kn">import</span> <span class="n">OTNormalDistribution_Settings</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">gemseo_umdo.formulations.sampling_settings</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sampling_Settings</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">gemseo_umdo.scenarios.udoe_scenario</span><span class="w"> </span><span class="kn">import</span> <span class="n">UDOEScenario</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 28-31 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 31-34 -->
 
 <p>Firstly,
-we define an [AnalyticDiscipline][gemseo.disciplines.analytic.AnalyticDiscipline]
+we define an <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/discipline/analytic/#gemseo.discipline.analytic.AnalyticDiscipline">AnalyticDiscipline</a>
 implementing the random function <span class="arithmatex">\(f(x,U)=(x+U)^2\)</span>:</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 31-33 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 34-36 -->
 
-<div class="highlight"><pre><span></span><code><span class="n">discipline</span> <span class="o">=</span> <span class="n">AnalyticDiscipline</span><span class="p">({</span><span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="s2">&quot;(x+u)**2&quot;</span><span class="p">},</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;quadratic_function&quot;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">discipline</span> <span class="o">=</span> <span class="n">AnalyticDiscipline</span><span class="p">({</span><span class="s2">"y"</span><span class="p">:</span> <span class="s2">"(x+u)**2"</span><span class="p">},</span> <span class="n">name</span><span class="o">=</span><span class="s2">"quadratic_function"</span><span class="p">)</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 34-35 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 37-38 -->
 
 <p>where <span class="arithmatex">\(x\)</span> belongs to the interval <span class="arithmatex">\([-1,1]\)</span>:</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 35-38 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 38-41 -->
 
 <div class="highlight"><pre><span></span><code><span class="n">design_space</span> <span class="o">=</span> <span class="n">DesignSpace</span><span class="p">()</span>
-<span class="n">design_space</span><span class="o">.</span><span class="n">add_variable</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">lower_bound</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">upper_bound</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">design_space</span><span class="o">.</span><span class="n">add_variable</span><span class="p">(</span><span class="s2">"x"</span><span class="p">,</span> <span class="n">lower_bound</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">upper_bound</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 39-40 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 42-43 -->
 
 <p>and <span class="arithmatex">\(U\)</span> is a standard Gaussian variable:</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 40-43 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 43-46 -->
 
-<div class="highlight"><pre><span></span><code><span class="n">uncertain_space</span> <span class="o">=</span> <span class="n">ParameterSpace</span><span class="p">()</span>
-<span class="n">uncertain_space</span><span class="o">.</span><span class="n">add_random_variable</span><span class="p">(</span><span class="s2">&quot;u&quot;</span><span class="p">,</span> <span class="s2">&quot;OTNormalDistribution&quot;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">uncertain_space</span> <span class="o">=</span> <span class="n">RandomSpace</span><span class="p">()</span>
+<span class="n">uncertain_space</span><span class="o">.</span><span class="n">add_variable</span><span class="p">(</span><span class="s2">"u"</span><span class="p">,</span> <span class="n">OTNormalDistribution_Settings</span><span class="p">())</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 44-48 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 47-51 -->
 
 <p>Then,
 we build a <a class="autorefs autorefs-internal" title="            UDOEScenario" href="../../../../../reference/gemseo_umdo/scenarios/udoe_scenario/#gemseo_umdo.scenarios.udoe_scenario.UDOEScenario">UDOEScenario</a>
 to minimize a sampling-based estimation
 of the expectation <span class="arithmatex">\(\mathbb{E}[Y]\)</span> where <span class="arithmatex">\(Y=f(x,U)\)</span>:</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 48-58 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 51-59 -->
 
 <div class="highlight"><pre><span></span><code><span class="n">scenario</span> <span class="o">=</span> <span class="n">UDOEScenario</span><span class="p">(</span>
     <span class="p">[</span><span class="n">discipline</span><span class="p">],</span>
-    <span class="s2">&quot;y&quot;</span><span class="p">,</span>
     <span class="n">design_space</span><span class="p">,</span>
     <span class="n">uncertain_space</span><span class="p">,</span>
-    <span class="s2">&quot;Mean&quot;</span><span class="p">,</span>
-    <span class="n">formulation_name</span><span class="o">=</span><span class="s2">&quot;DisciplinaryOpt&quot;</span><span class="p">,</span>
-    <span class="n">statistic_estimation_settings</span><span class="o">=</span><span class="n">Sampling_Settings</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">100</span><span class="p">),</span>
+    <span class="n">Sampling_Settings</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">100</span><span class="p">),</span>
 <span class="p">)</span>
+<span class="n">scenario</span><span class="o">.</span><span class="n">add_objective</span><span class="p">(</span><span class="s2">"y"</span><span class="p">,</span> <span class="s2">"Mean"</span><span class="p">)</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 59-60 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 60-61 -->
 
 <p>We execute it with a full-factorial design of experiments:</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 60-62 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 61-63 -->
 
-<div class="highlight"><pre><span></span><code><span class="n">scenario</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">algo_name</span><span class="o">=</span><span class="s2">&quot;PYDOE_FULLFACT&quot;</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">scenario</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">PYDOE_FULLFACT_Settings</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">100</span><span class="p">))</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 63-64 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 64-65 -->
 
 <p>and plot the history:</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 64-66 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 65-67 -->
 
-<div class="highlight"><pre><span></span><code><span class="n">scenario</span><span class="o">.</span><span class="n">post_process</span><span class="p">(</span><span class="n">post_name</span><span class="o">=</span><span class="s2">&quot;OptHistoryView&quot;</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">scenario</span><span class="o">.</span><span class="n">post_process</span><span class="p">(</span><span class="n">OptHistoryView_Settings</span><span class="p">(</span><span class="n">save</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 67-69 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 68-70 -->
 
 <p>Notice that the numerical solution is close to <span class="arithmatex">\((x^*,f^*)=(0,1)\)</span> as expected
 from the expression of the statistic: <span class="arithmatex">\(\mathbb{E}[Y]=\mathbb{E}[(x+U)^2]=x^2+1\)</span>.</p>
@@ -8510,14 +8511,13 @@ from the expression of the statistic: <span class="arithmatex">\(\mathbb{E}[Y]=\
       <script id="__config" type="application/json">{"annotate": null, "base": "../../../../..", "features": ["navigation.tabs", "navigation.instant", "navigation.indexes"], "search": "../../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../../../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
         <script src="../../../../../assets/_markdown_exec_pyodide.js"></script>
       
         <script src="../../../../../javascripts/mathjax.js"></script>
       
         <script src="../../../../../javascripts/xdsmjs.js"></script>
-      
       
         <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
       

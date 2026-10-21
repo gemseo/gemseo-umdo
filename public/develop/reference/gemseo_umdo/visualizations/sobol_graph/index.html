@@ -8,7 +8,7 @@
       
       
       
-        <link rel="canonical" href="https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/visualizations/sobol_graph/">
+        <link rel="canonical" href="https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/visualizations/sobol_graph/">
       
       
         <link rel="prev" href="../">
@@ -20,8 +20,8 @@
         
       
       
-      <link rel="icon" href="../../../../images/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+      <link rel="icon" href="../../../../images/monogram.png">
+      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.7.7">
     
     
       
@@ -29,7 +29,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1992,14 +1992,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../generated/examples/umdo/sampling/s_sellar/" class="md-nav__link">
+      <a href="../../../../generated/examples/umdo/sampling/s_sobieski/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sellar's MDO problem
+    The Sobieski's SSBJ MDO problem.
   
 
     
@@ -2020,14 +2020,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../generated/examples/umdo/sampling/s_sobieski/" class="md-nav__link">
+      <a href="../../../../generated/examples/umdo/sampling/s_sellar/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sobieski's SSBJ MDO problem.
+    The Sellar's MDO problem
   
 
     
@@ -2322,14 +2322,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../generated/examples/umdo/taylor_polynomial/tp_sellar/" class="md-nav__link">
+      <a href="../../../../generated/examples/umdo/taylor_polynomial/tp_sobieski/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sellar's MDO problem
+    The Sobieski's SSBJ MDO problem
   
 
     
@@ -2350,14 +2350,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../generated/examples/umdo/taylor_polynomial/tp_sobieski/" class="md-nav__link">
+      <a href="../../../../generated/examples/umdo/taylor_polynomial/tp_sellar/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sobieski's SSBJ MDO problem
+    The Sellar's MDO problem
   
 
     
@@ -8295,12 +8295,12 @@
   <a href="#gemseo_umdo.visualizations.sobol_graph.SobolGraph-functions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Functions
+        Methods:
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Functions">
+    <nav class="md-nav" aria-label="Methods:">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -8589,12 +8589,12 @@
   <a href="#gemseo_umdo.visualizations.sobol_graph.SobolGraph-functions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Functions
+        Methods:
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Functions">
+    <nav class="md-nav" aria-label="Methods:">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -8704,11 +8704,11 @@
 
 <a href="#gemseo_umdo.visualizations.sobol_graph.SobolGraph" class="headerlink" title="Permanent link">&para;</a></h4>
 <div class="doc-signature highlight"><pre><span></span><code><span class="nf">SobolGraph</span><span class="p">(</span>
-    <span class="n">first_order_indices</span><span class="p">:</span> <span class="n"><span title="collections.abc.Mapping">Mapping</span></span><span class="p">[</span><span class="n"><span title="str">str</span></span><span class="p">,</span> <span class="n"><span title="float">float</span></span><span class="p">],</span>
-    <span class="n">total_order_indices</span><span class="p">:</span> <span class="n"><span title="collections.abc.Mapping">Mapping</span></span><span class="p">[</span><span class="n"><span title="str">str</span></span><span class="p">,</span> <span class="n"><span title="float">float</span></span><span class="p">],</span>
-    <span class="n">second_order_indices</span><span class="p">:</span> <span class="n"><span title="collections.abc.Mapping">Mapping</span></span><span class="p">[</span><span class="n"><span title="tuple">tuple</span></span><span class="p">[</span><span class="n"><span title="str">str</span></span><span class="p">,</span> <span class="n"><span title="str">str</span></span><span class="p">],</span> <span class="n"><span title="float">float</span></span><span class="p">],</span>
-    <span class="n">threshold</span><span class="p">:</span> <span class="n"><span title="float">float</span></span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span>
-    <span class="n">maximum_thickness</span><span class="p">:</span> <span class="n"><span title="float">float</span></span> <span class="o">=</span> <span class="mf">10.0</span><span class="p">,</span>
+    <span class="n">first_order_indices</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="collections.abc.Mapping" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping">Mapping</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/functions.html#float">float</a></span><span class="p">],</span>
+    <span class="n">total_order_indices</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="collections.abc.Mapping" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping">Mapping</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/functions.html#float">float</a></span><span class="p">],</span>
+    <span class="n">second_order_indices</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="collections.abc.Mapping" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping">Mapping</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#tuple">tuple</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a></span><span class="p">],</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/functions.html#float">float</a></span><span class="p">],</span>
+    <span class="n">threshold</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/functions.html#float">float</a></span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span>
+    <span class="n">maximum_thickness</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/functions.html#float">float</a></span> <span class="o">=</span> <span class="mf">10.0</span><span class="p">,</span>
 <span class="p">)</span>
 </code></pre></div>
 
@@ -8753,7 +8753,7 @@ shaped as <code>{name: index}</code>.</p>
               <p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
-                      <code><span title="collections.abc.Mapping">Mapping</span>[<span title="str">str</span>, <span title="float">float</span>]</code>
+                      <code><a class="autorefs autorefs-external" title="collections.abc.Mapping" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping">Mapping</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a>, <a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/functions.html#float">float</a>]</code>
                   </span>
               </p>
             </td>
@@ -8770,7 +8770,7 @@ shaped as <code>{name: index}</code>.</p>
               <p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
-                      <code><span title="collections.abc.Mapping">Mapping</span>[<span title="str">str</span>, <span title="float">float</span>]</code>
+                      <code><a class="autorefs autorefs-external" title="collections.abc.Mapping" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping">Mapping</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a>, <a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/functions.html#float">float</a>]</code>
                   </span>
               </p>
             </td>
@@ -8787,7 +8787,7 @@ shaped as <code>{(name, other_name): index}</code>.</p>
               <p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
-                      <code><span title="collections.abc.Mapping">Mapping</span>[<span title="tuple">tuple</span>[<span title="str">str</span>, <span title="str">str</span>], <span title="float">float</span>]</code>
+                      <code><a class="autorefs autorefs-external" title="collections.abc.Mapping" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping">Mapping</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#tuple">tuple</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a>, <a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a>], <a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/functions.html#float">float</a>]</code>
                   </span>
               </p>
             </td>
@@ -8805,7 +8805,7 @@ and the corresponding edge plotted.</p>
               <p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
-                      <code><span title="float">float</span></code>
+                      <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/functions.html#float">float</a></code>
                   </span>
                   <span class="doc-param-default">
                     <b>DEFAULT:</b>
@@ -8825,7 +8825,7 @@ and the corresponding edge plotted.</p>
               <p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
-                      <code><span title="float">float</span></code>
+                      <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/functions.html#float">float</a></code>
                   </span>
                   <span class="doc-param-default">
                     <b>DEFAULT:</b>
@@ -8898,19 +8898,19 @@ and the corresponding edge plotted.</p>
     <span class="n">threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span>
     <span class="n">maximum_thickness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">10.0</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Args:</span>
-<span class="sd">        first_order_indices: The first-order Sobol&#39; indices of the scalar inputs,</span>
+<span class="sd">        first_order_indices: The first-order Sobol' indices of the scalar inputs,</span>
 <span class="sd">            shaped as `{name: index}`.</span>
-<span class="sd">        second_order_indices:  The second-order Sobol&#39; indices of the scalar inputs,</span>
+<span class="sd">        second_order_indices:  The second-order Sobol' indices of the scalar inputs,</span>
 <span class="sd">            shaped as `{(name, other_name): index}`.</span>
-<span class="sd">        total_order_indices: The total-order Sobol&#39; indices of the scalar inputs,</span>
+<span class="sd">        total_order_indices: The total-order Sobol' indices of the scalar inputs,</span>
 <span class="sd">            shaped as `{name: index}`.</span>
 <span class="sd">        threshold: The sensitivity threshold</span>
 <span class="sd">            above which a second-order index is significant</span>
 <span class="sd">            and the corresponding edge plotted.</span>
 <span class="sd">        maximum_thickness: The maximum thickness of a line.</span>
-<span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: D205 D212 D415</span>
+<span class="sd">    """</span>  <span class="c1"># noqa: D205 D212 D415</span>
     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">variables_to_nodes</span> <span class="o">=</span> <span class="p">{}</span>
 
@@ -8918,8 +8918,8 @@ and the corresponding edge plotted.</p>
     <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">total_order_index</span> <span class="ow">in</span> <span class="n">total_order_indices</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="n">first_order_index</span> <span class="o">=</span> <span class="n">first_order_indices</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
         <span class="n">node_name</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">total_order_index</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">first_order_index</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span>
+            <span class="sa">f</span><span class="s2">"(</span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">total_order_index</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">first_order_index</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span><span class="si">}</span><span class="s2">)"</span>
         <span class="p">)</span>
         <span class="n">variables_to_nodes</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">node_name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">node</span><span class="p">(</span>
@@ -8961,7 +8961,7 @@ and the corresponding edge plotted.</p>
   </span>
 
 <a href="#gemseo_umdo.visualizations.sobol_graph.SobolGraph.DEFAULT_FILE_PATH" class="headerlink" title="Permanent link">&para;</a></h6>
-<div class="doc-signature highlight"><pre><span></span><code><span class="n">DEFAULT_FILE_PATH</span><span class="p">:</span> <span class="n"><span title="str">str</span></span> <span class="o">|</span> <span class="n"><span title="pathlib.Path">Path</span></span> <span class="o">=</span> <span class="s1">&#39;sobol_graph.png&#39;</span>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">DEFAULT_FILE_PATH</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a></span> <span class="o">|</span> <span class="n"><a class="autorefs autorefs-external" title="pathlib.Path" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path">Path</a></span> <span class="o">=</span> <span class="s1">'sobol_graph.png'</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -8985,7 +8985,7 @@ and the corresponding edge plotted.</p>
   </span>
 
 <a href="#gemseo_umdo.visualizations.sobol_graph.SobolGraph.threshold" class="headerlink" title="Permanent link">&para;</a></h6>
-<div class="doc-signature highlight"><pre><span></span><code><span class="n">threshold</span><span class="p">:</span> <span class="n"><span title="float">float</span></span>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">threshold</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/functions.html#float">float</a></span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -8997,7 +8997,7 @@ and the corresponding edge plotted.</p>
 </div>
 
 
-<h5 id="gemseo_umdo.visualizations.sobol_graph.SobolGraph-functions">Functions<a href="#gemseo_umdo.visualizations.sobol_graph.SobolGraph-functions" class="headerlink" title="Permanent link">&para;</a></h5>
+<h5 id="gemseo_umdo.visualizations.sobol_graph.SobolGraph-functions">Methods:<a href="#gemseo_umdo.visualizations.sobol_graph.SobolGraph-functions" class="headerlink" title="Permanent link">&para;</a></h5>
 
 <div class="doc doc-object doc-function">
 
@@ -9012,9 +9012,9 @@ and the corresponding edge plotted.</p>
 
 <a href="#gemseo_umdo.visualizations.sobol_graph.SobolGraph.from_analysis" class="headerlink" title="Permanent link">&para;</a></h6>
 <div class="doc-signature highlight"><pre><span></span><code><span class="nf">from_analysis</span><span class="p">(</span>
-    <span class="n">analysis</span><span class="p">:</span> <span class="n"><span title="gemseo.uncertainty.sensitivity.sobol_analysis.SobolAnalysis">SobolAnalysis</span></span><span class="p">,</span>
-    <span class="n">output_name</span><span class="p">:</span> <span class="n"><span title="str">str</span></span><span class="p">,</span>
-    <span class="n">output_component</span><span class="p">:</span> <span class="n"><span title="int">int</span></span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">analysis</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.uncertainty.sensitivity.SobolAnalysis" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/uncertainty/sensitivity/#gemseo.uncertainty.sensitivity.SobolAnalysis">SobolAnalysis</a></span><span class="p">,</span>
+    <span class="n">output_name</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a></span><span class="p">,</span>
+    <span class="n">output_component</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/functions.html#int">int</a></span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-internal" title="            SobolGraph (gemseo_umdo.visualizations.sobol_graph.SobolGraph)" href="#gemseo_umdo.visualizations.sobol_graph.SobolGraph">SobolGraph</a></span>
 </code></pre></div>
 
@@ -9042,7 +9042,7 @@ and the corresponding edge plotted.</p>
               <p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
-                      <code><span title="gemseo.uncertainty.sensitivity.sobol_analysis.SobolAnalysis">SobolAnalysis</span></code>
+                      <code><a class="autorefs autorefs-external" title="gemseo.uncertainty.sensitivity.SobolAnalysis" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/uncertainty/sensitivity/#gemseo.uncertainty.sensitivity.SobolAnalysis">SobolAnalysis</a></code>
                   </span>
               </p>
             </td>
@@ -9058,7 +9058,7 @@ and the corresponding edge plotted.</p>
               <p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
-                      <code><span title="str">str</span></code>
+                      <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a></code>
                   </span>
               </p>
             </td>
@@ -9074,7 +9074,7 @@ and the corresponding edge plotted.</p>
               <p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
-                      <code><span title="int">int</span></code>
+                      <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/functions.html#int">int</a></code>
                   </span>
                   <span class="doc-param-default">
                     <b>DEFAULT:</b>
@@ -9137,16 +9137,16 @@ and the corresponding edge plotted.</p>
 <span class="k">def</span><span class="w"> </span><span class="nf">from_analysis</span><span class="p">(</span>
     <span class="bp">cls</span><span class="p">,</span> <span class="n">analysis</span><span class="p">:</span> <span class="n">SobolAnalysis</span><span class="p">,</span> <span class="n">output_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">output_component</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SobolGraph</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create the Sobol&#39; graph from a Sobol&#39; analysis.</span>
+<span class="w">    </span><span class="sd">"""Create the Sobol' graph from a Sobol' analysis.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        analysis: A Sobol&#39; analysis.</span>
+<span class="sd">        analysis: A Sobol' analysis.</span>
 <span class="sd">        output_name: The name of the output.</span>
 <span class="sd">        output_component: The component of the output.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        The Sobol&#39; graph associated with this Sobol&#39; analysis.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        The Sobol' graph associated with this Sobol' analysis.</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
         <span class="bp">cls</span><span class="o">.</span><span class="n">__preprocess</span><span class="p">(</span><span class="n">analysis</span><span class="o">.</span><span class="n">indices</span><span class="o">.</span><span class="n">first</span><span class="p">[</span><span class="n">output_name</span><span class="p">][</span><span class="n">output_component</span><span class="p">]),</span>
         <span class="bp">cls</span><span class="o">.</span><span class="n">__preprocess</span><span class="p">(</span><span class="n">analysis</span><span class="o">.</span><span class="n">indices</span><span class="o">.</span><span class="n">total</span><span class="p">[</span><span class="n">output_name</span><span class="p">][</span><span class="n">output_component</span><span class="p">]),</span>
@@ -9173,9 +9173,9 @@ and the corresponding edge plotted.</p>
 
 <a href="#gemseo_umdo.visualizations.sobol_graph.SobolGraph.from_pce" class="headerlink" title="Permanent link">&para;</a></h6>
 <div class="doc-signature highlight"><pre><span></span><code><span class="nf">from_pce</span><span class="p">(</span>
-    <span class="n">pce_regressor</span><span class="p">:</span> <span class="n"><span title="gemseo.mlearning.regression.algos.pce.PCERegressor">PCERegressor</span></span><span class="p">,</span>
-    <span class="n">output_name</span><span class="p">:</span> <span class="n"><span title="str">str</span></span><span class="p">,</span>
-    <span class="n">output_component</span><span class="p">:</span> <span class="n"><span title="int">int</span></span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">pce_regressor</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.machine_learning.regression.model.PCERegressor" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/machine_learning/regression/model/#gemseo.machine_learning.regression.model.PCERegressor">PCERegressor</a></span><span class="p">,</span>
+    <span class="n">output_name</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a></span><span class="p">,</span>
+    <span class="n">output_component</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/functions.html#int">int</a></span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-internal" title="            SobolGraph (gemseo_umdo.visualizations.sobol_graph.SobolGraph)" href="#gemseo_umdo.visualizations.sobol_graph.SobolGraph">SobolGraph</a></span>
 </code></pre></div>
 
@@ -9203,7 +9203,7 @@ and the corresponding edge plotted.</p>
               <p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
-                      <code><span title="gemseo.mlearning.regression.algos.pce.PCERegressor">PCERegressor</span></code>
+                      <code><a class="autorefs autorefs-external" title="gemseo.machine_learning.regression.model.PCERegressor" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/machine_learning/regression/model/#gemseo.machine_learning.regression.model.PCERegressor">PCERegressor</a></code>
                   </span>
               </p>
             </td>
@@ -9219,7 +9219,7 @@ and the corresponding edge plotted.</p>
               <p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
-                      <code><span title="str">str</span></code>
+                      <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a></code>
                   </span>
               </p>
             </td>
@@ -9235,7 +9235,7 @@ and the corresponding edge plotted.</p>
               <p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
-                      <code><span title="int">int</span></code>
+                      <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/functions.html#int">int</a></code>
                   </span>
                   <span class="doc-param-default">
                     <b>DEFAULT:</b>
@@ -9283,7 +9283,7 @@ and the corresponding edge plotted.</p>
           <tr class="doc-section-item">
             <td>
               <span class="doc-raises-annotation">
-                  <code><span title="ValueError">ValueError</span></code>
+                  <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/exceptions.html#ValueError">ValueError</a></code>
               </span>
             </td>
             <td class="doc-raises-details">
@@ -9345,7 +9345,7 @@ and the corresponding edge plotted.</p>
 <span class="k">def</span><span class="w"> </span><span class="nf">from_pce</span><span class="p">(</span>
     <span class="bp">cls</span><span class="p">,</span> <span class="n">pce_regressor</span><span class="p">:</span> <span class="n">PCERegressor</span><span class="p">,</span> <span class="n">output_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">output_component</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SobolGraph</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create the Sobol&#39; graph from a PCE (polynomial chaos expansion) regressor.</span>
+<span class="w">    </span><span class="sd">"""Create the Sobol' graph from a PCE (polynomial chaos expansion) regressor.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        pce_regressor: A PCE regressor.</span>
@@ -9353,13 +9353,13 @@ and the corresponding edge plotted.</p>
 <span class="sd">        output_component: The component of the output.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        The Sobol&#39; graph associated with this Sobol&#39; analysis.</span>
+<span class="sd">        The Sobol' graph associated with this Sobol' analysis.</span>
 
 <span class="sd">    Raises:</span>
 <span class="sd">        ValueError: When the name is not an output name.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">output_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">pce_regressor</span><span class="o">.</span><span class="n">output_names</span><span class="p">:</span>
-        <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;The name </span><span class="si">{</span><span class="n">output_name</span><span class="si">!r}</span><span class="s2"> is not an output name.&quot;</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"The name </span><span class="si">{</span><span class="n">output_name</span><span class="si">!r}</span><span class="s2"> is not an output name."</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 
     <span class="n">sizes</span> <span class="o">=</span> <span class="n">pce_regressor</span><span class="o">.</span><span class="n">sizes</span>
@@ -9459,14 +9459,13 @@ and the corresponding edge plotted.</p>
       <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["navigation.tabs", "navigation.instant", "navigation.indexes"], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
         <script src="../../../../assets/_markdown_exec_pyodide.js"></script>
       
         <script src="../../../../javascripts/mathjax.js"></script>
       
         <script src="../../../../javascripts/xdsmjs.js"></script>
-      
       
         <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
       

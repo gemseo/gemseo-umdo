@@ -8,7 +8,7 @@
       
       
       
-        <link rel="canonical" href="https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/use_cases/truss/discipline/">
+        <link rel="canonical" href="https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/use_cases/truss/discipline/">
       
       
         <link rel="prev" href="../bars/">
@@ -20,8 +20,8 @@
         
       
       
-      <link rel="icon" href="../../../../../images/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+      <link rel="icon" href="../../../../../images/monogram.png">
+      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.7.7">
     
     
       
@@ -29,7 +29,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1992,14 +1992,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../generated/examples/umdo/sampling/s_sellar/" class="md-nav__link">
+      <a href="../../../../../generated/examples/umdo/sampling/s_sobieski/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sellar's MDO problem
+    The Sobieski's SSBJ MDO problem.
   
 
     
@@ -2020,14 +2020,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../generated/examples/umdo/sampling/s_sobieski/" class="md-nav__link">
+      <a href="../../../../../generated/examples/umdo/sampling/s_sellar/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sobieski's SSBJ MDO problem.
+    The Sellar's MDO problem
   
 
     
@@ -2322,14 +2322,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../generated/examples/umdo/taylor_polynomial/tp_sellar/" class="md-nav__link">
+      <a href="../../../../../generated/examples/umdo/taylor_polynomial/tp_sobieski/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sellar's MDO problem
+    The Sobieski's SSBJ MDO problem
   
 
     
@@ -2350,14 +2350,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../generated/examples/umdo/taylor_polynomial/tp_sobieski/" class="md-nav__link">
+      <a href="../../../../../generated/examples/umdo/taylor_polynomial/tp_sellar/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sobieski's SSBJ MDO problem
+    The Sellar's MDO problem
   
 
     
@@ -8537,12 +8537,12 @@
 
 
 <a href="#gemseo_umdo.use_cases.truss.discipline.TrussDiscipline" class="headerlink" title="Permanent link">&para;</a></h4>
-<div class="doc-signature highlight"><pre><span></span><code><span class="nf">TrussDiscipline</span><span class="p">(</span><span class="n">use_different_bars</span><span class="p">:</span> <span class="n"><span title="bool">bool</span></span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">TrussDiscipline</span><span class="p">(</span><span class="n">use_different_bars</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/functions.html#bool">bool</a></span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
-              Bases: <code><span title="gemseo.core.discipline.discipline.Discipline">Discipline</span></code></p>
+              Bases: <code><a class="autorefs autorefs-external" title="gemseo.discipline.Discipline" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/discipline/#gemseo.discipline.Discipline">Discipline</a></code></p>
 
 
 
@@ -8570,7 +8570,7 @@ Otherwise, use identical oblical bars and identical horizontal bars.</p>
               <p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
-                      <code><span title="bool">bool</span></code>
+                      <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/functions.html#bool">bool</a></code>
                   </span>
                   <span class="doc-param-default">
                     <b>DEFAULT:</b>
@@ -8656,25 +8656,25 @@ Otherwise, use identical oblical bars and identical horizontal bars.</p>
 <span class="normal">106</span>
 <span class="normal">107</span>
 <span class="normal">108</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">use_different_bars</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Args:</span>
 <span class="sd">        use_different_bars: Whether the bars are different.</span>
 <span class="sd">            Otherwise, use identical oblical bars and identical horizontal bars.</span>
-<span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: D205 D212</span>
+<span class="sd">    """</span>  <span class="c1"># noqa: D205 D212</span>
     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
     <span class="n">e1_names</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="nb">tuple</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;E1_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span> <span class="k">if</span> <span class="n">use_different_bars</span> <span class="k">else</span> <span class="p">(</span><span class="s2">&quot;E1&quot;</span><span class="p">,)</span>
+        <span class="nb">tuple</span><span class="p">(</span><span class="sa">f</span><span class="s2">"E1_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span> <span class="k">if</span> <span class="n">use_different_bars</span> <span class="k">else</span> <span class="p">(</span><span class="s2">"E1"</span><span class="p">,)</span>
     <span class="p">)</span>
     <span class="n">e2_names</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="nb">tuple</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;E2_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">13</span><span class="p">))</span> <span class="k">if</span> <span class="n">use_different_bars</span> <span class="k">else</span> <span class="p">(</span><span class="s2">&quot;E2&quot;</span><span class="p">,)</span>
+        <span class="nb">tuple</span><span class="p">(</span><span class="sa">f</span><span class="s2">"E2_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">13</span><span class="p">))</span> <span class="k">if</span> <span class="n">use_different_bars</span> <span class="k">else</span> <span class="p">(</span><span class="s2">"E2"</span><span class="p">,)</span>
     <span class="p">)</span>
     <span class="n">a1_names</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="nb">tuple</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;A1_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span> <span class="k">if</span> <span class="n">use_different_bars</span> <span class="k">else</span> <span class="p">(</span><span class="s2">&quot;A1&quot;</span><span class="p">,)</span>
+        <span class="nb">tuple</span><span class="p">(</span><span class="sa">f</span><span class="s2">"A1_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span> <span class="k">if</span> <span class="n">use_different_bars</span> <span class="k">else</span> <span class="p">(</span><span class="s2">"A1"</span><span class="p">,)</span>
     <span class="p">)</span>
     <span class="n">a2_names</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="nb">tuple</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;A2_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">13</span><span class="p">))</span> <span class="k">if</span> <span class="n">use_different_bars</span> <span class="k">else</span> <span class="p">(</span><span class="s2">&quot;A2&quot;</span><span class="p">,)</span>
+        <span class="nb">tuple</span><span class="p">(</span><span class="sa">f</span><span class="s2">"A2_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">13</span><span class="p">))</span> <span class="k">if</span> <span class="n">use_different_bars</span> <span class="k">else</span> <span class="p">(</span><span class="s2">"A2"</span><span class="p">,)</span>
     <span class="p">)</span>
-    <span class="n">p_names</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;P</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+    <span class="n">p_names</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="sa">f</span><span class="s2">"P</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">input_grammar</span><span class="o">.</span><span class="n">update_from_names</span><span class="p">((</span>
         <span class="o">*</span><span class="n">e1_names</span><span class="p">,</span>
         <span class="o">*</span><span class="n">e2_names</span><span class="p">,</span>
@@ -8683,32 +8683,32 @@ Otherwise, use identical oblical bars and identical horizontal bars.</p>
         <span class="o">*</span><span class="n">p_names</span><span class="p">,</span>
     <span class="p">))</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">input_grammar</span><span class="o">.</span><span class="n">descriptions</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
-        <span class="n">name</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;The Young&#39;s modulus of the horizontal bar #</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> (in Pa).&quot;</span>
+        <span class="n">name</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"The Young's modulus of the horizontal bar #</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> (in Pa)."</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">e1_names</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="p">})</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">input_grammar</span><span class="o">.</span><span class="n">descriptions</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
-        <span class="n">name</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;The Young&#39;s modulus of the vertical bar #</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> (in Pa).&quot;</span>
+        <span class="n">name</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"The Young's modulus of the vertical bar #</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> (in Pa)."</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">e2_names</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="p">})</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">input_grammar</span><span class="o">.</span><span class="n">descriptions</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
-        <span class="n">name</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;The cross-sectional area of the horizontal bar #</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> (in m²).&quot;</span>
+        <span class="n">name</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"The cross-sectional area of the horizontal bar #</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> (in m²)."</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">a1_names</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="p">})</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">input_grammar</span><span class="o">.</span><span class="n">descriptions</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
-        <span class="n">name</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;The cross-sectional area of the vertical bar #</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> (in m²).&quot;</span>
+        <span class="n">name</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"The cross-sectional area of the vertical bar #</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> (in m²)."</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">a2_names</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="p">})</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">input_grammar</span><span class="o">.</span><span class="n">descriptions</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
-        <span class="n">name</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;The vertical force #</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> (in N).&quot;</span>
+        <span class="n">name</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"The vertical force #</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> (in N)."</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">p_names</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="p">})</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">output_grammar</span><span class="o">.</span><span class="n">update_from_names</span><span class="p">((</span><span class="s2">&quot;V1&quot;</span><span class="p">,</span> <span class="s2">&quot;displacements&quot;</span><span class="p">))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">output_grammar</span><span class="o">.</span><span class="n">update_from_names</span><span class="p">((</span><span class="s2">"V1"</span><span class="p">,</span> <span class="s2">"displacements"</span><span class="p">))</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">output_grammar</span><span class="o">.</span><span class="n">descriptions</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
-        <span class="s2">&quot;V1&quot;</span><span class="p">:</span> <span class="s2">&quot;The vertical displacement (in m) at the bottom central node.&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;displacements&quot;</span><span class="p">:</span> <span class="p">(</span>
-            <span class="s2">&quot;The nodal displacements (in m) shaped as `(n_nodes, 2)` &quot;</span>
-            <span class="s2">&quot;(the first and second columns &quot;</span>
-            <span class="s2">&quot;represent the horizontal and vertical displacements respectively).&quot;</span>
+        <span class="s2">"V1"</span><span class="p">:</span> <span class="s2">"The vertical displacement (in m) at the bottom central node."</span><span class="p">,</span>
+        <span class="s2">"displacements"</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">"The nodal displacements (in m) shaped as `(n_nodes, 2)` "</span>
+            <span class="s2">"(the first and second columns "</span>
+            <span class="s2">"represent the horizontal and vertical displacements respectively)."</span>
         <span class="p">),</span>
     <span class="p">})</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">default_input_data</span> <span class="o">=</span> <span class="p">(</span>
@@ -8804,14 +8804,13 @@ Otherwise, use identical oblical bars and identical horizontal bars.</p>
       <script id="__config" type="application/json">{"annotate": null, "base": "../../../../..", "features": ["navigation.tabs", "navigation.instant", "navigation.indexes"], "search": "../../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../../../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
         <script src="../../../../../assets/_markdown_exec_pyodide.js"></script>
       
         <script src="../../../../../javascripts/mathjax.js"></script>
       
         <script src="../../../../../javascripts/xdsmjs.js"></script>
-      
       
         <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
       

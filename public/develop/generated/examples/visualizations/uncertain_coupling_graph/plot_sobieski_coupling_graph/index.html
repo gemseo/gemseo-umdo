@@ -8,7 +8,7 @@
       
       
       
-        <link rel="canonical" href="https://gemseo.gitlab.io/gemseo-umdo/latest/generated/examples/visualizations/uncertain_coupling_graph/plot_sobieski_coupling_graph/">
+        <link rel="canonical" href="https://gemseo.gitlab.io/dev/gemseo-umdo/latest/generated/examples/visualizations/uncertain_coupling_graph/plot_sobieski_coupling_graph/">
       
       
         <link rel="prev" href="../../sobol_graph/plot_ishigami_sobol_graph/">
@@ -20,8 +20,8 @@
         
       
       
-      <link rel="icon" href="../../../../../images/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+      <link rel="icon" href="../../../../../images/monogram.png">
+      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.7.7">
     
     
       
@@ -29,7 +29,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1999,14 +1999,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../umdo/sampling/s_sellar/" class="md-nav__link">
+      <a href="../../../umdo/sampling/s_sobieski/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sellar's MDO problem
+    The Sobieski's SSBJ MDO problem.
   
 
     
@@ -2027,14 +2027,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../umdo/sampling/s_sobieski/" class="md-nav__link">
+      <a href="../../../umdo/sampling/s_sellar/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sobieski's SSBJ MDO problem.
+    The Sellar's MDO problem
   
 
     
@@ -2329,14 +2329,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../umdo/taylor_polynomial/tp_sellar/" class="md-nav__link">
+      <a href="../../../umdo/taylor_polynomial/tp_sobieski/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sellar's MDO problem
+    The Sobieski's SSBJ MDO problem
   
 
     
@@ -2357,14 +2357,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../umdo/taylor_polynomial/tp_sobieski/" class="md-nav__link">
+      <a href="../../../umdo/taylor_polynomial/tp_sellar/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sobieski's SSBJ MDO problem
+    The Sellar's MDO problem
   
 
     
@@ -8380,32 +8380,33 @@
 to download the full example code</p>
 </div>
 <h1 id="the-uncertain-coupling-graph-for-the-sobieskis-ssbj-use-case">The uncertain coupling graph for the Sobieski's SSBJ use case.<a class="headerlink" href="#the-uncertain-coupling-graph-for-the-sobieskis-ssbj-use-case" title="Permanent link">&para;</a></h1>
-<!-- GENERATED FROM PYTHON SOURCE LINES 17-30 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 17-31 -->
 
 <div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.algos.design_space</span><span class="w"> </span><span class="kn">import</span> <span class="n">DesignSpace</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.problems.mdo.sobieski.core.problem</span><span class="w"> </span><span class="kn">import</span> <span class="n">SobieskiProblem</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.problems.mdo.sobieski.disciplines</span><span class="w"> </span><span class="kn">import</span> <span class="n">SobieskiAerodynamics</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.problems.mdo.sobieski.disciplines</span><span class="w"> </span><span class="kn">import</span> <span class="n">SobieskiMission</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.problems.mdo.sobieski.disciplines</span><span class="w"> </span><span class="kn">import</span> <span class="n">SobieskiPropulsion</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.problems.mdo.sobieski.disciplines</span><span class="w"> </span><span class="kn">import</span> <span class="n">SobieskiStructure</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.utils.data_conversion</span><span class="w"> </span><span class="kn">import</span> <span class="n">split_array_to_dict_of_arrays</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.doe</span><span class="w"> </span><span class="kn">import</span> <span class="n">OT_OPT_LHS_Settings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.problem.mdo.sobieski</span><span class="w"> </span><span class="kn">import</span> <span class="n">SobieskiAerodynamics</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.problem.mdo.sobieski</span><span class="w"> </span><span class="kn">import</span> <span class="n">SobieskiMission</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.problem.mdo.sobieski</span><span class="w"> </span><span class="kn">import</span> <span class="n">SobieskiProblem</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.problem.mdo.sobieski</span><span class="w"> </span><span class="kn">import</span> <span class="n">SobieskiPropulsion</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.problem.mdo.sobieski</span><span class="w"> </span><span class="kn">import</span> <span class="n">SobieskiStructure</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.space</span><span class="w"> </span><span class="kn">import</span> <span class="n">DesignSpace</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.util.data_conversion</span><span class="w"> </span><span class="kn">import</span> <span class="n">split_array_to_dict_of_arrays</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">gemseo_umdo.visualizations.uncertain_coupling_graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">UncertainCouplingGraph</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 31-33 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 32-34 -->
 
 <p>First,
 we define an uncertain space around the optimum design:</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 33-52 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 34-53 -->
 
 <div class="highlight"><pre><span></span><code><span class="n">design_space</span> <span class="o">=</span> <span class="n">SobieskiProblem</span><span class="p">()</span><span class="o">.</span><span class="n">design_space</span>
-<span class="n">design_variable_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;x_1&quot;</span><span class="p">,</span> <span class="s2">&quot;x_2&quot;</span><span class="p">,</span> <span class="s2">&quot;x_3&quot;</span><span class="p">,</span> <span class="s2">&quot;x_shared&quot;</span><span class="p">]</span>
+<span class="n">design_variable_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"x_1"</span><span class="p">,</span> <span class="s2">"x_2"</span><span class="p">,</span> <span class="s2">"x_3"</span><span class="p">,</span> <span class="s2">"x_shared"</span><span class="p">]</span>
 <span class="n">design_space</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">design_variable_names</span><span class="p">)</span>
 <span class="n">optimum_design</span> <span class="o">=</span> <span class="n">split_array_to_dict_of_arrays</span><span class="p">(</span>
     <span class="n">SobieskiProblem</span><span class="p">()</span><span class="o">.</span><span class="n">optimum_design</span><span class="p">,</span>
-    <span class="n">design_space</span><span class="o">.</span><span class="n">variable_sizes</span><span class="p">,</span>
+    <span class="p">{</span><span class="n">n</span><span class="p">:</span> <span class="n">v</span><span class="o">.</span><span class="n">size</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">design_space</span><span class="o">.</span><span class="n">variables</span><span class="o">.</span><span class="n">items</span><span class="p">()},</span>
     <span class="n">design_variable_names</span><span class="p">,</span>
 <span class="p">)</span>
 
@@ -8419,11 +8420,11 @@ we define an uncertain space around the optimum design:</p>
         <span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 53-55 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 54-56 -->
 
 <p>Then,
 we define the disciplines:</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 55-62 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 56-63 -->
 
 <div class="highlight"><pre><span></span><code><span class="n">disciplines</span> <span class="o">=</span> <span class="p">[</span>
     <span class="n">SobieskiAerodynamics</span><span class="p">(),</span>
@@ -8432,26 +8433,26 @@ we define the disciplines:</p>
     <span class="n">SobieskiMission</span><span class="p">(),</span>
 <span class="p">]</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 63-65 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 64-66 -->
 
 <p>Thirdly,
 we instantiate an uncertain coupling graph:</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 65-67 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 66-68 -->
 
 <div class="highlight"><pre><span></span><code><span class="n">uncertain_coupling_graph</span> <span class="o">=</span> <span class="n">UncertainCouplingGraph</span><span class="p">(</span><span class="n">disciplines</span><span class="p">,</span> <span class="n">uncertain_space</span><span class="p">)</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 68-69 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 69-70 -->
 
 <p>and sample the multidisciplinary system with 100 evaluations:</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 69-71 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 70-72 -->
 
-<div class="highlight"><pre><span></span><code><span class="n">uncertain_coupling_graph</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">uncertain_coupling_graph</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">OT_OPT_LHS_Settings</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">100</span><span class="p">))</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 72-74 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 73-75 -->
 
 <p>Lastly,
 we visualize it:</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 74-76 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 75-77 -->
 
 <div class="highlight"><pre><span></span><code><span class="n">uncertain_coupling_graph</span><span class="o">.</span><span class="n">visualize</span><span class="p">(</span><span class="n">save</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div>
@@ -8459,119 +8460,119 @@ we visualize it:</p>
     <?xml version="1.0" encoding="UTF-8" standalone="no"?>
     <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
      "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-    <!-- Generated by graphviz version 12.2.1 (20241206.2353)
+    <!-- Generated by graphviz version 13.1.2 (20250808.2320)
      -->
     <!-- Pages: 1 -->
     <svg width="377pt" height="303pt"
-     viewBox="0.00 0.00 377.01 302.75" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+     viewBox="0.00 0.00 377.00 303.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 298.75)">
     <polygon fill="white" stroke="none" points="-4,4 -4,-298.75 373.01,-298.75 373.01,4 -4,4"/>
     <!-- SobieskiAerodynamics -->
     <g id="node1" class="node">
     <title>SobieskiAerodynamics</title>
     <ellipse fill="white" stroke="black" cx="113.57" cy="-276.75" rx="90.79" ry="18"/>
-    <text text-anchor="middle" x="113.57" y="-270.57" font-family="Times,serif" font-size="14.00">SobieskiAerodynamics</text>
+    <text xml:space="preserve" text-anchor="middle" x="113.57" y="-270.57" font-family="Times,serif" font-size="14.00">SobieskiAerodynamics</text>
     </g>
     <!-- SobieskiStructure -->
     <g id="node2" class="node">
     <title>SobieskiStructure</title>
     <ellipse fill="white" stroke="black" cx="113.57" cy="-104.25" rx="72.19" ry="18"/>
-    <text text-anchor="middle" x="113.57" y="-98.08" font-family="Times,serif" font-size="14.00">SobieskiStructure</text>
+    <text xml:space="preserve" text-anchor="middle" x="113.57" y="-98.08" font-family="Times,serif" font-size="14.00">SobieskiStructure</text>
     </g>
     <!-- SobieskiAerodynamics&#45;&gt;SobieskiStructure -->
     <g id="edge1" class="edge">
     <title>SobieskiAerodynamics&#45;&gt;SobieskiStructure</title>
     <path fill="none" stroke="black" stroke-width="1.17" d="M78.35,-259.81C58.49,-248.64 35.68,-231.57 25.57,-208.5 19.15,-193.85 19.15,-187.15 25.57,-172.5 34.22,-152.77 52.15,-137.43 69.58,-126.42"/>
     <polygon fill="black" stroke="black" stroke-width="1.17" points="71.36,-129.43 78.19,-121.34 67.8,-123.41 71.36,-129.43"/>
-    <text text-anchor="middle" x="39.07" y="-184.32" font-family="Times,serif" font-size="14.00">y_21</text>
+    <text xml:space="preserve" text-anchor="middle" x="39.07" y="-184.32" font-family="Times,serif" font-size="14.00">y_21</text>
     </g>
     <!-- SobieskiPropulsion -->
     <g id="node3" class="node">
     <title>SobieskiPropulsion</title>
     <ellipse fill="white" stroke="black" cx="291.57" cy="-190.5" rx="77.44" ry="18"/>
-    <text text-anchor="middle" x="291.57" y="-184.32" font-family="Times,serif" font-size="14.00">SobieskiPropulsion</text>
+    <text xml:space="preserve" text-anchor="middle" x="291.57" y="-184.32" font-family="Times,serif" font-size="14.00">SobieskiPropulsion</text>
     </g>
     <!-- SobieskiAerodynamics&#45;&gt;SobieskiPropulsion -->
     <g id="edge2" class="edge">
     <title>SobieskiAerodynamics&#45;&gt;SobieskiPropulsion</title>
     <path fill="none" stroke="black" stroke-width="2.42" d="M147.47,-259.7C175.49,-246.45 215.51,-227.5 246.27,-212.94"/>
     <polygon fill="black" stroke="black" stroke-width="2.42" points="247.55,-216.21 255.09,-208.77 244.55,-209.88 247.55,-216.21"/>
-    <text text-anchor="middle" x="226.73" y="-227.45" font-family="Times,serif" font-size="14.00">y_23</text>
+    <text xml:space="preserve" text-anchor="middle" x="226.73" y="-227.45" font-family="Times,serif" font-size="14.00">y_23</text>
     </g>
     <!-- SobieskiMission -->
     <g id="node4" class="node">
     <title>SobieskiMission</title>
     <ellipse fill="white" stroke="black" cx="113.57" cy="-18" rx="68.37" ry="18"/>
-    <text text-anchor="middle" x="113.57" y="-11.82" font-family="Times,serif" font-size="14.00">SobieskiMission</text>
+    <text xml:space="preserve" text-anchor="middle" x="113.57" y="-11.82" font-family="Times,serif" font-size="14.00">SobieskiMission</text>
     </g>
     <!-- SobieskiAerodynamics&#45;&gt;SobieskiMission -->
     <g id="edge3" class="edge">
     <title>SobieskiAerodynamics&#45;&gt;SobieskiMission</title>
     <path fill="none" stroke="black" stroke-width="1.92" d="M64.81,-261.2C53.27,-256.09 41.68,-249.4 32.57,-240.75 -0.98,-208.92 -5.06,-185.26 5.57,-140.25 11.74,-114.13 15.89,-107.27 32.57,-86.25 45.68,-69.73 63.42,-54.44 78.96,-42.63"/>
     <polygon fill="black" stroke="black" stroke-width="1.92" points="80.97,-45.5 86.95,-36.76 76.82,-39.86 80.97,-45.5"/>
-    <text text-anchor="middle" x="19.07" y="-141.2" font-family="Times,serif" font-size="14.00">y_24</text>
+    <text xml:space="preserve" text-anchor="middle" x="19.07" y="-141.2" font-family="Times,serif" font-size="14.00">y_24</text>
     </g>
     <!-- SobieskiStructure&#45;&gt;SobieskiAerodynamics -->
     <g id="edge4" class="edge">
     <title>SobieskiStructure&#45;&gt;SobieskiAerodynamics</title>
     <path fill="none" stroke="black" stroke-width="1.17" d="M105.31,-122.48C99.4,-135.79 91.96,-154.86 88.82,-172.5 86.01,-188.25 86.01,-192.75 88.82,-208.5 91.2,-221.87 96.05,-236.06 100.83,-247.94"/>
     <polygon fill="black" stroke="black" stroke-width="1.17" points="97.5,-249.05 104.62,-256.89 103.95,-246.32 97.5,-249.05"/>
-    <text text-anchor="middle" x="110.2" y="-184.32" font-family="Times,serif" font-size="14.00">y_12[0]</text>
+    <text xml:space="preserve" text-anchor="middle" x="110.2" y="-184.32" font-family="Times,serif" font-size="14.00">y_12[0]</text>
     </g>
     <!-- SobieskiStructure&#45;&gt;SobieskiAerodynamics -->
     <g id="edge5" class="edge">
     <title>SobieskiStructure&#45;&gt;SobieskiAerodynamics</title>
     <path fill="none" stroke="black" stroke-width="0.17" d="M119.5,-122.42C123.81,-135.86 129.29,-155.12 131.57,-172.5 133.66,-188.36 133.66,-192.64 131.57,-208.5 129.8,-221.98 126.11,-236.6 122.53,-248.75"/>
     <polygon fill="black" stroke="black" stroke-width="0.17" points="119.26,-247.47 119.66,-258.06 125.95,-249.53 119.26,-247.47"/>
-    <text text-anchor="middle" x="154.51" y="-184.32" font-family="Times,serif" font-size="14.00">y_12[1]</text>
+    <text xml:space="preserve" text-anchor="middle" x="154.51" y="-184.32" font-family="Times,serif" font-size="14.00">y_12[1]</text>
     </g>
     <!-- SobieskiStructure&#45;&gt;SobieskiMission -->
     <g id="edge6" class="edge">
     <title>SobieskiStructure&#45;&gt;SobieskiMission</title>
     <path fill="none" stroke="black" stroke-width="1.17" d="M93.33,-86.86C84.59,-77.69 77.28,-65.77 81.82,-54 83.11,-50.66 84.88,-47.45 86.93,-44.41"/>
     <polygon fill="black" stroke="black" stroke-width="1.17" points="89.54,-46.74 93.08,-36.76 84.09,-42.36 89.54,-46.74"/>
-    <text text-anchor="middle" x="103.2" y="-54.95" font-family="Times,serif" font-size="14.00">y_14[0]</text>
+    <text xml:space="preserve" text-anchor="middle" x="103.2" y="-54.95" font-family="Times,serif" font-size="14.00">y_14[0]</text>
     </g>
     <!-- SobieskiStructure&#45;&gt;SobieskiMission -->
     <g id="edge7" class="edge">
     <title>SobieskiStructure&#45;&gt;SobieskiMission</title>
     <path fill="none" stroke="black" stroke-width="1.12" d="M120.12,-86.05C121.94,-80.46 123.66,-74.17 124.57,-68.25 125.61,-61.45 124.98,-54.2 123.61,-47.4"/>
     <polygon fill="black" stroke="black" stroke-width="1.12" points="127.02,-46.62 121.08,-37.85 120.26,-48.42 127.02,-46.62"/>
-    <text text-anchor="middle" x="146.46" y="-54.95" font-family="Times,serif" font-size="14.00">y_14[1]</text>
+    <text xml:space="preserve" text-anchor="middle" x="146.46" y="-54.95" font-family="Times,serif" font-size="14.00">y_14[1]</text>
     </g>
     <!-- SobieskiPropulsion&#45;&gt;SobieskiAerodynamics -->
     <g id="edge8" class="edge">
     <title>SobieskiPropulsion&#45;&gt;SobieskiAerodynamics</title>
     <path fill="none" stroke="black" stroke-width="2.42" d="M279.39,-208.42C270.8,-219.17 258.4,-232.56 244.57,-240.75 229.64,-249.6 212.45,-256.25 195.54,-261.24"/>
     <polygon fill="black" stroke="black" stroke-width="2.42" points="194.96,-257.77 186.23,-263.78 196.8,-264.52 194.96,-257.77"/>
-    <text text-anchor="middle" x="275.72" y="-227.45" font-family="Times,serif" font-size="14.00">y_32</text>
+    <text xml:space="preserve" text-anchor="middle" x="275.72" y="-227.45" font-family="Times,serif" font-size="14.00">y_32</text>
     </g>
     <!-- SobieskiPropulsion&#45;&gt;SobieskiStructure -->
     <g id="edge9" class="edge">
     <title>SobieskiPropulsion&#45;&gt;SobieskiStructure</title>
     <path fill="none" stroke="black" stroke-width="2.55" d="M258.51,-173.85C230.32,-160.51 189.54,-141.21 158.41,-126.48"/>
     <polygon fill="black" stroke="black" stroke-width="2.55" points="160.18,-123.44 149.65,-122.32 157.19,-129.77 160.18,-123.44"/>
-    <text text-anchor="middle" x="226.73" y="-141.2" font-family="Times,serif" font-size="14.00">y_31</text>
+    <text xml:space="preserve" text-anchor="middle" x="226.73" y="-141.2" font-family="Times,serif" font-size="14.00">y_31</text>
     </g>
     <!-- SobieskiPropulsion&#45;&gt;SobieskiMission -->
     <g id="edge10" class="edge">
     <title>SobieskiPropulsion&#45;&gt;SobieskiMission</title>
     <path fill="none" stroke="black" stroke-width="1.26" d="M279.31,-172.6C259.02,-145.4 216.24,-91.2 171.57,-54 165.94,-49.31 159.61,-44.82 153.25,-40.73"/>
     <polygon fill="black" stroke="black" stroke-width="1.26" points="155.33,-37.89 144.97,-35.63 151.66,-43.85 155.33,-37.89"/>
-    <text text-anchor="middle" x="252.33" y="-98.08" font-family="Times,serif" font-size="14.00">y_34</text>
+    <text xml:space="preserve" text-anchor="middle" x="252.33" y="-98.08" font-family="Times,serif" font-size="14.00">y_34</text>
     </g>
     </g>
     </svg>
 
 </div>
 
-<!-- GENERATED FROM PYTHON SOURCE LINES 77-81 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 78-82 -->
 
 <p>In this example designed for Sphinx Gallery and Jupyter Notebook,
 we do not save the graph on the disk (<code>save=False</code>)
 or display it with a dedicated program (<code>save=True</code>)
 but display it in the web browser.</p>
-<p><strong>Total running time of the script:</strong> ( 0 minutes  2.194 seconds)</p>
+<p><strong>Total running time of the script:</strong> ( 0 minutes  1.040 seconds)</p>
 <div id="download_links"></div>
 
 <p><a class="md-button center" href="../plot_sobieski_coupling_graph.py"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M256 32c0-17.7-14.3-32-32-32s-32 14.3-32 32v210.7l-41.4-41.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l96 96c12.5 12.5 32.8 12.5 45.3 0l96-96c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 242.7zM64 320c-35.3 0-64 28.7-64 64v32c0 35.3 28.7 64 64 64h320c35.3 0 64-28.7 64-64v-32c0-35.3-28.7-64-64-64h-46.9l-56.6 56.6c-31.2 31.2-81.9 31.2-113.1 0L110.9 320zm304 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48"/></svg></span> Download Python source code: plot_sobieski_coupling_graph.py</a></p>
@@ -8629,14 +8630,13 @@ but display it in the web browser.</p>
       <script id="__config" type="application/json">{"annotate": null, "base": "../../../../..", "features": ["navigation.tabs", "navigation.instant", "navigation.indexes"], "search": "../../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../../../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
         <script src="../../../../../assets/_markdown_exec_pyodide.js"></script>
       
         <script src="../../../../../javascripts/mathjax.js"></script>
       
         <script src="../../../../../javascripts/xdsmjs.js"></script>
-      
       
         <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
       

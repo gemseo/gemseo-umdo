@@ -8,7 +8,7 @@
       
       
       
-        <link rel="canonical" href="https://gemseo.gitlab.io/gemseo-umdo/latest/changelog/">
+        <link rel="canonical" href="https://gemseo.gitlab.io/dev/gemseo-umdo/latest/changelog/">
       
       
         <link rel="prev" href="..">
@@ -20,8 +20,8 @@
         
       
       
-      <link rel="icon" href="../images/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+      <link rel="icon" href="../images/monogram.png">
+      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.7.7">
     
     
       
@@ -29,7 +29,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -566,6 +566,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#removed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Removed
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -595,7 +606,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#removed" class="md-nav__link">
+  <a href="#removed_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         Removed
@@ -862,7 +873,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#removed_1" class="md-nav__link">
+  <a href="#removed_2" class="md-nav__link">
     <span class="md-ellipsis">
       
         Removed
@@ -2484,14 +2495,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../generated/examples/umdo/sampling/s_sellar/" class="md-nav__link">
+      <a href="../generated/examples/umdo/sampling/s_sobieski/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sellar's MDO problem
+    The Sobieski's SSBJ MDO problem.
   
 
     
@@ -2512,14 +2523,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../generated/examples/umdo/sampling/s_sobieski/" class="md-nav__link">
+      <a href="../generated/examples/umdo/sampling/s_sellar/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sobieski's SSBJ MDO problem.
+    The Sellar's MDO problem
   
 
     
@@ -2814,14 +2825,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../generated/examples/umdo/taylor_polynomial/tp_sellar/" class="md-nav__link">
+      <a href="../generated/examples/umdo/taylor_polynomial/tp_sobieski/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sellar's MDO problem
+    The Sobieski's SSBJ MDO problem
   
 
     
@@ -2842,14 +2853,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../generated/examples/umdo/taylor_polynomial/tp_sobieski/" class="md-nav__link">
+      <a href="../generated/examples/umdo/taylor_polynomial/tp_sellar/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sobieski's SSBJ MDO problem
+    The Sellar's MDO problem
   
 
     
@@ -8848,6 +8859,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#removed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Removed
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -8877,7 +8899,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#removed" class="md-nav__link">
+  <a href="#removed_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         Removed
@@ -9144,7 +9166,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#removed_1" class="md-nav__link">
+  <a href="#removed_2" class="md-nav__link">
     <span class="md-ellipsis">
       
         Removed
@@ -9321,27 +9343,75 @@ and this project adheres to
 <h2 id="develop">Develop<a class="headerlink" href="#develop" title="Permanent link">&para;</a></h2>
 <h3 id="changed">Changed<a class="headerlink" href="#changed" title="Permanent link">&para;</a></h3>
 <ul>
+<li>GEMSEO-UMDO requires GEMSEO 7.</li>
+<li>BREAKING CHANGE:
+  <a class="autorefs autorefs-internal" title="            UMDOScenario" href="../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>,
+  <a class="autorefs autorefs-internal" title="            UDOEScenario" href="../reference/gemseo_umdo/scenarios/udoe_scenario/#gemseo_umdo.scenarios.udoe_scenario.UDOEScenario">UDOEScenario</a>
+  and <a class="autorefs autorefs-internal" title="            UOptAsUMDOScenario" href="../reference/gemseo_umdo/problems/uopt_as_umdo_scenario/#gemseo_umdo.problems.uopt_as_umdo_scenario.UOptAsUMDOScenario">UOptAsUMDOScenario</a>
+  follow the API of the GEMSEO 7 scenarios:<ul>
+<li>they are instantiated from the disciplines (or the discipline),
+  the design space, the uncertain space and the statistic estimation settings,
+  e.g. <code>UMDOScenario(disciplines, design_space, uncertain_space, Sampling_Settings())</code>;</li>
+<li>the objective is set after instantiation with
+  <a class="autorefs autorefs-internal" title="            add_objective" href="../reference/gemseo_umdo/scenarios/base_u_scenario/#gemseo_umdo.scenarios.base_u_scenario.BaseUScenario.add_objective">add_objective()</a>,
+  e.g. <code>scenario.add_objective("f", "Mean")</code>,
+  and maximized with <code>minimize=False</code>;
+  the arguments <code>objective_name</code>, <code>objective_statistic_name</code>,
+  <code>objective_statistic_parameters</code> and <code>maximize_objective</code> are removed;</li>
+<li>the MDO formulation is defined by the argument <code>formulation_settings</code>,
+  a Pydantic model of settings
+  (default: <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/formulation/mdf_settings/#gemseo.formulation.mdf_settings.MDF_Settings">MDF_Settings</a>);
+  the arguments <code>formulation_name</code>, <code>formulation_settings_model</code>
+  and <code>**formulation_settings</code> are removed.</li>
+</ul>
+</li>
+<li>BREAKING CHANGE: the U-MDO formulations follow the API of the GEMSEO 7 formulations:
+  they are instantiated from an optimization problem defined over the design space,
+  the disciplines, the settings,
+  the uncertain space and the settings of the MDO formulation,
+  and create the objective with
+  <a class="autorefs autorefs-internal" title="            create_objective" href="../reference/gemseo_umdo/formulations/base_umdo_formulation/#gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation.create_objective">create_objective()</a>.
+  Their MDO formulations evaluate the functions over the uncertain space
+  with an <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/core/problem/evaluation/#gemseo.core.problem.evaluation.EvaluationProblem">EvaluationProblem</a>
+  whose observables include the output of the objective.
+  The settings of the U-MDO formulations derive from
+  <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/formulation/core/base_settings/#gemseo.formulation.core.base_settings.BaseFormulationSettings">BaseFormulationSettings</a>.</li>
+<li>BREAKING CHANGE:
+  <a class="autorefs autorefs-internal" title="            sample" href="../reference/gemseo_umdo/visualizations/uncertain_coupling_graph/#gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph.sample">UncertainCouplingGraph.sample()</a>
+  takes the settings of the DOE algorithm,
+  e.g. <code>OT_OPT_LHS_Settings(n_samples=100)</code>,
+  instead of <code>n_samples</code>, <code>algo_name</code> and <code>**algo_options</code>.</li>
+<li><a class="autorefs autorefs-internal" title="            PCE_Settings" href="../reference/gemseo_umdo/formulations/pce_settings/#gemseo_umdo.formulations.pce_settings.PCE_Settings">PCE_Settings</a>
+  raises a <code>ValueError</code> when <code>regressor_settings.learn_jacobian_data</code> is <code>True</code>
+  and <code>approximate_statistics_jacobians</code> is <code>False</code>;
+  this combination used to estimate the Jacobian of the statistics
+  from the derivatives with respect to the uncertain variables
+  instead of the design variables.</li>
 <li>The <code>factor</code> parameter of the statistic <code>"Margin"</code> is replaced by its absolute value
   in the case of an objective to maximize or a positivity constraint.
   In the case of observables, this parameter is not modified.</li>
+</ul>
+<h3 id="removed">Removed<a class="headerlink" href="#removed" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Support for Python 3.10.</li>
 </ul>
 <h2 id="version-430-october-2025">Version 4.3.0 (October 2025)<a class="headerlink" href="#version-430-october-2025" title="Permanent link">&para;</a></h2>
 <h3 id="added">Added<a class="headerlink" href="#added" title="Permanent link">&para;</a></h3>
 <ul>
 <li>The U-MDO formulation <a class="autorefs autorefs-internal" title="            PCE" href="../reference/gemseo_umdo/formulations/pce/#gemseo_umdo.formulations.pce.PCE">PCE</a> can support any type of
-  [BaseFCERegressor][gemseo.mlearning.regression.algos.base_fce.BaseFCERegressor],
-  e.g., [PCERegressor][gemseo.mlearning.regression.algos.pce.PCERegressor] (default)
-  and [FCERegressor][gemseo.mlearning.regression.algos.fce.FCERegressor].</li>
+  <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/machine_learning/regression/core/base_fce/#gemseo.machine_learning.regression.core.base_fce.BaseFCERegressor">BaseFCERegressor</a>,
+  e.g., <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/machine_learning/regression/model/pce/#gemseo.machine_learning.regression.model.pce.PCERegressor">PCERegressor</a> (default)
+  and <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/machine_learning/regression/model/fce/#gemseo.machine_learning.regression.model.fce.FCERegressor">FCERegressor</a>.</li>
 <li>Support for Python 3.13.</li>
 </ul>
-<h3 id="removed">Removed<a class="headerlink" href="#removed" title="Permanent link">&para;</a></h3>
+<h3 id="removed_1">Removed<a class="headerlink" href="#removed_1" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Support for Python 3.9.</li>
 </ul>
 <h2 id="version-420-august-2025">Version 4.2.0 (August 2025)<a class="headerlink" href="#version-420-august-2025" title="Permanent link">&para;</a></h2>
 <h3 id="added_1">Added<a class="headerlink" href="#added_1" title="Permanent link">&para;</a></h3>
 <ul>
-<li>The <a class="autorefs autorefs-internal" title="            ControlVariate" href="../reference/gemseo_umdo/formulations/control_variate/#gemseo_umdo.formulations.control_variate.ControlVariate">ControlVariate</a> U-MDO formulation can create the control variates from any [BaseRegressor][gemseo.mlearning.regression.algos.base_regressor.BaseRegressor] using the arguments <code>regressor_settings</code> (for defining the regressor) and <code>regressor_doe_algo_settings</code> (for creating the training dataset). By default, this U-MDO formulation uses control variates based on Taylor polynomials.</li>
+<li>The <a class="autorefs autorefs-internal" title="            ControlVariate" href="../reference/gemseo_umdo/formulations/control_variate/#gemseo_umdo.formulations.control_variate.ControlVariate">ControlVariate</a> U-MDO formulation can create the control variates from any <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/machine_learning/regression/core/base_regressor/#gemseo.machine_learning.regression.core.base_regressor.BaseRegressor">BaseRegressor</a> using the arguments <code>regressor_settings</code> (for defining the regressor) and <code>regressor_doe_algo_settings</code> (for creating the training dataset). By default, this U-MDO formulation uses control variates based on Taylor polynomials.</li>
 <li>The subpackage <a class="autorefs autorefs-internal" title="            truss" href="../reference/gemseo_umdo/use_cases/truss/#gemseo_umdo.use_cases.truss">truss</a> includes modules for implementing a truss structure problem from the literature.</li>
 <li>The function <a class="autorefs autorefs-internal" title="            create_noising_discipline_chain" href="../reference/gemseo_umdo/disciplines/utils/#gemseo_umdo.disciplines.utils.create_noising_discipline_chain">create_noising_discipline_chain</a> returns a disciplines chain to noise input variables.
   This function is used by the <a class="autorefs autorefs-internal" title="            UDOEScenario" href="../reference/gemseo_umdo/scenarios/udoe_scenario/#gemseo_umdo.scenarios.udoe_scenario.UDOEScenario">UDOEScenario</a> and <a class="autorefs autorefs-internal" title="            UMDOScenario" href="../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>
@@ -9366,7 +9436,7 @@ and this project adheres to
 <h3 id="added_2">Added<a class="headerlink" href="#added_2" title="Permanent link">&para;</a></h3>
 <ul>
 <li>A <a class="autorefs autorefs-internal" title="            SobolGraph" href="../reference/gemseo_umdo/visualizations/sobol_graph/#gemseo_umdo.visualizations.sobol_graph.SobolGraph">SobolGraph</a> can be defined
-  from a [PCERegressor][gemseo.mlearning.regression.algos.pce.PCERegressor]
+  from a <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/machine_learning/regression/model/pce/#gemseo.machine_learning.regression.model.pce.PCERegressor">PCERegressor</a>
   by using its <a class="autorefs autorefs-internal" title="            from_pce
 
 
@@ -9407,7 +9477,7 @@ and this project adheres to
   and is parametrized by the option <code>differentiation_step</code> (default: <code>1e-6</code>).</li>
 <li><a class="autorefs autorefs-internal" title="            UOptAsUMDOScenario" href="../reference/gemseo_umdo/problems/uopt_as_umdo_scenario/#gemseo_umdo.problems.uopt_as_umdo_scenario.UOptAsUMDOScenario">UOptAsUMDOScenario</a>
   can make a monodisciplinary optimization problem under uncertainty multidisciplinary.</li>
-<li>An example illustrates the use of the [BiLevel][gemseo.formulations.bilevel.BiLevel] MDO formulation
+<li>An example illustrates the use of the <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/formulation/bilevel/#gemseo.formulation.bilevel.BiLevel">BiLevel</a> MDO formulation
   in the U-MDO formulation <a class="autorefs autorefs-internal" title="            Sampling" href="../reference/gemseo_umdo/formulations/sampling/#gemseo_umdo.formulations.sampling.Sampling">Sampling</a>.</li>
 </ul>
 <h3 id="changed_1">Changed<a class="headerlink" href="#changed_1" title="Permanent link">&para;</a></h3>
@@ -9504,7 +9574,7 @@ and this project adheres to
 <h3 id="fixed_3">Fixed<a class="headerlink" href="#fixed_3" title="Permanent link">&para;</a></h3>
 <ul>
 <li>The U-MDO formulation <a class="autorefs autorefs-internal" title="            Sampling" href="../reference/gemseo_umdo/formulations/sampling/#gemseo_umdo.formulations.sampling.Sampling">Sampling</a>
-  works properly when the option <code>estimate_statistics_iteratively</code>  is <code>True</code>
+  works properly when the option <code>estimate_statistics_iteratively</code> is <code>True</code>
   and the DOE option <code>n_processes</code> is greater than 1.</li>
 <li>The docstring of the <code>uncertain_design_variables</code> argument of
   <a class="autorefs autorefs-internal" title="            UDOEScenario" href="../reference/gemseo_umdo/scenarios/udoe_scenario/#gemseo_umdo.scenarios.udoe_scenario.UDOEScenario">UDOEScenario</a>
@@ -9518,7 +9588,7 @@ and this project adheres to
   the uncertain design variables can be propagated
   through the multidisciplinary process
   even with MDO formulations that do not ensure the satisfaction of couplings,
-  such as [DisciplinaryOpt][gemseo.formulations.disciplinary_opt.DisciplinaryOpt].</li>
+  such as <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/formulation/disciplinary_opt/#gemseo.formulation.disciplinary_opt.DisciplinaryOpt">DisciplinaryOpt</a>.</li>
 </ul>
 <h2 id="version-201-january-2024">Version 2.0.1 (January 2024)<a class="headerlink" href="#version-201-january-2024" title="Permanent link">&para;</a></h2>
 <h3 id="fixed_4">Fixed<a class="headerlink" href="#fixed_4" title="Permanent link">&para;</a></h3>
@@ -9571,13 +9641,15 @@ and this project adheres to
 <li>The estimator of the <code>Variance</code>
   used by the U-MDO formulation <a class="autorefs autorefs-internal" title="            Sampling" href="../reference/gemseo_umdo/formulations/sampling/#gemseo_umdo.formulations.sampling.Sampling">Sampling</a>
   with <code>estimate_statistics_iteratively=False</code> is now unbiased.</li>
-<li>API changes:</li>
+<li>API changes:<ul>
 <li>The options of the statistics estimators
-    are now set at instantiation instead of execution.</li>
+are now set at instantiation instead of execution.</li>
 <li><code>gemseo_umdo.estimators</code> has been renamed to <code>gemseo_umdo.formulations.statistics</code>.</li>
+</ul>
+</li>
 <li>The log of the statistics no longer includes design variables and uncertain inputs
   (e.g. <code>E[y(x; u)]</code>),
-  but only uncertain output  (e.g. <code>E[y]</code>) to avoid display problems in large dimensions.</li>
+  but only uncertain output (e.g. <code>E[y]</code>) to avoid display problems in large dimensions.</li>
 </ul>
 <h3 id="fixed_5">Fixed<a class="headerlink" href="#fixed_5" title="Permanent link">&para;</a></h3>
 <ul>
@@ -9588,7 +9660,7 @@ and this project adheres to
 <li>The log of the objective and constraint is now consistent
   with the arguments <code>maximize_objective</code> and <code>constraint_name</code>.</li>
 </ul>
-<h3 id="removed_1">Removed<a class="headerlink" href="#removed_1" title="Permanent link">&para;</a></h3>
+<h3 id="removed_2">Removed<a class="headerlink" href="#removed_2" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Support for Python 3.8.</li>
 </ul>
@@ -9686,14 +9758,13 @@ and this project adheres to
       <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.instant", "navigation.indexes"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
         <script src="../assets/_markdown_exec_pyodide.js"></script>
       
         <script src="../javascripts/mathjax.js"></script>
       
         <script src="../javascripts/xdsmjs.js"></script>
-      
       
         <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
       

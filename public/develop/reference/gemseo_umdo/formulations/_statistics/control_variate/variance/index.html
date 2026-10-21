@@ -8,7 +8,7 @@
       
       
       
-        <link rel="canonical" href="https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_statistics/control_variate/variance/">
+        <link rel="canonical" href="https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_statistics/control_variate/variance/">
       
       
         <link rel="prev" href="../standard_deviation/">
@@ -20,8 +20,8 @@
         
       
       
-      <link rel="icon" href="../../../../../../images/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+      <link rel="icon" href="../../../../../../images/monogram.png">
+      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.7.7">
     
     
       
@@ -29,7 +29,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../../../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../../../../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../../../../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1992,14 +1992,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../../generated/examples/umdo/sampling/s_sellar/" class="md-nav__link">
+      <a href="../../../../../../generated/examples/umdo/sampling/s_sobieski/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sellar's MDO problem
+    The Sobieski's SSBJ MDO problem.
   
 
     
@@ -2020,14 +2020,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../../generated/examples/umdo/sampling/s_sobieski/" class="md-nav__link">
+      <a href="../../../../../../generated/examples/umdo/sampling/s_sellar/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sobieski's SSBJ MDO problem.
+    The Sellar's MDO problem
   
 
     
@@ -2322,14 +2322,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../../generated/examples/umdo/taylor_polynomial/tp_sellar/" class="md-nav__link">
+      <a href="../../../../../../generated/examples/umdo/taylor_polynomial/tp_sobieski/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sellar's MDO problem
+    The Sobieski's SSBJ MDO problem
   
 
     
@@ -2350,14 +2350,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../../generated/examples/umdo/taylor_polynomial/tp_sobieski/" class="md-nav__link">
+      <a href="../../../../../../generated/examples/umdo/taylor_polynomial/tp_sellar/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sobieski's SSBJ MDO problem
+    The Sellar's MDO problem
   
 
     
@@ -4969,12 +4969,12 @@
   <a href="#gemseo_umdo.formulations._statistics.control_variate.variance.Variance-functions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Functions
+        Methods:
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Functions">
+    <nav class="md-nav" aria-label="Methods:">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -8515,12 +8515,12 @@
   <a href="#gemseo_umdo.formulations._statistics.control_variate.variance.Variance-functions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Functions
+        Methods:
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Functions">
+    <nav class="md-nav" aria-label="Methods:">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -8629,7 +8629,7 @@
 
 
 <a href="#gemseo_umdo.formulations._statistics.control_variate.variance.Variance" class="headerlink" title="Permanent link">&para;</a></h4>
-<div class="doc-signature highlight"><pre><span></span><code><span class="nf">Variance</span><span class="p">(</span><span class="n">uncertain_space</span><span class="p">:</span> <span class="n"><span title="gemseo.algos.parameter_space.ParameterSpace">ParameterSpace</span></span><span class="p">)</span>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">Variance</span><span class="p">(</span><span class="n">uncertain_space</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.space.RandomSpace" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/space/#gemseo.space.RandomSpace">RandomSpace</a></span><span class="p">)</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -8661,7 +8661,7 @@
               <p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
-                      <code><span title="gemseo.algos.parameter_space.ParameterSpace">ParameterSpace</span></code>
+                      <code><a class="autorefs autorefs-external" title="gemseo.space.RandomSpace" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/space/#gemseo.space.RandomSpace">RandomSpace</a></code>
                   </span>
               </p>
             </td>
@@ -8683,11 +8683,11 @@
 <span class="normal">42</span>
 <span class="normal">43</span>
 <span class="normal">44</span>
-<span class="normal">45</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uncertain_space</span><span class="p">:</span> <span class="n">ParameterSpace</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="normal">45</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uncertain_space</span><span class="p">:</span> <span class="n">RandomSpace</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Args:</span>
 <span class="sd">        uncertain_space: The uncertain space.</span>
-<span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: D205 D212 D415</span>
+<span class="sd">    """</span>  <span class="c1"># noqa: D205 D212 D415</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_uncertain_space</span> <span class="o">=</span> <span class="n">uncertain_space</span>
 </code></pre></div></td></tr></table></div>
                   </details>
@@ -8703,7 +8703,7 @@
 
 
 
-<h5 id="gemseo_umdo.formulations._statistics.control_variate.variance.Variance-functions">Functions<a href="#gemseo_umdo.formulations._statistics.control_variate.variance.Variance-functions" class="headerlink" title="Permanent link">&para;</a></h5>
+<h5 id="gemseo_umdo.formulations._statistics.control_variate.variance.Variance-functions">Methods:<a href="#gemseo_umdo.formulations._statistics.control_variate.variance.Variance-functions" class="headerlink" title="Permanent link">&para;</a></h5>
 
 <div class="doc doc-object doc-function">
 
@@ -8713,7 +8713,7 @@
 
 
 <a href="#gemseo_umdo.formulations._statistics.control_variate.variance.Variance.compute_jacobian" class="headerlink" title="Permanent link">&para;</a></h6>
-<div class="doc-signature highlight"><pre><span></span><code><span class="nf">compute_jacobian</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n"><span title="typing.Any">Any</span></span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n"><span title="typing.Any">Any</span></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="gemseo.typing.RealArray">RealArray</span></span>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">compute_jacobian</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.util.typing.RealArray" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/util/typing/#gemseo.util.typing.RealArray">RealArray</a></span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -8740,7 +8740,7 @@
               <p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
-                      <code><span title="typing.Any">Any</span></code>
+                      <code><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></code>
                   </span>
                   <span class="doc-param-default">
                     <b>DEFAULT:</b>
@@ -8760,7 +8760,7 @@
               <p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
-                      <code><span title="typing.Any">Any</span></code>
+                      <code><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></code>
                   </span>
                   <span class="doc-param-default">
                     <b>DEFAULT:</b>
@@ -8784,7 +8784,7 @@
           <tr class="doc-section-item">
             <td>
                 <span class="doc-returns-annotation">
-                    <code><span title="gemseo.typing.RealArray">RealArray</span></code>
+                    <code><a class="autorefs autorefs-external" title="gemseo.util.typing.RealArray" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/util/typing/#gemseo.util.typing.RealArray">RealArray</a></code>
                 </span>
             </td>
             <td class="doc-returns-details">
@@ -8810,7 +8810,7 @@
 <span class="normal">52</span>
 <span class="normal">53</span>
 <span class="normal">54</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_jacobian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RealArray</span><span class="p">:</span>  <span class="c1"># noqa: D102</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the Jacobian of the statistic estimation.</span>
+<span class="w">    </span><span class="sd">"""Compute the Jacobian of the statistic estimation.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        *args: The mandatory arguments.</span>
@@ -8818,7 +8818,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The Jacobian of the statistic estimation.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -8835,12 +8835,12 @@
 
 <a href="#gemseo_umdo.formulations._statistics.control_variate.variance.Variance.estimate_statistic" class="headerlink" title="Permanent link">&para;</a></h6>
 <div class="doc-signature highlight"><pre><span></span><code><span class="nf">estimate_statistic</span><span class="p">(</span>
-    <span class="n">evaluations</span><span class="p">:</span> <span class="n"><span title="gemseo.typing.RealArray">RealArray</span></span><span class="p">,</span>
-    <span class="n">mean</span><span class="p">:</span> <span class="n"><span title="gemseo.typing.RealArray">RealArray</span></span><span class="p">,</span>
-    <span class="n">variance</span><span class="p">:</span> <span class="n"><span title="gemseo.typing.RealArray">RealArray</span></span><span class="p">,</span>
-    <span class="n">some_predictions</span><span class="p">:</span> <span class="n"><span title="gemseo.typing.RealArray">RealArray</span></span><span class="p">,</span>
-    <span class="n">many_predictions</span><span class="p">:</span> <span class="n"><span title="gemseo.typing.RealArray">RealArray</span></span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="gemseo.typing.RealArray">RealArray</span></span>
+    <span class="n">evaluations</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.util.typing.RealArray" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/util/typing/#gemseo.util.typing.RealArray">RealArray</a></span><span class="p">,</span>
+    <span class="n">mean</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.util.typing.RealArray" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/util/typing/#gemseo.util.typing.RealArray">RealArray</a></span><span class="p">,</span>
+    <span class="n">variance</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.util.typing.RealArray" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/util/typing/#gemseo.util.typing.RealArray">RealArray</a></span><span class="p">,</span>
+    <span class="n">some_predictions</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.util.typing.RealArray" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/util/typing/#gemseo.util.typing.RealArray">RealArray</a></span><span class="p">,</span>
+    <span class="n">many_predictions</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.util.typing.RealArray" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/util/typing/#gemseo.util.typing.RealArray">RealArray</a></span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.util.typing.RealArray" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/util/typing/#gemseo.util.typing.RealArray">RealArray</a></span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -8867,7 +8867,7 @@
               <p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
-                      <code><span title="gemseo.typing.RealArray">RealArray</span></code>
+                      <code><a class="autorefs autorefs-external" title="gemseo.util.typing.RealArray" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/util/typing/#gemseo.util.typing.RealArray">RealArray</a></code>
                   </span>
               </p>
             </td>
@@ -8883,7 +8883,7 @@
               <p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
-                      <code><span title="gemseo.typing.RealArray">RealArray</span></code>
+                      <code><a class="autorefs autorefs-external" title="gemseo.util.typing.RealArray" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/util/typing/#gemseo.util.typing.RealArray">RealArray</a></code>
                   </span>
               </p>
             </td>
@@ -8899,7 +8899,7 @@
               <p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
-                      <code><span title="gemseo.typing.RealArray">RealArray</span></code>
+                      <code><a class="autorefs autorefs-external" title="gemseo.util.typing.RealArray" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/util/typing/#gemseo.util.typing.RealArray">RealArray</a></code>
                   </span>
               </p>
             </td>
@@ -8915,7 +8915,7 @@
               <p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
-                      <code><span title="gemseo.typing.RealArray">RealArray</span></code>
+                      <code><a class="autorefs autorefs-external" title="gemseo.util.typing.RealArray" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/util/typing/#gemseo.util.typing.RealArray">RealArray</a></code>
                   </span>
               </p>
             </td>
@@ -8931,7 +8931,7 @@
               <p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
-                      <code><span title="gemseo.typing.RealArray">RealArray</span></code>
+                      <code><a class="autorefs autorefs-external" title="gemseo.util.typing.RealArray" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/util/typing/#gemseo.util.typing.RealArray">RealArray</a></code>
                   </span>
               </p>
             </td>
@@ -8951,7 +8951,7 @@
           <tr class="doc-section-item">
             <td>
                 <span class="doc-returns-annotation">
-                    <code><span title="gemseo.typing.RealArray">RealArray</span></code>
+                    <code><a class="autorefs autorefs-external" title="gemseo.util.typing.RealArray" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/util/typing/#gemseo.util.typing.RealArray">RealArray</a></code>
                 </span>
             </td>
             <td class="doc-returns-details">
@@ -9063,14 +9063,13 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../../../../../..", "features": ["navigation.tabs", "navigation.instant", "navigation.indexes"], "search": "../../../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../../../../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
         <script src="../../../../../../assets/_markdown_exec_pyodide.js"></script>
       
         <script src="../../../../../../javascripts/mathjax.js"></script>
       
         <script src="../../../../../../javascripts/xdsmjs.js"></script>
-      
       
         <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
       

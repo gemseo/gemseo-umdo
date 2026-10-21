@@ -8,7 +8,7 @@
       
       
       
-        <link rel="canonical" href="https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/monte_carlo_sampler/">
+        <link rel="canonical" href="https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/monte_carlo_sampler/">
       
       
         <link rel="prev" href="../">
@@ -20,8 +20,8 @@
         
       
       
-      <link rel="icon" href="../../../images/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+      <link rel="icon" href="../../../images/monogram.png">
+      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.7.7">
     
     
       
@@ -29,7 +29,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1992,14 +1992,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../generated/examples/umdo/sampling/s_sellar/" class="md-nav__link">
+      <a href="../../../generated/examples/umdo/sampling/s_sobieski/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sellar's MDO problem
+    The Sobieski's SSBJ MDO problem.
   
 
     
@@ -2020,14 +2020,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../generated/examples/umdo/sampling/s_sobieski/" class="md-nav__link">
+      <a href="../../../generated/examples/umdo/sampling/s_sellar/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sobieski's SSBJ MDO problem.
+    The Sellar's MDO problem
   
 
     
@@ -2322,14 +2322,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../generated/examples/umdo/taylor_polynomial/tp_sellar/" class="md-nav__link">
+      <a href="../../../generated/examples/umdo/taylor_polynomial/tp_sobieski/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sellar's MDO problem
+    The Sobieski's SSBJ MDO problem
   
 
     
@@ -2350,14 +2350,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../generated/examples/umdo/taylor_polynomial/tp_sobieski/" class="md-nav__link">
+      <a href="../../../generated/examples/umdo/taylor_polynomial/tp_sellar/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sobieski's SSBJ MDO problem
+    The Sellar's MDO problem
   
 
     
@@ -3281,12 +3281,12 @@
   <a href="#gemseo_umdo.monte_carlo_sampler.MonteCarloSampler-functions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Functions
+        Methods:
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Functions">
+    <nav class="md-nav" aria-label="Methods:">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -8576,12 +8576,12 @@
   <a href="#gemseo_umdo.monte_carlo_sampler.MonteCarloSampler-functions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Functions
+        Methods:
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Functions">
+    <nav class="md-nav" aria-label="Methods:">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -8679,7 +8679,7 @@
 
 
 <a href="#gemseo_umdo.monte_carlo_sampler.MonteCarloSampler" class="headerlink" title="Permanent link">&para;</a></h4>
-<div class="doc-signature highlight"><pre><span></span><code><span class="nf">MonteCarloSampler</span><span class="p">(</span><span class="n">input_space</span><span class="p">:</span> <span class="n"><span title="gemseo.algos.design_space.DesignSpace">DesignSpace</span></span><span class="p">)</span>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">MonteCarloSampler</span><span class="p">(</span><span class="n">input_space</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.space.DesignSpace" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/space/#gemseo.space.DesignSpace">DesignSpace</a></span><span class="p">)</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -8709,7 +8709,7 @@
               <p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
-                      <code><span title="gemseo.algos.design_space.DesignSpace">DesignSpace</span></code>
+                      <code><a class="autorefs autorefs-external" title="gemseo.space.DesignSpace" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/space/#gemseo.space.DesignSpace">DesignSpace</a></code>
                   </span>
               </p>
             </td>
@@ -8726,8 +8726,7 @@
 
                   <details class="mkdocstrings-source">
                     <summary>Source code in <code>src/gemseo_umdo/monte_carlo_sampler.py</code></summary>
-                    <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">52</span>
-<span class="normal">53</span>
+                    <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">53</span>
 <span class="normal">54</span>
 <span class="normal">55</span>
 <span class="normal">56</span>
@@ -8736,12 +8735,13 @@
 <span class="normal">59</span>
 <span class="normal">60</span>
 <span class="normal">61</span>
-<span class="normal">62</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_space</span><span class="p">:</span> <span class="n">DesignSpace</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="normal">62</span>
+<span class="normal">63</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_space</span><span class="p">:</span> <span class="n">DesignSpace</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Args:</span>
 <span class="sd">        input_space: The input space on which to sample the functions.</span>
-<span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa:D205 D212 D415</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">__algo</span> <span class="o">=</span> <span class="n">OpenTURNS</span><span class="p">(</span><span class="s2">&quot;OT_MONTE_CARLO&quot;</span><span class="p">)</span>
+<span class="sd">    """</span>  <span class="c1"># noqa:D205 D212 D415</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__algo</span> <span class="o">=</span> <span class="n">OpenTURNS</span><span class="p">(</span><span class="s2">"OT_MONTE_CARLO"</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__functions</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__input_space</span> <span class="o">=</span> <span class="n">input_space</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__input_histories</span> <span class="o">=</span> <span class="p">[]</span>
@@ -8773,7 +8773,7 @@
   </span>
 
 <a href="#gemseo_umdo.monte_carlo_sampler.MonteCarloSampler.input_history" class="headerlink" title="Permanent link">&para;</a></h6>
-<div class="doc-signature highlight"><pre><span></span><code><span class="n">input_history</span><span class="p">:</span> <span class="n"><span title="gemseo.typing.RealArray">RealArray</span></span>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">input_history</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.util.typing.RealArray" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/util/typing/#gemseo.util.typing.RealArray">RealArray</a></span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -8797,7 +8797,7 @@
   </span>
 
 <a href="#gemseo_umdo.monte_carlo_sampler.MonteCarloSampler.output_history" class="headerlink" title="Permanent link">&para;</a></h6>
-<div class="doc-signature highlight"><pre><span></span><code><span class="n">output_history</span><span class="p">:</span> <span class="n"><span title="gemseo.typing.RealArray">RealArray</span></span>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">output_history</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.util.typing.RealArray" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/util/typing/#gemseo.util.typing.RealArray">RealArray</a></span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -8809,7 +8809,7 @@
 </div>
 
 
-<h5 id="gemseo_umdo.monte_carlo_sampler.MonteCarloSampler-functions">Functions<a href="#gemseo_umdo.monte_carlo_sampler.MonteCarloSampler-functions" class="headerlink" title="Permanent link">&para;</a></h5>
+<h5 id="gemseo_umdo.monte_carlo_sampler.MonteCarloSampler-functions">Methods:<a href="#gemseo_umdo.monte_carlo_sampler.MonteCarloSampler-functions" class="headerlink" title="Permanent link">&para;</a></h5>
 
 <div class="doc doc-object doc-function">
 
@@ -8820,7 +8820,7 @@
 
 <a href="#gemseo_umdo.monte_carlo_sampler.MonteCarloSampler.add_function" class="headerlink" title="Permanent link">&para;</a></h6>
 <div class="doc-signature highlight"><pre><span></span><code><span class="nf">add_function</span><span class="p">(</span>
-    <span class="n">function</span><span class="p">:</span> <span class="n"><span title="gemseo_umdo.monte_carlo_sampler.FunctionType">FunctionType</span></span><span class="p">,</span> <span class="n">is_vectorized</span><span class="p">:</span> <span class="n"><span title="bool">bool</span></span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">function</span><span class="p">:</span> <span class="n"><span title="gemseo_umdo.monte_carlo_sampler.FunctionType">FunctionType</span></span><span class="p">,</span> <span class="n">is_vectorized</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/functions.html#bool">bool</a></span> <span class="o">=</span> <span class="kc">True</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
 
@@ -8864,7 +8864,7 @@
               <p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
-                      <code><span title="bool">bool</span></code>
+                      <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/functions.html#bool">bool</a></code>
                   </span>
                   <span class="doc-param-default">
                     <b>DEFAULT:</b>
@@ -8879,21 +8879,21 @@
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/gemseo_umdo/monte_carlo_sampler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">64</span>
-<span class="normal">65</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">65</span>
 <span class="normal">66</span>
 <span class="normal">67</span>
 <span class="normal">68</span>
 <span class="normal">69</span>
 <span class="normal">70</span>
 <span class="normal">71</span>
-<span class="normal">72</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function</span><span class="p">:</span> <span class="n">FunctionType</span><span class="p">,</span> <span class="n">is_vectorized</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add a function to sample.</span>
+<span class="normal">72</span>
+<span class="normal">73</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function</span><span class="p">:</span> <span class="n">FunctionType</span><span class="p">,</span> <span class="n">is_vectorized</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Add a function to sample.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        function: A function to sample.</span>
 <span class="sd">        is_vectorized: Whether the function is vectorized.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__all_functions_are_vectorized</span> <span class="o">&amp;=</span> <span class="n">is_vectorized</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__functions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
@@ -8970,14 +8970,13 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.instant", "navigation.indexes"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
         <script src="../../../assets/_markdown_exec_pyodide.js"></script>
       
         <script src="../../../javascripts/mathjax.js"></script>
       
         <script src="../../../javascripts/xdsmjs.js"></script>
-      
       
         <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
       

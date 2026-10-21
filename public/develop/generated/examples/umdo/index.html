@@ -8,7 +8,7 @@
       
       
       
-        <link rel="canonical" href="https://gemseo.gitlab.io/gemseo-umdo/latest/generated/examples/umdo/">
+        <link rel="canonical" href="https://gemseo.gitlab.io/dev/gemseo-umdo/latest/generated/examples/umdo/">
       
       
         <link rel="prev" href="../../../user_guide/visualization/sobol_graph/">
@@ -20,8 +20,8 @@
         
       
       
-      <link rel="icon" href="../../../images/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+      <link rel="icon" href="../../../images/monogram.png">
+      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.7.7">
     
     
       
@@ -29,7 +29,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -2001,14 +2001,14 @@
   
   
     <li class="md-nav__item">
-      <a href="sampling/s_sellar/" class="md-nav__link">
+      <a href="sampling/s_sobieski/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sellar's MDO problem
+    The Sobieski's SSBJ MDO problem.
   
 
     
@@ -2029,14 +2029,14 @@
   
   
     <li class="md-nav__item">
-      <a href="sampling/s_sobieski/" class="md-nav__link">
+      <a href="sampling/s_sellar/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sobieski's SSBJ MDO problem.
+    The Sellar's MDO problem
   
 
     
@@ -2331,14 +2331,14 @@
   
   
     <li class="md-nav__item">
-      <a href="taylor_polynomial/tp_sellar/" class="md-nav__link">
+      <a href="taylor_polynomial/tp_sobieski/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sellar's MDO problem
+    The Sobieski's SSBJ MDO problem
   
 
     
@@ -2359,14 +2359,14 @@
   
   
     <li class="md-nav__item">
-      <a href="taylor_polynomial/tp_sobieski/" class="md-nav__link">
+      <a href="taylor_polynomial/tp_sellar/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sobieski's SSBJ MDO problem
+    The Sellar's MDO problem
   
 
     
@@ -8455,7 +8455,7 @@ where the control variates are based on Taylor polynomials of the quantities of 
 <p>The outputs of interest can be obtained using different MDO formulations,
 in particular <code>DisciplinaryOpt</code> and <code>MDF</code> in a very simple way,
 but also <code>IDF</code> and <code>BiLevel</code> in a more advanced manner.</p>
-<p>Read more in the <a href="https://gemseo.readthedocs.io/en/stable/mdo/mdo_formulations.html">GEMSEO's user guide</a></p>
+<p>Read more in the <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/formulation/#gemseo.formulation">GEMSEO's documentation of the MDO formulations</a></p>
 <div class="mkd-glr-thumbcontainer" tooltip="This example shows a simple way to manage an uncertain equality constraint associated with a th...">
     <!--div class="figure align-default" id="id1"-->
         <img alt="Managing uncertain equality constraints" src="mdo_formulations/images/thumb/mkd_glr_plot_equality_constraints_thumb.png" />
@@ -8641,20 +8641,6 @@ using crude Monte Carlo sampling.</p>
     <!--/div-->
 </div>
 
-<div class="mkd-glr-thumbcontainer" tooltip="In this example, we consider the Sellar&#x27;s MDO problem under uncertainty">
-    <!--div class="figure align-default" id="id1"-->
-        <img alt="The Sellar's MDO problem" src="sampling/images/thumb/mkd_glr_s_sellar_thumb.png" />
-        <p class="caption">
-            <span class="caption-text">
-                <a class="reference internal" href="sampling/s_sellar">
-                    <span class="std std-ref">The Sellar's MDO problem</span>
-                </a>
-            </span>
-            <!--a class="headerlink" href="#id1" title="Permalink to this image"></a-->
-        </p>
-    <!--/div-->
-</div>
-
 <div class="mkd-glr-thumbcontainer" tooltip="The Sobieski&#x27;s SSBJ MDO problem.">
     <!--div class="figure align-default" id="id1"-->
         <img alt="The Sobieski's SSBJ MDO problem." src="sampling/images/thumb/mkd_glr_s_sobieski_thumb.png" />
@@ -8662,6 +8648,20 @@ using crude Monte Carlo sampling.</p>
             <span class="caption-text">
                 <a class="reference internal" href="sampling/s_sobieski">
                     <span class="std std-ref">The Sobieski's SSBJ MDO problem.</span>
+                </a>
+            </span>
+            <!--a class="headerlink" href="#id1" title="Permalink to this image"></a-->
+        </p>
+    <!--/div-->
+</div>
+
+<div class="mkd-glr-thumbcontainer" tooltip="In this example, we consider the Sellar&#x27;s MDO problem under uncertainty">
+    <!--div class="figure align-default" id="id1"-->
+        <img alt="The Sellar's MDO problem" src="sampling/images/thumb/mkd_glr_s_sellar_thumb.png" />
+        <p class="caption">
+            <span class="caption-text">
+                <a class="reference internal" href="sampling/s_sellar">
+                    <span class="std std-ref">The Sellar's MDO problem</span>
                 </a>
             </span>
             <!--a class="headerlink" href="#id1" title="Permalink to this image"></a-->
@@ -8759,20 +8759,6 @@ using Taylor polynomials of the quantities of interest.</p>
     <!--/div-->
 </div>
 
-<div class="mkd-glr-thumbcontainer" tooltip="In this example, we consider the Sellar&#x27;s MDO problem under uncertainty">
-    <!--div class="figure align-default" id="id1"-->
-        <img alt="The Sellar's MDO problem" src="taylor_polynomial/images/thumb/mkd_glr_tp_sellar_thumb.png" />
-        <p class="caption">
-            <span class="caption-text">
-                <a class="reference internal" href="taylor_polynomial/tp_sellar">
-                    <span class="std std-ref">The Sellar's MDO problem</span>
-                </a>
-            </span>
-            <!--a class="headerlink" href="#id1" title="Permalink to this image"></a-->
-        </p>
-    <!--/div-->
-</div>
-
 <div class="mkd-glr-thumbcontainer" tooltip="The Sobieski&#x27;s SSBJ MDO problem">
     <!--div class="figure align-default" id="id1"-->
         <img alt="The Sobieski's SSBJ MDO problem" src="taylor_polynomial/images/thumb/mkd_glr_tp_sobieski_thumb.png" />
@@ -8780,6 +8766,20 @@ using Taylor polynomials of the quantities of interest.</p>
             <span class="caption-text">
                 <a class="reference internal" href="taylor_polynomial/tp_sobieski">
                     <span class="std std-ref">The Sobieski's SSBJ MDO problem</span>
+                </a>
+            </span>
+            <!--a class="headerlink" href="#id1" title="Permalink to this image"></a-->
+        </p>
+    <!--/div-->
+</div>
+
+<div class="mkd-glr-thumbcontainer" tooltip="In this example, we consider the Sellar&#x27;s MDO problem under uncertainty">
+    <!--div class="figure align-default" id="id1"-->
+        <img alt="The Sellar's MDO problem" src="taylor_polynomial/images/thumb/mkd_glr_tp_sellar_thumb.png" />
+        <p class="caption">
+            <span class="caption-text">
+                <a class="reference internal" href="taylor_polynomial/tp_sellar">
+                    <span class="std std-ref">The Sellar's MDO problem</span>
                 </a>
             </span>
             <!--a class="headerlink" href="#id1" title="Permalink to this image"></a-->
@@ -8848,14 +8848,13 @@ using Taylor polynomials of the quantities of interest.</p>
       <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.instant", "navigation.indexes"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
         <script src="../../../assets/_markdown_exec_pyodide.js"></script>
       
         <script src="../../../javascripts/mathjax.js"></script>
       
         <script src="../../../javascripts/xdsmjs.js"></script>
-      
       
         <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
       

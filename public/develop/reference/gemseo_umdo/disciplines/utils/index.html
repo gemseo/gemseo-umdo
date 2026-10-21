@@ -8,7 +8,7 @@
       
       
       
-        <link rel="canonical" href="https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/disciplines/utils/">
+        <link rel="canonical" href="https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/disciplines/utils/">
       
       
         <link rel="prev" href="../noiser_factory/">
@@ -20,8 +20,8 @@
         
       
       
-      <link rel="icon" href="../../../../images/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+      <link rel="icon" href="../../../../images/monogram.png">
+      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.7.7">
     
     
       
@@ -29,7 +29,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1992,14 +1992,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../generated/examples/umdo/sampling/s_sellar/" class="md-nav__link">
+      <a href="../../../../generated/examples/umdo/sampling/s_sobieski/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sellar's MDO problem
+    The Sobieski's SSBJ MDO problem.
   
 
     
@@ -2020,14 +2020,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../generated/examples/umdo/sampling/s_sobieski/" class="md-nav__link">
+      <a href="../../../../generated/examples/umdo/sampling/s_sellar/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sobieski's SSBJ MDO problem.
+    The Sellar's MDO problem
   
 
     
@@ -2322,14 +2322,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../generated/examples/umdo/taylor_polynomial/tp_sellar/" class="md-nav__link">
+      <a href="../../../../generated/examples/umdo/taylor_polynomial/tp_sobieski/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sellar's MDO problem
+    The Sobieski's SSBJ MDO problem
   
 
     
@@ -2350,14 +2350,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../generated/examples/umdo/taylor_polynomial/tp_sobieski/" class="md-nav__link">
+      <a href="../../../../generated/examples/umdo/taylor_polynomial/tp_sellar/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sobieski's SSBJ MDO problem
+    The Sellar's MDO problem
   
 
     
@@ -3636,12 +3636,12 @@
   <a href="#gemseo_umdo.disciplines.utils-functions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Functions
+        Functions:
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Functions">
+    <nav class="md-nav" aria-label="Functions:">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -8464,12 +8464,12 @@
   <a href="#gemseo_umdo.disciplines.utils-functions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Functions
+        Functions:
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Functions">
+    <nav class="md-nav" aria-label="Functions:">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -8547,7 +8547,7 @@
 
 
 <h3 id="gemseo_umdo.disciplines.utils-classes">Classes<a href="#gemseo_umdo.disciplines.utils-classes" class="headerlink" title="Permanent link">&para;</a></h3>
-<h3 id="gemseo_umdo.disciplines.utils-functions">Functions<a href="#gemseo_umdo.disciplines.utils-functions" class="headerlink" title="Permanent link">&para;</a></h3>
+<h3 id="gemseo_umdo.disciplines.utils-functions">Functions:<a href="#gemseo_umdo.disciplines.utils-functions" class="headerlink" title="Permanent link">&para;</a></h3>
 
 <div class="doc doc-object doc-function">
 
@@ -8558,11 +8558,11 @@
 
 <a href="#gemseo_umdo.disciplines.utils.create_noising_discipline_chain" class="headerlink" title="Permanent link">&para;</a></h4>
 <div class="doc-signature highlight"><pre><span></span><code><span class="nf">create_noising_discipline_chain</span><span class="p">(</span>
-    <span class="n">input_space</span><span class="p">:</span> <span class="n"><span title="gemseo.DesignSpace">DesignSpace</span></span><span class="p">,</span>
-    <span class="n">uncertain_input_variables</span><span class="p">:</span> <span class="n"><span title="collections.abc.Mapping">Mapping</span></span><span class="p">[</span>
-        <span class="n"><span title="str">str</span></span><span class="p">,</span> <span class="n"><span title="str">str</span></span> <span class="o">|</span> <span class="n"><span title="tuple">tuple</span></span><span class="p">[</span><span class="n"><span title="str">str</span></span><span class="p">,</span> <span class="n"><span title="str">str</span></span><span class="p">]</span>
+    <span class="n">input_space</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.space.DesignSpace" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/space/#gemseo.space.DesignSpace">DesignSpace</a></span><span class="p">,</span>
+    <span class="n">uncertain_input_variables</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="collections.abc.Mapping" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping">Mapping</a></span><span class="p">[</span>
+        <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a></span> <span class="o">|</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#tuple">tuple</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a></span><span class="p">]</span>
     <span class="p">],</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="gemseo.core.chains.chain.MDOChain">MDOChain</span></span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.discipline.DisciplineChain" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/discipline/#gemseo.discipline.DisciplineChain">DisciplineChain</a></span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -8590,7 +8590,7 @@ whose uncertain input variables are renamed by this method.</p>
               <p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
-                      <code><span title="gemseo.DesignSpace">DesignSpace</span></code>
+                      <code><a class="autorefs autorefs-external" title="gemseo.space.DesignSpace" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/space/#gemseo.space.DesignSpace">DesignSpace</a></code>
                   </span>
               </p>
             </td>
@@ -8642,7 +8642,7 @@ than those defined by <code>disciplines</code>.</p>
               <p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
-                      <code><span title="collections.abc.Mapping">Mapping</span>[<span title="str">str</span>, <span title="str">str</span> | <span title="tuple">tuple</span>[<span title="str">str</span>, <span title="str">str</span>]]</code>
+                      <code><a class="autorefs autorefs-external" title="collections.abc.Mapping" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping">Mapping</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a>, <a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a> | <a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#tuple">tuple</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a>, <a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a>]]</code>
                   </span>
               </p>
             </td>
@@ -8662,7 +8662,7 @@ than those defined by <code>disciplines</code>.</p>
           <tr class="doc-section-item">
             <td>
                 <span class="doc-returns-annotation">
-                    <code><span title="gemseo.core.chains.chain.MDOChain">MDOChain</span></code>
+                    <code><a class="autorefs autorefs-external" title="gemseo.discipline.DisciplineChain" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/discipline/#gemseo.discipline.DisciplineChain">DisciplineChain</a></code>
                 </span>
             </td>
             <td class="doc-returns-details">
@@ -8750,8 +8750,8 @@ than those defined by <code>disciplines</code>.</p>
 <span class="normal">102</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">create_noising_discipline_chain</span><span class="p">(</span>
     <span class="n">input_space</span><span class="p">:</span> <span class="n">DesignSpace</span><span class="p">,</span>
     <span class="n">uncertain_input_variables</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]],</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MDOChain</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a disciplines chain to noise input variables and rename input variables.</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DisciplineChain</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Create a disciplines chain to noise input variables and rename input variables.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        input_space: The input space</span>
@@ -8759,15 +8759,15 @@ than those defined by <code>disciplines</code>.</p>
 <span class="sd">        uncertain_input_variables: This argument facilitates</span>
 <span class="sd">            the definition of uncertain input variables in two ways.</span>
 <span class="sd">            The first way consists of passing a dictionary</span>
-<span class="sd">            of the form `{&quot;x1&quot;: (&quot;+&quot;, &quot;u1&quot;), &quot;x2&quot;: (&quot;*&quot;, &quot;u2&quot;), ...}`</span>
+<span class="sd">            of the form `{"x1": ("+", "u1"), "x2": ("*", "u2"), ...}`</span>
 <span class="sd">            which defines the uncertain input variables as</span>
 <span class="sd">            `x1 = dv_x1 + u1` and `x2 = dv_x2 * (1 + u2)`.</span>
-<span class="sd">            Here `&quot;x1&quot;` and `&quot;x2&quot;` are the names of the input variables</span>
-<span class="sd">            made uncertain by the random variables `&quot;u_1&quot;` and `&quot;u_2&quot;`</span>
+<span class="sd">            Here `"x1"` and `"x2"` are the names of the input variables</span>
+<span class="sd">            made uncertain by the random variables `"u_1"` and `"u_2"`</span>
 <span class="sd">            which typically have zero mean.</span>
-<span class="sd">            `&quot;x1&quot;` and `&quot;x2&quot;` are the names of the input variables</span>
+<span class="sd">            `"x1"` and `"x2"` are the names of the input variables</span>
 <span class="sd">            actually used in `disciplines`</span>
-<span class="sd">            while the names `&quot;dv_x1&quot;` and `dv_x2` are generated by the scenario.</span>
+<span class="sd">            while the names `"dv_x1"` and `dv_x2` are generated by the scenario.</span>
 <span class="sd">            More generally,</span>
 <span class="sd">            the first element of the tuple is assumed</span>
 <span class="sd">            to be either the class name or the</span>
@@ -8777,13 +8777,13 @@ than those defined by <code>disciplines</code>.</p>
 <span class="sd">            (feel free to create new noising disciplines).</span>
 <span class="sd">            The second way of defining these uncertain input variables</span>
 <span class="sd">            consists of passing a set of more complex expressions</span>
-<span class="sd">            of the form `{&quot;x&quot;: &quot;{} + u&quot;, ...}`</span>
-<span class="sd">            where `&quot;x&quot;` is the name of the input variable</span>
+<span class="sd">            of the form `{"x": "{} + u", ...}`</span>
+<span class="sd">            where `"x"` is the name of the input variable</span>
 <span class="sd">            actually used in the equations,</span>
-<span class="sd">            `&quot;u&quot;` is the name of the uncertain variable</span>
+<span class="sd">            `"u"` is the name of the uncertain variable</span>
 <span class="sd">            defined in the `uncertain_space`</span>
-<span class="sd">            and `&quot;{}&quot;` is the optimization variable.</span>
-<span class="sd">            Leave `&quot;{}&quot;` as is; it will be automatically replaced by `&quot;dv_x&quot;`.</span>
+<span class="sd">            and `"{}"` is the optimization variable.</span>
+<span class="sd">            Leave `"{}"` as is; it will be automatically replaced by `"dv_x"`.</span>
 <span class="sd">            This more complex format assumes variables of dimension 1.</span>
 <span class="sd">            If `None`,</span>
 <span class="sd">            do not consider other variable relations</span>
@@ -8791,7 +8791,7 @@ than those defined by <code>disciplines</code>.</p>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The noising disciplines.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">noising_disciplines</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="n">expressions</span> <span class="o">=</span> <span class="p">{</span>
@@ -8801,9 +8801,9 @@ than those defined by <code>disciplines</code>.</p>
     <span class="p">}</span>
     <span class="k">if</span> <span class="n">expressions</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">dv_name</span><span class="p">,</span> <span class="n">expression</span> <span class="ow">in</span> <span class="n">expressions</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">new_dv_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;dv_</span><span class="si">{</span><span class="n">dv_name</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">new_dv_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"dv_</span><span class="si">{</span><span class="n">dv_name</span><span class="si">}</span><span class="s2">"</span>
             <span class="n">input_space</span><span class="o">.</span><span class="n">rename_variable</span><span class="p">(</span><span class="n">dv_name</span><span class="p">,</span> <span class="n">new_dv_name</span><span class="p">)</span>
-            <span class="n">expressions</span><span class="p">[</span><span class="n">dv_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">expression</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">new_dv_name</span><span class="p">)</span>
+            <span class="n">expressions</span><span class="p">[</span><span class="n">dv_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">expression</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"</span><span class="si">{}</span><span class="s2">"</span><span class="p">,</span> <span class="n">new_dv_name</span><span class="p">)</span>
 
         <span class="n">noising_disciplines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">AnalyticDiscipline</span><span class="p">(</span><span class="n">expressions</span><span class="p">))</span>
 
@@ -8811,13 +8811,13 @@ than those defined by <code>disciplines</code>.</p>
         <span class="k">if</span> <span class="n">dv_name</span> <span class="ow">in</span> <span class="n">expressions</span><span class="p">:</span>
             <span class="k">continue</span>
 
-        <span class="n">new_dv_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;dv_</span><span class="si">{</span><span class="n">dv_name</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">new_dv_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"dv_</span><span class="si">{</span><span class="n">dv_name</span><span class="si">}</span><span class="s2">"</span>
         <span class="n">input_space</span><span class="o">.</span><span class="n">rename_variable</span><span class="p">(</span><span class="n">dv_name</span><span class="p">,</span> <span class="n">new_dv_name</span><span class="p">)</span>
         <span class="n">noising_disciplines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
             <span class="n">NoiserFactory</span><span class="p">()</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">new_dv_name</span><span class="p">,</span> <span class="n">dv_name</span><span class="p">,</span> <span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
         <span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">MDOChain</span><span class="p">(</span><span class="n">noising_disciplines</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;DesignVariablesNoiser&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">DisciplineChain</span><span class="p">(</span><span class="n">noising_disciplines</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"DesignVariablesNoiser"</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -8883,14 +8883,13 @@ than those defined by <code>disciplines</code>.</p>
       <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["navigation.tabs", "navigation.instant", "navigation.indexes"], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
         <script src="../../../../assets/_markdown_exec_pyodide.js"></script>
       
         <script src="../../../../javascripts/mathjax.js"></script>
       
         <script src="../../../../javascripts/xdsmjs.js"></script>
-      
       
         <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
       

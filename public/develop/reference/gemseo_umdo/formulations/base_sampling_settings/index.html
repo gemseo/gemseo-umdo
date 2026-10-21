@@ -8,7 +8,7 @@
       
       
       
-        <link rel="canonical" href="https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/formulations/base_sampling_settings/">
+        <link rel="canonical" href="https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/formulations/base_sampling_settings/">
       
       
         <link rel="prev" href="../">
@@ -20,8 +20,8 @@
         
       
       
-      <link rel="icon" href="../../../../images/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+      <link rel="icon" href="../../../../images/monogram.png">
+      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.7.7">
     
     
       
@@ -29,7 +29,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1992,14 +1992,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../generated/examples/umdo/sampling/s_sellar/" class="md-nav__link">
+      <a href="../../../../generated/examples/umdo/sampling/s_sobieski/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sellar's MDO problem
+    The Sobieski's SSBJ MDO problem.
   
 
     
@@ -2020,14 +2020,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../generated/examples/umdo/sampling/s_sobieski/" class="md-nav__link">
+      <a href="../../../../generated/examples/umdo/sampling/s_sellar/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sobieski's SSBJ MDO problem.
+    The Sellar's MDO problem
   
 
     
@@ -2322,14 +2322,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../generated/examples/umdo/taylor_polynomial/tp_sellar/" class="md-nav__link">
+      <a href="../../../../generated/examples/umdo/taylor_polynomial/tp_sobieski/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sellar's MDO problem
+    The Sobieski's SSBJ MDO problem
   
 
     
@@ -2350,14 +2350,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../generated/examples/umdo/taylor_polynomial/tp_sobieski/" class="md-nav__link">
+      <a href="../../../../generated/examples/umdo/taylor_polynomial/tp_sellar/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sobieski's SSBJ MDO problem
+    The Sellar's MDO problem
   
 
     
@@ -8556,6 +8556,56 @@
       <tbody>
           <tr class="doc-section-item">
             <td>
+                <code>differentiated_input_names_substitute</code>
+            </td>
+            <td class="doc-param-details">
+              <div class="doc-md-description">
+                <p>The names of the discipline inputs
+with respect to which to differentiate the discipline outputs
+used as objective, constraints and observables.
+If empty, consider the inputs of these functions.
+More precisely,
+for each function,
+an <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/core/function/array_function/#gemseo.core.function.array_function.ArrayFunction">ArrayFunction</a>
+is built from the <code>disciplines</code>,
+which depend on input variables <span class="arithmatex">\(x_1,\ldots,x_d,x_{d+1}\)</span>,
+and over an input space
+spanned by the input variables <span class="arithmatex">\(x_1,\ldots,x_d\)</span>
+and depending on both the MDO formulation and the <code>design_space</code>.
+Then,
+the methods
+<a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/core/function/array_function/#gemseo.core.function.array_function.ArrayFunction.evaluate">ArrayFunction.evaluate()</a>
+and
+<a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/core/function/array_function/#gemseo.core.function.array_function.ArrayFunction.jac">ArrayFunction.jac()</a>
+are called at a given point of the input space
+and return the output value and the Jacobian matrix,
+i.e. the matrix concatenating the partial derivatives
+with respect to the inputs <span class="arithmatex">\(x_1,\ldots,x_d\)</span>
+at this point of the input space.
+This argument can be used to compute the matrix
+concatenating the partial derivatives
+at the same point of the input space
+but with respect to custom inputs,
+e.g. <span class="arithmatex">\(x_{d-1}\)</span> and <span class="arithmatex">\(x_{d+1}\)</span>.
+Mathematically speaking,
+this matrix returned by
+<a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/core/function/array_function/#gemseo.core.function.array_function.ArrayFunction.jac">ArrayFunction.jac()</a>
+is no longer a Jacobian.</p>
+              </div>
+              <p>
+                  <span class="doc-param-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="Sequence">Sequence</span>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a>]</code>
+                  </span>
+                  <span class="doc-param-default">
+                    <b>DEFAULT:</b>
+                      <code>()</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
                 <code>doe_algo_settings</code>
             </td>
             <td class="doc-param-details">
@@ -8565,11 +8615,11 @@
               <p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
-                      <code><span title="gemseo.algos.doe.base_doe_settings.BaseDOESettings">BaseDOESettings</span></code>
+                      <code><a class="autorefs autorefs-external" title="gemseo.doe.core.base_doe_settings.BaseDOESettings" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/doe/core/base_doe_settings/#gemseo.doe.core.base_doe_settings.BaseDOESettings">BaseDOESettings</a></code>
                   </span>
                   <span class="doc-param-default">
                     <b>DEFAULT:</b>
-                      <code>OT_OPT_LHS_Settings(enable_progress_bar=None, eq_tolerance=0.01, ineq_tolerance=0.0001, log_problem=True, max_time=0.0, normalize_design_space=False, progress_bar_data_name=&lt;ProgressBarDataName.ProgressBarData: &#39;ProgressBarData&#39;&gt;, reset_iteration_counters=True, round_ints=True, store_jacobian=True, use_database=True, use_one_line_progress_bar=False, eval_func=True, eval_jac=False, n_processes=1, wait_time_between_samples=0.0, callbacks=(), preprocessors=(), vectorize=False, n_samples=10, seed=0, temperature=&lt;TemperatureProfile.GEOMETRIC: &#39;Geometric&#39;&gt;, criterion=&lt;SpaceFillingCriterion.C2: &#39;C2&#39;&gt;, annealing=True, n_replicates=1000)</code>
+                      <code>OT_OPT_LHS_Settings(enable_progress_bar=None, eq_tolerance=0.01, evaluate_observable_jacobian=False, ineq_tolerance=0.0001, log_problem=True, max_input_space_dimension_to_log=40, max_time=0.0, normalize_design_space=False, progress_bar_data_name=&lt;ProgressBarDataName.PROGRESS_BAR_DATA: &#39;ProgressBarData&#39;&gt;, relax_discrete_variables=False, relax_integer_variables=False, reset_iteration_counters=True, store_jacobian=True, use_database=True, use_one_line_progress_bar=False, eval_func=True, eval_jac=False, n_processes=1, wait_time_between_samples=0.0, callbacks=(), preprocessors=(), vectorize=False, n_samples=10, seed=0, temperature=&lt;TemperatureProfile.GEOMETRIC: &#39;Geometric&#39;&gt;, criterion=&lt;SpaceFillingCriterion.C2: &#39;C2&#39;&gt;, annealing=True, n_replicates=1000)</code>
                   </span>
               </p>
             </td>
@@ -8589,7 +8639,7 @@ the field <code>doe_algo_settings.n_samples</code> is ignored.</p>
               <p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
-                      <code><span title="Annotated">Annotated</span>[<span title="int">int</span>, <span title="Gt">Gt</span>] | None</code>
+                      <code><span title="Annotated">Annotated</span>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/functions.html#int">int</a>, <span title="Gt">Gt</span>] | None</code>
                   </span>
                   <span class="doc-param-default">
                     <b>DEFAULT:</b>
@@ -8690,14 +8740,13 @@ the field <code>doe_algo_settings.n_samples</code> is ignored.</p>
       <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["navigation.tabs", "navigation.instant", "navigation.indexes"], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
         <script src="../../../../assets/_markdown_exec_pyodide.js"></script>
       
         <script src="../../../../javascripts/mathjax.js"></script>
       
         <script src="../../../../javascripts/xdsmjs.js"></script>
-      
       
         <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
       

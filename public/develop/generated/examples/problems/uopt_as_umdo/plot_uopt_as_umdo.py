@@ -47,7 +47,9 @@ from __future__ import annotations
 from gemseo import create_design_space
 from gemseo import create_discipline
 from gemseo import generate_coupling_graph
-from gemseo.algos.parameter_space import ParameterSpace
+from gemseo.optimization import NLOPT_SLSQP_Settings
+from gemseo.space import RandomSpace
+from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 from numpy import array
 
 from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
@@ -73,9 +75,9 @@ design_space.add_variable("z_1", lower_bound=-1, upper_bound=1)
 design_space.add_variable("z_2", lower_bound=-1, upper_bound=1)
 # %%
 # and the uncertain space:
-uncertain_space = ParameterSpace()
-uncertain_space.add_random_variable("u", "OTNormalDistribution", mu=1.0, sigma=0.01)
-uncertain_space.add_random_variable("v", "OTNormalDistribution", mu=1.0, sigma=0.01)
+uncertain_space = RandomSpace()
+uncertain_space.add_variable("u", OTNormalDistribution_Settings(mu=1.0, sigma=0.01))
+uncertain_space.add_variable("v", OTNormalDistribution_Settings(mu=1.0, sigma=0.01))
 # %%
 # We choose $x^{(0)}=(-0.25, 0.75, -0.9)$
 # as the starting point of the optimization:
@@ -89,16 +91,14 @@ design_space.set_current_value(initial_point)
 # with statistics estimated by sampling:
 u_opt_scenario = UMDOScenario(
     [discipline],
-    "f",
     design_space,
     uncertain_space,
-    "Mean",
     Sampling_Settings(n_samples=50),
-    formulation_name="DisciplinaryOpt",
 )
+u_opt_scenario.add_objective("f", "Mean")
 # %%
 # and solve it using the SLSQP algorithm:
-u_opt_scenario.execute(algo_name="NLOPT_SLSQP", max_iter=100)
+u_opt_scenario.execute(NLOPT_SLSQP_Settings(max_iter=100))
 # %%
 # ## MDO problem under uncertainty
 # Now,
@@ -116,13 +116,11 @@ design_space.set_current_value(initial_point)
 # orchestrated by an MDF formulation:
 umdo_scenario = UOptAsUMDOScenario(
     discipline,
-    "f",
     design_space,
     uncertain_space,
-    "Mean",
     Sampling_Settings(n_samples=50),
-    formulation_name="MDF",
 )
+umdo_scenario.add_objective("f", "Mean")
 # %%
 # Then,
 # we can see that the design variables have been renamed:
@@ -151,7 +149,7 @@ umdo_scenario.xdsmize(save_html=False, pdf_build=False)
 # %%
 # Lastly,
 # we solve this scenario using the SLSQP algorithm:
-umdo_scenario.execute(algo_name="NLOPT_SLSQP", max_iter=100)
+umdo_scenario.execute(algorithm_settings=NLOPT_SLSQP_Settings(max_iter=100))
 # %%
 # We can see that
 # the numerical solution corresponds to the one found in the monodisciplinary case.

@@ -8,7 +8,7 @@
       
       
       
-        <link rel="canonical" href="https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/use_cases/truss/model/">
+        <link rel="canonical" href="https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/use_cases/truss/model/">
       
       
         <link rel="prev" href="../forces/">
@@ -20,8 +20,8 @@
         
       
       
-      <link rel="icon" href="../../../../../images/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+      <link rel="icon" href="../../../../../images/monogram.png">
+      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.7.7">
     
     
       
@@ -29,7 +29,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1992,14 +1992,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../generated/examples/umdo/sampling/s_sellar/" class="md-nav__link">
+      <a href="../../../../../generated/examples/umdo/sampling/s_sobieski/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sellar's MDO problem
+    The Sobieski's SSBJ MDO problem.
   
 
     
@@ -2020,14 +2020,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../generated/examples/umdo/sampling/s_sobieski/" class="md-nav__link">
+      <a href="../../../../../generated/examples/umdo/sampling/s_sellar/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sobieski's SSBJ MDO problem.
+    The Sellar's MDO problem
   
 
     
@@ -2322,14 +2322,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../generated/examples/umdo/taylor_polynomial/tp_sellar/" class="md-nav__link">
+      <a href="../../../../../generated/examples/umdo/taylor_polynomial/tp_sobieski/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sellar's MDO problem
+    The Sobieski's SSBJ MDO problem
   
 
     
@@ -2350,14 +2350,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../generated/examples/umdo/taylor_polynomial/tp_sobieski/" class="md-nav__link">
+      <a href="../../../../../generated/examples/umdo/taylor_polynomial/tp_sellar/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sobieski's SSBJ MDO problem
+    The Sellar's MDO problem
   
 
     
@@ -8123,12 +8123,12 @@
   <a href="#gemseo_umdo.use_cases.truss.model.TrussModel-functions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Functions
+        Methods:
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Functions">
+    <nav class="md-nav" aria-label="Methods:">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -8513,12 +8513,12 @@
   <a href="#gemseo_umdo.use_cases.truss.model.TrussModel-functions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Functions
+        Methods:
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Functions">
+    <nav class="md-nav" aria-label="Methods:">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -8654,7 +8654,7 @@
 
 
 
-<h5 id="gemseo_umdo.use_cases.truss.model.TrussModel-functions">Functions<a href="#gemseo_umdo.use_cases.truss.model.TrussModel-functions" class="headerlink" title="Permanent link">&para;</a></h5>
+<h5 id="gemseo_umdo.use_cases.truss.model.TrussModel-functions">Methods:<a href="#gemseo_umdo.use_cases.truss.model.TrussModel-functions" class="headerlink" title="Permanent link">&para;</a></h5>
 
 <div class="doc doc-object doc-function">
 
@@ -8666,7 +8666,7 @@
 <a href="#gemseo_umdo.use_cases.truss.model.TrussModel.compute" class="headerlink" title="Permanent link">&para;</a></h6>
 <div class="doc-signature highlight"><pre><span></span><code><span class="nf">compute</span><span class="p">(</span>
     <span class="n">bars</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="            Bars (gemseo_umdo.use_cases.truss.bars.Bars)" href="../bars/#gemseo_umdo.use_cases.truss.bars.Bars">Bars</a></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">forces</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="            Forces (gemseo_umdo.use_cases.truss.forces.Forces)" href="../forces/#gemseo_umdo.use_cases.truss.forces.Forces">Forces</a></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="tuple">tuple</span></span><span class="p">[</span><span class="n"><span title="float">float</span></span><span class="p">,</span> <span class="n"><span title="numpy.ndarray">ndarray</span></span><span class="p">]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#tuple">tuple</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/functions.html#float">float</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-external" title="numpy.ndarray" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray">ndarray</a></span><span class="p">]</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -8739,7 +8739,7 @@ If <code>None</code>, the model uses default values.</p>
           <tr class="doc-section-item">
             <td>
                 <span class="doc-returns-annotation">
-                    <code><span title="tuple">tuple</span>[<span title="float">float</span>, <span title="numpy.ndarray">ndarray</span>]</code>
+                    <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#tuple">tuple</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/functions.html#float">float</a>, <a class="autorefs autorefs-external" title="numpy.ndarray" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray">ndarray</a>]</code>
                 </span>
             </td>
             <td class="doc-returns-details">
@@ -8811,7 +8811,7 @@ and vertical displacements respectively).</p>
     <span class="n">bars</span><span class="p">:</span> <span class="n">Bars</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">forces</span><span class="p">:</span> <span class="n">Forces</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the vertical displacements.</span>
+<span class="w">    </span><span class="sd">"""Compute the vertical displacements.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        bars: The settings of the bars.</span>
@@ -8824,7 +8824,7 @@ and vertical displacements respectively).</p>
 <span class="sd">        and the nodal displacements, shaped as `(n_nodes, 2)`</span>
 <span class="sd">        (the first and second columns represent the horizontal</span>
 <span class="sd">        and vertical displacements respectively).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">bars</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">bars</span> <span class="o">=</span> <span class="n">Bars</span><span class="p">()</span>
 
@@ -8871,10 +8871,10 @@ and vertical displacements respectively).</p>
 
 <a href="#gemseo_umdo.use_cases.truss.model.TrussModel.plot" class="headerlink" title="Permanent link">&para;</a></h6>
 <div class="doc-signature highlight"><pre><span></span><code><span class="nf">plot</span><span class="p">(</span>
-    <span class="n">displacements</span><span class="p">:</span> <span class="n"><span title="numpy.ndarray">ndarray</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">scale</span><span class="p">:</span> <span class="n"><span title="float">float</span></span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
-    <span class="n">show</span><span class="p">:</span> <span class="n"><span title="bool">bool</span></span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-    <span class="n">file_path</span><span class="p">:</span> <span class="n"><span title="str">str</span></span> <span class="o">|</span> <span class="n"><span title="pathlib.Path">Path</span></span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">displacements</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="numpy.ndarray" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray">ndarray</a></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">scale</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/functions.html#float">float</a></span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">show</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/functions.html#bool">bool</a></span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">file_path</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a></span> <span class="o">|</span> <span class="n"><a class="autorefs autorefs-external" title="pathlib.Path" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path">Path</a></span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
 
@@ -8905,7 +8905,7 @@ and vertical displacements respectively).</p>
               <p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
-                      <code><span title="numpy.ndarray">ndarray</span> | None</code>
+                      <code><a class="autorefs autorefs-external" title="numpy.ndarray" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray">ndarray</a> | None</code>
                   </span>
                   <span class="doc-param-default">
                     <b>DEFAULT:</b>
@@ -8925,7 +8925,7 @@ and vertical displacements respectively).</p>
               <p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
-                      <code><span title="float">float</span></code>
+                      <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/functions.html#float">float</a></code>
                   </span>
                   <span class="doc-param-default">
                     <b>DEFAULT:</b>
@@ -8945,7 +8945,7 @@ and vertical displacements respectively).</p>
               <p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
-                      <code><span title="bool">bool</span></code>
+                      <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/functions.html#bool">bool</a></code>
                   </span>
                   <span class="doc-param-default">
                     <b>DEFAULT:</b>
@@ -8965,7 +8965,7 @@ and vertical displacements respectively).</p>
               <p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
-                      <code><span title="str">str</span> | <span title="pathlib.Path">Path</span></code>
+                      <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a> | <a class="autorefs autorefs-external" title="pathlib.Path" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path">Path</a></code>
                   </span>
                   <span class="doc-param-default">
                     <b>DEFAULT:</b>
@@ -9050,9 +9050,9 @@ and vertical displacements respectively).</p>
     <span class="n">displacements</span><span class="p">:</span> <span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">scale</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
     <span class="n">show</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-    <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot the truss structure.</span>
+<span class="w">    </span><span class="sd">"""Plot the truss structure.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        displacements: The nodal displacements if any,</span>
@@ -9062,7 +9062,7 @@ and vertical displacements respectively).</p>
 <span class="sd">        scale: A scaling factor to better see the displacements.</span>
 <span class="sd">        show: Whether to display the visualization.</span>
 <span class="sd">        file_path: The path of the file to save the visualization.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
 
     <span class="n">elements</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__ELEMENTS</span>
@@ -9075,8 +9075,8 @@ and vertical displacements respectively).</p>
         <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
             <span class="n">x</span><span class="p">,</span>
             <span class="n">y</span><span class="p">,</span>
-            <span class="s2">&quot;b-&quot;</span><span class="p">,</span>
-            <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Original elements&quot;</span> <span class="k">if</span> <span class="n">element</span> <span class="o">==</span> <span class="n">elements</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">"b-"</span><span class="p">,</span>
+            <span class="n">label</span><span class="o">=</span><span class="s2">"Original elements"</span> <span class="k">if</span> <span class="n">element</span> <span class="o">==</span> <span class="n">elements</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
         <span class="p">)</span>
 
     <span class="k">if</span> <span class="n">displacements</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -9088,26 +9088,26 @@ and vertical displacements respectively).</p>
             <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
                 <span class="n">x</span><span class="p">,</span>
                 <span class="n">y</span><span class="p">,</span>
-                <span class="s2">&quot;r--&quot;</span><span class="p">,</span>
-                <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Displaced elements&quot;</span> <span class="k">if</span> <span class="n">element</span> <span class="o">==</span> <span class="n">elements</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="s2">"r--"</span><span class="p">,</span>
+                <span class="n">label</span><span class="o">=</span><span class="s2">"Displaced elements"</span> <span class="k">if</span> <span class="n">element</span> <span class="o">==</span> <span class="n">elements</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
             <span class="p">)</span>
 
-    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">nodes</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">nodes</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Nodes&quot;</span><span class="p">)</span>
-    <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;The truss&quot;</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">nodes</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">nodes</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">"blue"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Nodes"</span><span class="p">)</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="s2">"The truss"</span>
     <span class="k">if</span> <span class="n">displacements</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
             <span class="n">displaced_nodes</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
             <span class="n">displaced_nodes</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span>
-            <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span>
-            <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span>
-            <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Displaced nodes&quot;</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="s2">"red"</span><span class="p">,</span>
+            <span class="n">marker</span><span class="o">=</span><span class="s2">"o"</span><span class="p">,</span>
+            <span class="n">label</span><span class="o">=</span><span class="s2">"Displaced nodes"</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="n">title</span> <span class="o">+=</span> <span class="s2">&quot; and its displacement&quot;</span>
+        <span class="n">title</span> <span class="o">+=</span> <span class="s2">" and its displacement"</span>
 
     <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;X-coordinate (m)&quot;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Y-coordinate (m)&quot;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;equal&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"X-coordinate (m)"</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"Y-coordinate (m)"</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">"equal"</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
     <span class="n">save_show_figure</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">show</span><span class="p">,</span> <span class="n">file_path</span><span class="p">)</span>
@@ -9185,14 +9185,13 @@ and vertical displacements respectively).</p>
       <script id="__config" type="application/json">{"annotate": null, "base": "../../../../..", "features": ["navigation.tabs", "navigation.instant", "navigation.indexes"], "search": "../../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../../../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
         <script src="../../../../../assets/_markdown_exec_pyodide.js"></script>
       
         <script src="../../../../../javascripts/mathjax.js"></script>
       
         <script src="../../../../../javascripts/xdsmjs.js"></script>
-      
       
         <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
       

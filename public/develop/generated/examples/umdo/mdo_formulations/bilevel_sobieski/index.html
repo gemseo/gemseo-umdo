@@ -8,7 +8,7 @@
       
       
       
-        <link rel="canonical" href="https://gemseo.gitlab.io/gemseo-umdo/latest/generated/examples/umdo/mdo_formulations/bilevel_sobieski/">
+        <link rel="canonical" href="https://gemseo.gitlab.io/dev/gemseo-umdo/latest/generated/examples/umdo/mdo_formulations/bilevel_sobieski/">
       
       
         <link rel="prev" href="../plot_bilevel_rosenbrock/">
@@ -20,8 +20,8 @@
         
       
       
-      <link rel="icon" href="../../../../../images/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+      <link rel="icon" href="../../../../../images/monogram.png">
+      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.7.7">
     
     
       
@@ -29,7 +29,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -2129,14 +2129,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../sampling/s_sellar/" class="md-nav__link">
+      <a href="../../sampling/s_sobieski/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sellar's MDO problem
+    The Sobieski's SSBJ MDO problem.
   
 
     
@@ -2157,14 +2157,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../sampling/s_sobieski/" class="md-nav__link">
+      <a href="../../sampling/s_sellar/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sobieski's SSBJ MDO problem.
+    The Sellar's MDO problem
   
 
     
@@ -2459,14 +2459,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../taylor_polynomial/tp_sellar/" class="md-nav__link">
+      <a href="../../taylor_polynomial/tp_sobieski/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sellar's MDO problem
+    The Sobieski's SSBJ MDO problem
   
 
     
@@ -2487,14 +2487,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../taylor_polynomial/tp_sobieski/" class="md-nav__link">
+      <a href="../../taylor_polynomial/tp_sellar/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sobieski's SSBJ MDO problem
+    The Sellar's MDO problem
   
 
     
@@ -8589,28 +8589,31 @@ to download the full example code</p>
 <p>BiLevel applied to the SSBJ problem.</p>
 <p>This example illustrates the use of the <code>BiLevel</code> formulation
 to solve the
-<a href="https://gemseo.readthedocs.io/en/stable/problems/index.html#sobieski-s-ssbj-test-case">Sobieski's SSBJ problem</a>
+<a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/problem/mdo/sobieski/#gemseo.problem.mdo.sobieski">Sobieski's SSBJ problem</a>
 under uncertainty.</p>
 <p>The shared design variables are uncertain
 and so are the objective and the constraints.
 The uncertain objective is then made deterministic using the mean as a statistic
 and the same for the constraints using margins of the form
 "mean + twice standard deviation".</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 29-52 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 29-55 -->
 
 <div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">gemseo</span><span class="w"> </span><span class="kn">import</span> <span class="n">configuration</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.algos.opt.nlopt.settings.nlopt_cobyla_settings</span><span class="w"> </span><span class="kn">import</span> <span class="n">NLOPT_COBYLA_Settings</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.algos.opt.nlopt.settings.nlopt_slsqp_settings</span><span class="w"> </span><span class="kn">import</span> <span class="n">NLOPT_SLSQP_Settings</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.algos.opt.scipy_local.settings.slsqp</span><span class="w"> </span><span class="kn">import</span> <span class="n">SLSQP_Settings</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.algos.parameter_space</span><span class="w"> </span><span class="kn">import</span> <span class="n">ParameterSpace</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.problems.mdo.sobieski.core.problem</span><span class="w"> </span><span class="kn">import</span> <span class="n">SobieskiProblem</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.problems.mdo.sobieski.disciplines</span><span class="w"> </span><span class="kn">import</span> <span class="n">SobieskiAerodynamics</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.problems.mdo.sobieski.disciplines</span><span class="w"> </span><span class="kn">import</span> <span class="n">SobieskiMission</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.problems.mdo.sobieski.disciplines</span><span class="w"> </span><span class="kn">import</span> <span class="n">SobieskiPropulsion</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.problems.mdo.sobieski.disciplines</span><span class="w"> </span><span class="kn">import</span> <span class="n">SobieskiStructure</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.scenarios.mdo_scenario</span><span class="w"> </span><span class="kn">import</span> <span class="n">MDOScenario</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.doe</span><span class="w"> </span><span class="kn">import</span> <span class="n">CustomDOE_Settings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.formulation</span><span class="w"> </span><span class="kn">import</span> <span class="n">BiLevel_Settings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.optimization</span><span class="w"> </span><span class="kn">import</span> <span class="n">NLOPT_COBYLA_Settings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.optimization</span><span class="w"> </span><span class="kn">import</span> <span class="n">NLOPT_SLSQP_Settings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.optimization</span><span class="w"> </span><span class="kn">import</span> <span class="n">SLSQP_Settings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.problem.mdo.sobieski</span><span class="w"> </span><span class="kn">import</span> <span class="n">SobieskiAerodynamics</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.problem.mdo.sobieski</span><span class="w"> </span><span class="kn">import</span> <span class="n">SobieskiMission</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.problem.mdo.sobieski</span><span class="w"> </span><span class="kn">import</span> <span class="n">SobieskiProblem</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.problem.mdo.sobieski</span><span class="w"> </span><span class="kn">import</span> <span class="n">SobieskiPropulsion</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.problem.mdo.sobieski</span><span class="w"> </span><span class="kn">import</span> <span class="n">SobieskiStructure</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.scenario</span><span class="w"> </span><span class="kn">import</span> <span class="n">MDOScenario</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.space</span><span class="w"> </span><span class="kn">import</span> <span class="n">RandomSpace</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.uncertainty.distribution</span><span class="w"> </span><span class="kn">import</span> <span class="n">OTNormalDistribution_Settings</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="kn">import</span> <span class="n">atleast_2d</span>
 
@@ -8618,80 +8621,80 @@ and the same for the constraints using margins of the form
 <span class="kn">from</span><span class="w"> </span><span class="nn">gemseo_umdo.formulations.sampling_settings</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sampling_Settings</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">gemseo_umdo.scenarios.umdo_scenario</span><span class="w"> </span><span class="kn">import</span> <span class="n">UMDOScenario</span>
 
-<span class="n">configuration</span><span class="o">.</span><span class="n">fast</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">configuration</span><span class="o">.</span><span class="n">enable_fast_mode</span><span class="p">()</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 53-57 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 56-60 -->
 
 <h2 id="original-discipline-and-spaces">Original discipline and spaces<a class="headerlink" href="#original-discipline-and-spaces" title="Permanent link">&para;</a></h2>
 <p>First,
 we create the disciplines:</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 57-62 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 60-65 -->
 
 <div class="highlight"><pre><span></span><code><span class="n">mission</span> <span class="o">=</span> <span class="n">SobieskiMission</span><span class="p">()</span>
 <span class="n">structure</span> <span class="o">=</span> <span class="n">SobieskiStructure</span><span class="p">()</span>
 <span class="n">propulsion</span> <span class="o">=</span> <span class="n">SobieskiPropulsion</span><span class="p">()</span>
 <span class="n">aerodynamics</span> <span class="o">=</span> <span class="n">SobieskiAerodynamics</span><span class="p">()</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 63-64 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 66-67 -->
 
 <p>the design space:</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 64-66 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 67-69 -->
 
 <div class="highlight"><pre><span></span><code><span class="n">design_space</span> <span class="o">=</span> <span class="n">SobieskiProblem</span><span class="p">()</span><span class="o">.</span><span class="n">design_space</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 67-68 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 70-71 -->
 
 <p>an MDF-formulated scenario without uncertainties</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 68-78 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 71-79 -->
 
 <div class="highlight"><pre><span></span><code><span class="n">mdf_scenario</span> <span class="o">=</span> <span class="n">MDOScenario</span><span class="p">(</span>
     <span class="p">[</span><span class="n">aerodynamics</span><span class="p">,</span> <span class="n">propulsion</span><span class="p">,</span> <span class="n">structure</span><span class="p">,</span> <span class="n">mission</span><span class="p">],</span>
-    <span class="s2">&quot;y_4&quot;</span><span class="p">,</span>
     <span class="n">design_space</span><span class="p">,</span>
-    <span class="n">formulation_name</span><span class="o">=</span><span class="s2">&quot;MDF&quot;</span><span class="p">,</span>
-    <span class="n">maximize_objective</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="n">mdf_scenario</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s2">&quot;g_1&quot;</span><span class="p">,</span> <span class="n">constraint_type</span><span class="o">=</span><span class="s2">&quot;ineq&quot;</span><span class="p">)</span>
-<span class="n">mdf_scenario</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s2">&quot;g_2&quot;</span><span class="p">,</span> <span class="n">constraint_type</span><span class="o">=</span><span class="s2">&quot;ineq&quot;</span><span class="p">)</span>
-<span class="n">mdf_scenario</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s2">&quot;g_3&quot;</span><span class="p">,</span> <span class="n">constraint_type</span><span class="o">=</span><span class="s2">&quot;ineq&quot;</span><span class="p">)</span>
+<span class="n">mdf_scenario</span><span class="o">.</span><span class="n">add_objective</span><span class="p">(</span><span class="s2">"y_4"</span><span class="p">,</span> <span class="n">minimize</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">mdf_scenario</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s2">"g_1"</span><span class="p">,</span> <span class="n">constraint_type</span><span class="o">=</span><span class="s2">"ineq"</span><span class="p">)</span>
+<span class="n">mdf_scenario</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s2">"g_2"</span><span class="p">,</span> <span class="n">constraint_type</span><span class="o">=</span><span class="s2">"ineq"</span><span class="p">)</span>
+<span class="n">mdf_scenario</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s2">"g_3"</span><span class="p">,</span> <span class="n">constraint_type</span><span class="o">=</span><span class="s2">"ineq"</span><span class="p">)</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 79-80 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 80-81 -->
 
 <p>and solve it using the gradient-based SLSQP algorithm:</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 80-83 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 81-84 -->
 
 <div class="highlight"><pre><span></span><code><span class="n">slsqp_settings</span> <span class="o">=</span> <span class="n">NLOPT_SLSQP_Settings</span><span class="p">(</span><span class="n">max_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">ineq_tolerance</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">)</span>
-<span class="n">mdf_scenario</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">algo_settings_model</span><span class="o">=</span><span class="n">slsqp_settings</span><span class="p">)</span>
+<span class="n">mdf_scenario</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">slsqp_settings</span><span class="p">)</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 84-87 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 85-88 -->
 
 <p>In what follows,
 we will solve MDO problems under uncertainties
 from this uncertainty-free optimum <span class="arithmatex">\(x_{\text{shared}}^*\)</span>:</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 87-89 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 88-90 -->
 
 <div class="highlight"><pre><span></span><code><span class="n">x_opt_as_dict</span> <span class="o">=</span> <span class="n">mdf_scenario</span><span class="o">.</span><span class="n">get_result</span><span class="p">()</span><span class="o">.</span><span class="n">optimization_result</span><span class="o">.</span><span class="n">x_opt_as_dict</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 90-95 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 91-96 -->
 
 <p>For that,
 we define the uncertain vector noising the shared design variables
 by means of a centered Gaussian vector
 with standard deviation <span class="arithmatex">\(\sigma\)</span> equal to <span class="arithmatex">\(0.05x_{\text{shared}}^*/3\)</span>
 and restricted to the interval <span class="arithmatex">\([-3\sigma,3\sigma]\)</span>:</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 95-105 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 96-108 -->
 
-<div class="highlight"><pre><span></span><code><span class="n">sigma</span> <span class="o">=</span> <span class="mf">0.05</span> <span class="o">*</span> <span class="n">x_opt_as_dict</span><span class="p">[</span><span class="s2">&quot;x_shared&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="mi">3</span>
-<span class="n">uncertain_space</span> <span class="o">=</span> <span class="n">ParameterSpace</span><span class="p">()</span>
-<span class="n">uncertain_space</span><span class="o">.</span><span class="n">add_random_vector</span><span class="p">(</span>
-    <span class="s2">&quot;u_x_shared&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;OTNormalDistribution&quot;</span><span class="p">,</span>
-    <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
-    <span class="n">lower_bound</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span> <span class="o">*</span> <span class="n">sigma</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
-    <span class="n">upper_bound</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="n">sigma</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
+<div class="highlight"><pre><span></span><code><span class="n">sigma</span> <span class="o">=</span> <span class="mf">0.05</span> <span class="o">*</span> <span class="n">x_opt_as_dict</span><span class="p">[</span><span class="s2">"x_shared"</span><span class="p">]</span> <span class="o">/</span> <span class="mi">3</span>
+<span class="n">uncertain_space</span> <span class="o">=</span> <span class="n">RandomSpace</span><span class="p">()</span>
+<span class="n">uncertain_space</span><span class="o">.</span><span class="n">add_variable</span><span class="p">(</span>
+    <span class="s2">"u_x_shared"</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">[</span>
+        <span class="n">OTNormalDistribution_Settings</span><span class="p">(</span>
+            <span class="n">sigma</span><span class="o">=</span><span class="n">sigma_i</span><span class="p">,</span> <span class="n">lower_bound</span><span class="o">=-</span><span class="mi">3</span> <span class="o">*</span> <span class="n">sigma_i</span><span class="p">,</span> <span class="n">upper_bound</span><span class="o">=</span><span class="mi">3</span> <span class="o">*</span> <span class="n">sigma_i</span>
+        <span class="p">)</span>
+        <span class="k">for</span> <span class="n">sigma_i</span> <span class="ow">in</span> <span class="n">sigma</span>
+    <span class="p">],</span>
 <span class="p">)</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 106-117 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 109-120 -->
 
 <p>Now,
 we can use the disciplines, design space and uncertain space
@@ -8703,35 +8706,32 @@ to show the difference in nature between these formulations
 and highlight the characteristics of <code>BiLevel</code>.</p>
 <p>The optimization algorithms will use a maximum of 100 iterations
 and the expectation will be estimated from 30 samples:</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 117-120 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 120-123 -->
 
 <div class="highlight"><pre><span></span><code><span class="n">max_iter</span> <span class="o">=</span> <span class="mi">100</span>
 <span class="n">n_samples</span> <span class="o">=</span> <span class="mi">30</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 121-125 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 124-128 -->
 
 <h2 id="mdf">MDF<a class="headerlink" href="#mdf" title="Permanent link">&para;</a></h2>
 <p>We solve the U-MDO problem using the <code>MDF</code> formulation
 from the uncertain-free optimum:</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 125-142 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 128-142 -->
 
 <div class="highlight"><pre><span></span><code><span class="n">design_space</span> <span class="o">=</span> <span class="n">SobieskiProblem</span><span class="p">()</span><span class="o">.</span><span class="n">design_space</span>
 <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">x_opt_as_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
     <span class="n">design_space</span><span class="o">.</span><span class="n">set_current_variable</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
 <span class="n">mdf_uscenario</span> <span class="o">=</span> <span class="n">UMDOScenario</span><span class="p">(</span>
     <span class="p">[</span><span class="n">aerodynamics</span><span class="p">,</span> <span class="n">propulsion</span><span class="p">,</span> <span class="n">structure</span><span class="p">,</span> <span class="n">mission</span><span class="p">],</span>
-    <span class="s2">&quot;y_4&quot;</span><span class="p">,</span>
     <span class="n">design_space</span><span class="p">,</span>
     <span class="n">uncertain_space</span><span class="p">,</span>
-    <span class="s2">&quot;Mean&quot;</span><span class="p">,</span>
     <span class="n">Sampling_Settings</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">estimate_statistics_iteratively</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
-    <span class="n">maximize_objective</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">uncertain_design_variables</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;x_shared&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;+&quot;</span><span class="p">,</span> <span class="s2">&quot;u_x_shared&quot;</span><span class="p">)},</span>
-    <span class="n">formulation_name</span><span class="o">=</span><span class="s2">&quot;MDF&quot;</span><span class="p">,</span>
+    <span class="n">uncertain_design_variables</span><span class="o">=</span><span class="p">{</span><span class="s2">"x_shared"</span><span class="p">:</span> <span class="p">(</span><span class="s2">"+"</span><span class="p">,</span> <span class="s2">"u_x_shared"</span><span class="p">)},</span>
 <span class="p">)</span>
-<span class="n">mdf_uscenario</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s2">&quot;g_1&quot;</span><span class="p">,</span> <span class="s2">&quot;Margin&quot;</span><span class="p">)</span>
-<span class="n">mdf_uscenario</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s2">&quot;g_2&quot;</span><span class="p">,</span> <span class="s2">&quot;Margin&quot;</span><span class="p">)</span>
-<span class="n">mdf_uscenario</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s2">&quot;g_3&quot;</span><span class="p">,</span> <span class="s2">&quot;Margin&quot;</span><span class="p">)</span>
+<span class="n">mdf_uscenario</span><span class="o">.</span><span class="n">add_objective</span><span class="p">(</span><span class="s2">"y_4"</span><span class="p">,</span> <span class="s2">"Mean"</span><span class="p">,</span> <span class="n">minimize</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">mdf_uscenario</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s2">"g_1"</span><span class="p">,</span> <span class="s2">"Margin"</span><span class="p">)</span>
+<span class="n">mdf_uscenario</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s2">"g_2"</span><span class="p">,</span> <span class="s2">"Margin"</span><span class="p">)</span>
+<span class="n">mdf_uscenario</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s2">"g_3"</span><span class="p">,</span> <span class="s2">"Margin"</span><span class="p">)</span>
 </code></pre></div>
 <!-- GENERATED FROM PYTHON SOURCE LINES 143-144 -->
 
@@ -8739,7 +8739,7 @@ from the uncertain-free optimum:</p>
 <!-- GENERATED FROM PYTHON SOURCE LINES 144-147 -->
 
 <div class="highlight"><pre><span></span><code><span class="n">slsqp_settings</span> <span class="o">=</span> <span class="n">SLSQP_Settings</span><span class="p">(</span><span class="n">max_iter</span><span class="o">=</span><span class="n">max_iter</span><span class="p">,</span> <span class="n">ineq_tolerance</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">)</span>
-<span class="n">mdf_uscenario</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">algo_settings_model</span><span class="o">=</span><span class="n">slsqp_settings</span><span class="p">)</span>
+<span class="n">mdf_uscenario</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">algorithm_settings</span><span class="o">=</span><span class="n">slsqp_settings</span><span class="p">)</span>
 </code></pre></div>
 <!-- GENERATED FROM PYTHON SOURCE LINES 148-156 -->
 
@@ -8779,7 +8779,7 @@ to be added to the disciplines used to create the sub-scenarios:</p>
 <!-- GENERATED FROM PYTHON SOURCE LINES 180-184 -->
 
 <div class="highlight"><pre><span></span><code><span class="n">noising_discipline_chain</span> <span class="o">=</span> <span class="n">create_noising_discipline_chain</span><span class="p">(</span>
-    <span class="n">design_space</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;x_shared&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;+&quot;</span><span class="p">,</span> <span class="s2">&quot;u_x_shared&quot;</span><span class="p">)}</span>
+    <span class="n">design_space</span><span class="p">,</span> <span class="p">{</span><span class="s2">"x_shared"</span><span class="p">:</span> <span class="p">(</span><span class="s2">"+"</span><span class="p">,</span> <span class="s2">"u_x_shared"</span><span class="p">)}</span>
 <span class="p">)</span>
 </code></pre></div>
 <!-- GENERATED FROM PYTHON SOURCE LINES 185-192 -->
@@ -8790,53 +8790,47 @@ we create three sub-scenarios,
 namely the one to maximize the objective function
 with respect to the design variable specific to the aerodynamics
 using the gradient-based SLSQP algorithm:</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 192-201 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 192-199 -->
 
 <div class="highlight"><pre><span></span><code><span class="n">scenario_aerodynamics</span> <span class="o">=</span> <span class="n">MDOScenario</span><span class="p">(</span>
     <span class="p">[</span><span class="n">noising_discipline_chain</span><span class="p">,</span> <span class="n">aerodynamics</span><span class="p">,</span> <span class="n">mission</span><span class="p">],</span>
-    <span class="s2">&quot;y_4&quot;</span><span class="p">,</span>
-    <span class="n">design_space</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="s2">&quot;x_2&quot;</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-    <span class="n">formulation_name</span><span class="o">=</span><span class="s2">&quot;MDF&quot;</span><span class="p">,</span>
-    <span class="n">maximize_objective</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">design_space</span><span class="o">=</span><span class="n">design_space</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="s2">"x_2"</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
 <span class="p">)</span>
-<span class="n">scenario_aerodynamics</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s2">&quot;g_2&quot;</span><span class="p">,</span> <span class="n">constraint_type</span><span class="o">=</span><span class="s2">&quot;ineq&quot;</span><span class="p">)</span>
-<span class="n">scenario_aerodynamics</span><span class="o">.</span><span class="n">set_algorithm</span><span class="p">(</span><span class="n">algo_settings_model</span><span class="o">=</span><span class="n">slsqp_settings</span><span class="p">)</span>
+<span class="n">scenario_aerodynamics</span><span class="o">.</span><span class="n">add_objective</span><span class="p">(</span><span class="s2">"y_4"</span><span class="p">,</span> <span class="n">minimize</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">scenario_aerodynamics</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s2">"g_2"</span><span class="p">,</span> <span class="n">constraint_type</span><span class="o">=</span><span class="s2">"ineq"</span><span class="p">)</span>
+<span class="n">scenario_aerodynamics</span><span class="o">.</span><span class="n">set_algorithm</span><span class="p">(</span><span class="n">slsqp_settings</span><span class="p">)</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 202-205 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 200-203 -->
 
 <p>the one to maximize the objective function
 with respect to the design variable specific to the propulsion
 using the gradient-based SLSQP algorithm:</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 205-214 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 203-210 -->
 
 <div class="highlight"><pre><span></span><code><span class="n">scenario_propulsion</span> <span class="o">=</span> <span class="n">MDOScenario</span><span class="p">(</span>
     <span class="p">[</span><span class="n">noising_discipline_chain</span><span class="p">,</span> <span class="n">propulsion</span><span class="p">,</span> <span class="n">mission</span><span class="p">],</span>
-    <span class="s2">&quot;y_4&quot;</span><span class="p">,</span>
-    <span class="n">design_space</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="s2">&quot;x_3&quot;</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-    <span class="n">formulation_name</span><span class="o">=</span><span class="s2">&quot;MDF&quot;</span><span class="p">,</span>
-    <span class="n">maximize_objective</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">design_space</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="s2">"x_3"</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
 <span class="p">)</span>
-<span class="n">scenario_propulsion</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s2">&quot;g_3&quot;</span><span class="p">,</span> <span class="n">constraint_type</span><span class="o">=</span><span class="s2">&quot;ineq&quot;</span><span class="p">)</span>
-<span class="n">scenario_propulsion</span><span class="o">.</span><span class="n">set_algorithm</span><span class="p">(</span><span class="n">algo_settings_model</span><span class="o">=</span><span class="n">slsqp_settings</span><span class="p">)</span>
+<span class="n">scenario_propulsion</span><span class="o">.</span><span class="n">add_objective</span><span class="p">(</span><span class="s2">"y_4"</span><span class="p">,</span> <span class="n">minimize</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">scenario_propulsion</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s2">"g_3"</span><span class="p">,</span> <span class="n">constraint_type</span><span class="o">=</span><span class="s2">"ineq"</span><span class="p">)</span>
+<span class="n">scenario_propulsion</span><span class="o">.</span><span class="n">set_algorithm</span><span class="p">(</span><span class="n">slsqp_settings</span><span class="p">)</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 215-218 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 211-214 -->
 
 <p>and the one to maximize the objective function
 with respect to the design variable specific to the structure
 using the gradient-based SLSQP algorithm:</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 218-228 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 214-222 -->
 
 <div class="highlight"><pre><span></span><code><span class="n">scenario_structure</span> <span class="o">=</span> <span class="n">MDOScenario</span><span class="p">(</span>
     <span class="p">[</span><span class="n">noising_discipline_chain</span><span class="p">,</span> <span class="n">structure</span><span class="p">,</span> <span class="n">mission</span><span class="p">],</span>
-    <span class="s2">&quot;y_4&quot;</span><span class="p">,</span>
-    <span class="n">design_space</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="s2">&quot;x_1&quot;</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-    <span class="n">formulation_name</span><span class="o">=</span><span class="s2">&quot;MDF&quot;</span><span class="p">,</span>
-    <span class="n">maximize_objective</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">design_space</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="s2">"x_1"</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
 <span class="p">)</span>
-<span class="n">scenario_structure</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s2">&quot;g_1&quot;</span><span class="p">,</span> <span class="n">constraint_type</span><span class="o">=</span><span class="s2">&quot;ineq&quot;</span><span class="p">)</span>
-<span class="n">scenario_structure</span><span class="o">.</span><span class="n">set_algorithm</span><span class="p">(</span><span class="n">algo_settings_model</span><span class="o">=</span><span class="n">slsqp_settings</span><span class="p">)</span>
+<span class="n">scenario_structure</span><span class="o">.</span><span class="n">add_objective</span><span class="p">(</span><span class="s2">"y_4"</span><span class="p">,</span> <span class="n">minimize</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">scenario_structure</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s2">"g_1"</span><span class="p">,</span> <span class="n">constraint_type</span><span class="o">=</span><span class="s2">"ineq"</span><span class="p">)</span>
+<span class="n">scenario_structure</span><span class="o">.</span><span class="n">set_algorithm</span><span class="p">(</span><span class="n">slsqp_settings</span><span class="p">)</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 229-236 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 223-230 -->
 
 <h3 id="main-scenario">Main scenario<a class="headerlink" href="#main-scenario" title="Permanent link">&para;</a></h3>
 <p>Then,
@@ -8844,133 +8838,126 @@ we create the main scenario from this sub-scenarios
 to maximize the mean of the objective function
 with respect to the global design variables <code>"dv_x_shared"</code>
 and under equality constraints set as margins:</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 236-251 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 230-242 -->
 
 <div class="highlight"><pre><span></span><code><span class="n">bilevel_uscenario</span> <span class="o">=</span> <span class="n">UMDOScenario</span><span class="p">(</span>
     <span class="p">[</span><span class="n">scenario_aerodynamics</span><span class="p">,</span> <span class="n">scenario_propulsion</span><span class="p">,</span> <span class="n">scenario_structure</span><span class="p">],</span>
-    <span class="s2">&quot;y_4&quot;</span><span class="p">,</span>
-    <span class="n">design_space</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="s2">&quot;dv_x_shared&quot;</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+    <span class="n">design_space</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="s2">"dv_x_shared"</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
     <span class="n">uncertain_space</span><span class="p">,</span>
-    <span class="s2">&quot;Mean&quot;</span><span class="p">,</span>
     <span class="n">Sampling_Settings</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="n">n_samples</span><span class="p">),</span>
-    <span class="n">formulation_name</span><span class="o">=</span><span class="s2">&quot;BiLevel&quot;</span><span class="p">,</span>
-    <span class="n">keep_opt_history</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-    <span class="n">maximize_objective</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">formulation_settings</span><span class="o">=</span><span class="n">BiLevel_Settings</span><span class="p">(</span><span class="n">keep_opt_history</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
 <span class="p">)</span>
-<span class="n">bilevel_uscenario</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s2">&quot;g_1&quot;</span><span class="p">,</span> <span class="s2">&quot;Margin&quot;</span><span class="p">)</span>
-<span class="n">bilevel_uscenario</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s2">&quot;g_2&quot;</span><span class="p">,</span> <span class="s2">&quot;Margin&quot;</span><span class="p">)</span>
-<span class="n">bilevel_uscenario</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s2">&quot;g_3&quot;</span><span class="p">,</span> <span class="s2">&quot;Margin&quot;</span><span class="p">)</span>
+<span class="n">bilevel_uscenario</span><span class="o">.</span><span class="n">add_objective</span><span class="p">(</span><span class="s2">"y_4"</span><span class="p">,</span> <span class="s2">"Mean"</span><span class="p">,</span> <span class="n">minimize</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">bilevel_uscenario</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s2">"g_1"</span><span class="p">,</span> <span class="s2">"Margin"</span><span class="p">)</span>
+<span class="n">bilevel_uscenario</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s2">"g_2"</span><span class="p">,</span> <span class="s2">"Margin"</span><span class="p">)</span>
+<span class="n">bilevel_uscenario</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s2">"g_3"</span><span class="p">,</span> <span class="s2">"Margin"</span><span class="p">)</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 252-253 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 243-244 -->
 
 <p>and solve the MDO problem using the gradient-free COBYLA algorithm:</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 253-257 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 244-246 -->
 
-<div class="highlight"><pre><span></span><code><span class="n">bilevel_uscenario</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
-    <span class="n">algo_settings_model</span><span class="o">=</span><span class="n">NLOPT_COBYLA_Settings</span><span class="p">(</span><span class="n">max_iter</span><span class="o">=</span><span class="n">max_iter</span><span class="p">,</span> <span class="n">ineq_tolerance</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">)</span>
-<span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">bilevel_uscenario</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">NLOPT_COBYLA_Settings</span><span class="p">(</span><span class="n">max_iter</span><span class="o">=</span><span class="n">max_iter</span><span class="p">,</span> <span class="n">ineq_tolerance</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">))</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 258-264 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 247-253 -->
 
 <h2 id="results">Results<a class="headerlink" href="#results" title="Permanent link">&para;</a></h2>
 <p>In this last section,
 we will compare <code>MDF</code> and <code>BiLevel</code> in terms of results.</p>
 <p>First,
 we can have a look at the optimum solution in terms of global design variables:</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 264-266 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 253-255 -->
 
 <div class="highlight"><pre><span></span><code><span class="n">mdf_x_opt</span> <span class="o">=</span> <span class="n">mdf_uscenario</span><span class="o">.</span><span class="n">optimization_result</span><span class="o">.</span><span class="n">x_opt</span>
 <span class="n">bilevel_x_opt</span> <span class="o">=</span> <span class="n">bilevel_uscenario</span><span class="o">.</span><span class="n">optimization_result</span><span class="o">.</span><span class="n">x_opt</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 267-268 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 256-257 -->
 
 <p>for <code>MDF</code>:</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 268-271 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 257-260 -->
 
 <div class="highlight"><pre><span></span><code><span class="n">mdf_x_opt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="c1"># 0.29, 0.75, 0.75, 0.14, 0.06, 60000, 1.4, 2.5, 70, 1500</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 272-273 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 261-262 -->
 
 <p>for <code>BiLevel</code>:</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 273-276 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 262-265 -->
 
 <div class="highlight"><pre><span></span><code><span class="n">bilevel_x_opt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="c1"># 0.06, 59762.5, 1.4, 2.5, 69.75, 1492.5</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 277-281 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 266-270 -->
 
 <p>The solutions are close in terms of global design variables.</p>
 <p>Then,
 we can have a look at the optimum solution in terms of mean objective:</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 281-284 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 270-273 -->
 
 <div class="highlight"><pre><span></span><code><span class="n">mdf_f_opt</span> <span class="o">=</span> <span class="n">mdf_uscenario</span><span class="o">.</span><span class="n">optimization_result</span><span class="o">.</span><span class="n">f_opt</span>
 <span class="n">bilevel_f_opt</span> <span class="o">=</span> <span class="n">bilevel_uscenario</span><span class="o">.</span><span class="n">optimization_result</span><span class="o">.</span><span class="n">f_opt</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 285-286 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 274-275 -->
 
 <p>for <code>MDF</code>:</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 286-289 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 275-278 -->
 
 <div class="highlight"><pre><span></span><code><span class="n">mdf_f_opt</span>
 <span class="c1"># -3844.6</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 290-291 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 279-280 -->
 
 <p>for <code>BiLevel</code>:</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 291-294 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 280-283 -->
 
 <div class="highlight"><pre><span></span><code><span class="n">bilevel_f_opt</span>
 <span class="c1"># -3886.6</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 295-300 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 284-290 -->
 
 <p>The <code>BiLevel</code> solution seems to be better than the <code>MDF</code> one.</p>
 <p>Finally,
 we execute the <code>BiLevel</code> formulation at the bi-level optimum,
-taking care to save the samples with the option <code>estimate_statistics_iteratively</code>:</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 300-316 -->
+taking care to save the samples
+by disabling the option <code>estimate_statistics_iteratively</code>:</p>
+<!-- GENERATED FROM PYTHON SOURCE LINES 290-303 -->
 
 <div class="highlight"><pre><span></span><code><span class="n">bilevel_uscenario</span> <span class="o">=</span> <span class="n">UMDOScenario</span><span class="p">(</span>
     <span class="p">[</span><span class="n">scenario_aerodynamics</span><span class="p">,</span> <span class="n">scenario_propulsion</span><span class="p">,</span> <span class="n">scenario_structure</span><span class="p">],</span>
-    <span class="s2">&quot;y_4&quot;</span><span class="p">,</span>
-    <span class="n">design_space</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="s2">&quot;dv_x_shared&quot;</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+    <span class="n">design_space</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="s2">"dv_x_shared"</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
     <span class="n">uncertain_space</span><span class="p">,</span>
-    <span class="s2">&quot;Mean&quot;</span><span class="p">,</span>
-    <span class="n">Sampling_Settings</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="n">n_samples</span><span class="p">),</span>
-    <span class="n">formulation_name</span><span class="o">=</span><span class="s2">&quot;BiLevel&quot;</span><span class="p">,</span>
-    <span class="n">maximize_objective</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">save_opt_history</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">Sampling_Settings</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">estimate_statistics_iteratively</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+    <span class="n">formulation_settings</span><span class="o">=</span><span class="n">BiLevel_Settings</span><span class="p">(</span><span class="n">save_opt_history</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
 <span class="p">)</span>
-<span class="n">bilevel_uscenario</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s2">&quot;g_1&quot;</span><span class="p">,</span> <span class="s2">&quot;Mean&quot;</span><span class="p">)</span>
-<span class="n">bilevel_uscenario</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s2">&quot;g_2&quot;</span><span class="p">,</span> <span class="s2">&quot;Mean&quot;</span><span class="p">)</span>
-<span class="n">bilevel_uscenario</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s2">&quot;g_3&quot;</span><span class="p">,</span> <span class="s2">&quot;Mean&quot;</span><span class="p">)</span>
-<span class="n">bilevel_uscenario</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">algo_name</span><span class="o">=</span><span class="s2">&quot;CustomDOE&quot;</span><span class="p">,</span> <span class="n">samples</span><span class="o">=</span><span class="n">atleast_2d</span><span class="p">(</span><span class="n">bilevel_x_opt</span><span class="p">))</span>
+<span class="n">bilevel_uscenario</span><span class="o">.</span><span class="n">add_objective</span><span class="p">(</span><span class="s2">"y_4"</span><span class="p">,</span> <span class="s2">"Mean"</span><span class="p">,</span> <span class="n">minimize</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">bilevel_uscenario</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s2">"g_1"</span><span class="p">,</span> <span class="s2">"Mean"</span><span class="p">)</span>
+<span class="n">bilevel_uscenario</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s2">"g_2"</span><span class="p">,</span> <span class="s2">"Mean"</span><span class="p">)</span>
+<span class="n">bilevel_uscenario</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s2">"g_3"</span><span class="p">,</span> <span class="s2">"Mean"</span><span class="p">)</span>
+<span class="n">bilevel_uscenario</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">CustomDOE_Settings</span><span class="p">(</span><span class="n">samples</span><span class="o">=</span><span class="n">atleast_2d</span><span class="p">(</span><span class="n">bilevel_x_opt</span><span class="p">)))</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 317-319 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 304-306 -->
 
 <p>which generates samples
 <span class="arithmatex">\(\left(y_4\!\left(dv_{x_{\text{shared}}}^*,u_{x_{\text{shared}}}^{(i)}\right)\right)_{1\leq i \leq N}\)</span>:</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 319-322 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 306-309 -->
 
-<div class="highlight"><pre><span></span><code><span class="n">database</span> <span class="o">=</span> <span class="n">bilevel_uscenario</span><span class="o">.</span><span class="n">formulation</span><span class="o">.</span><span class="n">mdo_formulation</span><span class="o">.</span><span class="n">optimization_problem</span><span class="o">.</span><span class="n">database</span>
-<span class="n">f_samples</span> <span class="o">=</span> <span class="o">-</span><span class="n">database</span><span class="o">.</span><span class="n">get_function_history</span><span class="p">(</span><span class="s2">&quot;y_4&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+<div class="highlight"><pre><span></span><code><span class="n">database</span> <span class="o">=</span> <span class="n">bilevel_uscenario</span><span class="o">.</span><span class="n">formulation</span><span class="o">.</span><span class="n">mdo_formulation</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">database</span>
+<span class="n">f_samples</span> <span class="o">=</span> <span class="o">-</span><span class="n">database</span><span class="o">.</span><span class="n">get_function_history</span><span class="p">(</span><span class="s2">"y_4"</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 323-324 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 310-311 -->
 
 <p>that we can plot using a histogram:</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 324-332 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 311-319 -->
 
 <div class="highlight"><pre><span></span><code><span class="n">plt</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="o">-</span><span class="n">f_samples</span><span class="p">,</span> <span class="n">vert</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">-</span><span class="n">mdf_f_opt</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;bo&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$f^*(MDF)$&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">-</span><span class="n">bilevel_f_opt</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;rs&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$f^*(BiLevel)$&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;f&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">-</span><span class="n">mdf_f_opt</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">"bo"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">"$f^*(MDF)$"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">-</span><span class="n">bilevel_f_opt</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">"rs"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">"$f^*(BiLevel)$"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"f"</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;bilevel_sobieski.png&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">"bilevel_sobieski.png"</span><span class="p">)</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 333-350 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 320-337 -->
 
 <p><img alt=" " src="../../../../../images/bilevel_sobieski.png" /></p>
 <p>We can see that,
@@ -9045,14 +9032,13 @@ by adjusting the number of samples and by playing with the tolerances' threshold
       <script id="__config" type="application/json">{"annotate": null, "base": "../../../../..", "features": ["navigation.tabs", "navigation.instant", "navigation.indexes"], "search": "../../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../../../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
         <script src="../../../../../assets/_markdown_exec_pyodide.js"></script>
       
         <script src="../../../../../javascripts/mathjax.js"></script>
       
         <script src="../../../../../javascripts/xdsmjs.js"></script>
-      
       
         <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
       

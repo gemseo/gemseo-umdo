@@ -28,9 +28,12 @@ $x$, $y$ and $U$.
 
 from __future__ import annotations
 
-from gemseo.algos.design_space import DesignSpace
-from gemseo.algos.parameter_space import ParameterSpace
-from gemseo.disciplines.analytic import AnalyticDiscipline
+from gemseo.discipline import AnalyticDiscipline
+from gemseo.optimization import NLOPT_SLSQP_Settings
+from gemseo.post import OptHistoryView_Settings
+from gemseo.space import DesignSpace
+from gemseo.space import RandomSpace
+from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 
 from gemseo_umdo.formulations.control_variate_settings import ControlVariate_Settings
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
@@ -49,8 +52,8 @@ design_space.add_variable("y", lower_bound=-2, upper_bound=2.0, value=-2.0)
 # %%
 # and $U$ is a Gaussian variable with unit mean
 # and standard deviation equal to 0.05:
-uncertain_space = ParameterSpace()
-uncertain_space.add_random_variable("u", "OTNormalDistribution", mu=1.0, sigma=0.05)
+uncertain_space = RandomSpace()
+uncertain_space.add_variable("u", OTNormalDistribution_Settings(mu=1.0, sigma=0.05))
 
 # %%
 # Then,
@@ -60,13 +63,11 @@ uncertain_space.add_random_variable("u", "OTNormalDistribution", mu=1.0, sigma=0
 # based on Taylor polynomials and 50 samples at each iteration of the optimization loop:
 scenario = UMDOScenario(
     [discipline],
-    "z",
     design_space,
     uncertain_space,
-    "Mean",
-    formulation_name="DisciplinaryOpt",
-    statistic_estimation_settings=ControlVariate_Settings(n_samples=30),
+    ControlVariate_Settings(n_samples=30),
 )
+scenario.add_objective("z", "Mean")
 
 # %%
 # We execute it with the gradient-based optimizer SLSQP:
@@ -76,11 +77,11 @@ scenario = UMDOScenario(
 #     to use analytical derivatives.
 #     Please use finite differences or complex step to approximate the gradients.
 scenario.set_differentiation_method("finite_differences")
-scenario.execute(algo_name="NLOPT_SLSQP", max_iter=100)
+scenario.execute(NLOPT_SLSQP_Settings(max_iter=100))
 
 # %%
 # and plot the optimization history:
-scenario.post_process(post_name="OptHistoryView", save=False, show=True)
+scenario.post_process(OptHistoryView_Settings(save=False, show=True))
 
 # %%
 # Lastly,

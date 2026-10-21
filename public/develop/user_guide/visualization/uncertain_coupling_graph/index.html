@@ -8,7 +8,7 @@
       
       
       
-        <link rel="canonical" href="https://gemseo.gitlab.io/gemseo-umdo/latest/user_guide/visualization/uncertain_coupling_graph/">
+        <link rel="canonical" href="https://gemseo.gitlab.io/dev/gemseo-umdo/latest/user_guide/visualization/uncertain_coupling_graph/">
       
       
         <link rel="prev" href="../">
@@ -20,8 +20,8 @@
         
       
       
-      <link rel="icon" href="../../../images/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+      <link rel="icon" href="../../../images/monogram.png">
+      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.7.7">
     
     
       
@@ -29,7 +29,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -2113,14 +2113,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../generated/examples/umdo/sampling/s_sellar/" class="md-nav__link">
+      <a href="../../../generated/examples/umdo/sampling/s_sobieski/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sellar's MDO problem
+    The Sobieski's SSBJ MDO problem.
   
 
     
@@ -2141,14 +2141,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../generated/examples/umdo/sampling/s_sobieski/" class="md-nav__link">
+      <a href="../../../generated/examples/umdo/sampling/s_sellar/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sobieski's SSBJ MDO problem.
+    The Sellar's MDO problem
   
 
     
@@ -2443,14 +2443,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../generated/examples/umdo/taylor_polynomial/tp_sellar/" class="md-nav__link">
+      <a href="../../../generated/examples/umdo/taylor_polynomial/tp_sobieski/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sellar's MDO problem
+    The Sobieski's SSBJ MDO problem
   
 
     
@@ -2471,14 +2471,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../generated/examples/umdo/taylor_polynomial/tp_sobieski/" class="md-nav__link">
+      <a href="../../../generated/examples/umdo/taylor_polynomial/tp_sellar/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sobieski's SSBJ MDO problem
+    The Sellar's MDO problem
   
 
     
@@ -8610,12 +8610,12 @@ and possibly a subset of coupling variable names.</p>
 </code></pre></div>
 <p>Then,
 the disciplines are sampled
-using an <a href="https://gemseo.readthedocs.io/en/stable/algorithms/doe_algos.html#ot-opt-lhs">optimized Latin hypercube sampling technique</a>:</p>
-<div class="highlight"><pre><span></span><code><span class="n">graph</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+using an <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/doe/openturns/settings/ot_opt_lhs/#gemseo.doe.openturns.settings.ot_opt_lhs.OT_OPT_LHS_Settings">optimized Latin hypercube sampling technique</a>:</p>
+<div class="highlight"><pre><span></span><code><span class="n">graph</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">OT_OPT_LHS_Settings</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">100</span><span class="p">))</span>
 </code></pre></div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>Setting the number of samples is mandatory.
+<p>Passing the settings of the DOE algorithm is mandatory.
 In the previous example, we used 100 samples.</p>
 </div>
 <p>Lastly,
@@ -8632,9 +8632,10 @@ can be found in a <a href="../../../generated/examples/visualizations/">dedicate
 </div>
 <h3 id="options">Options<a class="headerlink" href="#options" title="Permanent link">&para;</a></h3>
 <p>At the sampling stage,
-the algorithm can be modified
-by setting the arguments <code>algo_name</code> and <code>algo_options</code>
-of the method
+the DOE algorithm and its options can be modified
+by passing other DOE settings,
+e.g. <code>OT_MONTE_CARLO_Settings(n_samples=100)</code>,
+to the method
 <a class="autorefs autorefs-internal" title="            sample" href="../../../reference/gemseo_umdo/visualizations/uncertain_coupling_graph/#gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph.sample">sample()</a>.</p>
 <p>At the visualization stage,
 the string argument <code>dispersion_measure</code>
@@ -8707,14 +8708,13 @@ to set the maximum edge thickness.</p>
       <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.instant", "navigation.indexes"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
         <script src="../../../assets/_markdown_exec_pyodide.js"></script>
       
         <script src="../../../javascripts/mathjax.js"></script>
       
         <script src="../../../javascripts/xdsmjs.js"></script>
-      
       
         <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
       

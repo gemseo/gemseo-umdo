@@ -8,7 +8,7 @@
       
       
       
-        <link rel="canonical" href="https://gemseo.gitlab.io/gemseo-umdo/latest/user_guide/umdo/sequential_sampling/">
+        <link rel="canonical" href="https://gemseo.gitlab.io/dev/gemseo-umdo/latest/user_guide/umdo/sequential_sampling/">
       
       
         <link rel="prev" href="../sampling/">
@@ -20,8 +20,8 @@
         
       
       
-      <link rel="icon" href="../../../images/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+      <link rel="icon" href="../../../images/monogram.png">
+      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.7.7">
     
     
       
@@ -29,7 +29,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -2096,14 +2096,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../generated/examples/umdo/sampling/s_sellar/" class="md-nav__link">
+      <a href="../../../generated/examples/umdo/sampling/s_sobieski/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sellar's MDO problem
+    The Sobieski's SSBJ MDO problem.
   
 
     
@@ -2124,14 +2124,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../generated/examples/umdo/sampling/s_sobieski/" class="md-nav__link">
+      <a href="../../../generated/examples/umdo/sampling/s_sellar/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sobieski's SSBJ MDO problem.
+    The Sellar's MDO problem
   
 
     
@@ -2426,14 +2426,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../generated/examples/umdo/taylor_polynomial/tp_sellar/" class="md-nav__link">
+      <a href="../../../generated/examples/umdo/taylor_polynomial/tp_sobieski/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sellar's MDO problem
+    The Sobieski's SSBJ MDO problem
   
 
     
@@ -2454,14 +2454,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../generated/examples/umdo/taylor_polynomial/tp_sobieski/" class="md-nav__link">
+      <a href="../../../generated/examples/umdo/taylor_polynomial/tp_sellar/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sobieski's SSBJ MDO problem
+    The Sellar's MDO problem
   
 
     
@@ -8528,13 +8528,12 @@ for a given iteration of the optimization loop.</p>
 <p>Here is a typical scenario template:</p>
 <div class="highlight"><pre><span></span><code><span class="n">scenario</span> <span class="o">=</span> <span class="n">UMDOScenario</span><span class="p">(</span>
     <span class="n">disciplines</span><span class="p">,</span>
-    <span class="n">mdo_formulation_name</span><span class="p">,</span>
-    <span class="n">objective_name</span><span class="p">,</span>
     <span class="n">design_space</span><span class="p">,</span>
     <span class="n">uncertain_space</span><span class="p">,</span>
-    <span class="n">statistic_name</span><span class="p">,</span>
-    <span class="n">statistic_estimation_settings</span><span class="o">=</span><span class="n">SequentialSampling_Settings</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">20</span><span class="p">),</span>
+    <span class="n">SequentialSampling_Settings</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">20</span><span class="p">),</span>
+    <span class="n">formulation_settings</span><span class="o">=</span><span class="n">mdo_formulation_settings</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="n">scenario</span><span class="o">.</span><span class="n">add_objective</span><span class="p">(</span><span class="n">objective_name</span><span class="p">,</span> <span class="n">statistic_name</span><span class="p">)</span>
 </code></pre></div>
 <h2 id="settings">Settings<a class="headerlink" href="#settings" title="Permanent link">&para;</a></h2>
 <h3 id="algorithm">Algorithm<a class="headerlink" href="#algorithm" title="Permanent link">&para;</a></h3>
@@ -8544,31 +8543,30 @@ to get a good space-filling design of experiments (DOE),
 with only 10 samples.</p>
 <div class="admonition question">
 <p class="admonition-title">DOE algorithms</p>
-<p>Read the <a href="https://gemseo.readthedocs.io/en/stable/doe.html#algorithms">GEMSEO documentation</a>
+<p>Read the documentation of the <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/doe/#gemseo.doe">DOE algorithms</a>
 for more information about the available DOE algorithms.</p>
 </div>
 <p>This maximum number of samples can be changed with the parameter <code>n_samples</code>
 and the DOE algorithm name can be changed with the parameter <code>doe_algo_settings</code>,
-which is a Pydantic model deriving from [BaseDOESettings][gemseo.algos.doe.base_doe_settings.BaseDOESettings].
+which is a Pydantic model deriving from <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/doe/core/base_doe_settings/#gemseo.doe.core.base_doe_settings.BaseDOESettings">BaseDOESettings</a>.
 When <code>n_samples</code> is <code>None</code> (default) and <code>doe_algo_settings</code> has a field <code>n_samples</code>,
 then this field is considered as the maximum number of samples.
 When <code>doe_algo_settings</code> has a field <code>seed</code> and its value is <code>None</code>,
-then the U-MDO formulation will use [SEED][gemseo.utils.seeder.SEED].</p>
+then the U-MDO formulation will use <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/util/seeder/#gemseo.util.seeder.seed">seed</a>.</p>
 <div class="admonition note">
 <p class="admonition-title">API</p>
 <p>Use <code>statistic_estimation_settings</code>
 to set the DOE algorithm name and settings,
 e.g.</p>
-<div class="highlight"><pre><span></span><code><span class="n">settings</span> <span class="o">=</span> <span class="n">SequentialSampling_Settings</span><span class="p">(</span><span class="n">doe_algo_settings</span><span class="o">=</span><span class="n">OT_MONTE_CARLO</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">n_processes</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+<div class="highlight"><pre><span></span><code><span class="n">settings</span> <span class="o">=</span> <span class="n">SequentialSampling_Settings</span><span class="p">(</span><span class="n">doe_algo_settings</span><span class="o">=</span><span class="n">OT_MONTE_CARLO_Settings</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">n_processes</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
 <span class="n">scenario</span> <span class="o">=</span> <span class="n">UMDOScenario</span><span class="p">(</span>
     <span class="n">disciplines</span><span class="p">,</span>
-    <span class="n">mdo_formulation_name</span><span class="p">,</span>
-    <span class="n">objective_name</span><span class="p">,</span>
     <span class="n">design_space</span><span class="p">,</span>
     <span class="n">uncertain_space</span><span class="p">,</span>
-    <span class="n">statistic_name</span><span class="p">,</span>
-    <span class="n">statistic_estimation_settings</span><span class="o">=</span><span class="n">settings</span><span class="p">,</span>
+    <span class="n">settings</span><span class="p">,</span>
+    <span class="n">formulation_settings</span><span class="o">=</span><span class="n">mdo_formulation_settings</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="n">scenario</span><span class="o">.</span><span class="n">add_objective</span><span class="p">(</span><span class="n">objective_name</span><span class="p">,</span> <span class="n">statistic_name</span><span class="p">)</span>
 </code></pre></div>
 </div>
 <h3 id="sampling-size-profile">Sampling size profile<a class="headerlink" href="#sampling-size-profile" title="Permanent link">&para;</a></h3>
@@ -8672,14 +8670,13 @@ The estimators are given below at the <span class="arithmatex">\(k\)</span>-th i
       <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.instant", "navigation.indexes"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
         <script src="../../../assets/_markdown_exec_pyodide.js"></script>
       
         <script src="../../../javascripts/mathjax.js"></script>
       
         <script src="../../../javascripts/xdsmjs.js"></script>
-      
       
         <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
       

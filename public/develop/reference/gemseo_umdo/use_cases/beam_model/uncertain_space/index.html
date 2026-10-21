@@ -8,7 +8,7 @@
       
       
       
-        <link rel="canonical" href="https://gemseo.gitlab.io/gemseo-umdo/latest/reference/gemseo_umdo/use_cases/beam_model/uncertain_space/">
+        <link rel="canonical" href="https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/use_cases/beam_model/uncertain_space/">
       
       
         <link rel="prev" href="../discipline/">
@@ -20,8 +20,8 @@
         
       
       
-      <link rel="icon" href="../../../../../images/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+      <link rel="icon" href="../../../../../images/monogram.png">
+      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.7.7">
     
     
       
@@ -29,7 +29,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1992,14 +1992,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../generated/examples/umdo/sampling/s_sellar/" class="md-nav__link">
+      <a href="../../../../../generated/examples/umdo/sampling/s_sobieski/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sellar's MDO problem
+    The Sobieski's SSBJ MDO problem.
   
 
     
@@ -2020,14 +2020,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../generated/examples/umdo/sampling/s_sobieski/" class="md-nav__link">
+      <a href="../../../../../generated/examples/umdo/sampling/s_sellar/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sobieski's SSBJ MDO problem.
+    The Sellar's MDO problem
   
 
     
@@ -2322,14 +2322,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../generated/examples/umdo/taylor_polynomial/tp_sellar/" class="md-nav__link">
+      <a href="../../../../../generated/examples/umdo/taylor_polynomial/tp_sobieski/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sellar's MDO problem
+    The Sobieski's SSBJ MDO problem
   
 
     
@@ -2350,14 +2350,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../generated/examples/umdo/taylor_polynomial/tp_sobieski/" class="md-nav__link">
+      <a href="../../../../../generated/examples/umdo/taylor_polynomial/tp_sellar/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    The Sobieski's SSBJ MDO problem
+    The Sellar's MDO problem
   
 
     
@@ -8559,12 +8559,12 @@
 
 
 <a href="#gemseo_umdo.use_cases.beam_model.uncertain_space.BeamUncertainSpace" class="headerlink" title="Permanent link">&para;</a></h4>
-<div class="doc-signature highlight"><pre><span></span><code><span class="nf">BeamUncertainSpace</span><span class="p">(</span><span class="n">uniform</span><span class="p">:</span> <span class="n"><span title="bool">bool</span></span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">deltas</span><span class="p">:</span> <span class="n"><span title="float">float</span></span><span class="p">)</span>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">BeamUncertainSpace</span><span class="p">(</span><span class="n">uniform</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/functions.html#bool">bool</a></span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">deltas</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/functions.html#float">float</a></span><span class="p">)</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
-              Bases: <code><span title="gemseo.algos.parameter_space.ParameterSpace">ParameterSpace</span></code></p>
+              Bases: <code><a class="autorefs autorefs-external" title="gemseo.space.RandomSpace" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/space/#gemseo.space.RandomSpace">RandomSpace</a></code></p>
 
 
 
@@ -8603,7 +8603,7 @@ otherwise, use Gaussian ones.</p>
               <p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
-                      <code><span title="bool">bool</span></code>
+                      <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/functions.html#bool">bool</a></code>
                   </span>
                   <span class="doc-param-default">
                     <b>DEFAULT:</b>
@@ -8624,7 +8624,7 @@ of the random variables.</p>
               <p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
-                      <code><span title="float">float</span></code>
+                      <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/functions.html#float">float</a></code>
                   </span>
                   <span class="doc-param-default">
                     <b>DEFAULT:</b>
@@ -8645,9 +8645,7 @@ of the random variables.</p>
 
                   <details class="mkdocstrings-source">
                     <summary>Source code in <code>src/gemseo_umdo/use_cases/beam_model/uncertain_space.py</code></summary>
-                    <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">52</span>
-<span class="normal">53</span>
-<span class="normal">54</span>
+                    <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">54</span>
 <span class="normal">55</span>
 <span class="normal">56</span>
 <span class="normal">57</span>
@@ -8676,13 +8674,13 @@ of the random variables.</p>
 <span class="normal">80</span>
 <span class="normal">81</span>
 <span class="normal">82</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uniform</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">deltas</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">    Args:</span>
 <span class="sd">        uniform: If `True`, use uniform distributions;</span>
 <span class="sd">            otherwise, use Gaussian ones.</span>
 <span class="sd">        **deltas: The percentage variations $\delta$ around the nominal values</span>
 <span class="sd">            of the random variables.</span>
-<span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: D205 D212 D415</span>
+<span class="sd">    """</span>  <span class="c1"># noqa: D205 D212 D415</span>
     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="p">[</span><span class="n">F</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">sigma_all</span><span class="p">]:</span>
         <span class="n">nominal</span> <span class="o">=</span> <span class="n">variable</span><span class="o">.</span><span class="n">value</span>
@@ -8693,18 +8691,16 @@ of the random variables.</p>
                 <span class="n">nominal</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">delta</span><span class="p">),</span>
                 <span class="n">nominal</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">delta</span><span class="p">),</span>
             <span class="p">])</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">add_random_variable</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_variable</span><span class="p">(</span>
                 <span class="n">name</span><span class="p">,</span>
-                <span class="s2">&quot;OTUniformDistribution&quot;</span><span class="p">,</span>
-                <span class="n">minimum</span><span class="o">=</span><span class="n">minimum</span><span class="p">,</span>
-                <span class="n">maximum</span><span class="o">=</span><span class="n">maximum</span><span class="p">,</span>
+                <span class="n">OTUniformDistribution_Settings</span><span class="p">(</span><span class="n">minimum</span><span class="o">=</span><span class="n">minimum</span><span class="p">,</span> <span class="n">maximum</span><span class="o">=</span><span class="n">maximum</span><span class="p">),</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">add_random_variable</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_variable</span><span class="p">(</span>
                 <span class="n">name</span><span class="p">,</span>
-                <span class="s2">&quot;OTNormalDistribution&quot;</span><span class="p">,</span>
-                <span class="n">mu</span><span class="o">=</span><span class="n">nominal</span><span class="p">,</span>
-                <span class="n">sigma</span><span class="o">=</span><span class="nb">abs</span><span class="p">(</span><span class="n">nominal</span><span class="p">)</span> <span class="o">*</span> <span class="n">delta</span> <span class="o">/</span> <span class="mi">3</span><span class="p">,</span>
+                <span class="n">OTNormalDistribution_Settings</span><span class="p">(</span>
+                    <span class="n">mu</span><span class="o">=</span><span class="n">nominal</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="nb">abs</span><span class="p">(</span><span class="n">nominal</span><span class="p">)</span> <span class="o">*</span> <span class="n">delta</span> <span class="o">/</span> <span class="mi">3</span>
+                <span class="p">),</span>
             <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
                   </details>
@@ -8790,14 +8786,13 @@ of the random variables.</p>
       <script id="__config" type="application/json">{"annotate": null, "base": "../../../../..", "features": ["navigation.tabs", "navigation.instant", "navigation.indexes"], "search": "../../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../../../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
         <script src="../../../../../assets/_markdown_exec_pyodide.js"></script>
       
         <script src="../../../../../javascripts/mathjax.js"></script>
       
         <script src="../../../../../javascripts/xdsmjs.js"></script>
-      
       
         <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
       
