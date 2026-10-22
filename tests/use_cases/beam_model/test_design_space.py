@@ -17,6 +17,7 @@
 from __future__ import annotations
 
 import pytest
+from gemseo.enum import VariableType
 from numpy import array
 from numpy.testing import assert_equal
 
@@ -40,7 +41,7 @@ def test_variables(design_space, variable):
     """Check the properties of the design variables."""
     name = variable.value.name
     assert design_space.variables[name].size == 1
-    assert design_space.variables[name].type == design_space.DesignVariableType.REAL
+    assert design_space.variables[name].type == VariableType.REAL
     assert_equal(design_space.variables[name].lower_bound, variable.value.l_b)
     assert_equal(design_space.variables[name].upper_bound, variable.value.u_b)
     assert_equal(design_space.get_current_value([name]), array([variable.value.value]))
