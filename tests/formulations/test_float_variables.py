@@ -22,7 +22,7 @@ from gemseo.discipline import AutoPyDiscipline
 from numpy import array
 from numpy import zeros
 
-from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
+from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 from numpy import ndarray  # noqa: TC002
 from gemseo.doe import CustomDOE_Settings
 from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
@@ -62,7 +62,7 @@ def test_float_variables(uncertain_space, design_space, statistic_estimation_set
     """Check that UScenario can handle float variables."""
     initial_current_value = design_space.get_current_value()
     discipline = AutoPyDiscipline(f_ndarray)
-    umdo_scenario = UDOEScenario(
+    umdo_scenario = UMDOScenario(
         [discipline],
         design_space,
         uncertain_space,
@@ -75,7 +75,7 @@ def test_float_variables(uncertain_space, design_space, statistic_estimation_set
 
     design_space.set_current_value(initial_current_value)
     discipline = AutoPyDiscipline(f_float)
-    umdo_scenario = UDOEScenario(
+    umdo_scenario = UMDOScenario(
         [discipline],
         design_space,
         uncertain_space,

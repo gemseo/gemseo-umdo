@@ -32,7 +32,7 @@ from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
 from gemseo_umdo.formulations.taylor_polynomial_settings import (
     TaylorPolynomial_Settings,
 )
-from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
+from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 
 
 @pytest.mark.parametrize(
@@ -71,7 +71,7 @@ def test_finite_differences(statistic_estimation_settings, expected):
     uncertain_space = RandomSpace()
     uncertain_space.add_variable("u", OTNormalDistribution_Settings())
 
-    scenario = UDOEScenario(
+    scenario = UMDOScenario(
         [discipline],
         design_space,
         uncertain_space,

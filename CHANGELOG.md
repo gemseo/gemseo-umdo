@@ -28,19 +28,28 @@ and this project adheres to
 
 ## Develop
 
+### Added
+
+- [UEvaluationScenario][gemseo_umdo.scenarios.u_evaluation_scenario.UEvaluationScenario]
+  evaluates statistics of outputs over the design space with a DOE algorithm;
+  it is the counterpart of
+  [EvaluationScenario][gemseo.scenario.evaluation.EvaluationScenario]
+  for design under uncertainty:
+  the statistics are added as observables with
+  [add_observable()][gemseo_umdo.scenarios.base_u_scenario.BaseUScenario.add_observable].
+
 ### Changed
 
 - GEMSEO-UMDO requires GEMSEO 7.
 - BREAKING CHANGE:
-  [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario],
-  [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario]
+  [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
   and [UOptAsUMDOScenario][gemseo_umdo.problems.uopt_as_umdo_scenario.UOptAsUMDOScenario]
   follow the API of the GEMSEO 7 scenarios:
     - they are instantiated from the disciplines (or the discipline),
       the design space, the uncertain space and the statistic estimation settings,
       e.g. `UMDOScenario(disciplines, design_space, uncertain_space, Sampling_Settings())`;
     - the objective is set after instantiation with
-      [add_objective()][gemseo_umdo.scenarios.base_u_scenario.BaseUScenario.add_objective],
+      [add_objective()][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario.add_objective],
       e.g. `scenario.add_objective("f", "Mean")`,
       and maximized with `minimize=False`;
       the arguments `objective_name`, `objective_statistic_name`,
@@ -79,6 +88,11 @@ and this project adheres to
 ### Removed
 
 - Support for Python 3.10.
+- BREAKING CHANGE: `UDOEScenario` was removed, as GEMSEO 7 removed `DOEScenario`;
+  use [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
+  with the settings of a DOE algorithm to sample a U-MDO problem,
+  or [UEvaluationScenario][gemseo_umdo.scenarios.u_evaluation_scenario.UEvaluationScenario]
+  to evaluate statistics without objective or constraints.
 
 ### Fixed
 
@@ -132,7 +146,7 @@ and this project adheres to
 - The [ControlVariate][gemseo_umdo.formulations.control_variate.ControlVariate] U-MDO formulation can create the control variates from any [BaseRegressor][gemseo.machine_learning.regression.core.base_regressor.BaseRegressor] using the arguments `regressor_settings` (for defining the regressor) and `regressor_doe_algo_settings` (for creating the training dataset). By default, this U-MDO formulation uses control variates based on Taylor polynomials.
 - The subpackage [truss][gemseo_umdo.use_cases.truss] includes modules for implementing a truss structure problem from the literature.
 - The function [create_noising_discipline_chain][gemseo_umdo.disciplines.utils.create_noising_discipline_chain] returns a disciplines chain to noise input variables.
-  This function is used by the [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario] and [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
+  This function is used by the `UDOEScenario` and [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
   when the argument ``uncertain_design_variables`` is set to noise design variables.
   In the case of bi-level formulations,
   it may be preferable to use this function directly rather than through this argument,
@@ -198,13 +212,13 @@ and this project adheres to
 ### Changed
 
 - API CHANGE:
-  [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario]
+  `UDOEScenario`
   and [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
   no longer have a default statistic estimation technique.
   The `statistic_estimation_settings` argument must be defined.
 - API CHANGE:
   The `statistic_estimation` and `statistic_estimation_parameters` keyword arguments of
-  [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario]
+  `UDOEScenario`
   and [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
   have been replaced by the positional argument `statistic_estimation_settings`,
   which is a Pydantic model.
@@ -221,7 +235,7 @@ and this project adheres to
   [ControlVariate][gemseo_umdo.formulations.control_variate.ControlVariate]
   and [TaylorPolynomial][gemseo_umdo.formulations.taylor_polynomial.TaylorPolynomial]
   use non-normalized data has been corrected.
-- [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario]
+- `UDOEScenario`
   and [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
   now accept disciplines with variables that are floats rather than NumPy arrays.
 
@@ -242,14 +256,14 @@ and this project adheres to
   [SequentialSampling][gemseo_umdo.formulations.sequential_sampling.SequentialSampling]
   have an option `samples_directory_path`
   to save the samples at each iteration of the algorithm chosen for the execution of the
-  [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario]
+  `UDOEScenario`
   or [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario].
 - The U-MDO formulation [SequentialSampling][gemseo_umdo.formulations.sequential_sampling.SequentialSampling]
   has an option `estimate_statistics_iteratively` (default: `True`)
   to compute the statistics iteratively
   and so do not store the samples in a `Database`.
 - The dictionary argument `uncertain_design_variables` of
-  [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario]
+  `UDOEScenario`
   and [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
   can now accept values such as `("+", "u")` and `("*", "u")`
   to noise the corresponding key `x` as `x = dv_x + u` and `x = dv_x * (1 + u)`
@@ -293,7 +307,7 @@ and this project adheres to
   works properly when the option `estimate_statistics_iteratively` is `True`
   and the DOE option `n_processes` is greater than 1.
 - The docstring of the `uncertain_design_variables` argument of
-  [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario]
+  `UDOEScenario`
   and [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
   explains that specifying a value such as `"{} + u"` at key `"x"`
   assumes that both the uncertain design variable `"x"`
@@ -340,7 +354,7 @@ and this project adheres to
 - The package `gemseo_umdo.formulations.functions` contains the `MDOFunction`s
   used by a [UMDOFormulation][gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation]
   to compute the statistics of the objective, constraints and observables.
-- The logs of the [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario]
+- The logs of the `UDOEScenario`
   and [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
   include the uncertain space.
 
@@ -364,7 +378,7 @@ and this project adheres to
 
 ### Fixed
 
-- The [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario]
+- The `UDOEScenario`
   and [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
   maximize the statistic of the objective
   when the argument `maximize_objective` is set to `True`.

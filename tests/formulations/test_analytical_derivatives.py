@@ -36,7 +36,7 @@ from numpy.testing import assert_allclose
 
 from gemseo_umdo.formulations.pce_settings import PCE_Settings
 from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
-from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
+from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 
 if TYPE_CHECKING:
     from gemseo.util.typing import StrKeyMapping
@@ -103,7 +103,7 @@ def test_derivatives(statistic, symbol, n_x, n_u, settings):
     design_space = DesignSpace()
     design_space.add_variable("x", size=n_x, lower_bound=0.0, upper_bound=2.0)
 
-    scenario = UDOEScenario(
+    scenario = UMDOScenario(
         [discipline],
         design_space,
         uncertain_space,
@@ -115,7 +115,7 @@ def test_derivatives(statistic, symbol, n_x, n_u, settings):
     )
     last_item = scenario.formulation.problem.database.last_item
 
-    scenario = UDOEScenario(
+    scenario = UMDOScenario(
         [discipline],
         design_space,
         uncertain_space,

@@ -482,7 +482,7 @@ do not forget to declare the uncertain variables as input variables
 so that the
 [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
 and
-[UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario]
+[UEvaluationScenario][gemseo_umdo.scenarios.u_evaluation_scenario.UEvaluationScenario]
 can take them into account.
 
 !!! example
@@ -545,21 +545,25 @@ and probability distribution settings.
 Given these disciplines and uncertain space,
 as well as a design space, objective(s) and constraint(s),
 the MDO problem under uncertainty can be set up by
-
-- [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario]
-  to solve it using a DOE,
-- [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
-  to solve it using an optimizer or a DOE.
-
+[UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
+to solve it using an optimizer or a DOE.
 You also need to fill in the statistics associated with the objective(s) and constraint(s),
 and the U-MDO formulation, combining a statistics estimation technique and an MDO formulation.
 
+To evaluate statistics of outputs over the design space with a DOE,
+without objective or constraints,
+e.g. to plot how the mean of an output varies with the design variables,
+use
+[UEvaluationScenario][gemseo_umdo.scenarios.u_evaluation_scenario.UEvaluationScenario]
+with a U-MDO formulation and declare these statistics as observables.
+
 !!! note "API"
 
-    The API of [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario]
-    and [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
+    The API of [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
+    (resp. [UEvaluationScenario][gemseo_umdo.scenarios.u_evaluation_scenario.UEvaluationScenario])
     is deliberately similar to
-    the API of [MDOScenario][gemseo.scenario.mdo.MDOScenario].
+    the API of [MDOScenario][gemseo.scenario.mdo.MDOScenario]
+    (resp. [EvaluationScenario][gemseo.scenario.evaluation.EvaluationScenario]).
     This choice was made not only to simplify the user's life,
     but also because an MDO problem under uncertainty
     is first and foremost an MDO problem.
@@ -572,12 +576,14 @@ and the U-MDO formulation, combining a statistics estimation technique and an MD
     and, optionally, the settings of the MDO formulation
     (default: [MDF_Settings][gemseo.formulation.mdf_settings.MDF_Settings]).
     Then,
+    the observables are added with
+    [add_observable()][gemseo_umdo.scenarios.base_u_scenario.BaseUScenario.add_observable]
+    and, in the case of a
+    [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario],
     the objective is set with
-    [add_objective()][gemseo_umdo.scenarios.base_u_scenario.BaseUScenario.add_objective],
-    the constraints are added with
-    [add_constraint()][gemseo_umdo.scenarios.base_u_scenario.BaseUScenario.add_constraint]
-    and the observables with
-    [add_observable()][gemseo_umdo.scenarios.base_u_scenario.BaseUScenario.add_observable],
+    [add_objective()][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario.add_objective]
+    and the constraints are added with
+    [add_constraint()][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario.add_constraint],
     each of these methods taking the name of the statistic
     to be applied to the output(s).
 
@@ -613,8 +619,8 @@ and the U-MDO formulation, combining a statistics estimation technique and an MD
 
 ### Statistic estimation
 
-[UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario]
-and [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
+[UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
+and [UEvaluationScenario][gemseo_umdo.scenarios.u_evaluation_scenario.UEvaluationScenario]
 can use [Sampling_Settings][gemseo_umdo.formulations.sampling_settings.Sampling_Settings],
 with `n_samples` set to a certain value $N$,
 to estimate the statistics associated with $f(x,U)$, $g(x,U)$ and $h(x,U)$ by [sampling](sampling.md),:
@@ -633,7 +639,7 @@ and
 [polynomial chaos expansions](pce.md).
 Choosing an estimation technique and its options is made via the argument `statistic_estimation_settings`
 of [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
-(or [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario]),
+(or [UEvaluationScenario][gemseo_umdo.scenarios.u_evaluation_scenario.UEvaluationScenario]),
 which is a Pydantic model of settings,
 e.g.
 [ControlVariate_Settings][gemseo_umdo.formulations.control_variate_settings.ControlVariate_Settings],

@@ -25,7 +25,7 @@ from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 from gemseo_umdo.formulations.sequential_sampling_settings import (
     SequentialSampling_Settings,
 )
-from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
+from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 
 
 def increment(n_samples: int) -> int:
@@ -58,7 +58,7 @@ def test_scenario(
     design_space.add_variable("x", lower_bound=-1, upper_bound=1.0, value=0.5)
     uncertain_space = RandomSpace()
     uncertain_space.add_variable("u", OTNormalDistribution_Settings())
-    scenario = UDOEScenario(
+    scenario = UMDOScenario(
         [discipline],
         design_space,
         uncertain_space,

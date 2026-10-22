@@ -39,7 +39,7 @@ from numpy.testing import assert_equal
 
 from gemseo_umdo.formulations.surrogate import Surrogate
 from gemseo_umdo.formulations.surrogate_settings import Surrogate_Settings
-from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
+from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 
 if TYPE_CHECKING:
     from gemseo.core.function.collection.observables import Observables
@@ -181,7 +181,7 @@ def test_probability(observables, output_samples):
 def test_scenario(quadratic_problem, statistic_estimation_parameters, y_opt):
     """Check the surrogate-based U-MDO formulation in a scenario with a toy case."""
     discipline, design_space, uncertain_space = quadratic_problem
-    scenario = UDOEScenario(
+    scenario = UMDOScenario(
         [discipline],
         design_space,
         uncertain_space,

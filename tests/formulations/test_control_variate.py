@@ -49,7 +49,7 @@ from gemseo_umdo.formulations._statistics.control_variate.standard_deviation imp
 from gemseo_umdo.formulations._statistics.control_variate.variance import Variance
 from gemseo_umdo.formulations.control_variate import ControlVariate
 from gemseo_umdo.formulations.control_variate_settings import ControlVariate_Settings
-from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
+from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
@@ -96,9 +96,9 @@ def algo_data() -> CustomDOE_Settings:
 
 
 @pytest.fixture
-def scenario(disciplines, design_space, uncertain_space, algo_data) -> UDOEScenario:
+def scenario(disciplines, design_space, uncertain_space, algo_data) -> UMDOScenario:
     """A DOE-based u-scenario."""
-    scn = UDOEScenario(
+    scn = UMDOScenario(
         disciplines,
         design_space,
         uncertain_space,
@@ -115,13 +115,13 @@ def scenario(disciplines, design_space, uncertain_space, algo_data) -> UDOEScena
 
 
 def test_scenario_optimum(scenario):
-    """Check the optimum returned by the UDOEScenario."""
+    """Check the optimum returned by the UMDOScenario."""
     assert_equal(scenario.optimization_result.x_opt, array([0.0] * 3))
     assert_allclose(scenario.optimization_result.f_opt, array([-12.0]), atol=1e-6)
 
 
 def test_scenario_serialization(scenario, tmp_path, algo_data):
-    """Check the serialization of a UDOEScenario."""
+    """Check the serialization of a UMDOScenario."""
     file_path = tmp_path / "scenario.h5"
     to_pickle(scenario, file_path)
     saved_scn = from_pickle(file_path)
@@ -290,7 +290,7 @@ def test_uncertain_input_data_non_normalization():
     uncertain_space.add_variable(
         "u", OTUniformDistribution_Settings(minimum=0.0, maximum=1.5)
     )
-    scenario = UDOEScenario(
+    scenario = UMDOScenario(
         [discipline],
         design_space,
         uncertain_space,

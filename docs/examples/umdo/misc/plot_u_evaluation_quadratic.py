@@ -13,19 +13,20 @@
 # FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-"""# DOE"""
+"""# Sampling statistics over the design space"""
 
 from __future__ import annotations
 
 from gemseo.discipline import AnalyticDiscipline
 from gemseo.doe import PYDOE_FULLFACT_Settings
-from gemseo.post import OptHistoryView_Settings
+from gemseo.post.dataset import YvsX
+from gemseo.post.dataset.yvsx_settings import YvsX_Settings
 from gemseo.space import DesignSpace
 from gemseo.space import RandomSpace
 from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 
 from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
-from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
+from gemseo_umdo.scenarios.u_evaluation_scenario import UEvaluationScenario
 
 # %%
 # Firstly,
@@ -45,25 +46,42 @@ uncertain_space.add_variable("u", OTNormalDistribution_Settings())
 
 # %%
 # Then,
-# we build a [UDOEScenario][gemseo_umdo.scenarios.udoe_scenario.UDOEScenario]
-# to minimize a sampling-based estimation
-# of the expectation $\mathbb{E}[Y]$ where $Y=f(x,U)$:
-scenario = UDOEScenario(
+# we build a
+# [UEvaluationScenario][gemseo_umdo.scenarios.u_evaluation_scenario.UEvaluationScenario]
+# to evaluate sampling-based estimations
+# of the expectation $\mathbb{E}[Y]$ and the variance $\mathbb{V}[Y]$
+# where $Y=f(x,U)$:
+scenario = UEvaluationScenario(
     [discipline],
     design_space,
     uncertain_space,
     Sampling_Settings(n_samples=100),
 )
-scenario.add_objective("y", "Mean")
+scenario.add_observable("y", "Mean")
+scenario.add_observable("y", "Variance")
 
 # %%
+# !!! note
+#     Unlike
+#     [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario],
+#     this scenario has neither objective nor constraints.
+#     Use a [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
+#     with DOE settings
+#     to sample a U-MDO problem.
+#
 # We execute it with a full-factorial design of experiments:
-scenario.execute(PYDOE_FULLFACT_Settings(n_samples=100))
+scenario.execute(PYDOE_FULLFACT_Settings(n_samples=20))
 
 # %%
-# and plot the history:
-scenario.post_process(OptHistoryView_Settings(save=True, show=True))
+# export the results to a dataset:
+dataset = scenario.to_dataset()
+dataset
 
 # %%
-# Notice that the numerical solution is close to $(x^*,f^*)=(0,1)$ as expected
-# from the expression of the statistic: $\mathbb{E}[Y]=\mathbb{E}[(x+U)^2]=x^2+1$.
+# and plot the estimation of the expectation versus the design variable:
+plot = YvsX(dataset, settings=YvsX_Settings(x="x", y="E[y]"))
+plot.execute(save=False, show=True)
+
+# %%
+# Notice that the estimation is close to the exact statistic
+# $\mathbb{E}[Y]=\mathbb{E}[(x+U)^2]=x^2+1$.

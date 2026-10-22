@@ -41,7 +41,7 @@ from gemseo_umdo.formulations.taylor_polynomial import TaylorPolynomial
 from gemseo_umdo.formulations.taylor_polynomial_settings import (
     TaylorPolynomial_Settings,
 )
-from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
+from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
@@ -96,7 +96,7 @@ def scenario_input_data() -> CustomDOE_Settings:
 @pytest.fixture(params=[False, True])
 def scenario(disciplines, design_space, uncertain_space, request):
     """A scenario of interest."""
-    scn = UDOEScenario(
+    scn = UMDOScenario(
         disciplines,
         design_space,
         uncertain_space,
@@ -264,7 +264,7 @@ def test_uncertain_input_data_non_normalization():
     uncertain_space.add_variable(
         "u", OTUniformDistribution_Settings(minimum=0.0, maximum=1.5)
     )
-    scenario = UDOEScenario(
+    scenario = UMDOScenario(
         [discipline],
         design_space,
         uncertain_space,
