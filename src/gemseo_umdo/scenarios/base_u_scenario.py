@@ -156,14 +156,12 @@ class BaseUScenario:
 
         Args:
             output_names: The names of the outputs used as objective.
-            statistic_name: The name of the statistic
-                to be applied to the objective, e.g. "Margin".
+            statistic_name: The name of the statistic of `output_names`, e.g. "Margin".
             minimize: Whether to minimize the statistic of the objective.
             objective_name: The name of the objective to be stored.
                 If empty,
                 the name is generated from `output_names` and `statistic_name`.
-            **statistic_parameters: The parameters of the statistic
-                to be applied to the objective,
+            **statistic_parameters: The parameters of the statistic,
                 e.g. `factor=2.` when `statistic_name="Margin"`.
         """
         problem = self.formulation.problem
@@ -194,11 +192,9 @@ class BaseUScenario:
     ) -> None:
         """
         Args:
-            statistic_name: The name of the statistic
-                to be applied to the constraint, e.g. "margin".
-            statistic_parameters: The parameters of the statistics
-                to be applied to the constraint,
-                `{"factor": 2.}` when `objective_statistic="margin"`.
+            statistic_name: The name of the statistic of `output_name`, e.g. "Margin".
+            **statistic_parameters: The parameters of the statistic,
+                e.g. `factor=2.` when `statistic_name="Margin"`.
         """  # noqa: D205 D212 D415
         self.formulation.add_constraint(
             output_name,
@@ -220,11 +216,9 @@ class BaseUScenario:
     ) -> None:
         """
         Args:
-            statistic_name: The name of the statistic
-                to be applied to the constraint, e.g. "margin".
-            statistic_parameters: The parameters of the statistics
-                to be applied to the constraint,
-                `{"factor": 2.}` when `objective_statistic="margin"`.
+            statistic_name: The name of the statistic of `output_names`, e.g. "Margin".
+            **statistic_parameters: The parameters of the statistic,
+                e.g. `factor=2.` when `statistic_name="Margin"`.
         """  # noqa: D205 D212 D415
         self.formulation.add_observable(
             output_names,

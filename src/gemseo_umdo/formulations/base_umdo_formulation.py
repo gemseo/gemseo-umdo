@@ -352,13 +352,13 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
 
         Args:
             output_names: The names of the outputs.
-            statistic_name: The name of the statistic to be applied to the objective.
+            statistic_name: The name of the statistic of `output_names`.
             objective_name: The name of the objective.
                 If empty,
                 the name is generated from `output_names` and `statistic_name`.
             minimize: Whether the statistic of the objective will be minimized.
-            **statistic_parameters: The values of the parameters
-                of the statistic to be applied to the objective, if any.
+            **statistic_parameters: The values of the parameters of the statistic,
+                if any.
 
         Returns:
             The objective function.
@@ -390,9 +390,9 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
     ) -> None:
         """
         Args:
-            statistic_name: The name of the statistic to be applied to the observable.
-            statistic_parameters: The values of the parameters
-                of the statistic to be applied to the observable, if any.
+            statistic_name: The name of the statistic of `output_names`.
+            **statistic_parameters: The values of the parameters of the statistic,
+                if any.
         """  # noqa: D205 D212 D415
         output_names = convert_strings_to_iterable(output_names)
         function_name = self.__add_mdo_observable(
@@ -427,15 +427,15 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
 
         Args:
             output_names: The names of the outputs.
-            statistic_name: The name of the statistic to be applied to the constraint.
+            statistic_name: The name of the statistic of `output_names`.
             constraint_type: The type of constraint.
             constraint_name: The name of the constraint to be stored.
                 If empty,
                 the name is generated from `output_names` and `statistic_name`.
             value: The value $a$.
             positive: Whether the inequality constraint is positive.
-            **statistic_parameters: The values of the parameters of the statistic
-                to be applied to the constraint, if any.
+            **statistic_parameters: The values of the parameters of the statistic,
+                if any.
 
         Returns:
             The constraint function.
@@ -486,15 +486,15 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
 
         Args:
             output_names: The names of the outputs.
-            statistic_name: The name of the statistic to be applied to the constraint.
+            statistic_name: The name of the statistic of `output_names`.
             constraint_type: The type of constraint.
             constraint_name: The name of the constraint to be stored.
                 If empty,
                 the name is generated from `output_names` and `statistic_name`.
             value: The value $a$.
             positive: Whether the inequality constraint is positive.
-            **statistic_parameters: The values of the parameters of the statistic
-                to be applied to the constraint, if any.
+            **statistic_parameters: The values of the parameters of the statistic,
+                if any.
         """
         self.problem.add_constraint(
             self.create_constraint(
@@ -529,9 +529,9 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
         Args:
             output_name: Either the names of the output variables
                 for which to estimate the statistic or a unique name to define them.
-            statistic_name: The name of the statistic to be applied to the variables.
-            statistic_parameters: The values of the parameters of the statistic
-                to be applied to the variable, if any.
+            statistic_name: The name of the statistic of `output_name`.
+            **statistic_parameters: The values of the parameters of the statistic,
+                if any.
 
         Returns:
             The string representations of the statistic applied to the output variables.

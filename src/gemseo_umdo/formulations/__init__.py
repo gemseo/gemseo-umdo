@@ -42,7 +42,7 @@ and executes the corresponding
 with a particular DOE.
 Then,
 it post-processed the associated [Database][gemseo.core.problem.database.Database]
-to estimate the statistics applied to the objective and constraints.
+to estimate the statistics of the outputs defining the objective and constraints.
 
 The most common
 [BaseUMDOFormulation][gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation]
