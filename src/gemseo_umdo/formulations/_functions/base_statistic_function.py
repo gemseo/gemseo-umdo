@@ -28,6 +28,8 @@ from typing import TypeVar
 
 from gemseo.core.function.array_function import ArrayFunction
 from gemseo.core.problem.database import Database
+from gemseo.uncertainty.statistic.core.base import BaseStatistics
+from gemseo.util.file_path_manager import FilePathManager
 from gemseo.util.hashable_ndarray import HashableNdarray
 from gemseo.util.metaclass import ABCGoogleDocstringInheritanceMeta
 
@@ -93,8 +95,14 @@ class BaseStatisticFunction(
             *self._statistic_estimator_parameters,
             **statistic_options,
         )
-        self._statistic_name = (
-            f"{self._statistic_estimator.__class__.__name__}[{output_name}]"
+        # The statistic options are part of the name
+        # so that two statistics differing only in their options,
+        # e.g. two margins with different factors, have different names.
+        self._statistic_name = BaseStatistics.compute_expression(
+            output_name,
+            FilePathManager.to_snake_case(statistic_operator_name),
+            show_name=True,
+            **statistic_options,
         )
         self._statistic_jac_name = Database.get_gradient_name(self._statistic_name)
         super().__init__(
@@ -122,33 +130,30 @@ class BaseStatisticFunction(
         umdo_formulation = self._umdo_formulation
         hashable_input_data = HashableNdarray(input_data)
         i_to_o = umdo_formulation.input_data_to_output_data
-        output_name = self._output_jac_name if estimate_jacobian else self._output_name
 
-        # 1. We test whether input_data is a new input point.
-        last_input_data = next(reversed(i_to_o)) if i_to_o else None
-        if hashable_input_data != last_input_data:
-            # This is a new design point, so we reset the evaluation sub-problems.
+        # 1. We test whether the data to estimate the statistic or its Jacobian
+        #    have already been computed at this input point,
+        #    e.g. when estimating another statistic.
+        input_data_to_data = i_to_o.setdefault(hashable_input_data, {})
+        data_for_statistic_estimation = input_data_to_data.get(estimate_jacobian)
+        if data_for_statistic_estimation is None:
+            # 2. If not, we compute them from a new sampling,
+            #    so we reset the evaluation sub-problems
+            #    to forget the samples of the previous sampling,
+            #    whose size may differ, e.g. with SequentialSampling.
             problems = [umdo_formulation.mdo_formulation.problem]
-            if (formulation := umdo_formulation.auxiliary_mdo_formulation) is not None:
+            formulation = umdo_formulation.auxiliary_mdo_formulation
+            if formulation is not None:
                 problems.append(formulation.problem)
             problems.extend(self._other_evaluation_problems)
             for problem in problems:
                 problem.reset()
 
-        # 2. We test whether the output has already been evaluated at this input point.
-        #    Note: output means output f or its derivative @f.
-        data_for_statistic_estimation = i_to_o.get(hashable_input_data, {})
-        if output_name not in data_for_statistic_estimation:
-            # This output has not yet been evaluated,
-            # e.g. an output f has been evaluated
-            # when calling __compute_statistic_estimation via _func
-            # but not its Jacobian @f
-            # to be evaluated in the current call to __compute_statistic_estimation.
             umdo_formulation.update_top_level_disciplines(input_data)
             data_for_statistic_estimation = self._compute_data_for_statistic_estimation(
                 input_data, estimate_jacobian
             )
-            i_to_o[hashable_input_data] = data_for_statistic_estimation
+            input_data_to_data[estimate_jacobian] = data_for_statistic_estimation
 
         # 3. We compute the estimation of the statistic of interest or its Jacobian.
         if estimate_jacobian:

@@ -80,6 +80,37 @@ and this project adheres to
 
 - Support for Python 3.10.
 
+### Fixed
+
+- The sampling-based U-MDO formulations sample the disciplines once per design point
+  to estimate the objective and the constraints,
+  instead of 1 + number of constraints times
+  for [Sampling][gemseo_umdo.formulations.sampling.Sampling]
+  with `estimate_statistics_iteratively=True` (default)
+  and twice for the other ones.
+  When the gradients are required,
+  they sample the disciplines once more per design point
+  to estimate the gradients of all the statistics.
+  The results are the same, except for
+  [SequentialSampling][gemseo_umdo.formulations.sequential_sampling.SequentialSampling],
+  which now increases the number of samples once per sampling
+  instead of once per statistic;
+  without gradients,
+  it uses $N_k$ samples at the $k$-th iteration for all the statistics,
+  as documented,
+  while with gradients,
+  the gradients are estimated with more samples than the statistics.
+- [PCE][gemseo_umdo.formulations.pce.PCE] fits the polynomial chaos expansion
+  once per design point to estimate the statistics
+  (and once more when their gradients are required),
+  instead of once per statistic.
+- [Sampling][gemseo_umdo.formulations.sampling.Sampling]
+  with `estimate_statistics_iteratively=True` (default)
+  estimates correctly two statistics of the same output and of the same type
+  with different parameters,
+  e.g. two ``"Margin"`` with different factors;
+  previously, both returned the value of the last one.
+
 ## Version 4.3.0 (October 2025)
 
 ### Added

@@ -40,12 +40,19 @@ def increment(n_samples: int) -> int:
     return 2
 
 
+@pytest.mark.parametrize("add_constraint", [False, True])
 @pytest.mark.parametrize("estimate_statistics_iteratively", [False, True])
 @pytest.mark.parametrize("n_samples_increment", [2, increment])
 def test_scenario(
-    estimate_statistics_iteratively, enable_discipline_statistics, n_samples_increment
+    estimate_statistics_iteratively,
+    enable_discipline_statistics,
+    n_samples_increment,
+    add_constraint,
 ):
-    """Check SequentialSampling."""
+    """Check SequentialSampling.
+
+    A constraint must not increase the number of samples.
+    """
     discipline = AnalyticDiscipline({"y": "(x+u)**2"}, name="quadratic_function")
     design_space = DesignSpace()
     design_space.add_variable("x", lower_bound=-1, upper_bound=1.0, value=0.5)
@@ -63,5 +70,7 @@ def test_scenario(
         ),
     )
     scenario.add_objective("y", "Mean")
+    if add_constraint:
+        scenario.add_constraint("y", "Margin")
     scenario.execute(PYDOE_FULLFACT_Settings(n_samples=5))
     assert discipline.execution_statistics.n_executions == (3 + 5 + 7 + 7 + 7)
