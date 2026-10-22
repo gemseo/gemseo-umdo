@@ -1671,14 +1671,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../generated/examples/umdo/misc/udoe_quadratic/" class="md-nav__link">
+      <a href="../../generated/examples/umdo/misc/plot_u_evaluation_quadratic/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    DOE
+    Sampling statistics over the design space
   
 
     
@@ -6190,14 +6190,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/gemseo_umdo/scenarios/udoe_scenario/" class="md-nav__link">
+      <a href="../../reference/gemseo_umdo/scenarios/u_evaluation_scenario/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Udoe scenario
+    U evaluation scenario
   
 
     
@@ -8938,7 +8938,7 @@ do not forget to declare the uncertain variables as input variables
 so that the
 <a class="autorefs autorefs-internal" title="            UMDOScenario" href="../../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>
 and
-<a class="autorefs autorefs-internal" title="            UDOEScenario" href="../../reference/gemseo_umdo/scenarios/udoe_scenario/#gemseo_umdo.scenarios.udoe_scenario.UDOEScenario">UDOEScenario</a>
+<a class="autorefs autorefs-internal" title="            UEvaluationScenario" href="../../reference/gemseo_umdo/scenarios/u_evaluation_scenario/#gemseo_umdo.scenarios.u_evaluation_scenario.UEvaluationScenario">UEvaluationScenario</a>
 can take them into account.</p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
@@ -8991,21 +8991,24 @@ between 0.2 and 0.7 with a mode of 0.4:</p>
 <h3 id="scenario">Scenario<a class="headerlink" href="#scenario" title="Permanent link">&para;</a></h3>
 <p>Given these disciplines and uncertain space,
 as well as a design space, objective(s) and constraint(s),
-the MDO problem under uncertainty can be set up by</p>
-<ul>
-<li><a class="autorefs autorefs-internal" title="            UDOEScenario" href="../../reference/gemseo_umdo/scenarios/udoe_scenario/#gemseo_umdo.scenarios.udoe_scenario.UDOEScenario">UDOEScenario</a>
-  to solve it using a DOE,</li>
-<li><a class="autorefs autorefs-internal" title="            UMDOScenario" href="../../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>
-  to solve it using an optimizer or a DOE.</li>
-</ul>
-<p>You also need to fill in the statistics associated with the objective(s) and constraint(s),
+the MDO problem under uncertainty can be set up by
+<a class="autorefs autorefs-internal" title="            UMDOScenario" href="../../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>
+to solve it using an optimizer or a DOE.
+You also need to fill in the statistics associated with the objective(s) and constraint(s),
 and the U-MDO formulation, combining a statistics estimation technique and an MDO formulation.</p>
+<p>To evaluate statistics of outputs over the design space with a DOE,
+without objective or constraints,
+e.g. to plot how the mean of an output varies with the design variables,
+use
+<a class="autorefs autorefs-internal" title="            UEvaluationScenario" href="../../reference/gemseo_umdo/scenarios/u_evaluation_scenario/#gemseo_umdo.scenarios.u_evaluation_scenario.UEvaluationScenario">UEvaluationScenario</a>
+with a U-MDO formulation and declare these statistics as observables.</p>
 <div class="admonition note">
 <p class="admonition-title">API</p>
-<p>The API of <a class="autorefs autorefs-internal" title="            UDOEScenario" href="../../reference/gemseo_umdo/scenarios/udoe_scenario/#gemseo_umdo.scenarios.udoe_scenario.UDOEScenario">UDOEScenario</a>
-and <a class="autorefs autorefs-internal" title="            UMDOScenario" href="../../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>
+<p>The API of <a class="autorefs autorefs-internal" title="            UMDOScenario" href="../../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>
+(resp. <a class="autorefs autorefs-internal" title="            UEvaluationScenario" href="../../reference/gemseo_umdo/scenarios/u_evaluation_scenario/#gemseo_umdo.scenarios.u_evaluation_scenario.UEvaluationScenario">UEvaluationScenario</a>)
 is deliberately similar to
-the API of <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/scenario/mdo/#gemseo.scenario.mdo.MDOScenario">MDOScenario</a>.
+the API of <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/scenario/mdo/#gemseo.scenario.mdo.MDOScenario">MDOScenario</a>
+(resp. <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/scenario/evaluation/#gemseo.scenario.evaluation.EvaluationScenario">EvaluationScenario</a>).
 This choice was made not only to simplify the user's life,
 but also because an MDO problem under uncertainty
 is first and foremost an MDO problem.</p>
@@ -9017,12 +9020,14 @@ the settings of the statistic estimation technique
 and, optionally, the settings of the MDO formulation
 (default: <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/formulation/mdf_settings/#gemseo.formulation.mdf_settings.MDF_Settings">MDF_Settings</a>).
 Then,
+the observables are added with
+<a class="autorefs autorefs-internal" title="            add_observable" href="../../reference/gemseo_umdo/scenarios/base_u_scenario/#gemseo_umdo.scenarios.base_u_scenario.BaseUScenario.add_observable">add_observable()</a>
+and, in the case of a
+<a class="autorefs autorefs-internal" title="            UMDOScenario" href="../../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>,
 the objective is set with
-<a class="autorefs autorefs-internal" title="            add_objective" href="../../reference/gemseo_umdo/scenarios/base_u_scenario/#gemseo_umdo.scenarios.base_u_scenario.BaseUScenario.add_objective">add_objective()</a>,
-the constraints are added with
-<a class="autorefs autorefs-internal" title="            add_constraint" href="../../reference/gemseo_umdo/scenarios/base_u_scenario/#gemseo_umdo.scenarios.base_u_scenario.BaseUScenario.add_constraint">add_constraint()</a>
-and the observables with
-<a class="autorefs autorefs-internal" title="            add_observable" href="../../reference/gemseo_umdo/scenarios/base_u_scenario/#gemseo_umdo.scenarios.base_u_scenario.BaseUScenario.add_observable">add_observable()</a>,
+<a class="autorefs autorefs-internal" title="            add_objective" href="../../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario.add_objective">add_objective()</a>
+and the constraints are added with
+<a class="autorefs autorefs-internal" title="            add_constraint" href="../../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario.add_constraint">add_constraint()</a>,
 each of these methods taking the name of the statistic
 to be applied to the output(s).</p>
 </div>
@@ -9055,8 +9060,8 @@ and a Monte Carlo estimator of the expectation.</p>
 </code></pre></div>
 </div>
 <h3 id="statistic-estimation">Statistic estimation<a class="headerlink" href="#statistic-estimation" title="Permanent link">&para;</a></h3>
-<p><a class="autorefs autorefs-internal" title="            UDOEScenario" href="../../reference/gemseo_umdo/scenarios/udoe_scenario/#gemseo_umdo.scenarios.udoe_scenario.UDOEScenario">UDOEScenario</a>
-and <a class="autorefs autorefs-internal" title="            UMDOScenario" href="../../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>
+<p><a class="autorefs autorefs-internal" title="            UMDOScenario" href="../../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>
+and <a class="autorefs autorefs-internal" title="            UEvaluationScenario" href="../../reference/gemseo_umdo/scenarios/u_evaluation_scenario/#gemseo_umdo.scenarios.u_evaluation_scenario.UEvaluationScenario">UEvaluationScenario</a>
 can use <a class="autorefs autorefs-internal" title="            Sampling_Settings" href="../../reference/gemseo_umdo/formulations/sampling_settings/#gemseo_umdo.formulations.sampling_settings.Sampling_Settings">Sampling_Settings</a>,
 with <code>n_samples</code> set to a certain value <span class="arithmatex">\(N\)</span>,
 to estimate the statistics associated with <span class="arithmatex">\(f(x,U)\)</span>, <span class="arithmatex">\(g(x,U)\)</span> and <span class="arithmatex">\(h(x,U)\)</span> by <a href="sampling/">sampling</a>,:</p>
@@ -9073,7 +9078,7 @@ and
 <a href="pce/">polynomial chaos expansions</a>.
 Choosing an estimation technique and its options is made via the argument <code>statistic_estimation_settings</code>
 of <a class="autorefs autorefs-internal" title="            UMDOScenario" href="../../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>
-(or <a class="autorefs autorefs-internal" title="            UDOEScenario" href="../../reference/gemseo_umdo/scenarios/udoe_scenario/#gemseo_umdo.scenarios.udoe_scenario.UDOEScenario">UDOEScenario</a>),
+(or <a class="autorefs autorefs-internal" title="            UEvaluationScenario" href="../../reference/gemseo_umdo/scenarios/u_evaluation_scenario/#gemseo_umdo.scenarios.u_evaluation_scenario.UEvaluationScenario">UEvaluationScenario</a>),
 which is a Pydantic model of settings,
 e.g.
 <a class="autorefs autorefs-internal" title="            ControlVariate_Settings" href="../../reference/gemseo_umdo/formulations/control_variate_settings/#gemseo_umdo.formulations.control_variate_settings.ControlVariate_Settings">ControlVariate_Settings</a>,

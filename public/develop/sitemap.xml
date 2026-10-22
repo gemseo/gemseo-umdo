@@ -97,15 +97,15 @@
          <lastmod>2026-10-22</lastmod>
     </url>
     <url>
+         <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/generated/examples/umdo/misc/plot_u_evaluation_quadratic/</loc>
+         <lastmod>2026-10-22</lastmod>
+    </url>
+    <url>
          <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/generated/examples/umdo/misc/plot_vectorization/</loc>
          <lastmod>2026-10-22</lastmod>
     </url>
     <url>
          <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/generated/examples/umdo/misc/sellar_sampling_opt_repetitions/</loc>
-         <lastmod>2026-10-22</lastmod>
-    </url>
-    <url>
-         <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/generated/examples/umdo/misc/udoe_quadratic/</loc>
          <lastmod>2026-10-22</lastmod>
     </url>
     <url>
@@ -549,7 +549,7 @@
          <lastmod>2026-10-22</lastmod>
     </url>
     <url>
-         <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/scenarios/udoe_scenario/</loc>
+         <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/scenarios/u_evaluation_scenario/</loc>
          <lastmod>2026-10-22</lastmod>
     </url>
     <url>
