@@ -179,6 +179,22 @@ def test_scenario_serialization(scenario, tmp_path, scenario_input_data):
     assert_equal(saved_scenario.optimization_result.x_opt, array([0.0, 0.0, 0.0]))
 
 
+def test_margins_with_different_factors(scenario, scenario_input_data):
+    """Check that two margins of the same output with different factors differ."""
+    scenario.add_constraint("c", "Margin")
+    scenario.execute(scenario_input_data)
+    problem = scenario.formulation.problem
+    names = [constraint.name for constraint in problem.constraints]
+    assert names == ["Margin[c; 3.0]", "Margin[c; 2.0]"]
+    # At x=0, the samples of c are 0 and -3 for u=u1=u2=0 and u=u1=u2=1.
+    samples = array([[0.0], [-3.0]])
+    for name, factor in zip(names, (3.0, 2.0), strict=True):
+        assert_almost_equal(
+            problem.database.get_function_value(name, -1),
+            Margin(factor).estimate_statistic(samples),
+        )
+
+
 def estimate(
     statistic_class: BaseSamplingEstimator | BaseIterativeSamplingEstimator,
     samples: ndarray,

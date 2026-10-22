@@ -109,7 +109,9 @@ class StatisticFunctionForIterativeSampling(
         )
         data = {}
         for estimation in self._iterative_estimations:
-            if estimation.return_statistic_jacobian and not estimate_jacobian:
+            # Only the callbacks of this kind of estimation have run:
+            # the last estimations of the others come from a previous input point.
+            if estimation.return_statistic_jacobian != estimate_jacobian:
                 continue
 
             data[estimation.output_statistic_name] = estimation.last_estimation

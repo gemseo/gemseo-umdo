@@ -31,6 +31,7 @@ from gemseo.space import DesignSpace
 from gemseo.uncertainty.statistic.core.base import BaseStatistics
 from gemseo.util.data_conversion import split_array_to_dict_of_arrays
 from gemseo.util.file_path_manager import FilePathManager
+from gemseo.util.hashable_ndarray import HashableNdarray
 from gemseo.util.string import convert_strings_to_iterable
 
 if TYPE_CHECKING:
@@ -44,7 +45,6 @@ if TYPE_CHECKING:
     from gemseo.optimization import OptimizationProblem
     from gemseo.scenario import EvaluationScenario
     from gemseo.space import RandomSpace
-    from gemseo.util.hashable_ndarray import HashableNdarray
     from gemseo.util.typing import RealArray
     from gemseo.util.typing import StrKeyMapping
 
@@ -136,8 +136,13 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
     __available_statistics: list[str]
     """The names of the available statistics."""
 
-    input_data_to_output_data: dict[HashableNdarray, dict[str, Any]]
-    """The output samples or output statistics associated with the input data."""
+    input_data_to_output_data: dict[HashableNdarray, dict[bool, dict[str, Any]]]
+    """The output samples or output statistics associated with the input data.
+
+    For each input point,
+    the data to estimate the statistics are stored with the key `False`
+    and the data to estimate their Jacobians with the key `True`.
+    """
 
     def __init__(
         self,
@@ -251,12 +256,21 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
         return statistic_parameters
 
     def _clear_input_data_to_output_data(self, x_vect: RealArray) -> None:
-        """Clear the attribute `input_data_to_output_data`.
+        """Clear the attribute `input_data_to_output_data` except for `x_vect`.
+
+        This listener is called
+        when the first output value at the new point `x_vect` is stored in the database,
+        i.e. just after the estimation of a first statistic at `x_vect`:
+        the data used for this estimation are kept for the other statistics.
 
         Args:
             x_vect: An input vector.
         """
-        self.input_data_to_output_data.clear()
+        data = self.input_data_to_output_data
+        current_output_data = data.get(key := HashableNdarray(x_vect))
+        data.clear()
+        if current_output_data is not None:
+            data[key] = current_output_data
 
     @property
     def mdo_formulation(self) -> BaseMDOFormulation:
