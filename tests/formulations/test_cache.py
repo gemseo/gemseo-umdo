@@ -36,7 +36,7 @@ from gemseo_umdo.formulations.sequential_sampling_settings import (
     SequentialSampling_Settings,
 )
 from gemseo_umdo.formulations.surrogate_settings import Surrogate_Settings
-from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
+from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -51,8 +51,8 @@ DESIGN_POINTS = array([[-1.0], [0.0], [1.0]])
 
 def create_scenario(
     settings: BaseUMDOFormulationSettings, add_constraints: bool
-) -> UDOEScenario:
-    """Create a U-DOE scenario with a discipline computing an objective and two outputs.
+) -> UMDOScenario:
+    """Create a U-MDO scenario with a discipline computing an objective and two outputs.
 
     Args:
         settings: The settings of the U-MDO formulation.
@@ -70,7 +70,7 @@ def create_scenario(
     design_space.add_variable("x", lower_bound=-3.0, upper_bound=3.0, value=0.0)
     uncertain_space = RandomSpace()
     uncertain_space.add_variable("u", OTNormalDistribution_Settings())
-    scenario = UDOEScenario(
+    scenario = UMDOScenario(
         [discipline],
         design_space,
         uncertain_space,

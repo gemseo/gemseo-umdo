@@ -12,14 +12,25 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-"""Scenario for multidisciplinary design sampling problems under uncertainty."""
+"""Scenario for evaluating statistics of disciplinary outputs under uncertainty."""
 
 from __future__ import annotations
 
-from gemseo.scenario import MDOScenario
+from gemseo.scenario import EvaluationScenario
+from gemseo.space import DesignSpace
 
 from gemseo_umdo.scenarios.base_u_scenario import BaseUScenario
 
 
-class UDOEScenario(BaseUScenario, MDOScenario):
-    """A DOE-based scenario for multidisciplinary design under uncertainty."""
+class UEvaluationScenario(BaseUScenario, EvaluationScenario[DesignSpace]):
+    """A scenario for evaluating statistics of disciplinary outputs under uncertainty.
+
+    The statistics of the outputs of interest are declared as observables
+    using the
+    [add_observable()][gemseo_umdo.scenarios.base_u_scenario.BaseUScenario.add_observable]
+    method
+    and evaluated over the design space with a DOE algorithm.
+
+    Use [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
+    to define an objective and constraints.
+    """

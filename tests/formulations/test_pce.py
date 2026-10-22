@@ -57,7 +57,6 @@ from gemseo_umdo.formulations._statistics.pce.standard_deviation import (
 from gemseo_umdo.formulations._statistics.pce.variance import Variance
 from gemseo_umdo.formulations.pce import PCE
 from gemseo_umdo.formulations.pce_settings import PCE_Settings
-from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 
 if TYPE_CHECKING:
@@ -431,7 +430,7 @@ def test_scenario(
     if input_dimension == 2:
         design_space.add_variable("z", lower_bound=-1, upper_bound=1.0, value=0.5)
         uncertain_space.add_variable("v", OTNormalDistribution_Settings())
-    scenario = UDOEScenario(
+    scenario = UMDOScenario(
         [discipline],
         design_space,
         uncertain_space,

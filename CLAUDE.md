@@ -75,12 +75,14 @@ module, e.g. `from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario`,
 
 ### Scenarios
 
-`scenarios/`: `UMDOScenario` and `UDOEScenario` mix `BaseUScenario` into a GEMSEO
-scenario class. They take the disciplines, a `DesignSpace`, a `RandomSpace` (the
+`scenarios/`: `UMDOScenario` (over `MDOScenario`, optimizer or DOE) and
+`UEvaluationScenario` (over `EvaluationScenario`, DOE, observables only) mix
+`BaseUScenario` into a GEMSEO scenario class. They take the disciplines, a `DesignSpace`, a `RandomSpace` (the
 uncertain space) and the statistic estimation settings (a `*_Settings` of a U-MDO
 formulation, passed to GEMSEO as the formulation settings); the inner MDO formulation
 is chosen with `formulation_settings` (default `MDF_Settings`).
-`add_objective`, `add_constraint` and `add_observable` take a `statistic_name` plus
+`add_observable` (both) and `add_objective`, `add_constraint` (`UMDOScenario` only)
+take a `statistic_name` plus
 `**statistic_parameters` (e.g. `factor` for `"Margin"`).
 
 GEMSEO scenarios create their formulation through the class attribute

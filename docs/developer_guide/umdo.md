@@ -61,24 +61,28 @@ gemseo_umdo
       ...
   scenarios # Subpackage including scenarios using U-MDO formulations
     base_u_scenario.py # Base scenario using a U-MDO formulation
-    udoe_scenario.py # DOE-based scenario using a U-MDO formulation
-    umdo_scenario.py # Optimizer-based scenario using a U-MDO formulation
+    u_evaluation_scenario.py # Scenario evaluating statistics over the design space with a DOE
+    umdo_scenario.py # Scenario solving a U-MDO problem with an optimizer or a DOE
 ```
 
 ## Class diagram
 
 A `BaseUScenario` is a mixin
-adapting the API of an `MDOScenario`
+adapting the API of an `EvaluationScenario`
 to the definition of the uncertain space, statistics and the associated estimation techniques;
-`UMDOScenario` and `UDOEScenario` derive from both `BaseUScenario` and `MDOScenario`.
+`UMDOScenario` derives from both `BaseUScenario` and `MDOScenario`
+and `UEvaluationScenario` from both `BaseUScenario` and `EvaluationScenario`.
 
-As any `MDOScenario`,
-a `BaseUScenario` creates an `OptimizationProblem` over the design space
+As any GEMSEO scenario,
+a `BaseUScenario` creates a problem over the design space,
+i.e. an `OptimizationProblem` for a `UMDOScenario`
+and an `EvaluationProblem` for a `UEvaluationScenario`,
 and passes it to its formulation,
 which is a `BaseUMDOFormulation`.
-The objective, constraints and observables are then added
-with the methods `add_objective()`, `add_constraint()` and `add_observable()`,
-which take the name of the statistic to be applied to the outputs.
+The observables are then added with the method `add_observable()`
+and, in the case of a `UMDOScenario`,
+the objective and constraints with the methods `add_objective()` and `add_constraint()`;
+these methods take the name of the statistic to be applied to the outputs.
 When uncertain design variables are defined,
 the `BaseUScenario` also prepends a chain of `BaseNoiser` disciplines to the disciplines.
 
@@ -103,7 +107,7 @@ while the estimation technique is in charge to
 1. sample this multidisciplinary process over the uncertain space,
 2. estimate the statistics by means of `BaseStatisticFunction`s
    which are particular `ArrayFunction`s
-   attached to the `OptimizationProblem` of the `BaseUMDOFormulation`.
+   attached to the problem of the `BaseUMDOFormulation`.
 
 A `BaseStatisticFunction` relies on a basic functor, called `BaseStatisticEstimator`.
 
@@ -124,12 +128,15 @@ classDiagram
 
    BaseUScenario <|-- UMDOScenario
    MDOScenario <|-- UMDOScenario
-   BaseUScenario <|-- UDOEScenario
-   MDOScenario <|-- UDOEScenario
+   BaseUScenario <|-- UEvaluationScenario
+   EvaluationScenario <|-- UEvaluationScenario
 
-   class BaseUScenario {
+   class UMDOScenario {
     +add_objective()
     +add_constraint()
+   }
+
+   class BaseUScenario {
     +add_observable()
     +available_statistics
     +formulation_name

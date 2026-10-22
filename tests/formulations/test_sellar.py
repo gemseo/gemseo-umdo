@@ -33,7 +33,7 @@ from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 from numpy.testing import assert_almost_equal
 
 from gemseo_umdo.formulations.surrogate_settings import Surrogate_Settings
-from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
+from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 
 if TYPE_CHECKING:
     from gemseo.util.typing import RealArray
@@ -77,18 +77,18 @@ def reference_data(
 
     Monte Carlo samples of the Sellar's multidisciplinary system orchestrated by MDF.
     """
-    doe_scenario = MDOScenario(
+    mdo_scenario = MDOScenario(
         disciplines,
         design_space=design_space,
         formulation_settings=MDF_Settings(
             main_mda_settings=MDAChain_Settings(max_mda_iter=3)
         ),
     )
-    doe_scenario.add_objective("obj", minimize=not maximize_objective)
-    doe_scenario.add_constraint("c_1", "ineq")
-    doe_scenario.add_constraint("c_2", "ineq")
-    doe_scenario.execute(scenario_input_data)
-    return doe_scenario.to_dataset().to_numpy()
+    mdo_scenario.add_objective("obj", minimize=not maximize_objective)
+    mdo_scenario.add_constraint("c_1", "ineq")
+    mdo_scenario.add_constraint("c_2", "ineq")
+    mdo_scenario.execute(scenario_input_data)
+    return mdo_scenario.to_dataset().to_numpy()
 
 
 @pytest.fixture(scope="module")
@@ -132,7 +132,7 @@ def test_uncertainty_free(
     maximize_objective,
     scenario_input_data,
 ):
-    """Check that the UDOEScenario and DOEScenario give the same results.
+    """Check that the UMDOScenario and MDOScenario give the same results.
 
     For that, we model alpha, beta and gamma as random variables distributed according
     to Dirac distributions, so that all their realizations are equal to the
@@ -143,7 +143,7 @@ def test_uncertainty_free(
     - PCE because a PCE regressor cannot be trained with constant inputs,
     - ControlVariate because control variate estimators require non-constant inputs.
     """
-    u_doe_scenario = UDOEScenario(
+    umdo_scenario = UMDOScenario(
         disciplines,
         design_space,
         dirac_uncertain_space,
@@ -152,11 +152,11 @@ def test_uncertainty_free(
             main_mda_settings=MDAChain_Settings(max_mda_iter=3)
         ),
     )
-    u_doe_scenario.add_objective("obj", "Mean", minimize=not maximize_objective)
-    u_doe_scenario.add_constraint("c_1", "Mean")
-    u_doe_scenario.add_constraint("c_2", "Mean")
-    u_doe_scenario.execute(scenario_input_data)
-    assert_almost_equal(u_doe_scenario.to_dataset().to_numpy(), reference_data)
+    umdo_scenario.add_objective("obj", "Mean", minimize=not maximize_objective)
+    umdo_scenario.add_constraint("c_1", "Mean")
+    umdo_scenario.add_constraint("c_2", "Mean")
+    umdo_scenario.execute(scenario_input_data)
+    assert_almost_equal(umdo_scenario.to_dataset().to_numpy(), reference_data)
 
 
 def test_weak_uncertainties(
@@ -169,12 +169,12 @@ def test_weak_uncertainties(
     scenario_input_data,
     size,
 ):
-    """Check that the UDOEScenario and DOEScenario give the same results.
+    """Check that the UMDOScenario and MDOScenario give the same results.
 
     For that, we model alpha, beta and gamma as random variables distributed according
     to normal distributions with a small variance.
     """
-    u_doe_scenario = UDOEScenario(
+    umdo_scenario = UMDOScenario(
         disciplines,
         design_space,
         normal_uncertain_space,
@@ -183,11 +183,11 @@ def test_weak_uncertainties(
             main_mda_settings=MDAChain_Settings(max_mda_iter=3)
         ),
     )
-    u_doe_scenario.add_objective("obj", "Mean", minimize=not maximize_objective)
-    u_doe_scenario.add_constraint("c_1", "Mean")
-    u_doe_scenario.add_constraint("c_2", "Mean")
-    u_doe_scenario.execute(scenario_input_data)
-    data = u_doe_scenario.to_dataset().to_numpy()
+    umdo_scenario.add_objective("obj", "Mean", minimize=not maximize_objective)
+    umdo_scenario.add_constraint("c_1", "Mean")
+    umdo_scenario.add_constraint("c_2", "Mean")
+    umdo_scenario.execute(scenario_input_data)
+    data = umdo_scenario.to_dataset().to_numpy()
     if isinstance(statistic_estimation_settings, Surrogate_Settings):
         data = data[:, 0:7] if size == 1 else data[:, 0:11]
 

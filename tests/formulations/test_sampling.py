@@ -64,7 +64,6 @@ from gemseo_umdo.formulations._statistics.sampling.standard_deviation import (
 from gemseo_umdo.formulations._statistics.sampling.variance import Variance
 from gemseo_umdo.formulations.sampling import Sampling
 from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
-from gemseo_umdo.scenarios.udoe_scenario import UDOEScenario
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 
 if TYPE_CHECKING:
@@ -142,7 +141,7 @@ def scenario(
     uncertain_space,
 ):
     """A scenario of interest."""
-    scn = UDOEScenario(
+    scn = UMDOScenario(
         disciplines,
         design_space,
         uncertain_space,
@@ -357,7 +356,7 @@ def test_clear_inner_database(umdo_formulation):
 
 
 def test_save_samples(disciplines, design_space, uncertain_space, tmp_wd):
-    scenario = UDOEScenario(
+    scenario = UMDOScenario(
         disciplines,
         design_space,
         uncertain_space,

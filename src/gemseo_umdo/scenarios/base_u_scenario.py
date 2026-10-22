@@ -22,7 +22,6 @@ from typing import TYPE_CHECKING
 from typing import Any
 from typing import ClassVar
 
-from gemseo.core.function.array_function import ArrayFunction
 from gemseo.util.constant import read_only_empty_dict
 from gemseo.util.string import MultiLineString
 from gemseo.util.string import pretty_str
@@ -144,67 +143,9 @@ class BaseUScenario:
         finally:
             del self._formulation_factory
 
-    def add_objective(
-        self,
-        output_names: str | Sequence[str],
-        statistic_name: str,
-        minimize: bool = True,
-        objective_name: str = "",
-        **statistic_parameters: Any,
-    ) -> None:
-        """Set the objective.
-
-        Args:
-            output_names: The names of the outputs used as objective.
-            statistic_name: The name of the statistic of `output_names`, e.g. "Margin".
-            minimize: Whether to minimize the statistic of the objective.
-            objective_name: The name of the objective to be stored.
-                If empty,
-                the name is generated from `output_names` and `statistic_name`.
-            **statistic_parameters: The parameters of the statistic,
-                e.g. `factor=2.` when `statistic_name="Margin"`.
-        """
-        problem = self.formulation.problem
-        problem.objective = self.formulation.create_objective(
-            output_names,
-            statistic_name,
-            objective_name=objective_name,
-            minimize=minimize,
-            **statistic_parameters,
-        )
-        problem.minimize_objective = minimize
-
     @property
     def formulation_name(self) -> str:  # noqa: D102
         return self.formulation.name
-
-    def add_constraint(
-        self,
-        output_name: str | Sequence[str],
-        statistic_name: str,
-        constraint_type: ArrayFunction.ConstraintType = (
-            ArrayFunction.ConstraintType.INEQ
-        ),
-        constraint_name: str = "",
-        value: float = 0,
-        positive: bool = False,
-        **statistic_parameters: Any,
-    ) -> None:
-        """
-        Args:
-            statistic_name: The name of the statistic of `output_name`, e.g. "Margin".
-            **statistic_parameters: The parameters of the statistic,
-                e.g. `factor=2.` when `statistic_name="Margin"`.
-        """  # noqa: D205 D212 D415
-        self.formulation.add_constraint(
-            output_name,
-            statistic_name,
-            constraint_type=constraint_type,
-            constraint_name=constraint_name,
-            value=value,
-            positive=positive,
-            **statistic_parameters,
-        )
 
     def add_observable(
         self,
