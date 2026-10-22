@@ -9319,8 +9319,7 @@ use <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gem
             </td>
             <td class="doc-param-details">
               <div class="doc-md-description">
-                <p>The name of the statistic
-to be applied to the constraint, e.g. "margin".</p>
+                <p>The name of the statistic of <code>output_name</code>, e.g. "Margin".</p>
               </div>
               <p>
                   <span class="doc-param-annotation">
@@ -9332,13 +9331,12 @@ to be applied to the constraint, e.g. "margin".</p>
           </tr>
           <tr class="doc-section-item">
             <td>
-                <code>statistic_parameters</code>
+                <code>**statistic_parameters</code>
             </td>
             <td class="doc-param-details">
               <div class="doc-md-description">
-                <p>The parameters of the statistics
-to be applied to the constraint,
-<code>{"factor": 2.}</code> when <code>objective_statistic="margin"</code>.</p>
+                <p>The parameters of the statistic,
+e.g. <code>factor=2.</code> when <code>statistic_name="Margin"</code>.</p>
               </div>
               <p>
                   <span class="doc-param-annotation">
@@ -9358,7 +9356,9 @@ to be applied to the constraint,
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/gemseo_umdo/scenarios/base_u_scenario.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">183</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
 <span class="normal">184</span>
 <span class="normal">185</span>
 <span class="normal">186</span>
@@ -9382,11 +9382,7 @@ to be applied to the constraint,
 <span class="normal">204</span>
 <span class="normal">205</span>
 <span class="normal">206</span>
-<span class="normal">207</span>
-<span class="normal">208</span>
-<span class="normal">209</span>
-<span class="normal">210</span>
-<span class="normal">211</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_constraint</span><span class="p">(</span>
+<span class="normal">207</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_constraint</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">output_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
     <span class="n">statistic_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -9400,11 +9396,9 @@ to be applied to the constraint,
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Args:</span>
-<span class="sd">        statistic_name: The name of the statistic</span>
-<span class="sd">            to be applied to the constraint, e.g. "margin".</span>
-<span class="sd">        statistic_parameters: The parameters of the statistics</span>
-<span class="sd">            to be applied to the constraint,</span>
-<span class="sd">            `{"factor": 2.}` when `objective_statistic="margin"`.</span>
+<span class="sd">        statistic_name: The name of the statistic of `output_name`, e.g. "Margin".</span>
+<span class="sd">        **statistic_parameters: The parameters of the statistic,</span>
+<span class="sd">            e.g. `factor=2.` when `statistic_name="Margin"`.</span>
 <span class="sd">    """</span>  <span class="c1"># noqa: D205 D212 D415</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">formulation</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span>
         <span class="n">output_name</span><span class="p">,</span>
@@ -9473,8 +9467,7 @@ to be applied to the constraint,
             </td>
             <td class="doc-param-details">
               <div class="doc-md-description">
-                <p>The name of the statistic
-to be applied to the objective, e.g. "Margin".</p>
+                <p>The name of the statistic of <code>output_names</code>, e.g. "Margin".</p>
               </div>
               <p>
                   <span class="doc-param-annotation">
@@ -9532,8 +9525,7 @@ the name is generated from <code>output_names</code> and <code>statistic_name</c
             </td>
             <td class="doc-param-details">
               <div class="doc-md-description">
-                <p>The parameters of the statistic
-to be applied to the objective,
+                <p>The parameters of the statistic,
 e.g. <code>factor=2.</code> when <code>statistic_name="Margin"</code>.</p>
               </div>
               <p>
@@ -9582,9 +9574,7 @@ e.g. <code>factor=2.</code> when <code>statistic_name="Margin"</code>.</p>
 <span class="normal">172</span>
 <span class="normal">173</span>
 <span class="normal">174</span>
-<span class="normal">175</span>
-<span class="normal">176</span>
-<span class="normal">177</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_objective</span><span class="p">(</span>
+<span class="normal">175</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_objective</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">output_names</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
     <span class="n">statistic_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -9596,14 +9586,12 @@ e.g. <code>factor=2.</code> when <code>statistic_name="Margin"</code>.</p>
 
 <span class="sd">    Args:</span>
 <span class="sd">        output_names: The names of the outputs used as objective.</span>
-<span class="sd">        statistic_name: The name of the statistic</span>
-<span class="sd">            to be applied to the objective, e.g. "Margin".</span>
+<span class="sd">        statistic_name: The name of the statistic of `output_names`, e.g. "Margin".</span>
 <span class="sd">        minimize: Whether to minimize the statistic of the objective.</span>
 <span class="sd">        objective_name: The name of the objective to be stored.</span>
 <span class="sd">            If empty,</span>
 <span class="sd">            the name is generated from `output_names` and `statistic_name`.</span>
-<span class="sd">        **statistic_parameters: The parameters of the statistic</span>
-<span class="sd">            to be applied to the objective,</span>
+<span class="sd">        **statistic_parameters: The parameters of the statistic,</span>
 <span class="sd">            e.g. `factor=2.` when `statistic_name="Margin"`.</span>
 <span class="sd">    """</span>
     <span class="n">problem</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">formulation</span><span class="o">.</span><span class="n">problem</span>
@@ -9656,8 +9644,7 @@ e.g. <code>factor=2.</code> when <code>statistic_name="Margin"</code>.</p>
             </td>
             <td class="doc-param-details">
               <div class="doc-md-description">
-                <p>The name of the statistic
-to be applied to the constraint, e.g. "margin".</p>
+                <p>The name of the statistic of <code>output_names</code>, e.g. "Margin".</p>
               </div>
               <p>
                   <span class="doc-param-annotation">
@@ -9669,13 +9656,12 @@ to be applied to the constraint, e.g. "margin".</p>
           </tr>
           <tr class="doc-section-item">
             <td>
-                <code>statistic_parameters</code>
+                <code>**statistic_parameters</code>
             </td>
             <td class="doc-param-details">
               <div class="doc-md-description">
-                <p>The parameters of the statistics
-to be applied to the constraint,
-<code>{"factor": 2.}</code> when <code>objective_statistic="margin"</code>.</p>
+                <p>The parameters of the statistic,
+e.g. <code>factor=2.</code> when <code>statistic_name="Margin"</code>.</p>
               </div>
               <p>
                   <span class="doc-param-annotation">
@@ -9695,7 +9681,11 @@ to be applied to the constraint,
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/gemseo_umdo/scenarios/base_u_scenario.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">213</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
 <span class="normal">214</span>
 <span class="normal">215</span>
 <span class="normal">216</span>
@@ -9711,13 +9701,7 @@ to be applied to the constraint,
 <span class="normal">226</span>
 <span class="normal">227</span>
 <span class="normal">228</span>
-<span class="normal">229</span>
-<span class="normal">230</span>
-<span class="normal">231</span>
-<span class="normal">232</span>
-<span class="normal">233</span>
-<span class="normal">234</span>
-<span class="normal">235</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_observable</span><span class="p">(</span>
+<span class="normal">229</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_observable</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">output_names</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
     <span class="n">statistic_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -9727,11 +9711,9 @@ to be applied to the constraint,
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Args:</span>
-<span class="sd">        statistic_name: The name of the statistic</span>
-<span class="sd">            to be applied to the constraint, e.g. "margin".</span>
-<span class="sd">        statistic_parameters: The parameters of the statistics</span>
-<span class="sd">            to be applied to the constraint,</span>
-<span class="sd">            `{"factor": 2.}` when `objective_statistic="margin"`.</span>
+<span class="sd">        statistic_name: The name of the statistic of `output_names`, e.g. "Margin".</span>
+<span class="sd">        **statistic_parameters: The parameters of the statistic,</span>
+<span class="sd">            e.g. `factor=2.` when `statistic_name="Margin"`.</span>
 <span class="sd">    """</span>  <span class="c1"># noqa: D205 D212 D415</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">formulation</span><span class="o">.</span><span class="n">add_observable</span><span class="p">(</span>
         <span class="n">output_names</span><span class="p">,</span>

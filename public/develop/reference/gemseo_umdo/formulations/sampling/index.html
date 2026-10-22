@@ -9414,7 +9414,7 @@ respect to the design variables.</p>
             </td>
             <td class="doc-param-details">
               <div class="doc-md-description">
-                <p>The name of the statistic to be applied to the constraint.</p>
+                <p>The name of the statistic of <code>output_names</code>.</p>
               </div>
               <p>
                   <span class="doc-param-annotation">
@@ -9512,8 +9512,8 @@ the name is generated from <code>output_names</code> and <code>statistic_name</c
             </td>
             <td class="doc-param-details">
               <div class="doc-md-description">
-                <p>The values of the parameters of the statistic
-to be applied to the constraint, if any.</p>
+                <p>The values of the parameters of the statistic,
+if any.</p>
               </div>
               <p>
                   <span class="doc-param-annotation">
@@ -9586,15 +9586,15 @@ to be applied to the constraint, if any.</p>
 
 <span class="sd">    Args:</span>
 <span class="sd">        output_names: The names of the outputs.</span>
-<span class="sd">        statistic_name: The name of the statistic to be applied to the constraint.</span>
+<span class="sd">        statistic_name: The name of the statistic of `output_names`.</span>
 <span class="sd">        constraint_type: The type of constraint.</span>
 <span class="sd">        constraint_name: The name of the constraint to be stored.</span>
 <span class="sd">            If empty,</span>
 <span class="sd">            the name is generated from `output_names` and `statistic_name`.</span>
 <span class="sd">        value: The value $a$.</span>
 <span class="sd">        positive: Whether the inequality constraint is positive.</span>
-<span class="sd">        **statistic_parameters: The values of the parameters of the statistic</span>
-<span class="sd">            to be applied to the constraint, if any.</span>
+<span class="sd">        **statistic_parameters: The values of the parameters of the statistic,</span>
+<span class="sd">            if any.</span>
 <span class="sd">    """</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">create_constraint</span><span class="p">(</span>
@@ -9667,7 +9667,7 @@ to be applied to the constraint, if any.</p>
             </td>
             <td class="doc-param-details">
               <div class="doc-md-description">
-                <p>The name of the statistic to be applied to the observable.</p>
+                <p>The name of the statistic of <code>output_names</code>.</p>
               </div>
               <p>
                   <span class="doc-param-annotation">
@@ -9725,7 +9725,8 @@ If <code>None</code>, the discipline is detected from inner disciplines.</p>
             </td>
             <td class="doc-param-details">
               <div class="doc-md-description">
-                <p>The description is missing.</p>
+                <p>The values of the parameters of the statistic,
+if any.</p>
               </div>
               <p>
                   <span class="doc-param-annotation">
@@ -9784,9 +9785,9 @@ If <code>None</code>, the discipline is detected from inner disciplines.</p>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Args:</span>
-<span class="sd">        statistic_name: The name of the statistic to be applied to the observable.</span>
-<span class="sd">        statistic_parameters: The values of the parameters</span>
-<span class="sd">            of the statistic to be applied to the observable, if any.</span>
+<span class="sd">        statistic_name: The name of the statistic of `output_names`.</span>
+<span class="sd">        **statistic_parameters: The values of the parameters of the statistic,</span>
+<span class="sd">            if any.</span>
 <span class="sd">    """</span>  <span class="c1"># noqa: D205 D212 D415</span>
     <span class="n">output_names</span> <span class="o">=</span> <span class="n">convert_strings_to_iterable</span><span class="p">(</span><span class="n">output_names</span><span class="p">)</span>
     <span class="n">function_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__add_mdo_observable</span><span class="p">(</span>
@@ -10019,7 +10020,7 @@ If <code>None</code>, the discipline is detected from inner disciplines.</p>
             </td>
             <td class="doc-param-details">
               <div class="doc-md-description">
-                <p>The name of the statistic to be applied to the constraint.</p>
+                <p>The name of the statistic of <code>output_names</code>.</p>
               </div>
               <p>
                   <span class="doc-param-annotation">
@@ -10117,8 +10118,8 @@ the name is generated from <code>output_names</code> and <code>statistic_name</c
             </td>
             <td class="doc-param-details">
               <div class="doc-md-description">
-                <p>The values of the parameters of the statistic
-to be applied to the constraint, if any.</p>
+                <p>The values of the parameters of the statistic,
+if any.</p>
               </div>
               <p>
                   <span class="doc-param-annotation">
@@ -10235,15 +10236,15 @@ to be applied to the constraint, if any.</p>
 
 <span class="sd">    Args:</span>
 <span class="sd">        output_names: The names of the outputs.</span>
-<span class="sd">        statistic_name: The name of the statistic to be applied to the constraint.</span>
+<span class="sd">        statistic_name: The name of the statistic of `output_names`.</span>
 <span class="sd">        constraint_type: The type of constraint.</span>
 <span class="sd">        constraint_name: The name of the constraint to be stored.</span>
 <span class="sd">            If empty,</span>
 <span class="sd">            the name is generated from `output_names` and `statistic_name`.</span>
 <span class="sd">        value: The value $a$.</span>
 <span class="sd">        positive: Whether the inequality constraint is positive.</span>
-<span class="sd">        **statistic_parameters: The values of the parameters of the statistic</span>
-<span class="sd">            to be applied to the constraint, if any.</span>
+<span class="sd">        **statistic_parameters: The values of the parameters of the statistic,</span>
+<span class="sd">            if any.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The constraint function.</span>
@@ -10335,7 +10336,7 @@ to be applied to the constraint, if any.</p>
             </td>
             <td class="doc-param-details">
               <div class="doc-md-description">
-                <p>The name of the statistic to be applied to the objective.</p>
+                <p>The name of the statistic of <code>output_names</code>.</p>
               </div>
               <p>
                   <span class="doc-param-annotation">
@@ -10393,8 +10394,8 @@ the name is generated from <code>output_names</code> and <code>statistic_name</c
             </td>
             <td class="doc-param-details">
               <div class="doc-md-description">
-                <p>The values of the parameters
-of the statistic to be applied to the objective, if any.</p>
+                <p>The values of the parameters of the statistic,
+if any.</p>
               </div>
               <p>
                   <span class="doc-param-annotation">
@@ -10488,13 +10489,13 @@ of the statistic to be applied to the objective, if any.</p>
 
 <span class="sd">    Args:</span>
 <span class="sd">        output_names: The names of the outputs.</span>
-<span class="sd">        statistic_name: The name of the statistic to be applied to the objective.</span>
+<span class="sd">        statistic_name: The name of the statistic of `output_names`.</span>
 <span class="sd">        objective_name: The name of the objective.</span>
 <span class="sd">            If empty,</span>
 <span class="sd">            the name is generated from `output_names` and `statistic_name`.</span>
 <span class="sd">        minimize: Whether the statistic of the objective will be minimized.</span>
-<span class="sd">        **statistic_parameters: The values of the parameters</span>
-<span class="sd">            of the statistic to be applied to the objective, if any.</span>
+<span class="sd">        **statistic_parameters: The values of the parameters of the statistic,</span>
+<span class="sd">            if any.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The objective function.</span>
