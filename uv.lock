@@ -686,8 +686,8 @@ wheels = [
 
 [[package]]
 name = "gemseo"
-version = "7.0.0rc1.dev15+gf19078e04"
-source = { git = "https://gitlab.com/gemseo/dev/gemseo.git?branch=develop#f19078e04253d7db041d86c62f09b862fdc8317c" }
+version = "7.0.0rc1.dev17+gc49bd43cc"
+source = { git = "https://gitlab.com/gemseo/dev/gemseo.git?branch=develop#c49bd43cc2a07cc5d0e02e09040b6b0c1f788dc1" }
 dependencies = [
     { name = "docstring-inheritance" },
     { name = "fastjsonschema" },
