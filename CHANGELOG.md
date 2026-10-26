@@ -124,6 +124,10 @@ and this project adheres to
   with different parameters,
   e.g. two ``"Margin"`` with different factors;
   previously, both returned the value of the last one.
+- [Sampling][gemseo_umdo.formulations.sampling.Sampling]
+  with `estimate_statistics_iteratively=True` (default)
+  no longer lists `"BaseCentralMoment"` among its available statistics
+  and no longer accepts it as a statistic name.
 
 ## Version 4.3.0 (October 2025)
 

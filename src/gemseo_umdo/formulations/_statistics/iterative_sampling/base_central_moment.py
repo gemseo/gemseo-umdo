@@ -16,6 +16,8 @@
 
 from __future__ import annotations
 
+from abc import abstractmethod
+from typing import TYPE_CHECKING
 from typing import ClassVar
 
 from openturns import IterativeMoments
@@ -23,6 +25,9 @@ from openturns import IterativeMoments
 from gemseo_umdo.formulations._statistics.iterative_sampling.base_sampling_estimator import (  # noqa: E501
     BaseSamplingEstimator,
 )
+
+if TYPE_CHECKING:
+    from gemseo.util.typing import RealArray
 
 
 class BaseCentralMoment(BaseSamplingEstimator):
@@ -45,3 +50,11 @@ class BaseCentralMoment(BaseSamplingEstimator):
 
     def _create_jac_estimator(self, size: int) -> None:
         self._jac_estimator = IterativeMoments(self._ORDER, size)
+
+    @abstractmethod
+    def _get_estimation(self) -> RealArray:
+        """Return the current estimation of the central moment.
+
+        Returns:
+            The current estimation of the central moment.
+        """
