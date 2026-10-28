@@ -147,6 +147,18 @@ def test_output_names(disciplines, uncertain_space, tmp_wd):
     check_dot_file(file_name)
 
 
+def test_repeated_sampling(disciplines, uncertain_space, tmp_wd):
+    """Check that the dispersion is estimated from all the samples."""
+    file_name = "repeated_sampling.png"
+    uncertain_coupling_graph = UncertainCouplingGraph(
+        disciplines, uncertain_space, variable_names=["y_21"]
+    )
+    uncertain_coupling_graph.sample(OT_OPT_LHS_Settings(n_samples=10))
+    uncertain_coupling_graph.sample(OT_OPT_LHS_Settings(n_samples=7, seed=3))
+    uncertain_coupling_graph.visualize(show=False, clean_up=False, file_path=file_name)
+    check_dot_file(file_name)
+
+
 def test_self_coupled(tmp_wd):
     """Check the image computed with a self-coupled discipline."""
     file_name = "self_coupled.png"

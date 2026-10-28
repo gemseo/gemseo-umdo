@@ -320,6 +320,12 @@ and this project adheres to
   as when adding an observable already observed;
   previously, the output was still added as an observable
   of the problem of their MDO formulation.
+- The coefficient of variation used as dispersion measure by
+  [UncertainCouplingGraph][gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph]
+  is computed component-wise,
+  i.e. the standard deviation of each component of a coupling variable
+  is normalized by the mean of this component
+  instead of the mean of all the components.
 
 ## Version 4.3.0 (October 2025)
 

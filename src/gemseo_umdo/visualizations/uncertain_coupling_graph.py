@@ -23,10 +23,9 @@ from typing import Final
 from gemseo.core.dependency_graph import DependencyGraph
 from gemseo.post._graph_view import GraphView
 from gemseo.scenario import EvaluationScenario
+from gemseo.uncertainty.statistic.empirical import EmpiricalStatistics
 from gemseo.util.discipline import get_all_outputs
 from gemseo.util.string import repr_variable
-from numpy import atleast_1d
-from numpy import quantile
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -38,20 +37,6 @@ if TYPE_CHECKING:
     from gemseo.doe.core.base_doe_settings import BaseDOESettings
     from gemseo.space.base import BaseVariableSpace
     from gemseo.util.typing import RealArray
-
-
-def _compute_qcd(x: RealArray) -> RealArray:
-    """Compute the quartile coefficient of dispersion.
-
-    Args:
-        x: The data to compute the quartile coefficient of dispersion.
-
-    Returns:
-        The quartile coefficient of dispersion.
-    """
-    q025 = quantile(x, 0.25, 0)
-    q075 = quantile(x, 0.75, 0)
-    return (q075 - q025) / (q025 + q075)
 
 
 class UncertainCouplingGraph:
@@ -147,48 +132,50 @@ class UncertainCouplingGraph:
             The view of the uncertain coupling graph.
         """
         if variable_names is None:
-            all_output_names = self.__output_names
-        else:
-            all_output_names = variable_names
+            variable_names = self.__output_names
 
-        database = self.__scenario.formulation.problem.database
-        output_names_to_measures = {
-            output_name: _disp_meas_to_function[dispersion_measure](
-                database.get_function_history(output_name)
-            )
-            for output_name in self.__output_names
-        }
+        variable_names = set(variable_names)
         dependency_graph = DependencyGraph(self.__scenario.disciplines).graph
+        edges = [
+            (head_disc, tail_disc, variable_names.intersection(coupling_names))
+            for head_disc, tail_disc, coupling_names in dependency_graph.edges(
+                data="io"
+            )
+        ]
+        edges.extend(
+            (
+                discipline,
+                discipline,
+                variable_names.intersection(
+                    discipline.io.input_grammar.names
+                ).intersection(discipline.io.output_grammar.names),
+            )
+            for discipline in dependency_graph.nodes
+        )
         graph_view = GraphView()
         for discipline in self.__scenario.disciplines:
             graph_view.node(discipline.name)
 
-        for head_disc, tail_disc, coupling_names in dependency_graph.edges(data="io"):
-            variable_names = set(coupling_names).intersection(set(all_output_names))
-            for coupling_name in variable_names:
-                disp_meas = atleast_1d(output_names_to_measures[coupling_name])
+        coupling_names = set().union(*(names for _, _, names in edges))
+        output_names_to_measures = {}
+        if coupling_names:
+            # EvaluationScenario.to_dataset() exports only the last DOE samples,
+            # whereas the database of its problem accumulates those of all the runs.
+            output_names_to_measures = _disp_meas_to_function[dispersion_measure](
+                EmpiricalStatistics(
+                    self.__scenario.formulation.problem.to_dataset(),
+                    variable_names=coupling_names,
+                )
+            )
+
+        for head_disc, tail_disc, names in edges:
+            for coupling_name in names:
+                disp_meas = output_names_to_measures[coupling_name]
                 coupling_size = disp_meas.size
                 for i in range(coupling_size):
                     graph_view.edge(
                         head_disc.name,
                         tail_disc.name,
-                        label=repr_variable(coupling_name, i, coupling_size),
-                        penwidth=str(round(abs(disp_meas[i] * maximum_thickness), 2)),
-                    )
-
-        for discipline in dependency_graph.nodes:
-            coupling_names = set(discipline.io.input_grammar.names).intersection(
-                discipline.io.output_grammar.names
-            )
-            discipline_name = discipline.name
-            variable_names = set(coupling_names).intersection(set(all_output_names))
-            for coupling_name in variable_names:
-                disp_meas = atleast_1d(output_names_to_measures[coupling_name])
-                coupling_size = disp_meas.size
-                for i in range(coupling_size):
-                    graph_view.edge(
-                        discipline_name,
-                        discipline_name,
                         label=repr_variable(coupling_name, i, coupling_size),
                         penwidth=str(round(abs(disp_meas[i] * maximum_thickness), 2)),
                     )
@@ -200,9 +187,16 @@ class UncertainCouplingGraph:
 
 
 _disp_meas_to_function: Final[
-    dict[UncertainCouplingGraph.DispersionMeasure, Callable]
+    dict[
+        UncertainCouplingGraph.DispersionMeasure,
+        Callable[[EmpiricalStatistics], dict[str, RealArray]],
+    ]
 ] = {
-    UncertainCouplingGraph.DispersionMeasure.CV: lambda x: x.std(0) / x.mean(),
-    UncertainCouplingGraph.DispersionMeasure.QCD: _compute_qcd,
+    UncertainCouplingGraph.DispersionMeasure.CV: (
+        EmpiricalStatistics.compute_variation_coefficient
+    ),
+    UncertainCouplingGraph.DispersionMeasure.QCD: (
+        EmpiricalStatistics.compute_quartile_coefficient_of_dispersion
+    ),
 }
-"""The functions computing the dispersion measures from samples."""
+"""The functions computing the dispersion measures from empirical statistics."""
