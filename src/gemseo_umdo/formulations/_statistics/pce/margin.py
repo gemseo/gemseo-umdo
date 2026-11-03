@@ -29,9 +29,9 @@ if TYPE_CHECKING:
 class Margin(BasePCEEstimator):
     """Estimator of a margin, i.e. mean + factor * deviation."""
 
-    ARG_NAMES: ClassVar[tuple[str]] = (
-        BasePCEEstimator.MEAN_ARG_NAME,
-        BasePCEEstimator.STD_ARG_NAME,
+    arg_names: ClassVar[tuple[str, ...]] = (
+        BasePCEEstimator.mean_arg_name,
+        BasePCEEstimator.std_arg_name,
     )
 
     __factor: float

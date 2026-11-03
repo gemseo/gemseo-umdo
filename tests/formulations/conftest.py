@@ -92,7 +92,7 @@ def quadratic_problem() -> tuple[AnalyticDiscipline, DesignSpace, RandomSpace]:
     return discipline, design_space, uncertain_space
 
 
-_SETTINGS = (
+_settings = (
     Sampling_Settings(n_samples=10),
     Sampling_Settings(n_samples=10, estimate_statistics_iteratively=False),
     SequentialSampling_Settings(n_samples=10),
@@ -102,7 +102,7 @@ _SETTINGS = (
 )
 
 
-@pytest.fixture(params=_SETTINGS)
+@pytest.fixture(params=_settings)
 def statistic_estimation_settings_for_dirac(request):
     """Statistic estimation settings compatible with the Dirac distribution."""
     return request.param
@@ -110,7 +110,7 @@ def statistic_estimation_settings_for_dirac(request):
 
 @pytest.fixture(
     params=[
-        *_SETTINGS,
+        *_settings,
         ControlVariate_Settings(n_samples=10),
         PCE_Settings(n_samples=20),
         Surrogate_Settings(n_samples=20),

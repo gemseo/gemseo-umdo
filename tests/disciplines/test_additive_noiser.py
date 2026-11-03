@@ -32,7 +32,7 @@ def additive_noiser() -> AdditiveNoiser:
 
 def test_short_name():
     """Check the short name."""
-    assert AdditiveNoiser.SHORT_NAME == "+"
+    assert AdditiveNoiser.short_name == "+"
     noiser = NoiserFactory().create(
         "+",
         variable_name="foo",

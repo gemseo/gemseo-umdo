@@ -132,9 +132,9 @@ def test_scenario_serialization(scenario, tmp_path, scenario_input_data):
 
 # In the following, we will name m and s the mean and standard deviation of U.
 # Here are the value of f(x, m), jac(x, m) and hess(x, m).
-FUNC = array([1.0, 2.0])
-JAC = array([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]])
-HESS = array([
+func = array([1.0, 2.0])
+jac = array([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]])
+hess = array([
     [[1.0, 2.0, 3.0], [4.0, 5.0, 6.0], [7.0, 8.0, 9.0]],
     [[-1.0, -2.0, -3.0], [-4.0, -5.0, -6.0], [-7.0, -8.0, -9.0]],
 ])
@@ -149,28 +149,28 @@ def test_init_differentiation_method(umdo_formulation):
 def test_estimate_mean(umdo_formulation):
     """Check that E[f(x,U)] is estimated by f(x,m) + 0.5s²h(x,m)."""
     mean = Mean(umdo_formulation.uncertain_space)
-    mean_estimation = mean.estimate_statistic(FUNC, JAC, HESS)
+    mean_estimation = mean.estimate_statistic(func, jac, hess)
     assert_equal(mean_estimation, array([115.0, -112.0]))
 
 
 def test_estimate_variance(umdo_formulation):
     """Check that V[f(x,U)] is estimated by (sj(x,m))²."""
     variance = Variance(umdo_formulation.uncertain_space)
-    var_estimation = variance.estimate_statistic(FUNC, JAC, HESS)
+    var_estimation = variance.estimate_statistic(func, jac, hess)
     assert_equal(var_estimation, array([98.0, 440.0]))
 
 
 def test_estimate_standard_derivation(umdo_formulation):
     """Check that V[f(x,u)] = S[f(x,U)]²."""
     standard_deviation = StandardDeviation(umdo_formulation.uncertain_space)
-    std_estimation = standard_deviation.estimate_statistic(FUNC, JAC, HESS)
+    std_estimation = standard_deviation.estimate_statistic(func, jac, hess)
     assert_equal(std_estimation, array([98.0, 440.0]) ** 0.5)
 
 
 def test_estimate_margin(umdo_formulation):
     """Check that Margin[f(x,u);k] = E[f(x,U)] + kS[f(x,U)]."""
     margin = Margin(umdo_formulation.uncertain_space, factor=3.0)
-    margin_estimation = margin.estimate_statistic(FUNC, JAC, HESS)
+    margin_estimation = margin.estimate_statistic(func, jac, hess)
     assert_equal(
         margin_estimation, array([115.0, -112.0]) + 3.0 * array([98.0, 440.0]) ** 0.5
     )

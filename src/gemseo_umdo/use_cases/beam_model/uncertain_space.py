@@ -45,7 +45,7 @@ class BeamUncertainSpace(RandomSpace):
     where $\delta$ is an aforementioned deviation value.
     """
 
-    __DEFAULT_DELTA: Final[dict[str, float]] = {
+    __default_delta: Final[dict[str, float]] = {
         F.name: 10.0,
         E.name: 5.0,
         sigma_all.name: 5.0,
@@ -63,7 +63,7 @@ class BeamUncertainSpace(RandomSpace):
         for variable in [F, E, sigma_all]:
             nominal = variable.value
             name = variable.name
-            delta = deltas.pop(name, self.__DEFAULT_DELTA[name]) / 100
+            delta = deltas.pop(name, self.__default_delta[name]) / 100
             if uniform:
                 minimum, maximum = sorted([
                     nominal * (1 - delta),

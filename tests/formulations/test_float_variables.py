@@ -29,7 +29,7 @@ from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 from gemseo.formulation import MDF_Settings
 
 
-ZERO = zeros(1)
+zero = zeros(1)
 
 
 def f_float(x: float = 0.0, u: float = 0.0) -> float:
@@ -37,7 +37,7 @@ def f_float(x: float = 0.0, u: float = 0.0) -> float:
     return y  # noqa: RET504
 
 
-def f_ndarray(x: ndarray = ZERO, u: ndarray = ZERO) -> ndarray:
+def f_ndarray(x: ndarray = zero, u: ndarray = zero) -> ndarray:
     y = x + u
     return y  # noqa: RET504
 

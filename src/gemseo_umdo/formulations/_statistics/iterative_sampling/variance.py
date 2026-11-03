@@ -34,7 +34,7 @@ if TYPE_CHECKING:
 class Variance(BaseCentralMoment):
     """Iterative estimator of the variance."""
 
-    _ORDER: ClassVar[int] = 2
+    _order: ClassVar[int] = 2
 
     __mean_jac: Mean
     """The iterative estimator of the Jacobian of the mean."""

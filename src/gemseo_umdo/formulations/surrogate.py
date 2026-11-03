@@ -133,9 +133,9 @@ class Surrogate(BaseUMDOFormulation):
     threshold: dict[str, RealArray]
     """The learning quality threshold component-wise."""
 
-    _STATISTIC_FACTORY: ClassVar[SamplingEstimatorFactory] = SamplingEstimatorFactory()
+    _statistic_factory: SamplingEstimatorFactory = SamplingEstimatorFactory()
 
-    _STATISTIC_FUNCTION_CLASS: ClassVar[type[StatisticFunctionForSurrogate] | None] = (
+    _statistic_function_class: type[StatisticFunctionForSurrogate] = (
         StatisticFunctionForSurrogate
     )
 

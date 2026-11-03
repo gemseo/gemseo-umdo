@@ -70,18 +70,18 @@ class TaylorPolynomial(BaseUMDOFormulation):
         TaylorPolynomial_Settings
     )
 
-    _USE_AUXILIARY_MDO_FORMULATION: ClassVar[bool] = True
+    _use_auxiliary_mdo_formulation: ClassVar[bool] = True
 
     __hessian_fd_problem: EvaluationProblem | None
     """The problem related to the approximation of the Hessian if any."""
 
-    _STATISTIC_FACTORY: ClassVar[TaylorPolynomialEstimatorFactory] = (
+    _statistic_factory: TaylorPolynomialEstimatorFactory = (
         TaylorPolynomialEstimatorFactory()
     )
 
-    _STATISTIC_FUNCTION_CLASS: ClassVar[
-        type[StatisticFunctionForTaylorPolynomial] | None
-    ] = StatisticFunctionForTaylorPolynomial
+    _statistic_function_class: type[StatisticFunctionForTaylorPolynomial] = (
+        StatisticFunctionForTaylorPolynomial
+    )
 
     def __init__(  # noqa: D107
         self,

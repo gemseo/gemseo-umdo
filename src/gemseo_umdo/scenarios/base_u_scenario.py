@@ -27,7 +27,7 @@ from gemseo.util.string import MultiLineString
 from gemseo.util.string import pretty_str
 
 from gemseo_umdo.disciplines.utils import create_noising_discipline_chain
-from gemseo_umdo.formulations.factory import UMDO_FORMULATION_FACTORY
+from gemseo_umdo.formulations.factory import umdo_formulation_factory
 
 if TYPE_CHECKING:
     from collections.abc import Mapping
@@ -51,7 +51,7 @@ if TYPE_CHECKING:
 class BaseUScenario:
     """Base scenario for multidisciplinary design problems under uncertainty."""
 
-    _formulation_factory: ClassVar[UMDOFormulationsFactory] = UMDO_FORMULATION_FACTORY
+    _formulation_factory: ClassVar[UMDOFormulationsFactory] = umdo_formulation_factory
 
     formulation: BaseUMDOFormulation
 
@@ -91,7 +91,7 @@ class BaseUScenario:
                 More generally,
                 the first element of the tuple is assumed
                 to be either the class name or the
-                [SHORT_NAME][gemseo_umdo.disciplines.base_noiser.BaseNoiser.SHORT_NAME]
+                [short_name][gemseo_umdo.disciplines.base_noiser.BaseNoiser.short_name]
                 of a
                 [BaseNoiser][gemseo_umdo.disciplines.base_noiser.BaseNoiser]
                 (feel free to create new noising disciplines).

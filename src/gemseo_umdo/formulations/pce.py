@@ -58,10 +58,8 @@ class PCE(Surrogate):
 
     settings_class: ClassVar[type[PCE_Settings]] = PCE_Settings
 
-    _STATISTIC_FACTORY: ClassVar[PCEEstimatorFactory] = PCEEstimatorFactory()
+    _statistic_factory: PCEEstimatorFactory = PCEEstimatorFactory()
 
-    _STATISTIC_FUNCTION_CLASS: ClassVar[type[StatisticFunctionForPCE] | None] = (
-        StatisticFunctionForPCE
-    )
+    _statistic_function_class: type[StatisticFunctionForPCE] = StatisticFunctionForPCE
 
-    _USE_AUXILIARY_MDO_FORMULATION: ClassVar[bool] = True
+    _use_auxiliary_mdo_formulation: ClassVar[bool] = True

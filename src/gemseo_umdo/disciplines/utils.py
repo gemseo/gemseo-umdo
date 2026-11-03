@@ -53,7 +53,7 @@ def create_noising_discipline_chain(
             More generally,
             the first element of the tuple is assumed
             to be either the class name or the
-            [SHORT_NAME][gemseo_umdo.disciplines.base_noiser.BaseNoiser.SHORT_NAME]
+            [short_name][gemseo_umdo.disciplines.base_noiser.BaseNoiser.short_name]
             of a
             [BaseNoiser][gemseo_umdo.disciplines.base_noiser.BaseNoiser]
             (feel free to create new noising disciplines).

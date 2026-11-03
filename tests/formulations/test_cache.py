@@ -45,7 +45,7 @@ if TYPE_CHECKING:
         BaseUMDOFormulationSettings,
     )
 
-DESIGN_POINTS = array([[-1.0], [0.0], [1.0]])
+design_points = array([[-1.0], [0.0], [1.0]])
 """The design points at which to estimate the statistics."""
 
 
@@ -178,10 +178,10 @@ def test_one_sampling_per_design_point(
         return compute_samples(*args, **kwargs)
 
     monkeypatch.setattr(formulation, "compute_samples", count_compute_samples)
-    scenario.execute(CustomDOE_Settings(samples=DESIGN_POINTS, eval_jac=eval_jac))
-    assert n_calls == len(DESIGN_POINTS) * (1 + int(eval_jac))
+    scenario.execute(CustomDOE_Settings(samples=design_points, eval_jac=eval_jac))
+    assert n_calls == len(design_points) * (1 + int(eval_jac))
     if eval_jac:
         problem = formulation.problem
         for function in problem.functions:
             gradients = problem.database.get_gradient_history(function.name)
-            assert len(gradients) == len(DESIGN_POINTS)
+            assert len(gradients) == len(design_points)

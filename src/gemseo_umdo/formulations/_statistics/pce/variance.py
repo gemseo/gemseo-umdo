@@ -29,7 +29,7 @@ if TYPE_CHECKING:
 class Variance(BasePCEEstimator):
     """Estimator of the variance."""
 
-    ARG_NAMES: ClassVar[tuple[str]] = (BasePCEEstimator.VAR_ARG_NAME,)
+    arg_names: ClassVar[tuple[str]] = (BasePCEEstimator.var_arg_name,)
 
     def estimate_statistic(self, variance: RealArray) -> RealArray:
         return variance

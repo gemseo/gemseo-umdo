@@ -31,5 +31,5 @@ class UMDOFormulationsFactory(MDOFormulationFactory):
     _package_names = ("gemseo_umdo.formulations",)
 
 
-UMDO_FORMULATION_FACTORY: Final[UMDOFormulationsFactory] = UMDOFormulationsFactory()
+umdo_formulation_factory: Final[UMDOFormulationsFactory] = UMDOFormulationsFactory()
 """The factory for ``BaseUMDOFormulation`` objects."""

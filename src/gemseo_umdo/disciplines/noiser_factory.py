@@ -33,7 +33,7 @@ class NoiserFactory(DisciplineFactory):
     def __init__(self):  # noqa: D107
         super().__init__()
         self.__short_names_to_class_names = {
-            self.get_class(class_name).SHORT_NAME: class_name
+            self.get_class(class_name).short_name: class_name
             for class_name in self.class_names
         }
 

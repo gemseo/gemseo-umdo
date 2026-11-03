@@ -54,9 +54,9 @@ from __future__ import annotations
 
 from enum import StrEnum
 
-from gemseo.doe.factory import DOELibraryFactory
+from gemseo.doe.factory import doe_library_factory
 
-DOE_ALGO_NAMES = StrEnum(
-    "DOE_ALGO_NAMES", {name: name for name in DOELibraryFactory().algorithms}
+DOEAlgorithmName = StrEnum(
+    "DOEAlgorithmName", {name: name for name in doe_library_factory.algorithms}
 )
 """The names of the available DOE algorithms."""

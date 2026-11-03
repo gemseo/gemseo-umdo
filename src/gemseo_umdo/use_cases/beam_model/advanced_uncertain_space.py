@@ -41,7 +41,7 @@ if TYPE_CHECKING:
 class AdvancedBeamUncertainSpace(RandomSpace):
     """The advanced uncertain space for the beam use case."""
 
-    __DEFAULT_DISPERSION: ClassVar[float] = 1.0
+    __default_dispersion: ClassVar[float] = 1.0
 
     def __init__(
         self, nominal_values: Mapping[str, float] | None = None, **dispersions: float
@@ -77,7 +77,7 @@ class AdvancedBeamUncertainSpace(RandomSpace):
         for variable in variables[:4]:
             name = variable.name
             nominal_value = variable.value
-            delta = dispersions.get(name, self.__DEFAULT_DISPERSION)
+            delta = dispersions.get(name, self.__default_dispersion)
             self.add_variable(
                 name,
                 OTUniformDistribution_Settings(
@@ -99,10 +99,10 @@ class AdvancedBeamUncertainSpace(RandomSpace):
                 to define the standard deviation $\sigma=\delta/3$;
                 the distribution is truncated
                 to the interval $[\mu-3\sigma,\mu+3\sigma]$;
-                if the dispersion is missing, use `.__DEFAULT_DISPERSION`.
+                if the dispersion is missing, use `.__default_dispersion`.
         """
         nominal_value = self.__nominal_values[name]
-        sigma = dispersions.get(name, self.__DEFAULT_DISPERSION / 3.0)
+        sigma = dispersions.get(name, self.__default_dispersion / 3.0)
         self.add_variable(
             name,
             OTNormalDistribution_Settings(

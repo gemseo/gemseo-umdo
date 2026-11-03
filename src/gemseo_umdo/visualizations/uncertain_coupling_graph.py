@@ -87,7 +87,7 @@ class UncertainCouplingGraph:
         CV = "CV"
         QCD = "QCD"
 
-    __DISP_MEAS_TO_FUNCTION: Final[dict[DispersionMeasure, Callable]] = {
+    __disp_meas_to_function: Final[dict[DispersionMeasure, Callable]] = {
         DispersionMeasure.CV: lambda x: x.std(0) / x.mean(),
         DispersionMeasure.QCD: lambda x: _compute_qcd(x),
     }
@@ -158,7 +158,7 @@ class UncertainCouplingGraph:
 
         database = self.__scenario.formulation.problem.database
         output_names_to_measures = {
-            output_name: self.__DISP_MEAS_TO_FUNCTION[dispersion_measure](
+            output_name: self.__disp_meas_to_function[dispersion_measure](
                 database.get_function_history(output_name)
             )
             for output_name in self.__output_names

@@ -26,9 +26,9 @@ from packaging.version import parse as parse_version
 if TYPE_CHECKING:
     from packaging.version import Version
 
-OT_VERSION: Final[Version] = parse_version(version("openturns"))
+ot_version: Final[Version] = parse_version(version("openturns"))
 
-if parse_version("1.22.0") <= OT_VERSION:
+if parse_version("1.22.0") <= ot_version:
 
     def IterativeThresholdExceedance(dimension, threshold):  # noqa:D103, N802
         return openturns.IterativeThresholdExceedance(

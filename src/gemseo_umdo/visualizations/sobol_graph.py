@@ -17,7 +17,6 @@
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
-from typing import ClassVar
 
 from gemseo.post._graph_view import GraphView
 from gemseo.util.string import repr_variable
@@ -26,7 +25,6 @@ from numpy import atleast_2d
 
 if TYPE_CHECKING:
     from collections.abc import Mapping
-    from pathlib import Path
 
     from gemseo.machine_learning.regression.model import PCERegressor
     from gemseo.uncertainty.sensitivity import SobolAnalysis
@@ -43,9 +41,6 @@ class SobolGraph(GraphView):
     variable while the thickness of an edge is proportional to the second-order Sobol'
     index of the corresponding pair of variables.
     """
-
-    DEFAULT_FILE_PATH: ClassVar[str | Path] = "sobol_graph.png"
-    """The default file path to save the graph."""
 
     threshold: float
     """The threshold above which an edge is significant."""

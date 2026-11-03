@@ -18,6 +18,7 @@ from __future__ import annotations
 
 from enum import StrEnum
 from typing import TYPE_CHECKING
+from typing import ClassVar
 
 from gemseo.util.seeder import seed
 from numpy import array
@@ -30,6 +31,7 @@ from gemseo_umdo.statistics.multilevel.mlmc_mlcv.pilots.factory import (
 if TYPE_CHECKING:
     from collections.abc import Sequence
 
+    from gemseo.core.base_factory import BaseFactory
     from gemseo.core.function.array_function import ArrayFunction
     from gemseo.space import RandomSpace
 
@@ -47,7 +49,8 @@ class MLMCMLCV(MLMC):
         MLMC_CV = "MLMC-CV"
         MLMC_CV_0 = "MLMC-CV[0]"
 
-    _PILOT_FACTORY = MLMCMLCVPilotFactory
+    _pilot_factory: ClassVar[type[BaseFactory]] = MLMCMLCVPilotFactory
+    """The factory of pilot statistics."""
 
     __g_l: tuple[ArrayFunction]
     r"""The control variates $g_0$, $g_1$, ..., $g_L$.

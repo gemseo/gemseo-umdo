@@ -92,20 +92,20 @@ GEMSEO scenarios create their formulation through the class attribute
 
 `uncertain_design_variables` prepends a chain of noising disciplines
 (`disciplines/`: `AdditiveNoiser`, `MultiplicativeNoiser`, found by class name or
-`SHORT_NAME` through `NoiserFactory`) that computes `x` from a generated design
+`short_name` through `NoiserFactory`) that computes `x` from a generated design
 variable `dv_x` and an uncertain variable.
 
 ### U-MDO formulations
 
 `formulations/`: every formulation derives from `BaseUMDOFormulation` and has a
 sibling `<name>_settings.py` defining `<Name>_Settings` (deriving from
-`BaseUMDOFormulationSettings`), found by `UMDO_FORMULATION_FACTORY`. The concrete ones
+`BaseUMDOFormulationSettings`), found by `umdo_formulation_factory`. The concrete ones
 are `Sampling` (and `SequentialSampling`), `TaylorPolynomial`, `ControlVariate`,
 `Surrogate` (and `PCE`).
 
 `BaseUMDOFormulation` wraps an ordinary MDO formulation (`_mdo_formulation`) built over
 an `EvaluationProblem` on the **uncertain** space, differentiable with respect to the
-design variables. Formulations with `_USE_AUXILIARY_MDO_FORMULATION = True`
+design variables. Formulations with `_use_auxiliary_mdo_formulation = True`
 (`TaylorPolynomial`, `ControlVariate`, `PCE`) also build `_auxiliary_mdo_formulation`,
 differentiable with respect to the uncertain variables. The MDO formulation is also
 instantiated once over the design space only to update it (e.g. IDF adds the coupling
@@ -118,17 +118,16 @@ Estimators live in `formulations/_statistics/<technique>/`, one module per stati
 discovered by the `BaseFactory` of that package: the `statistic_name` given by the user
 is the estimator **class name**, so a technique supports exactly the statistics its
 package defines (PCE and Taylor polynomial have no `Probability`). A formulation
-declares its pair either statically (`_STATISTIC_FACTORY`, `_STATISTIC_FUNCTION_CLASS`)
-or at instantiation (`_statistic_factory`, `_statistic_function_class`), as `Sampling`
-does to switch between one-shot and iterative estimation
-(`estimate_statistics_iteratively`).
+sets the pair `_statistic_factory`, `_statistic_function_class` either at class level
+or at instantiation before calling `super().__init__`, as `Sampling` does to switch
+between one-shot and iterative estimation (`estimate_statistics_iteratively`).
 
 Samples or statistics computed at a design point are cached in
 `input_data_to_output_data`, which a listener on the optimization problem clears when
 the design point changes.
 
-`UMDOFormulationsFactory` and `UMDO_FORMULATION_FACTORY` predate the naming rules of
-`common.md` (see the `TODO: API` comment); renaming them is a breaking change.
+`UMDOFormulationsFactory` predates the naming rules of `common.md` (see the
+`TODO: API` comment); renaming it is a breaking change.
 
 ### Other packages
 

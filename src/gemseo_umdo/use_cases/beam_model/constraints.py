@@ -38,27 +38,27 @@ class BeamConstraints(Discipline):
     - the displacements constraints $\Delta/\Delta_{\mathrm{min}} \geq 1$.
     """
 
-    __C_STRESS: Final[str] = "c_stress"
-    __SIGMA_VM: Final[str] = "sigma_vm"
-    __C_DISPL: Final[str] = "c_displ"
-    __DISPL: Final[str] = "displ"
+    __c_stress: Final[str] = "c_stress"
+    __sigma_vm: Final[str] = "sigma_vm"
+    __c_displ: Final[str] = "c_displ"
+    __displ: Final[str] = "displ"
 
     def __init__(self) -> None:  # noqa: D107
         super().__init__()
         self.input_grammar.update_from_names([
-            self.__DISPL,
-            self.__SIGMA_VM,
+            self.__displ,
+            self.__sigma_vm,
             sigma_all.name,
         ])
-        self.output_grammar.update_from_names([self.__C_DISPL, self.__C_STRESS])
+        self.output_grammar.update_from_names([self.__c_displ, self.__c_stress])
         self.default_input_data = {
             sigma_all.name: array([sigma_all.value]),
-            self.__SIGMA_VM: array([300.0]),
-            self.__DISPL: array([100.0]),
+            self.__sigma_vm: array([300.0]),
+            self.__displ: array([100.0]),
         }
 
     def _run(self, input_data: StrKeyMapping) -> None:
-        self.io.output_data[self.__C_STRESS] = (
-            self.io.input_data[self.__SIGMA_VM] / self.io.input_data[sigma_all.name]
+        self.io.output_data[self.__c_stress] = (
+            self.io.input_data[self.__sigma_vm] / self.io.input_data[sigma_all.name]
         )
-        self.io.output_data[self.__C_DISPL] = self.io.input_data[self.__DISPL] / 100.0
+        self.io.output_data[self.__c_displ] = self.io.input_data[self.__displ] / 100.0
