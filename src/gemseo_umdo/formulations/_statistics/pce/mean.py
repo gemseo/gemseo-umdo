@@ -29,7 +29,7 @@ if TYPE_CHECKING:
 class Mean(BasePCEEstimator):
     """Estimator of the expectation."""
 
-    ARG_NAMES: ClassVar[tuple[str]] = (BasePCEEstimator.MEAN_ARG_NAME,)
+    arg_names: ClassVar[tuple[str]] = (BasePCEEstimator.mean_arg_name,)
 
     def estimate_statistic(self, mean: RealArray) -> RealArray:
         return mean

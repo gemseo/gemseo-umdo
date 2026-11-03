@@ -75,7 +75,7 @@ class ControlVariate(BaseUMDOFormulation):
 
     settings_class: ClassVar[type[ControlVariate_Settings]] = ControlVariate_Settings
 
-    _USE_AUXILIARY_MDO_FORMULATION: ClassVar[bool] = True
+    _use_auxiliary_mdo_formulation: ClassVar[bool] = True
 
     __doe_algo: BaseDOELibrary
     """The DOE algorithm to sample the original functions of the uncertain problem."""
@@ -83,13 +83,13 @@ class ControlVariate(BaseUMDOFormulation):
     __doe_algo_for_regressor: BaseDOELibrary
     """The DOE algorithm to sample the regressor."""
 
-    _STATISTIC_FACTORY: ClassVar[ControlVariateEstimatorFactory] = (
+    _statistic_factory: ControlVariateEstimatorFactory = (
         ControlVariateEstimatorFactory()
     )
 
-    _STATISTIC_FUNCTION_CLASS: ClassVar[
-        type[StatisticFunctionForControlVariate] | None
-    ] = StatisticFunctionForControlVariate
+    _statistic_function_class: type[StatisticFunctionForControlVariate] = (
+        StatisticFunctionForControlVariate
+    )
 
     def __init__(  # noqa: D107
         self,

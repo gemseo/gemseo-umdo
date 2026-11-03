@@ -64,16 +64,16 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
     uncertainty.
     """
 
-    __DEFAULT_FACTOR: Final[float] = 2.0
+    __default_factor: Final[float] = 2.0
     """The default factor related to the standard deviation."""
 
-    __FACTOR_NAME: Final[str] = "factor"
+    __factor_name: Final[str] = "factor"
     """The name of the argument for the factor related to the standard deviation."""
 
-    __MARGIN_NAME: Final[str] = "Margin"
+    __margin_name: Final[str] = "Margin"
     """The name of the classes implementing the margin statistics."""
 
-    _USE_AUXILIARY_MDO_FORMULATION: ClassVar[bool] = False
+    _use_auxiliary_mdo_formulation: ClassVar[bool] = False
     """Whether the U-MDO formulation uses an auxiliary MDO formulation.
 
     For this auxiliary formulation, the functions are evaluable over the uncertain space
@@ -88,7 +88,7 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
     """
 
     _auxiliary_mdo_formulation: BaseMDOFormulation | None
-    """The auxiliary MDO formulation if :attr:`._USE_AUXILIARY_MDO_FORMULATION`.
+    """The auxiliary MDO formulation if `_use_auxiliary_mdo_formulation`.
 
     For this auxiliary formulation, the functions are evaluable over the uncertain space
     and differentiable with respect to the uncertain variables.
@@ -97,37 +97,16 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
     _statistic_factory: BaseFactory
     """A factory of statistics.
 
-    Used only when `_STATISTIC_FACTORY` is `None`.
-
-    To be used when a U-MDO formulation has several ways to estimate statistics
-    and the choice is done at instantiation.
+    A U-MDO formulation with only one way to estimate statistics sets it at class level.
+    A U-MDO formulation with several ways sets it at instantiation,
+    before calling the `__init__` of this class.
     For example, Sampling can estimate statistics in one go or iteratively.
     """
 
-    _STATISTIC_FACTORY: ClassVar[BaseFactory]
-    """A factory of statistics.
-
-    If `None`, use `_statistic_factory`.
-
-    To be used when a U-MDO formulation has only one way to estimate statistics.
-    """
-
-    _statistic_function_class: type[BaseStatisticFunction] | None
+    _statistic_function_class: type[BaseStatisticFunction]
     """A subclass of `ArrayFunction` to compute a statistic.
 
-    Used only when `_STATISTIC_FUNCTION_CLASS` is `None`.
-
-    To be used when a U-MDO formulation has several ways to estimate statistics
-    and the choice is done at instantiation.
-    For example, Sampling can estimate statistics in one go or iteratively.
-    """
-
-    _STATISTIC_FUNCTION_CLASS: ClassVar[type[BaseStatisticFunction] | None] = None
-    """A subclass of `ArrayFunction` to compute a statistic.
-
-    If `None`, use `_statistic_function_class`.
-
-    To be used when a U-MDO formulation has only one way to estimate statistics.
+    Set together with `_statistic_factory`.
     """
 
     _uncertain_space: RandomSpace
@@ -165,10 +144,6 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
                 If `None`,
                 use [MDF_Settings][gemseo.formulation.mdf_settings.MDF_Settings].
         """  # noqa: D205 D212 D415
-        if self._STATISTIC_FUNCTION_CLASS is not None:
-            self._statistic_function_class = self._STATISTIC_FUNCTION_CLASS
-            self._statistic_factory = self._STATISTIC_FACTORY
-
         self.__available_statistics = self._statistic_factory.class_names
         self._uncertain_space = uncertain_space
         if mdo_formulation_settings is None:
@@ -201,7 +176,7 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
             ),
         )
 
-        if self._USE_AUXILIARY_MDO_FORMULATION:
+        if self._use_auxiliary_mdo_formulation:
             self._auxiliary_mdo_formulation = mdo_formulation_class(
                 EvaluationProblem(uncertain_space),
                 disciplines,
@@ -244,14 +219,14 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
         Returns:
             The updated statistic parameters.
         """
-        if statistic_name == cls.__MARGIN_NAME:
+        if statistic_name == cls.__margin_name:
             statistic_parameters = statistic_parameters or {}
             factor = abs(
-                statistic_parameters.get(cls.__FACTOR_NAME, cls.__DEFAULT_FACTOR)
+                statistic_parameters.get(cls.__factor_name, cls.__default_factor)
             )
             if use_negative_factor:
                 factor *= -1
-            statistic_parameters[cls.__FACTOR_NAME] = factor
+            statistic_parameters[cls.__factor_name] = factor
 
         return statistic_parameters
 

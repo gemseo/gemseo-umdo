@@ -192,10 +192,9 @@ def test_clear_inner_database(umdo_formulation):
     )
 
 
-U_SAMPLES = array([[0.5, 1.0, 1.5], [-0.5, -1.0, -1.5]])
-MEAN = array([1.0, 2.0])
-JAC = array([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]])
-VARIANCE = diagonal(JAC @ diag(array([1.0, 2.0, 1.5])) @ JAC.T)
+mean = array([1.0, 2.0])
+jac = array([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]])
+variance = diagonal(jac @ diag(array([1.0, 2.0, 1.5])) @ jac.T)
 
 
 def test_estimate_mean(umdo_formulation):
@@ -204,8 +203,8 @@ def test_estimate_mean(umdo_formulation):
     assert_almost_equal(
         statistic_function.estimate_statistic(
             array([[0.0, 0.0], [1.0, 2.0]]),
-            MEAN,
-            VARIANCE,
+            mean,
+            variance,
             array([[1.0, 1.1], [2.0, 2.1]]),
             array([[1.3, 1.4], [2.6, 2.7]]),
         ),
@@ -219,8 +218,8 @@ def test_estimate_variance(umdo_formulation):
     assert_almost_equal(
         statistic_function.estimate_statistic(
             array([[0.0, 0.0], [1.0, 2.0]]),
-            MEAN,
-            VARIANCE,
+            mean,
+            variance,
             array([[1.0, 1.1], [2.0, 2.1]]),
             array([[1.3, 1.4], [2.6, 2.7]]),
         ),
@@ -235,8 +234,8 @@ def test_estimate_standard_derivation(umdo_formulation):
     assert_almost_equal(
         statistic_function.estimate_statistic(
             array([[0.0, 0.0], [1.0, 2.0]]),
-            MEAN,
-            VARIANCE,
+            mean,
+            variance,
             array([[1.0, 1.1], [2.0, 2.1]]),
             array([[1.3, 1.4], [2.6, 2.7]]),
         ),
@@ -251,8 +250,8 @@ def test_estimate_margin(umdo_formulation):
     assert_almost_equal(
         statistic_function.estimate_statistic(
             array([[0.0, 0.0], [1.0, 2.0]]),
-            MEAN,
-            VARIANCE,
+            mean,
+            variance,
             array([[1.0, 1.1], [2.0, 2.1]]),
             array([[1.3, 1.4], [2.6, 2.7]]),
         ),
@@ -272,8 +271,8 @@ def test_estimate_probability(umdo_formulation, greater, result):
     assert_equal(
         statistic_function.estimate_statistic(
             array([[0.0, 0.0], [1.0, 2.0]]),
-            MEAN,
-            VARIANCE,
+            mean,
+            variance,
             array([[1.0], [2.0]]),
             array([[1.3], [2.6]]),
         ),

@@ -45,7 +45,7 @@ if TYPE_CHECKING:
 class TrussModel:
     """The truss model."""
 
-    __ELEMENTS: Final[tuple[tuple[int, int], ...]] = (
+    __elements: Final[tuple[tuple[int, int], ...]] = (
         # Oblique bars
         (0, 7),
         (7, 1),
@@ -75,7 +75,7 @@ class TrussModel:
     )
     """The elements defined by the indices of the nodes defining their extremities."""
 
-    __NODES: Final[ndarray] = array([
+    __nodes: Final[ndarray] = array([
         # Bottom nodes
         [0.0, 0.0],
         [4.0, 0.0],
@@ -94,10 +94,10 @@ class TrussModel:
     ])
     """The position of the nodes in x and y directions (in m)."""
 
-    __N_DOF: Final[int] = len(__NODES) * 2
+    __n_dof: Final[int] = len(__nodes) * 2
     """The number of degrees of freedom."""
 
-    __FREE_DOF: Final[ndarray] = setdiff1d(arange(__N_DOF), [0, 1, 13])
+    __free_dof: Final[ndarray] = setdiff1d(arange(__n_dof), [0, 1, 13])
     """The free degrees of freedom."""
 
     def compute(
@@ -129,9 +129,9 @@ class TrussModel:
             [zeros((7, 2))],
             [zeros((6, 1)), full((6, 1), -array(forces)[:, newaxis])],
         ])
-        free_forces = forces.flatten()[self.__FREE_DOF]
-        stiffness_matrix = lil_matrix((self.__N_DOF, self.__N_DOF))
-        for bar, element in zip(bars, self.__ELEMENTS, strict=False):
+        free_forces = forces.flatten()[self.__free_dof]
+        stiffness_matrix = lil_matrix((self.__n_dof, self.__n_dof))
+        for bar, element in zip(bars, self.__elements, strict=False):
             node_1, node_2 = element
             element_stiffness_matrix = self.__compute_element_stiffness_matrix(
                 bar.young_modulus, bar.area, node_1, node_2
@@ -143,11 +143,11 @@ class TrussModel:
                         element_stiffness_matrix[i, j]
                     )
 
-        free_stiffness_matrix = stiffness_matrix[self.__FREE_DOF, :][:, self.__FREE_DOF]
+        free_stiffness_matrix = stiffness_matrix[self.__free_dof, :][:, self.__free_dof]
         free_stiffness_matrix = csr_matrix(free_stiffness_matrix)
 
-        displacements = zeros(self.__N_DOF)
-        displacements[self.__FREE_DOF] = spsolve(free_stiffness_matrix, free_forces)
+        displacements = zeros(self.__n_dof)
+        displacements[self.__free_dof] = spsolve(free_stiffness_matrix, free_forces)
 
         return displacements[7], displacements.reshape((-1, 2))
 
@@ -169,8 +169,8 @@ class TrussModel:
         Returns:
             The stiffness matrix of the element.
         """
-        x1, y1 = self.__NODES[first_node]
-        x2, y2 = self.__NODES[second_node]
+        x1, y1 = self.__nodes[first_node]
+        x2, y2 = self.__nodes[second_node]
         length = sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
         cos_theta = (x2 - x1) / length
         sin_theta = (y2 - y1) / length
@@ -204,8 +204,8 @@ class TrussModel:
         """
         fig = plt.figure(figsize=(10, 6))
 
-        elements = self.__ELEMENTS
-        nodes = self.__NODES
+        elements = self.__elements
+        nodes = self.__nodes
 
         for element in elements:
             first_node, second_node = element

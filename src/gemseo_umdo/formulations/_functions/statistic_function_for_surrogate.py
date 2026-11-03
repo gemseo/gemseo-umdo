@@ -40,7 +40,7 @@ if TYPE_CHECKING:
     )
     from gemseo_umdo.formulations.surrogate import Surrogate
 
-LOGGER = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 SurrogateT = TypeVar("SurrogateT", bound="Surrogate")
 
@@ -100,7 +100,7 @@ class StatisticFunctionForSurrogate(BaseStatisticFunction[SurrogateT]):
         surrogate_formulation = self._umdo_formulation
         quality = surrogate_formulation.quality(regressor)
         names_to_learning_measures = quality.compute_learning_measure(as_dict=True)
-        LOGGER.info("        %s", quality.__class__.__name__)
+        logger.info("        %s", quality.__class__.__name__)
         quality_cv_options = surrogate_formulation.quality_cv_options
         is_surrogate_quality_bad = surrogate_formulation.is_surrogate_quality_bad
         quality_operators = surrogate_formulation.quality_operators
@@ -125,7 +125,7 @@ class StatisticFunctionForSurrogate(BaseStatisticFunction[SurrogateT]):
                         level = logging.WARNING
                     else:
                         level = logging.INFO
-                    LOGGER.log(
+                    logger.log(
                         level,
                         "            %s[%s]: %s%s%s (learning) - %s%s%s (test)",
                         output_name,
@@ -143,7 +143,7 @@ class StatisticFunctionForSurrogate(BaseStatisticFunction[SurrogateT]):
                 names_to_qualities[f"{output_name}_learning_quality"] = learning_measure
                 for index, l_measure_i in enumerate(learning_measure):
                     train_is_bad = is_surrogate_quality_bad(l_measure_i, thresh[index])
-                    LOGGER.log(
+                    logger.log(
                         logging.WARNING if train_is_bad else logging.INFO,
                         "            %s[%s]: %s%s%s (learning)",
                         output_name,

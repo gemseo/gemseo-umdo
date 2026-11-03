@@ -25,9 +25,9 @@ from packaging.version import parse as parse_version
 if TYPE_CHECKING:
     from packaging.version import Version
 
-NP_VERSION: Final[Version] = parse_version(version("numpy"))
+np_version: Final[Version] = parse_version(version("numpy"))
 
-if parse_version("2.0.0") <= NP_VERSION:
+if parse_version("2.0.0") <= np_version:
     from numpy import trapezoid  # noqa: F401
 
 else:  # pragma: no cover

@@ -32,7 +32,7 @@ def multiplicative_noiser() -> MultiplicativeNoiser:
 
 def test_short_name():
     """Check the short name."""
-    assert MultiplicativeNoiser.SHORT_NAME == "*"
+    assert MultiplicativeNoiser.short_name == "*"
     noiser = NoiserFactory().create(
         "*",
         variable_name="foo",

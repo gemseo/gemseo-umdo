@@ -37,9 +37,9 @@ class SpringMassDiscipline(Discipline):
     It computes also its maximum displacement.
     """
 
-    __STIFFNESS: Final[str] = "stiffness"
-    __DISPLACEMENT: Final[str] = "displacement"
-    __MAX_DISPLACEMENT: Final[str] = "max_displacement"
+    __stiffness: Final[str] = "stiffness"
+    __displacement: Final[str] = "displacement"
+    __max_displacement: Final[str] = "max_displacement"
 
     def __init__(
         self,
@@ -60,10 +60,10 @@ class SpringMassDiscipline(Discipline):
             gravity: The gravity acceleration.
         """  # noqa: D205 D212 D415
         super().__init__(name=f"{self.__class__.__name__}({time_step})")
-        self.input_grammar.update_from_names([self.__STIFFNESS])
+        self.input_grammar.update_from_names([self.__stiffness])
         self.output_grammar.update_from_names([
-            self.__MAX_DISPLACEMENT,
-            self.__DISPLACEMENT,
+            self.__max_displacement,
+            self.__displacement,
         ])
         self.__model = SpringMassModel(
             mass=mass,
@@ -73,12 +73,12 @@ class SpringMassDiscipline(Discipline):
             time_step=time_step,
             gravity=gravity,
         )
-        self.default_input_data = {self.__STIFFNESS: array([2.25])}
+        self.default_input_data = {self.__stiffness: array([2.25])}
 
     def _run(self, input_data: StrKeyMapping) -> None:
-        disp, max_disp = self.__model(self.io.input_data[self.__STIFFNESS][0])
-        self.io.output_data[self.__DISPLACEMENT] = disp
-        self.io.output_data[self.__MAX_DISPLACEMENT] = array([max_disp])
+        disp, max_disp = self.__model(self.io.input_data[self.__stiffness][0])
+        self.io.output_data[self.__displacement] = disp
+        self.io.output_data[self.__max_displacement] = array([max_disp])
 
     @property
     def cost(self) -> float:

@@ -30,14 +30,14 @@ if TYPE_CHECKING:
 class BasePCEEstimator(BaseStatisticEstimator):
     """Base statistic estimator for a U-MDO formulation using PCE."""
 
-    MEAN_ARG_NAME: Final[str] = "mean"
+    mean_arg_name: Final[str] = "mean"
     """The name of the mean argument."""
 
-    STD_ARG_NAME: Final[str] = "std"
+    std_arg_name: Final[str] = "std"
     """The name of the standard deviation argument."""
 
-    VAR_ARG_NAME: Final[str] = "var"
+    var_arg_name: Final[str] = "var"
     """The name of the variance argument."""
 
-    ARG_NAMES: ClassVar[tuple[str]] = ()
+    arg_names: ClassVar[tuple[str, ...]] = ()
     """The names of the arguments to be used for the estimator."""

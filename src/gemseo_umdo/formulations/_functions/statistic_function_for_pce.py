@@ -53,7 +53,7 @@ class StatisticFunctionForPCE(StatisticFunctionForSurrogate[PCET]):
         estimator = self._statistic_estimator
         return estimator.estimate_statistic(*[
             data[statistic_name][function_name]
-            for statistic_name in estimator.ARG_NAMES
+            for statistic_name in estimator.arg_names
         ])
 
     def _compute_statistic_jacobian_estimation(
@@ -63,7 +63,7 @@ class StatisticFunctionForPCE(StatisticFunctionForSurrogate[PCET]):
         estimator = self._statistic_estimator
         return estimator.compute_jacobian(*[
             data[self.__get_statistic_jac_name(statistic_name)][function_name]
-            for statistic_name in estimator.ARG_NAMES
+            for statistic_name in estimator.arg_names
         ])
 
     def _compute_data_for_statistic_estimation(
@@ -102,9 +102,9 @@ class StatisticFunctionForPCE(StatisticFunctionForSurrogate[PCET]):
         # Store the output data.
         sizes = fce.sizes
         output_names = fce.output_names
-        mean_arg_name = BasePCEEstimator.MEAN_ARG_NAME
-        std_arg_name = BasePCEEstimator.STD_ARG_NAME
-        var_arg_name = BasePCEEstimator.VAR_ARG_NAME
+        mean_arg_name = BasePCEEstimator.mean_arg_name
+        std_arg_name = BasePCEEstimator.std_arg_name
+        var_arg_name = BasePCEEstimator.var_arg_name
         data = {
             mean_arg_name: array_to_dict(fce.mean, sizes, output_names),
             std_arg_name: array_to_dict(fce.standard_deviation, sizes, output_names),

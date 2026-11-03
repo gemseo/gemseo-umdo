@@ -42,7 +42,7 @@ class BaseNoiser(Discipline):
     _uncertain_variable_name: str
     """The name of the uncertain variable."""
 
-    SHORT_NAME: ClassVar[str] = ""
+    short_name: ClassVar[str] = ""
     """A short name of the noising discipline to instantiate it more easily.
 
     For example,

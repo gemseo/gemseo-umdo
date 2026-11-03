@@ -32,7 +32,7 @@ if TYPE_CHECKING:
 class Mean(BaseCentralMoment):
     """Iterative estimator of the expectation."""
 
-    _ORDER: ClassVar[int] = 1
+    _order: ClassVar[int] = 1
 
     def _get_estimation(self) -> RealArray:
         return array(self._estimator.getMean())

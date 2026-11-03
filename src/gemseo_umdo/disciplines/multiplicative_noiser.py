@@ -34,7 +34,7 @@ if TYPE_CHECKING:
 class MultiplicativeNoiser(BaseNoiser):
     """A discipline multiplying a variable by a random variable plus one."""
 
-    SHORT_NAME: ClassVar[str] = "*"
+    short_name: ClassVar[str] = "*"
 
     def _run(self, input_data: StrKeyMapping) -> None:
         self.io.update_output_data({

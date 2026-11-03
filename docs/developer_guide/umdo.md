@@ -98,7 +98,7 @@ A `BaseUMDOFormulation` is a `BaseFormulation` made of
   are observables of this `EvaluationProblem`,
 - optionally, an auxiliary `BaseMDOFormulation`
   whose functions are differentiable with respect to the uncertain variables
-  (see `_USE_AUXILIARY_MDO_FORMULATION`).
+  (see `_use_auxiliary_mdo_formulation`).
 
 The standard `BaseMDOFormulation` is in charge to define the multidisciplinary process
 for a specific design value and a specific uncertainty value

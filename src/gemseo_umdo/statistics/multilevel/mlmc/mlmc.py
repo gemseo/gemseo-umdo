@@ -49,7 +49,7 @@ if TYPE_CHECKING:
     from gemseo_umdo.statistics.multilevel.base_pilot import BasePilot
     from gemseo_umdo.statistics.multilevel.mlmc.level import Level
 
-LOGGER = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 
 class MLMC:
@@ -82,7 +82,7 @@ class MLMC:
     _n_levels: int
     r"""The number of levels $L+1$ of the telescopic sum."""
 
-    _PILOT_FACTORY: ClassVar[type[BaseFactory]] = MLMCPilotFactory
+    _pilot_factory: ClassVar[type[BaseFactory]] = MLMCPilotFactory
     """The factory of pilot statistics."""
 
     _samplers: tuple[MonteCarloSampler]
@@ -237,14 +237,14 @@ class MLMC:
 
         # Set the estimator of the pilot statistic and initialize its estimation.
         self.__pilot_statistic_estimation = array([])
-        self.__pilot_statistic_estimator = self._PILOT_FACTORY().create(
+        self.__pilot_statistic_estimator = self._pilot_factory().create(
             pilot_statistic_name,
             sampling_ratios=self.__r_l,
             costs=self.__costs,
         )
         self._pilot_statistic_estimator_parameters = []
         self.__V_l = 0
-        LOGGER.info("%s", self)
+        logger.info("%s", self)
 
     def __repr__(self) -> str:
         string = MultiLineString()
@@ -368,13 +368,13 @@ class MLMC:
         iteration = 0
 
         # As long as there is budget left
-        LOGGER.info("Start sampling with a total budget of %s", self.__total_budget)
+        logger.info("Start sampling with a total budget of %s", self.__total_budget)
         while self.__current_budget >= 0:
             iteration += 1
             if is_last_iteration:
-                LOGGER.info("   Iteration #%s (last iteration)", iteration)
+                logger.info("   Iteration #%s (last iteration)", iteration)
             else:
-                LOGGER.info("   Iteration #%s", iteration)
+                logger.info("   Iteration #%s", iteration)
 
             # Append the budget to the budget history.
             self.__budget_history.append(self.__current_budget)
@@ -404,18 +404,18 @@ class MLMC:
             # Define the corresponding sample size.
             delta_n_l_star = math.floor((self.__r_l[l_star] - 1) * self.__n_l[l_star])
             n_l_star = self.__n_l[l_star] + delta_n_l_star
-            LOGGER.info("      Find the next level to sample")
-            LOGGER.info("         l_star = %s", l_star)
-            LOGGER.info("         d_n_l_star = %s", delta_n_l_star)
-            LOGGER.info("         n_l_star = %s", n_l_star)
+            logger.info("      Find the next level to sample")
+            logger.info("         l_star = %s", l_star)
+            logger.info("         d_n_l_star = %s", delta_n_l_star)
+            logger.info("         n_l_star = %s", n_l_star)
 
             # If the new sampling stage is too expensive, reduce the number of samples.
             posterior_budget = (
                 self.__current_budget - delta_n_l_star * self.__costs[l_star]
             )
             if posterior_budget < 0:
-                LOGGER.info("         Maximum budget exceeded by %s", -posterior_budget)
-                LOGGER.info(
+                logger.info("         Maximum budget exceeded by %s", -posterior_budget)
+                logger.info(
                     "         Decrease d_n_l_star to respect the maximum budget"
                 )
 
@@ -428,11 +428,11 @@ class MLMC:
                     delta_n_l_star + posterior_budget / self.__costs[l_star]
                 )
                 n_l_star = self.__n_l[l_star] + delta_n_l_star
-                LOGGER.info("         d_n_l_star = %s", delta_n_l_star)
-                LOGGER.info("         n_l_star = %s", n_l_star)
+                logger.info("         d_n_l_star = %s", delta_n_l_star)
+                logger.info("         n_l_star = %s", n_l_star)
                 # Stop the algorithm if one can no longer sample l_star.
                 if delta_n_l_star == 0:
-                    LOGGER.info(
+                    logger.info(
                         "Stop the algorithm as sampling l_star is too expensive."
                     )
                     break
@@ -444,24 +444,24 @@ class MLMC:
             self.__n_l[l_star] += delta_n_l_star
             self.__n_samples_history.extend([self.__delta_n_l.copy()])
 
-        LOGGER.info("Sampling completed")
-        LOGGER.info("Results")
-        LOGGER.info("   Pilot statistic = %s", self.pilot_statistic_estimation)
-        LOGGER.info("   Total cost = %s", sum(self.__n_l * self.__costs))
-        LOGGER.info("   Cost allocation")
+        logger.info("Sampling completed")
+        logger.info("Results")
+        logger.info("   Pilot statistic = %s", self.pilot_statistic_estimation)
+        logger.info("   Total cost = %s", sum(self.__n_l * self.__costs))
+        logger.info("   Cost allocation")
         levels_to_total_costs = self.__n_l * self.__costs
         levels_to_total_costs = levels_to_total_costs / sum(levels_to_total_costs)
         for level, total_cost in enumerate(levels_to_total_costs):
-            LOGGER.info("      Level %s: %s", level, f"{total_cost:.1%}")
+            logger.info("      Level %s: %s", level, f"{total_cost:.1%}")
 
-        LOGGER.info("   n_l")
+        logger.info("   n_l")
         for level in range(self._n_levels):
-            LOGGER.info("       n_%s = %s", level, self.__n_l[level])
+            logger.info("       n_%s = %s", level, self.__n_l[level])
 
-        LOGGER.info("   V_l")
+        logger.info("   V_l")
         self.__V_l = self.__pilot_statistic_estimator.V_l
         for level in range(self._n_levels):
-            LOGGER.info("       V_%s = %s", level, f"{self.__V_l[level]:.2e}")
+            logger.info("       V_%s = %s", level, f"{self.__V_l[level]:.2e}")
 
     def __compute_samples(self, *levels_to_be_sampled: int) -> list[RealArray]:
         """Sample the low- & high-fidelity models at some levels of the telescoping sum.
@@ -473,9 +473,9 @@ class MLMC:
             The model samples.
         """
         delta_n_l_star = [int(x) for x in self.__delta_n_l]
-        LOGGER.info("      Sampling")
+        logger.info("      Sampling")
         for level in range(self._n_levels):
-            LOGGER.info("         delta_n_%s = %s", level, delta_n_l_star[level])
+            logger.info("         delta_n_%s = %s", level, delta_n_l_star[level])
         levels_to_samples = [array([]) for _ in range(self._n_levels)]
         for level in levels_to_be_sampled:
             self.__seed += 1
@@ -493,9 +493,9 @@ class MLMC:
                 *(self.__C_l[1:] + self.__C_l[:-1]).tolist(),
             ])
         cost = sum(delta_n_l_star * self.__costs)
-        LOGGER.info("         Cost = %s", cost)
+        logger.info("         Cost = %s", cost)
         self.__current_budget -= cost
-        LOGGER.info("         Remaining budget = %s", self.__current_budget)
+        logger.info("         Remaining budget = %s", self.__current_budget)
         return levels_to_samples
 
     def plot_evaluation_history(

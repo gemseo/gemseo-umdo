@@ -16,22 +16,22 @@ from __future__ import annotations
 
 from gemseo.formulation.factory import MDOFormulationFactory
 
-from gemseo_umdo.formulations.factory import UMDO_FORMULATION_FACTORY
+from gemseo_umdo.formulations.factory import umdo_formulation_factory
 
 
 def test_inheritance():
     """Check that the factory is also a MDOFormulationsFactory."""
-    assert isinstance(UMDO_FORMULATION_FACTORY, MDOFormulationFactory)
+    assert isinstance(umdo_formulation_factory, MDOFormulationFactory)
 
 
 def test_mdo_formulation():
     """Check that UMDOFormulationsFactory does not contain MDO formulations."""
     mdo_formulations = MDOFormulationFactory().class_names
     assert not set(mdo_formulations).intersection(
-        set(UMDO_FORMULATION_FACTORY.class_names)
+        set(umdo_formulation_factory.class_names)
     )
 
 
 def test_u_formulation():
     """Check the method is_available of the factory."""
-    assert UMDO_FORMULATION_FACTORY.is_available("Sampling")
+    assert umdo_formulation_factory.is_available("Sampling")

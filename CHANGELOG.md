@@ -84,6 +84,13 @@ and this project adheres to
 - The `factor` parameter of the statistic ``"Margin"`` is replaced by its absolute value
   in the case of an objective to maximize or a positivity constraint.
   In the case of observables, this parameter is not modified.
+- BREAKING CHANGE: the ALL_CAPS class attributes and module-level constants
+  are named in lower snake case, as in GEMSEO 7:
+    - `BaseNoiser.SHORT_NAME` → [short_name][gemseo_umdo.disciplines.base_noiser.BaseNoiser.short_name];
+    - `gemseo_umdo.formulations.factory.UMDO_FORMULATION_FACTORY`
+      → [umdo_formulation_factory][gemseo_umdo.formulations.factory.umdo_formulation_factory].
+- BREAKING CHANGE: the enumeration `gemseo_umdo.formulations.DOE_ALGO_NAMES`
+  is renamed [DOEAlgorithmName][gemseo_umdo.formulations.DOEAlgorithmName].
 
 ### Removed
 
@@ -93,6 +100,7 @@ and this project adheres to
   with the settings of a DOE algorithm to sample a U-MDO problem,
   or [UEvaluationScenario][gemseo_umdo.scenarios.u_evaluation_scenario.UEvaluationScenario]
   to evaluate statistics without objective or constraints.
+- BREAKING CHANGE: `SobolGraph.DEFAULT_FILE_PATH`, which had no effect.
 
 ### Fixed
 

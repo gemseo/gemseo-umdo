@@ -109,90 +109,90 @@ class TrussDiscipline(Discipline):
 
     def _run(self, input_data: StrKeyMapping) -> StrKeyMapping | None:
         if self.__use_different_bars:
-            E1_1 = input_data["E1_1"][0]  # noqa: N806
-            E1_2 = input_data["E1_2"][0]  # noqa: N806
-            E1_3 = input_data["E1_3"][0]  # noqa: N806
-            E1_4 = input_data["E1_4"][0]  # noqa: N806
-            E1_5 = input_data["E1_5"][0]  # noqa: N806
-            E1_6 = input_data["E1_6"][0]  # noqa: N806
-            E1_7 = input_data["E1_7"][0]  # noqa: N806
-            E1_8 = input_data["E1_8"][0]  # noqa: N806
-            E1_9 = input_data["E1_9"][0]  # noqa: N806
-            E1_10 = input_data["E1_10"][0]  # noqa: N806
-            E1_11 = input_data["E1_11"][0]  # noqa: N806
-            E2_1 = input_data["E2_1"][0]  # noqa: N806
-            E2_2 = input_data["E2_2"][0]  # noqa: N806
-            E2_3 = input_data["E2_3"][0]  # noqa: N806
-            E2_4 = input_data["E2_4"][0]  # noqa: N806
-            E2_5 = input_data["E2_5"][0]  # noqa: N806
-            E2_6 = input_data["E2_6"][0]  # noqa: N806
-            E2_7 = input_data["E2_7"][0]  # noqa: N806
-            E2_8 = input_data["E2_8"][0]  # noqa: N806
-            E2_9 = input_data["E2_9"][0]  # noqa: N806
-            E2_10 = input_data["E2_10"][0]  # noqa: N806
-            E2_11 = input_data["E2_11"][0]  # noqa: N806
-            E2_12 = input_data["E2_12"][0]  # noqa: N806
-            A1_1 = input_data["A1_1"][0]  # noqa: N806
-            A1_2 = input_data["A1_2"][0]  # noqa: N806
-            A1_3 = input_data["A1_3"][0]  # noqa: N806
-            A1_4 = input_data["A1_4"][0]  # noqa: N806
-            A1_5 = input_data["A1_5"][0]  # noqa: N806
-            A1_6 = input_data["A1_6"][0]  # noqa: N806
-            A1_7 = input_data["A1_7"][0]  # noqa: N806
-            A1_8 = input_data["A1_8"][0]  # noqa: N806
-            A1_9 = input_data["A1_9"][0]  # noqa: N806
-            A1_10 = input_data["A1_10"][0]  # noqa: N806
-            A1_11 = input_data["A1_11"][0]  # noqa: N806
-            A2_1 = input_data["A2_1"][0]  # noqa: N806
-            A2_2 = input_data["A2_2"][0]  # noqa: N806
-            A2_3 = input_data["A2_3"][0]  # noqa: N806
-            A2_4 = input_data["A2_4"][0]  # noqa: N806
-            A2_5 = input_data["A2_5"][0]  # noqa: N806
-            A2_6 = input_data["A2_6"][0]  # noqa: N806
-            A2_7 = input_data["A2_7"][0]  # noqa: N806
-            A2_8 = input_data["A2_8"][0]  # noqa: N806
-            A2_9 = input_data["A2_9"][0]  # noqa: N806
-            A2_10 = input_data["A2_10"][0]  # noqa: N806
-            A2_11 = input_data["A2_11"][0]  # noqa: N806
-            A2_12 = input_data["A2_12"][0]  # noqa: N806
+            e1_1 = input_data["E1_1"][0]
+            e1_2 = input_data["E1_2"][0]
+            e1_3 = input_data["E1_3"][0]
+            e1_4 = input_data["E1_4"][0]
+            e1_5 = input_data["E1_5"][0]
+            e1_6 = input_data["E1_6"][0]
+            e1_7 = input_data["E1_7"][0]
+            e1_8 = input_data["E1_8"][0]
+            e1_9 = input_data["E1_9"][0]
+            e1_10 = input_data["E1_10"][0]
+            e1_11 = input_data["E1_11"][0]
+            e2_1 = input_data["E2_1"][0]
+            e2_2 = input_data["E2_2"][0]
+            e2_3 = input_data["E2_3"][0]
+            e2_4 = input_data["E2_4"][0]
+            e2_5 = input_data["E2_5"][0]
+            e2_6 = input_data["E2_6"][0]
+            e2_7 = input_data["E2_7"][0]
+            e2_8 = input_data["E2_8"][0]
+            e2_9 = input_data["E2_9"][0]
+            e2_10 = input_data["E2_10"][0]
+            e2_11 = input_data["E2_11"][0]
+            e2_12 = input_data["E2_12"][0]
+            a1_1 = input_data["A1_1"][0]
+            a1_2 = input_data["A1_2"][0]
+            a1_3 = input_data["A1_3"][0]
+            a1_4 = input_data["A1_4"][0]
+            a1_5 = input_data["A1_5"][0]
+            a1_6 = input_data["A1_6"][0]
+            a1_7 = input_data["A1_7"][0]
+            a1_8 = input_data["A1_8"][0]
+            a1_9 = input_data["A1_9"][0]
+            a1_10 = input_data["A1_10"][0]
+            a1_11 = input_data["A1_11"][0]
+            a2_1 = input_data["A2_1"][0]
+            a2_2 = input_data["A2_2"][0]
+            a2_3 = input_data["A2_3"][0]
+            a2_4 = input_data["A2_4"][0]
+            a2_5 = input_data["A2_5"][0]
+            a2_6 = input_data["A2_6"][0]
+            a2_7 = input_data["A2_7"][0]
+            a2_8 = input_data["A2_8"][0]
+            a2_9 = input_data["A2_9"][0]
+            a2_10 = input_data["A2_10"][0]
+            a2_11 = input_data["A2_11"][0]
+            a2_12 = input_data["A2_12"][0]
         else:
-            A1_1 = A1_2 = A1_3 = A1_4 = A1_5 = A1_6 = A1_7 = A1_8 = A1_9 = A1_10 = (  # noqa: N806
-                A1_11  # noqa: N806
+            a1_1 = a1_2 = a1_3 = a1_4 = a1_5 = a1_6 = a1_7 = a1_8 = a1_9 = a1_10 = (
+                a1_11
             ) = input_data["A1"][0]
-            A2_1 = A2_2 = A2_3 = A2_4 = A2_5 = A2_6 = A2_7 = A2_8 = A2_9 = A2_10 = (  # noqa: N806
-                A2_11  # noqa: N806
-            ) = A2_12 = input_data["A2"][0]  # noqa: N806
-            E1_1 = E1_2 = E1_3 = E1_4 = E1_5 = E1_6 = E1_7 = E1_8 = E1_9 = E1_10 = (  # noqa: N806
-                E1_11  # noqa: N806
+            a2_1 = a2_2 = a2_3 = a2_4 = a2_5 = a2_6 = a2_7 = a2_8 = a2_9 = a2_10 = (
+                a2_11
+            ) = a2_12 = input_data["A2"][0]
+            e1_1 = e1_2 = e1_3 = e1_4 = e1_5 = e1_6 = e1_7 = e1_8 = e1_9 = e1_10 = (
+                e1_11
             ) = input_data["E1"][0]
-            E2_1 = E2_2 = E2_3 = E2_4 = E2_5 = E2_6 = E2_7 = E2_8 = E2_9 = E2_10 = (  # noqa: N806
-                E2_11  # noqa: N806
-            ) = E2_12 = input_data["E2"][0]  # noqa: N806
+            e2_1 = e2_2 = e2_3 = e2_4 = e2_5 = e2_6 = e2_7 = e2_8 = e2_9 = e2_10 = (
+                e2_11
+            ) = e2_12 = input_data["E2"][0]
 
         bars = Bars(
-            bar_0=Bar(young_modulus=E2_1, area=A2_1),
-            bar_1=Bar(young_modulus=E2_2, area=A2_2),
-            bar_2=Bar(young_modulus=E2_3, area=A2_3),
-            bar_3=Bar(young_modulus=E2_4, area=A2_4),
-            bar_4=Bar(young_modulus=E2_5, area=A2_5),
-            bar_5=Bar(young_modulus=E2_6, area=A2_6),
-            bar_6=Bar(young_modulus=E2_7, area=A2_7),
-            bar_7=Bar(young_modulus=E2_8, area=A2_8),
-            bar_8=Bar(young_modulus=E2_9, area=A2_9),
-            bar_9=Bar(young_modulus=E2_10, area=A2_10),
-            bar_10=Bar(young_modulus=E2_11, area=A2_11),
-            bar_11=Bar(young_modulus=E2_12, area=A2_12),
-            bar_12=Bar(young_modulus=E1_1, area=A1_1),
-            bar_13=Bar(young_modulus=E1_2, area=A1_2),
-            bar_14=Bar(young_modulus=E1_3, area=A1_3),
-            bar_15=Bar(young_modulus=E1_4, area=A1_4),
-            bar_16=Bar(young_modulus=E1_5, area=A1_5),
-            bar_17=Bar(young_modulus=E1_6, area=A1_6),
-            bar_18=Bar(young_modulus=E1_7, area=A1_7),
-            bar_19=Bar(young_modulus=E1_8, area=A1_8),
-            bar_20=Bar(young_modulus=E1_9, area=A1_9),
-            bar_21=Bar(young_modulus=E1_10, area=A1_10),
-            bar_22=Bar(young_modulus=E1_11, area=A1_11),
+            bar_0=Bar(young_modulus=e2_1, area=a2_1),
+            bar_1=Bar(young_modulus=e2_2, area=a2_2),
+            bar_2=Bar(young_modulus=e2_3, area=a2_3),
+            bar_3=Bar(young_modulus=e2_4, area=a2_4),
+            bar_4=Bar(young_modulus=e2_5, area=a2_5),
+            bar_5=Bar(young_modulus=e2_6, area=a2_6),
+            bar_6=Bar(young_modulus=e2_7, area=a2_7),
+            bar_7=Bar(young_modulus=e2_8, area=a2_8),
+            bar_8=Bar(young_modulus=e2_9, area=a2_9),
+            bar_9=Bar(young_modulus=e2_10, area=a2_10),
+            bar_10=Bar(young_modulus=e2_11, area=a2_11),
+            bar_11=Bar(young_modulus=e2_12, area=a2_12),
+            bar_12=Bar(young_modulus=e1_1, area=a1_1),
+            bar_13=Bar(young_modulus=e1_2, area=a1_2),
+            bar_14=Bar(young_modulus=e1_3, area=a1_3),
+            bar_15=Bar(young_modulus=e1_4, area=a1_4),
+            bar_16=Bar(young_modulus=e1_5, area=a1_5),
+            bar_17=Bar(young_modulus=e1_6, area=a1_6),
+            bar_18=Bar(young_modulus=e1_7, area=a1_7),
+            bar_19=Bar(young_modulus=e1_8, area=a1_8),
+            bar_20=Bar(young_modulus=e1_9, area=a1_9),
+            bar_21=Bar(young_modulus=e1_10, area=a1_10),
+            bar_22=Bar(young_modulus=e1_11, area=a1_11),
         )
 
         forces = Forces(

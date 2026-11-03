@@ -70,7 +70,7 @@ def samplers(mlmc_mlcv):
 
 def test_pilot_factory(mlmc_mlcv):
     """Check the pilot factory."""
-    assert MLMCMLCVPilotFactory == mlmc_mlcv._PILOT_FACTORY
+    assert MLMCMLCVPilotFactory == mlmc_mlcv._pilot_factory
     assert isinstance(mlmc_mlcv._MLMC__pilot_statistic_estimator, Mean)
 
 

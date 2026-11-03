@@ -29,7 +29,7 @@ if TYPE_CHECKING:
 class StandardDeviation(BasePCEEstimator):
     """Estimator of the standard deviation."""
 
-    ARG_NAMES: ClassVar[tuple[str]] = (BasePCEEstimator.STD_ARG_NAME,)
+    arg_names: ClassVar[tuple[str]] = (BasePCEEstimator.std_arg_name,)
 
     def estimate_statistic(self, standard_deviation: RealArray) -> RealArray:
         return standard_deviation
