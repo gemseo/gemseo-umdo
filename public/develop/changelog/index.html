@@ -9394,9 +9394,30 @@ and this project adheres to
   for design under uncertainty:
   the statistics are added as observables with
   <a class="autorefs autorefs-internal" title="            add_observable" href="../reference/gemseo_umdo/scenarios/base_u_scenario/#gemseo_umdo.scenarios.base_u_scenario.BaseUScenario.add_observable">add_observable()</a>.</li>
+<li>The design strength <a class="autorefs autorefs-internal" title="            Rd
+
+
+  
+      module-attribute
+  " href="../reference/gemseo_umdo/use_cases/beam_model/core/variables/#gemseo_umdo.use_cases.beam_model.core.variables.Rd">Rd</a>
+  and the yield strength <a class="autorefs autorefs-internal" title="            Ry
+
+
+  
+      module-attribute
+  " href="../reference/gemseo_umdo/use_cases/beam_model/core/variables/#gemseo_umdo.use_cases.beam_model.core.variables.Ry">Ry</a>
+  of <a class="autorefs autorefs-internal" title="            AdvancedBeamUncertainSpace" href="../reference/gemseo_umdo/use_cases/beam_model/advanced_uncertain_space/#gemseo_umdo.use_cases.beam_model.advanced_uncertain_space.AdvancedBeamUncertainSpace">AdvancedBeamUncertainSpace</a>
+  are available in
+  <a class="autorefs autorefs-internal" title="            variables" href="../reference/gemseo_umdo/use_cases/beam_model/core/variables/#gemseo_umdo.use_cases.beam_model.core.variables">gemseo_umdo.use_cases.beam_model.core.variables</a>.</li>
 </ul>
 <h3 id="changed">Changed<a class="headerlink" href="#changed" title="Permanent link">&para;</a></h3>
 <ul>
+<li><a class="autorefs autorefs-internal" title="            AdvancedBeamUncertainSpace" href="../reference/gemseo_umdo/use_cases/beam_model/advanced_uncertain_space/#gemseo_umdo.use_cases.beam_model.advanced_uncertain_space.AdvancedBeamUncertainSpace">AdvancedBeamUncertainSpace</a>
+  raises a <code>ValueError</code>
+  when a name in <code>nominal_values</code> or in the dispersions is not an uncertain variable,
+  when a dispersion is not positive,
+  or when the lower bound <span class="arithmatex">\(\mu-\delta\)</span> of <code>b</code>, <code>h</code>, <code>t</code>, <code>L</code>, <code>E</code>, <code>Rd</code> or <code>Ry</code>
+  is not positive.</li>
 <li>GEMSEO-UMDO requires GEMSEO 7.</li>
 <li>BREAKING CHANGE:
   <a class="autorefs autorefs-internal" title="            UMDOScenario" href="../reference/gemseo_umdo/scenarios/umdo_scenario/#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario">UMDOScenario</a>
@@ -9508,6 +9529,22 @@ and this project adheres to
   with different parameters,
   e.g. two <code>"Margin"</code> with different factors;
   previously, both returned the value of the last one.</li>
+<li><a class="autorefs autorefs-internal" title="            Sampling" href="../reference/gemseo_umdo/formulations/sampling/#gemseo_umdo.formulations.sampling.Sampling">Sampling</a>
+  with <code>estimate_statistics_iteratively=True</code> (default)
+  no longer lists <code>"BaseCentralMoment"</code> among its available statistics
+  and no longer accepts it as a statistic name.</li>
+<li><a class="autorefs autorefs-internal" title="            AdvancedBeamUncertainSpace" href="../reference/gemseo_umdo/use_cases/beam_model/advanced_uncertain_space/#gemseo_umdo.use_cases.beam_model.advanced_uncertain_space.AdvancedBeamUncertainSpace">AdvancedBeamUncertainSpace</a>
+  uses the standard deviation <span class="arithmatex">\(\sigma=\delta/3\)</span>
+  for a truncated normal variable whose dispersion <span class="arithmatex">\(\delta\)</span> is passed by the user,
+  as documented;
+  previously, it used <span class="arithmatex">\(\sigma=\delta\)</span>,
+  making the distribution 3 times too wide;
+  its support is now <span class="arithmatex">\([\mu-\delta,\mu+\delta]\)</span>
+  instead of <span class="arithmatex">\([\mu-3\delta,\mu+3\delta]\)</span>.</li>
+<li><a class="autorefs autorefs-internal" title="            AdvancedBeamUncertainSpace" href="../reference/gemseo_umdo/use_cases/beam_model/advanced_uncertain_space/#gemseo_umdo.use_cases.beam_model.advanced_uncertain_space.AdvancedBeamUncertainSpace">AdvancedBeamUncertainSpace</a>
+  centers the uniform distributions of <code>b</code>, <code>h</code>, <code>t</code> and <code>L</code>
+  on the <code>nominal_values</code> passed by the user;
+  previously, it ignored them and used the default values.</li>
 </ul>
 <h2 id="version-430-october-2025">Version 4.3.0 (October 2025)<a class="headerlink" href="#version-430-october-2025" title="Permanent link">&para;</a></h2>
 <h3 id="added_1">Added<a class="headerlink" href="#added_1" title="Permanent link">&para;</a></h3>

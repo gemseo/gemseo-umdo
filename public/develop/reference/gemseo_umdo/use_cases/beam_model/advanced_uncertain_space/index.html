@@ -8589,7 +8589,7 @@
             </td>
             <td class="doc-param-details">
               <div class="doc-md-description">
-                <p>The nominal values of some uncertain variables.
+                <p>The nominal values <span class="arithmatex">\(\mu\)</span> of some uncertain variables.
 For missing ones,
 use the default values of the variables available in
 <code>gemseo_umdo.use_cases.beam_model.core.variables</code>.</p>
@@ -8612,7 +8612,14 @@ use the default values of the variables available in
             </td>
             <td class="doc-param-details">
               <div class="doc-md-description">
-                <p>The dispersions around the nominal values.</p>
+                <p>The dispersions <span class="arithmatex">\(\delta\)</span>
+around the nominal values <span class="arithmatex">\(\mu\)</span>.
+For missing dispersions, use 1.0.
+For the uniform variables <code>b</code>, <code>h</code>, <code>t</code> and <code>L</code>,
+the distribution is defined over <span class="arithmatex">\([\mu-\delta,\mu+\delta]\)</span>.
+For the other ones,
+the distribution is a normal one with standard deviation
+<span class="arithmatex">\(\sigma=\delta/3\)</span> truncated to <span class="arithmatex">\([\mu-3\sigma,\mu+3\sigma]\)</span>.</p>
               </div>
               <p>
                   <span class="doc-param-annotation">
@@ -8630,6 +8637,36 @@ use the default values of the variables available in
     </table>
 
 
+<table>
+      <thead>
+        <tr>
+          <th><span class="doc-section-title">RAISES</span></th>
+          <th><span>DESCRIPTION</span></th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+              <span class="doc-raises-annotation">
+                  <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/exceptions.html#ValueError">ValueError</a></code>
+              </span>
+            </td>
+            <td class="doc-raises-details">
+              <div class="doc-md-description">
+                <p>When a name in <code>nominal_values</code> or <code>dispersions</code>
+is not the name of an uncertain variable,
+when a dispersion is not positive,
+or when the lower bound <span class="arithmatex">\(\mu-\delta\)</span>
+of a positive variable
+(<code>b</code>, <code>h</code>, <code>t</code>, <code>L</code>, <code>E</code>, <code>Rd</code> or <code>Ry</code>)
+is not positive.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
 
 
 
@@ -8638,93 +8675,151 @@ use the default values of the variables available in
 
                   <details class="mkdocstrings-source">
                     <summary>Source code in <code>src/gemseo_umdo/use_cases/beam_model/advanced_uncertain_space.py</code></summary>
-                    <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">46</span>
-<span class="normal">47</span>
-<span class="normal">48</span>
-<span class="normal">49</span>
-<span class="normal">50</span>
-<span class="normal">51</span>
-<span class="normal">52</span>
-<span class="normal">53</span>
-<span class="normal">54</span>
-<span class="normal">55</span>
-<span class="normal">56</span>
-<span class="normal">57</span>
-<span class="normal">58</span>
-<span class="normal">59</span>
-<span class="normal">60</span>
-<span class="normal">61</span>
-<span class="normal">62</span>
-<span class="normal">63</span>
-<span class="normal">64</span>
-<span class="normal">65</span>
-<span class="normal">66</span>
-<span class="normal">67</span>
-<span class="normal">68</span>
-<span class="normal">69</span>
-<span class="normal">70</span>
-<span class="normal">71</span>
-<span class="normal">72</span>
-<span class="normal">73</span>
-<span class="normal">74</span>
-<span class="normal">75</span>
-<span class="normal">76</span>
-<span class="normal">77</span>
-<span class="normal">78</span>
-<span class="normal">79</span>
-<span class="normal">80</span>
-<span class="normal">81</span>
-<span class="normal">82</span>
-<span class="normal">83</span>
-<span class="normal">84</span>
-<span class="normal">85</span>
-<span class="normal">86</span>
-<span class="normal">87</span>
-<span class="normal">88</span>
-<span class="normal">89</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
-    <span class="bp">self</span><span class="p">,</span> <span class="n">nominal_values</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">dispersions</span><span class="p">:</span> <span class="nb">float</span>
+                    <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 48</span>
+<span class="normal"> 49</span>
+<span class="normal"> 50</span>
+<span class="normal"> 51</span>
+<span class="normal"> 52</span>
+<span class="normal"> 53</span>
+<span class="normal"> 54</span>
+<span class="normal"> 55</span>
+<span class="normal"> 56</span>
+<span class="normal"> 57</span>
+<span class="normal"> 58</span>
+<span class="normal"> 59</span>
+<span class="normal"> 60</span>
+<span class="normal"> 61</span>
+<span class="normal"> 62</span>
+<span class="normal"> 63</span>
+<span class="normal"> 64</span>
+<span class="normal"> 65</span>
+<span class="normal"> 66</span>
+<span class="normal"> 67</span>
+<span class="normal"> 68</span>
+<span class="normal"> 69</span>
+<span class="normal"> 70</span>
+<span class="normal"> 71</span>
+<span class="normal"> 72</span>
+<span class="normal"> 73</span>
+<span class="normal"> 74</span>
+<span class="normal"> 75</span>
+<span class="normal"> 76</span>
+<span class="normal"> 77</span>
+<span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">nominal_values</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">dispersions</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">    Args:</span>
-<span class="sd">        nominal_values: The nominal values of some uncertain variables.</span>
+<span class="sd">        nominal_values: The nominal values $\mu$ of some uncertain variables.</span>
 <span class="sd">            For missing ones,</span>
 <span class="sd">            use the default values of the variables available in</span>
 <span class="sd">            `gemseo_umdo.use_cases.beam_model.core.variables`.</span>
-<span class="sd">        **dispersions: The dispersions around the nominal values.</span>
+<span class="sd">        **dispersions: The dispersions $\delta$</span>
+<span class="sd">            around the nominal values $\mu$.</span>
+<span class="sd">            For missing dispersions, use 1.0.</span>
+<span class="sd">            For the uniform variables `b`, `h`, `t` and `L`,</span>
+<span class="sd">            the distribution is defined over $[\mu-\delta,\mu+\delta]$.</span>
+<span class="sd">            For the other ones,</span>
+<span class="sd">            the distribution is a normal one with standard deviation</span>
+<span class="sd">            $\sigma=\delta/3$ truncated to $[\mu-3\sigma,\mu+3\sigma]$.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: When a name in `nominal_values` or `dispersions`</span>
+<span class="sd">            is not the name of an uncertain variable,</span>
+<span class="sd">            when a dispersion is not positive,</span>
+<span class="sd">            or when the lower bound $\mu-\delta$</span>
+<span class="sd">            of a positive variable</span>
+<span class="sd">            (`b`, `h`, `t`, `L`, `E`, `Rd` or `Ry`)</span>
+<span class="sd">            is not positive.</span>
 <span class="sd">    """</span>  <span class="c1"># noqa: D205 D212 D415</span>
     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-    <span class="n">variables</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">b</span><span class="p">,</span>
-        <span class="n">h</span><span class="p">,</span>
-        <span class="n">t</span><span class="p">,</span>
-        <span class="n">L</span><span class="p">,</span>
-        <span class="n">alpha</span><span class="p">,</span>
-        <span class="n">beta</span><span class="p">,</span>
-        <span class="n">dy</span><span class="p">,</span>
-        <span class="n">dz</span><span class="p">,</span>
-        <span class="n">E</span><span class="p">,</span>
-        <span class="n">Variable</span><span class="p">(</span><span class="s2">"Rd"</span><span class="p">,</span> <span class="mf">180.0</span><span class="p">),</span>
-        <span class="n">Variable</span><span class="p">(</span><span class="s2">"Ry"</span><span class="p">,</span> <span class="mf">600.0</span><span class="p">),</span>
-    <span class="p">]</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">__nominal_values</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">variable</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">variable</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="n">variables</span>
+    <span class="n">uniform_variables</span> <span class="o">=</span> <span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">L</span><span class="p">)</span>
+    <span class="n">variables</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="n">uniform_variables</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">dy</span><span class="p">,</span> <span class="n">dz</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">Rd</span><span class="p">,</span> <span class="n">Ry</span><span class="p">)</span>
+    <span class="n">uniform_variable_names</span> <span class="o">=</span> <span class="p">{</span><span class="n">variable</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="n">uniform_variables</span><span class="p">}</span>
+    <span class="n">positive_variable_names</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">variable</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">Rd</span><span class="p">,</span> <span class="n">Ry</span><span class="p">)</span>
     <span class="p">}</span>
-    <span class="k">if</span> <span class="n">nominal_values</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__nominal_values</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">nominal_values</span><span class="p">)</span>
-
-    <span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="n">variables</span><span class="p">[:</span><span class="mi">4</span><span class="p">]:</span>
-        <span class="n">name</span> <span class="o">=</span> <span class="n">variable</span><span class="o">.</span><span class="n">name</span>
-        <span class="n">nominal_value</span> <span class="o">=</span> <span class="n">variable</span><span class="o">.</span><span class="n">value</span>
-        <span class="n">delta</span> <span class="o">=</span> <span class="n">dispersions</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__default_dispersion</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_variable</span><span class="p">(</span>
-            <span class="n">name</span><span class="p">,</span>
-            <span class="n">OTUniformDistribution_Settings</span><span class="p">(</span>
-                <span class="n">minimum</span><span class="o">=</span><span class="n">nominal_value</span> <span class="o">-</span> <span class="n">delta</span><span class="p">,</span> <span class="n">maximum</span><span class="o">=</span><span class="n">nominal_value</span> <span class="o">+</span> <span class="n">delta</span>
-            <span class="p">),</span>
+    <span class="n">variable_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">variable</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="n">variables</span><span class="p">]</span>
+    <span class="n">nominal_values</span> <span class="o">=</span> <span class="n">nominal_values</span> <span class="ow">or</span> <span class="p">{}</span>
+    <span class="n">unknown_names</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="nb">set</span><span class="p">(</span><span class="n">nominal_values</span><span class="p">)</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">dispersions</span><span class="p">)</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">variable_names</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">unknown_names</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="s2">"The following names are not uncertain variables: "</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">pretty_repr</span><span class="p">(</span><span class="n">unknown_names</span><span class="p">)</span><span class="si">}</span><span class="s2">; "</span>
+            <span class="sa">f</span><span class="s2">"the available ones are </span><span class="si">{</span><span class="n">pretty_repr</span><span class="p">(</span><span class="n">variable_names</span><span class="p">,</span><span class="w"> </span><span class="n">sort</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="si">}</span><span class="s2">."</span>
         <span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 
-    <span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="n">variables</span><span class="p">[</span><span class="mi">4</span><span class="p">:]:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__add_truncated_normal</span><span class="p">(</span><span class="n">variable</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">dispersions</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="n">variables</span><span class="p">:</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">variable</span><span class="o">.</span><span class="n">name</span>
+        <span class="n">mu</span> <span class="o">=</span> <span class="n">nominal_values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">variable</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+        <span class="n">delta</span> <span class="o">=</span> <span class="n">dispersions</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__default_dispersion</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">delta</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"The dispersion </span><span class="si">{</span><span class="n">delta</span><span class="si">}</span><span class="s2"> of </span><span class="si">{</span><span class="n">name</span><span class="si">!r}</span><span class="s2"> must be positive."</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+        <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span> <span class="o">=</span> <span class="n">mu</span> <span class="o">-</span> <span class="n">delta</span><span class="p">,</span> <span class="n">mu</span> <span class="o">+</span> <span class="n">delta</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">positive_variable_names</span> <span class="ow">and</span> <span class="n">lower</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"The lower bound mu-delta=</span><span class="si">{</span><span class="n">lower</span><span class="si">}</span><span class="s2"> "</span>
+                <span class="sa">f</span><span class="s2">"of the positive variable </span><span class="si">{</span><span class="n">name</span><span class="si">!r}</span><span class="s2"> must be positive."</span>
+            <span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">uniform_variable_names</span><span class="p">:</span>
+            <span class="n">settings</span> <span class="o">=</span> <span class="n">OTUniformDistribution_Settings</span><span class="p">(</span><span class="n">minimum</span><span class="o">=</span><span class="n">lower</span><span class="p">,</span> <span class="n">maximum</span><span class="o">=</span><span class="n">upper</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">settings</span> <span class="o">=</span> <span class="n">OTNormalDistribution_Settings</span><span class="p">(</span>
+                <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">delta</span> <span class="o">/</span> <span class="mf">3.0</span><span class="p">,</span> <span class="n">lower_bound</span><span class="o">=</span><span class="n">lower</span><span class="p">,</span> <span class="n">upper_bound</span><span class="o">=</span><span class="n">upper</span>
+            <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_variable</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">settings</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
                   </details>
 
