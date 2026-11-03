@@ -37,9 +37,20 @@ and this project adheres to
   for design under uncertainty:
   the statistics are added as observables with
   [add_observable()][gemseo_umdo.scenarios.base_u_scenario.BaseUScenario.add_observable].
+- The design strength [Rd][gemseo_umdo.use_cases.beam_model.core.variables.Rd]
+  and the yield strength [Ry][gemseo_umdo.use_cases.beam_model.core.variables.Ry]
+  of [AdvancedBeamUncertainSpace][gemseo_umdo.use_cases.beam_model.advanced_uncertain_space.AdvancedBeamUncertainSpace]
+  are available in
+  [gemseo_umdo.use_cases.beam_model.core.variables][gemseo_umdo.use_cases.beam_model.core.variables].
 
 ### Changed
 
+- [AdvancedBeamUncertainSpace][gemseo_umdo.use_cases.beam_model.advanced_uncertain_space.AdvancedBeamUncertainSpace]
+  raises a `ValueError`
+  when a name in `nominal_values` or in the dispersions is not an uncertain variable,
+  when a dispersion is not positive,
+  or when the lower bound $\mu-\delta$ of `b`, `h`, `t`, `L`, `E`, `Rd` or `Ry`
+  is not positive.
 - GEMSEO-UMDO requires GEMSEO 7.
 - BREAKING CHANGE:
   [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
@@ -136,6 +147,18 @@ and this project adheres to
   with `estimate_statistics_iteratively=True` (default)
   no longer lists `"BaseCentralMoment"` among its available statistics
   and no longer accepts it as a statistic name.
+- [AdvancedBeamUncertainSpace][gemseo_umdo.use_cases.beam_model.advanced_uncertain_space.AdvancedBeamUncertainSpace]
+  uses the standard deviation $\sigma=\delta/3$
+  for a truncated normal variable whose dispersion $\delta$ is passed by the user,
+  as documented;
+  previously, it used $\sigma=\delta$,
+  making the distribution 3 times too wide;
+  its support is now $[\mu-\delta,\mu+\delta]$
+  instead of $[\mu-3\delta,\mu+3\delta]$.
+- [AdvancedBeamUncertainSpace][gemseo_umdo.use_cases.beam_model.advanced_uncertain_space.AdvancedBeamUncertainSpace]
+  centers the uniform distributions of `b`, `h`, `t` and `L`
+  on the `nominal_values` passed by the user;
+  previously, it ignored them and used the default values.
 
 ## Version 4.3.0 (October 2025)
 
