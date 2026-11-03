@@ -1,0 +1,25 @@
+# serializer version: 1
+# name: test_invalid_dispersion[negative]
+  "The dispersion -1.0 of 'alpha' must be positive."
+# ---
+# name: test_invalid_dispersion[zero]
+  "The dispersion 0.0 of 'b' must be positive."
+# ---
+# name: test_invalid_support[negative-lower-bound]
+  "The lower bound mu-delta=-0.5 of the positive variable 't' must be positive."
+# ---
+# name: test_invalid_support[normal-negative-lower-bound]
+  "The lower bound mu-delta=-2.0 of the positive variable 'Rd' must be positive."
+# ---
+# name: test_invalid_support[zero-lower-bound]
+  "The lower bound mu-delta=0.0 of the positive variable 't' must be positive."
+# ---
+# name: test_unknown_name[dispersion]
+  "The following names are not uncertain variables: 'bar'; the available ones are 'b', 'h', 't', 'L', 'alpha', 'beta', 'dy', 'dz', 'E', 'Rd' and 'Ry'."
+# ---
+# name: test_unknown_name[nominal-value]
+  "The following names are not uncertain variables: 'foo'; the available ones are 'b', 'h', 't', 'L', 'alpha', 'beta', 'dy', 'dz', 'E', 'Rd' and 'Ry'."
+# ---
+# name: test_unknown_name[several]
+  "The following names are not uncertain variables: 'bar' and 'foo'; the available ones are 'b', 'h', 't', 'L', 'alpha', 'beta', 'dy', 'dz', 'E', 'Rd' and 'Ry'."
+# ---

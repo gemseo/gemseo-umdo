@@ -67,3 +67,15 @@ nu = Variable("nu", 0.33)
 
 sigma_all = Variable("sigma_all", 300.0)
 """A constant used by the stress constraints."""
+
+Rd = Variable("Rd", 180.0)
+"""The design strength of the material.
+
+The beam model does not use it.
+"""
+
+Ry = Variable("Ry", 600.0)
+"""The yield strength of the material.
+
+The beam model does not use it.
+"""
