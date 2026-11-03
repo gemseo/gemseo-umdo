@@ -8819,10 +8819,10 @@ function of the stiffness of the spring.</p>
 <span class="sd">        gravity: The gravity acceleration.</span>
 <span class="sd">    """</span>  <span class="c1"># noqa: D205 D212 D415</span>
     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="n">time_step</span><span class="si">}</span><span class="s2">)"</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">input_grammar</span><span class="o">.</span><span class="n">update_from_names</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">__STIFFNESS</span><span class="p">])</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">input_grammar</span><span class="o">.</span><span class="n">update_from_names</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">__stiffness</span><span class="p">])</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">output_grammar</span><span class="o">.</span><span class="n">update_from_names</span><span class="p">([</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__MAX_DISPLACEMENT</span><span class="p">,</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__DISPLACEMENT</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__max_displacement</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__displacement</span><span class="p">,</span>
     <span class="p">])</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__model</span> <span class="o">=</span> <span class="n">SpringMassModel</span><span class="p">(</span>
         <span class="n">mass</span><span class="o">=</span><span class="n">mass</span><span class="p">,</span>
@@ -8832,7 +8832,7 @@ function of the stiffness of the spring.</p>
         <span class="n">time_step</span><span class="o">=</span><span class="n">time_step</span><span class="p">,</span>
         <span class="n">gravity</span><span class="o">=</span><span class="n">gravity</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">default_input_data</span> <span class="o">=</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">__STIFFNESS</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="mf">2.25</span><span class="p">])}</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">default_input_data</span> <span class="o">=</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">__stiffness</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="mf">2.25</span><span class="p">])}</span>
 </code></pre></div></td></tr></table></div>
                   </details>
 

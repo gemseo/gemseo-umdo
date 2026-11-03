@@ -8600,15 +8600,15 @@ the left-hand sides of</p>
 <span class="normal">58</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># noqa: D107</span>
     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">input_grammar</span><span class="o">.</span><span class="n">update_from_names</span><span class="p">([</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__DISPL</span><span class="p">,</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__SIGMA_VM</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__displ</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__sigma_vm</span><span class="p">,</span>
         <span class="n">sigma_all</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
     <span class="p">])</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">output_grammar</span><span class="o">.</span><span class="n">update_from_names</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">__C_DISPL</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__C_STRESS</span><span class="p">])</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">output_grammar</span><span class="o">.</span><span class="n">update_from_names</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">__c_displ</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__c_stress</span><span class="p">])</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">default_input_data</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">sigma_all</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="n">sigma_all</span><span class="o">.</span><span class="n">value</span><span class="p">]),</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__SIGMA_VM</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="mf">300.0</span><span class="p">]),</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__DISPL</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="mf">100.0</span><span class="p">]),</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__sigma_vm</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="mf">300.0</span><span class="p">]),</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__displ</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="mf">100.0</span><span class="p">]),</span>
     <span class="p">}</span>
 </code></pre></div></td></tr></table></div>
                   </details>

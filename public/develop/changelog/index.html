@@ -9443,6 +9443,30 @@ and this project adheres to
 <li>The <code>factor</code> parameter of the statistic <code>"Margin"</code> is replaced by its absolute value
   in the case of an objective to maximize or a positivity constraint.
   In the case of observables, this parameter is not modified.</li>
+<li>BREAKING CHANGE: the ALL_CAPS class attributes and module-level constants
+  are named in lower snake case, as in GEMSEO 7:<ul>
+<li><code>BaseNoiser.SHORT_NAME</code> → <a class="autorefs autorefs-internal" title="            short_name
+
+
+  
+      class-attribute
+  " href="../reference/gemseo_umdo/disciplines/base_noiser/#gemseo_umdo.disciplines.base_noiser.BaseNoiser.short_name">short_name</a>;</li>
+<li><code>gemseo_umdo.formulations.factory.UMDO_FORMULATION_FACTORY</code>
+  → <a class="autorefs autorefs-internal" title="            umdo_formulation_factory
+
+
+  
+      module-attribute
+  " href="../reference/gemseo_umdo/formulations/factory/#gemseo_umdo.formulations.factory.umdo_formulation_factory">umdo_formulation_factory</a>.</li>
+</ul>
+</li>
+<li>BREAKING CHANGE: the enumeration <code>gemseo_umdo.formulations.DOE_ALGO_NAMES</code>
+  is renamed <a class="autorefs autorefs-internal" title="            DOEAlgorithmName
+
+
+  
+      module-attribute
+  " href="../reference/gemseo_umdo/formulations/#gemseo_umdo.formulations.DOEAlgorithmName">DOEAlgorithmName</a>.</li>
 </ul>
 <h3 id="removed">Removed<a class="headerlink" href="#removed" title="Permanent link">&para;</a></h3>
 <ul>
@@ -9452,6 +9476,7 @@ and this project adheres to
   with the settings of a DOE algorithm to sample a U-MDO problem,
   or <a class="autorefs autorefs-internal" title="            UEvaluationScenario" href="../reference/gemseo_umdo/scenarios/u_evaluation_scenario/#gemseo_umdo.scenarios.u_evaluation_scenario.UEvaluationScenario">UEvaluationScenario</a>
   to evaluate statistics without objective or constraints.</li>
+<li>BREAKING CHANGE: <code>SobolGraph.DEFAULT_FILE_PATH</code>, which had no effect.</li>
 </ul>
 <h3 id="fixed">Fixed<a class="headerlink" href="#fixed" title="Permanent link">&para;</a></h3>
 <ul>

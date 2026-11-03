@@ -9280,7 +9280,7 @@ If <code>""</code>, use the class name with PNG format.</p>
 
     <span class="n">database</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__scenario</span><span class="o">.</span><span class="n">formulation</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">database</span>
     <span class="n">output_names_to_measures</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">output_name</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__DISP_MEAS_TO_FUNCTION</span><span class="p">[</span><span class="n">dispersion_measure</span><span class="p">](</span>
+        <span class="n">output_name</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__disp_meas_to_function</span><span class="p">[</span><span class="n">dispersion_measure</span><span class="p">](</span>
             <span class="n">database</span><span class="o">.</span><span class="n">get_function_history</span><span class="p">(</span><span class="n">output_name</span><span class="p">)</span>
         <span class="p">)</span>
         <span class="k">for</span> <span class="n">output_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__output_names</span>
