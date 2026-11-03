@@ -438,3 +438,24 @@ def test_standard_deviation_derivative_if_zero(estimate_statistics_iteratively):
     # The output z does not depend on u.
     # So its variance is zero and so is its derivative.
     assert_equal(get("StD[z]"), array([[0.0]]))
+
+
+def test_available_statistics(
+    disciplines, design_space, uncertain_space, estimate_statistics_iteratively
+):
+    """Check that the available statistics do not include base classes."""
+    formulation = Sampling(
+        OptimizationProblem(design_space),
+        disciplines,
+        Sampling_Settings(
+            estimate_statistics_iteratively=estimate_statistics_iteratively
+        ),
+        uncertain_space=uncertain_space,
+    )
+    assert formulation.available_statistics == [
+        "Margin",
+        "Mean",
+        "Probability",
+        "StandardDeviation",
+        "Variance",
+    ]
