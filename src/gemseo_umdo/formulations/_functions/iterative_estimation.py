@@ -12,7 +12,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-"""A function updating the estimation of a statistic."""
+"""A function updating the estimation of a statistic and its Jacobian."""
 
 from __future__ import annotations
 
@@ -32,10 +32,15 @@ if TYPE_CHECKING:
 
 
 class IterativeEstimation:
-    """A functor to estimate a statistic iteratively.
+    """A functor to estimate a statistic and its Jacobian iteratively.
 
     Call this functor to update the estimation of the statistic
-    and access the last evaluation with :attr:`.last_evaluation`.
+    and, if the Jacobian of the output is evaluated
+    and the estimator can estimate the Jacobian of the statistic,
+    of its Jacobian;
+    then access the last estimations
+    with `last_estimation` and `last_jacobian_estimation`
+    and reset them with `reset()` before a new sampling.
 
     The [Sampling][gemseo_umdo.formulations.sampling.Sampling] U-MDO formulation
     passes such functors to a
@@ -53,81 +58,95 @@ class IterativeEstimation:
     output_statistic_name: str
     """The name of the statistic of the output."""
 
+    output_statistic_jac_name: str
+    """The name of the Jacobian of the statistic of the output."""
+
     last_estimation: RealArray
     """The last estimation of the statistic."""
 
-    n_samples: int
-    """The number of samples used by the last estimation of the statistic."""
+    last_jacobian_estimation: RealArray | None
+    """The last estimation of the Jacobian of the statistic.
 
-    n_output_samples: int
-    """The number of samples at which the output is available since the last reset.
-
-    When estimating the Jacobian of the statistic,
-    a sample is used only if the gradient of the output is also available,
-    so that this number can be greater than
-    [n_samples][gemseo_umdo.formulations._functions.iterative_estimation.IterativeEstimation.n_samples].
+    `None` when the Jacobian has not been estimated since the last reset.
     """
 
-    return_statistic_jacobian: bool
-    """Whether the functor returns the Jacobian of the statistic estimation."""
+    n_samples: int
+    """The number of samples used by the last estimation of the statistic.
+
+    It is the number of samples at which the output is available since the last reset.
+    """
+
+    n_jacobian_samples: int
+    """The number of samples used by the last estimation of the Jacobian.
+
+    It is the number of samples
+    at which both the output and its gradient are available since the last reset,
+    so that it can be smaller than
+    [n_samples][gemseo_umdo.formulations._functions.iterative_estimation.IterativeEstimation.n_samples].
+    """
 
     def __init__(
         self,
         output_name: str,
         output_statistic_name: str,
         statistic_estimator: BaseSamplingEstimator,
-        return_statistic_jacobian: bool = False,
+        output_statistic_jac_name: str,
     ) -> None:
         """
         Args:
             output_name: The name of the output for which to estimate the statistic.
             output_statistic_name: The name of the statistic of the output.
             statistic_estimator: The function to update the estimation of the statistic.
-            return_statistic_jacobian: Whether to return
-                the Jacobian of the statistic estimation.
+            output_statistic_jac_name: The name of the Jacobian
+                of the statistic of the output.
         """  # noqa: D202 D205 D212 D415
         self.output_name = output_name
         self.output_statistic_name = output_statistic_name
+        self.output_statistic_jac_name = output_statistic_jac_name
         self.statistic_estimator = statistic_estimator
-        self.return_statistic_jacobian = return_statistic_jacobian
         self.reset()
 
-    def reset(self) -> None:
-        """Reset the estimation of the statistic."""
-        self.last_estimation = array([])
-        self.n_samples = 0
-        self.n_output_samples = 0
-        self.statistic_estimator.reset()
-
-    def __call__(self, index: int, evaluation: EvaluationType) -> RealArray:
+    def __call__(self, index: int, evaluation: EvaluationType) -> None:
         """
         Args:
             index: The index of the evaluation.
             evaluation: The values of the function outputs
                 and the values of their Jacobian.
-
-        Returns:
-            The new estimation of the statistic or its Jacobian.
         """  # noqa: D205, D212
-        # A sample at which the output or, when estimating the Jacobian,
-        # its gradient is missing, e.g. because its evaluation failed,
-        # is not used to estimate the statistic.
-        value = evaluation[0].get(self.output_name)
+        output_name = self.output_name
+        # A sample at which the output is missing,
+        # e.g. because its evaluation failed,
+        # is not used to estimate the statistic and its Jacobian.
+        value = evaluation[0].get(output_name)
         if value is None:
-            return self.last_estimation
+            return
 
-        self.n_output_samples += 1
         value = atleast_1d(value)
-        if self.return_statistic_jacobian:
-            jac_value = evaluation[1].get(self.output_name)
-            if jac_value is None:
-                return self.last_estimation
-
-            self.last_estimation = self.statistic_estimator.compute_jacobian(
+        estimator = self.statistic_estimator
+        # The estimation of the statistic must be updated
+        # before the estimation of its Jacobian, which may use it.
+        self.last_estimation = estimator.estimate_statistic(value)
+        self.n_samples += 1
+        # A sample at which the gradient of the output is missing
+        # is not used to estimate the Jacobian of the statistic.
+        jac_value = evaluation[1].get(output_name)
+        if jac_value is not None and self.estimates_jacobian:
+            self.last_jacobian_estimation = estimator.compute_jacobian(
                 value, atleast_2d(jac_value)
             )
-        else:
-            self.last_estimation = self.statistic_estimator.estimate_statistic(value)
+            self.n_jacobian_samples += 1
 
-        self.n_samples += 1
-        return self.last_estimation
+    @property
+    def estimates_jacobian(self) -> bool:
+        """Whether the Jacobian of the statistic is estimated when possible."""
+        return self.statistic_estimator.can_compute_jacobian
+
+    def reset(self) -> None:
+        """Reset the estimator and the last estimations."""
+        # The estimator may have updated part of its state before failing,
+        # so it is reset even if it has not returned any estimation.
+        self.statistic_estimator.reset()
+        self.last_estimation = array([])
+        self.last_jacobian_estimation = None
+        self.n_samples = 0
+        self.n_jacobian_samples = 0

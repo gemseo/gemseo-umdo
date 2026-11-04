@@ -150,7 +150,6 @@ class Surrogate(BaseUMDOFormulation):
     ) -> None:
         settings = create_model(self.settings_class, settings_model=settings)
         algo_name = settings.doe_algo_settings.target_class_name
-        self.input_data_to_output_samples = {}
         self.__doe_algo = DOELibraryFactory().create(algo_name)
         self._estimators = []
         self.input_samples = uncertain_space.convert_array_to_dict(

@@ -23,6 +23,12 @@
 # name: test_failed_sampling[True]
   'Failure.'
 # ---
+# name: test_iterative_standard_deviation_jacobian_without_estimation[never]
+  'The standard deviation must be estimated from the output value before its Jacobian.'
+# ---
+# name: test_iterative_standard_deviation_jacobian_without_estimation[not_just_before]
+  'The standard deviation must be estimated from the output value before its Jacobian.'
+# ---
 # name: test_iterative_statistic_jacobian_without_gradient[True]
   'The Jacobian of the statistics of f cannot be estimated, as the gradient of f is not available at any sample of the uncertain variables, e.g. because its evaluation failed or the DOE algorithm does not store the Jacobian.'
 # ---

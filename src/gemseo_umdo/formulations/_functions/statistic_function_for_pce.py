@@ -21,6 +21,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 from typing import Any
+from typing import ClassVar
+from typing import Final
 from typing import TypeVar
 
 from gemseo.machine_learning.regression.model.factory import RegressorFactory
@@ -44,9 +46,18 @@ if TYPE_CHECKING:
 
 PCET = TypeVar("PCET", bound="PCE")
 
+_fce_name: Final[str] = "fce"
+"""The name of the functional chaos expansion in the data.
+
+It is stored when the Jacobians of the statistics are approximated
+so that these approximations are only computed when required.
+"""
+
 
 class StatisticFunctionForPCE(StatisticFunctionForSurrogate[PCET]):
     """A function to compute a statistic from `PCE`."""
+
+    _can_estimate_jacobian: ClassVar[bool] = True
 
     def _compute_statistic_estimation(self, data: dict[str, PCERegressor]) -> RealArray:
         function_name = self._output_name
@@ -56,9 +67,16 @@ class StatisticFunctionForPCE(StatisticFunctionForSurrogate[PCET]):
             for statistic_name in estimator.arg_names
         ])
 
-    def _compute_statistic_jacobian_estimation(
-        self, data: dict[str, RealArray]
-    ) -> RealArray:
+    def _compute_statistic_jacobian_estimation(self, data: dict[str, Any]) -> RealArray:
+        fce = data.get(_fce_name)
+        if fce is not None:
+            # The data are shared by the statistics at the same input point,
+            # so the Jacobians are approximated once for all of them.
+            self.__store_jacobians(data, fce, *self.__approximate_jacobians(fce))
+            # The regressor is removed only once the Jacobians are stored
+            # so that a failed approximation can be tried again.
+            del data[_fce_name]
+
         function_name = self._output_name
         estimator = self._statistic_estimator
         return estimator.compute_jacobian(*[
@@ -112,28 +130,50 @@ class StatisticFunctionForPCE(StatisticFunctionForSurrogate[PCET]):
         }
         if estimate_jacobian:
             if settings.approximate_statistics_jacobians:
-                jac_mean, jac_std, jac_var = self.__approximate_jacobians(fce)
+                # The approximation of the Jacobians is costly,
+                # so it is computed only at the first request of a Jacobian,
+                # e.g. not at the line search points of a gradient-based optimizer.
+                data[_fce_name] = fce
             else:
-                jac_mean = fce.mean_jacobian_wrt_special_variables
-                jac_std = fce.standard_deviation_jacobian_wrt_special_variables
-                jac_var = fce.variance_jacobian_wrt_special_variables
-
-            jac_mean = {
-                k: v.T
-                for k, v in array_to_dict(jac_mean.T, sizes, output_names).items()
-            }
-            jac_std = {
-                k: v.T for k, v in array_to_dict(jac_std.T, sizes, output_names).items()
-            }
-            jac_var = {
-                k: v.T for k, v in array_to_dict(jac_var.T, sizes, output_names).items()
-            }
-            data[self.__get_statistic_jac_name(mean_arg_name)] = jac_mean
-            data[self.__get_statistic_jac_name(std_arg_name)] = jac_std
-            data[self.__get_statistic_jac_name(var_arg_name)] = jac_var
+                self.__store_jacobians(
+                    data,
+                    fce,
+                    fce.mean_jacobian_wrt_special_variables,
+                    fce.standard_deviation_jacobian_wrt_special_variables,
+                    fce.variance_jacobian_wrt_special_variables,
+                )
 
         self._log_regressor_quality(fce, input_data)
         return data
+
+    @classmethod
+    def __store_jacobians(
+        cls,
+        data: dict[str, Any],
+        fce: BaseFCERegressor,
+        jac_mean: RealArray,
+        jac_std: RealArray,
+        jac_var: RealArray,
+    ) -> None:
+        """Store the Jacobians of the statistics in the data.
+
+        Args:
+            data: The data.
+            fce: The functional chaos expansion.
+            jac_mean: The Jacobian of the mean.
+            jac_std: The Jacobian of the standard deviation.
+            jac_var: The Jacobian of the variance.
+        """
+        sizes = fce.sizes
+        output_names = fce.output_names
+        for statistic_name, jac in (
+            (BasePCEEstimator.mean_arg_name, jac_mean),
+            (BasePCEEstimator.std_arg_name, jac_std),
+            (BasePCEEstimator.var_arg_name, jac_var),
+        ):
+            data[cls.__get_statistic_jac_name(statistic_name)] = {
+                k: v.T for k, v in array_to_dict(jac.T, sizes, output_names).items()
+            }
 
     @staticmethod
     def __get_statistic_jac_name(statistic_name: str) -> str:

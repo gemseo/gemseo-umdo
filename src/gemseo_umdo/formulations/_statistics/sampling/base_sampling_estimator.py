@@ -18,6 +18,7 @@ from __future__ import annotations
 
 from abc import abstractmethod
 from typing import TYPE_CHECKING
+from typing import ClassVar
 
 from gemseo_umdo.formulations._statistics.base_statistic_estimator import (
     BaseStatisticEstimator,
@@ -29,6 +30,9 @@ if TYPE_CHECKING:
 
 class BaseSamplingEstimator(BaseStatisticEstimator):
     """Base statistic estimator for a U-MDO formulation using sampling."""
+
+    can_compute_jacobian: ClassVar[bool] = True
+    """The Jacobian of the statistic can be estimated from the samples."""
 
     @abstractmethod
     def estimate_statistic(self, samples: RealArray) -> RealArray:

@@ -16,11 +16,13 @@ from __future__ import annotations
 
 import logging
 import pickle
+from copy import deepcopy
 from functools import wraps
 from pathlib import Path
 from typing import TYPE_CHECKING
 from typing import Any
 from typing import Final
+from unittest import mock
 
 import pytest
 from gemseo import from_pickle
@@ -32,6 +34,7 @@ from gemseo.doe import CustomDOE_Settings
 from gemseo.formulation import DisciplinaryOpt_Settings
 from gemseo.formulation import MDF_Settings
 from gemseo.optimization import OptimizationProblem
+from gemseo.optimization import SLSQP_Settings
 from gemseo.space import DesignSpace
 from gemseo.space import RandomSpace
 from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
@@ -47,6 +50,9 @@ from pandas._testing import assert_frame_equal
 
 from gemseo_umdo.formulations._functions import statistic_function_for_sampling
 from gemseo_umdo.formulations._functions.iterative_estimation import IterativeEstimation
+from gemseo_umdo.formulations._statistics.iterative_sampling.base_sampling_estimator import (  # noqa: E501
+    BaseSamplingEstimator as BaseIterativeSamplingEstimator,
+)
 from gemseo_umdo.formulations._statistics.iterative_sampling.margin import (
     Margin as IterativeMargin,
 )
@@ -85,10 +91,6 @@ if TYPE_CHECKING:
     from gemseo.discipline import Discipline
     from gemseo.util.typing import StrKeyMapping
     from numpy import ndarray
-
-    from gemseo_umdo.formulations._statistics.iterative_sampling.base_sampling_estimator import (  # noqa: E501
-        BaseSamplingEstimator as BaseIterativeSamplingEstimator,
-    )
 
 _two_samples: Final[ndarray] = array([[0.0] * 3, [1.0] * 3])
 """Two samples of the uncertain variables, used by default by the DOE algorithm."""
@@ -333,6 +335,32 @@ def test_estimate_standard_derivation(statistic_class):
     )
 
 
+@pytest.mark.parametrize(
+    "n_estimations",
+    [
+        pytest.param(0, id="never"),
+        # The last estimation was followed by the estimation of the Jacobian.
+        pytest.param(1, id="not_just_before"),
+    ],
+)
+def test_iterative_standard_deviation_jacobian_without_estimation(
+    n_estimations, snapshot
+):
+    """Check that the Jacobian of the standard deviation requires its estimation.
+
+    The standard deviation must be estimated from the output value just before.
+    """
+    estimator = IterativeStandardDeviation()
+    value = array([1.0])
+    jac_value = array([[1.0]])
+    for _ in range(n_estimations):
+        estimator.estimate_statistic(value)
+        estimator.compute_jacobian(value, jac_value)
+
+    with assert_exception(ValueError, snapshot):
+        estimator.compute_jacobian(value, jac_value)
+
+
 @pytest.mark.parametrize("statistic_class", [Margin, IterativeMargin])
 def test_estimate_margin(statistic_class):
     """Check the estimation of the margin."""
@@ -545,12 +573,14 @@ _message: Final[str] = (
     indirect=True,
 )
 @pytest.mark.parametrize(
-    ("doe_samples", "failing_u_values", "sample_indices"),
+    ("doe_samples", "failing_u_values", "sample_indices", "output_sample_indices"),
     [
-        pytest.param(_two_samples, (), [0, 1], id="no failure"),
-        pytest.param(_two_samples, (1.0,), [0], id="failure"),
-        pytest.param(_repeated_samples, (), [0, 0, 1], id="repetition"),
-        pytest.param(_repeated_samples, (1.0,), [0, 0], id="repetition and failure"),
+        pytest.param(_two_samples, (), [0, 1], [0, 1], id="no failure"),
+        pytest.param(_two_samples, (1.0,), [0], [0, 1], id="failure"),
+        pytest.param(_repeated_samples, (), [0, 0, 1], [0, 0, 1], id="repetition"),
+        pytest.param(
+            _repeated_samples, (1.0,), [0, 0], [0, 0, 1], id="repetition and failure"
+        ),
     ],
     indirect=["doe_samples"],
 )
@@ -561,40 +591,48 @@ def test_data_for_statistic_estimation(
     disciplines,
     failing_u_values,
     sample_indices,
+    output_sample_indices,
     monkeypatch,
 ):
     """Check the shapes and values of the data to estimate the statistics.
 
-    A sample whose Jacobian evaluation fails is discarded,
-    although the database stores its output values.
+    A sample whose Jacobian evaluation fails is discarded
+    to estimate the Jacobians of the statistics,
+    but not to estimate the statistics,
+    as the database stores its output values.
     A repeated sample is used as many times as it is generated,
     although the database stores it once.
     """
     _make_discipline_fail(
         monkeypatch, disciplines[0], "_compute_jacobian", failing_u_values
     )
+    output_samples = [mdo_samples[index] for index in output_sample_indices]
     mdo_samples = [mdo_samples[index] for index in sample_indices]
     umdo_formulation.add_observable(["f", "c"], "Mean")
     umdo_formulation.problem.objective.jac(array([0.0] * design_space.dimension))
     (data_for_input_data,) = umdo_formulation.input_data_to_output_data.values()
-    data = data_for_input_data[True]
+    _, data = data_for_input_data
     n = len(mdo_samples)
+    n_out = len(output_samples)
     d = design_space.dimension
-    assert {name: value.shape for name, value in data.items()} == {
-        "f": (n, 1),
-        "c": (n, 1),
-        "o": (n, 1),
-        "f_c": (n, 2),
-        "@f": (n, 1, d),
-        "@c": (n, 1, d),
-        "@o": (n, 1, d),
-        "@f_c": (n, 2, d),
+    names = ("f", "c", "o", "f_c")
+    sizes = (1, 1, 1, 2)
+    # The objective is evaluated first,
+    # so that only its output is stored before the failure of the Jacobian.
+    assert {name: value.shape for name, value in data.items() if name in names} == {
+        name: (n_out if name == "f" else n, size)
+        for name, size in zip(names, sizes, strict=True)
+    }
+    assert {
+        name: tuple(value.shape for value in data[f"@{name}"]) for name in names
+    } == {
+        name: ((n, size), (n, size, d)) for name, size in zip(names, sizes, strict=True)
     }
     assert_almost_equal(
-        data["f"][:, 0], [mdo_sample["f"][0] for mdo_sample in mdo_samples]
+        data["f"][:, 0], [output_sample["f"][0] for output_sample in output_samples]
     )
     assert_almost_equal(
-        data["f_c"],
+        data["@f_c"][0],
         [[mdo_sample["f"][0], mdo_sample["c"][0]] for mdo_sample in mdo_samples],
     )
 
@@ -754,12 +792,14 @@ _warning_cases_for_both_estimations: Final = [
         ),
         [
             _message.format(2, "1 for f, 1 for c, 1 for o"),
-            _message.format(
-                2,
-                "1 for f and its gradient, 1 for c and its gradient, "
-                "1 for o and its gradient",
-            ),
-            _message.format(2, "1 for f, 1 for c, 1 for o"),
+            *[
+                _message.format(
+                    2,
+                    "1 for f and its gradient, 1 for c and its gradient, "
+                    "1 for o and its gradient",
+                )
+            ]
+            * 2,
         ],
         id="output failure",
     ),
@@ -774,7 +814,8 @@ _warning_cases_for_both_estimations: Final = [
                 "1 for f and its gradient, 1 for c and its gradient, "
                 "1 for o and its gradient",
             )
-        ],
+        ]
+        * 2,
         id="gradient failure",
     ),
     pytest.param(
@@ -794,7 +835,8 @@ _warning_cases_for_both_estimations: Final = [
                 "2 for f and its gradient, 2 for c and its gradient, "
                 "2 for o and its gradient",
             )
-        ],
+        ]
+        * 2,
         id="repetition and gradient failure",
     ),
 ]
@@ -814,7 +856,7 @@ _warning_cases_for_standard_estimation: Final = [
         lambda monkeypatch, formulation, disciplines: _make_function_fail(
             monkeypatch, formulation, "o"
         ),
-        [_message.format(2, "0 for the gradient of o")],
+        [_message.format(2, "0 for the gradient of o")] * 2,
         id="gradient missing at all the samples",
     ),
     pytest.param(
@@ -825,12 +867,14 @@ _warning_cases_for_standard_estimation: Final = [
         ),
         [
             _message.format(2, "1 for f, 1 for c, 1 for o"),
-            _message.format(
-                2,
-                "1 for f and its gradient, 1 for c and its gradient, "
-                "1 for o, 0 for the gradient of o",
-            ),
-            _message.format(2, "1 for f, 1 for c, 1 for o"),
+            *[
+                _message.format(
+                    2,
+                    "1 for f and its gradient, 1 for c and its gradient, "
+                    "1 for o, 0 for the gradient of o",
+                )
+            ]
+            * 2,
         ],
         id="different failures",
     ),
@@ -867,7 +911,10 @@ def test_data_for_statistic_estimation_warning(
 
     The statistics are estimated at a first design point,
     then their Jacobians at this design point
-    and finally the statistics at a second design point.
+    and finally the statistics at a second design point;
+    from the first Jacobian request,
+    the statistics and their Jacobians are estimated from the same sampling,
+    so that the second design point is sampled as for the Jacobians.
     Each sampling of the uncertain variables logs a single warning
     reporting all the outputs and gradients that are missing at some samples.
     A repeated sample is not reported, as it is used to estimate the statistics.
@@ -1048,26 +1095,23 @@ def test_iterative_statistic_after_failed_sampling(
 
 
 @pytest.mark.parametrize(
-    ("evaluation", "return_statistic_jacobian", "n_output_samples"),
+    ("evaluation", "n_samples"),
     [
-        pytest.param(({}, {}), False, 0, id="output"),
-        pytest.param(({}, {}), True, 0, id="output with gradient"),
-        pytest.param(({"f": array([1.0])}, {}), True, 1, id="gradient"),
+        pytest.param(({}, {"f": array([[1.0]])}), 0, id="output"),
+        pytest.param(({"f": array([1.0])}, {}), 1, id="gradient"),
     ],
 )
-def test_iterative_estimation_with_missing_data(
-    evaluation, return_statistic_jacobian, n_output_samples
-):
+def test_iterative_estimation_with_missing_data(evaluation, n_samples):
     """Check that a sample missing the output or its gradient is not used.
 
-    A sample missing only the gradient is counted as a sample of the output.
+    A sample missing only the gradient is used to estimate the statistic
+    but not its Jacobian.
     """
-    estimation = IterativeEstimation(
-        "f", "E[f]", IterativeMean(), return_statistic_jacobian
-    )
-    assert_equal(estimation(0, evaluation), array([]))
-    assert estimation.n_samples == 0
-    assert estimation.n_output_samples == n_output_samples
+    estimation = IterativeEstimation("f", "E[f]", IterativeMean(), "dE[f]")
+    estimation(0, evaluation)
+    assert estimation.n_samples == n_samples
+    assert estimation.n_jacobian_samples == 0
+    assert estimation.last_jacobian_estimation is None
 
 
 @pytest.mark.parametrize("estimate_statistics_iteratively", [True])
@@ -1420,7 +1464,9 @@ def test_quantile_with_iterative_estimation(create_sampling, add_quantile, snaps
 
     assert not formulation.problem.constraints
     assert not formulation.problem.observables
-    assert formulation._statistic_functions == [formulation.problem.objective]
+    assert formulation.iterative_estimations == [
+        formulation.problem.objective.iterative_estimation
+    ]
 
 
 def test_user_callback_with_iterative_estimation(create_sampling):
@@ -1446,7 +1492,9 @@ def test_failed_addition_leaves_formulation_unchanged(create_sampling, snapshot)
         formulation.add_constraint("typo", "Mean")
 
     assert not formulation.problem.constraints
-    assert formulation._statistic_functions == [formulation.problem.objective]
+    assert formulation.iterative_estimations == [
+        formulation.problem.objective.iterative_estimation
+    ]
     x = array([0.5] * 3)
     assert_equal(
         formulation.problem.objective.func(x), reference.problem.objective.func(x)
@@ -1594,7 +1642,7 @@ def test_duplicate_observable_takes_no_part(create_sampling, caplog):
     assert formulation.mdo_formulation.problem.observables.get_names() == (
         mdo_observables
     )
-    assert formulation._statistic_functions == [observable]
+    assert formulation.iterative_estimations == [observable.iterative_estimation]
 
 
 @pytest.mark.parametrize(
@@ -1609,7 +1657,7 @@ def test_created_function_takes_part(create_sampling, create_function):
     """Check that a function takes part in the sampling once created."""
     formulation = create_sampling()
     function = create_function(formulation)
-    assert formulation._statistic_functions == [function]
+    assert formulation.iterative_estimations == [function.iterative_estimation]
 
 
 def test_reset_iterative_probability_before_estimation():
@@ -1698,9 +1746,9 @@ def test_replaced_objective_takes_part(create_sampling):
     formulation.problem.objective = formulation.create_objective("f", "Variance")
     former_objective = formulation.problem.objective
     formulation.problem.objective = formulation.create_objective("f", "Mean")
-    assert formulation._statistic_functions == [
-        former_objective,
-        formulation.problem.objective,
+    assert formulation.iterative_estimations == [
+        former_objective.iterative_estimation,
+        formulation.problem.objective.iterative_estimation,
     ]
 
 
@@ -1741,3 +1789,138 @@ def test_mdo_observable_function_created_once(create_sampling, monkeypatch):
     formulation.add_constraint("c", "Mean")
     formulation.problem.objective = formulation.create_objective("f", "Mean")
     assert len(calls) == 3
+
+
+@pytest.mark.parametrize(
+    "eval_jac",
+    [pytest.param(False, id="statistics"), pytest.param(True, id="jacobians")],
+)
+def test_iterative_estimation(disciplines, design_space, uncertain_space, eval_jac):
+    """Check that the iterative and one-shot estimations are equal."""
+    databases = []
+    for estimate_statistics_iteratively in (True, False):
+        scenario = UMDOScenario(
+            disciplines,
+            deepcopy(design_space),
+            uncertain_space,
+            statistic_estimation_settings=Sampling_Settings(
+                n_samples=5,
+                estimate_statistics_iteratively=estimate_statistics_iteratively,
+            ),
+            formulation_settings=MDF_Settings(),
+        )
+        scenario.add_objective("f", "Mean")
+        scenario.add_constraint("c", "Margin", factor=3.0)
+        scenario.execute(
+            CustomDOE_Settings(
+                samples=array([[0.0, 0.0, 0.0], [1.0, 1.0, 1.0]]), eval_jac=eval_jac
+            )
+        )
+        databases.append(scenario.formulation.problem.database)
+
+    database, other_database = databases
+    for name in database.get_function_names(skip_grad=False):
+        assert_allclose(
+            database.get_function_history(name),
+            other_database.get_function_history(name),
+        )
+
+
+def test_probability_with_jacobians(disciplines, design_space, uncertain_space):
+    """Check that a probability does not prevent the estimation of other Jacobians.
+
+    The iterative estimator of a probability cannot estimate its Jacobian,
+    so the sampling with the Jacobians of the outputs must skip it.
+    """
+    scenario = UMDOScenario(
+        disciplines,
+        design_space,
+        uncertain_space,
+        statistic_estimation_settings=Sampling_Settings(n_samples=5),
+        formulation_settings=MDF_Settings(),
+    )
+    scenario.add_objective("f", "Mean")
+    scenario.add_observable("o", "Probability", threshold=0.0)
+    scenario.execute(SLSQP_Settings(max_iter=2))
+    database = scenario.formulation.problem.database
+    assert database.get_gradient_history("E[f]").size
+    assert database.get_function_history("P[o >= 0.0]").size
+
+
+def test_callbacks_after_sampling_error(umdo_formulation):
+    """Check that the DOE settings are restored when the sampling fails."""
+    doe_algo_settings = umdo_formulation._settings.doe_algo_settings
+    callbacks = doe_algo_settings.callbacks
+    problem = umdo_formulation.mdo_formulation.problem
+    with (
+        mock.patch.object(problem, "evaluate_functions", side_effect=RuntimeError),
+        pytest.raises(RuntimeError),
+    ):
+        umdo_formulation.compute_samples(problem, array([0.0] * 3), True)
+
+    assert doe_algo_settings.callbacks == callbacks
+    assert not doe_algo_settings.eval_jac
+    assert not doe_algo_settings.evaluate_observable_jacobian
+
+
+@pytest.mark.parametrize(
+    "create_estimator",
+    [
+        pytest.param(IterativeMean, id="Mean"),
+        pytest.param(IterativeVariance, id="Variance"),
+        pytest.param(IterativeStandardDeviation, id="StandardDeviation"),
+        pytest.param(lambda: IterativeMargin(factor=2.0), id="Margin"),
+        pytest.param(IterativeProbability, id="Probability"),
+    ],
+)
+def test_iterative_estimation_reset_before_any_sample(create_estimator):
+    """Check that an iterative estimation can be reset before any sample."""
+    estimation = IterativeEstimation("f", "E[f]", create_estimator(), "dE[f]")
+    estimation.reset()
+    assert estimation.last_estimation.size == 0
+    value = array([1.0, 2.0])
+    estimation(0, ({"f": value}, {}))
+    assert_equal(
+        estimation.last_estimation, create_estimator().estimate_statistic(value)
+    )
+
+
+def test_iterative_estimation_reset_after_failed_update():
+    """Check that an estimator failing after a partial update is reset."""
+    estimator = mock.create_autospec(BaseIterativeSamplingEstimator, instance=True)
+    estimator.estimate_statistic.side_effect = RuntimeError
+    estimation = IterativeEstimation("f", "E[f]", estimator, "dE[f]")
+    # The instantiation resets the estimator.
+    estimator.reset.reset_mock()
+    with pytest.raises(RuntimeError):
+        estimation(0, ({"f": array([1.0])}, {}))
+
+    estimation.reset()
+    estimator.reset.assert_called_once()
+
+
+@pytest.mark.parametrize(
+    "create_estimator",
+    [
+        pytest.param(IterativeStandardDeviation, id="StandardDeviation"),
+        pytest.param(lambda: IterativeMargin(factor=2.0), id="Margin"),
+    ],
+)
+def test_iterative_estimation_sample_without_output_jacobian(create_estimator):
+    """Check that a sample without the output Jacobian does not block the next ones.
+
+    The statistic must be estimated from all the samples
+    and its Jacobian from the next samples with the output Jacobian.
+    """
+    estimation = IterativeEstimation("f", "E[f]", create_estimator(), "dE[f]")
+    values = [array([1.0]), array([2.0]), array([4.0])]
+    estimation(0, ({"f": values[0]}, {}))
+    for index, value in enumerate(values[1:], start=1):
+        estimation(index, ({"f": value}, {"f": array([[1.0]])}))
+
+    estimator = create_estimator()
+    for value in values:
+        expected = estimator.estimate_statistic(value)
+
+    assert_equal(estimation.last_estimation, expected)
+    assert estimation.last_jacobian_estimation.shape == (1, 1)

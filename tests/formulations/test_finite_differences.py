@@ -87,7 +87,7 @@ def test_finite_differences(statistic_estimation_settings, expected):
     # so that it stores at most the unique sample of the last sampling.
     assert len(scenario.mdo_formulation.problem.database) <= 1
 
-    # input_data_to_output_samples stores the samples
+    # input_data_to_output_data stores the samples
     # at points (x1, x2), (x1+dx1, x2) and (x1, x2+dx2)
     # where (x1, x2) is the design value at the current iteration.
     input_data_to_output_data = scenario.formulation.input_data_to_output_data

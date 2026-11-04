@@ -25,6 +25,7 @@ from gemseo.core.problem.evaluation import EvaluationProblem
 from gemseo.formulation import MDF_Settings
 from gemseo.formulation.core.base import BaseFormulation
 from gemseo.formulation.factory import mdo_formulation_factory
+from gemseo.optimization import OptimizationProblem
 from gemseo.optimization.core.constraints import Constraints
 from gemseo.space import DesignSpace
 from gemseo.uncertainty.statistic.core.base import BaseStatistics
@@ -33,6 +34,10 @@ from gemseo.util.file_path_manager import FilePathManager
 from gemseo.util.hashable_ndarray import HashableNdarray
 from gemseo.util.string import convert_strings_to_iterable
 from gemseo.util.string import pretty_repr
+
+from gemseo_umdo.formulations._functions.base_statistic_function import (
+    BaseStatisticFunction,
+)
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -43,14 +48,10 @@ if TYPE_CHECKING:
     from gemseo.discipline import Discipline
     from gemseo.formulation.core.base_mdo import BaseMDOFormulation
     from gemseo.formulation.core.base_settings import BaseFormulationSettings
-    from gemseo.optimization import OptimizationProblem
     from gemseo.scenario import EvaluationScenario
     from gemseo.space import RandomSpace
     from gemseo.util.typing import RealArray
 
-    from gemseo_umdo.formulations._functions.base_statistic_function import (
-        BaseStatisticFunction,
-    )
     from gemseo_umdo.formulations.base_umdo_formulation_settings import (
         BaseUMDOFormulationSettings,
     )
@@ -100,12 +101,42 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
     _uncertain_space: RandomSpace
     """The uncertain space."""
 
-    input_data_to_output_data: dict[HashableNdarray, dict[bool, dict[str, Any]]]
+    input_data_to_output_data: dict[
+        HashableNdarray, tuple[dict[str, Any], dict[str, Any] | None]
+    ]
     """The output samples or output statistics associated with the input data.
 
     For each input point,
-    the data to estimate the statistics are stored with the key `False`
-    and the data to estimate their Jacobians with the key `True`.
+    the data to estimate the statistics
+    and the data to estimate their Jacobians, if computed, are stored as a tuple.
+    Both are the same object when a single sampling computes them.
+    """
+
+    estimate_statistic_jacobians: bool
+    """Whether to compute the data to estimate the Jacobians of the statistics
+    when computing the data to estimate the statistics.
+
+    When `True`,
+    the disciplines are sampled once per design point
+    to estimate both the statistics and their Jacobians,
+    but they are also linearized at the design points
+    where only the statistics are required,
+    e.g. the line search points of a gradient-based optimizer.
+    The U-scenarios set it before executing their driver,
+    from the driver and the differentiation method of the problem,
+    and reset it with `reset_execution_state()` at the end
+    (see `_execute()` of
+    [BaseUScenario][gemseo_umdo.scenarios.base_u_scenario.BaseUScenario]).
+
+    In any case,
+    it becomes `True` at the first request of the Jacobian of a statistic
+    and stays `True` until it is reset,
+    so that the next design points are sampled once for statistics and Jacobians.
+    When it was `False` before this request,
+    the design point of this request is sampled once more for the Jacobians,
+    while the statistics at this point keep the values of the first sampling;
+    the statistics and their Jacobians at this point
+    are thus estimated from two different samplings.
     """
 
     def __init__(
@@ -176,6 +207,7 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
 
         # Initialize the cache mechanism.
         self.input_data_to_output_data = {}
+        self.estimate_statistic_jacobians = False
         self.problem.add_listener(self._clear_input_data_to_output_data)
 
     def _create_multidisciplinary_process(self) -> None:
@@ -255,10 +287,54 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
             x_vect: An input vector.
         """
         data = self.input_data_to_output_data
-        current_output_data = data.get(key := HashableNdarray(x_vect))
-        data.clear()
-        if current_output_data is not None:
-            data[key] = current_output_data
+        current_key = HashableNdarray(x_vect)
+        # The key of x_vect, if any, is kept as is, as it is already a copy.
+        for key in [key for key in data if key != current_key]:
+            del data[key]
+
+    def _forget_input_point(self, input_data: RealArray) -> None:
+        """Forget the state kept for an input point before estimating its statistics.
+
+        It is called before a new sampling to estimate the statistics at this point,
+        but not before a sampling to estimate only their Jacobians.
+        By default, there is no such state.
+
+        Args:
+            input_data: The input point.
+        """
+
+    def reset_execution_state(self) -> None:
+        """Reset the state of the formulation specific to an execution.
+
+        The U-scenarios call it at the end of their execution,
+        so that the evaluations of the functions after this execution,
+        e.g. by a post-processing,
+        do not linearize the disciplines unless their Jacobians are requested.
+        """
+        self.estimate_statistic_jacobians = False
+
+    @property
+    def _objective_and_constraint_functions(self) -> list[BaseStatisticFunction]:
+        """The statistic functions of the objective and of the constraints.
+
+        They are the statistic functions of the objective and of the constraints
+        of the problem,
+        before any transformation hiding their type,
+        e.g. the negation of an objective to maximize or of a positive constraint.
+        A problem without objective and constraints,
+        e.g. the evaluation problem of a U-evaluation scenario,
+        has none.
+        """
+        problem = self.problem
+        if not isinstance(problem, OptimizationProblem):
+            return []
+
+        # The original functions are the functions before any preprocessing.
+        functions = list(problem.constraints.get_originals())
+        if problem.objective is not None:
+            functions.append(problem.objective.original)
+
+        return BaseStatisticFunction.get_statistic_functions(functions)
 
     @property
     def mdo_formulation(self) -> BaseMDOFormulation:
@@ -574,15 +650,18 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
             constraint.name = name
             constraint.has_default_name = True
 
-        return (
+        formatted_constraint = Constraints.format(
             constraint,
-            Constraints.format(
-                constraint,
-                value=value,
-                constraint_type=constraint_type,
-                positive=positive,
-            ),
+            value=value,
+            constraint_type=constraint_type,
+            positive=positive,
         )
+        if formatted_constraint is not constraint:
+            # The formatted constraint is a transformation hiding its type,
+            # e.g. the negation of a positive constraint.
+            constraint.mark_transformation(formatted_constraint)
+
+        return constraint, formatted_constraint
 
     def add_constraint(
         self,

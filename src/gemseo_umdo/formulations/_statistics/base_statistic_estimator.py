@@ -19,6 +19,7 @@ from __future__ import annotations
 from abc import abstractmethod
 from typing import TYPE_CHECKING
 from typing import Any
+from typing import ClassVar
 
 from gemseo.util.metaclass import ABCGoogleDocstringInheritanceMeta
 
@@ -30,6 +31,9 @@ if TYPE_CHECKING:
 
 class BaseStatisticEstimator(metaclass=ABCGoogleDocstringInheritanceMeta):
     """The base statistic estimator for U-MDO formulations."""
+
+    can_compute_jacobian: ClassVar[bool] = False
+    """Whether the estimator can estimate the Jacobian of the statistic."""
 
     @property
     def min_n_samples(self) -> int:

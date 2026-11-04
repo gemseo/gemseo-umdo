@@ -20,6 +20,7 @@ from operator import ge
 from operator import le
 from typing import TYPE_CHECKING
 from typing import Any
+from typing import ClassVar
 
 from gemseo_umdo.formulations._statistics.sampling.base_sampling_estimator import (
     BaseSamplingEstimator,
@@ -33,6 +34,9 @@ if TYPE_CHECKING:
 
 class Probability(BaseSamplingEstimator):
     """Estimator of a probability."""
+
+    can_compute_jacobian: ClassVar[bool] = False
+    """The Jacobian of a probability cannot be estimated by sampling."""
 
     __compare: Callable[[Any, Any], Any]
     """The comparison operator."""

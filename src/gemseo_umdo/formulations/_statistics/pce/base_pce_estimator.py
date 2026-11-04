@@ -30,6 +30,9 @@ if TYPE_CHECKING:
 class BasePCEEstimator(BaseStatisticEstimator):
     """Base statistic estimator for a U-MDO formulation using PCE."""
 
+    can_compute_jacobian: ClassVar[bool] = True
+    """The Jacobian of the statistic can be estimated from the PCE and its Jacobian."""
+
     mean_arg_name: Final[str] = "mean"
     """The name of the mean argument."""
 

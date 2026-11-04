@@ -1,0 +1,13 @@
+# serializer version: 1
+# name: test_unsupported_jacobian_from_driver[DOE-eval_jac]
+  'The Jacobian of the statistic Probability of y cannot be estimated with Sampling.'
+# ---
+# name: test_unsupported_jacobian_from_driver[SLSQP-constraint]
+  'The Jacobian of the statistic Probability of z cannot be estimated with Sampling.'
+# ---
+# name: test_unsupported_jacobian_from_driver[SLSQP-maximize]
+  'The Jacobian of the statistic Probability of y cannot be estimated with Sampling.'
+# ---
+# name: test_unsupported_jacobian_from_driver[SLSQP]
+  'The Jacobian of the statistic Probability of y cannot be estimated with Sampling.'
+# ---

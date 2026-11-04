@@ -99,20 +99,19 @@ class Sampling(BaseUMDOFormulation):
     callbacks: list[CallbackType]
     """The callback functions for the DOE algorithm when computing the output data."""
 
-    jacobian_callbacks: list[CallbackType]
-    """The callback functions for the DOE algorithm when computing the Jacobian."""
-
     _estimate_statistics_iteratively: bool
     """Whether the statistics are estimated iteratively."""
 
-    _statistic_functions: list[StatisticFunctionForSampling]
-    """The functions computing the statistics iteratively during the sampling.
+    __iterative_estimations: list[IterativeEstimation]
+    """The iterative estimations of the statistics taking part in the sampling.
 
-    A function takes part in the sampling
-    once created by `create_objective` or `create_constraint`
+    The iterative estimation of a function takes part in the sampling
+    once this function is created by `create_objective` or `create_constraint`
     or added by `add_constraint` or `add_observable`,
     and never stops taking part in it,
     e.g. an objective replaced by a new one created by `create_objective`.
+    The functions themselves are not referenced,
+    so that an unused function can be garbage collected.
     """
 
     def __init__(  # noqa: D107
@@ -126,9 +125,7 @@ class Sampling(BaseUMDOFormulation):
     ) -> None:
         settings = create_model(self.settings_class, settings_model=settings)
         self.callbacks = []
-        self.jacobian_callbacks = []
-        self._statistic_functions = []
-        self.input_data_to_output_samples = {}
+        self.__iterative_estimations = []
         if settings.samples_directory_path:
             self.__samples_directory_path = Path(settings.samples_directory_path)
             self.__samples_directory_path.mkdir()
@@ -190,27 +187,19 @@ class Sampling(BaseUMDOFormulation):
 
         # The cached statistics have been estimated without this function.
         self.input_data_to_output_data.clear()
-        self._statistic_functions.append(function)
+        self.__iterative_estimations.append(function.iterative_estimation)
 
     def _post_add_mdo_observable(self) -> None:
         # The cached data have been computed without this MDO observable.
         self.input_data_to_output_data.clear()
 
-    def get_iterative_estimations(self, jacobian: bool) -> list[IterativeEstimation]:
-        """Return the iterative estimations of the statistics or of their Jacobians.
+    @property
+    def iterative_estimations(self) -> list[IterativeEstimation]:
+        """The iterative estimations of the statistics and of their Jacobians.
 
-        To be used only when the statistics are estimated iteratively.
-
-        Args:
-            jacobian: Whether to return the estimations of the Jacobians.
-
-        Returns:
-            The iterative estimations of the statistics or of their Jacobians.
+        It is empty when the statistics are not estimated iteratively.
         """
-        return [
-            function.get_iterative_estimation(jacobian)
-            for function in self._statistic_functions
-        ]
+        return self.__iterative_estimations
 
     def compute_samples(
         self,
@@ -226,33 +215,31 @@ class Sampling(BaseUMDOFormulation):
             compute_jacobian: Whether to compute the Jacobian of the objective.
         """
         doe_algo_settings = self._settings.doe_algo_settings
-        original_callbacks = doe_algo_settings.callbacks
-        new_callbacks = self.jacobian_callbacks if compute_jacobian else self.callbacks
-        estimate_statistics_iteratively = self._estimate_statistics_iteratively
-        if estimate_statistics_iteratively:
-            estimations = self.get_iterative_estimations(compute_jacobian)
-            # The estimations are reset before the sampling rather than after,
-            # so that a sampling interrupted by an error
-            # does not leak its samples into the estimations at the next input point.
-            # The estimations of all the statistic functions are reset,
-            # as the sampling runs the callbacks of all of them
-            # and the returned data are cached for all of them at this input point.
-            for estimation in estimations:
-                estimation.reset()
+        estimations = self.__iterative_estimations
+        # The estimations are reset before the sampling rather than after,
+        # so that a sampling interrupted by an error
+        # does not leak its samples into the estimations at the next input point.
+        # The estimations of all the statistic functions are reset,
+        # as the sampling runs the callbacks of all of them
+        # and the returned data are cached for all of them at this input point.
+        for estimation in estimations:
+            estimation.reset()
 
-            new_callbacks = new_callbacks + estimations
-
-        doe_algo_settings.callbacks = list(original_callbacks) + new_callbacks
-        doe_algo_settings.use_database = not estimate_statistics_iteratively
-        doe_algo_settings.eval_jac = compute_jacobian
-        doe_algo_settings.evaluate_observable_jacobian = compute_jacobian
-        try:
-            with LoggingContext(logging.getLogger("gemseo"), level=logging.ERROR):
-                self.__doe_algo.execute(problem, settings=doe_algo_settings)
-        finally:
-            # Otherwise, an error would leave the callbacks attached
-            # and the next sampling would call them twice per sample.
-            doe_algo_settings.callbacks = original_callbacks
+        # A copy per sampling leaves the settings of the user unchanged.
+        settings = doe_algo_settings.model_copy(
+            update={
+                "callbacks": [
+                    *doe_algo_settings.callbacks,
+                    *self.callbacks,
+                    *estimations,
+                ],
+                "use_database": not self._estimate_statistics_iteratively,
+                "eval_jac": compute_jacobian,
+                "evaluate_observable_jacobian": compute_jacobian,
+            }
+        )
+        with LoggingContext(logging.getLogger("gemseo"), level=logging.ERROR):
+            self.__doe_algo.execute(problem, settings=settings)
 
         if self.__samples_directory_path:
             main_problem = self.problem

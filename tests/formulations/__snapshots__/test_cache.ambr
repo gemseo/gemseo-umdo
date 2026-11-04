@@ -1,0 +1,13 @@
+# serializer version: 1
+# name: test_unsupported_jacobian[ControlVariate]
+  'The Jacobian of the statistic Mean of g1 cannot be estimated with ControlVariate.'
+# ---
+# name: test_unsupported_jacobian[Sampling-iterative]
+  'The Jacobian of the statistic Probability of g1 cannot be estimated with Sampling.'
+# ---
+# name: test_unsupported_jacobian[Sampling]
+  'The Jacobian of the statistic Probability of g1 cannot be estimated with Sampling.'
+# ---
+# name: test_unsupported_jacobian[Surrogate]
+  'The Jacobian of the statistic Mean of g1 cannot be estimated with Surrogate.'
+# ---

@@ -22,11 +22,15 @@ from typing import TYPE_CHECKING
 from typing import Any
 from typing import ClassVar
 
+from gemseo.doe.core.base_doe_settings import BaseDOESettings
 from gemseo.util.constant import read_only_empty_dict
 from gemseo.util.string import MultiLineString
 from gemseo.util.string import pretty_str
 
 from gemseo_umdo.disciplines.utils import create_noising_discipline_chain
+from gemseo_umdo.formulations._functions.base_statistic_function import (
+    BaseStatisticFunction,
+)
 from gemseo_umdo.formulations.factory import umdo_formulation_factory
 
 if TYPE_CHECKING:
@@ -144,6 +148,69 @@ class BaseUScenario:
             )
         finally:
             del self._formulation_factory
+
+    def _execute(self) -> None:
+        # When the driver requires the gradients
+        # and these gradients are not approximated,
+        # the disciplines are sampled once per design point
+        # to estimate both the statistics and their Jacobians;
+        # with finite differences, for instance, they are sampled without Jacobians.
+        formulation = self.formulation
+        problem = formulation.problem
+        require_gradient = False
+        if problem.differentiation_method == problem.DifferentiationMethod.USER:
+            settings = self._algorithm_settings
+            # The observables evaluated at each new iteration
+            # are differentiated if evaluate_observable_jacobian;
+            # the others are differentiated only by a DOE algorithm with eval_jac.
+            observables = (
+                problem.new_iter_observables
+                if settings.evaluate_observable_jacobian
+                else ()
+            )
+            if isinstance(settings, BaseDOESettings):
+                # A DOE algorithm differentiates all the functions.
+                differentiate_objective_and_constraints = settings.eval_jac
+                if differentiate_objective_and_constraints:
+                    observables = problem.observables
+            else:
+                algo_name = settings.target_class_name
+                # The algorithm library is cached by the factory
+                # and used again to execute the driver.
+                # Meta-algorithms such as MultiStart declare no gradient requirement
+                # even with a gradient-based sub-solver;
+                # estimate_statistic_jacobians then becomes True
+                # at the first Jacobian request.
+                algo = self._algo_factory.create(algo_name)
+                differentiate_objective_and_constraints = algo.ALGORITHM_INFOS[
+                    algo_name
+                ].require_gradient
+
+            # The statistics whose Jacobians are evaluated by the driver.
+            functions = []
+            if differentiate_objective_and_constraints:
+                functions.extend(formulation._objective_and_constraint_functions)
+
+            if observables:
+                functions.extend(
+                    BaseStatisticFunction.get_statistic_functions(
+                        observables.get_originals()
+                    )
+                )
+
+            # Only the statistics whose Jacobians can be estimated
+            # require the Jacobians of the disciplines;
+            # the Jacobian of another one raises an error before any sampling.
+            require_gradient = any(
+                function.can_estimate_jacobian for function in functions
+            )
+
+        # The value set by the user before the execution is overwritten.
+        formulation.estimate_statistic_jacobians = require_gradient
+        try:
+            super()._execute()
+        finally:
+            formulation.reset_execution_state()
 
     @property
     def formulation_name(self) -> str:  # noqa: D102
