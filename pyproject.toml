@@ -42,10 +42,6 @@ test = [
     "syrupy-matplotlib >=0.3.0",
     "syrupy >=4.7",
     "diff-cover >=10.4,<12",
-    # The tests of the Python-Markdown extensions of the documentation.
-    "gemseo-docs",
-    "markdown",
-    "pymdown-extensions",
 ]
 doc = [
     "black",
@@ -54,7 +50,7 @@ doc = [
     "griffe-inherited-docstrings",
     "mike",
     # The Python-Markdown extensions of the documentation, e.g. the citations.
-    "gemseo-docs",
+    "docs-tools",
     # The tree fences, used as a Python-Markdown custom fence, not as a plugin.
     "markdown-exec",
     "mkdocs-api-autonav",
@@ -103,4 +99,4 @@ cache-keys = [
 gemseo = { git = "https://gitlab.com/gemseo/dev/gemseo.git", branch = "develop" }
 # The fork of mike compatible with Zensical, not published on PyPI.
 mike = { git = "https://github.com/squidfunk/mike.git" }
-gemseo-docs = { path = "tools/gemseo_docs", editable = true }
+docs-tools = { git = "https://gitlab.com/gemseo/dev/doc/docs-tools.git", branch = "develop" }

@@ -1,5 +1,5 @@
 version = 1
-revision = 3
+revision = 5
 requires-python = ">=3.11, <3.15"
 resolution-markers = [
     "python_full_version >= '3.12'",
@@ -579,6 +579,15 @@ wheels = [
 ]
 
 [[package]]
+name = "docs-tools"
+version = "0.1.dev8+gebe0521f5"
+source = { git = "https://gitlab.com/gemseo/dev/doc/docs-tools.git?branch=develop#ebe0521f5aaf2d290f5f82c051a976445342a035" }
+dependencies = [
+    { name = "markdown" },
+    { name = "pybtex" },
+]
+
+[[package]]
 name = "docstring-inheritance"
 version = "3.0.0"
 source = { registry = "https://pypi.org/simple" }
@@ -727,21 +736,6 @@ all = [
 ]
 
 [[package]]
-name = "gemseo-docs"
-version = "0.1.0"
-source = { editable = "tools/gemseo_docs" }
-dependencies = [
-    { name = "markdown" },
-    { name = "pybtex" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "markdown" },
-    { name = "pybtex" },
-]
-
-[[package]]
 name = "gemseo-umdo"
 source = { editable = "." }
 dependencies = [
@@ -759,10 +753,7 @@ check = [
 dev = [
     { name = "covdefaults" },
     { name = "diff-cover" },
-    { name = "gemseo-docs" },
-    { name = "markdown" },
     { name = "prek" },
-    { name = "pymdown-extensions" },
     { name = "pytest" },
     { name = "pytest-cov" },
     { name = "pytest-sugar" },
@@ -777,7 +768,7 @@ dist = [
 doc = [
     { name = "black" },
     { name = "click" },
-    { name = "gemseo-docs" },
+    { name = "docs-tools" },
     { name = "griffe-fieldz" },
     { name = "griffe-inherited-docstrings" },
     { name = "markdown-exec" },
@@ -792,9 +783,6 @@ doc = [
 test = [
     { name = "covdefaults" },
     { name = "diff-cover" },
-    { name = "gemseo-docs" },
-    { name = "markdown" },
-    { name = "pymdown-extensions" },
     { name = "pytest" },
     { name = "pytest-cov" },
     { name = "pytest-sugar" },
@@ -819,10 +807,7 @@ check = [
 dev = [
     { name = "covdefaults", specifier = ">=2.3.0" },
     { name = "diff-cover", specifier = ">=10.4,<12" },
-    { name = "gemseo-docs", editable = "tools/gemseo_docs" },
-    { name = "markdown" },
     { name = "prek" },
-    { name = "pymdown-extensions" },
     { name = "pytest", specifier = ">=8,<10" },
     { name = "pytest-cov", specifier = ">=5" },
     { name = "pytest-sugar", specifier = ">=1" },
@@ -835,7 +820,7 @@ dist = [{ name = "check-wheel-contents" }]
 doc = [
     { name = "black" },
     { name = "click" },
-    { name = "gemseo-docs", editable = "tools/gemseo_docs" },
+    { name = "docs-tools", git = "https://gitlab.com/gemseo/dev/doc/docs-tools.git?branch=develop" },
     { name = "griffe-fieldz" },
     { name = "griffe-inherited-docstrings" },
     { name = "markdown-exec" },
@@ -850,9 +835,6 @@ doc = [
 test = [
     { name = "covdefaults", specifier = ">=2.3.0" },
     { name = "diff-cover", specifier = ">=10.4,<12" },
-    { name = "gemseo-docs", editable = "tools/gemseo_docs" },
-    { name = "markdown" },
-    { name = "pymdown-extensions" },
     { name = "pytest", specifier = ">=8,<10" },
     { name = "pytest-cov", specifier = ">=5" },
     { name = "pytest-sugar", specifier = ">=1" },

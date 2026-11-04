@@ -169,4 +169,5 @@ file changes, and all of them when a file of `src/gemseo_umdo` or `uv.lock` chan
 (an MD5 stored in `docs/generated/examples/library.md5`); `just doc --no-gallery`
 skips the examples, and the Zensical options go after `--`. The
 `[@key]` citations are rendered by the Python-Markdown extension of
-`tools/gemseo_docs`, a copy of the one of GEMSEO.
+the `docs-tools` package, from the repository
+[gemseo/dev/doc/docs-tools](https://gitlab.com/gemseo/dev/doc/docs-tools).

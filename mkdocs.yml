@@ -100,7 +100,7 @@ markdown_extensions:
     emoji_index: !!python/name:zensical.extensions.emoji.twemoji
     emoji_generator: !!python/name:zensical.extensions.emoji.to_svg
 # Replace the [@key] citations by footnotes (the mkdocs-bibtex plugin is not supported by Zensical).
-- gemseo_docs.bibtex_citations:
+- docs_tools.bibtex_citations:
     bib_file: docs/references.bib
 
 extra_css:
