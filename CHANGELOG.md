@@ -139,6 +139,19 @@ and this project adheres to
   whose statistic is `"Margin"` with a zero `factor` parameter,
   as such a margin is the mean;
   use the statistic `"Mean"` instead.
+- BREAKING CHANGE:
+  the default dispersion $\delta$ of an uncertain variable of
+  [AdvancedBeamUncertainSpace][gemseo_umdo.use_cases.beam_model.advanced_uncertain_space.AdvancedBeamUncertainSpace]
+  is 5% of its nominal value $\mu$ for the positive variables,
+  1 degree for the angles `alpha` and `beta`,
+  instead of about 57 degrees,
+  and 5% of the nominal values of `b` and `h`
+  for the coordinates `dy` and `dz` respectively,
+  instead of 1.0 for all the variables,
+  which gave very uneven levels of uncertainty,
+  e.g. an almost deterministic Young modulus `E`
+  and a thickness `t` varying by ±40%.
+  A non-positive nominal value of a positive variable raises a `ValueError`.
 
 ### Removed
 
