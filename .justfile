@@ -42,12 +42,16 @@ install-hooks:
 check *args: install-hooks
     uv run --only-group check prek run --all-files {{ args }}
 
+# Generate the documentation files that Zensical cannot generate itself (gallery, nav, ...)
+[group('doc')]
+doc-prebuild:
+    uv run --group doc python docs/_scripts/prebuild.py
+
 # Build and serve the documentation
-[env("DISABLE_MKDOCS_2_WARNING", "true")]
 [env("DOCSTRING_INHERITANCE_ENABLE", "1")]
 [group('doc')]
-doc *args:
-    uv run --group doc mkdocs serve {{ args }}
+doc *args: doc-prebuild
+    uv run --group doc zensical serve {{ args }}
 
 # Create and check the PyPI distribution
 [group('packaging')]
@@ -75,14 +79,14 @@ install *args:
 [group('lifecycle')]
 [unix]
 clean:
-    rm -rf .venv .pytest_cache .mypy_cache .ruff_cache .coverage coverage.xml htmlcov diff-cover.html dist site
+    rm -rf .venv .pytest_cache .mypy_cache .ruff_cache .coverage coverage.xml htmlcov diff-cover.html dist site _docs
     find . -type d -name __pycache__ -prune -exec rm -rf {} +
 
 # Remove the temporary files
 [group('lifecycle')]
 [windows]
 clean:
-    Remove-Item -Recurse -Force -ErrorAction Ignore .venv, .pytest_cache, .mypy_cache, .ruff_cache, .coverage, coverage.xml, htmlcov, diff-cover.html, dist, site
+    Remove-Item -Recurse -Force -ErrorAction Ignore .venv, .pytest_cache, .mypy_cache, .ruff_cache, .coverage, coverage.xml, htmlcov, diff-cover.html, dist, site, _docs
     Get-ChildItem -Recurse -Directory -Filter __pycache__ | Remove-Item -Recurse -Force -ErrorAction Ignore
 
 # Recreate the project virtualenv from scratch

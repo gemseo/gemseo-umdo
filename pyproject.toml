@@ -48,20 +48,17 @@ doc = [
     "click",
     "griffe-fieldz",
     "griffe-inherited-docstrings",
-    "markdown-exec[ansi]",
-    "mike",
-    "mkdocs <2",
-    "mkdocs-bibtex",
+    # The fork of mike compatible with Zensical, not published on PyPI.
+    "mike @ git+https://github.com/squidfunk/mike.git",
+    # The Python-Markdown extensions of the documentation, e.g. the citations.
+    "gemseo-docs",
+    "mkdocs-api-autonav",
+    # Used as a library by docs/_scripts/prebuild.py.
     "mkdocs-gallery",
-    "mkdocs-gen-files",
-    "mkdocs-include-markdown-plugin",
-    "mkdocs-literate-nav",
-    "mkdocs-macros-plugin",
-    "mkdocs-material",
-    "mkdocs-section-index",
     "mkdocstrings[python]",
     "mkdocs-autorefs",
-    "mkdocs-minify-plugin",
+    "pyyaml",
+    "zensical",
 ]
 check = [
     "prek",
@@ -99,3 +96,4 @@ cache-keys = [
 
 [tool.uv.sources]
 gemseo = { git = "https://gitlab.com/gemseo/dev/gemseo.git", branch = "develop" }
+gemseo-docs = { path = "tools/gemseo_docs", editable = true }

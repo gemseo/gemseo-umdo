@@ -1,0 +1,34 @@
+# The navigation of the documentation.
+# docs/_scripts/prebuild.py expands the gallery directories it references
+# and writes the result into _docs/generated.yml, inherited by mkdocs.yml.
+# The api-autonav plugin fills the "API documentation" entry with the API pages.
+nav:
+- Home:
+  - Overview: index.md
+  - Changelog: changelog.md
+  - Credits: credits.md
+  - Licenses: licenses.md
+- User guide:
+  - User guide: user_guide/index.md
+  - MDO under uncertainty:
+    - MDO under uncertainty: user_guide/umdo/index.md
+    - Sampling: user_guide/umdo/sampling.md
+    - Sequential sampling: user_guide/umdo/sequential_sampling.md
+    - Taylor polynomial: user_guide/umdo/taylor_polynomial.md
+    - Control variate: user_guide/umdo/control_variate.md
+    - Surrogate model: user_guide/umdo/surrogate.md
+    - Polynomial chaos expansion: user_guide/umdo/pce.md
+  - Statistics:
+    - Statistics: user_guide/statistics/index.md
+    - Multilevel Monte Carlo: user_guide/statistics/multilevel.md
+  - Visualization:
+    - Visualization: user_guide/visualization/index.md
+    - Uncertain coupling graph: user_guide/visualization/uncertain_coupling_graph.md
+    - Sobol graph: user_guide/visualization/sobol_graph.md
+- Examples:
+  - MDO under uncertainty: generated/examples/umdo
+  - Visualization: generated/examples/visualizations
+  - Problems: generated/examples/problems
+- API documentation
+- Developer guide:
+  - U-MDO: developer_guide/umdo.md

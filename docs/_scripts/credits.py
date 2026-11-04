@@ -211,4 +211,7 @@ def _render_credits() -> str:
     return jinja_env.from_string(template_text).render(**template_data)
 
 
-print(_render_credits())
+root = Path("_docs")
+root.mkdir(exist_ok=True)
+with (root / "credits.md").open("w", encoding="utf-8") as f:
+    f.write(_render_credits())
