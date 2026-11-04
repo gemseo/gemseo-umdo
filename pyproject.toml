@@ -42,6 +42,10 @@ test = [
     "syrupy-matplotlib >=0.3.0",
     "syrupy >=4.7",
     "diff-cover >=10.4,<12",
+    # The tests of the Python-Markdown extensions of the documentation.
+    "gemseo-docs",
+    "markdown",
+    "pymdown-extensions",
 ]
 doc = [
     "black",

@@ -149,6 +149,11 @@ def _get_deps(base_deps: dict[str, Requirement], metadata: Metadata) -> Metadata
 
 
 def render_credits() -> str:
+    """Render the credits page from the ``pyproject.toml`` of the current directory.
+
+    Returns:
+        The Markdown text of the credits page.
+    """
     metadata = _get_metadata()
     dev_dependencies = _get_deps(_requirements(devdeps), metadata)
     prod_dependencies = _get_deps(

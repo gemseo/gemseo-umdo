@@ -163,5 +163,6 @@ MkDocs hooks nor the mkdocs-gallery, gen-files and markdown-exec plugins, so
 `docs/_scripts/prebuild.py` runs the gallery, writes the credits into `_docs/credits.md`
 and writes `_docs/generated.yml` (the navigation of `nav.yml` with the galleries
 expanded, inherited by `mkdocs.yml`) before every build; edit the navigation in
-`nav.yml`. The `[@key]` citations are rendered by the Python-Markdown extension of
+`nav.yml`, then run `just doc-prebuild` again, as `zensical serve` does not. The
+`[@key]` citations are rendered by the Python-Markdown extension of
 `tools/gemseo_docs`, a copy of the one of GEMSEO.

@@ -121,7 +121,6 @@ watch:
   - src/gemseo_umdo
   - README.md
   - CHANGELOG.md
-  - nav.yml
 
 extra:
   version:

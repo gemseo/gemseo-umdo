@@ -759,7 +759,10 @@ check = [
 dev = [
     { name = "covdefaults" },
     { name = "diff-cover" },
+    { name = "gemseo-docs" },
+    { name = "markdown" },
     { name = "prek" },
+    { name = "pymdown-extensions" },
     { name = "pytest" },
     { name = "pytest-cov" },
     { name = "pytest-sugar" },
@@ -789,6 +792,9 @@ doc = [
 test = [
     { name = "covdefaults" },
     { name = "diff-cover" },
+    { name = "gemseo-docs" },
+    { name = "markdown" },
+    { name = "pymdown-extensions" },
     { name = "pytest" },
     { name = "pytest-cov" },
     { name = "pytest-sugar" },
@@ -813,7 +819,10 @@ check = [
 dev = [
     { name = "covdefaults", specifier = ">=2.3.0" },
     { name = "diff-cover", specifier = ">=10.4,<12" },
+    { name = "gemseo-docs", editable = "tools/gemseo_docs" },
+    { name = "markdown" },
     { name = "prek" },
+    { name = "pymdown-extensions" },
     { name = "pytest", specifier = ">=8,<10" },
     { name = "pytest-cov", specifier = ">=5" },
     { name = "pytest-sugar", specifier = ">=1" },
@@ -841,6 +850,9 @@ doc = [
 test = [
     { name = "covdefaults", specifier = ">=2.3.0" },
     { name = "diff-cover", specifier = ">=10.4,<12" },
+    { name = "gemseo-docs", editable = "tools/gemseo_docs" },
+    { name = "markdown" },
+    { name = "pymdown-extensions" },
     { name = "pytest", specifier = ">=8,<10" },
     { name = "pytest-cov", specifier = ">=5" },
     { name = "pytest-sugar", specifier = ">=1" },
