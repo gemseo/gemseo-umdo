@@ -51,32 +51,24 @@ class Variance(BaseCentralMoment):
         self.__mean = Mean()
         self.__prod_mean = Mean()
 
+    @property
+    def min_n_samples(self) -> int:  # noqa: D102
+        return 2
+
     def _get_estimation(self) -> RealArray:
         return array(self._estimator.getVariance())
 
-    def estimate_statistic(self, value: RealArray) -> RealArray:
-        if self.shape is None:
-            self.__mean_jac._create_estimator(value.size)
-            self.__mean._create_estimator(value.size)
-            self.__prod_mean._create_estimator(value.size)
-
-        return super().estimate_statistic(value)
-
     def compute_jacobian(self, value: RealArray, jac_value: RealArray) -> RealArray:
         self.jac_shape = jac_value.shape
-        n = self.__mean._estimator.getIterationNumber() + 1
+        # The means are updated first,
+        # as their estimators do not exist before their first update,
+        # e.g. when the Jacobian is estimated before the statistic.
+        prod_mean = self.__prod_mean.estimate_statistic(value[:, newaxis] * jac_value)
+        mean = self.__mean.estimate_statistic(value)
+        mean_jac = self.__mean_jac.estimate_statistic(jac_value)
+        n = self.__mean._estimator.getIterationNumber()
         alpha = n / (n - 1) if n > 1 else 1
-        return (
-            2
-            * (
-                self.__prod_mean.estimate_statistic(value[:, newaxis] * jac_value)
-                - (
-                    self.__mean.estimate_statistic(value)[:, newaxis]
-                    * self.__mean_jac.estimate_statistic(jac_value)
-                )
-            )
-            * alpha
-        )
+        return 2 * (prod_mean - mean[:, newaxis] * mean_jac) * alpha
 
     def reset(self) -> None:  # noqa: D102
         super().reset()

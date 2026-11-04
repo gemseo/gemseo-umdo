@@ -1,0 +1,7 @@
+# serializer version: 1
+# name: test_initial_n_samples_one_variance[iterative]
+  'The statistic V[y] cannot be estimated, as it requires at least 2 samples of y, while the number of samples of y is 1, e.g. because the DOE algorithm generated too few samples of the uncertain variables or because its evaluation failed at some of these samples.'
+# ---
+# name: test_initial_n_samples_one_variance[standard]
+  'The statistic V[y] cannot be estimated, as it requires at least 2 samples of y, while the number of samples of y is 1, e.g. because the DOE algorithm generated too few samples of the uncertain variables or because its evaluation failed at some of these samples.'
+# ---

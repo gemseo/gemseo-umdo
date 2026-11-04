@@ -16,7 +16,6 @@
 
 from __future__ import annotations
 
-from abc import abstractmethod
 from typing import TYPE_CHECKING
 
 from gemseo_umdo.formulations._statistics.base_statistic_estimator import (
@@ -34,13 +33,13 @@ class BaseSamplingEstimator(BaseStatisticEstimator):
     _estimator: IterativeAlgorithmImplementation | None
     """The iterative estimator of the statistic.
 
-    `None` before the first call to `estimate_statistic`.
+    `None` before the first call to `estimate_statistic` since the last reset.
     """
 
     _jac_estimator: IterativeAlgorithmImplementation | None
     """The iterative estimator of the Jacobian of the statistic.
 
-    `None` before the first call to `compute_jacobian`.
+    `None` before the first call to `compute_jacobian` since the last reset.
     """
 
     shape: tuple[int] | None
@@ -56,9 +55,11 @@ class BaseSamplingEstimator(BaseStatisticEstimator):
         self._estimator = None
         self._jac_estimator = None
 
-    @abstractmethod
     def reset(self) -> None:
         """Reset the estimator of the statistic."""
+        # The estimators are created at the first estimation after the reset.
+        self._estimator = None
+        self._jac_estimator = None
 
     def _create_estimator(self, size: int) -> None:
         """Create the iterative estimator of the output of the statistic.
@@ -95,7 +96,7 @@ class BaseSamplingEstimator(BaseStatisticEstimator):
         Args:
             value: The value of the function output.
         """  # noqa: D205 D212
-        if self.shape is None:
+        if self._estimator is None:
             self.shape = value.shape
             self._create_estimator(value.size)
 
@@ -108,7 +109,7 @@ class BaseSamplingEstimator(BaseStatisticEstimator):
             value: The value of the function output.
             jac_value: The value of the Jacobian.
         """  # noqa: D205 D212
-        if self.jac_shape is None:
+        if self._jac_estimator is None:
             self.jac_shape = jac_value.shape
             self._create_jac_estimator(jac_value.size)
 

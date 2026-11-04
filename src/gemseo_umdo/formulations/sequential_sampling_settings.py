@@ -43,7 +43,12 @@ class SequentialSampling_Settings(Sampling_Settings):  # noqa: N801
     )
 
     initial_n_samples: PositiveInt = Field(
-        default=2, description="""The initial sampling size."""
+        default=2,
+        description="""The initial sampling size.
+
+The estimation of a variance, a standard deviation
+or a margin
+requires at least 2 samples.""",
     )
 
     n_samples_increment: PositiveInt | Callable[[PositiveInt], PositiveInt] = Field(

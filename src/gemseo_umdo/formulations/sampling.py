@@ -142,6 +142,11 @@ class Sampling(BaseUMDOFormulation):
         if "n_samples" in type(doe_algo_settings).model_fields:
             self.name += f"({doe_algo_settings.n_samples})]"
 
+    @property
+    def doe_algo(self) -> BaseDOELibrary:
+        """The DOE library configured with an algorithm."""
+        return self.__doe_algo
+
     def compute_samples(
         self,
         problem: EvaluationProblem,
@@ -161,8 +166,13 @@ class Sampling(BaseUMDOFormulation):
         doe_algo_settings.callbacks = list(original_callbacks) + new_callbacks
         doe_algo_settings.eval_jac = compute_jacobian
         doe_algo_settings.evaluate_observable_jacobian = compute_jacobian
-        with LoggingContext(logging.getLogger("gemseo"), level=logging.ERROR):
-            self.__doe_algo.execute(problem, settings=doe_algo_settings)
+        try:
+            with LoggingContext(logging.getLogger("gemseo"), level=logging.ERROR):
+                self.__doe_algo.execute(problem, settings=doe_algo_settings)
+        finally:
+            # Otherwise, an error would leave the callbacks attached
+            # and the next sampling would call them twice per sample.
+            doe_algo_settings.callbacks = original_callbacks
 
         if self.__samples_directory_path:
             main_problem = self.problem
@@ -172,5 +182,3 @@ class Sampling(BaseUMDOFormulation):
                 main_problem.input_space.convert_array_to_dict(input_data)
             )
             to_pickle(dataset, self.__samples_directory_path / f"{iteration}.pkl")
-
-        doe_algo_settings.callbacks = original_callbacks

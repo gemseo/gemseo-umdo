@@ -24,13 +24,33 @@ from gemseo_umdo.formulations.base_sampling_settings import BaseSamplingSettings
 
 
 class Sampling_Settings(BaseSamplingSettings):  # noqa: N801
-    """The settings for the sampling-based U-MDO formulation."""
+    """The settings for the sampling-based U-MDO formulation.
+
+    The estimation of a variance, a standard deviation
+    or a margin
+    requires at least 2 samples of the uncertain variables.
+    """
 
     estimate_statistics_iteratively: bool = Field(
         default=True,
         description="""Whether to estimate the statistics iteratively.
 
 This can be useful for memory reasons.
+
+When the evaluation raises an error at a sample of the uncertain variables,
+e.g. that of an output or of a gradient,
+the DOE algorithm skips this sample.
+In this case,
+the iterative estimation does not use this sample for any output,
+while the non-iterative one uses the outputs evaluated before the error
+(and, to estimate the Jacobians, their gradients),
+as they are stored in the database.
+So, the statistics of an output can be estimated from fewer samples
+with the iterative estimation;
+in particular,
+when the gradient of an output fails at all the samples,
+the iterative estimation reports that the output is not available
+while the non-iterative one reports that its gradient is not available.
 
 This argument is ignored when `samples_directory_path` is defined;
 in this case, the statistics are not estimated iteratively.""",
@@ -42,5 +62,10 @@ in this case, the statistics are not estimated iteratively.""",
 where the samples stored as `IODataset` objects will be saved
 (one object per file, one file per iteration).
 This directory must not exist; it will be created by the formulation.
+An object stores all the evaluated samples,
+including those whose evaluation failed after some outputs were computed,
+which are used to estimate the statistics of an output
+only if this output and, when required, its gradient were computed at them,
+and stores only once a sample generated several times by the DOE algorithm.
 If empty, do not save the samples.""",
     )

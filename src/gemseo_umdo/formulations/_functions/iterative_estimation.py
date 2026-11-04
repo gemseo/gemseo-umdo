@@ -56,6 +56,18 @@ class IterativeEstimation:
     last_estimation: RealArray
     """The last estimation of the statistic."""
 
+    n_samples: int
+    """The number of samples used by the last estimation of the statistic."""
+
+    n_output_samples: int
+    """The number of samples at which the output is available since the last reset.
+
+    When estimating the Jacobian of the statistic,
+    a sample is used only if the gradient of the output is also available,
+    so that this number can be greater than
+    [n_samples][gemseo_umdo.formulations._functions.iterative_estimation.IterativeEstimation.n_samples].
+    """
+
     return_statistic_jacobian: bool
     """Whether the functor returns the Jacobian of the statistic estimation."""
 
@@ -76,9 +88,16 @@ class IterativeEstimation:
         """  # noqa: D202 D205 D212 D415
         self.output_name = output_name
         self.output_statistic_name = output_statistic_name
-        self.last_estimation = array([])
         self.statistic_estimator = statistic_estimator
         self.return_statistic_jacobian = return_statistic_jacobian
+        self.reset()
+
+    def reset(self) -> None:
+        """Reset the estimation of the statistic."""
+        self.last_estimation = array([])
+        self.n_samples = 0
+        self.n_output_samples = 0
+        self.statistic_estimator.reset()
 
     def __call__(self, index: int, evaluation: EvaluationType) -> RealArray:
         """
@@ -90,13 +109,25 @@ class IterativeEstimation:
         Returns:
             The new estimation of the statistic or its Jacobian.
         """  # noqa: D205, D212
-        value = atleast_1d(evaluation[0].get(self.output_name))
+        # A sample at which the output or, when estimating the Jacobian,
+        # its gradient is missing, e.g. because its evaluation failed,
+        # is not used to estimate the statistic.
+        value = evaluation[0].get(self.output_name)
+        if value is None:
+            return self.last_estimation
+
+        self.n_output_samples += 1
+        value = atleast_1d(value)
         if self.return_statistic_jacobian:
             jac_value = evaluation[1].get(self.output_name)
+            if jac_value is None:
+                return self.last_estimation
+
             self.last_estimation = self.statistic_estimator.compute_jacobian(
                 value, atleast_2d(jac_value)
             )
         else:
             self.last_estimation = self.statistic_estimator.estimate_statistic(value)
 
+        self.n_samples += 1
         return self.last_estimation

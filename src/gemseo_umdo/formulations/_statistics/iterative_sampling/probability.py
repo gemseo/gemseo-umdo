@@ -61,8 +61,5 @@ class Probability(BaseSamplingEstimator):
         )
         return result if self.__greater else 1 - result
 
-    def reset(self) -> None:  # noqa: D102
-        self._create_estimator(self._estimator.getDimension())
-
     def _create_estimator(self, size: int) -> None:
         self._estimator = IterativeThresholdExceedance(size, self.__threshold)
