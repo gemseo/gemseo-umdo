@@ -19,6 +19,7 @@ import pickle
 from pathlib import Path
 from typing import TYPE_CHECKING
 from typing import Any
+from typing import Final
 
 import pytest
 from gemseo import from_pickle
@@ -82,9 +83,10 @@ if TYPE_CHECKING:
         BaseSamplingEstimator as BaseIterativeSamplingEstimator,
     )
 
-_TWO_SAMPLES = array([[0.0] * 3, [1.0] * 3])
+_two_samples: Final[ndarray] = array([[0.0] * 3, [1.0] * 3])
+"""Two samples of the uncertain variables, used by default by the DOE algorithm."""
 
-both_estimations = pytest.mark.parametrize(
+both_estimations: Final = pytest.mark.parametrize(
     "estimate_statistics_iteratively", [False, True]
 )
 """Run a test with the statistics estimated non-iteratively and iteratively."""
@@ -97,7 +99,7 @@ def doe_samples(request) -> ndarray:
     When the test parametrizes this fixture indirectly,
     the parameter is these samples.
     """
-    return getattr(request, "param", _TWO_SAMPLES)
+    return getattr(request, "param", _two_samples)
 
 
 @pytest.fixture
@@ -485,13 +487,15 @@ def _make_function_fail(
     monkeypatch.setattr(function, method_name, _fail)
 
 
-_REPEATED_SAMPLES = array([[0.0] * 3, [0.0] * 3, [1.0] * 3])
+_repeated_samples: Final[ndarray] = array([[0.0] * 3, [0.0] * 3, [1.0] * 3])
+"""Three samples of the uncertain variables, the first one being repeated."""
 
-_MESSAGE = (
+_message: Final[str] = (
     "Some outputs or gradients are missing at some of the {} samples "
     "of the uncertain variables, e.g. because their evaluation failed; "
     "the numbers of samples used to estimate the statistics are: {}."
 )
+"""The template of the warning about missing outputs or gradients."""
 
 
 @pytest.mark.parametrize(
@@ -505,10 +509,10 @@ _MESSAGE = (
 @pytest.mark.parametrize(
     ("doe_samples", "failing_u_values", "sample_indices"),
     [
-        pytest.param(_TWO_SAMPLES, (), [0, 1], id="no failure"),
-        pytest.param(_TWO_SAMPLES, (1.0,), [0], id="failure"),
-        pytest.param(_REPEATED_SAMPLES, (), [0, 0, 1], id="repetition"),
-        pytest.param(_REPEATED_SAMPLES, (1.0,), [0, 0], id="repetition and failure"),
+        pytest.param(_two_samples, (), [0, 1], id="no failure"),
+        pytest.param(_two_samples, (1.0,), [0], id="failure"),
+        pytest.param(_repeated_samples, (), [0, 0, 1], id="repetition"),
+        pytest.param(_repeated_samples, (1.0,), [0, 0], id="repetition and failure"),
     ],
     indirect=["doe_samples"],
 )
@@ -627,7 +631,7 @@ def test_data_for_statistic_estimation_without_samples(
         function.jac(array([0.0] * design_space.dimension))
 
 
-_TOO_FEW_SAMPLES_STATISTICS = [
+_too_few_samples_statistics: Final = [
     pytest.param("Variance", {}, id="Variance"),
     pytest.param("StandardDeviation", {}, id="StandardDeviation"),
     pytest.param("Margin", {"factor": 2.0}, id="Margin"),
@@ -636,7 +640,7 @@ _TOO_FEW_SAMPLES_STATISTICS = [
 
 
 @pytest.mark.parametrize(
-    ("statistic_name", "statistic_parameters"), _TOO_FEW_SAMPLES_STATISTICS
+    ("statistic_name", "statistic_parameters"), _too_few_samples_statistics
 )
 @pytest.mark.parametrize(
     "estimate_statistics_iteratively",
@@ -664,7 +668,7 @@ def test_statistic_with_too_few_samples(
 
 
 @pytest.mark.parametrize(
-    ("statistic_name", "statistic_parameters"), _TOO_FEW_SAMPLES_STATISTICS
+    ("statistic_name", "statistic_parameters"), _too_few_samples_statistics
 )
 @pytest.mark.parametrize(
     ("estimate_statistics_iteratively", "failing_method_name"),
@@ -704,30 +708,30 @@ def test_statistic_jacobian_with_too_few_samples(
         function.jac(array([0.0] * 3))
 
 
-_WARNING_CASES_FOR_BOTH_ESTIMATIONS = [
+_warning_cases_for_both_estimations: Final = [
     pytest.param(
-        _TWO_SAMPLES,
+        _two_samples,
         lambda monkeypatch, formulation, disciplines: _make_discipline_fail(
             monkeypatch, disciplines[0], "_run", (1.0,)
         ),
         [
-            _MESSAGE.format(2, "1 for f, 1 for c, 1 for o"),
-            _MESSAGE.format(
+            _message.format(2, "1 for f, 1 for c, 1 for o"),
+            _message.format(
                 2,
                 "1 for f and its gradient, 1 for c and its gradient, "
                 "1 for o and its gradient",
             ),
-            _MESSAGE.format(2, "1 for f, 1 for c, 1 for o"),
+            _message.format(2, "1 for f, 1 for c, 1 for o"),
         ],
         id="output failure",
     ),
     pytest.param(
-        _TWO_SAMPLES,
+        _two_samples,
         lambda monkeypatch, formulation, disciplines: _make_discipline_fail(
             monkeypatch, disciplines[0], "_compute_jacobian", (1.0,)
         ),
         [
-            _MESSAGE.format(
+            _message.format(
                 2,
                 "1 for f and its gradient, 1 for c and its gradient, "
                 "1 for o and its gradient",
@@ -736,18 +740,18 @@ _WARNING_CASES_FOR_BOTH_ESTIMATIONS = [
         id="gradient failure",
     ),
     pytest.param(
-        _REPEATED_SAMPLES,
+        _repeated_samples,
         lambda monkeypatch, formulation, disciplines: None,
         [],
         id="repetition",
     ),
     pytest.param(
-        _REPEATED_SAMPLES,
+        _repeated_samples,
         lambda monkeypatch, formulation, disciplines: _make_discipline_fail(
             monkeypatch, disciplines[0], "_compute_jacobian", (1.0,)
         ),
         [
-            _MESSAGE.format(
+            _message.format(
                 3,
                 "2 for f and its gradient, 2 for c and its gradient, "
                 "2 for o and its gradient",
@@ -758,37 +762,37 @@ _WARNING_CASES_FOR_BOTH_ESTIMATIONS = [
 ]
 """The failures leading to the same warnings with both estimation paths."""
 
-_WARNING_CASES_FOR_STANDARD_ESTIMATION = [
+_warning_cases_for_standard_estimation: Final = [
     pytest.param(
-        _TWO_SAMPLES,
+        _two_samples,
         lambda monkeypatch, formulation, disciplines: _make_function_fail(
             monkeypatch, formulation, "o", "_func"
         ),
-        [_MESSAGE.format(2, "0 for o")] * 3,
+        [_message.format(2, "0 for o")] * 3,
         id="output missing at all the samples",
     ),
     pytest.param(
-        _TWO_SAMPLES,
+        _two_samples,
         lambda monkeypatch, formulation, disciplines: _make_function_fail(
             monkeypatch, formulation, "o"
         ),
-        [_MESSAGE.format(2, "0 for the gradient of o")],
+        [_message.format(2, "0 for the gradient of o")],
         id="gradient missing at all the samples",
     ),
     pytest.param(
-        _TWO_SAMPLES,
+        _two_samples,
         lambda monkeypatch, formulation, disciplines: (
             _make_discipline_fail(monkeypatch, disciplines[0], "_run", (1.0,)),
             _make_function_fail(monkeypatch, formulation, "o"),
         ),
         [
-            _MESSAGE.format(2, "1 for f, 1 for c, 1 for o"),
-            _MESSAGE.format(
+            _message.format(2, "1 for f, 1 for c, 1 for o"),
+            _message.format(
                 2,
                 "1 for f and its gradient, 1 for c and its gradient, "
                 "1 for o, 0 for the gradient of o",
             ),
-            _MESSAGE.format(2, "1 for f, 1 for c, 1 for o"),
+            _message.format(2, "1 for f, 1 for c, 1 for o"),
         ],
         id="different failures",
     ),
@@ -807,13 +811,13 @@ for all the outputs.
         *(
             pytest.param(False, *case.values, id=f"standard-{case.id}")
             for case in (
-                *_WARNING_CASES_FOR_BOTH_ESTIMATIONS,
-                *_WARNING_CASES_FOR_STANDARD_ESTIMATION,
+                *_warning_cases_for_both_estimations,
+                *_warning_cases_for_standard_estimation,
             )
         ),
         *(
             pytest.param(True, *case.values, id=f"iterative-{case.id}")
-            for case in _WARNING_CASES_FOR_BOTH_ESTIMATIONS
+            for case in _warning_cases_for_both_estimations
         ),
     ],
     indirect=["doe_samples"],
@@ -886,14 +890,18 @@ def test_statistic_jacobian_with_failing_jacobian_of_other_output(
         observable.jac(array([0.0] * 3))
 
 
-_THREE_SAMPLES = array([[0.0] * 3, [1.0] * 3, [0.5, 2.0, -1.0]])
+_three_samples: Final[ndarray] = array([[0.0] * 3, [1.0] * 3, [0.5, 2.0, -1.0]])
+"""Three distinct samples of the uncertain variables."""
 
-_STATISTICS = [pytest.param("Mean", {}, id="Mean"), *_TOO_FEW_SAMPLES_STATISTICS]
+_statistics: Final = [
+    pytest.param("Mean", {}, id="Mean"),
+    *_too_few_samples_statistics,
+]
 """The differentiable statistics and their parameters."""
 
 
-@pytest.mark.parametrize("doe_samples", [_THREE_SAMPLES], indirect=True)
-@pytest.mark.parametrize(("statistic_name", "statistic_parameters"), _STATISTICS)
+@pytest.mark.parametrize("doe_samples", [_three_samples], indirect=True)
+@pytest.mark.parametrize(("statistic_name", "statistic_parameters"), _statistics)
 def test_iterative_statistic_jacobian_before_statistic(
     create_umdo_formulation, statistic_name, statistic_parameters
 ):
@@ -911,8 +919,8 @@ def test_iterative_statistic_jacobian_before_statistic(
     assert_almost_equal(*jacobians)
 
 
-@pytest.mark.parametrize("doe_samples", [_THREE_SAMPLES], indirect=True)
-@pytest.mark.parametrize(("statistic_name", "statistic_parameters"), _STATISTICS)
+@pytest.mark.parametrize("doe_samples", [_three_samples], indirect=True)
+@pytest.mark.parametrize(("statistic_name", "statistic_parameters"), _statistics)
 def test_iterative_statistic_after_interrupted_sampling(
     create_umdo_formulation,
     statistic_name,
@@ -952,8 +960,8 @@ def test_iterative_statistic_after_interrupted_sampling(
     assert_almost_equal(function.jac(input_value), reference_function.jac(input_value))
 
 
-@pytest.mark.parametrize("doe_samples", [_THREE_SAMPLES], indirect=True)
-@pytest.mark.parametrize(("statistic_name", "statistic_parameters"), _STATISTICS)
+@pytest.mark.parametrize("doe_samples", [_three_samples], indirect=True)
+@pytest.mark.parametrize(("statistic_name", "statistic_parameters"), _statistics)
 def test_iterative_statistic_after_failed_sampling(
     create_umdo_formulation,
     disciplines,

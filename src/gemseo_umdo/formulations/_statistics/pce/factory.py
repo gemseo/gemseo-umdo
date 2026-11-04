@@ -16,13 +16,18 @@
 
 from __future__ import annotations
 
+from typing import ClassVar
+
 from gemseo.core.base_factory import BaseFactory
 
 from gemseo_umdo.formulations._statistics.pce.base_pce_estimator import BasePCEEstimator
 
 
-class PCEEstimatorFactory(BaseFactory):
+class PCEEstimatorFactory(BaseFactory[BasePCEEstimator]):
     """The factory of statistic estimators based on PCE."""
 
-    _class = BasePCEEstimator
-    _package_names = ("gemseo_umdo.formulations._statistics.pce",)
+    _class: ClassVar[type[BasePCEEstimator]] = BasePCEEstimator
+
+    _package_names: ClassVar[tuple[str, ...]] = (
+        "gemseo_umdo.formulations._statistics.pce",
+    )

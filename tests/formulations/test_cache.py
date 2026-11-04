@@ -18,6 +18,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 from typing import Any
+from typing import Final
 
 import pytest
 from gemseo.discipline import AnalyticDiscipline
@@ -41,11 +42,13 @@ from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 if TYPE_CHECKING:
     from collections.abc import Callable
 
+    from gemseo.util.typing import RealArray
+
     from gemseo_umdo.formulations.base_umdo_formulation_settings import (
         BaseUMDOFormulationSettings,
     )
 
-design_points = array([[-1.0], [0.0], [1.0]])
+design_points: Final[RealArray] = array([[-1.0], [0.0], [1.0]])
 """The design points at which to estimate the statistics."""
 
 

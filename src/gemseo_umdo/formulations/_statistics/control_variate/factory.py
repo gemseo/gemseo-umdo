@@ -16,6 +16,8 @@
 
 from __future__ import annotations
 
+from typing import ClassVar
+
 from gemseo.core.base_factory import BaseFactory
 
 from gemseo_umdo.formulations._statistics.control_variate.base_control_variate_estimator import (  # noqa: E501
@@ -23,8 +25,11 @@ from gemseo_umdo.formulations._statistics.control_variate.base_control_variate_e
 )
 
 
-class ControlVariateEstimatorFactory(BaseFactory):
+class ControlVariateEstimatorFactory(BaseFactory[BaseControlVariateEstimator]):
     """The factory of statistic estimators based on control variates."""
 
-    _class = BaseControlVariateEstimator
-    _package_names = ("gemseo_umdo.formulations._statistics.control_variate",)
+    _class: ClassVar[type[BaseControlVariateEstimator]] = BaseControlVariateEstimator
+
+    _package_names: ClassVar[tuple[str, ...]] = (
+        "gemseo_umdo.formulations._statistics.control_variate",
+    )

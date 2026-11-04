@@ -26,6 +26,13 @@ from gemseo_umdo.use_cases.beam_model.core.variables import E
 from gemseo_umdo.use_cases.beam_model.core.variables import F
 from gemseo_umdo.use_cases.beam_model.core.variables import sigma_all
 
+_default_delta: Final[dict[str, float]] = {
+    F.name: 10.0,
+    E.name: 5.0,
+    sigma_all.name: 5.0,
+}
+"""The default percentages of variation of the uncertain variables."""
+
 
 class BeamUncertainSpace(RandomSpace):
     r"""The advanced uncertain space for the beam use case.
@@ -45,12 +52,6 @@ class BeamUncertainSpace(RandomSpace):
     where $\delta$ is an aforementioned deviation value.
     """
 
-    __default_delta: Final[dict[str, float]] = {
-        F.name: 10.0,
-        E.name: 5.0,
-        sigma_all.name: 5.0,
-    }
-
     def __init__(self, uniform: bool = True, **deltas: float) -> None:
         r"""
         Args:
@@ -63,7 +64,7 @@ class BeamUncertainSpace(RandomSpace):
         for variable in [F, E, sigma_all]:
             nominal = variable.value
             name = variable.name
-            delta = deltas.pop(name, self.__default_delta[name]) / 100
+            delta = deltas.pop(name, _default_delta[name]) / 100
             if uniform:
                 minimum, maximum = sorted([
                     nominal * (1 - delta),

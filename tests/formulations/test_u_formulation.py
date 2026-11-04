@@ -15,6 +15,7 @@
 from __future__ import annotations
 
 from typing import Any
+from typing import ClassVar
 from unittest import mock
 
 import pytest
@@ -100,7 +101,7 @@ class StatisticFunction(ArrayFunction):
 class MyUMDOFormulation(BaseUMDOFormulation):
     """A dummy BaseUMDOFormulation."""
 
-    settings_class = Sampling_Settings
+    settings_class: ClassVar[type[Sampling_Settings]] = Sampling_Settings
 
     def __init__(self, *args, **kwargs):  # noqa: D107
         self._statistic_function_class = StatisticFunction

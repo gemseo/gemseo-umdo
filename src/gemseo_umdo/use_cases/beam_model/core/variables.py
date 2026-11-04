@@ -16,6 +16,7 @@
 
 from __future__ import annotations
 
+from typing import Final
 from typing import NamedTuple
 
 
@@ -29,52 +30,52 @@ class Variable(NamedTuple):
     """The default value of the variable."""
 
 
-b = Variable("b", 500.0)
+b: Final[Variable] = Variable("b", 500.0)
 """The width of the beam."""
 
-h = Variable("h", 800.0)
+h: Final[Variable] = Variable("h", 800.0)
 """The height of the beam."""
 
-t = Variable("t", 2.5)
+t: Final[Variable] = Variable("t", 2.5)
 """The thickness of the beam."""
 
-L = Variable("L", 5000.0)
+L: Final[Variable] = Variable("L", 5000.0)
 """The length of the beam."""
 
-E = Variable("E", 73500.0)
+E: Final[Variable] = Variable("E", 73500.0)
 """The Young's modulus of the material."""
 
-F = Variable("F", -200000.0)
+F: Final[Variable] = Variable("F", -200000.0)
 """The load applied to a point at the tip of the beam."""
 
-alpha = Variable("alpha", 0.0)
+alpha: Final[Variable] = Variable("alpha", 0.0)
 r"""The angle between $-\vec{e}_z$ and $\vec{F}$ in $xy$-plane."""
 
-beta = Variable("beta", 0.0)
+beta: Final[Variable] = Variable("beta", 0.0)
 r"""The angle between $-\vec{e}_z$ and $\vec{F}$ in $yz$-plane."""
 
-dy = Variable("dy", 0.0)
+dy: Final[Variable] = Variable("dy", 0.0)
 r"""The $y$-coordinate of the point where the force is applied."""
 
-dz = Variable("dz", 0.0)
+dz: Final[Variable] = Variable("dz", 0.0)
 r"""The $z$-coordinate of the point where the force is applied."""
 
-rho = Variable("rho", 2.8e-6)
+rho: Final[Variable] = Variable("rho", 2.8e-6)
 """The density of the material."""
 
-nu = Variable("nu", 0.33)
+nu: Final[Variable] = Variable("nu", 0.33)
 """The Poisson's ratio."""
 
-sigma_all = Variable("sigma_all", 300.0)
+sigma_all: Final[Variable] = Variable("sigma_all", 300.0)
 """A constant used by the stress constraints."""
 
-Rd = Variable("Rd", 180.0)
+Rd: Final[Variable] = Variable("Rd", 180.0)
 """The design strength of the material.
 
 The beam model does not use it.
 """
 
-Ry = Variable("Ry", 600.0)
+Ry: Final[Variable] = Variable("Ry", 600.0)
 """The yield strength of the material.
 
 The beam model does not use it.

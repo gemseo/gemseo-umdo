@@ -16,6 +16,8 @@
 
 from __future__ import annotations
 
+from typing import ClassVar
+
 from gemseo.core.base_factory import BaseFactory
 
 from gemseo_umdo.formulations._statistics.taylor_polynomial.base_taylor_polynomial_estimator import (  # noqa: E501
@@ -23,8 +25,13 @@ from gemseo_umdo.formulations._statistics.taylor_polynomial.base_taylor_polynomi
 )
 
 
-class TaylorPolynomialEstimatorFactory(BaseFactory):
+class TaylorPolynomialEstimatorFactory(BaseFactory[BaseTaylorPolynomialEstimator]):
     """The factory of statistic estimators based on Taylor polynomials."""
 
-    _class = BaseTaylorPolynomialEstimator
-    _package_names = ("gemseo_umdo.formulations._statistics.taylor_polynomial",)
+    _class: ClassVar[type[BaseTaylorPolynomialEstimator]] = (
+        BaseTaylorPolynomialEstimator
+    )
+
+    _package_names: ClassVar[tuple[str, ...]] = (
+        "gemseo_umdo.formulations._statistics.taylor_polynomial",
+    )

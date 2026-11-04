@@ -17,7 +17,7 @@
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
-from typing import ClassVar
+from typing import Final
 
 from gemseo.space import RandomSpace
 from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
@@ -40,10 +40,12 @@ if TYPE_CHECKING:
     from collections.abc import Mapping
 
 
+_default_dispersion: Final[float] = 1.0
+"""The default dispersion of an uncertain variable around its nominal value."""
+
+
 class AdvancedBeamUncertainSpace(RandomSpace):
     """The advanced uncertain space for the beam use case."""
-
-    __default_dispersion: ClassVar[float] = 1.0
 
     def __init__(
         self,
@@ -97,7 +99,7 @@ class AdvancedBeamUncertainSpace(RandomSpace):
         for variable in variables:
             name = variable.name
             mu = nominal_values.get(name, variable.value)
-            delta = dispersions.get(name, self.__default_dispersion)
+            delta = dispersions.get(name, _default_dispersion)
             if delta <= 0:
                 msg = f"The dispersion {delta} of {name!r} must be positive."
                 raise ValueError(msg)

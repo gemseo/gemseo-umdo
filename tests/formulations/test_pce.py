@@ -17,6 +17,7 @@ from __future__ import annotations
 import logging
 import re
 from typing import TYPE_CHECKING
+from typing import Final
 from unittest import mock
 
 import pytest
@@ -168,32 +169,33 @@ def observables(umdo_formulation) -> Observables:
     return umdo_formulation.problem.observables
 
 
-_X = array([0.0])
+_x: Final[RealArray] = array([0.0])
+"""The design point at which to evaluate the statistics."""
 
 
 def test_mean_from_formulation(umdo_formulation, pce_regressor):
     """Check the estimation of the mean from a PCE-based UMDO formulation."""
     mean = pce_regressor.mean
-    assert_equal(umdo_formulation.problem.objective.evaluate(_X), mean)
+    assert_equal(umdo_formulation.problem.objective.evaluate(_x), mean)
 
 
 def test_std_from_formulation(umdo_formulation, pce_regressor):
     """Check the estimation of the std from a PCE-based UMDO formulation."""
     std = pce_regressor.standard_deviation
-    assert_equal(umdo_formulation.problem.constraints[0].evaluate(_X), std)
+    assert_equal(umdo_formulation.problem.constraints[0].evaluate(_x), std)
 
 
 def test_variance_from_formulation(observables, pce_regressor):
     """Check the estimation of the variance from a PCE-based UMDO formulation."""
     var = pce_regressor.variance
-    assert_equal(observables[0].evaluate(_X), var)
+    assert_equal(observables[0].evaluate(_x), var)
 
 
 def test_margin_from_formulation(observables, pce_regressor):
     """Check the estimation of a margin from a PCE-based UMDO formulation."""
     mean = pce_regressor.mean
     std = pce_regressor.standard_deviation
-    assert_equal(observables[1].evaluate(_X), mean + 3 * std)
+    assert_equal(observables[1].evaluate(_x), mean + 3 * std)
 
 
 def test_quality(caplog, pce_regressor, ishigami_problem):

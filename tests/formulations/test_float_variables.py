@@ -15,6 +15,8 @@
 from __future__ import annotations  # noqa: I001
 
 
+from typing import Final
+
 import pytest
 from gemseo.space import DesignSpace
 from gemseo.space import RandomSpace
@@ -29,7 +31,8 @@ from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 from gemseo.formulation import MDF_Settings
 
 
-zero = zeros(1)
+zero: Final[ndarray] = zeros(1)
+"""The default value of the NumPy array inputs."""
 
 
 def f_float(x: float = 0.0, u: float = 0.0) -> float:

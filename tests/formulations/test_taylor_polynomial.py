@@ -15,6 +15,7 @@
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
+from typing import Final
 
 import pytest
 from gemseo import from_pickle
@@ -47,6 +48,7 @@ if TYPE_CHECKING:
     from collections.abc import Sequence
 
     from gemseo.discipline import Discipline
+    from gemseo.util.typing import RealArray
 
 
 @pytest.fixture
@@ -132,12 +134,17 @@ def test_scenario_serialization(scenario, tmp_path, scenario_input_data):
 
 # In the following, we will name m and s the mean and standard deviation of U.
 # Here are the value of f(x, m), jac(x, m) and hess(x, m).
-func = array([1.0, 2.0])
-jac = array([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]])
-hess = array([
+func: Final[RealArray] = array([1.0, 2.0])
+"""The value of $f(x,m)$."""
+
+jac: Final[RealArray] = array([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]])
+"""The Jacobian of $f$ at $(x,m)$."""
+
+hess: Final[RealArray] = array([
     [[1.0, 2.0, 3.0], [4.0, 5.0, 6.0], [7.0, 8.0, 9.0]],
     [[-1.0, -2.0, -3.0], [-4.0, -5.0, -6.0], [-7.0, -8.0, -9.0]],
 ])
+"""The Hessian of $f$ at $(x,m)$."""
 
 
 def test_init_differentiation_method(umdo_formulation):

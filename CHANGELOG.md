@@ -252,6 +252,11 @@ and this project adheres to
   in particular,
   when the gradient of an output fails at all the samples,
   the `ValueError` points to the output instead of its gradient.
+- [MLMCPilotFactory][gemseo_umdo.statistics.multilevel.mlmc.pilots.factory.MLMCPilotFactory]
+  searches the pilots in the package
+  `gemseo_umdo.statistics.multilevel.mlmc.pilots`;
+  previously, it searched a non-existent package
+  and reported it in its failed imports.
 
 ## Version 4.3.0 (October 2025)
 

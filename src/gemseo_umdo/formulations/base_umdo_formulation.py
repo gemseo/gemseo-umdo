@@ -56,6 +56,16 @@ if TYPE_CHECKING:
     )
 
 
+_default_factor: Final[float] = 2.0
+"""The default factor related to the standard deviation."""
+
+_factor_name: Final[str] = "factor"
+"""The name of the argument for the factor related to the standard deviation."""
+
+_margin_name: Final[str] = "Margin"
+"""The name of the classes implementing the margin statistics."""
+
+
 class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignSpace]):
     """Base class for U-MDO formulations.
 
@@ -63,15 +73,6 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
     uncertainty, a.k.a. U-MDO problem, as a standard optimization problem without
     uncertainty.
     """
-
-    __default_factor: Final[float] = 2.0
-    """The default factor related to the standard deviation."""
-
-    __factor_name: Final[str] = "factor"
-    """The name of the argument for the factor related to the standard deviation."""
-
-    __margin_name: Final[str] = "Margin"
-    """The name of the classes implementing the margin statistics."""
 
     _use_auxiliary_mdo_formulation: ClassVar[bool] = False
     """Whether the U-MDO formulation uses an auxiliary MDO formulation.
@@ -202,9 +203,8 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
         # The input space has been updated at instantiation by the MDO formulation.
         pass
 
-    @classmethod
+    @staticmethod
     def __check_statistic_parameters(
-        cls,
         statistic_name: str,
         statistic_parameters: StrKeyMapping,
     ) -> None:
@@ -218,8 +218,8 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
             ValueError: When the factor of a margin is zero.
         """
         if (
-            statistic_name == cls.__margin_name
-            and statistic_parameters.get(cls.__factor_name, cls.__default_factor) == 0
+            statistic_name == _margin_name
+            and statistic_parameters.get(_factor_name, _default_factor) == 0
         ):
             msg = (
                 "The factor of a margin must be non-zero; "
@@ -228,9 +228,8 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
             )
             raise ValueError(msg)
 
-    @classmethod
+    @staticmethod
     def __update_statistic_parameters(
-        cls,
         statistic_name: str,
         statistic_parameters: StrKeyMapping,
         use_negative_factor: bool,
@@ -245,14 +244,12 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
         Returns:
             The updated statistic parameters.
         """
-        if statistic_name == cls.__margin_name:
+        if statistic_name == _margin_name:
             statistic_parameters = statistic_parameters or {}
-            factor = abs(
-                statistic_parameters.get(cls.__factor_name, cls.__default_factor)
-            )
+            factor = abs(statistic_parameters.get(_factor_name, _default_factor))
             if use_negative_factor:
                 factor *= -1
-            statistic_parameters[cls.__factor_name] = factor
+            statistic_parameters[_factor_name] = factor
 
         return statistic_parameters
 

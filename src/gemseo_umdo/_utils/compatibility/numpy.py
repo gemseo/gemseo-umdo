@@ -26,6 +26,7 @@ if TYPE_CHECKING:
     from packaging.version import Version
 
 np_version: Final[Version] = parse_version(version("numpy"))
+"""The version of NumPy."""
 
 if parse_version("2.0.0") <= np_version:
     from numpy import trapezoid  # noqa: F401
