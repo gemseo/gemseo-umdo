@@ -17,6 +17,7 @@
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
+from typing import ClassVar
 
 from gemseo.discipline import Discipline
 from numpy import array
@@ -28,12 +29,13 @@ from gemseo_umdo.use_cases.truss.model import TrussModel
 
 if TYPE_CHECKING:
     from gemseo import StrKeyMapping
+    from gemseo.core.grammar.factory import GrammarType
 
 
 class TrussDiscipline(Discipline):
     """The discipline wrapping the truss model."""
 
-    default_grammar_type = Discipline.GrammarType.SIMPLE
+    default_grammar_type: ClassVar[GrammarType] = Discipline.GrammarType.SIMPLE
 
     __use_different_bars: bool
     """Whether the bars are different."""

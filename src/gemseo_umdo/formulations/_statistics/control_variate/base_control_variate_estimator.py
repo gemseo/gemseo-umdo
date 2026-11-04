@@ -18,9 +18,8 @@ from __future__ import annotations
 
 from abc import abstractmethod
 from typing import TYPE_CHECKING
-from typing import Final
 
-from numpy import finfo
+from gemseo.util.constant import epsilon
 
 from gemseo_umdo.formulations._statistics.base_statistic_estimator import (
     BaseStatisticEstimator,
@@ -33,9 +32,6 @@ if TYPE_CHECKING:
 
 class BaseControlVariateEstimator(BaseStatisticEstimator):
     """Base statistic estimator for a U-MDO formulation using control variates."""
-
-    __epsilon: Final[float] = finfo(float).eps
-    """A number to avoid division by zero when normalizing the covariance."""
 
     def __init__(self, uncertain_space: RandomSpace) -> None:
         """
@@ -62,9 +58,9 @@ class BaseControlVariateEstimator(BaseStatisticEstimator):
             many_predictions: Many output evaluations of the regressor arranged in rows.
         """  # noqa: D205 D212 D415
 
-    @classmethod
+    @staticmethod
     def _compute_opposite_scaled_covariance(
-        cls, data: RealArray, cv_data: RealArray
+        data: RealArray, cv_data: RealArray
     ) -> RealArray:
         """Compute the opposite scaled covariance between data and control variate data.
 
@@ -77,5 +73,5 @@ class BaseControlVariateEstimator(BaseStatisticEstimator):
         """
         centered_cv_data = cv_data - cv_data.mean(axis=0)
         den = (centered_cv_data**2).sum(axis=0)
-        den[den < cls.__epsilon] = cls.__epsilon
+        den[den < epsilon] = epsilon
         return -((data - data.mean(axis=0)) * centered_cv_data).sum(axis=0) / den

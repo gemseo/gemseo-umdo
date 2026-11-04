@@ -27,6 +27,7 @@ if TYPE_CHECKING:
     from packaging.version import Version
 
 ot_version: Final[Version] = parse_version(version("openturns"))
+"""The version of OpenTURNS."""
 
 if parse_version("1.22.0") <= ot_version:
 

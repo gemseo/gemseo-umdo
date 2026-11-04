@@ -16,6 +16,7 @@
 
 from __future__ import annotations
 
+from typing import ClassVar
 from typing import Final
 
 from gemseo.formulation.factory import MDOFormulationFactory
@@ -27,8 +28,9 @@ from gemseo_umdo.formulations.base_umdo_formulation import BaseUMDOFormulation
 class UMDOFormulationsFactory(MDOFormulationFactory):
     """The factory of U-MDO formulations."""
 
-    _class = BaseUMDOFormulation
-    _package_names = ("gemseo_umdo.formulations",)
+    _class: ClassVar[type[BaseUMDOFormulation]] = BaseUMDOFormulation
+
+    _package_names: ClassVar[tuple[str, ...]] = ("gemseo_umdo.formulations",)
 
 
 umdo_formulation_factory: Final[UMDOFormulationsFactory] = UMDOFormulationsFactory()

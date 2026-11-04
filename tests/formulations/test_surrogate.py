@@ -15,6 +15,7 @@
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
+from typing import Final
 
 import pytest
 from gemseo import execute_algo
@@ -125,39 +126,40 @@ def test_output_samples(output_samples):
     assert output_samples.shape == (10, 1)
 
 
-_X = array([0.0])
+_x: Final[RealArray] = array([0.0])
+"""The design point at which to evaluate the statistics."""
 
 
 def test_mean(umdo_formulation, output_samples):
     """Check the estimation of the mean from a surrogate-based UMDO formulation."""
     mean = output_samples.mean(0)
-    assert_equal(umdo_formulation.problem.objective.evaluate(_X), mean)
+    assert_equal(umdo_formulation.problem.objective.evaluate(_x), mean)
 
 
 def test_standard_deviation(umdo_formulation, output_samples):
     """Check the estimation of the std from a surrogate-based UMDO formulation."""
     std = output_samples.std(0, ddof=1)
     constraint = umdo_formulation.problem.constraints[0]
-    assert_equal(constraint.evaluate(_X), std)
+    assert_equal(constraint.evaluate(_x), std)
 
 
 def test_variance(observables, output_samples):
     """Check the estimation of the variance from a surrogate-based UMDO formulation."""
     var = output_samples.var(0, ddof=1)
-    assert_equal(observables[0].evaluate(_X), var)
+    assert_equal(observables[0].evaluate(_x), var)
 
 
 def test_margin(observables, output_samples):
     """Check the estimation of a margin from a surrogate-based UMDO formulation."""
     mean = output_samples.mean(0)
     std = output_samples.std(0, ddof=1)
-    assert_equal(observables[1].evaluate(_X), mean + 3 * std)
+    assert_equal(observables[1].evaluate(_x), mean + 3 * std)
 
 
 def test_probability(observables, output_samples):
     """Check the estimation of a probability from a surrogate-based UMDO formulation."""
     prob = (output_samples < 0.5).mean(0)
-    assert_equal(observables[2].evaluate(_X), prob)
+    assert_equal(observables[2].evaluate(_x), prob)
 
 
 @pytest.mark.parametrize(

@@ -16,6 +16,8 @@
 
 from __future__ import annotations
 
+from typing import ClassVar
+
 from gemseo.core.base_factory import BaseFactory
 
 from gemseo_umdo.formulations._statistics.iterative_sampling.base_sampling_estimator import (  # noqa: E501
@@ -23,8 +25,11 @@ from gemseo_umdo.formulations._statistics.iterative_sampling.base_sampling_estim
 )
 
 
-class SamplingEstimatorFactory(BaseFactory):
+class SamplingEstimatorFactory(BaseFactory[BaseSamplingEstimator]):
     """The factory of iterative sampling estimators."""
 
-    _class = BaseSamplingEstimator
-    _package_names = ("gemseo_umdo.formulations._statistics.iterative_sampling",)
+    _class: ClassVar[type[BaseSamplingEstimator]] = BaseSamplingEstimator
+
+    _package_names: ClassVar[tuple[str, ...]] = (
+        "gemseo_umdo.formulations._statistics.iterative_sampling",
+    )

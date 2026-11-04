@@ -14,6 +14,9 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+from typing import Final
+
 import pytest
 from gemseo.discipline import AnalyticDiscipline
 from gemseo.discipline import DisciplineChain
@@ -32,6 +35,11 @@ from gemseo_umdo.formulations.surrogate_settings import Surrogate_Settings
 from gemseo_umdo.formulations.taylor_polynomial_settings import (
     TaylorPolynomial_Settings,
 )
+
+if TYPE_CHECKING:
+    from gemseo_umdo.formulations.base_umdo_formulation_settings import (
+        BaseUMDOFormulationSettings,
+    )
 
 
 @pytest.fixture
@@ -92,7 +100,7 @@ def quadratic_problem() -> tuple[AnalyticDiscipline, DesignSpace, RandomSpace]:
     return discipline, design_space, uncertain_space
 
 
-_settings = (
+_settings: Final[tuple[BaseUMDOFormulationSettings, ...]] = (
     Sampling_Settings(n_samples=10),
     Sampling_Settings(n_samples=10, estimate_statistics_iteratively=False),
     SequentialSampling_Settings(n_samples=10),
@@ -100,6 +108,7 @@ _settings = (
     TaylorPolynomial_Settings(),
     TaylorPolynomial_Settings(second_order=True),
 )
+"""The settings of the U-MDO formulations compatible with the Dirac distribution."""
 
 
 @pytest.fixture(params=_settings)

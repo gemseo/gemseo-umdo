@@ -16,13 +16,18 @@
 
 from __future__ import annotations
 
+from typing import ClassVar
+
 from gemseo.core.base_factory import BaseFactory
 
 from gemseo_umdo.statistics.multilevel.mlmc.pilots.base_mlmc_pilot import BaseMLMCPilot
 
 
-class MLMCPilotFactory(BaseFactory):
+class MLMCPilotFactory(BaseFactory[BaseMLMCPilot]):
     """A factory of pilots for the MLMC algorithm."""
 
-    _class = BaseMLMCPilot
-    _package_names = ("gemseo_umdo._statistics.multilevel.mlmc.pilots",)
+    _class: ClassVar[type[BaseMLMCPilot]] = BaseMLMCPilot
+
+    _package_names: ClassVar[tuple[str, ...]] = (
+        "gemseo_umdo.statistics.multilevel.mlmc.pilots",
+    )

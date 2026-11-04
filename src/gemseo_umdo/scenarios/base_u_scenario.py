@@ -52,8 +52,10 @@ class BaseUScenario:
     """Base scenario for multidisciplinary design problems under uncertainty."""
 
     _formulation_factory: ClassVar[UMDOFormulationsFactory] = umdo_formulation_factory
+    """The factory of U-MDO formulations."""
 
     formulation: BaseUMDOFormulation
+    """The U-MDO formulation."""
 
     def __init__(
         self,

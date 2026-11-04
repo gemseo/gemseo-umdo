@@ -28,6 +28,16 @@ if TYPE_CHECKING:
     from gemseo.util.typing import StrKeyMapping
 
 
+_stiffness: Final[str] = "stiffness"
+"""The name of the stiffness of the spring."""
+
+_displacement: Final[str] = "displacement"
+"""The name of the time displacement of the object."""
+
+_max_displacement: Final[str] = "max_displacement"
+"""The name of the maximum displacement of the object."""
+
+
 class SpringMassDiscipline(Discipline):
     r"""The GEMSEO-based spring-mass model $m\frac{d^2z(t)}{dt^2} = -kz(t) + mg$.
 
@@ -36,10 +46,6 @@ class SpringMassDiscipline(Discipline):
 
     It computes also its maximum displacement.
     """
-
-    __stiffness: Final[str] = "stiffness"
-    __displacement: Final[str] = "displacement"
-    __max_displacement: Final[str] = "max_displacement"
 
     def __init__(
         self,
@@ -60,10 +66,10 @@ class SpringMassDiscipline(Discipline):
             gravity: The gravity acceleration.
         """  # noqa: D205 D212 D415
         super().__init__(name=f"{self.__class__.__name__}({time_step})")
-        self.input_grammar.update_from_names([self.__stiffness])
+        self.input_grammar.update_from_names([_stiffness])
         self.output_grammar.update_from_names([
-            self.__max_displacement,
-            self.__displacement,
+            _max_displacement,
+            _displacement,
         ])
         self.__model = SpringMassModel(
             mass=mass,
@@ -73,12 +79,12 @@ class SpringMassDiscipline(Discipline):
             time_step=time_step,
             gravity=gravity,
         )
-        self.default_input_data = {self.__stiffness: array([2.25])}
+        self.default_input_data = {_stiffness: array([2.25])}
 
     def _run(self, input_data: StrKeyMapping) -> None:
-        disp, max_disp = self.__model(self.io.input_data[self.__stiffness][0])
-        self.io.output_data[self.__displacement] = disp
-        self.io.output_data[self.__max_displacement] = array([max_disp])
+        disp, max_disp = self.__model(self.io.input_data[_stiffness][0])
+        self.io.output_data[_displacement] = disp
+        self.io.output_data[_max_displacement] = array([max_disp])
 
     @property
     def cost(self) -> float:

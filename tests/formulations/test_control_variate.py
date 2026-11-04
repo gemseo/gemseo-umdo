@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import re
 from typing import TYPE_CHECKING
+from typing import Final
 
 import pytest
 from gemseo import from_pickle
@@ -58,6 +59,7 @@ if TYPE_CHECKING:
     from gemseo.machine_learning.regression.core.base_regressor_settings import (
         BaseRegressorSettings,
     )
+    from gemseo.util.typing import RealArray
 
 
 @pytest.fixture(params=[None, RBFRegressor_Settings()])
@@ -192,9 +194,14 @@ def test_clear_inner_database(umdo_formulation):
     )
 
 
-mean = array([1.0, 2.0])
-jac = array([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]])
-variance = diagonal(jac @ diag(array([1.0, 2.0, 1.5])) @ jac.T)
+mean: Final[RealArray] = array([1.0, 2.0])
+"""The mean of the regressor's output vector."""
+
+jac: Final[RealArray] = array([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]])
+"""The Jacobian of the regressor's output vector used to compute the variance."""
+
+variance: Final[RealArray] = diagonal(jac @ diag(array([1.0, 2.0, 1.5])) @ jac.T)
+"""The variance of the regressor's output vector."""
 
 
 def test_estimate_mean(umdo_formulation):

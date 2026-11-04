@@ -20,6 +20,7 @@ from numpy import float64
 from numpy import ndarray
 from numpy.testing import assert_allclose
 
+from gemseo_umdo.use_cases.truss import model as truss_model_module
 from gemseo_umdo.use_cases.truss.bar import Bar
 from gemseo_umdo.use_cases.truss.bars import Bars
 from gemseo_umdo.use_cases.truss.forces import Forces
@@ -102,3 +103,11 @@ def test_plot_displacements_scale(truss_model, snapshot_matplotlib):
     """Check TrussModel.plot with displacements and scaling."""
     _, displacements = truss_model.compute()
     truss_model.plot(displacements=displacements, scale=10, show=False)
+
+
+@pytest.mark.parametrize("name", ["nodes", "free_dof"])
+def test_arrays_read_only(name):
+    """Check that the arrays shared by all the truss models are read-only."""
+    array_ = getattr(truss_model_module, f"_{name}")
+    with pytest.raises(ValueError, match="read-only"):
+        array_[0] = array_[1]

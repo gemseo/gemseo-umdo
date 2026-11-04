@@ -28,6 +28,19 @@ if TYPE_CHECKING:
     from gemseo.util.typing import StrKeyMapping
 
 
+_c_stress: Final[str] = "c_stress"
+"""The name of the left-hand side of the stress constraints."""
+
+_sigma_vm: Final[str] = "sigma_vm"
+"""The name of the von Mises stress."""
+
+_c_displ: Final[str] = "c_displ"
+"""The name of the left-hand side of the displacement constraints."""
+
+_displ: Final[str] = "displ"
+"""The name of the displacement."""
+
+
 class BeamConstraints(Discipline):
     r"""The discipline computing the constraints of the beam problem.
 
@@ -38,27 +51,22 @@ class BeamConstraints(Discipline):
     - the displacements constraints $\Delta/\Delta_{\mathrm{min}} \geq 1$.
     """
 
-    __c_stress: Final[str] = "c_stress"
-    __sigma_vm: Final[str] = "sigma_vm"
-    __c_displ: Final[str] = "c_displ"
-    __displ: Final[str] = "displ"
-
     def __init__(self) -> None:  # noqa: D107
         super().__init__()
         self.input_grammar.update_from_names([
-            self.__displ,
-            self.__sigma_vm,
+            _displ,
+            _sigma_vm,
             sigma_all.name,
         ])
-        self.output_grammar.update_from_names([self.__c_displ, self.__c_stress])
+        self.output_grammar.update_from_names([_c_displ, _c_stress])
         self.default_input_data = {
             sigma_all.name: array([sigma_all.value]),
-            self.__sigma_vm: array([300.0]),
-            self.__displ: array([100.0]),
+            _sigma_vm: array([300.0]),
+            _displ: array([100.0]),
         }
 
     def _run(self, input_data: StrKeyMapping) -> None:
-        self.io.output_data[self.__c_stress] = (
-            self.io.input_data[self.__sigma_vm] / self.io.input_data[sigma_all.name]
+        self.io.output_data[_c_stress] = (
+            self.io.input_data[_sigma_vm] / self.io.input_data[sigma_all.name]
         )
-        self.io.output_data[self.__c_displ] = self.io.input_data[self.__displ] / 100.0
+        self.io.output_data[_c_displ] = self.io.input_data[_displ] / 100.0

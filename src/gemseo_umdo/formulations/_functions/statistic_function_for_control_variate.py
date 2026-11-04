@@ -48,20 +48,21 @@ if TYPE_CHECKING:
 ControlVariateT = TypeVar("ControlVariateT", bound="ControlVariate")
 
 
+_doe_pred_template: Final[str] = "pred_{}"
+"""The template for the prediction history name."""
+
+_large_doe_pred_template: Final[str] = "large_pred_{}"
+"""The template for the large prediction history name."""
+
+_mean_template: Final[str] = "mean_{}"
+"""The template for the name of the mean of a regressor output."""
+
+_variance_template: Final[str] = "variance_{}"
+"""The template for the name of the variance of a regressor output."""
+
+
 class StatisticFunctionForControlVariate(BaseStatisticFunction[ControlVariateT]):
     """A function to compute a statistic from `ControlVariate`."""
-
-    __doe_pred_template: Final[str] = "pred_{}"
-    """The template for the prediction history name."""
-
-    __large_doe_pred_template: Final[str] = "large_pred_{}"
-    """The template for the large prediction history name."""
-
-    __mean_template: Final[str] = "mean_{}"
-    """The template for the name of the mean of a regressor output."""
-
-    __variance_template: Final[str] = "variance_{}"
-    """The template for the name of the variance of a regressor output."""
 
     __mc_problem: OptimizationProblem
     """The evaluation problem defined over the uncertain space for sampling."""
@@ -122,10 +123,6 @@ class StatisticFunctionForControlVariate(BaseStatisticFunction[ControlVariateT])
 
         compute_samples(problem)
         get_history = problem.database.get_function_history
-        mean_template = self.__mean_template
-        variance_template = self.__variance_template
-        doe_pred_template = self.__doe_pred_template
-        large_doe_pred_template = self.__large_doe_pred_template
         data = {}
         for function in self.__problem.functions:
             output_name = function.name
@@ -142,12 +139,12 @@ class StatisticFunctionForControlVariate(BaseStatisticFunction[ControlVariateT])
                 mean = atleast_1d(function.evaluate(mean_input_value))
                 jac = atleast_2d(function.jac(mean_input_value))
                 variance = diagonal(multi_dot([jac, diag(input_variance), jac.T]))
-                data[mean_template.format(output_name)] = mean
-                data[variance_template.format(output_name)] = variance
-                data[doe_pred_template.format(output_name)] = (
+                data[_mean_template.format(output_name)] = mean
+                data[_variance_template.format(output_name)] = variance
+                data[_doe_pred_template.format(output_name)] = (
                     mean + (doe - mean_input_value) @ jac.T
                 )
-                data[large_doe_pred_template.format(output_name)] = (
+                data[_large_doe_pred_template.format(output_name)] = (
                     mean + (large_doe - mean_input_value) @ jac.T
                 )
         else:
@@ -167,10 +164,10 @@ class StatisticFunctionForControlVariate(BaseStatisticFunction[ControlVariateT])
                 output_name = function.name
                 doe_pred_ = doe_pred[output_name]
                 large_doe_pred_ = large_doe_pred[output_name]
-                data[doe_pred_template.format(output_name)] = doe_pred_
-                data[large_doe_pred_template.format(output_name)] = large_doe_pred_
-                data[mean_template.format(output_name)] = doe_pred_.mean(0)
-                data[variance_template.format(output_name)] = large_doe_pred_.var(0)
+                data[_doe_pred_template.format(output_name)] = doe_pred_
+                data[_large_doe_pred_template.format(output_name)] = large_doe_pred_
+                data[_mean_template.format(output_name)] = doe_pred_.mean(0)
+                data[_variance_template.format(output_name)] = large_doe_pred_.var(0)
 
         return data
 
@@ -182,8 +179,8 @@ class StatisticFunctionForControlVariate(BaseStatisticFunction[ControlVariateT])
 
         return self._statistic_estimator.estimate_statistic(
             samples,
-            data[self.__mean_template.format(output_name)],
-            data[self.__variance_template.format(output_name)],
-            data[self.__doe_pred_template.format(output_name)],
-            data[self.__large_doe_pred_template.format(output_name)],
+            data[_mean_template.format(output_name)],
+            data[_variance_template.format(output_name)],
+            data[_doe_pred_template.format(output_name)],
+            data[_large_doe_pred_template.format(output_name)],
         )

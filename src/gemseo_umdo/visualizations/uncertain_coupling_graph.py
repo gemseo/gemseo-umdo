@@ -87,11 +87,6 @@ class UncertainCouplingGraph:
         CV = "CV"
         QCD = "QCD"
 
-    __disp_meas_to_function: Final[dict[DispersionMeasure, Callable]] = {
-        DispersionMeasure.CV: lambda x: x.std(0) / x.mean(),
-        DispersionMeasure.QCD: lambda x: _compute_qcd(x),
-    }
-
     def __init__(
         self,
         disciplines: Sequence[Discipline],
@@ -158,7 +153,7 @@ class UncertainCouplingGraph:
 
         database = self.__scenario.formulation.problem.database
         output_names_to_measures = {
-            output_name: self.__disp_meas_to_function[dispersion_measure](
+            output_name: _disp_meas_to_function[dispersion_measure](
                 database.get_function_history(output_name)
             )
             for output_name in self.__output_names
@@ -202,3 +197,12 @@ class UncertainCouplingGraph:
             graph_view.visualize(show=show, file_path=file_path, clean_up=clean_up)
 
         return graph_view
+
+
+_disp_meas_to_function: Final[
+    dict[UncertainCouplingGraph.DispersionMeasure, Callable]
+] = {
+    UncertainCouplingGraph.DispersionMeasure.CV: lambda x: x.std(0) / x.mean(),
+    UncertainCouplingGraph.DispersionMeasure.QCD: _compute_qcd,
+}
+"""The functions computing the dispersion measures from samples."""

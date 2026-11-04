@@ -42,63 +42,67 @@ if TYPE_CHECKING:
     from numpy import ndarray
 
 
+_elements: Final[tuple[tuple[int, int], ...]] = (
+    # Oblique bars
+    (0, 7),
+    (7, 1),
+    (1, 8),
+    (8, 2),
+    (2, 9),
+    (9, 3),
+    (3, 10),
+    (10, 4),
+    (4, 11),
+    (11, 5),
+    (5, 12),
+    (12, 6),
+    # Bottom horizontal bars
+    (0, 1),
+    (1, 2),
+    (2, 3),
+    (3, 4),
+    (4, 5),
+    (5, 6),
+    # Top horizontal bars
+    (7, 8),
+    (8, 9),
+    (9, 10),
+    (10, 11),
+    (11, 12),
+)
+"""The elements defined by the indices of the nodes defining their extremities."""
+
+_nodes: Final[ndarray] = array([
+    # Bottom nodes
+    [0.0, 0.0],
+    [4.0, 0.0],
+    [8.0, 0.0],
+    [12.0, 0.0],
+    [16.0, 0.0],
+    [20.0, 0.0],
+    [24.0, 0.0],
+    # Top nodes
+    [2.0, 2.0],
+    [6.0, 2.0],
+    [10.0, 2.0],
+    [14.0, 2.0],
+    [18.0, 2.0],
+    [22.0, 2.0],
+])
+"""The position of the nodes in x and y directions (in m)."""
+
+_n_dof: Final[int] = len(_nodes) * 2
+"""The number of degrees of freedom."""
+
+_free_dof: Final[ndarray] = setdiff1d(arange(_n_dof), [0, 1, 13])
+"""The free degrees of freedom."""
+
+_nodes.setflags(write=False)
+_free_dof.setflags(write=False)
+
+
 class TrussModel:
     """The truss model."""
-
-    __elements: Final[tuple[tuple[int, int], ...]] = (
-        # Oblique bars
-        (0, 7),
-        (7, 1),
-        (1, 8),
-        (8, 2),
-        (2, 9),
-        (9, 3),
-        (3, 10),
-        (10, 4),
-        (4, 11),
-        (11, 5),
-        (5, 12),
-        (12, 6),
-        # Bottom horizontal bars
-        (0, 1),
-        (1, 2),
-        (2, 3),
-        (3, 4),
-        (4, 5),
-        (5, 6),
-        # Top horizontal bars
-        (7, 8),
-        (8, 9),
-        (9, 10),
-        (10, 11),
-        (11, 12),
-    )
-    """The elements defined by the indices of the nodes defining their extremities."""
-
-    __nodes: Final[ndarray] = array([
-        # Bottom nodes
-        [0.0, 0.0],
-        [4.0, 0.0],
-        [8.0, 0.0],
-        [12.0, 0.0],
-        [16.0, 0.0],
-        [20.0, 0.0],
-        [24.0, 0.0],
-        # Top nodes
-        [2.0, 2.0],
-        [6.0, 2.0],
-        [10.0, 2.0],
-        [14.0, 2.0],
-        [18.0, 2.0],
-        [22.0, 2.0],
-    ])
-    """The position of the nodes in x and y directions (in m)."""
-
-    __n_dof: Final[int] = len(__nodes) * 2
-    """The number of degrees of freedom."""
-
-    __free_dof: Final[ndarray] = setdiff1d(arange(__n_dof), [0, 1, 13])
-    """The free degrees of freedom."""
 
     def compute(
         self,
@@ -129,9 +133,9 @@ class TrussModel:
             [zeros((7, 2))],
             [zeros((6, 1)), full((6, 1), -array(forces)[:, newaxis])],
         ])
-        free_forces = forces.flatten()[self.__free_dof]
-        stiffness_matrix = lil_matrix((self.__n_dof, self.__n_dof))
-        for bar, element in zip(bars, self.__elements, strict=False):
+        free_forces = forces.flatten()[_free_dof]
+        stiffness_matrix = lil_matrix((_n_dof, _n_dof))
+        for bar, element in zip(bars, _elements, strict=False):
             node_1, node_2 = element
             element_stiffness_matrix = self.__compute_element_stiffness_matrix(
                 bar.young_modulus, bar.area, node_1, node_2
@@ -143,16 +147,16 @@ class TrussModel:
                         element_stiffness_matrix[i, j]
                     )
 
-        free_stiffness_matrix = stiffness_matrix[self.__free_dof, :][:, self.__free_dof]
+        free_stiffness_matrix = stiffness_matrix[_free_dof, :][:, _free_dof]
         free_stiffness_matrix = csr_matrix(free_stiffness_matrix)
 
-        displacements = zeros(self.__n_dof)
-        displacements[self.__free_dof] = spsolve(free_stiffness_matrix, free_forces)
+        displacements = zeros(_n_dof)
+        displacements[_free_dof] = spsolve(free_stiffness_matrix, free_forces)
 
         return displacements[7], displacements.reshape((-1, 2))
 
+    @staticmethod
     def __compute_element_stiffness_matrix(
-        self,
         young_modulus: float,
         area: float,
         first_node: int,
@@ -169,8 +173,8 @@ class TrussModel:
         Returns:
             The stiffness matrix of the element.
         """
-        x1, y1 = self.__nodes[first_node]
-        x2, y2 = self.__nodes[second_node]
+        x1, y1 = _nodes[first_node]
+        x2, y2 = _nodes[second_node]
         length = sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
         cos_theta = (x2 - x1) / length
         sin_theta = (y2 - y1) / length
@@ -204,23 +208,20 @@ class TrussModel:
         """
         fig = plt.figure(figsize=(10, 6))
 
-        elements = self.__elements
-        nodes = self.__nodes
-
-        for element in elements:
+        for element in _elements:
             first_node, second_node = element
-            x = [nodes[first_node, 0], nodes[second_node, 0]]
-            y = [nodes[first_node, 1], nodes[second_node, 1]]
+            x = [_nodes[first_node, 0], _nodes[second_node, 0]]
+            y = [_nodes[first_node, 1], _nodes[second_node, 1]]
             plt.plot(
                 x,
                 y,
                 "b-",
-                label="Original elements" if element == elements[0] else None,
+                label="Original elements" if element == _elements[0] else None,
             )
 
         if displacements is not None:
-            displaced_nodes = nodes + scale * displacements
-            for element in elements:
+            displaced_nodes = _nodes + scale * displacements
+            for element in _elements:
                 first_node, second_node = element
                 x = [displaced_nodes[first_node, 0], displaced_nodes[second_node, 0]]
                 y = [displaced_nodes[first_node, 1], displaced_nodes[second_node, 1]]
@@ -228,10 +229,10 @@ class TrussModel:
                     x,
                     y,
                     "r--",
-                    label="Displaced elements" if element == elements[0] else None,
+                    label="Displaced elements" if element == _elements[0] else None,
                 )
 
-        plt.scatter(nodes[:, 0], nodes[:, 1], color="blue", label="Nodes")
+        plt.scatter(_nodes[:, 0], _nodes[:, 1], color="blue", label="Nodes")
         title = "The truss"
         if displacements is not None:
             plt.scatter(
