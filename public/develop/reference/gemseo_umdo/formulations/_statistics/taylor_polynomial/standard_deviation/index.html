@@ -6016,6 +6016,34 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations._statistics.taylor_polynomial.standard_deviation.StandardDeviation-attributes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Attributes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Attributes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations._statistics.taylor_polynomial.standard_deviation.StandardDeviation.min_n_samples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;min_n_samples
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#gemseo_umdo.formulations._statistics.taylor_polynomial.standard_deviation.StandardDeviation-functions" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -8512,6 +8540,34 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations._statistics.taylor_polynomial.standard_deviation.StandardDeviation-attributes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Attributes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Attributes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations._statistics.taylor_polynomial.standard_deviation.StandardDeviation.min_n_samples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;min_n_samples
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#gemseo_umdo.formulations._statistics.taylor_polynomial.standard_deviation.StandardDeviation-functions" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -8707,7 +8763,32 @@ with their probability distributions.</p>
 
 
 
+<h5 id="gemseo_umdo.formulations._statistics.taylor_polynomial.standard_deviation.StandardDeviation-attributes">Attributes<a href="#gemseo_umdo.formulations._statistics.taylor_polynomial.standard_deviation.StandardDeviation-attributes" class="headerlink" title="Permanent link">&para;</a></h5>
 
+<div class="doc doc-object doc-attribute">
+
+
+
+<h6 id="gemseo_umdo.formulations._statistics.taylor_polynomial.standard_deviation.StandardDeviation.min_n_samples" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">min_n_samples</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#gemseo_umdo.formulations._statistics.taylor_polynomial.standard_deviation.StandardDeviation.min_n_samples" class="headerlink" title="Permanent link">&para;</a></h6>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">min_n_samples</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/functions.html#int">int</a></span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>The minimum number of samples to estimate the statistic and its Jacobian.</p>
+<p>This number is used by the sampling-based U-MDO formulations.</p>
+
+    </div>
+
+</div>
 
 
 <h5 id="gemseo_umdo.formulations._statistics.taylor_polynomial.standard_deviation.StandardDeviation-functions">Methods:<a href="#gemseo_umdo.formulations._statistics.taylor_polynomial.standard_deviation.StandardDeviation-functions" class="headerlink" title="Permanent link">&para;</a></h5>
@@ -8806,17 +8887,17 @@ with their probability distributions.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/gemseo_umdo/formulations/_statistics/base_statistic_estimator.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">44</span>
-<span class="normal">45</span>
-<span class="normal">46</span>
-<span class="normal">47</span>
-<span class="normal">48</span>
-<span class="normal">49</span>
-<span class="normal">50</span>
-<span class="normal">51</span>
-<span class="normal">52</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">52</span>
 <span class="normal">53</span>
-<span class="normal">54</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_jacobian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RealArray</span><span class="p">:</span>  <span class="c1"># noqa: D102</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_jacobian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RealArray</span><span class="p">:</span>  <span class="c1"># noqa: D102</span>
 <span class="w">    </span><span class="sd">"""Compute the Jacobian of the statistic estimation.</span>
 
 <span class="sd">    Args:</span>

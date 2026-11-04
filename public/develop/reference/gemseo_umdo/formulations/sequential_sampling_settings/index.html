@@ -8656,6 +8656,20 @@ the field <code>doe_algo_settings.n_samples</code> is ignored.</p>
               <div class="doc-md-description">
                 <p>Whether to estimate the statistics iteratively.</p>
 <p>This can be useful for memory reasons.</p>
+<p>When the evaluation raises an error at a sample of the uncertain variables,
+e.g. that of an output or of a gradient,
+the DOE algorithm skips this sample.
+In this case,
+the iterative estimation does not use this sample for any output,
+while the non-iterative one uses the outputs evaluated before the error
+(and, to estimate the Jacobians, their gradients),
+as they are stored in the database.
+So, the statistics of an output can be estimated from fewer samples
+with the iterative estimation;
+in particular,
+when the gradient of an output fails at all the samples,
+the iterative estimation reports that the output is not available
+while the non-iterative one reports that its gradient is not available.</p>
 <p>This argument is ignored when <code>samples_directory_path</code> is defined;
 in this case, the statistics are not estimated iteratively.</p>
               </div>
@@ -8681,6 +8695,11 @@ in this case, the statistics are not estimated iteratively.</p>
 where the samples stored as <code>IODataset</code> objects will be saved
 (one object per file, one file per iteration).
 This directory must not exist; it will be created by the formulation.
+An object stores all the evaluated samples,
+including those whose evaluation failed after some outputs were computed,
+which are used to estimate the statistics of an output
+only if this output and, when required, its gradient were computed at them,
+and stores only once a sample generated several times by the DOE algorithm.
 If empty, do not save the samples.</p>
               </div>
               <p>
@@ -8702,6 +8721,9 @@ If empty, do not save the samples.</p>
             <td class="doc-param-details">
               <div class="doc-md-description">
                 <p>The initial sampling size.</p>
+<p>The estimation of a variance, a standard deviation
+or a margin
+requires at least 2 samples.</p>
               </div>
               <p>
                   <span class="doc-param-annotation">

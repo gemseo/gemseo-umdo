@@ -4443,6 +4443,28 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations._functions.iterative_estimation.IterativeEstimation.n_output_samples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;n_output_samples
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations._functions.iterative_estimation.IterativeEstimation.n_samples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;n_samples
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#gemseo_umdo.formulations._functions.iterative_estimation.IterativeEstimation.output_name" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4480,6 +4502,34 @@
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;statistic_estimator
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations._functions.iterative_estimation.IterativeEstimation-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Methods:
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Methods:">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations._functions.iterative_estimation.IterativeEstimation.reset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;reset
       
     </span>
   </a>
@@ -8566,6 +8616,28 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations._functions.iterative_estimation.IterativeEstimation.n_output_samples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;n_output_samples
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations._functions.iterative_estimation.IterativeEstimation.n_samples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;n_samples
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#gemseo_umdo.formulations._functions.iterative_estimation.IterativeEstimation.output_name" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -8603,6 +8675,34 @@
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;statistic_estimator
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations._functions.iterative_estimation.IterativeEstimation-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Methods:
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Methods:">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations._functions.iterative_estimation.IterativeEstimation.reset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;reset
       
     </span>
   </a>
@@ -8805,26 +8905,26 @@ the Jacobian of the statistic estimation.</p>
 
                   <details class="mkdocstrings-source">
                     <summary>Source code in <code>src/gemseo_umdo/formulations/_functions/iterative_estimation.py</code></summary>
-                    <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">62</span>
-<span class="normal">63</span>
-<span class="normal">64</span>
-<span class="normal">65</span>
-<span class="normal">66</span>
-<span class="normal">67</span>
-<span class="normal">68</span>
-<span class="normal">69</span>
-<span class="normal">70</span>
-<span class="normal">71</span>
-<span class="normal">72</span>
-<span class="normal">73</span>
-<span class="normal">74</span>
+                    <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">74</span>
 <span class="normal">75</span>
 <span class="normal">76</span>
 <span class="normal">77</span>
 <span class="normal">78</span>
 <span class="normal">79</span>
 <span class="normal">80</span>
-<span class="normal">81</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span>
+<span class="normal">84</span>
+<span class="normal">85</span>
+<span class="normal">86</span>
+<span class="normal">87</span>
+<span class="normal">88</span>
+<span class="normal">89</span>
+<span class="normal">90</span>
+<span class="normal">91</span>
+<span class="normal">92</span>
+<span class="normal">93</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">output_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">output_statistic_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -8841,9 +8941,9 @@ the Jacobian of the statistic estimation.</p>
 <span class="sd">    """</span>  <span class="c1"># noqa: D202 D205 D212 D415</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">output_name</span> <span class="o">=</span> <span class="n">output_name</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">output_statistic_name</span> <span class="o">=</span> <span class="n">output_statistic_name</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">last_estimation</span> <span class="o">=</span> <span class="n">array</span><span class="p">([])</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">statistic_estimator</span> <span class="o">=</span> <span class="n">statistic_estimator</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">return_statistic_jacobian</span> <span class="o">=</span> <span class="n">return_statistic_jacobian</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
 </code></pre></div></td></tr></table></div>
                   </details>
 
@@ -8870,12 +8970,69 @@ the Jacobian of the statistic estimation.</p>
   </span>
 
 <a href="#gemseo_umdo.formulations._functions.iterative_estimation.IterativeEstimation.last_estimation" class="headerlink" title="Permanent link">&para;</a></h6>
-<div class="doc-signature highlight"><pre><span></span><code><span class="n">last_estimation</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.util.typing.RealArray" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/util/typing/#gemseo.util.typing.RealArray">RealArray</a></span> <span class="o">=</span> <span class="n"><a class="autorefs autorefs-external" title="numpy.array" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array">array</a></span><span class="p">([])</span>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">last_estimation</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.util.typing.RealArray" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/util/typing/#gemseo.util.typing.RealArray">RealArray</a></span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
 
         <p>The last estimation of the statistic.</p>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h6 id="gemseo_umdo.formulations._functions.iterative_estimation.IterativeEstimation.n_output_samples" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">n_output_samples</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#gemseo_umdo.formulations._functions.iterative_estimation.IterativeEstimation.n_output_samples" class="headerlink" title="Permanent link">&para;</a></h6>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">n_output_samples</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/functions.html#int">int</a></span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>The number of samples at which the output is available since the last reset.</p>
+<p>When estimating the Jacobian of the statistic,
+a sample is used only if the gradient of the output is also available,
+so that this number can be greater than
+<a class="autorefs autorefs-internal" title="            n_samples
+
+
+  
+      instance-attribute
+  " href="#gemseo_umdo.formulations._functions.iterative_estimation.IterativeEstimation.n_samples">n_samples</a>.</p>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h6 id="gemseo_umdo.formulations._functions.iterative_estimation.IterativeEstimation.n_samples" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">n_samples</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#gemseo_umdo.formulations._functions.iterative_estimation.IterativeEstimation.n_samples" class="headerlink" title="Permanent link">&para;</a></h6>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">n_samples</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/functions.html#int">int</a></span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>The number of samples used by the last estimation of the statistic.</p>
 
     </div>
 
@@ -8980,7 +9137,42 @@ the Jacobian of the statistic estimation.</p>
 </div>
 
 
+<h5 id="gemseo_umdo.formulations._functions.iterative_estimation.IterativeEstimation-functions">Methods:<a href="#gemseo_umdo.formulations._functions.iterative_estimation.IterativeEstimation-functions" class="headerlink" title="Permanent link">&para;</a></h5>
 
+<div class="doc doc-object doc-function">
+
+
+<h6 id="gemseo_umdo.formulations._functions.iterative_estimation.IterativeEstimation.reset" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">reset</span>
+
+
+<a href="#gemseo_umdo.formulations._functions.iterative_estimation.IterativeEstimation.reset" class="headerlink" title="Permanent link">&para;</a></h6>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">reset</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Reset the estimation of the statistic.</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/gemseo_umdo/formulations/_functions/iterative_estimation.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Reset the estimation of the statistic."""</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">last_estimation</span> <span class="o">=</span> <span class="n">array</span><span class="p">([])</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">n_samples</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">n_output_samples</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">statistic_estimator</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
 
 
 

@@ -9409,6 +9409,13 @@ and this project adheres to
   of <a class="autorefs autorefs-internal" title="            AdvancedBeamUncertainSpace" href="../reference/gemseo_umdo/use_cases/beam_model/advanced_uncertain_space/#gemseo_umdo.use_cases.beam_model.advanced_uncertain_space.AdvancedBeamUncertainSpace">AdvancedBeamUncertainSpace</a>
   are available in
   <a class="autorefs autorefs-internal" title="            variables" href="../reference/gemseo_umdo/use_cases/beam_model/core/variables/#gemseo_umdo.use_cases.beam_model.core.variables">gemseo_umdo.use_cases.beam_model.core.variables</a>.</li>
+<li><a class="autorefs autorefs-internal" title="            doe_algo
+
+
+  
+      property
+  " href="../reference/gemseo_umdo/formulations/sampling/#gemseo_umdo.formulations.sampling.Sampling.doe_algo">Sampling.doe_algo</a>
+  is the DOE library used to sample the disciplines.</li>
 </ul>
 <h3 id="changed">Changed<a class="headerlink" href="#changed" title="Permanent link">&para;</a></h3>
 <ul>
@@ -9488,6 +9495,41 @@ and this project adheres to
   
       module-attribute
   " href="../reference/gemseo_umdo/formulations/#gemseo_umdo.formulations.DOEAlgorithmName">DOEAlgorithmName</a>.</li>
+<li><a class="autorefs autorefs-internal" title="            Sampling" href="../reference/gemseo_umdo/formulations/sampling/#gemseo_umdo.formulations.sampling.Sampling">Sampling</a>
+  with <code>estimate_statistics_iteratively=False</code>
+  reads the samples of the outputs and of their gradients at each design point
+  in a single pass over the database of the evaluations of the disciplines,
+  instead of one pass per output and per gradient,
+  which reduces the cost of this option.</li>
+<li>BREAKING CHANGE:
+  <a class="autorefs autorefs-internal" title="            Sampling" href="../reference/gemseo_umdo/formulations/sampling/#gemseo_umdo.formulations.sampling.Sampling">Sampling</a>
+  raises a <code>ValueError</code> when estimating a variance, a standard deviation
+  or a margin
+  of an output that is available at a single sample of the uncertain variables,
+  e.g. because the DOE algorithm generates a single sample,
+  as <a class="autorefs autorefs-internal" title="            SequentialSampling" href="../reference/gemseo_umdo/formulations/sequential_sampling/#gemseo_umdo.formulations.sequential_sampling.SequentialSampling">SequentialSampling</a>
+  does at its first iteration with <code>initial_n_samples=1</code>,
+  or because the evaluation fails at the other ones,
+  or the Jacobian of such a statistic
+  when the output and its gradient are both available at a single sample;
+  previously,
+  with <code>estimate_statistics_iteratively=True</code> (default),
+  such a variance or standard deviation and its Jacobian were zero
+  and such a margin and its Jacobian were those of the mean,
+  and with <code>estimate_statistics_iteratively=False</code>,
+  such a statistic was NaN and its Jacobian raised a <code>ZeroDivisionError</code>.</li>
+<li>BREAKING CHANGE:
+  every U-MDO formulation,
+  e.g. <a class="autorefs autorefs-internal" title="            Sampling" href="../reference/gemseo_umdo/formulations/sampling/#gemseo_umdo.formulations.sampling.Sampling">Sampling</a>,
+  <a class="autorefs autorefs-internal" title="            TaylorPolynomial" href="../reference/gemseo_umdo/formulations/taylor_polynomial/#gemseo_umdo.formulations.taylor_polynomial.TaylorPolynomial">TaylorPolynomial</a>,
+  <a class="autorefs autorefs-internal" title="            ControlVariate" href="../reference/gemseo_umdo/formulations/control_variate/#gemseo_umdo.formulations.control_variate.ControlVariate">ControlVariate</a>,
+  <a class="autorefs autorefs-internal" title="            Surrogate" href="../reference/gemseo_umdo/formulations/surrogate/#gemseo_umdo.formulations.surrogate.Surrogate">Surrogate</a>
+  and <a class="autorefs autorefs-internal" title="            PCE" href="../reference/gemseo_umdo/formulations/pce/#gemseo_umdo.formulations.pce.PCE">PCE</a>,
+  raises a <code>ValueError</code>
+  when adding an objective, a constraint or an observable
+  whose statistic is <code>"Margin"</code> with a zero <code>factor</code> parameter,
+  as such a margin is the mean;
+  use the statistic <code>"Mean"</code> instead.</li>
 </ul>
 <h3 id="removed">Removed<a class="headerlink" href="#removed" title="Permanent link">&para;</a></h3>
 <ul>
@@ -9545,6 +9587,62 @@ and this project adheres to
   centers the uniform distributions of <code>b</code>, <code>h</code>, <code>t</code> and <code>L</code>
   on the <code>nominal_values</code> passed by the user;
   previously, it ignored them and used the default values.</li>
+<li><a class="autorefs autorefs-internal" title="            Sampling" href="../reference/gemseo_umdo/formulations/sampling/#gemseo_umdo.formulations.sampling.Sampling">Sampling</a>
+  with <code>estimate_statistics_iteratively=False</code>
+  estimates the statistics of an output
+  from the samples at which this output and, if required, its gradient were computed,
+  discarding those at which the evaluation failed before,
+  e.g. at the evaluation of a gradient;
+  previously,
+  the samples of these outputs were no longer aligned
+  with those of the other outputs and of the gradients.
+  For each sampling of the uncertain variables,
+  i.e. once to estimate the statistics at a design point
+  and once to estimate their Jacobians,
+  it logs a single warning listing the outputs
+  that are missing at some samples generated by the DOE algorithm,
+  e.g. because their evaluation failed,
+  with the numbers of samples used to estimate their statistics
+  (and their Jacobians, from the samples where the gradients are also available),
+  and those whose gradient is missing at all of them,
+  and raises a <code>ValueError</code> when estimating a statistic of an output
+  that is not available at any of them,
+  or the Jacobian of a statistic of an output
+  whose gradient is not available at any of them,
+  e.g. because the DOE algorithm does not store the Jacobian.</li>
+<li><a class="autorefs autorefs-internal" title="            Sampling" href="../reference/gemseo_umdo/formulations/sampling/#gemseo_umdo.formulations.sampling.Sampling">Sampling</a>
+  with <code>estimate_statistics_iteratively=False</code>
+  uses a sample generated several times by the DOE algorithm,
+  e.g. by a custom DOE,
+  as many times as it is generated;
+  previously, it was used once, which biased the statistics.</li>
+<li><a class="autorefs autorefs-internal" title="            Sampling" href="../reference/gemseo_umdo/formulations/sampling/#gemseo_umdo.formulations.sampling.Sampling">Sampling</a>
+  with <code>estimate_statistics_iteratively=True</code> (default)
+  estimates the Jacobian of a statistic at a design point
+  where the statistic has not been estimated yet;
+  previously, it raised an <code>AttributeError</code>.
+  It raises a <code>ValueError</code> when estimating a statistic of an output
+  that is not available at any sample of the uncertain variables,
+  e.g. because its evaluation failed;
+  previously, it raised an <code>AttributeError</code>.
+  An error raised while sampling the uncertain variables at a design point
+  no longer alters the statistics estimated at the next design points.
+  As with <code>estimate_statistics_iteratively=False</code>,
+  it logs a single warning per sampling of the uncertain variables
+  listing the outputs that are missing at some samples
+  generated by the DOE algorithm,
+  with the numbers of samples used to estimate their statistics
+  or their Jacobians;
+  previously, these samples were skipped silently.
+  Unlike with <code>estimate_statistics_iteratively=False</code>,
+  a sample at which the evaluation of an output or of a gradient raises an error
+  is not used for any output,
+  as the DOE algorithm skips it,
+  whereas the non-iterative estimation uses the outputs and gradients
+  evaluated before the error;
+  in particular,
+  when the gradient of an output fails at all the samples,
+  the <code>ValueError</code> points to the output instead of its gradient.</li>
 </ul>
 <h2 id="version-430-october-2025">Version 4.3.0 (October 2025)<a class="headerlink" href="#version-430-october-2025" title="Permanent link">&para;</a></h2>
 <h3 id="added_1">Added<a class="headerlink" href="#added_1" title="Permanent link">&para;</a></h3>
