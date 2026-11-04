@@ -42,15 +42,17 @@ install-hooks:
 check *args: install-hooks
     uv run --only-group check prek run --all-files {{ args }}
 
-# Generate the documentation files that Zensical cannot generate itself (gallery, nav, ...)
+# Generate the documentation files that Zensical cannot generate itself (gallery, nav, ...), `--no-gallery` skips the examples
+[arg("gallery", long="no-gallery", value="--no-gallery")]
 [group('doc')]
-doc-prebuild:
-    uv run --group doc python docs/_scripts/prebuild.py
+doc-prebuild gallery="":
+    uv run --group doc python docs/_scripts/prebuild.py {{ gallery }}
 
-# Build and serve the documentation
+# Build and serve the documentation, `--no-gallery` skips the examples, pass the Zensical options after `--`
+[arg("gallery", long="no-gallery", value="--no-gallery")]
 [env("DOCSTRING_INHERITANCE_ENABLE", "1")]
 [group('doc')]
-doc *args: doc-prebuild
+doc gallery="" *args: (doc-prebuild gallery)
     uv run --group doc zensical serve {{ args }}
 
 # Create and check the PyPI distribution

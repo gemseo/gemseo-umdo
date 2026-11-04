@@ -18,7 +18,7 @@ Zensical supports neither MkDocs hooks nor the mkdocs-gallery, gen-files
 and markdown-exec plugins, so this script does their work before the build.
 Run it from the root of the repository before building or serving the documentation:
 
-    uv run --group doc python docs/_scripts/prebuild.py
+    uv run --group doc python docs/_scripts/prebuild.py [--no-gallery]
 
 It
 
@@ -29,21 +29,24 @@ It
 
 An example failing unexpectedly makes the script fail.
 
-An example runs again only when its file changes,
-as mkdocs-gallery compares its MD5 with the one stored in ``docs/generated/examples``;
-delete this directory to run all the examples again,
-e.g. after a change of the library that changes their outputs.
-Set the environment variable ``DOC_PLOT_GALLERY`` to ``0``
-to write the example pages without running the examples,
+An example runs again when its file changes,
+as mkdocs-gallery compares its MD5 with the one stored in ``docs/generated/examples``.
+All the examples run again when the library changes,
+i.e. a file of ``src/gemseo_umdo`` or ``uv.lock``,
+as the script compares their MD5 with the one stored in ``docs/generated/examples``
+after the last successful run of the examples.
+
+The option ``--no-gallery`` writes the example pages without running the examples,
 for a fast build of the other pages.
 """
 
 from __future__ import annotations
 
-import os
+import hashlib
 import re
 import runpy
 import shutil
+from argparse import ArgumentParser
 from pathlib import Path
 from typing import TYPE_CHECKING
 from typing import Any
@@ -68,15 +71,49 @@ docs_dir = root_dir / "docs"
 generated_dir = root_dir / "_docs"
 """The directory of the generated files that are not documentation pages."""
 
+examples_dir = docs_dir / "generated" / "examples"
+"""The directory of the generated examples."""
+
+library_paths = (root_dir / "src" / "gemseo_umdo", root_dir / "uv.lock")
+"""The paths whose change makes all the examples run again."""
+
+library_md5_path = examples_dir / "library.md5"
+"""The file storing the MD5 of the library at the last run of the examples."""
+
 _relative_image = re.compile(r'((?:src|srcset)=")\.\./images/')
 
 
-def run_gallery() -> dict[Path, Any]:
+def compute_library_md5() -> str:
+    """Compute the MD5 of the library.
+
+    Returns:
+        The MD5 of the files of the library.
+    """
+    md5 = hashlib.md5()
+    for library_path in library_paths:
+        paths = [library_path] if library_path.is_file() else library_path.rglob("*")
+        for path in sorted(paths):
+            if path.is_file() and "__pycache__" not in path.parts:
+                md5.update(path.relative_to(root_dir).as_posix().encode())
+                md5.update(path.read_bytes())
+
+    return md5.hexdigest()
+
+
+def run_gallery(plot_gallery: bool) -> dict[Path, Any]:
     """Run the gallery examples and write their pages.
+
+    Args:
+        plot_gallery: Whether to run the examples.
 
     Returns:
         The table of contents of each gallery.
     """
+    library_md5 = compute_library_md5()
+    run_stale_examples = plot_gallery and (
+        not library_md5_path.exists()
+        or library_md5_path.read_text(encoding="utf-8") != library_md5
+    )
     mkdocs_conf = {
         "config_file_path": str(root_dir / "mkdocs.yml"),
         "docs_dir": str(docs_dir),
@@ -86,12 +123,16 @@ def run_gallery() -> dict[Path, Any]:
         {
             "conf_script": str(docs_dir / "gallery_conf.py"),
             "default_thumb_file": str(docs_dir / "images" / "monogram.png"),
-            "plot_gallery": os.environ.get("DOC_PLOT_GALLERY", "1") != "0",
+            "plot_gallery": plot_gallery,
+            "run_stale_examples": run_stale_examples,
         },
         mkdocs_conf,
     )
     galleries_tocs, _ = generate_gallery_md(gallery_conf, mkdocs_conf)
     summarize_failing_examples(gallery_conf, mkdocs_conf)
+    if plot_gallery:
+        library_md5_path.write_text(library_md5, encoding="utf-8")
+
     return galleries_tocs
 
 
@@ -167,7 +208,13 @@ def write_generated_config(galleries_tocs: Mapping[Path, Any]) -> None:
 
 def main() -> None:
     """Generate the documentation files."""
-    galleries_tocs = run_gallery()
+    parser = ArgumentParser(description="Generate the documentation files.")
+    parser.add_argument(
+        "--no-gallery",
+        action="store_true",
+        help="Write the example pages without running the examples.",
+    )
+    galleries_tocs = run_gallery(not parser.parse_args().no_gallery)
     fix_image_paths()
     copy_gallery_stylesheets()
     write_generated_config(galleries_tocs)
