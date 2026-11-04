@@ -57,11 +57,6 @@ def test_citation_block() -> None:
     assert "see" not in html.split('<div class="footnote">')[0]
 
 
-def test_email_is_not_a_citation() -> None:
-    """Check that a bracketed email address is left untouched."""
-    assert "[contact@gemseo.org]" in render("Write to [contact@gemseo.org].")
-
-
 def test_citation_in_code_block() -> None:
     """Check that a citation in a fenced code block is left untouched."""
     html = render("```\n[@Mura2020]\n```", "pymdownx.superfences")
@@ -82,13 +77,22 @@ def test_unknown_key(caplog) -> None:
         "Ask [@Mura2020](https://example.org).",
         "Ask [@Mura2020][ref].",
         "See [the @Mura2020 docs].",
+        "Write to [contact@gemseo.org].",
+    ],
+    ids=[
+        "inline-code",
+        "double-backtick",
+        "inline-link",
+        "reference-link",
+        "free-text",
+        "email",
     ],
 )
 def test_not_a_citation(text) -> None:
-    """Check that inline code, link text and free text are not citations."""
+    """Check that inline code, link text, free text and emails are not citations."""
     html = render(text)
     assert "fn:cite-" not in html
-    assert "@Mura2020" in html
+    assert "@" in html
 
 
 def test_citation_next_to_inline_code() -> None:

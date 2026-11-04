@@ -52,8 +52,7 @@ doc = [
     "click",
     "griffe-fieldz",
     "griffe-inherited-docstrings",
-    # The fork of mike compatible with Zensical, not published on PyPI.
-    "mike @ git+https://github.com/squidfunk/mike.git",
+    "mike",
     # The Python-Markdown extensions of the documentation, e.g. the citations.
     "gemseo-docs",
     # The tree fences, used as a Python-Markdown custom fence, not as a plugin.
@@ -102,4 +101,6 @@ cache-keys = [
 
 [tool.uv.sources]
 gemseo = { git = "https://gitlab.com/gemseo/dev/gemseo.git", branch = "develop" }
+# The fork of mike compatible with Zensical, not published on PyPI.
+mike = { git = "https://github.com/squidfunk/mike.git" }
 gemseo-docs = { path = "tools/gemseo_docs", editable = true }

@@ -28,10 +28,19 @@ It
 - writes the credits into ``_docs/credits.md``.
 
 An example failing unexpectedly makes the script fail.
+
+An example runs again only when its file changes,
+as mkdocs-gallery compares its MD5 with the one stored in ``docs/generated/examples``;
+delete this directory to run all the examples again,
+e.g. after a change of the library that changes their outputs.
+Set the environment variable ``DOC_PLOT_GALLERY`` to ``0``
+to write the example pages without running the examples,
+for a fast build of the other pages.
 """
 
 from __future__ import annotations
 
+import os
 import re
 import runpy
 import shutil
@@ -77,6 +86,7 @@ def run_gallery() -> dict[Path, Any]:
         {
             "conf_script": str(docs_dir / "gallery_conf.py"),
             "default_thumb_file": str(docs_dir / "images" / "monogram.png"),
+            "plot_gallery": os.environ.get("DOC_PLOT_GALLERY", "1") != "0",
         },
         mkdocs_conf,
     )
