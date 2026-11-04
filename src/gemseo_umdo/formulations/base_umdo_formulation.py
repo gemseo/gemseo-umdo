@@ -203,6 +203,32 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
         pass
 
     @classmethod
+    def __check_statistic_parameters(
+        cls,
+        statistic_name: str,
+        statistic_parameters: StrKeyMapping,
+    ) -> None:
+        """Check the statistic parameters.
+
+        Args:
+            statistic_name: The name of the statistic.
+            statistic_parameters: The statistic parameters to be checked.
+
+        Raises:
+            ValueError: When the factor of a margin is zero.
+        """
+        if (
+            statistic_name == cls.__margin_name
+            and statistic_parameters.get(cls.__factor_name, cls.__default_factor) == 0
+        ):
+            msg = (
+                "The factor of a margin must be non-zero; "
+                "a margin with a zero factor is the mean. "
+                "Use the statistic 'Mean' instead."
+            )
+            raise ValueError(msg)
+
+    @classmethod
     def __update_statistic_parameters(
         cls,
         statistic_name: str,
@@ -338,6 +364,7 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
         Returns:
             The objective function.
         """
+        self.__check_statistic_parameters(statistic_name, statistic_parameters)
         output_names = convert_strings_to_iterable(output_names)
         function_name = self.__add_mdo_observable(output_names)
         statistic_parameters = self.__update_statistic_parameters(
@@ -369,6 +396,7 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
             **statistic_parameters: The values of the parameters of the statistic,
                 if any.
         """  # noqa: D205 D212 D415
+        self.__check_statistic_parameters(statistic_name, statistic_parameters)
         output_names = convert_strings_to_iterable(output_names)
         function_name = self.__add_mdo_observable(
             output_names, observable_name=observable_name, discipline=discipline
@@ -415,6 +443,7 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
         Returns:
             The constraint function.
         """
+        self.__check_statistic_parameters(statistic_name, statistic_parameters)
         output_names = convert_strings_to_iterable(output_names)
         function_name = self.__add_mdo_observable(output_names)
         statistic_parameters = self.__update_statistic_parameters(

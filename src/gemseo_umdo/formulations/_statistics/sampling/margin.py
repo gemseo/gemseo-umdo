@@ -52,6 +52,10 @@ class Margin(BaseSamplingEstimator):
         self.__standard_deviation = StandardDeviation()
         self.__factor = factor
 
+    @property
+    def min_n_samples(self) -> int:  # noqa: D102
+        return self.__standard_deviation.min_n_samples
+
     def estimate_statistic(self, samples: RealArray) -> RealArray:
         mean = self.__mean.estimate_statistic(samples)
         standard_deviation = self.__standard_deviation.estimate_statistic(samples)

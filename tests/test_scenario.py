@@ -118,7 +118,7 @@ def test_formulation(scenario):
     """Check the formulation after instantiation."""
     assert isinstance(scenario.formulation, Sampling)
     assert scenario.formulation_name == "Sampling[MDF; OT_OPT_LHS(3)]"
-    assert scenario.formulation._Sampling__doe_algo.algo_name
+    assert scenario.formulation.doe_algo.algo_name == "OT_OPT_LHS"
     assert scenario.formulation._settings.doe_algo_settings.n_samples == 3
 
 

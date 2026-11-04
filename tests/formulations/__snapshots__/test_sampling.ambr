@@ -1,0 +1,73 @@
+# serializer version: 1
+# name: test_data_for_statistic_estimation_without_samples[_compute_jacobian]
+  'The Jacobian of the statistics of f cannot be estimated, as the gradient of f is not available at any sample of the uncertain variables, e.g. because its evaluation failed or the DOE algorithm does not store the Jacobian.'
+# ---
+# name: test_data_for_statistic_estimation_without_samples[_run]
+  'The Jacobian of the statistics of f cannot be estimated, as f is not available at any sample of the uncertain variables, e.g. because its evaluation failed.'
+# ---
+# name: test_data_for_statistic_estimation_without_samples[jacobian of f and too few samples]
+  'The Jacobian of the statistics of f cannot be estimated, as the gradient of f is not available at any sample of the uncertain variables, e.g. because its evaluation failed or the DOE algorithm does not store the Jacobian.'
+# ---
+# name: test_data_for_statistic_estimation_without_samples[jacobian of f]
+  'The Jacobian of the statistics of f cannot be estimated, as the gradient of f is not available at any sample of the uncertain variables, e.g. because its evaluation failed or the DOE algorithm does not store the Jacobian.'
+# ---
+# name: test_data_for_statistic_estimation_without_samples[store_jacobian=False]
+  'The Jacobian of the statistics of f cannot be estimated, as the gradient of f is not available at any sample of the uncertain variables, e.g. because its evaluation failed or the DOE algorithm does not store the Jacobian.'
+# ---
+# name: test_iterative_statistic_jacobian_without_gradient[True]
+  'The Jacobian of the statistics of f cannot be estimated, as the gradient of f is not available at any sample of the uncertain variables, e.g. because its evaluation failed or the DOE algorithm does not store the Jacobian.'
+# ---
+# name: test_iterative_statistic_without_samples[evaluate-True]
+  'The statistics of f cannot be estimated, as f is not available at any sample of the uncertain variables, e.g. because its evaluation failed.'
+# ---
+# name: test_iterative_statistic_without_samples[jac-True]
+  'The Jacobian of the statistics of f cannot be estimated, as f is not available at any sample of the uncertain variables, e.g. because its evaluation failed.'
+# ---
+# name: test_statistic_jacobian_with_failing_jacobian_of_other_output
+  'The Jacobian of the statistics of o cannot be estimated, as the gradient of o is not available at any sample of the uncertain variables, e.g. because its evaluation failed or the DOE algorithm does not store the Jacobian.'
+# ---
+# name: test_statistic_jacobian_with_too_few_samples[iterative-_compute_jacobian-Margin]
+  'The Jacobian of the statistic Margin[f; factor=2.0] cannot be estimated, as it requires at least 2 samples of f and its gradient, while the number of samples where both are available is 1, e.g. because the DOE algorithm generated too few samples of the uncertain variables or because their evaluation failed at some of these samples.'
+# ---
+# name: test_statistic_jacobian_with_too_few_samples[iterative-_compute_jacobian-StandardDeviation]
+  'The Jacobian of the statistic StD[f] cannot be estimated, as it requires at least 2 samples of f and its gradient, while the number of samples where both are available is 1, e.g. because the DOE algorithm generated too few samples of the uncertain variables or because their evaluation failed at some of these samples.'
+# ---
+# name: test_statistic_jacobian_with_too_few_samples[iterative-_compute_jacobian-Variance]
+  'The Jacobian of the statistic V[f] cannot be estimated, as it requires at least 2 samples of f and its gradient, while the number of samples where both are available is 1, e.g. because the DOE algorithm generated too few samples of the uncertain variables or because their evaluation failed at some of these samples.'
+# ---
+# name: test_statistic_jacobian_with_too_few_samples[standard-_compute_jacobian-Margin]
+  'The Jacobian of the statistic Margin[f; factor=2.0] cannot be estimated, as it requires at least 2 samples of f and its gradient, while the number of samples where both are available is 1, e.g. because the DOE algorithm generated too few samples of the uncertain variables or because their evaluation failed at some of these samples.'
+# ---
+# name: test_statistic_jacobian_with_too_few_samples[standard-_compute_jacobian-StandardDeviation]
+  'The Jacobian of the statistic StD[f] cannot be estimated, as it requires at least 2 samples of f and its gradient, while the number of samples where both are available is 1, e.g. because the DOE algorithm generated too few samples of the uncertain variables or because their evaluation failed at some of these samples.'
+# ---
+# name: test_statistic_jacobian_with_too_few_samples[standard-_compute_jacobian-Variance]
+  'The Jacobian of the statistic V[f] cannot be estimated, as it requires at least 2 samples of f and its gradient, while the number of samples where both are available is 1, e.g. because the DOE algorithm generated too few samples of the uncertain variables or because their evaluation failed at some of these samples.'
+# ---
+# name: test_statistic_jacobian_with_too_few_samples[standard-_run-Margin]
+  'The Jacobian of the statistic Margin[f; factor=2.0] cannot be estimated, as it requires at least 2 samples of f and its gradient, while the number of samples where both are available is 1, e.g. because the DOE algorithm generated too few samples of the uncertain variables or because their evaluation failed at some of these samples.'
+# ---
+# name: test_statistic_jacobian_with_too_few_samples[standard-_run-StandardDeviation]
+  'The Jacobian of the statistic StD[f] cannot be estimated, as it requires at least 2 samples of f and its gradient, while the number of samples where both are available is 1, e.g. because the DOE algorithm generated too few samples of the uncertain variables or because their evaluation failed at some of these samples.'
+# ---
+# name: test_statistic_jacobian_with_too_few_samples[standard-_run-Variance]
+  'The Jacobian of the statistic V[f] cannot be estimated, as it requires at least 2 samples of f and its gradient, while the number of samples where both are available is 1, e.g. because the DOE algorithm generated too few samples of the uncertain variables or because their evaluation failed at some of these samples.'
+# ---
+# name: test_statistic_with_too_few_samples[iterative-Margin]
+  'The statistic Margin[f; factor=2.0] cannot be estimated, as it requires at least 2 samples of f, while the number of samples of f is 1, e.g. because the DOE algorithm generated too few samples of the uncertain variables or because its evaluation failed at some of these samples.'
+# ---
+# name: test_statistic_with_too_few_samples[iterative-StandardDeviation]
+  'The statistic StD[f] cannot be estimated, as it requires at least 2 samples of f, while the number of samples of f is 1, e.g. because the DOE algorithm generated too few samples of the uncertain variables or because its evaluation failed at some of these samples.'
+# ---
+# name: test_statistic_with_too_few_samples[iterative-Variance]
+  'The statistic V[f] cannot be estimated, as it requires at least 2 samples of f, while the number of samples of f is 1, e.g. because the DOE algorithm generated too few samples of the uncertain variables or because its evaluation failed at some of these samples.'
+# ---
+# name: test_statistic_with_too_few_samples[standard-Margin]
+  'The statistic Margin[f; factor=2.0] cannot be estimated, as it requires at least 2 samples of f, while the number of samples of f is 1, e.g. because the DOE algorithm generated too few samples of the uncertain variables or because its evaluation failed at some of these samples.'
+# ---
+# name: test_statistic_with_too_few_samples[standard-StandardDeviation]
+  'The statistic StD[f] cannot be estimated, as it requires at least 2 samples of f, while the number of samples of f is 1, e.g. because the DOE algorithm generated too few samples of the uncertain variables or because its evaluation failed at some of these samples.'
+# ---
+# name: test_statistic_with_too_few_samples[standard-Variance]
+  'The statistic V[f] cannot be estimated, as it requires at least 2 samples of f, while the number of samples of f is 1, e.g. because the DOE algorithm generated too few samples of the uncertain variables or because its evaluation failed at some of these samples.'
+# ---

@@ -31,6 +31,10 @@ if TYPE_CHECKING:
 class Variance(BaseSamplingEstimator):
     """Estimator of the variance."""
 
+    @property
+    def min_n_samples(self) -> int:  # noqa: D102
+        return 2
+
     def estimate_statistic(self, samples: RealArray) -> RealArray:
         return samples.var(0, ddof=1)
 

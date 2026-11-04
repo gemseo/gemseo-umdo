@@ -28,6 +28,7 @@ from gemseo.optimization import OptimizationProblem
 from gemseo.space import DesignSpace
 from gemseo.space import RandomSpace
 from gemseo.uncertainty.distribution import SPNormalDistribution_Settings
+from gemseo.util.testing.helper import assert_exception
 from numpy import array
 
 from gemseo_umdo.formulations._statistics.sampling.factory import (
@@ -150,6 +151,16 @@ def test_constraint(formulation):
     opt_problem = formulation.problem
     assert opt_problem.constraints[0].mock == "c_statistics"
     assert opt_problem.constraints[0].name == "Margin[c; 3.0]"
+
+
+@pytest.mark.parametrize(
+    "method_name", ["create_objective", "create_constraint", "add_observable"]
+)
+@pytest.mark.parametrize("factor", [0, -0.0])
+def test_margin_with_zero_factor(formulation, method_name, factor, snapshot):
+    """Check that a margin with a zero factor is rejected, as it is the mean."""
+    with assert_exception(ValueError, snapshot):
+        getattr(formulation, method_name)("f", "Margin", factor=factor)
 
 
 def test_available_statistics(formulation):

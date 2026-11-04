@@ -29,6 +29,14 @@ if TYPE_CHECKING:
 class BaseStatisticEstimator(metaclass=ABCGoogleDocstringInheritanceMeta):
     """The base statistic estimator for U-MDO formulations."""
 
+    @property
+    def min_n_samples(self) -> int:
+        """The minimum number of samples to estimate the statistic and its Jacobian.
+
+        This number is used by the sampling-based U-MDO formulations.
+        """
+        return 1
+
     @abstractmethod
     def estimate_statistic(self, *args: Any, **kwargs: Any) -> RealArray:  # noqa: D102
         """Estimate the statistic.
