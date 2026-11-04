@@ -16,6 +16,7 @@
 
 from __future__ import annotations
 
+from math import radians
 from typing import TYPE_CHECKING
 from typing import Final
 
@@ -40,12 +41,18 @@ if TYPE_CHECKING:
     from collections.abc import Mapping
 
 
-_default_dispersion: Final[float] = 1.0
-"""The default dispersion of an uncertain variable around its nominal value."""
+_default_relative_dispersion: Final[float] = 0.05
+"""The default dispersion relative to a reference value."""
+
+_default_angle_dispersion: Final[float] = radians(1.0)
+"""The default dispersion of an angle, in radians."""
 
 
 class AdvancedBeamUncertainSpace(RandomSpace):
-    """The advanced uncertain space for the beam use case."""
+    """The advanced uncertain space for the beam use case.
+
+    The angles `alpha` and `beta` are expressed in radians.
+    """
 
     def __init__(
         self,
@@ -60,7 +67,13 @@ class AdvancedBeamUncertainSpace(RandomSpace):
                 `gemseo_umdo.use_cases.beam_model.core.variables`.
             **dispersions: The dispersions $\delta$
                 around the nominal values $\mu$.
-                For missing dispersions, use 1.0.
+                For a missing dispersion,
+                use $\delta=0.05\mu$ for the positive variables
+                (`b`, `h`, `t`, `L`, `E`, `Rd` and `Ry`),
+                1 degree for the angles `alpha` and `beta`
+                and 5% of the nominal values of `b` and `h`
+                for the coordinates `dy` and `dz` respectively,
+                whatever their nominal values.
                 For the uniform variables `b`, `h`, `t` and `L`,
                 the distribution is defined over $[\mu-\delta,\mu+\delta]$.
                 For the other ones,
@@ -71,6 +84,7 @@ class AdvancedBeamUncertainSpace(RandomSpace):
             ValueError: When a name in `nominal_values` or `dispersions`
                 is not the name of an uncertain variable,
                 when a dispersion is not positive,
+                when the nominal value of a positive variable is not positive,
                 or when the lower bound $\mu-\delta$
                 of a positive variable
                 (`b`, `h`, `t`, `L`, `E`, `Rd` or `Ry`)
@@ -80,9 +94,8 @@ class AdvancedBeamUncertainSpace(RandomSpace):
         uniform_variables = (b, h, t, L)
         variables = (*uniform_variables, alpha, beta, dy, dz, E, Rd, Ry)
         uniform_variable_names = {variable.name for variable in uniform_variables}
-        positive_variable_names = {
-            variable.name for variable in (b, h, t, L, E, Rd, Ry)
-        }
+        positive_variables = (*uniform_variables, E, Rd, Ry)
+        positive_variable_names = {variable.name for variable in positive_variables}
         variable_names = [variable.name for variable in variables]
         nominal_values = nominal_values or {}
         unknown_names = (
@@ -96,13 +109,35 @@ class AdvancedBeamUncertainSpace(RandomSpace):
             )
             raise ValueError(msg)
 
-        for variable in variables:
+        mus = {
+            variable.name: nominal_values.get(variable.name, variable.value)
+            for variable in variables
+        }
+        for variable in positive_variables:
             name = variable.name
-            mu = nominal_values.get(name, variable.value)
-            delta = dispersions.get(name, _default_dispersion)
-            if delta <= 0:
-                msg = f"The dispersion {delta} of {name!r} must be positive."
+            if mus[name] <= 0:
+                msg = (
+                    f"The nominal value {mus[name]} "
+                    f"of the positive variable {name!r} must be positive."
+                )
                 raise ValueError(msg)
+
+        signed_variable_default_dispersions = {
+            alpha.name: _default_angle_dispersion,
+            beta.name: _default_angle_dispersion,
+            dy.name: _default_relative_dispersion * mus[b.name],
+            dz.name: _default_relative_dispersion * mus[h.name],
+        }
+        for name, mu in mus.items():
+            if name in dispersions:
+                delta = dispersions[name]
+                if delta <= 0:
+                    msg = f"The dispersion {delta} of {name!r} must be positive."
+                    raise ValueError(msg)
+            elif name in positive_variable_names:
+                delta = _default_relative_dispersion * mu
+            else:
+                delta = signed_variable_default_dispersions[name]
 
             lower, upper = mu - delta, mu + delta
             if name in positive_variable_names and lower <= 0:
