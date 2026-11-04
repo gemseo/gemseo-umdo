@@ -121,7 +121,13 @@ adding a new U-MDO formulation `Foo` implies to
   (the naming convention `Foo_Settings` binds the settings to `Foo`),
 - subclass `BaseStatisticFunction` to `StatisticFunctionForFoo`,
 - subclass `BaseStatisticEstimator` to `BaseFooEstimator`,
-- subclass `BaseFooEstimator` to `Mean`, `Variance`, etc.
+- subclass `BaseFooEstimator` to `Mean`, `Variance`, etc.,
+- set `Foo._statistic_factory` to a factory of the `BaseFooEstimator` subclasses
+  and `Foo._statistic_function_class` to `StatisticFunctionForFoo`
+  at class level,
+  unless the choice depends on the settings,
+  in which case set them in `Foo.__init__` before calling `super().__init__`
+  (as `Sampling` does to switch to iterative estimation).
 
 ``` mermaid
 classDiagram
