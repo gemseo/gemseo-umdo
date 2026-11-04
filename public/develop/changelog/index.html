@@ -9530,6 +9530,19 @@ and this project adheres to
   whose statistic is <code>"Margin"</code> with a zero <code>factor</code> parameter,
   as such a margin is the mean;
   use the statistic <code>"Mean"</code> instead.</li>
+<li>BREAKING CHANGE:
+  the default dispersion <span class="arithmatex">\(\delta\)</span> of an uncertain variable of
+  <a class="autorefs autorefs-internal" title="            AdvancedBeamUncertainSpace" href="../reference/gemseo_umdo/use_cases/beam_model/advanced_uncertain_space/#gemseo_umdo.use_cases.beam_model.advanced_uncertain_space.AdvancedBeamUncertainSpace">AdvancedBeamUncertainSpace</a>
+  is 5% of its nominal value <span class="arithmatex">\(\mu\)</span> for the positive variables,
+  1 degree for the angles <code>alpha</code> and <code>beta</code>,
+  instead of about 57 degrees,
+  and 5% of the nominal values of <code>b</code> and <code>h</code>
+  for the coordinates <code>dy</code> and <code>dz</code> respectively,
+  instead of 1.0 for all the variables,
+  which gave very uneven levels of uncertainty,
+  e.g. an almost deterministic Young modulus <code>E</code>
+  and a thickness <code>t</code> varying by ±40%.
+  A non-positive nominal value of a positive variable raises a <code>ValueError</code>.</li>
 </ul>
 <h3 id="removed">Removed<a class="headerlink" href="#removed" title="Permanent link">&para;</a></h3>
 <ul>
