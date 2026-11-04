@@ -8561,7 +8561,13 @@ adding a new U-MDO formulation <code>Foo</code> implies to</p>
   (the naming convention <code>Foo_Settings</code> binds the settings to <code>Foo</code>),</li>
 <li>subclass <code>BaseStatisticFunction</code> to <code>StatisticFunctionForFoo</code>,</li>
 <li>subclass <code>BaseStatisticEstimator</code> to <code>BaseFooEstimator</code>,</li>
-<li>subclass <code>BaseFooEstimator</code> to <code>Mean</code>, <code>Variance</code>, etc.</li>
+<li>subclass <code>BaseFooEstimator</code> to <code>Mean</code>, <code>Variance</code>, etc.,</li>
+<li>set <code>Foo._statistic_factory</code> to a factory of the <code>BaseFooEstimator</code> subclasses
+  and <code>Foo._statistic_function_class</code> to <code>StatisticFunctionForFoo</code>
+  at class level,
+  unless the choice depends on the settings,
+  in which case set them in <code>Foo.__init__</code> before calling <code>super().__init__</code>
+  (as <code>Sampling</code> does to switch to iterative estimation).</li>
 </ul>
 <pre class="mermaid"><code>classDiagram
 
