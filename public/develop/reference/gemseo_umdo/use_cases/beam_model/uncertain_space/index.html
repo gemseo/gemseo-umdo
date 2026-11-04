@@ -8645,8 +8645,7 @@ of the random variables.</p>
 
                   <details class="mkdocstrings-source">
                     <summary>Source code in <code>src/gemseo_umdo/use_cases/beam_model/uncertain_space.py</code></summary>
-                    <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">54</span>
-<span class="normal">55</span>
+                    <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">55</span>
 <span class="normal">56</span>
 <span class="normal">57</span>
 <span class="normal">58</span>
@@ -8673,7 +8672,8 @@ of the random variables.</p>
 <span class="normal">79</span>
 <span class="normal">80</span>
 <span class="normal">81</span>
-<span class="normal">82</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uniform</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">deltas</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">82</span>
+<span class="normal">83</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uniform</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">deltas</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">    Args:</span>
 <span class="sd">        uniform: If `True`, use uniform distributions;</span>
@@ -8685,7 +8685,7 @@ of the random variables.</p>
     <span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="p">[</span><span class="n">F</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">sigma_all</span><span class="p">]:</span>
         <span class="n">nominal</span> <span class="o">=</span> <span class="n">variable</span><span class="o">.</span><span class="n">value</span>
         <span class="n">name</span> <span class="o">=</span> <span class="n">variable</span><span class="o">.</span><span class="n">name</span>
-        <span class="n">delta</span> <span class="o">=</span> <span class="n">deltas</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__default_delta</span><span class="p">[</span><span class="n">name</span><span class="p">])</span> <span class="o">/</span> <span class="mi">100</span>
+        <span class="n">delta</span> <span class="o">=</span> <span class="n">deltas</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">_default_delta</span><span class="p">[</span><span class="n">name</span><span class="p">])</span> <span class="o">/</span> <span class="mi">100</span>
         <span class="k">if</span> <span class="n">uniform</span><span class="p">:</span>
             <span class="n">minimum</span><span class="p">,</span> <span class="n">maximum</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">([</span>
                 <span class="n">nominal</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">delta</span><span class="p">),</span>

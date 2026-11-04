@@ -6333,6 +6333,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario.formulation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;formulation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario.mdo_formulation" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -8592,6 +8603,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario.formulation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;formulation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario.mdo_formulation" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -8981,9 +9003,7 @@ use <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gem
 
                   <details class="mkdocstrings-source">
                     <summary>Source code in <code>src/gemseo_umdo/scenarios/base_u_scenario.py</code></summary>
-                    <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 58</span>
-<span class="normal"> 59</span>
-<span class="normal"> 60</span>
+                    <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 60</span>
 <span class="normal"> 61</span>
 <span class="normal"> 62</span>
 <span class="normal"> 63</span>
@@ -9067,7 +9087,9 @@ use <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gem
 <span class="normal">141</span>
 <span class="normal">142</span>
 <span class="normal">143</span>
-<span class="normal">144</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">disciplines</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Discipline</span> <span class="o">|</span> <span class="n">EvaluationScenario</span><span class="p">],</span>
     <span class="n">design_space</span><span class="p">:</span> <span class="n">DesignSpace</span><span class="p">,</span>
@@ -9186,6 +9208,30 @@ use <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gem
     <div class="doc doc-contents ">
 
         <p>The names of the available statistics.</p>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h6 id="gemseo_umdo.scenarios.umdo_scenario.UMDOScenario.formulation" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">formulation</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#gemseo_umdo.scenarios.umdo_scenario.UMDOScenario.formulation" class="headerlink" title="Permanent link">&para;</a></h6>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">formulation</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="            BaseUMDOFormulation (gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation)" href="../../formulations/base_umdo_formulation/#gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation">BaseUMDOFormulation</a></span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>The U-MDO formulation.</p>
 
     </div>
 
@@ -9747,9 +9793,7 @@ e.g. <code>factor=2.</code> when <code>statistic_name="Margin"</code>.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/gemseo_umdo/scenarios/base_u_scenario.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">150</span>
-<span class="normal">151</span>
-<span class="normal">152</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">152</span>
 <span class="normal">153</span>
 <span class="normal">154</span>
 <span class="normal">155</span>
@@ -9767,7 +9811,9 @@ e.g. <code>factor=2.</code> when <code>statistic_name="Margin"</code>.</p>
 <span class="normal">167</span>
 <span class="normal">168</span>
 <span class="normal">169</span>
-<span class="normal">170</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_observable</span><span class="p">(</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_observable</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">output_names</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
     <span class="n">statistic_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>

@@ -8757,11 +8757,7 @@ and vertical displacements respectively).</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/gemseo_umdo/use_cases/truss/model.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">103</span>
-<span class="normal">104</span>
-<span class="normal">105</span>
-<span class="normal">106</span>
-<span class="normal">107</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">107</span>
 <span class="normal">108</span>
 <span class="normal">109</span>
 <span class="normal">110</span>
@@ -8806,7 +8802,11 @@ and vertical displacements respectively).</p>
 <span class="normal">149</span>
 <span class="normal">150</span>
 <span class="normal">151</span>
-<span class="normal">152</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute</span><span class="p">(</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">bars</span><span class="p">:</span> <span class="n">Bars</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">forces</span><span class="p">:</span> <span class="n">Forces</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -8835,9 +8835,9 @@ and vertical displacements respectively).</p>
         <span class="p">[</span><span class="n">zeros</span><span class="p">((</span><span class="mi">7</span><span class="p">,</span> <span class="mi">2</span><span class="p">))],</span>
         <span class="p">[</span><span class="n">zeros</span><span class="p">((</span><span class="mi">6</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">full</span><span class="p">((</span><span class="mi">6</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="o">-</span><span class="n">array</span><span class="p">(</span><span class="n">forces</span><span class="p">)[:,</span> <span class="n">newaxis</span><span class="p">])],</span>
     <span class="p">])</span>
-    <span class="n">free_forces</span> <span class="o">=</span> <span class="n">forces</span><span class="o">.</span><span class="n">flatten</span><span class="p">()[</span><span class="bp">self</span><span class="o">.</span><span class="n">__free_dof</span><span class="p">]</span>
-    <span class="n">stiffness_matrix</span> <span class="o">=</span> <span class="n">lil_matrix</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">__n_dof</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__n_dof</span><span class="p">))</span>
-    <span class="k">for</span> <span class="n">bar</span><span class="p">,</span> <span class="n">element</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">bars</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__elements</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="n">free_forces</span> <span class="o">=</span> <span class="n">forces</span><span class="o">.</span><span class="n">flatten</span><span class="p">()[</span><span class="n">_free_dof</span><span class="p">]</span>
+    <span class="n">stiffness_matrix</span> <span class="o">=</span> <span class="n">lil_matrix</span><span class="p">((</span><span class="n">_n_dof</span><span class="p">,</span> <span class="n">_n_dof</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">bar</span><span class="p">,</span> <span class="n">element</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">bars</span><span class="p">,</span> <span class="n">_elements</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="n">node_1</span><span class="p">,</span> <span class="n">node_2</span> <span class="o">=</span> <span class="n">element</span>
         <span class="n">element_stiffness_matrix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__compute_element_stiffness_matrix</span><span class="p">(</span>
             <span class="n">bar</span><span class="o">.</span><span class="n">young_modulus</span><span class="p">,</span> <span class="n">bar</span><span class="o">.</span><span class="n">area</span><span class="p">,</span> <span class="n">node_1</span><span class="p">,</span> <span class="n">node_2</span>
@@ -8849,11 +8849,11 @@ and vertical displacements respectively).</p>
                     <span class="n">element_stiffness_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
                 <span class="p">)</span>
 
-    <span class="n">free_stiffness_matrix</span> <span class="o">=</span> <span class="n">stiffness_matrix</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">__free_dof</span><span class="p">,</span> <span class="p">:][:,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__free_dof</span><span class="p">]</span>
+    <span class="n">free_stiffness_matrix</span> <span class="o">=</span> <span class="n">stiffness_matrix</span><span class="p">[</span><span class="n">_free_dof</span><span class="p">,</span> <span class="p">:][:,</span> <span class="n">_free_dof</span><span class="p">]</span>
     <span class="n">free_stiffness_matrix</span> <span class="o">=</span> <span class="n">csr_matrix</span><span class="p">(</span><span class="n">free_stiffness_matrix</span><span class="p">)</span>
 
-    <span class="n">displacements</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__n_dof</span><span class="p">)</span>
-    <span class="n">displacements</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">__free_dof</span><span class="p">]</span> <span class="o">=</span> <span class="n">spsolve</span><span class="p">(</span><span class="n">free_stiffness_matrix</span><span class="p">,</span> <span class="n">free_forces</span><span class="p">)</span>
+    <span class="n">displacements</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">_n_dof</span><span class="p">)</span>
+    <span class="n">displacements</span><span class="p">[</span><span class="n">_free_dof</span><span class="p">]</span> <span class="o">=</span> <span class="n">spsolve</span><span class="p">(</span><span class="n">free_stiffness_matrix</span><span class="p">,</span> <span class="n">free_forces</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">displacements</span><span class="p">[</span><span class="mi">7</span><span class="p">],</span> <span class="n">displacements</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
 </code></pre></div></td></tr></table></div>
@@ -8980,11 +8980,7 @@ and vertical displacements respectively).</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/gemseo_umdo/use_cases/truss/model.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">187</span>
-<span class="normal">188</span>
-<span class="normal">189</span>
-<span class="normal">190</span>
-<span class="normal">191</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">191</span>
 <span class="normal">192</span>
 <span class="normal">193</span>
 <span class="normal">194</span>
@@ -9045,7 +9041,8 @@ and vertical displacements respectively).</p>
 <span class="normal">249</span>
 <span class="normal">250</span>
 <span class="normal">251</span>
-<span class="normal">252</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span>
+<span class="normal">252</span>
+<span class="normal">253</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">displacements</span><span class="p">:</span> <span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">scale</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
@@ -9065,23 +9062,20 @@ and vertical displacements respectively).</p>
 <span class="sd">    """</span>
     <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
 
-    <span class="n">elements</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__elements</span>
-    <span class="n">nodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__nodes</span>
-
-    <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">elements</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">_elements</span><span class="p">:</span>
         <span class="n">first_node</span><span class="p">,</span> <span class="n">second_node</span> <span class="o">=</span> <span class="n">element</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="n">nodes</span><span class="p">[</span><span class="n">first_node</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">nodes</span><span class="p">[</span><span class="n">second_node</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]</span>
-        <span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="n">nodes</span><span class="p">[</span><span class="n">first_node</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">nodes</span><span class="p">[</span><span class="n">second_node</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="n">_nodes</span><span class="p">[</span><span class="n">first_node</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">_nodes</span><span class="p">[</span><span class="n">second_node</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="n">_nodes</span><span class="p">[</span><span class="n">first_node</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">_nodes</span><span class="p">[</span><span class="n">second_node</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
             <span class="n">x</span><span class="p">,</span>
             <span class="n">y</span><span class="p">,</span>
             <span class="s2">"b-"</span><span class="p">,</span>
-            <span class="n">label</span><span class="o">=</span><span class="s2">"Original elements"</span> <span class="k">if</span> <span class="n">element</span> <span class="o">==</span> <span class="n">elements</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">label</span><span class="o">=</span><span class="s2">"Original elements"</span> <span class="k">if</span> <span class="n">element</span> <span class="o">==</span> <span class="n">_elements</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
         <span class="p">)</span>
 
     <span class="k">if</span> <span class="n">displacements</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">displaced_nodes</span> <span class="o">=</span> <span class="n">nodes</span> <span class="o">+</span> <span class="n">scale</span> <span class="o">*</span> <span class="n">displacements</span>
-        <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">elements</span><span class="p">:</span>
+        <span class="n">displaced_nodes</span> <span class="o">=</span> <span class="n">_nodes</span> <span class="o">+</span> <span class="n">scale</span> <span class="o">*</span> <span class="n">displacements</span>
+        <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">_elements</span><span class="p">:</span>
             <span class="n">first_node</span><span class="p">,</span> <span class="n">second_node</span> <span class="o">=</span> <span class="n">element</span>
             <span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="n">displaced_nodes</span><span class="p">[</span><span class="n">first_node</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">displaced_nodes</span><span class="p">[</span><span class="n">second_node</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]</span>
             <span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="n">displaced_nodes</span><span class="p">[</span><span class="n">first_node</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">displaced_nodes</span><span class="p">[</span><span class="n">second_node</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
@@ -9089,10 +9083,10 @@ and vertical displacements respectively).</p>
                 <span class="n">x</span><span class="p">,</span>
                 <span class="n">y</span><span class="p">,</span>
                 <span class="s2">"r--"</span><span class="p">,</span>
-                <span class="n">label</span><span class="o">=</span><span class="s2">"Displaced elements"</span> <span class="k">if</span> <span class="n">element</span> <span class="o">==</span> <span class="n">elements</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="n">label</span><span class="o">=</span><span class="s2">"Displaced elements"</span> <span class="k">if</span> <span class="n">element</span> <span class="o">==</span> <span class="n">_elements</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
             <span class="p">)</span>
 
-    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">nodes</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">nodes</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">"blue"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Nodes"</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">_nodes</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">_nodes</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">"blue"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Nodes"</span><span class="p">)</span>
     <span class="n">title</span> <span class="o">=</span> <span class="s2">"The truss"</span>
     <span class="k">if</span> <span class="n">displacements</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>

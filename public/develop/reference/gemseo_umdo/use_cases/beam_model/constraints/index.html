@@ -8585,30 +8585,30 @@ the left-hand sides of</p>
 
                   <details class="mkdocstrings-source">
                     <summary>Source code in <code>src/gemseo_umdo/use_cases/beam_model/constraints.py</code></summary>
-                    <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">46</span>
-<span class="normal">47</span>
-<span class="normal">48</span>
-<span class="normal">49</span>
-<span class="normal">50</span>
-<span class="normal">51</span>
-<span class="normal">52</span>
-<span class="normal">53</span>
-<span class="normal">54</span>
+                    <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">54</span>
 <span class="normal">55</span>
 <span class="normal">56</span>
 <span class="normal">57</span>
-<span class="normal">58</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># noqa: D107</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># noqa: D107</span>
     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">input_grammar</span><span class="o">.</span><span class="n">update_from_names</span><span class="p">([</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__displ</span><span class="p">,</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__sigma_vm</span><span class="p">,</span>
+        <span class="n">_displ</span><span class="p">,</span>
+        <span class="n">_sigma_vm</span><span class="p">,</span>
         <span class="n">sigma_all</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
     <span class="p">])</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">output_grammar</span><span class="o">.</span><span class="n">update_from_names</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">__c_displ</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__c_stress</span><span class="p">])</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">output_grammar</span><span class="o">.</span><span class="n">update_from_names</span><span class="p">([</span><span class="n">_c_displ</span><span class="p">,</span> <span class="n">_c_stress</span><span class="p">])</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">default_input_data</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">sigma_all</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="n">sigma_all</span><span class="o">.</span><span class="n">value</span><span class="p">]),</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__sigma_vm</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="mf">300.0</span><span class="p">]),</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__displ</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="mf">100.0</span><span class="p">]),</span>
+        <span class="n">_sigma_vm</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="mf">300.0</span><span class="p">]),</span>
+        <span class="n">_displ</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="mf">100.0</span><span class="p">]),</span>
     <span class="p">}</span>
 </code></pre></div></td></tr></table></div>
                   </details>
