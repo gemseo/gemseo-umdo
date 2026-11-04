@@ -87,6 +87,11 @@ markdown_extensions:
     custom_fences:
       - name: mermaid
         class: mermaid
+      # Render the tree fences with markdown-exec (its MkDocs plugin is not supported by Zensical).
+      - name: tree
+        class: tree
+        validator: !!python/name:markdown_exec.validator
+        format: !!python/name:markdown_exec.formatter
 - footnotes
 - toc:
     permalink: true

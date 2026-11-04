@@ -777,6 +777,7 @@ doc = [
     { name = "gemseo-docs" },
     { name = "griffe-fieldz" },
     { name = "griffe-inherited-docstrings" },
+    { name = "markdown-exec" },
     { name = "mike" },
     { name = "mkdocs-api-autonav" },
     { name = "mkdocs-autorefs" },
@@ -828,6 +829,7 @@ doc = [
     { name = "gemseo-docs", editable = "tools/gemseo_docs" },
     { name = "griffe-fieldz" },
     { name = "griffe-inherited-docstrings" },
+    { name = "markdown-exec" },
     { name = "mike", git = "https://github.com/squidfunk/mike.git" },
     { name = "mkdocs-api-autonav" },
     { name = "mkdocs-autorefs" },
@@ -1126,6 +1128,19 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/ca/eb/dc0fd6eff604bfb870b7fb68b90985a32caaf3c76f67736bbf7f438acd59/markdown-3.11.3.tar.gz", hash = "sha256:81eb91631dc97ad1efbc76019ef0f80fe90ca49ddf81546752d79989c3bfff3e", size = 498810, upload-time = "2026-11-05T20:30:52.926Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/81/6f/1fa8970e960e5c832874399e6efa564870ade8206d57fef5d5e296b834f5/markdown-3.11.3-py3-none-any.whl", hash = "sha256:e1a31a112232504d753e5c01bb8c2de90d3f0ba986b063e10770cf7695b09e73", size = 116758, upload-time = "2026-11-05T20:30:51.775Z" },
+]
+
+[[package]]
+name = "markdown-exec"
+version = "1.12.6"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "markupsafe" },
+    { name = "pymdown-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/da/96/02cd0802bc17b4e9b818b07b44096d40ce57d9699c6d35e72f25c5b61dd8/markdown_exec-1.12.6.tar.gz", hash = "sha256:31d4070b3137395fbea0f5e82f21226f9919debbbb7fc3dfcfff0c660cc64ae1", size = 84499, upload-time = "2026-10-31T13:29:27.992Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/c9/b5/ac82d68378beb338fa5acc5b2b8f08f3abc844d864c0ce2456da57a26d47/markdown_exec-1.12.6-py3-none-any.whl", hash = "sha256:b2dabe3c209f10f25aac2585bb8cdfcf325df691d4054f3394fba4b8c87ae4ee", size = 55034, upload-time = "2026-10-31T13:29:26.269Z" },
 ]
 
 [[package]]

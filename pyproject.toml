@@ -52,6 +52,8 @@ doc = [
     "mike @ git+https://github.com/squidfunk/mike.git",
     # The Python-Markdown extensions of the documentation, e.g. the citations.
     "gemseo-docs",
+    # The tree fences, used as a Python-Markdown custom fence, not as a plugin.
+    "markdown-exec",
     "mkdocs-api-autonav",
     # Used as a library by docs/_scripts/prebuild.py.
     "mkdocs-gallery",
