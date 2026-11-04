@@ -19,7 +19,6 @@
 
 from __future__ import annotations
 
-import os
 import tomllib
 from collections import defaultdict
 from collections.abc import Iterable
@@ -32,8 +31,7 @@ from jinja2 import StrictUndefined
 from jinja2.sandbox import SandboxedEnvironment
 from packaging.requirements import Requirement
 
-project_dir = Path(os.getenv("MKDOCS_CONFIG_DIR", "."))
-with project_dir.joinpath("pyproject.toml").open("rb") as pyproject_file:
+with Path("pyproject.toml").open("rb") as pyproject_file:
     pyproject = tomllib.load(pyproject_file)
 project = pyproject["project"]
 project_name = project["name"]
@@ -150,7 +148,7 @@ def _get_deps(base_deps: dict[str, Requirement], metadata: Metadata) -> Metadata
     return deps
 
 
-def _render_credits() -> str:
+def render_credits() -> str:
     metadata = _get_metadata()
     dev_dependencies = _get_deps(_requirements(devdeps), metadata)
     prod_dependencies = _get_deps(
@@ -209,9 +207,3 @@ def _render_credits() -> str:
     )
     jinja_env = SandboxedEnvironment(undefined=StrictUndefined)
     return jinja_env.from_string(template_text).render(**template_data)
-
-
-root = Path("_docs")
-root.mkdir(exist_ok=True)
-with (root / "credits.md").open("w", encoding="utf-8") as f:
-    f.write(_render_credits())

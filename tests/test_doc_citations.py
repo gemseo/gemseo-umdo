@@ -27,18 +27,19 @@ pytest.importorskip("gemseo_docs.bibtex_citations")
 bib_path = Path(__file__, "..", "..", "docs", "references.bib").resolve()
 
 
-def render(text: str) -> str:
+def render(text: str, extension: str = "footnotes") -> str:
     """Render a Markdown text with the citation extension.
 
     Args:
         text: The Markdown text.
+        extension: The extension used in addition to the citation one.
 
     Returns:
         The HTML text.
     """
     return markdown.markdown(
         text,
-        extensions=["footnotes", "gemseo_docs.bibtex_citations"],
+        extensions=[extension, "gemseo_docs.bibtex_citations"],
         extension_configs={"gemseo_docs.bibtex_citations": {"bib_file": str(bib_path)}},
     )
 
@@ -66,11 +67,7 @@ def test_email_is_not_a_citation() -> None:
 
 def test_citation_in_code_block() -> None:
     """Check that a citation in a fenced code block is left untouched."""
-    html = markdown.markdown(
-        "```\n[@Mura2020]\n```",
-        extensions=["pymdownx.superfences", "gemseo_docs.bibtex_citations"],
-        extension_configs={"gemseo_docs.bibtex_citations": {"bib_file": str(bib_path)}},
-    )
+    html = render("```\n[@Mura2020]\n```", "pymdownx.superfences")
     assert "[@Mura2020]" in html
 
 

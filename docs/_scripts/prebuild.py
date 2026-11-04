@@ -32,7 +32,6 @@ An example failing unexpectedly makes the script fail.
 
 from __future__ import annotations
 
-import os
 import re
 import runpy
 import shutil
@@ -76,23 +75,9 @@ def run_gallery() -> dict[Path, Any]:
         },
         mkdocs_conf,
     )
-    try:
-        galleries_tocs, _ = generate_gallery_md(gallery_conf, mkdocs_conf)
-    finally:
-        # The examples may leave the process in a deleted temporary directory
-        # and a stale GEMSEO configuration.
-        os.chdir(root_dir)
-        reset_gemseo_configuration()
-
+    galleries_tocs, _ = generate_gallery_md(gallery_conf, mkdocs_conf)
     summarize_failing_examples(gallery_conf, mkdocs_conf)
     return galleries_tocs
-
-
-def reset_gemseo_configuration() -> None:
-    """Reset the global configuration of GEMSEO."""
-    from gemseo.util.global_configuration import _configuration
-
-    _configuration.__init__()
 
 
 def fix_image_paths() -> None:
@@ -170,8 +155,11 @@ def main() -> None:
     galleries_tocs = run_gallery()
     fix_image_paths()
     copy_gallery_stylesheets()
-    runpy.run_path(str(docs_dir / "_scripts" / "credits.py"))
     write_generated_config(galleries_tocs)
+    render_credits = runpy.run_path(str(docs_dir / "_scripts" / "credits.py"))[
+        "render_credits"
+    ]
+    (generated_dir / "credits.md").write_text(render_credits(), encoding="utf-8")
 
 
 if __name__ == "__main__":
