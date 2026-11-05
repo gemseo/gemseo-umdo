@@ -15,7 +15,6 @@
 from __future__ import annotations
 
 import re
-from typing import TYPE_CHECKING
 
 import pytest
 from gemseo.discipline import AnalyticDiscipline
@@ -26,56 +25,20 @@ from gemseo.formulation import MDF_Settings
 from gemseo.formulation.mdf import MDF
 from gemseo.mda import MDAChain_Settings
 from gemseo.mda import MDAGaussSeidel_Settings
-from gemseo.optimization import OptimizationProblem
 from gemseo.space import DesignSpace
 from gemseo.space import RandomSpace
 from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
-from gemseo.uncertainty.distribution import SPNormalDistribution_Settings
 from numpy import array
 from numpy import atleast_2d
 from numpy import vstack
 from numpy.linalg import norm
-from numpy.testing import assert_almost_equal
 
 from gemseo_umdo.discipline.noiser.additive import AdditiveNoiser
 from gemseo_umdo.discipline.noiser.multiplicative import MultiplicativeNoiser
 from gemseo_umdo.formulation.factory import UMDOFormulationFactory
 from gemseo_umdo.formulation.sampling import Sampling
 from gemseo_umdo.formulation.sampling_settings import Sampling_Settings
-from gemseo_umdo.scenario.evaluation import UEvaluationScenario
 from gemseo_umdo.scenario.mdo import UMDOScenario
-
-if TYPE_CHECKING:
-    from gemseo.discipline import Discipline
-
-
-@pytest.fixture
-def disciplines() -> list[Discipline]:
-    """Three simple disciplines."""
-    disc0 = AnalyticDiscipline(
-        {"f": "x0+y1+y2", "c": "x0+y1+y2", "o": "x0+y1+y2"}, name="D0"
-    )
-    disc1 = AnalyticDiscipline({"y1": "x0+x1+2*y2"}, name="D1")
-    disc2 = AnalyticDiscipline({"y2": "x0+x2+y1+u"}, name="D2")
-    return [disc0, disc1, disc2]
-
-
-@pytest.fixture
-def design_space() -> DesignSpace:
-    """The space of local and global design variables."""
-    space = DesignSpace()
-    for name in ["x0", "x1", "x2"]:
-        space.add_variable(name, lower_bound=0.0, upper_bound=1.0, value=0.5)
-    space.add_variable("y1", lower_bound=0.0, upper_bound=1.0, value=0.5)
-    return space
-
-
-@pytest.fixture
-def uncertain_space() -> RandomSpace:
-    """The space defining the uncertain variable."""
-    space = RandomSpace()
-    space.add_variable("u", SPNormalDistribution_Settings())
-    return space
 
 
 @pytest.fixture
@@ -335,85 +298,3 @@ def test_log(
     assert objective_expr in caplog.text
     assert constraint_expr in caplog.text
     assert constraint_res in caplog.text
-
-
-@pytest.fixture
-def u_evaluation_scenario(
-    disciplines, design_space, uncertain_space
-) -> UEvaluationScenario:
-    """A UEvaluationScenario with an uncertain design variable."""
-    return UEvaluationScenario(
-        disciplines,
-        design_space,
-        uncertain_space,
-        Sampling_Settings(n_samples=3),
-        uncertain_design_variables={"x0": ("+", "u")},
-    )
-
-
-@pytest.mark.parametrize("method_name", ["add_objective", "add_constraint"])
-def test_u_evaluation_scenario_no_objective_nor_constraint(
-    u_evaluation_scenario, method_name
-):
-    """Check that a UEvaluationScenario cannot define an objective or constraints."""
-    assert not hasattr(u_evaluation_scenario, method_name)
-
-
-def test_u_evaluation_scenario_problem(u_evaluation_scenario):
-    """Check that a UEvaluationScenario does not define an optimization problem."""
-    assert not isinstance(
-        u_evaluation_scenario.formulation.problem, OptimizationProblem
-    )
-
-
-def test_u_evaluation_scenario_formulation(u_evaluation_scenario):
-    """Check that a UEvaluationScenario uses the U-MDO formulation of its settings."""
-    assert isinstance(u_evaluation_scenario.formulation, Sampling)
-
-
-def test_u_evaluation_scenario_repr(u_evaluation_scenario):
-    """Check the string representation of a UEvaluationScenario."""
-    assert repr(u_evaluation_scenario).startswith("UEvaluationScenario\n")
-
-
-def test_u_evaluation_scenario_input_space(u_evaluation_scenario):
-    """Check that the input space of a UEvaluationScenario includes the noising."""
-    assert set(u_evaluation_scenario.input_space.variables) == {"dv_x0", "x1", "x2"}
-
-
-def test_u_evaluation_scenario_observables(u_evaluation_scenario):
-    """Check that a UEvaluationScenario evaluates statistics as observables."""
-    u_evaluation_scenario.add_observable("o", "Mean")
-    u_evaluation_scenario.add_observable("o", "Margin", factor=2.0)
-    u_evaluation_scenario.execute(
-        CustomDOE_Settings(samples=array([[0.1, 0.2, 0.3], [0.4, 0.5, 0.6]]))
-    )
-    dataset = u_evaluation_scenario.to_dataset()
-    assert set(dataset.output_names) == {"E[o]", "Margin[o; 2.0]"}
-    assert len(dataset) == 2
-
-
-def test_u_evaluation_scenario_values():
-    """Check the statistics estimated by a UEvaluationScenario.
-
-    The mean of $(x+u)^2$ over the samples $u=-1$ and $u=1$
-    is the expectation $x^2+1$ of $(x+U)^2$ where $U$ is a standard Gaussian variable.
-    """
-    design_space = DesignSpace()
-    design_space.add_variable("x", lower_bound=-1.0, upper_bound=1.0)
-
-    uncertain_space = RandomSpace()
-    uncertain_space.add_variable("u", OTNormalDistribution_Settings())
-
-    scenario = UEvaluationScenario(
-        [AnalyticDiscipline({"y": "(x+u)**2"})],
-        design_space,
-        uncertain_space,
-        Sampling_Settings(
-            doe_algo_settings=CustomDOE_Settings(samples=array([[-1.0], [1.0]]))
-        ),
-    )
-    scenario.add_observable("y", "Mean")
-    scenario.execute(CustomDOE_Settings(samples=array([[-0.5], [0.0], [0.5]])))
-    mean = scenario.to_dataset().get_view(variable_names="E[y]").to_numpy()
-    assert_almost_equal(mean, array([[1.25], [1.0], [1.25]]))
