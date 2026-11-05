@@ -28,8 +28,6 @@ from typing import TypeVar
 
 from gemseo.core.function.array_function import ArrayFunction
 from gemseo.core.problem.database import Database
-from gemseo.uncertainty.statistic.core.base import BaseStatistics
-from gemseo.util.file_path_manager import FilePathManager
 from gemseo.util.hashable_ndarray import HashableNdarray
 from gemseo.util.metaclass import ABCGoogleDocstringInheritanceMeta
 
@@ -89,7 +87,6 @@ class BaseStatisticFunction(
         self._output_name = output_name
         self._output_jac_name = Database.get_gradient_name(output_name)
         self._umdo_formulation = umdo_formulation
-        statistic_class_name = statistic_settings.target_class_name
         self._statistic_estimator = (
             umdo_formulation._statistic_factory.create_from_settings(
                 statistic_settings, *self._statistic_estimator_parameters
@@ -98,11 +95,8 @@ class BaseStatisticFunction(
         # The statistic settings are part of the name
         # so that two statistics differing only in their settings,
         # e.g. two margins with different factors, have different names.
-        self._statistic_name = BaseStatistics.compute_expression(
-            output_name,
-            FilePathManager.to_snake_case(statistic_class_name),
-            show_name=True,
-            **statistic_settings.get_name_parameters(),
+        self._statistic_name = statistic_settings.compute_expression(
+            output_name, show_name=True
         )
         self._statistic_jac_name = Database.get_gradient_name(self._statistic_name)
         super().__init__(

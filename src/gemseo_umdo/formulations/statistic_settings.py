@@ -29,6 +29,8 @@ from typing import Any
 from typing import ClassVar
 from typing import Self
 
+from gemseo.uncertainty.statistic.core.base import BaseStatistics
+from gemseo.util.file_path_manager import FilePathManager
 from gemseo.util.pydantic import BaseSettings
 from numpy import array
 from numpy import quantile
@@ -81,6 +83,23 @@ class BaseStatisticSettings(BaseSettings):
             for name in type(self).model_fields
             if name in self._name_field_names or name in self.model_fields_set
         }
+
+    def compute_expression(self, output_name: str, show_name: bool = False) -> str:
+        """Return the string representation of the statistic of an output.
+
+        Args:
+            output_name: The name of the output.
+            show_name: Whether to show the name of the statistic.
+
+        Returns:
+            The string representation of the statistic of the output.
+        """
+        return BaseStatistics.compute_expression(
+            output_name,
+            FilePathManager.to_snake_case(self.target_class_name),
+            show_name=show_name,
+            **self.get_name_parameters(),
+        )
 
     @classmethod
     def from_name(cls, name: str) -> BaseStatisticSettings:

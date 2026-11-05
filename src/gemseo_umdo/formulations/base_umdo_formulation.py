@@ -27,9 +27,7 @@ from gemseo.formulation.core.base import BaseFormulation
 from gemseo.formulation.factory import mdo_formulation_factory
 from gemseo.optimization.core.constraints import Constraints
 from gemseo.space import DesignSpace
-from gemseo.uncertainty.statistic.core.base import BaseStatistics
 from gemseo.util.data_conversion import split_array_to_dict_of_arrays
-from gemseo.util.file_path_manager import FilePathManager
 from gemseo.util.hashable_ndarray import HashableNdarray
 from gemseo.util.string import convert_strings_to_iterable
 from gemseo.util.string import pretty_repr
@@ -653,11 +651,7 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
         if not isinstance(output_name, str):
             output_name = "_".join(output_name)
 
-        return BaseStatistics.compute_expression(
-            output_name,
-            FilePathManager.to_snake_case(statistic_settings.target_class_name),
-            **statistic_settings.get_name_parameters(),
-        )
+        return statistic_settings.compute_expression(output_name)
 
     def update_top_level_disciplines(self, design_values: RealArray) -> None:
         """Update the default input values of the top-level disciplines.
