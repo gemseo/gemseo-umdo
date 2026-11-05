@@ -40,7 +40,8 @@ class BeamRandomSpace(RandomSpace):
     It models the uncertainties about the load,
     the Young's modulus and the allowable stress;
     see [AdvancedBeamRandomSpace][gemseo_umdo.problem.beam_model.advanced_random_space.AdvancedBeamRandomSpace]
-    for the uncertainties about the geometry, the material
+    for the additional uncertainties about the geometry,
+    the other material properties
     and the position and direction of the load.
 
     $F$, $E$ and $\sigma_{\text{all}}$ are random variables
