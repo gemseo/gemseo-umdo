@@ -30,6 +30,8 @@ if TYPE_CHECKING:
     from gemseo.space import RandomSpace
     from gemseo.util.typing import RealArray
 
+    from gemseo_umdo.formulations.statistic_settings import Margin_Settings
+
 
 class Margin(BaseTaylorPolynomialEstimator):
     """Estimator of a margin, i.e. mean + factor * deviation."""
@@ -46,16 +48,16 @@ class Margin(BaseTaylorPolynomialEstimator):
     def __init__(
         self,
         uncertain_space: RandomSpace,
-        factor: float,
+        settings: Margin_Settings,
     ) -> None:
         """
         Args:
-            factor: The factor related to the standard deviation.
+            settings: The settings of the margin.
         """  # noqa: D205 D212 D415
-        super().__init__(uncertain_space)
+        super().__init__(uncertain_space, settings)
         self.__mean = Mean(uncertain_space)
         self.__standard_deviation = StandardDeviation(uncertain_space)
-        self.__factor = factor
+        self.__factor = settings.factor
 
     def estimate_statistic(  # noqa: D102
         self, func: RealArray, jac: RealArray, hess: RealArray

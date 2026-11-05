@@ -90,10 +90,10 @@ class BaseStatisticFunction(
         self._output_jac_name = Database.get_gradient_name(output_name)
         self._umdo_formulation = umdo_formulation
         statistic_class_name = statistic_settings.target_class_name
-        self._statistic_estimator = umdo_formulation._statistic_factory.create(
-            statistic_class_name,
-            *self._statistic_estimator_parameters,
-            **statistic_settings.model_dump(),
+        self._statistic_estimator = (
+            umdo_formulation._statistic_factory.create_from_settings(
+                statistic_settings, *self._statistic_estimator_parameters
+            )
         )
         # The statistic settings are part of the name
         # so that two statistics differing only in their settings,

@@ -30,6 +30,8 @@ from gemseo_umdo.formulations._statistics.iterative_sampling.mean import Mean
 if TYPE_CHECKING:
     from gemseo.util.typing import RealArray
 
+    from gemseo_umdo.formulations.statistic_settings import BaseStatisticSettings
+
 
 class Variance(BaseCentralMoment):
     """Iterative estimator of the variance."""
@@ -45,8 +47,10 @@ class Variance(BaseCentralMoment):
     __prod_mean: Mean
     """The iterative estimator of the product between the mean and its Jacobian."""
 
-    def __init__(self) -> None:
-        super().__init__()
+    def __init__(  # noqa: D107
+        self, settings: BaseStatisticSettings | None = None
+    ) -> None:
+        super().__init__(settings)
         self.__mean_jac = Mean()
         self.__mean = Mean()
         self.__prod_mean = Mean()

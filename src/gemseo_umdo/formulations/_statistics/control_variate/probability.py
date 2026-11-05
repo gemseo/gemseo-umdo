@@ -31,6 +31,8 @@ if TYPE_CHECKING:
     from gemseo.space import RandomSpace
     from gemseo.util.typing import RealArray
 
+    from gemseo_umdo.formulations.statistic_settings import Probability_Settings
+
 
 class Probability(BaseControlVariateEstimator):
     """Estimator of a probability."""
@@ -44,17 +46,15 @@ class Probability(BaseControlVariateEstimator):
     def __init__(
         self,
         uncertain_space: RandomSpace,
-        threshold: float,
-        greater: bool,
+        settings: Probability_Settings,
     ) -> None:
         """
         Args:
-            threshold: The threshold against which the probability is estimated.
-            greater: Whether to compute the probability of exceeding the threshold.
+            settings: The settings of the probability.
         """  # noqa: D205 D212 D415
-        super().__init__(uncertain_space)
-        self.__threshold = threshold
-        self.__compare = ge if greater else le
+        super().__init__(uncertain_space, settings)
+        self.__threshold = settings.threshold
+        self.__compare = ge if settings.greater else le
 
     def estimate_statistic(  # noqa: D102
         self,

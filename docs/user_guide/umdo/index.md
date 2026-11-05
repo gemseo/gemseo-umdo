@@ -682,7 +682,9 @@ e.g. $\mathbb{E}[f]-3\mathbb{S}[f]$ for an objective to maximize.
       and which may override
       [make_conservative()][gemseo_umdo.formulations.statistic_settings.BaseStatisticSettings.make_conservative],
     - for each statistic estimation technique supporting `Foo`,
-      an estimator class `Foo` whose constructor takes these fields as arguments,
+      an estimator class `Foo` whose constructor takes these settings
+      as argument `settings`
+      (after the uncertain space for the techniques requiring it),
       e.g. a subclass of
       [BaseSamplingEstimator][gemseo_umdo.formulations._statistics.sampling.base_sampling_estimator.BaseSamplingEstimator]
       for [Sampling][gemseo_umdo.formulations.sampling.Sampling],

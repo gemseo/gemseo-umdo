@@ -177,7 +177,7 @@ def test_estimate_standard_derivation(umdo_formulation):
 
 def test_estimate_margin(umdo_formulation):
     """Check that Margin[f(x,u);k] = E[f(x,U)] + kS[f(x,U)]."""
-    margin = Margin(umdo_formulation.uncertain_space, factor=3.0)
+    margin = Margin(umdo_formulation.uncertain_space, Margin_Settings(factor=3.0))
     margin_estimation = margin.estimate_statistic(func, jac, hess)
     assert_equal(
         margin_estimation, array([115.0, -112.0]) + 3.0 * array([98.0, 440.0]) ** 0.5

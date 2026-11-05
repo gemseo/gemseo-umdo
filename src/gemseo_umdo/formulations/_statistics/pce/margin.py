@@ -25,6 +25,8 @@ if TYPE_CHECKING:
 
     from gemseo.util.typing import RealArray
 
+    from gemseo_umdo.formulations.statistic_settings import Margin_Settings
+
 
 class Margin(BasePCEEstimator):
     """Estimator of a margin, i.e. mean + factor * deviation."""
@@ -37,12 +39,13 @@ class Margin(BasePCEEstimator):
     __factor: float
     """The factor related to the standard deviation."""
 
-    def __init__(self, factor: float) -> None:
+    def __init__(self, settings: Margin_Settings) -> None:
         """
         Args:
-            factor: The factor related to the standard deviation.
+            settings: The settings of the margin.
         """  # noqa: D205 D212 D415
-        self.__factor = factor
+        super().__init__(settings)
+        self.__factor = settings.factor
 
     def estimate_statistic(
         self, mean: RealArray, standard_deviation: RealArray

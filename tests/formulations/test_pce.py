@@ -159,7 +159,7 @@ def test_variance(variance):
 def test_margin(mean, standard_deviation):
     """Check the PCE-based estimator of the margin."""
     assert_equal(
-        Margin(3).estimate_statistic(mean, standard_deviation),
+        Margin(Margin_Settings(factor=3)).estimate_statistic(mean, standard_deviation),
         mean + 3 * standard_deviation,
     )
 

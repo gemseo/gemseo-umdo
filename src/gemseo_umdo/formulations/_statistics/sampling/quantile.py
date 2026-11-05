@@ -30,6 +30,8 @@ from gemseo_umdo.formulations._statistics.sampling.base_sampling_estimator impor
 if TYPE_CHECKING:
     from gemseo.util.typing import RealArray
 
+    from gemseo_umdo.formulations.statistic_settings import Quantile_Settings
+
 logger = logging.getLogger(__name__)
 
 _min_tail_size: Final[int] = 10
@@ -68,16 +70,14 @@ class Quantile(BaseSamplingEstimator):
     __is_size_checked: bool
     """Whether the number of samples has been checked against the level."""
 
-    def __init__(self, level: float, method: str) -> None:
-        r"""
+    def __init__(self, settings: Quantile_Settings) -> None:
+        """
         Args:
-            level: The level $\alpha$ of the quantile, in $]0,1[$.
-            method: The name of the method of [numpy.quantile][numpy.quantile]
-                to estimate the quantile.
+            settings: The settings of the quantile.
         """  # noqa: D205 D212 D415
-        super().__init__()
-        self.__level = level
-        self.__method = method
+        super().__init__(settings)
+        self.__level = settings.level
+        self.__method = settings.method
         self.__is_size_checked = False
 
     def estimate_statistic(self, samples: RealArray) -> RealArray:

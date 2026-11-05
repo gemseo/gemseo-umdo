@@ -123,8 +123,9 @@ Estimators live in `formulations/_statistics/<technique>/`, one module per stati
 `quantile.py`), discovered by the `BaseFactory` of that package. A statistic is set by
 a settings model of `formulations/statistic_settings.py` deriving from
 `BaseStatisticSettings`; its `target_class_name` (`Margin` for `Margin_Settings`) is
-the estimator **class name**, and its fields (`model_dump()`) are passed to the
-estimator constructor, so a technique supports exactly the statistics its package
+the estimator **class name**, and the settings are passed to the estimator
+constructor as `settings` (`BaseFactory.create_from_settings`, stored in `_settings`;
+`None` for the estimators used internally, e.g. the mean of a margin), so a technique supports exactly the statistics its package
 defines (PCE and Taylor polynomial have no `Probability`, only the one-shot `sampling/`
 package has `Quantile`). The settings hold the defaults and the validation;
 `make_conservative` makes them conservative for an objective or inequality constraint

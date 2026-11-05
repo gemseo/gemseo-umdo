@@ -245,15 +245,14 @@ class ScaledMean_Settings(BaseStatisticSettings):
 class ScaledMean(BaseSamplingEstimator):
     """Estimator of a scaled mean."""
 
-    def __init__(self, scale):
-        super().__init__()
-        self.scale = scale
+    def __init__(self, settings):
+        super().__init__(settings)
 
     def estimate_statistic(self, samples):
-        return self.scale * samples.mean(0)
+        return self._settings.scale * samples.mean(0)
 
     def compute_jacobian(self, samples, jac_samples):
-        return self.scale * jac_samples.mean(0)
+        return self._settings.scale * jac_samples.mean(0)
 '''
 """A module defining a statistic of the user."""
 

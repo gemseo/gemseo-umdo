@@ -42,6 +42,7 @@ from numpy.testing import assert_almost_equal
 from numpy.testing import assert_equal
 
 from gemseo_umdo.formulations import Margin_Settings
+from gemseo_umdo.formulations import Probability_Settings
 from gemseo_umdo.formulations._statistics.control_variate.margin import Margin
 from gemseo_umdo.formulations._statistics.control_variate.mean import Mean
 from gemseo_umdo.formulations._statistics.control_variate.probability import Probability
@@ -254,7 +255,9 @@ def test_estimate_standard_derivation(umdo_formulation):
 
 def test_estimate_margin(umdo_formulation):
     """Check the estimation of the margin."""
-    statistic_function = Margin(umdo_formulation.uncertain_space, factor=3)
+    statistic_function = Margin(
+        umdo_formulation.uncertain_space, Margin_Settings(factor=3)
+    )
     assert_almost_equal(
         statistic_function.estimate_statistic(
             array([[0.0, 0.0], [1.0, 2.0]]),
@@ -274,7 +277,8 @@ def test_estimate_margin(umdo_formulation):
 def test_estimate_probability(umdo_formulation, greater, result):
     """Check the estimation of the probability."""
     statistic_function = Probability(
-        umdo_formulation.uncertain_space, threshold=1.5, greater=greater
+        umdo_formulation.uncertain_space,
+        Probability_Settings(threshold=1.5, greater=greater),
     )
     assert_equal(
         statistic_function.estimate_statistic(

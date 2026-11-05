@@ -28,6 +28,8 @@ from gemseo_umdo.formulations._statistics.iterative_sampling.base_sampling_estim
 if TYPE_CHECKING:
     from gemseo.util.typing import RealArray
 
+    from gemseo_umdo.formulations.statistic_settings import Probability_Settings
+
 
 class Probability(BaseSamplingEstimator):
     """Iterative estimator of a probability."""
@@ -40,19 +42,14 @@ class Probability(BaseSamplingEstimator):
     __threshold: float
     """The threshold against which the probability is estimated."""
 
-    def __init__(
-        self,
-        threshold: float,
-        greater: bool,
-    ) -> None:
+    def __init__(self, settings: Probability_Settings) -> None:
         """
         Args:
-            threshold: The threshold against which the probability is estimated.
-            greater: Whether to compute the probability of exceeding the threshold.
+            settings: The settings of the probability.
         """  # noqa: D205 D212 D415
-        super().__init__()
-        self.__threshold = threshold
-        self.__greater = greater
+        super().__init__(settings)
+        self.__threshold = settings.threshold
+        self.__greater = settings.greater
 
     def _get_estimation(self) -> RealArray:
         result = array(

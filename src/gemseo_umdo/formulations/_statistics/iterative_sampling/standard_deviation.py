@@ -31,9 +31,6 @@ if TYPE_CHECKING:
 class StandardDeviation(Variance):
     """Iterative estimator of the standard deviation."""
 
-    def __init__(self) -> None:
-        super().__init__()
-
     def _get_estimation(self) -> RealArray:
         return array(self._estimator.getStandardDeviation())
 

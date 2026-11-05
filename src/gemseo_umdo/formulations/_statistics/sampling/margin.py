@@ -29,6 +29,8 @@ from gemseo_umdo.formulations._statistics.sampling.standard_deviation import (
 if TYPE_CHECKING:
     from gemseo.util.typing import RealArray
 
+    from gemseo_umdo.formulations.statistic_settings import Margin_Settings
+
 
 class Margin(BaseSamplingEstimator):
     """Estimator of a margin, i.e. mean + factor * deviation."""
@@ -42,15 +44,15 @@ class Margin(BaseSamplingEstimator):
     __standard_deviation: StandardDeviation
     """The iterative estimator of the standard deviation."""
 
-    def __init__(self, factor: float) -> None:
+    def __init__(self, settings: Margin_Settings) -> None:
         """
         Args:
-            factor: The factor related to the standard deviation.
+            settings: The settings of the margin.
         """  # noqa: D205 D212 D415
-        super().__init__()
+        super().__init__(settings)
         self.__mean = Mean()
         self.__standard_deviation = StandardDeviation()
-        self.__factor = factor
+        self.__factor = settings.factor
 
     @property
     def min_n_samples(self) -> int:  # noqa: D102

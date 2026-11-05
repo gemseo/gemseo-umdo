@@ -45,7 +45,9 @@ from numpy.testing import assert_almost_equal
 from numpy.testing import assert_equal
 from pandas._testing import assert_frame_equal
 
+from gemseo_umdo.formulations import BaseStatisticSettings
 from gemseo_umdo.formulations import Margin_Settings
+from gemseo_umdo.formulations import Probability_Settings
 from gemseo_umdo.formulations import Quantile_Settings
 from gemseo_umdo.formulations._functions import statistic_function_for_sampling
 from gemseo_umdo.formulations._functions.iterative_estimation import IterativeEstimation
@@ -279,26 +281,26 @@ def test_margins_with_different_factors(scenario, scenario_input_data):
     for name, factor in zip(names, (3.0, 2.0), strict=True):
         assert_almost_equal(
             problem.database.get_function_value(name, -1),
-            Margin(factor).estimate_statistic(samples),
+            Margin(Margin_Settings(factor=factor)).estimate_statistic(samples),
         )
 
 
 def estimate(
     statistic_class: BaseSamplingEstimator | BaseIterativeSamplingEstimator,
     samples: ndarray,
-    **options: Any,
+    settings: BaseStatisticSettings | None = None,
 ) -> ndarray:
     """A function estimating a statistic.
 
     Args:
         statistic_class: The class of the statistic.
         samples: The samples to estimate the statistics.
-        **options: The options to instantiate the class of the statistic.
+        settings: The settings of the statistic, if any.
 
     Returns:
         The estimation of the statistic.
     """
-    statistic = statistic_class(**options)
+    statistic = statistic_class(settings)
     if issubclass(statistic_class, BaseSamplingEstimator):
         return statistic.estimate_statistic(samples)
 
@@ -339,7 +341,11 @@ def test_estimate_standard_derivation(statistic_class):
 def test_estimate_margin(statistic_class):
     """Check the estimation of the margin."""
     assert_equal(
-        estimate(statistic_class, array([[0.0, 0.0], [1.0, 2.0]]), factor=3),
+        estimate(
+            statistic_class,
+            array([[0.0, 0.0], [1.0, 2.0]]),
+            Margin_Settings(factor=3),
+        ),
         array([0.5, 1.0]) + 3 * array([0.5, 2.0]) ** 0.5,
     )
 
@@ -354,8 +360,7 @@ def test_estimate_probability(greater, result, statistic_class):
         estimate(
             statistic_class,
             array([[0.0, 0.0], [1.0, 2.0]]),
-            threshold=1.5,
-            greater=greater,
+            Probability_Settings(threshold=1.5, greater=greater),
         ),
         result,
     )
@@ -363,7 +368,7 @@ def test_estimate_probability(greater, result, statistic_class):
 
 def test_reset_iterative_probability():
     """Verify that the iterative probability estimator can be reset."""
-    probability = IterativeProbability(0.0, True)
+    probability = IterativeProbability(Probability_Settings())
     assert probability._estimator is None
 
     probability.estimate_statistic(array([0.0, 0.0]))
@@ -1168,7 +1173,12 @@ def test_standard_deviation_derivative_if_zero(estimate_statistics_iteratively):
 def test_estimate_quantile(method, expected):
     """Check the estimation of a quantile of a vector output."""
     samples = array([[3.0, 6.0], [0.0, 0.0], [2.0, 4.0], [1.0, 2.0]])
-    assert_equal(Quantile(0.5, method).estimate_statistic(samples), expected)
+    assert_equal(
+        Quantile(Quantile_Settings(level=0.5, method=method)).estimate_statistic(
+            samples
+        ),
+        expected,
+    )
 
 
 @pytest.mark.parametrize("method", ["linear", "inverted_cdf", "hazen", "midpoint"])
@@ -1184,7 +1194,7 @@ def test_quantile_jacobian(method, level):
 
     x = 0.3
     jac_samples = (a + 2 * b * x)[..., None]
-    estimator = Quantile(level, method)
+    estimator = Quantile(Quantile_Settings(level=level, method=method))
     step = 1e-7
     expected = (
         estimator.estimate_statistic(compute_samples(x + step))
@@ -1197,7 +1207,7 @@ def test_quantile_jacobian(method, level):
 
 def test_quantile_warning(caplog):
     """Check the warning logged once when the tail has too few samples."""
-    estimator = Quantile(0.95, "linear")
+    estimator = Quantile(Quantile_Settings())
     samples = arange(20.0)[:, None]
     estimator.estimate_statistic(samples)
     estimator.estimate_statistic(samples)
@@ -1215,7 +1225,7 @@ def test_quantile_warning(caplog):
 
 def test_quantile_no_warning(caplog):
     """Check that no warning is logged when the tail has enough samples."""
-    Quantile(0.95, "linear").estimate_statistic(arange(200.0)[:, None])
+    Quantile(Quantile_Settings()).estimate_statistic(arange(200.0)[:, None])
     assert not caplog.records
 
 
@@ -1578,7 +1588,7 @@ def test_created_function_takes_part(create_sampling, create_function):
 
 def test_reset_iterative_probability_before_estimation():
     """Check that resetting an iterative probability before any estimation works."""
-    probability = IterativeProbability(0.0, True)
+    probability = IterativeProbability(Probability_Settings())
     probability.reset()
     assert_equal(probability.estimate_statistic(array([1.0])), array([1.0]))
 
