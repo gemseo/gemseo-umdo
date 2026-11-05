@@ -47,11 +47,9 @@ from gemseo.util.logging import LoggingContext
 from gemseo.util.pydantic import create_model
 
 from gemseo_umdo.formulation._estimator.iterative_sampling.factory import (
-    SamplingEstimatorFactory as IterativeSamplingEstimatorFactory,
+    IterativeSamplingEstimatorFactory,
 )
-from gemseo_umdo.formulation._estimator.sampling.factory import (
-    SamplingEstimatorFactory as OneShotSamplingEstimatorFactory,
-)
+from gemseo_umdo.formulation._estimator.sampling.factory import SamplingEstimatorFactory
 from gemseo_umdo.formulation._function.sampling import StatisticFunctionForSampling
 from gemseo_umdo.formulation.core.base import BaseUMDOFormulation
 from gemseo_umdo.formulation.sampling_settings import Sampling_Settings
@@ -138,7 +136,7 @@ class Sampling(BaseUMDOFormulation):
         self._statistic_factory = (
             IterativeSamplingEstimatorFactory()
             if self._estimate_statistics_iteratively
-            else OneShotSamplingEstimatorFactory()
+            else SamplingEstimatorFactory()
         )
         doe_algo_settings = settings.doe_algo_settings
         algo_name = doe_algo_settings.target_class_name
@@ -170,7 +168,7 @@ class Sampling(BaseUMDOFormulation):
         if (
             self._estimate_statistics_iteratively
             and not self._statistic_factory.is_available(statistic_name)
-            and OneShotSamplingEstimatorFactory().is_available(statistic_name)
+            and SamplingEstimatorFactory().is_available(statistic_name)
         ):
             msg = (
                 f"The statistic '{statistic_name}' cannot be estimated "

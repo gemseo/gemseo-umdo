@@ -24,7 +24,7 @@ from gemseo_umdo.formulation._estimator.control_variate.factory import (
     ControlVariateEstimatorFactory,
 )
 from gemseo_umdo.formulation._estimator.iterative_sampling.factory import (
-    SamplingEstimatorFactory as IterativeSamplingEstimatorFactory,
+    IterativeSamplingEstimatorFactory,
 )
 from gemseo_umdo.formulation._estimator.pce.factory import PCEEstimatorFactory
 from gemseo_umdo.formulation._estimator.sampling.factory import SamplingEstimatorFactory
@@ -48,10 +48,10 @@ from gemseo_umdo.statistic.multilevel.mlmc_mlcv.pilot.factory import (
         ),
         pytest.param(
             IterativeSamplingEstimatorFactory,
-            id="iterative_sampling.SamplingEstimatorFactory",
+            id="IterativeSamplingEstimatorFactory",
         ),
         pytest.param(PCEEstimatorFactory, id="PCEEstimatorFactory"),
-        pytest.param(SamplingEstimatorFactory, id="sampling.SamplingEstimatorFactory"),
+        pytest.param(SamplingEstimatorFactory, id="SamplingEstimatorFactory"),
         pytest.param(
             TaylorPolynomialEstimatorFactory, id="TaylorPolynomialEstimatorFactory"
         ),
@@ -83,4 +83,4 @@ def test_iterative_sampling_factory_keeps_base_cache(reset_factory) -> None:
     factory = IterativeSamplingEstimatorFactory()
     factory.class_names  # noqa: B018
     base_name_to_class_info = BaseFactory._name_to_class_info.fget(factory)
-    assert "BaseSamplingEstimator" in base_name_to_class_info
+    assert "BaseIterativeSamplingEstimator" in base_name_to_class_info

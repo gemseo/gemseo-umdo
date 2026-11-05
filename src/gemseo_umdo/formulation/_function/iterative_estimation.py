@@ -27,7 +27,7 @@ if TYPE_CHECKING:
     from gemseo.util.typing import RealArray
 
     from gemseo_umdo.formulation._estimator.iterative_sampling.base import (
-        BaseSamplingEstimator,
+        BaseIterativeSamplingEstimator,
     )
 
 
@@ -44,7 +44,7 @@ class IterativeEstimation:
     to update the statistics of the objective, constraints and observables.
     """
 
-    statistic_estimator: BaseSamplingEstimator
+    statistic_estimator: BaseIterativeSamplingEstimator
     """The function to update the estimation of the statistic."""
 
     output_name: str
@@ -75,7 +75,7 @@ class IterativeEstimation:
         self,
         output_name: str,
         output_statistic_name: str,
-        statistic_estimator: BaseSamplingEstimator,
+        statistic_estimator: BaseIterativeSamplingEstimator,
         return_statistic_jacobian: bool = False,
     ) -> None:
         """

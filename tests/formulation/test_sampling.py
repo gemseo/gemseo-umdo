@@ -85,7 +85,7 @@ if TYPE_CHECKING:
     from numpy import ndarray
 
     from gemseo_umdo.formulation._estimator.iterative_sampling.base import (
-        BaseSamplingEstimator as BaseIterativeSamplingEstimator,
+        BaseIterativeSamplingEstimator,
     )
 
 _two_samples: Final[ndarray] = array([[0.0] * 3, [1.0] * 3])

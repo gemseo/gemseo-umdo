@@ -22,14 +22,14 @@ from numpy import array
 
 from gemseo_umdo._util.compatibility.openturns import IterativeThresholdExceedance
 from gemseo_umdo.formulation._estimator.iterative_sampling.base import (
-    BaseSamplingEstimator,
+    BaseIterativeSamplingEstimator,
 )
 
 if TYPE_CHECKING:
     from gemseo.util.typing import RealArray
 
 
-class Probability(BaseSamplingEstimator):
+class Probability(BaseIterativeSamplingEstimator):
     """Iterative estimator of a probability."""
 
     _estimator: IterativeThresholdExceedance | None

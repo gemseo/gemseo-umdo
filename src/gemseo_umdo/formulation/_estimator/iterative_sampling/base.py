@@ -25,7 +25,7 @@ if TYPE_CHECKING:
     from openturns import IterativeAlgorithmImplementation
 
 
-class BaseSamplingEstimator(BaseStatisticEstimator):
+class BaseIterativeSamplingEstimator(BaseStatisticEstimator):
     """Base statistic iterative estimator for a U-MDO formulation using sampling."""
 
     _estimator: IterativeAlgorithmImplementation | None

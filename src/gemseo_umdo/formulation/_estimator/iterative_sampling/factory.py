@@ -22,24 +22,28 @@ from typing import ClassVar
 from gemseo.core.base_factory import BaseFactory
 
 from gemseo_umdo.formulation._estimator.iterative_sampling.base import (
-    BaseSamplingEstimator,
+    BaseIterativeSamplingEstimator,
 )
 
 if TYPE_CHECKING:
     from gemseo.core.base_factory import _ClassInfo
 
 
-class SamplingEstimatorFactory(BaseFactory[BaseSamplingEstimator]):
+class IterativeSamplingEstimatorFactory(BaseFactory[BaseIterativeSamplingEstimator]):
     """The factory of iterative sampling estimators."""
 
-    _class: ClassVar[type[BaseSamplingEstimator]] = BaseSamplingEstimator
+    _class: ClassVar[type[BaseIterativeSamplingEstimator]] = (
+        BaseIterativeSamplingEstimator
+    )
 
     _package_names: ClassVar[tuple[str, ...]] = (
         "gemseo_umdo.formulation._estimator.iterative_sampling",
     )
 
     @property
-    def _name_to_class_info(self) -> dict[str, _ClassInfo[BaseSamplingEstimator]]:
+    def _name_to_class_info(
+        self,
+    ) -> dict[str, _ClassInfo[BaseIterativeSamplingEstimator]]:
         # The base class is not abstract but does not estimate any statistic.
         # The dictionary cached by the base factory is filtered into a new one,
         # so that reading this property does not alter this cache.
