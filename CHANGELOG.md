@@ -79,7 +79,8 @@ and this project adheres to
 - BREAKING CHANGE: the packages and modules are named in the singular, as in GEMSEO 7,
   except when named after a class whose name is plural,
   e.g. `gemseo_umdo.problem.truss.bars` defining `Bars`:
-    - `gemseo_umdo.disciplines` → [gemseo_umdo.discipline][gemseo_umdo.discipline];
+    - `gemseo_umdo.disciplines` → [gemseo_umdo.discipline][gemseo_umdo.discipline],
+      whose noising disciplines moved to [gemseo_umdo.discipline.noiser][gemseo_umdo.discipline.noiser];
     - `gemseo_umdo.disciplines.utils`
       → [gemseo_umdo.discipline.noiser.util][gemseo_umdo.discipline.noiser.util];
     - `gemseo_umdo.disciplines.base_noiser`
