@@ -342,7 +342,7 @@ and this project adheres to
 
 ### Added
 
-- The U-MDO formulation [PCE][gemseo_umdo.formulations.pce.PCE] can support any type of
+- The U-MDO formulation [PCE][gemseo_umdo.formulation.pce.PCE] can support any type of
   [BaseFCERegressor][gemseo.machine_learning.regression.core.base_fce.BaseFCERegressor],
   e.g., [PCERegressor][gemseo.machine_learning.regression.model.pce.PCERegressor] (default)
   and [FCERegressor][gemseo.machine_learning.regression.model.fce.FCERegressor].
@@ -356,20 +356,20 @@ and this project adheres to
 
 ### Added
 
-- The [ControlVariate][gemseo_umdo.formulations.control_variate.ControlVariate] U-MDO formulation can create the control variates from any [BaseRegressor][gemseo.machine_learning.regression.core.base_regressor.BaseRegressor] using the arguments `regressor_settings` (for defining the regressor) and `regressor_doe_algo_settings` (for creating the training dataset). By default, this U-MDO formulation uses control variates based on Taylor polynomials.
-- The subpackage [truss][gemseo_umdo.use_cases.truss] includes modules for implementing a truss structure problem from the literature.
-- The function [create_noising_discipline_chain][gemseo_umdo.disciplines.utils.create_noising_discipline_chain] returns a disciplines chain to noise input variables.
-  This function is used by the `UDOEScenario` and [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
+- The [ControlVariate][gemseo_umdo.formulation.control_variate.ControlVariate] U-MDO formulation can create the control variates from any [BaseRegressor][gemseo.machine_learning.regression.core.base_regressor.BaseRegressor] using the arguments `regressor_settings` (for defining the regressor) and `regressor_doe_algo_settings` (for creating the training dataset). By default, this U-MDO formulation uses control variates based on Taylor polynomials.
+- The subpackage [truss][gemseo_umdo.use_case.truss] includes modules for implementing a truss structure problem from the literature.
+- The function [create_noising_discipline_chain][gemseo_umdo.discipline.util.create_noising_discipline_chain] returns a disciplines chain to noise input variables.
+  This function is used by the `UDOEScenario` and [UMDOScenario][gemseo_umdo.scenario.umdo_scenario.UMDOScenario]
   when the argument ``uncertain_design_variables`` is set to noise design variables.
   In the case of bi-level formulations,
   it may be preferable to use this function directly rather than through this argument,
   as illustrated in an example of the documentation.
 - The argument `n_samples_increment` of
-  the [SequentialSampling][gemseo_umdo.formulations.sampling.Sampling] U-MDO formulation
+  the [SequentialSampling][gemseo_umdo.formulation.sampling.Sampling] U-MDO formulation
   can be either the increment of the sampling size
   or a function computing this increment from the current sampling size.
-- The U-MDO formulations [Surrogate][gemseo_umdo.formulations.surrogate.Surrogate]
-  and [PCE][gemseo_umdo.formulations.pce.PCE]
+- The U-MDO formulations [Surrogate][gemseo_umdo.formulation.surrogate.Surrogate]
+  and [PCE][gemseo_umdo.formulation.pce.PCE]
   store the quality of the surrogate models in the database attached to the scenario
   (see `scenario.formulation.optimization_problem.database`).
 
@@ -381,16 +381,16 @@ and this project adheres to
 
 ### Added
 
-- A [SobolGraph][gemseo_umdo.visualizations.sobol_graph.SobolGraph] can be defined
+- A [SobolGraph][gemseo_umdo.visualization.sobol_graph.SobolGraph] can be defined
   from a [PCERegressor][gemseo.machine_learning.regression.model.pce.PCERegressor]
-  by using its [from_pce][gemseo_umdo.visualizations.sobol_graph.SobolGraph.from_pce] method.
+  by using its [from_pce][gemseo_umdo.visualization.sobol_graph.SobolGraph.from_pce] method.
 
 ### Fixed
 
-- The [PCE][gemseo_umdo.formulations.pce.PCE] U-MDO formulation handles the case
+- The [PCE][gemseo_umdo.formulation.pce.PCE] U-MDO formulation handles the case
   where the uncertain space dimension is greater than 1
   and the derivatives with respect to the design variables are requested.
-- The [Sampling][gemseo_umdo.formulations.sampling.Sampling] U-MDO formulation handles the case
+- The [Sampling][gemseo_umdo.formulation.sampling.Sampling] U-MDO formulation handles the case
   where the estimation of the standard deviation is zero
   and the derivatives with respect to the design variables are requested.
 
@@ -398,46 +398,46 @@ and this project adheres to
 
 ### Added
 
-- Each [BaseUMDOFormulation][gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation]
+- Each [BaseUMDOFormulation][gemseo_umdo.formulation.base_umdo_formulation.BaseUMDOFormulation]
   has a Pydantic model to define its settings.
   For example,
-  [Sampling_Settings][gemseo_umdo.formulations.sampling_settings.Sampling_Settings]
-  is the Pydantic model for the [Sampling][gemseo_umdo.formulations.sampling.Sampling] U-MDO formulation.
+  [Sampling_Settings][gemseo_umdo.formulation.sampling_settings.Sampling_Settings]
+  is the Pydantic model for the [Sampling][gemseo_umdo.formulation.sampling.Sampling] U-MDO formulation.
 - The U-MDO formulations
-  [Sampling][gemseo_umdo.formulations.sampling.Sampling],
-  [SequentialSampling][gemseo_umdo.formulations.sampling.Sampling]
-  and [PCE][gemseo_umdo.formulations.pce.PCE]
+  [Sampling][gemseo_umdo.formulation.sampling.Sampling],
+  [SequentialSampling][gemseo_umdo.formulation.sampling.Sampling]
+  and [PCE][gemseo_umdo.formulation.pce.PCE]
   are differentiable,
   so that gradient-based optimizer can be used
   when the multidisciplinary process is differentiable.
-- The U-MDO formulation [PCE][gemseo_umdo.formulations.pce.PCE] has a new option `approximate_statistics_jacobians`
+- The U-MDO formulation [PCE][gemseo_umdo.formulation.pce.PCE] has a new option `approximate_statistics_jacobians`
   to approximate the Jacobians of the mean, standard deviation and variance with respect to the design variables
   at no extra cost,
   if you do not want to compute the derivatives of the disciplines to reduce the calculation budget
   or approximate these Jacobians by finite differences.
   The approximation uses the technique proposed by Mura _et al._ (2020)
   and is parametrized by the option `differentiation_step` (default: `1e-6`).
-- [UOptAsUMDOScenario][gemseo_umdo.problems.uopt_as_umdo_scenario.UOptAsUMDOScenario]
+- [UOptAsUMDOScenario][gemseo_umdo.problem.uopt_as_umdo_scenario.UOptAsUMDOScenario]
   can make a monodisciplinary optimization problem under uncertainty multidisciplinary.
 - An example illustrates the use of the [BiLevel][gemseo.formulation.bilevel.BiLevel] MDO formulation
-  in the U-MDO formulation [Sampling][gemseo_umdo.formulations.sampling.Sampling].
+  in the U-MDO formulation [Sampling][gemseo_umdo.formulation.sampling.Sampling].
 
 ### Changed
 
 - API CHANGE:
   `UDOEScenario`
-  and [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
+  and [UMDOScenario][gemseo_umdo.scenario.umdo_scenario.UMDOScenario]
   no longer have a default statistic estimation technique.
   The `statistic_estimation_settings` argument must be defined.
 - API CHANGE:
   The `statistic_estimation` and `statistic_estimation_parameters` keyword arguments of
   `UDOEScenario`
-  and [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
+  and [UMDOScenario][gemseo_umdo.scenario.umdo_scenario.UMDOScenario]
   have been replaced by the positional argument `statistic_estimation_settings`,
   which is a Pydantic model.
 - API CHANGE:
   The statistic estimation settings of
-  a [BaseUMDOFormulation][gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation]
+  a [BaseUMDOFormulation][gemseo_umdo.formulation.base_umdo_formulation.BaseUMDOFormulation]
   passed as positional and keyword arguments
   have been replaced by the unique positional argument `settings_model`,
   which is a Pydantic model.
@@ -445,11 +445,11 @@ and this project adheres to
 ## Fixed
 
 - The bug related to the way
-  [ControlVariate][gemseo_umdo.formulations.control_variate.ControlVariate]
-  and [TaylorPolynomial][gemseo_umdo.formulations.taylor_polynomial.TaylorPolynomial]
+  [ControlVariate][gemseo_umdo.formulation.control_variate.ControlVariate]
+  and [TaylorPolynomial][gemseo_umdo.formulation.taylor_polynomial.TaylorPolynomial]
   use non-normalized data has been corrected.
 - `UDOEScenario`
-  and [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
+  and [UMDOScenario][gemseo_umdo.scenario.umdo_scenario.UMDOScenario]
   now accept disciplines with variables that are floats rather than NumPy arrays.
 
 ## Version 3.0.0 (November 2024)
@@ -458,47 +458,47 @@ and this project adheres to
 
 - Support GEMSEO v6.
 - Support for Python 3.12.
-- The U-MDO formulation [PCE][gemseo_umdo.formulations.pce.PCE] creates a polynomial chaos expansion (PCE)
+- The U-MDO formulation [PCE][gemseo_umdo.formulation.pce.PCE] creates a polynomial chaos expansion (PCE)
   over the uncertain space at each iteration of the optimization loop and uses the coefficients of the PCE
   to estimate the following statistics: `Mean`, `StandardDeviation`, `Margin` and `Variance`.
-- The U-MDO formulation [Surrogate][gemseo_umdo.formulations.surrogate.Surrogate] creates a surrogate model
+- The U-MDO formulation [Surrogate][gemseo_umdo.formulation.surrogate.Surrogate] creates a surrogate model
   over the uncertain space at each iteration of the optimization loop and uses Monte Carlo sampling
   to estimate the following statistics: `Mean`, `StandardDeviation`, `Margin`, `Probability` and `Variance`.
 - The U-MDO formulations
-  [Sampling][gemseo_umdo.formulations.sampling.Sampling] and
-  [SequentialSampling][gemseo_umdo.formulations.sequential_sampling.SequentialSampling]
+  [Sampling][gemseo_umdo.formulation.sampling.Sampling] and
+  [SequentialSampling][gemseo_umdo.formulation.sequential_sampling.SequentialSampling]
   have an option `samples_directory_path`
   to save the samples at each iteration of the algorithm chosen for the execution of the
   `UDOEScenario`
-  or [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario].
-- The U-MDO formulation [SequentialSampling][gemseo_umdo.formulations.sequential_sampling.SequentialSampling]
+  or [UMDOScenario][gemseo_umdo.scenario.umdo_scenario.UMDOScenario].
+- The U-MDO formulation [SequentialSampling][gemseo_umdo.formulation.sequential_sampling.SequentialSampling]
   has an option `estimate_statistics_iteratively` (default: `True`)
   to compute the statistics iteratively
   and so do not store the samples in a `Database`.
 - The dictionary argument `uncertain_design_variables` of
   `UDOEScenario`
-  and [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
+  and [UMDOScenario][gemseo_umdo.scenario.umdo_scenario.UMDOScenario]
   can now accept values such as `("+", "u")` and `("*", "u")`
   to noise the corresponding key `x` as `x = dv_x + u` and `x = dv_x * (1 + u)`
   where `x` is a discipline input made uncertain by the random variable `u`.
-- [AdditiveNoiser][gemseo_umdo.disciplines.additive_noiser.AdditiveNoiser]
+- [AdditiveNoiser][gemseo_umdo.discipline.additive_noiser.AdditiveNoiser]
   and
-  [MultiplicativeNoiser][gemseo_umdo.disciplines.multiplicative_noiser.MultiplicativeNoiser]
+  [MultiplicativeNoiser][gemseo_umdo.discipline.multiplicative_noiser.MultiplicativeNoiser]
   are disciplines to noise a design variable $x$ as $X=x+U$ and $X=x(1+U)$ respectively
   where $U$ is a random variable.
-  [BaseNoiser][gemseo_umdo.disciplines.base_noiser.BaseNoiser]
+  [BaseNoiser][gemseo_umdo.discipline.base_noiser.BaseNoiser]
   can be used to create other noising disciplines
   and a specific
-  [NoiserFactory][gemseo_umdo.disciplines.noiser_factory.NoiserFactory]
+  [NoiserFactory][gemseo_umdo.discipline.noiser_factory.NoiserFactory]
   is available.
-- [ControlVariate][gemseo_umdo.formulations.control_variate.ControlVariate],
-  a new [BaseUMDOFormulation][gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation]
+- [ControlVariate][gemseo_umdo.formulation.control_variate.ControlVariate],
+  a new [BaseUMDOFormulation][gemseo_umdo.formulation.base_umdo_formulation.BaseUMDOFormulation]
   estimating the statistics with a control variate technique based on Taylor polynomials.
 
 ### Changed
 
 - The default value of the `initial_n_samples` argument of
-  [SequentialSampling][gemseo_umdo.formulations.sequential_sampling.SequentialSampling]
+  [SequentialSampling][gemseo_umdo.formulation.sequential_sampling.SequentialSampling]
   is 2 instead of 1,
   because the default DOE algorithm (`"OT_OPT_LHS"`) requires at least 2 samples.
 - `gemseo_umdo.scenarios._uscenario._UScenario` renamed to `gemseo_umdo.scenarios.base_u_scenario.BaseUScenario`.
@@ -508,7 +508,7 @@ and this project adheres to
 - API CHANGE: `gemseo_umdo.formulations.formulation.UMDOFormulation` renamed to `gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation`.
 - API CHANGE: `gemseo_umdo.formulations.statistics` is now a protected package.
 - API CHANGE: `gemseo_umdo.formulations.functions` is now a protected package.
-- The [BeamConstraints][gemseo_umdo.use_cases.beam_model.constraints.BeamConstraints] discipline
+- The [BeamConstraints][gemseo_umdo.use_case.beam_model.constraints.BeamConstraints] discipline
   computed outputs of the form `a/(b+eps)` where `eps` was used to avoid division by zero.
   Now,
   this discipline computes outputs of the form `b/a`
@@ -516,12 +516,12 @@ and this project adheres to
 
 ### Fixed
 
-- The U-MDO formulation [Sampling][gemseo_umdo.formulations.sampling.Sampling]
+- The U-MDO formulation [Sampling][gemseo_umdo.formulation.sampling.Sampling]
   works properly when the option `estimate_statistics_iteratively` is `True`
   and the DOE option `n_processes` is greater than 1.
 - The docstring of the `uncertain_design_variables` argument of
   `UDOEScenario`
-  and [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
+  and [UMDOScenario][gemseo_umdo.scenario.umdo_scenario.UMDOScenario]
   explains that specifying a value such as `"{} + u"` at key `"x"`
   assumes that both the uncertain design variable `"x"`
   and the uncertain variable `"u"` are scalar variables.
@@ -546,40 +546,40 @@ and this project adheres to
 - Support for Python 3.11.
 - A web documentation.
 - The heat equation problem (
-  [HeatEquationConfiguration][gemseo_umdo.use_cases.heat_equation.configuration.HeatEquationConfiguration],
-  [HeatEquationDiscipline][gemseo_umdo.use_cases.heat_equation.discipline.HeatEquation],
-  [HeatEquationModel][gemseo_umdo.use_cases.heat_equation.model.HeatEquationModel]
-  and [HeatEquationUncertainSpace][gemseo_umdo.use_cases.heat_equation.uncertain_space.HeatEquationUncertainSpace])
-  to illustrate the algorithms [MLMC][gemseo_umdo.statistics.multilevel.mlmc.mlmc.MLMC]
-  and [MLMCMLCV][gemseo_umdo.statistics.multilevel.mlmc_mlcv.mlmc_mlcv.MLMCMLCV].
-- The [MLMC][gemseo_umdo.statistics.multilevel.mlmc.mlmc.MLMC] and
-  the [MLMCMLCV][gemseo_umdo.statistics.multilevel.mlmc_mlcv.mlmc_mlcv.MLMCMLCV]
+  [HeatEquationConfiguration][gemseo_umdo.use_case.heat_equation.configuration.HeatEquationConfiguration],
+  [HeatEquationDiscipline][gemseo_umdo.use_case.heat_equation.discipline.HeatEquation],
+  [HeatEquationModel][gemseo_umdo.use_case.heat_equation.model.HeatEquationModel]
+  and [HeatEquationUncertainSpace][gemseo_umdo.use_case.heat_equation.uncertain_space.HeatEquationUncertainSpace])
+  to illustrate the algorithms [MLMC][gemseo_umdo.statistic.multilevel.mlmc.mlmc.MLMC]
+  and [MLMCMLCV][gemseo_umdo.statistic.multilevel.mlmc_mlcv.mlmc_mlcv.MLMCMLCV].
+- The [MLMC][gemseo_umdo.statistic.multilevel.mlmc.mlmc.MLMC] and
+  the [MLMCMLCV][gemseo_umdo.statistic.multilevel.mlmc_mlcv.mlmc_mlcv.MLMCMLCV]
   algorithms to estimate a statistic of the output of a function
   whose input is random.
 - The [MonteCarloSampler][gemseo_umdo.monte_carlo_sampler.MonteCarloSampler]
   to sample vectorized functions.
-- [UncertainCouplingGraph][gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph]
+- [UncertainCouplingGraph][gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph]
   has a new option `save` (default: `True`).
-- The U-MDO formulation [Sampling][gemseo_umdo.formulations.sampling.Sampling]
+- The U-MDO formulation [Sampling][gemseo_umdo.formulation.sampling.Sampling]
   has an option `estimate_statistics_iteratively` (default: `True`)
   to compute the statistics iteratively
   and so do not store the samples in a `Database`.
 - The package `gemseo_umdo.formulations.functions` contains the `MDOFunction`s
-  used by a [UMDOFormulation][gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation]
+  used by a [UMDOFormulation][gemseo_umdo.formulation.base_umdo_formulation.BaseUMDOFormulation]
   to compute the statistics of the objective, constraints and observables.
 - The logs of the `UDOEScenario`
-  and [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
+  and [UMDOScenario][gemseo_umdo.scenario.umdo_scenario.UMDOScenario]
   include the uncertain space.
 
 ### Changed
 
 - Setting the argument `n_samples`
-  of the U-MDO formulation [Sampling][gemseo_umdo.formulations.sampling.Sampling]
+  of the U-MDO formulation [Sampling][gemseo_umdo.formulation.sampling.Sampling]
   is mandatory for many DOE algorithms
   but optional in the case where
   the DOE algorithm does not consider a `n_samples` argument to generate the samples.
 - The estimator of the `Variance`
-  used by the U-MDO formulation [Sampling][gemseo_umdo.formulations.sampling.Sampling]
+  used by the U-MDO formulation [Sampling][gemseo_umdo.formulation.sampling.Sampling]
   with `estimate_statistics_iteratively=False` is now unbiased.
 - API changes:
     - The options of the statistics estimators
@@ -592,7 +592,7 @@ and this project adheres to
 ### Fixed
 
 - The `UDOEScenario`
-  and [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
+  and [UMDOScenario][gemseo_umdo.scenario.umdo_scenario.UMDOScenario]
   maximize the statistic of the objective
   when the argument `maximize_objective` is set to `True`.
 - The log of the objective and constraint is now consistent
@@ -612,24 +612,24 @@ and this project adheres to
 
 ### Added
 
-- The beam problem ([Beam][gemseo_umdo.use_cases.beam_model.discipline.Beam],
-  [BeamConstraints][gemseo_umdo.use_cases.beam_model.constraints.BeamConstraints],
-  [BeamUncertainSpace][gemseo_umdo.use_cases.beam_model.uncertain_space.BeamUncertainSpace]
-  and [BeamDesignSpace][gemseo_umdo.use_cases.beam_model.design_space.BeamDesignSpace]
+- The beam problem ([Beam][gemseo_umdo.use_case.beam_model.discipline.Beam],
+  [BeamConstraints][gemseo_umdo.use_case.beam_model.constraints.BeamConstraints],
+  [BeamUncertainSpace][gemseo_umdo.use_case.beam_model.uncertain_space.BeamUncertainSpace]
+  and [BeamDesignSpace][gemseo_umdo.use_case.beam_model.design_space.BeamDesignSpace]
   to benchmark robust optimization algorithms.
-- [TaylorPolynomial][gemseo_umdo.formulations.taylor_polynomial.TaylorPolynomial],
-  a new [UMDOFormulation][gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation]
+- [TaylorPolynomial][gemseo_umdo.formulation.taylor_polynomial.TaylorPolynomial],
+  a new [UMDOFormulation][gemseo_umdo.formulation.base_umdo_formulation.BaseUMDOFormulation]
   estimating the statistics with Taylor polynomials.
-- [SequentialSampling][gemseo_umdo.formulations.sequential_sampling.SequentialSampling],
-  a new [UMDOFormulation][gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation]
+- [SequentialSampling][gemseo_umdo.formulation.sequential_sampling.SequentialSampling],
+  a new [UMDOFormulation][gemseo_umdo.formulation.base_umdo_formulation.BaseUMDOFormulation]
   estimating the statistics with sequential sampling.
-- [UncertainCouplingGraph][gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph]
+- [UncertainCouplingGraph][gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph]
   to visualize the dispersion of the coupling variables.
-- [SobolGraph][gemseo_umdo.visualizations.sobol_graph.SobolGraph]
+- [SobolGraph][gemseo_umdo.visualization.sobol_graph.SobolGraph]
   to visualize the first-, second- and total-order Sobol' indices.
-- The set of [SpringMassModel][gemseo_umdo.use_cases.spring_mass_model.model.SpringMassModel],
-  [SpringMassDiscipline][gemseo_umdo.use_cases.spring_mass_model.discipline.SpringMassDiscipline]
-  and [SpringMassUncertainSpace][gemseo_umdo.use_cases.spring_mass_model.uncertain_space.SpringMassUncertainSpace]
+- The set of [SpringMassModel][gemseo_umdo.use_case.spring_mass_model.model.SpringMassModel],
+  [SpringMassDiscipline][gemseo_umdo.use_case.spring_mass_model.discipline.SpringMassDiscipline]
+  and [SpringMassUncertainSpace][gemseo_umdo.use_case.spring_mass_model.uncertain_space.SpringMassUncertainSpace]
   is a use case based on a spring-mass system.
 
 ### Fixed
@@ -641,7 +641,7 @@ and this project adheres to
 ### Changed
 
 - API change: the argument `statistic_estimation_options`
-  of [UMDOFormulation][gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation]
+  of [UMDOFormulation][gemseo_umdo.formulation.base_umdo_formulation.BaseUMDOFormulation]
   has been renamed to `statistic_estimation_parameters`.
 - API change: `UMDOFormulation._processed_functions` replaces `Sampling.processed_functions`.
 
