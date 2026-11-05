@@ -21,7 +21,7 @@ from typing import TYPE_CHECKING
 from numpy import array
 
 from gemseo_umdo._util.compatibility.openturns import IterativeThresholdExceedance
-from gemseo_umdo.formulation._estimator.iterative_sampling.base import (  # noqa: E501
+from gemseo_umdo.formulation._estimator.iterative_sampling.base import (
     BaseSamplingEstimator,
 )
 

@@ -21,7 +21,7 @@ from typing import TYPE_CHECKING
 from numpy import array
 from numpy.linalg import multi_dot
 
-from gemseo_umdo.formulation._estimator.taylor_polynomial.base import (  # noqa: E501
+from gemseo_umdo.formulation._estimator.taylor_polynomial.base import (
     BaseTaylorPolynomialEstimator,
 )
 

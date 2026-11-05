@@ -20,7 +20,7 @@ from typing import ClassVar
 
 from gemseo.core.base_factory import BaseFactory
 
-from gemseo_umdo.formulation._estimator.taylor_polynomial.base import (  # noqa: E501
+from gemseo_umdo.formulation._estimator.taylor_polynomial.base import (
     BaseTaylorPolynomialEstimator,
 )
 

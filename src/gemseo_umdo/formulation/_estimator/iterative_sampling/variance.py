@@ -22,7 +22,7 @@ from typing import ClassVar
 from numpy import array
 from numpy import newaxis
 
-from gemseo_umdo.formulation._estimator.iterative_sampling.base_central_moment import (  # noqa: E501
+from gemseo_umdo.formulation._estimator.iterative_sampling.base_central_moment import (
     BaseCentralMoment,
 )
 from gemseo_umdo.formulation._estimator.iterative_sampling.mean import Mean

@@ -19,7 +19,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from gemseo_umdo.formulation._estimator.base_margin import BaseMargin
-from gemseo_umdo.formulation._estimator.iterative_sampling.base import (  # noqa: E501
+from gemseo_umdo.formulation._estimator.iterative_sampling.base import (
     BaseSamplingEstimator,
 )
 from gemseo_umdo.formulation._estimator.iterative_sampling.mean import Mean

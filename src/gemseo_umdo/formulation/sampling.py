@@ -46,7 +46,7 @@ from gemseo.doe.factory import DOELibraryFactory
 from gemseo.util.logging import LoggingContext
 from gemseo.util.pydantic import create_model
 
-from gemseo_umdo.formulation._estimator.iterative_sampling.factory import (  # noqa: E501
+from gemseo_umdo.formulation._estimator.iterative_sampling.factory import (
     SamplingEstimatorFactory as IterativeSamplingEstimatorFactory,
 )
 from gemseo_umdo.formulation._estimator.sampling.factory import (

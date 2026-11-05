@@ -19,7 +19,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from gemseo_umdo.formulation._estimator.base_margin import BaseMargin
-from gemseo_umdo.formulation._estimator.taylor_polynomial.base import (  # noqa: E501
+from gemseo_umdo.formulation._estimator.taylor_polynomial.base import (
     BaseTaylorPolynomialEstimator,
 )
 from gemseo_umdo.formulation._estimator.taylor_polynomial.mean import Mean

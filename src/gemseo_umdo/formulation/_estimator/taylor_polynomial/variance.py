@@ -22,7 +22,7 @@ from numpy import diag
 from numpy import diagonal
 from numpy.linalg import multi_dot
 
-from gemseo_umdo.formulation._estimator.taylor_polynomial.base import (  # noqa: E501
+from gemseo_umdo.formulation._estimator.taylor_polynomial.base import (
     BaseTaylorPolynomialEstimator,
 )
 

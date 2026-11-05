@@ -42,11 +42,11 @@ from typing import ClassVar
 from gemseo.core.problem.evaluation import EvaluationProblem
 from gemseo.util.pydantic import create_model
 
-from gemseo_umdo.formulation._estimator.taylor_polynomial.factory import (  # noqa: E501
+from gemseo_umdo.formulation._estimator.taylor_polynomial.factory import (
     TaylorPolynomialEstimatorFactory,
 )
 from gemseo_umdo.formulation._function.hessian import HessianFunction
-from gemseo_umdo.formulation._function.taylor_polynomial import (  # noqa: E501
+from gemseo_umdo.formulation._function.taylor_polynomial import (
     StatisticFunctionForTaylorPolynomial,
 )
 from gemseo_umdo.formulation.core.base import BaseUMDOFormulation

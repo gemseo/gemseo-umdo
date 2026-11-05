@@ -15,7 +15,7 @@
 """A function to compute a statistic from `TaylorPolynomial`.
 
 See also [TaylorPolynomial][gemseo_umdo.formulation.taylor_polynomial.TaylorPolynomial].
-"""  # noqa: E501
+"""
 
 from __future__ import annotations
 

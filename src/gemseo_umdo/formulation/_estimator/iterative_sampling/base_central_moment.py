@@ -22,7 +22,7 @@ from typing import ClassVar
 
 from openturns import IterativeMoments
 
-from gemseo_umdo.formulation._estimator.iterative_sampling.base import (  # noqa: E501
+from gemseo_umdo.formulation._estimator.iterative_sampling.base import (
     BaseSamplingEstimator,
 )
 

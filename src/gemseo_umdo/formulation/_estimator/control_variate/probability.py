@@ -21,7 +21,7 @@ from operator import le
 from typing import TYPE_CHECKING
 from typing import Any
 
-from gemseo_umdo.formulation._estimator.control_variate.base import (  # noqa: E501
+from gemseo_umdo.formulation._estimator.control_variate.base import (
     BaseControlVariateEstimator,
 )
 

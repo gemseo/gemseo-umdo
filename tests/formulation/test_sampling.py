@@ -84,7 +84,7 @@ if TYPE_CHECKING:
     from gemseo.util.typing import StrKeyMapping
     from numpy import ndarray
 
-    from gemseo_umdo.formulation._estimator.iterative_sampling.base import (  # noqa: E501
+    from gemseo_umdo.formulation._estimator.iterative_sampling.base import (
         BaseSamplingEstimator as BaseIterativeSamplingEstimator,
     )
 
