@@ -163,7 +163,7 @@ for k, v in x_opt_as_dict.items():
 # we set ``uncertain_design_variables`` to ``{"x_shared": ("+", "u_x_shared")}``
 # to rename the variable ``"x_shared"`` into ``"dv_x_shared"`` automatically.
 # In this way,
-# [UDMOScenario][gemseo_umdo.scenario.umdo_scenario.UMDOScenario]
+# [UMDOScenario][gemseo_umdo.scenario.umdo_scenario.UMDOScenario]
 # is able to propagate the uncertainty ``"u_x_shared"``
 # through the multidisciplinary process
 # using the expression
