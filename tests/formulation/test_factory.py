@@ -20,7 +20,7 @@ from gemseo_umdo.formulation.factory import umdo_formulation_factory
 
 
 def test_inheritance():
-    """Check that the factory is also a MDOFormulationsFactory."""
+    """Check that the factory is also a MDOFormulationFactory."""
     assert isinstance(umdo_formulation_factory, MDOFormulationFactory)
 
 
