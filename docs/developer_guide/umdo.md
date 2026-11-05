@@ -9,9 +9,9 @@ Commons, PO Box 1866, Mountain View, CA 94042, USA.
 # MDO under uncertainty
 
 This section describes the design of
-the [disciplines][gemseo_umdo.discipline],
-[formulations][gemseo_umdo.formulation]
-and [scenarios][gemseo_umdo.scenario]
+the [discipline][gemseo_umdo.discipline],
+[formulation][gemseo_umdo.formulation]
+and [scenario][gemseo_umdo.scenario]
 subpackages
 used to define and solve an MDO problem under uncertainty.
 
