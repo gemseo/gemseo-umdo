@@ -23,8 +23,8 @@ used to define and solve an MDO problem under uncertainty.
 
 ```tree
 gemseo_umdo
-  discipline # Subpackage including noising disciplines
-    noiser # Subpackage including noising disciplines
+  discipline # Subpackage including disciplines
+    noiser # Subpackage including noising disciplines, their factory and the chain builder
       additive_noiser.py # Noising discipline adding a random variable to a deterministic one
       base_noiser.py # Base class for noising disciplines
       factory.py # Factory of noising disciplines

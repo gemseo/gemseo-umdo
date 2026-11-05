@@ -103,6 +103,8 @@ and this project adheres to
     - `gemseo_umdo.use_cases.beam_model.core.variables`
       → [gemseo_umdo.use_case.beam_model.core.variable][gemseo_umdo.use_case.beam_model.core.variable];
     - `gemseo_umdo.visualizations` → [gemseo_umdo.visualization][gemseo_umdo.visualization].
+  The objects pickled with a previous version cannot be loaded,
+  as their classes are stored with the old module paths.
 - BREAKING CHANGE:
   using a statistic that a U-MDO formulation does not support
   raises a `ValueError` listing the available statistics
