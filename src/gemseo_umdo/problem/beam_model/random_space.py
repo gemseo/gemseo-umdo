@@ -34,7 +34,7 @@ _default_delta: Final[dict[str, float]] = {
 """The default percentages of variation of the uncertain variables."""
 
 
-class BeamUncertainSpace(RandomSpace):
+class BeamRandomSpace(RandomSpace):
     r"""The advanced uncertain space for the beam use case.
 
     $F$, $E$ and $\sigma_{\text{all}}$ are random variables

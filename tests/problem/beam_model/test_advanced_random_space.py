@@ -12,22 +12,20 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-"""Test for the AdvancedBeamUncertainSpace."""
+"""Test for the AdvancedBeamRandomSpace."""
 
 from __future__ import annotations
 
 import pytest
 from gemseo.util.testing.helper import assert_exception
 
-from gemseo_umdo.problem.beam_model.advanced_uncertain_space import (
-    AdvancedBeamUncertainSpace,
-)
+from gemseo_umdo.problem.beam_model.advanced_random_space import AdvancedBeamRandomSpace
 
 
 @pytest.fixture(scope="module")
-def uncertain_space() -> AdvancedBeamUncertainSpace:
-    """The AdvancedBeamUncertainSpace."""
-    return AdvancedBeamUncertainSpace()
+def uncertain_space() -> AdvancedBeamRandomSpace:
+    """The AdvancedBeamRandomSpace."""
+    return AdvancedBeamRandomSpace()
 
 
 def test_dimension(uncertain_space):
@@ -47,7 +45,7 @@ def test_dimension(uncertain_space):
 def test_unknown_name(kwargs, snapshot):
     """Check that an unknown variable name raises an error."""
     with assert_exception(ValueError, snapshot):
-        AdvancedBeamUncertainSpace(**kwargs)
+        AdvancedBeamRandomSpace(**kwargs)
 
 
 @pytest.mark.parametrize(
@@ -70,7 +68,7 @@ def test_unknown_name(kwargs, snapshot):
 def test_invalid_support(kwargs, snapshot):
     """Check that a positive variable with a non-positive support raises an error."""
     with assert_exception(ValueError, snapshot):
-        AdvancedBeamUncertainSpace(**kwargs)
+        AdvancedBeamRandomSpace(**kwargs)
 
 
 @pytest.mark.parametrize(
@@ -81,7 +79,7 @@ def test_invalid_support(kwargs, snapshot):
 def test_invalid_dispersion(kwargs, snapshot):
     """Check that a non-positive dispersion raises an error."""
     with assert_exception(ValueError, snapshot):
-        AdvancedBeamUncertainSpace(**kwargs)
+        AdvancedBeamRandomSpace(**kwargs)
 
 
 @pytest.mark.parametrize(
@@ -166,7 +164,7 @@ def test_custom_variables(kwargs, name, repr_, bounds):
     and relative to the nominal value of `b` for `dy`, whatever its nominal value.
     A truncated normal is truncated at three standard deviations.
     """
-    distribution = AdvancedBeamUncertainSpace(**kwargs).variables[name].distribution
+    distribution = AdvancedBeamRandomSpace(**kwargs).variables[name].distribution
     assert repr(distribution) == repr_
     assert distribution.math_lower_bound == pytest.approx(bounds[0])
     assert distribution.math_upper_bound == pytest.approx(bounds[1])

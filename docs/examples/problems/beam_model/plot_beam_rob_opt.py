@@ -18,7 +18,7 @@ r"""# Robust optimization problem.
 Minimize the expectation of the weight $w(h,t)$ w.r.t. the height $h\in[500, 800]$ and
 the thickness $t\in[2,10]$ while satisfying $c_{\text{stress}}(h,t)\geq 1.0$ and
 $c_{\text{displacement}}(h,t)\leq 1.0$ with probability 90\% where $F$, $E$ and
-$\sigma_{\text{all}}$ are random variables defined by `BeamUncertainSpace`.
+$\sigma_{\text{all}}$ are random variables defined by `BeamRandomSpace`.
 """
 
 from __future__ import annotations
@@ -30,13 +30,13 @@ from gemseo_umdo.formulation.sampling_settings import Sampling_Settings
 from gemseo_umdo.problem.beam_model.constraints import BeamConstraints
 from gemseo_umdo.problem.beam_model.design_space import BeamDesignSpace
 from gemseo_umdo.problem.beam_model.discipline import Beam
-from gemseo_umdo.problem.beam_model.uncertain_space import BeamUncertainSpace
+from gemseo_umdo.problem.beam_model.random_space import BeamRandomSpace
 from gemseo_umdo.scenario.mdo import UMDOScenario
 
 scenario = UMDOScenario(
     [Beam(), BeamConstraints()],
     BeamDesignSpace(),
-    BeamUncertainSpace(uniform=False),
+    BeamRandomSpace(uniform=False),
     Sampling_Settings(n_samples=200),
 )
 scenario.add_objective("w", "Mean")

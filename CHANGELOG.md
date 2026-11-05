@@ -39,7 +39,7 @@ and this project adheres to
   [add_observable()][gemseo_umdo.scenario.base.BaseUScenario.add_observable].
 - The design strength [Rd][gemseo_umdo.problem.beam_model.core.variable.Rd]
   and the yield strength [Ry][gemseo_umdo.problem.beam_model.core.variable.Ry]
-  of [AdvancedBeamUncertainSpace][gemseo_umdo.problem.beam_model.advanced_uncertain_space.AdvancedBeamUncertainSpace]
+  of [AdvancedBeamRandomSpace][gemseo_umdo.problem.beam_model.advanced_random_space.AdvancedBeamRandomSpace]
   are available in
   [gemseo_umdo.problem.beam_model.core.variable][gemseo_umdo.problem.beam_model.core.variable].
 - [Sampling.doe_algo][gemseo_umdo.formulation.sampling.Sampling.doe_algo]
@@ -69,7 +69,7 @@ and this project adheres to
 
 ### Changed
 
-- [AdvancedBeamUncertainSpace][gemseo_umdo.problem.beam_model.advanced_uncertain_space.AdvancedBeamUncertainSpace]
+- [AdvancedBeamRandomSpace][gemseo_umdo.problem.beam_model.advanced_random_space.AdvancedBeamRandomSpace]
   raises a `ValueError`
   when a name in `nominal_values` or in the dispersions is not an uncertain variable,
   when a dispersion is not positive,
@@ -114,6 +114,14 @@ and this project adheres to
       merged with the problems as in GEMSEO;
     - `gemseo_umdo.use_cases.beam_model.core.variables`
       → [gemseo_umdo.problem.beam_model.core.variable][gemseo_umdo.problem.beam_model.core.variable];
+    - `gemseo_umdo.use_cases.{beam_model,heat_equation,spring_mass_model,truss}.uncertain_space`
+      → `gemseo_umdo.problem.{beam_model,heat_equation,spring_mass_model,truss}.random_space`,
+      whose classes are renamed as the GEMSEO class they derive from, i.e.
+      [RandomSpace][gemseo.space.random.RandomSpace]:
+      `BeamUncertainSpace` → [BeamRandomSpace][gemseo_umdo.problem.beam_model.random_space.BeamRandomSpace],
+      `HeatEquationUncertainSpace` → [HeatEquationRandomSpace][gemseo_umdo.problem.heat_equation.random_space.HeatEquationRandomSpace],
+      `SpringMassUncertainSpace` → [SpringMassRandomSpace][gemseo_umdo.problem.spring_mass_model.random_space.SpringMassRandomSpace]
+      and `TrussUncertainSpace` → [TrussRandomSpace][gemseo_umdo.problem.truss.random_space.TrussRandomSpace];
     - `gemseo_umdo.visualizations` → [gemseo_umdo.visualization][gemseo_umdo.visualization].
   The objects pickled with a previous version cannot be loaded,
   as their classes are stored with the old module paths.
@@ -224,7 +232,7 @@ and this project adheres to
   use the statistic `"Mean"` instead.
 - BREAKING CHANGE:
   the default dispersion $\delta$ of an uncertain variable of
-  [AdvancedBeamUncertainSpace][gemseo_umdo.problem.beam_model.advanced_uncertain_space.AdvancedBeamUncertainSpace]
+  [AdvancedBeamRandomSpace][gemseo_umdo.problem.beam_model.advanced_random_space.AdvancedBeamRandomSpace]
   is 5% of its nominal value $\mu$ for the positive variables,
   1 degree for the angles `alpha` and `beta`,
   instead of about 57 degrees,
@@ -280,7 +288,7 @@ and this project adheres to
   with `estimate_statistics_iteratively=True` (default)
   no longer lists `"BaseCentralMoment"` among its available statistics
   and no longer accepts it as a statistic name.
-- [AdvancedBeamUncertainSpace][gemseo_umdo.problem.beam_model.advanced_uncertain_space.AdvancedBeamUncertainSpace]
+- [AdvancedBeamRandomSpace][gemseo_umdo.problem.beam_model.advanced_random_space.AdvancedBeamRandomSpace]
   uses the standard deviation $\sigma=\delta/3$
   for a truncated normal variable whose dispersion $\delta$ is passed by the user,
   as documented;
@@ -288,7 +296,7 @@ and this project adheres to
   making the distribution 3 times too wide;
   its support is now $[\mu-\delta,\mu+\delta]$
   instead of $[\mu-3\delta,\mu+3\delta]$.
-- [AdvancedBeamUncertainSpace][gemseo_umdo.problem.beam_model.advanced_uncertain_space.AdvancedBeamUncertainSpace]
+- [AdvancedBeamRandomSpace][gemseo_umdo.problem.beam_model.advanced_random_space.AdvancedBeamRandomSpace]
   centers the uniform distributions of `b`, `h`, `t` and `L`
   on the `nominal_values` passed by the user;
   previously, it ignored them and used the default values.
@@ -573,7 +581,7 @@ and this project adheres to
   [HeatEquationConfiguration][gemseo_umdo.problem.heat_equation.configuration.HeatEquationConfiguration],
   [HeatEquationDiscipline][gemseo_umdo.problem.heat_equation.discipline.HeatEquation],
   [HeatEquationModel][gemseo_umdo.problem.heat_equation.model.HeatEquationModel]
-  and [HeatEquationUncertainSpace][gemseo_umdo.problem.heat_equation.uncertain_space.HeatEquationUncertainSpace])
+  and [HeatEquationUncertainSpace][gemseo_umdo.problem.heat_equation.random_space.HeatEquationRandomSpace])
   to illustrate the algorithms [MLMC][gemseo_umdo.statistic.multilevel.mlmc.mlmc.MLMC]
   and [MLMCMLCV][gemseo_umdo.statistic.multilevel.mlmc_mlcv.mlmc_mlcv.MLMCMLCV].
 - The [MLMC][gemseo_umdo.statistic.multilevel.mlmc.mlmc.MLMC] and
@@ -638,7 +646,7 @@ and this project adheres to
 
 - The beam problem ([Beam][gemseo_umdo.problem.beam_model.discipline.Beam],
   [BeamConstraints][gemseo_umdo.problem.beam_model.constraints.BeamConstraints],
-  [BeamUncertainSpace][gemseo_umdo.problem.beam_model.uncertain_space.BeamUncertainSpace]
+  [BeamUncertainSpace][gemseo_umdo.problem.beam_model.random_space.BeamRandomSpace]
   and [BeamDesignSpace][gemseo_umdo.problem.beam_model.design_space.BeamDesignSpace]
   to benchmark robust optimization algorithms.
 - [TaylorPolynomial][gemseo_umdo.formulation.taylor_polynomial.TaylorPolynomial],
@@ -653,7 +661,7 @@ and this project adheres to
   to visualize the first-, second- and total-order Sobol' indices.
 - The set of [SpringMassModel][gemseo_umdo.problem.spring_mass_model.model.SpringMassModel],
   [SpringMassDiscipline][gemseo_umdo.problem.spring_mass_model.discipline.SpringMassDiscipline]
-  and [SpringMassUncertainSpace][gemseo_umdo.problem.spring_mass_model.uncertain_space.SpringMassUncertainSpace]
+  and [SpringMassUncertainSpace][gemseo_umdo.problem.spring_mass_model.random_space.SpringMassRandomSpace]
   is a use case based on a spring-mass system.
 
 ### Fixed

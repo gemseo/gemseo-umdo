@@ -21,7 +21,7 @@ from gemseo.uncertainty.distribution import OTUniformDistribution_Settings
 from numpy import pi
 
 
-class HeatEquationUncertainSpace(RandomSpace):
+class HeatEquationRandomSpace(RandomSpace):
     """The uncertain space to be used with the heat equation discipline."""
 
     def __init__(self, nu_bounds: tuple[float, float] = (0.001, 0.009)) -> None:

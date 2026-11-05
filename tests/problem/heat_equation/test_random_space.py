@@ -19,7 +19,7 @@ from gemseo.space import RandomSpace
 from gemseo.uncertainty.distribution import OTUniformDistribution_Settings
 from numpy import pi
 
-from gemseo_umdo.problem.heat_equation.uncertain_space import HeatEquationUncertainSpace
+from gemseo_umdo.problem.heat_equation.random_space import HeatEquationRandomSpace
 
 
 @pytest.mark.parametrize("nu_bounds", [None, (0.002, 0.004)])
@@ -53,9 +53,9 @@ def test_uncertain_space(nu_bounds):
     )
 
     if nu_bounds:
-        he_uncertain_space = HeatEquationUncertainSpace(nu_bounds)
+        he_uncertain_space = HeatEquationRandomSpace(nu_bounds)
     else:
-        he_uncertain_space = HeatEquationUncertainSpace()
+        he_uncertain_space = HeatEquationRandomSpace()
 
     assert list(he_uncertain_space.variables) == list(uncertain_space.variables)
     for name in list(he_uncertain_space.variables):

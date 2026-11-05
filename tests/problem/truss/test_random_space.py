@@ -20,16 +20,16 @@ from numpy.testing import assert_allclose
 from openturns import Gumbel
 from openturns import LogNormal
 
-from gemseo_umdo.problem.truss.uncertain_space import TrussUncertainSpace
+from gemseo_umdo.problem.truss.random_space import TrussRandomSpace
 
 
 def test_helpers():
     """Check protected methods used as helpers."""
-    assert TrussUncertainSpace._to_lognormal(1, 2) == pytest.approx((
+    assert TrussRandomSpace._to_lognormal(1, 2) == pytest.approx((
         -0.8047189562170503,
         1.2686362411795196,
     ))
-    assert TrussUncertainSpace._to_gumbel(1, 2) == pytest.approx((
+    assert TrussRandomSpace._to_gumbel(1, 2) == pytest.approx((
         1.5593936024673523,
         0.09990241871981964,
     ))
@@ -38,7 +38,7 @@ def test_helpers():
 @pytest.mark.parametrize("use_different_bars", [False, True])
 @pytest.mark.parametrize("factor", [1, 1.5])
 def test_default(factor, use_different_bars):
-    """Check the default value of TrussUncertainSpace."""
+    """Check the default value of TrussRandomSpace."""
     kwargs = {} if factor == 1 else {"factor": factor}
     if use_different_bars:
         kwargs["use_different_bars"] = use_different_bars
@@ -56,7 +56,7 @@ def test_default(factor, use_different_bars):
         n1 = 1
         n2 = 1
 
-    space = TrussUncertainSpace(**kwargs)
+    space = TrussRandomSpace(**kwargs)
     assert [type(m.distribution) for m in space.variables.distribution.marginals] == [
         *[LogNormal] * 2 * (n1 + n2),
         *[Gumbel] * 6,

@@ -29,7 +29,7 @@ from numpy.testing import assert_almost_equal
 from numpy.testing import assert_equal
 
 from gemseo_umdo.problem.heat_equation.model import HeatEquationModel
-from gemseo_umdo.problem.heat_equation.uncertain_space import HeatEquationUncertainSpace
+from gemseo_umdo.problem.heat_equation.random_space import HeatEquationRandomSpace
 from gemseo_umdo.statistic.multilevel.mlmc.level import Level
 from gemseo_umdo.statistic.multilevel.mlmc.mlmc import MLMC
 from gemseo_umdo.statistic.multilevel.mlmc.pilot.mean import Mean
@@ -298,7 +298,7 @@ def test_stop_when_sampling_is_too_expensive(caplog):
         for discipline in disciplines
     ]
 
-    mlmc = MLMC(levels, HeatEquationUncertainSpace(), 100)
+    mlmc = MLMC(levels, HeatEquationRandomSpace(), 100)
     mlmc.execute()
     assert caplog.record_tuples[822] == (
         "gemseo_umdo.statistic.multilevel.mlmc.mlmc",

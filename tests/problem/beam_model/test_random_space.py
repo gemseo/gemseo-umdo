@@ -12,19 +12,19 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-"""Test for the BeamUncertainSpace."""
+"""Test for the BeamRandomSpace."""
 
 from __future__ import annotations
 
 import pytest
 
-from gemseo_umdo.problem.beam_model.uncertain_space import BeamUncertainSpace
+from gemseo_umdo.problem.beam_model.random_space import BeamRandomSpace
 
 
 @pytest.fixture(scope="module")
-def uncertain_space(request) -> tuple[BeamUncertainSpace, bool]:
-    """The BeamUncertainSpace."""
-    return BeamUncertainSpace(uniform=request.param), request.param
+def uncertain_space(request) -> tuple[BeamRandomSpace, bool]:
+    """The BeamRandomSpace."""
+    return BeamRandomSpace(uniform=request.param), request.param
 
 
 @pytest.mark.parametrize("uncertain_space", [False, True], indirect=True)

@@ -12,22 +12,22 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-"""The space of the uncertain variables of the spring-mass system."""
+"""Tests for SpringMassRandomSpace."""
 
 from __future__ import annotations
 
-from gemseo.space import RandomSpace
-from gemseo.uncertainty.distribution import OTDistribution_Settings
+from gemseo.uncertainty.distribution import OTJointDistribution
+
+from gemseo_umdo.problem.spring_mass_model.random_space import SpringMassRandomSpace
 
 
-class SpringMassUncertainSpace(RandomSpace):
-    """The space of the uncertain variables of the spring-mass system."""
-
-    def __init__(self) -> None:  # noqa: D107
-        super().__init__()
-        self.add_variable(
-            "stiffness",
-            OTDistribution_Settings(
-                interfaced_distribution="Beta", parameters=(3.0, 2.0, 1.0, 3.5)
-            ),
-        )
+def test_uncertain_space():
+    """Check the content of the uncertain space used in the spring-mass use case."""
+    uncertain_space = SpringMassRandomSpace()
+    assert len(uncertain_space) == 1
+    assert "stiffness" in list(uncertain_space.variables)
+    distribution = uncertain_space.variables["stiffness"].distribution
+    assert isinstance(distribution, OTJointDistribution)
+    assert len(distribution.marginals) == 1
+    distribution = uncertain_space.variables["stiffness"].distribution
+    assert repr(distribution) == "Beta(3.0, 2.0, 1.0, 3.5)"

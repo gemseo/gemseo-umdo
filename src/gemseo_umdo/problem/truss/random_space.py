@@ -24,7 +24,7 @@ from gemseo.space import RandomSpace
 from gemseo.uncertainty.distribution import OTDistribution_Settings
 
 
-class TrussUncertainSpace(RandomSpace):
+class TrussRandomSpace(RandomSpace):
     """The uncertain space of the truss problem."""
 
     def __init__(self, factor: float = 1.0, use_different_bars: bool = False) -> None:

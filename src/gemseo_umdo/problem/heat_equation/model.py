@@ -70,8 +70,8 @@ The [HeatEquationModel][gemseo_umdo.problem.heat_equation.model.HeatEquationMode
 computes the temperature at final time
 from instances of the random variables `"X_1"`, ..., `"X_7"`
 defined over the
-[HeatEquationUncertainSpace]
-[gemseo_umdo.problem.heat_equation.uncertain_space.HeatEquationUncertainSpace].
+[HeatEquationRandomSpace]
+[gemseo_umdo.problem.heat_equation.random_space.HeatEquationRandomSpace].
 The temperature `"u_mesh"` is computed at each mesh node
 while the temperature `"u"` is an integral over the rod.
 

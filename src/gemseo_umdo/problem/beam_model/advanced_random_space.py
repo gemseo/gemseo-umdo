@@ -48,7 +48,7 @@ _default_angle_dispersion: Final[float] = radians(1.0)
 """The default dispersion of an angle, in radians."""
 
 
-class AdvancedBeamUncertainSpace(RandomSpace):
+class AdvancedBeamRandomSpace(RandomSpace):
     """The advanced uncertain space for the beam use case.
 
     The angles `alpha` and `beta` are expressed in radians.
