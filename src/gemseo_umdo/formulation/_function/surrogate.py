@@ -15,7 +15,7 @@
 """A function to compute a statistic from `Surrogate`.
 
 See also [Surrogate][gemseo_umdo.formulation.surrogate.Surrogate].
-"""  # noqa: E501
+"""
 
 from __future__ import annotations
 

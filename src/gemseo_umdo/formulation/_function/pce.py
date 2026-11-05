@@ -15,7 +15,7 @@
 """A function to compute a statistic from `PCE`.
 
 See also [PCE][gemseo_umdo.formulation.pce.PCE].
-"""  # noqa: E501
+"""
 
 from __future__ import annotations
 
