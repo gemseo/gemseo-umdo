@@ -40,8 +40,8 @@ from gemseo.space import DesignSpace
 from gemseo.space import RandomSpace
 from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 
-from gemseo_umdo.formulations.surrogate_settings import Surrogate_Settings
-from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
+from gemseo_umdo.formulation.surrogate_settings import Surrogate_Settings
+from gemseo_umdo.scenario.umdo_scenario import UMDOScenario
 
 # %%
 # Firstly,
@@ -61,7 +61,7 @@ uncertain_space.add_variable("u", OTNormalDistribution_Settings())
 
 # %%
 # Then,
-# we define a [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
+# we define a [UMDOScenario][gemseo_umdo.scenario.umdo_scenario.UMDOScenario]
 # to minimize the statistic $\mathbb{E}[(x+U)^2]$
 # estimated by sampling a surrogate model
 # trained from 20 samples at each iteration of the optimization loop:

@@ -1,0 +1,194 @@
+# Copyright 2021 IRT Saint Exupéry, https://www.irt-saintexupery.com
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public
+# License version 3 as published by the Free Software Foundation.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program; if not, write to the Free Software Foundation,
+# Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+"""Test the different U-UMDO formulations with the Sellar's MDO problem."""
+
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+import pytest
+from gemseo.doe import OT_MONTE_CARLO_Settings
+from gemseo.formulation import MDF_Settings
+from gemseo.mda import MDAChain_Settings
+from gemseo.problem.mdo.sellar import Sellar1
+from gemseo.problem.mdo.sellar import Sellar2
+from gemseo.problem.mdo.sellar import SellarDesignSpace
+from gemseo.problem.mdo.sellar import SellarSystem
+from gemseo.scenario import MDOScenario
+from gemseo.space import RandomSpace
+from gemseo.uncertainty.distribution import OTDiracDistribution_Settings
+from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
+from numpy.testing import assert_almost_equal
+
+from gemseo_umdo.formulation.surrogate_settings import Surrogate_Settings
+from gemseo_umdo.scenario.umdo_scenario import UMDOScenario
+
+if TYPE_CHECKING:
+    from gemseo.util.typing import RealArray
+
+
+@pytest.fixture(scope="module", params=[1, 2])
+def size(request) -> int:
+    """The size of the coupling variables in the Sellar's problem."""
+    return request.param
+
+
+@pytest.fixture(scope="module", params=[False, True])
+def maximize_objective(request) -> bool:
+    """Whether to maximize the objective."""
+    return request.param
+
+
+@pytest.fixture(scope="module")
+def scenario_input_data() -> OT_MONTE_CARLO_Settings:
+    """The settings of the DOE algorithm."""
+    return OT_MONTE_CARLO_Settings(n_samples=4)
+
+
+@pytest.fixture(scope="module")
+def disciplines(size) -> tuple[Sellar1, Sellar2, SellarSystem]:
+    """The disciplines of the Sellar's problem."""
+    return Sellar1(n=size), Sellar2(n=size), SellarSystem(n=size)
+
+
+@pytest.fixture(scope="module")
+def design_space(size) -> SellarDesignSpace:
+    """The design space of the Sellar's problem."""
+    return SellarDesignSpace(n=size)
+
+
+@pytest.fixture(scope="module")
+def reference_data(
+    disciplines, design_space, maximize_objective, scenario_input_data
+) -> RealArray:
+    """The reference data.
+
+    Monte Carlo samples of the Sellar's multidisciplinary system orchestrated by MDF.
+    """
+    mdo_scenario = MDOScenario(
+        disciplines,
+        design_space=design_space,
+        formulation_settings=MDF_Settings(
+            main_mda_settings=MDAChain_Settings(max_mda_iter=3)
+        ),
+    )
+    mdo_scenario.add_objective("obj", minimize=not maximize_objective)
+    mdo_scenario.add_constraint("c_1", "ineq")
+    mdo_scenario.add_constraint("c_2", "ineq")
+    mdo_scenario.execute(scenario_input_data)
+    return mdo_scenario.to_dataset().to_numpy()
+
+
+@pytest.fixture(scope="module")
+def dirac_uncertain_space() -> RandomSpace:
+    """An uncertain space for the Sellar's U-MDO problem with Dirac distributions."""
+    parameter_space = RandomSpace()
+    parameter_space.add_variable(
+        "alpha", OTDiracDistribution_Settings(variable_value=3.16)
+    )
+    parameter_space.add_variable(
+        "beta", OTDiracDistribution_Settings(variable_value=24.0)
+    )
+    parameter_space.add_variable(
+        "gamma", OTDiracDistribution_Settings(variable_value=0.2)
+    )
+    return parameter_space
+
+
+@pytest.fixture(scope="module")
+def normal_uncertain_space() -> RandomSpace:
+    """An uncertain space for the Sellar's U-MDO problem with normal distributions."""
+    parameter_space = RandomSpace()
+    parameter_space.add_variable(
+        "alpha", OTNormalDistribution_Settings(mu=3.16, sigma=1e-6)
+    )
+    parameter_space.add_variable(
+        "beta", OTNormalDistribution_Settings(mu=24.0, sigma=1e-6)
+    )
+    parameter_space.add_variable(
+        "gamma", OTNormalDistribution_Settings(mu=0.2, sigma=1e-6)
+    )
+    return parameter_space
+
+
+def test_uncertainty_free(
+    disciplines,
+    design_space,
+    dirac_uncertain_space,
+    reference_data,
+    statistic_estimation_settings_for_dirac,
+    maximize_objective,
+    scenario_input_data,
+):
+    """Check that the UMDOScenario and MDOScenario give the same results.
+
+    For that, we model alpha, beta and gamma as random variables distributed according
+    to Dirac distributions, so that all their realizations are equal to the
+    corresponding alpha, beta and gamma in the uncertainty-free original problem.
+
+    Some U-MDO formulations cannot be considered:
+
+    - PCE because a PCE regressor cannot be trained with constant inputs,
+    - ControlVariate because control variate estimators require non-constant inputs.
+    """
+    umdo_scenario = UMDOScenario(
+        disciplines,
+        design_space,
+        dirac_uncertain_space,
+        statistic_estimation_settings=statistic_estimation_settings_for_dirac,
+        formulation_settings=MDF_Settings(
+            main_mda_settings=MDAChain_Settings(max_mda_iter=3)
+        ),
+    )
+    umdo_scenario.add_objective("obj", "Mean", minimize=not maximize_objective)
+    umdo_scenario.add_constraint("c_1", "Mean")
+    umdo_scenario.add_constraint("c_2", "Mean")
+    umdo_scenario.execute(scenario_input_data)
+    assert_almost_equal(umdo_scenario.to_dataset().to_numpy(), reference_data)
+
+
+def test_weak_uncertainties(
+    disciplines,
+    design_space,
+    normal_uncertain_space,
+    reference_data,
+    statistic_estimation_settings,
+    maximize_objective,
+    scenario_input_data,
+    size,
+):
+    """Check that the UMDOScenario and MDOScenario give the same results.
+
+    For that, we model alpha, beta and gamma as random variables distributed according
+    to normal distributions with a small variance.
+    """
+    umdo_scenario = UMDOScenario(
+        disciplines,
+        design_space,
+        normal_uncertain_space,
+        statistic_estimation_settings=statistic_estimation_settings,
+        formulation_settings=MDF_Settings(
+            main_mda_settings=MDAChain_Settings(max_mda_iter=3)
+        ),
+    )
+    umdo_scenario.add_objective("obj", "Mean", minimize=not maximize_objective)
+    umdo_scenario.add_constraint("c_1", "Mean")
+    umdo_scenario.add_constraint("c_2", "Mean")
+    umdo_scenario.execute(scenario_input_data)
+    data = umdo_scenario.to_dataset().to_numpy()
+    if isinstance(statistic_estimation_settings, Surrogate_Settings):
+        data = data[:, 0:7] if size == 1 else data[:, 0:11]
+
+    assert_almost_equal(data, reference_data, decimal=5)

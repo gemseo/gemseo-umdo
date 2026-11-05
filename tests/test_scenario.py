@@ -37,13 +37,13 @@ from numpy import vstack
 from numpy.linalg import norm
 from numpy.testing import assert_almost_equal
 
-from gemseo_umdo.disciplines.additive_noiser import AdditiveNoiser
-from gemseo_umdo.disciplines.multiplicative_noiser import MultiplicativeNoiser
-from gemseo_umdo.formulations.factory import UMDOFormulationsFactory
-from gemseo_umdo.formulations.sampling import Sampling
-from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
-from gemseo_umdo.scenarios.u_evaluation_scenario import UEvaluationScenario
-from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
+from gemseo_umdo.discipline.additive_noiser import AdditiveNoiser
+from gemseo_umdo.discipline.multiplicative_noiser import MultiplicativeNoiser
+from gemseo_umdo.formulation.factory import UMDOFormulationsFactory
+from gemseo_umdo.formulation.sampling import Sampling
+from gemseo_umdo.formulation.sampling_settings import Sampling_Settings
+from gemseo_umdo.scenario.u_evaluation_scenario import UEvaluationScenario
+from gemseo_umdo.scenario.umdo_scenario import UMDOScenario
 
 if TYPE_CHECKING:
     from gemseo.discipline import Discipline

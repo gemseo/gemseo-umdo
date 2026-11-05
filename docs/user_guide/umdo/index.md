@@ -498,9 +498,9 @@ we present what is different compared to MDO without uncertainties
 When defining disciplines,
 do not forget to declare the uncertain variables as input variables
 so that the
-[UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
+[UMDOScenario][gemseo_umdo.scenario.umdo_scenario.UMDOScenario]
 and
-[UEvaluationScenario][gemseo_umdo.scenarios.u_evaluation_scenario.UEvaluationScenario]
+[UEvaluationScenario][gemseo_umdo.scenario.u_evaluation_scenario.UEvaluationScenario]
 can take them into account.
 
 !!! example
@@ -563,7 +563,7 @@ and probability distribution settings.
 Given these disciplines and uncertain space,
 as well as a design space, objective(s) and constraint(s),
 the MDO problem under uncertainty can be set up by
-[UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
+[UMDOScenario][gemseo_umdo.scenario.umdo_scenario.UMDOScenario]
 to solve it using an optimizer or a DOE.
 You also need to fill in the statistics associated with the objective(s) and constraint(s),
 and the U-MDO formulation, combining a statistics estimation technique and an MDO formulation.
@@ -572,13 +572,13 @@ To evaluate statistics of outputs over the design space with a DOE,
 without objective or constraints,
 e.g. to plot how the mean of an output varies with the design variables,
 use
-[UEvaluationScenario][gemseo_umdo.scenarios.u_evaluation_scenario.UEvaluationScenario]
+[UEvaluationScenario][gemseo_umdo.scenario.u_evaluation_scenario.UEvaluationScenario]
 with a U-MDO formulation and declare these statistics as observables.
 
 !!! note "API"
 
-    The API of [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
-    (resp. [UEvaluationScenario][gemseo_umdo.scenarios.u_evaluation_scenario.UEvaluationScenario])
+    The API of [UMDOScenario][gemseo_umdo.scenario.umdo_scenario.UMDOScenario]
+    (resp. [UEvaluationScenario][gemseo_umdo.scenario.u_evaluation_scenario.UEvaluationScenario])
     is deliberately similar to
     the API of [MDOScenario][gemseo.scenario.mdo.MDOScenario]
     (resp. [EvaluationScenario][gemseo.scenario.evaluation.EvaluationScenario]).
@@ -595,13 +595,13 @@ with a U-MDO formulation and declare these statistics as observables.
     (default: [MDF_Settings][gemseo.formulation.mdf_settings.MDF_Settings]).
     Then,
     the observables are added with
-    [add_observable()][gemseo_umdo.scenarios.base_u_scenario.BaseUScenario.add_observable]
+    [add_observable()][gemseo_umdo.scenario.base_u_scenario.BaseUScenario.add_observable]
     and, in the case of a
-    [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario],
+    [UMDOScenario][gemseo_umdo.scenario.umdo_scenario.UMDOScenario],
     the objective is set with
-    [add_objective()][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario.add_objective]
+    [add_objective()][gemseo_umdo.scenario.umdo_scenario.UMDOScenario.add_objective]
     and the constraints are added with
-    [add_constraint()][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario.add_constraint],
+    [add_constraint()][gemseo_umdo.scenario.umdo_scenario.UMDOScenario.add_constraint],
     each of these methods taking the name of the statistic
     to be applied to the output(s).
 
@@ -617,8 +617,8 @@ with a U-MDO formulation and declare these statistics as observables.
     from gemseo.formulation import DisciplinaryOpt_Settings
     from gemseo.optimization import NLOPT_COBYLA_Settings
     from gemseo.space import DesignSpace
-    from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
-    from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
+    from gemseo_umdo.formulation.sampling_settings import Sampling_Settings
+    from gemseo_umdo.scenario.umdo_scenario import UMDOScenario
 
     design_space = DesignSpace()
     design_space.add_variable("x1", lower_bound=-1., upper_bound=1.)
@@ -637,9 +637,9 @@ with a U-MDO formulation and declare these statistics as observables.
 
 ### Statistic estimation
 
-[UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
-and [UEvaluationScenario][gemseo_umdo.scenarios.u_evaluation_scenario.UEvaluationScenario]
-can use [Sampling_Settings][gemseo_umdo.formulations.sampling_settings.Sampling_Settings],
+[UMDOScenario][gemseo_umdo.scenario.umdo_scenario.UMDOScenario]
+and [UEvaluationScenario][gemseo_umdo.scenario.u_evaluation_scenario.UEvaluationScenario]
+can use [Sampling_Settings][gemseo_umdo.formulation.sampling_settings.Sampling_Settings],
 with `n_samples` set to a certain value $N$,
 to estimate the statistics associated with $f(x,U)$, $g(x,U)$ and $h(x,U)$ by [sampling](sampling.md),:
 
@@ -656,13 +656,13 @@ such as
 and
 [polynomial chaos expansions](pce.md).
 Choosing an estimation technique and its options is made via the argument `statistic_estimation_settings`
-of [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
-(or [UEvaluationScenario][gemseo_umdo.scenarios.u_evaluation_scenario.UEvaluationScenario]),
+of [UMDOScenario][gemseo_umdo.scenario.umdo_scenario.UMDOScenario]
+(or [UEvaluationScenario][gemseo_umdo.scenario.u_evaluation_scenario.UEvaluationScenario]),
 which is a Pydantic model of settings,
 e.g.
-[ControlVariate_Settings][gemseo_umdo.formulations.control_variate_settings.ControlVariate_Settings],
-[TaylorPolynomial_Settings][gemseo_umdo.formulations.taylor_polynomial_settings.TaylorPolynomial_Settings]
-or [PCE_Settings][gemseo_umdo.formulations.pce_settings.PCE_Settings].
+[ControlVariate_Settings][gemseo_umdo.formulation.control_variate_settings.ControlVariate_Settings],
+[TaylorPolynomial_Settings][gemseo_umdo.formulation.taylor_polynomial_settings.TaylorPolynomial_Settings]
+or [PCE_Settings][gemseo_umdo.formulation.pce_settings.PCE_Settings].
 
 As of now,
 only the
@@ -683,7 +683,7 @@ and potentially with a certain degree of bias.
 So,
 at the end of an optimization process with a given statistic estimation technique T,
 it is advisable to copy and paste the scenario
-and replay it with [Sampling_Settings][gemseo_umdo.formulations.sampling_settings.Sampling_Settings]
+and replay it with [Sampling_Settings][gemseo_umdo.formulation.sampling_settings.Sampling_Settings]
 parameterized by a non-negligible `n_samples`
 at the design solution point `x_opt` found with T
 (i.e. `scenario.execute(CustomDOE_Settings(samples=atleast_2d(x_opt)))`)

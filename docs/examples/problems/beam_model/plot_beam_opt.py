@@ -26,9 +26,9 @@ from gemseo.optimization import NLOPT_COBYLA_Settings
 from gemseo.post import OptHistoryView_Settings
 from gemseo.scenario import MDOScenario
 
-from gemseo_umdo.use_cases.beam_model.constraints import BeamConstraints
-from gemseo_umdo.use_cases.beam_model.design_space import BeamDesignSpace
-from gemseo_umdo.use_cases.beam_model.discipline import Beam
+from gemseo_umdo.use_case.beam_model.constraints import BeamConstraints
+from gemseo_umdo.use_case.beam_model.design_space import BeamDesignSpace
+from gemseo_umdo.use_case.beam_model.discipline import Beam
 
 disciplines = [Beam(), BeamConstraints()]
 

@@ -52,13 +52,13 @@ interpreter is the one of `.python-version` (3.11), overridable with `UV_PYTHON`
 | `just dist` / `just publish` | Build and check the wheel, then upload |
 
 Run a single test or a selection with the usual pytest arguments:
-`just test tests/formulations/test_sampling.py::test_fn`, `just test tests/ -k keyword`.
+`just test tests/formulation/test_sampling.py::test_fn`, `just test tests/ -k keyword`.
 `pytest-xdist` is installed (`-n auto`).
 
 ## Testing
 
 `tests/` mirrors `src/gemseo_umdo/`. `tests/conftest.py` only re-exports the shared
-fixtures of `gemseo.util.testing.pytest_conftest`. `tests/formulations/conftest.py`
+fixtures of `gemseo.util.testing.pytest_conftest`. `tests/formulation/conftest.py`
 provides a toy problem (`disciplines`, `design_space`, `uncertain_space`,
 `quadratic_problem`) and `statistic_estimation_settings`, parametrized over one
 settings instance of every U-MDO formulation; `statistic_estimation_settings_for_dirac`
@@ -70,12 +70,12 @@ Image tests use `syrupy-matplotlib`.
 ## Architecture
 
 There are no lazy re-exports in the `__init__.py` files: import from the defining
-module, e.g. `from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario`,
-`from gemseo_umdo.formulations.sampling_settings import Sampling_Settings`.
+module, e.g. `from gemseo_umdo.scenario.umdo_scenario import UMDOScenario`,
+`from gemseo_umdo.formulation.sampling_settings import Sampling_Settings`.
 
 ### Scenarios
 
-`scenarios/`: `UMDOScenario` (over `MDOScenario`, optimizer or DOE) and
+`scenario/`: `UMDOScenario` (over `MDOScenario`, optimizer or DOE) and
 `UEvaluationScenario` (over `EvaluationScenario`, DOE, observables only) mix
 `BaseUScenario` into a GEMSEO scenario class. They take the disciplines, a `DesignSpace`, a `RandomSpace` (the
 uncertain space) and the statistic estimation settings (a `*_Settings` of a U-MDO
@@ -91,13 +91,13 @@ GEMSEO scenarios create their formulation through the class attribute
 `mdo_formulation_settings`, which the GEMSEO scenario does not pass.
 
 `uncertain_design_variables` prepends a chain of noising disciplines
-(`disciplines/`: `AdditiveNoiser`, `MultiplicativeNoiser`, found by class name or
+(`discipline/`: `AdditiveNoiser`, `MultiplicativeNoiser`, found by class name or
 `short_name` through `NoiserFactory`) that computes `x` from a generated design
 variable `dv_x` and an uncertain variable.
 
 ### U-MDO formulations
 
-`formulations/`: every formulation derives from `BaseUMDOFormulation` and has a
+`formulation/`: every formulation derives from `BaseUMDOFormulation` and has a
 sibling `<name>_settings.py` defining `<Name>_Settings` (deriving from
 `BaseUMDOFormulationSettings`), found by `umdo_formulation_factory`. The concrete ones
 are `Sampling` (and `SequentialSampling`), `TaylorPolynomial`, `ControlVariate`,
@@ -112,8 +112,8 @@ instantiated once over the design space only to update it (e.g. IDF adds the cou
 variables).
 
 Each objective/constraint/observable becomes a `BaseStatisticFunction` (an
-`ArrayFunction`, in `formulations/_functions/`) wrapping a statistic estimator.
-Estimators live in `formulations/_statistics/<technique>/`, one module per statistic
+`ArrayFunction`, in `formulation/_function/`) wrapping a statistic estimator.
+Estimators live in `formulation/_statistic/<technique>/`, one module per statistic
 (`mean.py`, `variance.py`, `standard_deviation.py`, `margin.py`, `probability.py`,
 `quantile.py`), discovered by the `BaseFactory` of that package: the `statistic_name`
 given by the user is the estimator **class name**, so a technique supports exactly the
@@ -142,12 +142,12 @@ the design point changes.
 
 | Package | Purpose |
 |---|---|
-| `statistics/multilevel/` | `MLMC` and `MLMCMLCV` estimators, standalone (not used by the formulations), with pilot-statistic factories |
+| `statistic/multilevel/` | `MLMC` and `MLMCMLCV` estimators, standalone (not used by the formulations), with pilot-statistic factories |
 | `monte_carlo_sampler.py` | `MonteCarloSampler` |
-| `visualizations/` | `SobolGraph`, `UncertainCouplingGraph` |
-| `problems/` | `UOptAsUMDOScenario`: a single-discipline problem rewritten as a U-MDO scenario |
-| `use_cases/` | Beam, heat equation, spring-mass and truss models used by the docs and tests |
-| `_utils/compatibility/` | Shims across numpy and openturns versions |
+| `visualization/` | `SobolGraph`, `UncertainCouplingGraph` |
+| `problem/` | `UOptAsUMDOScenario`: a single-discipline problem rewritten as a U-MDO scenario |
+| `use_case/` | Beam, heat equation, spring-mass and truss models used by the docs and tests |
+| `_util/compatibility/` | Shims across numpy and openturns versions |
 
 ## Changelog and Docs
 

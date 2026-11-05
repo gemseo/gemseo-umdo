@@ -9,7 +9,7 @@
 
 # Polynomial chaos expansion
 
-[PCE][gemseo_umdo.formulations.pce.PCE]
+[PCE][gemseo_umdo.formulation.pce.PCE]
 is a U-MDO formulation that estimates the statistics
 using functional chaos expansions (FCEs),
 including polynomial chaos expansions (PCEs).

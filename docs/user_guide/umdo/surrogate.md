@@ -9,7 +9,7 @@
 
 # Surrogate
 
-[Surrogate][gemseo_umdo.formulations.surrogate.Surrogate]
+[Surrogate][gemseo_umdo.formulation.surrogate.Surrogate]
 is a U-MDO formulation that estimates the statistics
 using surrogate models.
 

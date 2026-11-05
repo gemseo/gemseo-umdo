@@ -26,7 +26,7 @@ from gemseo.space import DesignSpace
 from gemseo.uncertainty.sensitivity import SobolAnalysis
 from gemseo.util.data_conversion import split_array_to_dict_of_arrays
 
-from gemseo_umdo.visualizations.sobol_graph import SobolGraph
+from gemseo_umdo.visualization.sobol_graph import SobolGraph
 
 # %%
 # First,

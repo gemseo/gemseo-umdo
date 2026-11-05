@@ -25,8 +25,8 @@ from gemseo.space import DesignSpace
 from gemseo.space import RandomSpace
 from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 
-from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
-from gemseo_umdo.scenarios.u_evaluation_scenario import UEvaluationScenario
+from gemseo_umdo.formulation.sampling_settings import Sampling_Settings
+from gemseo_umdo.scenario.u_evaluation_scenario import UEvaluationScenario
 
 # %%
 # Firstly,
@@ -47,7 +47,7 @@ uncertain_space.add_variable("u", OTNormalDistribution_Settings())
 # %%
 # Then,
 # we build a
-# [UEvaluationScenario][gemseo_umdo.scenarios.u_evaluation_scenario.UEvaluationScenario]
+# [UEvaluationScenario][gemseo_umdo.scenario.u_evaluation_scenario.UEvaluationScenario]
 # to evaluate sampling-based estimations
 # of the expectation $\mathbb{E}[Y]$ and the variance $\mathbb{V}[Y]$
 # where $Y=f(x,U)$:
@@ -63,9 +63,9 @@ scenario.add_observable("y", "Variance")
 # %%
 # !!! note
 #     Unlike
-#     [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario],
+#     [UMDOScenario][gemseo_umdo.scenario.umdo_scenario.UMDOScenario],
 #     this scenario has neither objective nor constraints.
-#     Use a [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
+#     Use a [UMDOScenario][gemseo_umdo.scenario.umdo_scenario.UMDOScenario]
 #     with DOE settings
 #     to sample a U-MDO problem.
 #

@@ -1,0 +1,97 @@
+# Copyright 2021 IRT Saint Exupéry, https://www.irt-saintexupery.com
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public
+# License version 3 as published by the Free Software Foundation.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program; if not, write to the Free Software Foundation,
+# Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+"""Settings for the FCE-based U-MDO formulation."""
+
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+from gemseo.machine_learning import PCERegressor_Settings
+from gemseo.machine_learning.regression.core.base_fce_settings import (
+    BaseFCERegressorSettings,
+)
+from pydantic import Field
+from pydantic import PositiveFloat
+from pydantic import model_validator
+
+from gemseo_umdo.formulation.base_surrogate_settings import SurrogateQuality_Settings
+from gemseo_umdo.formulation.surrogate_settings import Surrogate_Settings
+
+if TYPE_CHECKING:
+    from typing import Self
+
+
+class PCE_Settings(Surrogate_Settings, SurrogateQuality_Settings):  # noqa: N801
+    """The settings for the FCE-based U-MDO formulation."""
+
+    approximate_statistics_jacobians: bool = Field(
+        default=False,
+        description=(
+            "Whether to approximate "
+            "the Jacobian of the mean, standard deviation and variance of the FCE "
+            "using the technique proposed in Section II.C.3 "
+            "of [Riccardo Mura, Tiziano Ghisu and Shahrokh Shahpar, "
+            "*Least Squares Approximation-based Polynomial Chaos Expansion "
+            "for Uncertainty Quantification and Robust Optimization in Aeronautics*, "
+            "AIAA 2020-3163. AIAA AVIATION 2020 FORUM, June 2020, "
+            "[DOI](https://doi.org/10.2514/6.2020-3163)."
+        ),
+    )
+
+    differentiation_step: PositiveFloat = Field(
+        default=1e-6,
+        description=(
+            "The differentiation step for the technique proposed in Section II.C.3 "
+            "of [Riccardo Mura, Tiziano Ghisu and Shahrokh Shahpar, "
+            "*Least Squares Approximation-based Polynomial Chaos Expansion "
+            "for Uncertainty Quantification and Robust Optimization in Aeronautics*, "
+            "AIAA 2020-3163. AIAA AVIATION 2020 FORUM, June 2020, "
+            "[DOI](https://doi.org/10.2514/6.2020-3163)."
+        ),
+    )
+
+    regressor_settings: BaseFCERegressorSettings = Field(
+        default=PCERegressor_Settings(),
+        description="The FCE settings.",
+    )
+
+    @model_validator(mode="after")
+    def __validate(self) -> Self:
+        """Validate the model."""
+        if (
+            self.approximate_statistics_jacobians
+            and self.regressor_settings.use_special_jacobian_data
+        ):
+            msg = (
+                "The settings approximate_statistics_jacobians "
+                "and regressor_settings.use_special_jacobian_data cannot be both True."
+            )
+            raise ValueError(msg)
+
+        if (
+            not self.approximate_statistics_jacobians
+            and self.regressor_settings.learn_jacobian_data
+        ):
+            msg = (
+                "The setting regressor_settings.learn_jacobian_data cannot be True "
+                "when approximate_statistics_jacobians is False: "
+                "the FCE cannot learn both the Jacobian data "
+                "with respect to the uncertain variables "
+                "and the special Jacobian data "
+                "with respect to the design variables."
+            )
+            raise ValueError(msg)
+
+        return self

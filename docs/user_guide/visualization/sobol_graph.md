@@ -78,7 +78,7 @@ This graph is a network of uncertain variables representing their Sobol' indices
 
 ### API
 
-The [SobolGraph][gemseo_umdo.visualizations.sobol_graph.SobolGraph]
+The [SobolGraph][gemseo_umdo.visualization.sobol_graph.SobolGraph]
 can be built from three dictionaries:
 
 - the first-order indices defined as `{name: sobol_index}`,
@@ -109,7 +109,7 @@ the
 proposed by [GEMSEO](https:///www.gemseo.org)
 computes the Sobol' indices for several discipline outputs.
 Then,
-the [SobolGraph][gemseo_umdo.visualizations.sobol_graph.SobolGraph]
+the [SobolGraph][gemseo_umdo.visualization.sobol_graph.SobolGraph]
 associated with a specific discipline output
 can be generated from this analysis:
 

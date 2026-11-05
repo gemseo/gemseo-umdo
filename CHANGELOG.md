@@ -30,24 +30,24 @@ and this project adheres to
 
 ### Added
 
-- [UEvaluationScenario][gemseo_umdo.scenarios.u_evaluation_scenario.UEvaluationScenario]
+- [UEvaluationScenario][gemseo_umdo.scenario.u_evaluation_scenario.UEvaluationScenario]
   evaluates statistics of outputs over the design space with a DOE algorithm;
   it is the counterpart of
   [EvaluationScenario][gemseo.scenario.evaluation.EvaluationScenario]
   for design under uncertainty:
   the statistics are added as observables with
-  [add_observable()][gemseo_umdo.scenarios.base_u_scenario.BaseUScenario.add_observable].
-- The design strength [Rd][gemseo_umdo.use_cases.beam_model.core.variables.Rd]
-  and the yield strength [Ry][gemseo_umdo.use_cases.beam_model.core.variables.Ry]
-  of [AdvancedBeamUncertainSpace][gemseo_umdo.use_cases.beam_model.advanced_uncertain_space.AdvancedBeamUncertainSpace]
+  [add_observable()][gemseo_umdo.scenario.base_u_scenario.BaseUScenario.add_observable].
+- The design strength [Rd][gemseo_umdo.use_case.beam_model.core.variable.Rd]
+  and the yield strength [Ry][gemseo_umdo.use_case.beam_model.core.variable.Ry]
+  of [AdvancedBeamUncertainSpace][gemseo_umdo.use_case.beam_model.advanced_uncertain_space.AdvancedBeamUncertainSpace]
   are available in
-  [gemseo_umdo.use_cases.beam_model.core.variables][gemseo_umdo.use_cases.beam_model.core.variables].
-- [Sampling.doe_algo][gemseo_umdo.formulations.sampling.Sampling.doe_algo]
+  [gemseo_umdo.use_case.beam_model.core.variable][gemseo_umdo.use_case.beam_model.core.variable].
+- [Sampling.doe_algo][gemseo_umdo.formulation.sampling.Sampling.doe_algo]
   is the DOE library used to sample the disciplines.
 - The U-MDO formulations
-  [Sampling][gemseo_umdo.formulations.sampling.Sampling],
-  [SequentialSampling][gemseo_umdo.formulations.sequential_sampling.SequentialSampling]
-  and [Surrogate][gemseo_umdo.formulations.surrogate.Surrogate]
+  [Sampling][gemseo_umdo.formulation.sampling.Sampling],
+  [SequentialSampling][gemseo_umdo.formulation.sequential_sampling.SequentialSampling]
+  and [Surrogate][gemseo_umdo.formulation.surrogate.Surrogate]
   support the statistic `"Quantile"`,
   e.g. `scenario.add_constraint("c", "Quantile", level=0.95)`,
   with analytical derivatives for the first two;
@@ -61,34 +61,51 @@ and this project adheres to
   for an observable or an equality constraint, it is used as is;
   the name of the statistic always includes the level,
   e.g. `"Q[y; 0.95]"`.
-  For [Sampling][gemseo_umdo.formulations.sampling.Sampling]
-  and [SequentialSampling][gemseo_umdo.formulations.sequential_sampling.SequentialSampling],
+  For [Sampling][gemseo_umdo.formulation.sampling.Sampling]
+  and [SequentialSampling][gemseo_umdo.formulation.sequential_sampling.SequentialSampling],
   this statistic cannot be estimated iteratively:
   using it requires `estimate_statistics_iteratively=False`,
   otherwise a `ValueError` is raised.
 
 ### Changed
 
-- [AdvancedBeamUncertainSpace][gemseo_umdo.use_cases.beam_model.advanced_uncertain_space.AdvancedBeamUncertainSpace]
+- [AdvancedBeamUncertainSpace][gemseo_umdo.use_case.beam_model.advanced_uncertain_space.AdvancedBeamUncertainSpace]
   raises a `ValueError`
   when a name in `nominal_values` or in the dispersions is not an uncertain variable,
   when a dispersion is not positive,
   or when the lower bound $\mu-\delta$ of `b`, `h`, `t`, `L`, `E`, `Rd` or `Ry`
   is not positive.
 - GEMSEO-UMDO requires GEMSEO 7.
+- BREAKING CHANGE: the packages and modules are named in the singular, as in GEMSEO 7,
+  except when named after a class whose name is plural,
+  e.g. `gemseo_umdo.use_case.truss.bars` defining `Bars`:
+    - `gemseo_umdo.disciplines` → [gemseo_umdo.discipline][gemseo_umdo.discipline];
+    - `gemseo_umdo.disciplines.utils` → [gemseo_umdo.discipline.util][gemseo_umdo.discipline.util];
+    - `gemseo_umdo.formulations` → [gemseo_umdo.formulation][gemseo_umdo.formulation];
+    - `gemseo_umdo.problems` → [gemseo_umdo.problem][gemseo_umdo.problem];
+    - `gemseo_umdo.scenarios` → [gemseo_umdo.scenario][gemseo_umdo.scenario];
+    - `gemseo_umdo.statistics` → [gemseo_umdo.statistic][gemseo_umdo.statistic];
+    - `gemseo_umdo.statistics.multilevel.mlmc.pilots`
+      → [gemseo_umdo.statistic.multilevel.mlmc.pilot][gemseo_umdo.statistic.multilevel.mlmc.pilot];
+    - `gemseo_umdo.statistics.multilevel.mlmc_mlcv.pilots`
+      → [gemseo_umdo.statistic.multilevel.mlmc_mlcv.pilot][gemseo_umdo.statistic.multilevel.mlmc_mlcv.pilot];
+    - `gemseo_umdo.use_cases` → [gemseo_umdo.use_case][gemseo_umdo.use_case];
+    - `gemseo_umdo.use_cases.beam_model.core.variables`
+      → [gemseo_umdo.use_case.beam_model.core.variable][gemseo_umdo.use_case.beam_model.core.variable];
+    - `gemseo_umdo.visualizations` → [gemseo_umdo.visualization][gemseo_umdo.visualization].
 - BREAKING CHANGE:
   using a statistic that a U-MDO formulation does not support
   raises a `ValueError` listing the available statistics
   instead of an `ImportError`.
 - BREAKING CHANGE:
-  [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
-  and [UOptAsUMDOScenario][gemseo_umdo.problems.uopt_as_umdo_scenario.UOptAsUMDOScenario]
+  [UMDOScenario][gemseo_umdo.scenario.umdo_scenario.UMDOScenario]
+  and [UOptAsUMDOScenario][gemseo_umdo.problem.uopt_as_umdo_scenario.UOptAsUMDOScenario]
   follow the API of the GEMSEO 7 scenarios:
     - they are instantiated from the disciplines (or the discipline),
       the design space, the uncertain space and the statistic estimation settings,
       e.g. `UMDOScenario(disciplines, design_space, uncertain_space, Sampling_Settings())`;
     - the objective is set after instantiation with
-      [add_objective()][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario.add_objective],
+      [add_objective()][gemseo_umdo.scenario.umdo_scenario.UMDOScenario.add_objective],
       e.g. `scenario.add_objective("f", "Mean")`,
       and maximized with `minimize=False`;
       the arguments `objective_name`, `objective_statistic_name`,
@@ -103,18 +120,18 @@ and this project adheres to
   the disciplines, the settings,
   the uncertain space and the settings of the MDO formulation,
   and create the objective with
-  [create_objective()][gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation.create_objective].
+  [create_objective()][gemseo_umdo.formulation.base_umdo_formulation.BaseUMDOFormulation.create_objective].
   Their MDO formulations evaluate the functions over the uncertain space
   with an [EvaluationProblem][gemseo.core.problem.evaluation.EvaluationProblem]
   whose observables include the output of the objective.
   The settings of the U-MDO formulations derive from
   [BaseFormulationSettings][gemseo.formulation.core.base_settings.BaseFormulationSettings].
 - BREAKING CHANGE:
-  [UncertainCouplingGraph.sample()][gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph.sample]
+  [UncertainCouplingGraph.sample()][gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.sample]
   takes the settings of the DOE algorithm,
   e.g. `OT_OPT_LHS_Settings(n_samples=100)`,
   instead of `n_samples`, `algo_name` and `**algo_options`.
-- [PCE_Settings][gemseo_umdo.formulations.pce_settings.PCE_Settings]
+- [PCE_Settings][gemseo_umdo.formulation.pce_settings.PCE_Settings]
   raises a `ValueError` when `regressor_settings.learn_jacobian_data` is `True`
   and `approximate_statistics_jacobians` is `False`;
   this combination used to estimate the Jacobian of the statistics
@@ -134,31 +151,31 @@ and this project adheres to
   which used to be named `"Margin[o]"`.
 - BREAKING CHANGE: the ALL_CAPS class attributes and module-level constants
   are named in lower snake case, as in GEMSEO 7:
-    - `BaseNoiser.SHORT_NAME` → [short_name][gemseo_umdo.disciplines.base_noiser.BaseNoiser.short_name];
+    - `BaseNoiser.SHORT_NAME` → [short_name][gemseo_umdo.discipline.base_noiser.BaseNoiser.short_name];
     - `gemseo_umdo.formulations.factory.UMDO_FORMULATION_FACTORY`
-      → [umdo_formulation_factory][gemseo_umdo.formulations.factory.umdo_formulation_factory].
+      → [umdo_formulation_factory][gemseo_umdo.formulation.factory.umdo_formulation_factory].
 - BREAKING CHANGE: the enumeration `gemseo_umdo.formulations.DOE_ALGO_NAMES`
-  is renamed [DOEAlgorithmName][gemseo_umdo.formulations.DOEAlgorithmName].
+  is renamed [DOEAlgorithmName][gemseo_umdo.formulation.DOEAlgorithmName].
 - BREAKING CHANGE:
-  [Sampling.callbacks][gemseo_umdo.formulations.sampling.Sampling.callbacks]
-  and [Sampling.jacobian_callbacks][gemseo_umdo.formulations.sampling.Sampling.jacobian_callbacks]
+  [Sampling.callbacks][gemseo_umdo.formulation.sampling.Sampling.callbacks]
+  and [Sampling.jacobian_callbacks][gemseo_umdo.formulation.sampling.Sampling.jacobian_callbacks]
   only contain the callbacks added by the user;
   with `estimate_statistics_iteratively=True`,
   they no longer contain the iterative estimations of the statistics,
   which are passed to the DOE algorithm at each sampling.
-- [Sampling][gemseo_umdo.formulations.sampling.Sampling]
+- [Sampling][gemseo_umdo.formulation.sampling.Sampling]
   with `estimate_statistics_iteratively=False`
   reads the samples of the outputs and of their gradients at each design point
   in a single pass over the database of the evaluations of the disciplines,
   instead of one pass per output and per gradient,
   which reduces the cost of this option.
 - BREAKING CHANGE:
-  [Sampling][gemseo_umdo.formulations.sampling.Sampling]
+  [Sampling][gemseo_umdo.formulation.sampling.Sampling]
   raises a `ValueError` when estimating a variance, a standard deviation
   or a margin
   of an output that is available at a single sample of the uncertain variables,
   e.g. because the DOE algorithm generates a single sample,
-  as [SequentialSampling][gemseo_umdo.formulations.sequential_sampling.SequentialSampling]
+  as [SequentialSampling][gemseo_umdo.formulation.sequential_sampling.SequentialSampling]
   does at its first iteration with `initial_n_samples=1`,
   or because the evaluation fails at the other ones,
   or the Jacobian of such a statistic
@@ -171,11 +188,11 @@ and this project adheres to
   such a statistic was NaN and its Jacobian raised a `ZeroDivisionError`.
 - BREAKING CHANGE:
   every U-MDO formulation,
-  e.g. [Sampling][gemseo_umdo.formulations.sampling.Sampling],
-  [TaylorPolynomial][gemseo_umdo.formulations.taylor_polynomial.TaylorPolynomial],
-  [ControlVariate][gemseo_umdo.formulations.control_variate.ControlVariate],
-  [Surrogate][gemseo_umdo.formulations.surrogate.Surrogate]
-  and [PCE][gemseo_umdo.formulations.pce.PCE],
+  e.g. [Sampling][gemseo_umdo.formulation.sampling.Sampling],
+  [TaylorPolynomial][gemseo_umdo.formulation.taylor_polynomial.TaylorPolynomial],
+  [ControlVariate][gemseo_umdo.formulation.control_variate.ControlVariate],
+  [Surrogate][gemseo_umdo.formulation.surrogate.Surrogate]
+  and [PCE][gemseo_umdo.formulation.pce.PCE],
   raises a `ValueError`
   when adding an objective, a constraint or an observable
   whose statistic is `"Margin"` with a zero `factor` parameter,
@@ -183,7 +200,7 @@ and this project adheres to
   use the statistic `"Mean"` instead.
 - BREAKING CHANGE:
   the default dispersion $\delta$ of an uncertain variable of
-  [AdvancedBeamUncertainSpace][gemseo_umdo.use_cases.beam_model.advanced_uncertain_space.AdvancedBeamUncertainSpace]
+  [AdvancedBeamUncertainSpace][gemseo_umdo.use_case.beam_model.advanced_uncertain_space.AdvancedBeamUncertainSpace]
   is 5% of its nominal value $\mu$ for the positive variables,
   1 degree for the angles `alpha` and `beta`,
   instead of about 57 degrees,
@@ -199,9 +216,9 @@ and this project adheres to
 
 - Support for Python 3.10.
 - BREAKING CHANGE: `UDOEScenario` was removed, as GEMSEO 7 removed `DOEScenario`;
-  use [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
+  use [UMDOScenario][gemseo_umdo.scenario.umdo_scenario.UMDOScenario]
   with the settings of a DOE algorithm to sample a U-MDO problem,
-  or [UEvaluationScenario][gemseo_umdo.scenarios.u_evaluation_scenario.UEvaluationScenario]
+  or [UEvaluationScenario][gemseo_umdo.scenario.u_evaluation_scenario.UEvaluationScenario]
   to evaluate statistics without objective or constraints.
 - BREAKING CHANGE: `SobolGraph.DEFAULT_FILE_PATH`, which had no effect.
 
@@ -210,14 +227,14 @@ and this project adheres to
 - The sampling-based U-MDO formulations sample the disciplines once per design point
   to estimate the objective and the constraints,
   instead of 1 + number of constraints times
-  for [Sampling][gemseo_umdo.formulations.sampling.Sampling]
+  for [Sampling][gemseo_umdo.formulation.sampling.Sampling]
   with `estimate_statistics_iteratively=True` (default)
   and twice for the other ones.
   When the gradients are required,
   they sample the disciplines once more per design point
   to estimate the gradients of all the statistics.
   The results are the same, except for
-  [SequentialSampling][gemseo_umdo.formulations.sequential_sampling.SequentialSampling],
+  [SequentialSampling][gemseo_umdo.formulation.sequential_sampling.SequentialSampling],
   which now increases the number of samples once per sampling
   instead of once per statistic;
   without gradients,
@@ -225,21 +242,21 @@ and this project adheres to
   as documented,
   while with gradients,
   the gradients are estimated with more samples than the statistics.
-- [PCE][gemseo_umdo.formulations.pce.PCE] fits the polynomial chaos expansion
+- [PCE][gemseo_umdo.formulation.pce.PCE] fits the polynomial chaos expansion
   once per design point to estimate the statistics
   (and once more when their gradients are required),
   instead of once per statistic.
-- [Sampling][gemseo_umdo.formulations.sampling.Sampling]
+- [Sampling][gemseo_umdo.formulation.sampling.Sampling]
   with `estimate_statistics_iteratively=True` (default)
   estimates correctly two statistics of the same output and of the same type
   with different parameters,
   e.g. two ``"Margin"`` with different factors;
   previously, both returned the value of the last one.
-- [Sampling][gemseo_umdo.formulations.sampling.Sampling]
+- [Sampling][gemseo_umdo.formulation.sampling.Sampling]
   with `estimate_statistics_iteratively=True` (default)
   no longer lists `"BaseCentralMoment"` among its available statistics
   and no longer accepts it as a statistic name.
-- [AdvancedBeamUncertainSpace][gemseo_umdo.use_cases.beam_model.advanced_uncertain_space.AdvancedBeamUncertainSpace]
+- [AdvancedBeamUncertainSpace][gemseo_umdo.use_case.beam_model.advanced_uncertain_space.AdvancedBeamUncertainSpace]
   uses the standard deviation $\sigma=\delta/3$
   for a truncated normal variable whose dispersion $\delta$ is passed by the user,
   as documented;
@@ -247,11 +264,11 @@ and this project adheres to
   making the distribution 3 times too wide;
   its support is now $[\mu-\delta,\mu+\delta]$
   instead of $[\mu-3\delta,\mu+3\delta]$.
-- [AdvancedBeamUncertainSpace][gemseo_umdo.use_cases.beam_model.advanced_uncertain_space.AdvancedBeamUncertainSpace]
+- [AdvancedBeamUncertainSpace][gemseo_umdo.use_case.beam_model.advanced_uncertain_space.AdvancedBeamUncertainSpace]
   centers the uniform distributions of `b`, `h`, `t` and `L`
   on the `nominal_values` passed by the user;
   previously, it ignored them and used the default values.
-- [Sampling][gemseo_umdo.formulations.sampling.Sampling]
+- [Sampling][gemseo_umdo.formulation.sampling.Sampling]
   with `estimate_statistics_iteratively=False`
   estimates the statistics of an output
   from the samples at which this output and, if required, its gradient were computed,
@@ -274,13 +291,13 @@ and this project adheres to
   or the Jacobian of a statistic of an output
   whose gradient is not available at any of them,
   e.g. because the DOE algorithm does not store the Jacobian.
-- [Sampling][gemseo_umdo.formulations.sampling.Sampling]
+- [Sampling][gemseo_umdo.formulation.sampling.Sampling]
   with `estimate_statistics_iteratively=False`
   uses a sample generated several times by the DOE algorithm,
   e.g. by a custom DOE,
   as many times as it is generated;
   previously, it was used once, which biased the statistics.
-- [Sampling][gemseo_umdo.formulations.sampling.Sampling]
+- [Sampling][gemseo_umdo.formulation.sampling.Sampling]
   with `estimate_statistics_iteratively=True` (default)
   estimates the Jacobian of a statistic at a design point
   where the statistic has not been estimated yet;
@@ -307,9 +324,9 @@ and this project adheres to
   in particular,
   when the gradient of an output fails at all the samples,
   the `ValueError` points to the output instead of its gradient.
-- [MLMCPilotFactory][gemseo_umdo.statistics.multilevel.mlmc.pilots.factory.MLMCPilotFactory]
+- [MLMCPilotFactory][gemseo_umdo.statistic.multilevel.mlmc.pilot.factory.MLMCPilotFactory]
   searches the pilots in the package
-  `gemseo_umdo.statistics.multilevel.mlmc.pilots`;
+  `gemseo_umdo.statistic.multilevel.mlmc.pilot`;
   previously, it searched a non-existent package
   and reported it in its failed imports.
 - When adding the objective, a constraint or an observable fails,

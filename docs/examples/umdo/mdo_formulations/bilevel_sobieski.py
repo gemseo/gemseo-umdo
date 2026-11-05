@@ -46,9 +46,9 @@ from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 from matplotlib import pyplot as plt
 from numpy import atleast_2d
 
-from gemseo_umdo.disciplines.utils import create_noising_discipline_chain
-from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
-from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
+from gemseo_umdo.discipline.util import create_noising_discipline_chain
+from gemseo_umdo.formulation.sampling_settings import Sampling_Settings
+from gemseo_umdo.scenario.umdo_scenario import UMDOScenario
 
 configuration.enable_fast_mode()
 
@@ -163,7 +163,7 @@ for k, v in x_opt_as_dict.items():
 # we set ``uncertain_design_variables`` to ``{"x_shared": ("+", "u_x_shared")}``
 # to rename the variable ``"x_shared"`` into ``"dv_x_shared"`` automatically.
 # In this way,
-# [UDMOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
+# [UDMOScenario][gemseo_umdo.scenario.umdo_scenario.UMDOScenario]
 # is able to propagate the uncertainty ``"u_x_shared"``
 # through the multidisciplinary process
 # using the expression

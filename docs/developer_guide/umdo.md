@@ -9,9 +9,9 @@ Commons, PO Box 1866, Mountain View, CA 94042, USA.
 # MDO under uncertainty
 
 This section describes the design of
-the [disciplines][gemseo_umdo.disciplines],
-[formulations][gemseo_umdo.formulations]
-and [scenarios][gemseo_umdo.scenarios]
+the [disciplines][gemseo_umdo.discipline],
+[formulations][gemseo_umdo.formulation]
+and [scenarios][gemseo_umdo.scenario]
 subpackages
 used to define and solve an MDO problem under uncertainty.
 
@@ -23,13 +23,13 @@ used to define and solve an MDO problem under uncertainty.
 
 ```tree
 gemseo_umdo
-  disciplines # Subpackage including noising disciplines
+  discipline # Subpackage including noising disciplines
     additive_noiser.py # Noising discipline adding a random variable to a deterministic one
     base_noiser.py # Base class for noising disciplines
     multiplicative_noiser.py # Noising discipline multiplying a deterministic variable by a random one
     noiser_factory.py # Factory of noising disciplines
-    utils.py # Function creating the chain of noising disciplines
-  formulations # Subpackage including U-MDO formulations
+    util.py # Function creating the chain of noising disciplines
+  formulation # Subpackage including U-MDO formulations
     factory.py # Factory of U-MDO formulations
     base_umdo_formulation.py # Base class for U-MDO formulations
     base_umdo_formulation_settings.py # Base class for the settings of the U-MDO formulations
@@ -47,11 +47,11 @@ gemseo_umdo
     surrogate_settings.py # Settings for Surrogate
     taylor_polynomial.py # U-MDO formulation estimating statistics using Taylor polynomials
     taylor_polynomial_settings.py # Settings for TaylorPolynomial
-    _functions # Subpackage of statistic estimation functions to be used with EvaluationProblem
+    _function # Subpackage of statistic estimation functions to be used with EvaluationProblem
       base_statistic_function.py # Base class for statistic estimation functions
       statistic_function_for_a_specific_u_mdo_formulation.py # Statistic estimation functions for a U-MDO formulation
       ...
-    _statistics # Subpackage of statistic estimators
+    _statistic # Subpackage of statistic estimators
       base_statistic_estimator.py # Base class for statistic estimators
       specific_u_mdo_formulation # The subpackage of statistic estimators associated with a specific U-MDO formulation
         base_sampling_estimator.py # The base class for statistic estimators associated with this U-MDO formulation
@@ -59,7 +59,7 @@ gemseo_umdo
         variance.py # The estimator of the variance associated with this U-MDO formulation
         ...
       ...
-  scenarios # Subpackage including scenarios using U-MDO formulations
+  scenario # Subpackage including scenarios using U-MDO formulations
     base_u_scenario.py # Base scenario using a U-MDO formulation
     u_evaluation_scenario.py # Scenario evaluating statistics over the design space with a DOE
     umdo_scenario.py # Scenario solving a U-MDO problem with an optimizer or a DOE

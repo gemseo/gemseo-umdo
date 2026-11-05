@@ -52,8 +52,8 @@ from gemseo.space import DesignSpace
 from gemseo.space import RandomSpace
 from gemseo.uncertainty.distribution import OTTriangularDistribution_Settings
 
-from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
-from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
+from gemseo_umdo.formulation.sampling_settings import Sampling_Settings
+from gemseo_umdo.scenario.umdo_scenario import UMDOScenario
 
 # %%
 # Firstly,
@@ -86,7 +86,7 @@ uncertain_space.add_variable(
 
 # %%
 # Then,
-# we define a [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
+# we define a [UMDOScenario][gemseo_umdo.scenario.umdo_scenario.UMDOScenario]
 # to minimize the statistic $\mathbb{E}[f(x,z_2,y_1,y_2)]$
 # estimated using a crude Monte Carlo sampling strategy
 # with 100 samples at each iteration of the optimization loop:
