@@ -18,7 +18,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from gemseo.post._graph_view import GraphView
+from gemseo.post.graph_view import GraphView
 from gemseo.util.string import repr_variable
 from numpy import atleast_1d
 from numpy import atleast_2d
