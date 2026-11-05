@@ -20,8 +20,8 @@ import pytest
 from numpy import array
 from numpy.testing import assert_equal
 
-from gemseo_umdo.discipline.additive_noiser import AdditiveNoiser
-from gemseo_umdo.discipline.noiser_factory import NoiserFactory
+from gemseo_umdo.discipline.noiser.additive_noiser import AdditiveNoiser
+from gemseo_umdo.discipline.noiser.factory import NoiserFactory
 
 
 @pytest.fixture

@@ -21,7 +21,7 @@ from typing import TYPE_CHECKING
 from gemseo.discipline import AnalyticDiscipline
 from gemseo.discipline import DisciplineChain
 
-from gemseo_umdo.discipline.noiser_factory import NoiserFactory
+from gemseo_umdo.discipline.noiser.factory import NoiserFactory
 
 if TYPE_CHECKING:
     from collections.abc import Mapping
@@ -53,9 +53,9 @@ def create_noising_discipline_chain(
             More generally,
             the first element of the tuple is assumed
             to be either the class name or the
-            [short_name][gemseo_umdo.discipline.base_noiser.BaseNoiser.short_name]
+            [short_name][gemseo_umdo.discipline.noiser.base_noiser.BaseNoiser.short_name]
             of a
-            [BaseNoiser][gemseo_umdo.discipline.base_noiser.BaseNoiser]
+            [BaseNoiser][gemseo_umdo.discipline.noiser.base_noiser.BaseNoiser]
             (feel free to create new noising disciplines).
             The second way of defining these uncertain input variables
             consists of passing a set of more complex expressions

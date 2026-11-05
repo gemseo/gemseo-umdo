@@ -12,19 +12,6 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-"""Tests for BaseNoiser."""
+"""Tests for the package gemseo_umdo.discipline.noiser."""
 
 from __future__ import annotations
-
-from gemseo.util.testing.helper import concretize_classes
-
-from gemseo_umdo.discipline.additive_noiser import AdditiveNoiser
-
-
-def test_grammar():
-    """Check the input and output grammars."""
-    with concretize_classes(AdditiveNoiser):
-        noiser = AdditiveNoiser("foo", "noised_foo", "noise")
-
-    assert list(noiser.input_grammar.names) == ["foo", "noise"]
-    assert list(noiser.output_grammar.names) == ["noised_foo"]

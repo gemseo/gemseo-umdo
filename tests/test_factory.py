@@ -19,7 +19,7 @@ from __future__ import annotations
 import pytest
 from gemseo.core.base_factory import BaseFactory
 
-from gemseo_umdo.discipline.noiser_factory import NoiserFactory
+from gemseo_umdo.discipline.noiser.factory import NoiserFactory
 from gemseo_umdo.formulation._statistic.control_variate.factory import (
     ControlVariateEstimatorFactory,
 )

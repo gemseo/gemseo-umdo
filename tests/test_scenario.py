@@ -37,8 +37,8 @@ from numpy import vstack
 from numpy.linalg import norm
 from numpy.testing import assert_almost_equal
 
-from gemseo_umdo.discipline.additive_noiser import AdditiveNoiser
-from gemseo_umdo.discipline.multiplicative_noiser import MultiplicativeNoiser
+from gemseo_umdo.discipline.noiser.additive_noiser import AdditiveNoiser
+from gemseo_umdo.discipline.noiser.multiplicative_noiser import MultiplicativeNoiser
 from gemseo_umdo.formulation.factory import UMDOFormulationsFactory
 from gemseo_umdo.formulation.sampling import Sampling
 from gemseo_umdo.formulation.sampling_settings import Sampling_Settings

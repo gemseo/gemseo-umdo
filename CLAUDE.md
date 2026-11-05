@@ -91,8 +91,8 @@ GEMSEO scenarios create their formulation through the class attribute
 `mdo_formulation_settings`, which the GEMSEO scenario does not pass.
 
 `uncertain_design_variables` prepends a chain of noising disciplines
-(`discipline/`: `AdditiveNoiser`, `MultiplicativeNoiser`, found by class name or
-`short_name` through `NoiserFactory`) that computes `x` from a generated design
+(`discipline/noiser/`: `AdditiveNoiser`, `MultiplicativeNoiser`, found by class name
+or `short_name` through `NoiserFactory`) that computes `x` from a generated design
 variable `dv_x` and an uncertain variable.
 
 ### U-MDO formulations

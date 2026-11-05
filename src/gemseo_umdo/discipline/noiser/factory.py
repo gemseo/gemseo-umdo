@@ -20,7 +20,7 @@ from typing import ClassVar
 
 from gemseo.discipline.factory import DisciplineFactory
 
-from gemseo_umdo.discipline.base_noiser import BaseNoiser
+from gemseo_umdo.discipline.noiser.base_noiser import BaseNoiser
 
 
 class NoiserFactory(DisciplineFactory):
@@ -28,7 +28,7 @@ class NoiserFactory(DisciplineFactory):
 
     _class: ClassVar[type[BaseNoiser]] = BaseNoiser
 
-    _package_names: ClassVar[tuple[str, ...]] = ("gemseo_umdo.discipline",)
+    _package_names: ClassVar[tuple[str, ...]] = ("gemseo_umdo.discipline.noiser",)
 
     __short_names_to_class_names: dict[str, str]
     """The {short name: class_name} mapping."""

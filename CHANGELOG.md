@@ -81,6 +81,15 @@ and this project adheres to
   e.g. `gemseo_umdo.use_case.truss.bars` defining `Bars`:
     - `gemseo_umdo.disciplines` → [gemseo_umdo.discipline][gemseo_umdo.discipline];
     - `gemseo_umdo.disciplines.utils` → [gemseo_umdo.discipline.util][gemseo_umdo.discipline.util];
+    - `gemseo_umdo.disciplines.base_noiser`
+      → [gemseo_umdo.discipline.noiser.base_noiser][gemseo_umdo.discipline.noiser.base_noiser];
+    - `gemseo_umdo.disciplines.additive_noiser`
+      → [gemseo_umdo.discipline.noiser.additive_noiser][gemseo_umdo.discipline.noiser.additive_noiser];
+    - `gemseo_umdo.disciplines.multiplicative_noiser`
+      → [gemseo_umdo.discipline.noiser.multiplicative_noiser][gemseo_umdo.discipline.noiser.multiplicative_noiser];
+    - `gemseo_umdo.disciplines.noiser_factory`
+      → [gemseo_umdo.discipline.noiser.factory][gemseo_umdo.discipline.noiser.factory],
+      following the naming rule of the factories;
     - `gemseo_umdo.formulations` → [gemseo_umdo.formulation][gemseo_umdo.formulation];
     - `gemseo_umdo.problems` → [gemseo_umdo.problem][gemseo_umdo.problem];
     - `gemseo_umdo.scenarios` → [gemseo_umdo.scenario][gemseo_umdo.scenario];
@@ -151,7 +160,7 @@ and this project adheres to
   which used to be named `"Margin[o]"`.
 - BREAKING CHANGE: the ALL_CAPS class attributes and module-level constants
   are named in lower snake case, as in GEMSEO 7:
-    - `BaseNoiser.SHORT_NAME` → [short_name][gemseo_umdo.discipline.base_noiser.BaseNoiser.short_name];
+    - `BaseNoiser.SHORT_NAME` → [short_name][gemseo_umdo.discipline.noiser.base_noiser.BaseNoiser.short_name];
     - `gemseo_umdo.formulations.factory.UMDO_FORMULATION_FACTORY`
       → [umdo_formulation_factory][gemseo_umdo.formulation.factory.umdo_formulation_factory].
 - BREAKING CHANGE: the enumeration `gemseo_umdo.formulations.DOE_ALGO_NAMES`
@@ -481,15 +490,15 @@ and this project adheres to
   can now accept values such as `("+", "u")` and `("*", "u")`
   to noise the corresponding key `x` as `x = dv_x + u` and `x = dv_x * (1 + u)`
   where `x` is a discipline input made uncertain by the random variable `u`.
-- [AdditiveNoiser][gemseo_umdo.discipline.additive_noiser.AdditiveNoiser]
+- [AdditiveNoiser][gemseo_umdo.discipline.noiser.additive_noiser.AdditiveNoiser]
   and
-  [MultiplicativeNoiser][gemseo_umdo.discipline.multiplicative_noiser.MultiplicativeNoiser]
+  [MultiplicativeNoiser][gemseo_umdo.discipline.noiser.multiplicative_noiser.MultiplicativeNoiser]
   are disciplines to noise a design variable $x$ as $X=x+U$ and $X=x(1+U)$ respectively
   where $U$ is a random variable.
-  [BaseNoiser][gemseo_umdo.discipline.base_noiser.BaseNoiser]
+  [BaseNoiser][gemseo_umdo.discipline.noiser.base_noiser.BaseNoiser]
   can be used to create other noising disciplines
   and a specific
-  [NoiserFactory][gemseo_umdo.discipline.noiser_factory.NoiserFactory]
+  [NoiserFactory][gemseo_umdo.discipline.noiser.factory.NoiserFactory]
   is available.
 - [ControlVariate][gemseo_umdo.formulation.control_variate.ControlVariate],
   a new [BaseUMDOFormulation][gemseo_umdo.formulation.base_umdo_formulation.BaseUMDOFormulation]

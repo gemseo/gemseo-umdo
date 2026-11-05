@@ -24,10 +24,11 @@ used to define and solve an MDO problem under uncertainty.
 ```tree
 gemseo_umdo
   discipline # Subpackage including noising disciplines
-    additive_noiser.py # Noising discipline adding a random variable to a deterministic one
-    base_noiser.py # Base class for noising disciplines
-    multiplicative_noiser.py # Noising discipline multiplying a deterministic variable by a random one
-    noiser_factory.py # Factory of noising disciplines
+    noiser # Subpackage including noising disciplines
+      additive_noiser.py # Noising discipline adding a random variable to a deterministic one
+      base_noiser.py # Base class for noising disciplines
+      factory.py # Factory of noising disciplines
+      multiplicative_noiser.py # Noising discipline multiplying a deterministic variable by a random one
     util.py # Function creating the chain of noising disciplines
   formulation # Subpackage including U-MDO formulations
     factory.py # Factory of U-MDO formulations
