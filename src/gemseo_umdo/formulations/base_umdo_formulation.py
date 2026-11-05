@@ -19,7 +19,6 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 from typing import Any
 from typing import ClassVar
-from typing import Final
 
 from gemseo.core.function.array_function import ArrayFunction
 from gemseo.core.problem.evaluation import EvaluationProblem
@@ -33,9 +32,11 @@ from gemseo.util.data_conversion import split_array_to_dict_of_arrays
 from gemseo.util.file_path_manager import FilePathManager
 from gemseo.util.hashable_ndarray import HashableNdarray
 from gemseo.util.string import convert_strings_to_iterable
+from gemseo.util.string import pretty_repr
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
+    from collections.abc import MutableMapping
     from collections.abc import Sequence
 
     from gemseo.core.base_factory import BaseFactory
@@ -46,7 +47,6 @@ if TYPE_CHECKING:
     from gemseo.scenario import EvaluationScenario
     from gemseo.space import RandomSpace
     from gemseo.util.typing import RealArray
-    from gemseo.util.typing import StrKeyMapping
 
     from gemseo_umdo.formulations._functions.base_statistic_function import (
         BaseStatisticFunction,
@@ -54,16 +54,6 @@ if TYPE_CHECKING:
     from gemseo_umdo.formulations.base_umdo_formulation_settings import (
         BaseUMDOFormulationSettings,
     )
-
-
-_default_factor: Final[float] = 2.0
-"""The default factor related to the standard deviation."""
-
-_factor_name: Final[str] = "factor"
-"""The name of the argument for the factor related to the standard deviation."""
-
-_margin_name: Final[str] = "Margin"
-"""The name of the classes implementing the margin statistics."""
 
 
 class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignSpace]):
@@ -96,25 +86,19 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
     """
 
     _statistic_factory: BaseFactory
-    """A factory of statistics.
+    """A factory of statistic estimators.
 
     A U-MDO formulation with only one way to estimate statistics sets it at class level.
     A U-MDO formulation with several ways sets it at instantiation,
     before calling the `__init__` of this class.
-    For example, Sampling can estimate statistics in one go or iteratively.
+    For example, `Sampling` can estimate statistics in one go or iteratively.
     """
 
     _statistic_function_class: type[BaseStatisticFunction]
-    """A subclass of `ArrayFunction` to compute a statistic.
-
-    Set together with `_statistic_factory`.
-    """
+    """A subclass of `ArrayFunction` to compute a statistic, set at class level."""
 
     _uncertain_space: RandomSpace
     """The uncertain space."""
-
-    __available_statistics: list[str]
-    """The names of the available statistics."""
 
     input_data_to_output_data: dict[HashableNdarray, dict[bool, dict[str, Any]]]
     """The output samples or output statistics associated with the input data.
@@ -145,7 +129,6 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
                 If `None`,
                 use [MDF_Settings][gemseo.formulation.mdf_settings.MDF_Settings].
         """  # noqa: D205 D212 D415
-        self.__available_statistics = self._statistic_factory.class_names
         self._uncertain_space = uncertain_space
         if mdo_formulation_settings is None:
             mdo_formulation_settings = MDF_Settings()
@@ -203,55 +186,62 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
         # The input space has been updated at instantiation by the MDO formulation.
         pass
 
-    @staticmethod
-    def __check_statistic_parameters(
-        statistic_name: str,
-        statistic_parameters: StrKeyMapping,
-    ) -> None:
-        """Check the statistic parameters.
-
-        Args:
-            statistic_name: The name of the statistic.
-            statistic_parameters: The statistic parameters to be checked.
-
-        Raises:
-            ValueError: When the factor of a margin is zero.
-        """
-        if (
-            statistic_name == _margin_name
-            and statistic_parameters.get(_factor_name, _default_factor) == 0
-        ):
-            msg = (
-                "The factor of a margin must be non-zero; "
-                "a margin with a zero factor is the mean. "
-                "Use the statistic 'Mean' instead."
-            )
-            raise ValueError(msg)
-
-    @staticmethod
     def __update_statistic_parameters(
+        self,
         statistic_name: str,
-        statistic_parameters: StrKeyMapping,
-        use_negative_factor: bool,
-    ) -> StrKeyMapping:
-        """Update the statistic parameters.
+        statistic_parameters: MutableMapping[str, Any],
+        conservative_from_below: bool | None,
+    ) -> MutableMapping[str, Any]:
+        """Update the statistic parameters with the class of its estimator.
 
         Args:
             statistic_name: The name of the statistic.
             statistic_parameters: The statistic parameters to be updated.
-            use_negative_factor: Whether to use a negative factor.
+            conservative_from_below: Whether the statistic must be conservative
+                from below,
+                e.g. with a negative factor for a margin
+                and a level lower than 0.5 for a quantile.
+                If `None`,
+                e.g. for an observable,
+                the statistic does not have to be conservative.
 
         Returns:
             The updated statistic parameters.
         """
-        if statistic_name == _margin_name:
-            statistic_parameters = statistic_parameters or {}
-            factor = abs(statistic_parameters.get(_factor_name, _default_factor))
-            if use_negative_factor:
-                factor *= -1
-            statistic_parameters[_factor_name] = factor
+        statistic_class = self._statistic_factory.get_class(statistic_name)
+        return statistic_class.update_parameters(
+            statistic_parameters, conservative_from_below
+        )
 
-        return statistic_parameters
+    def _register_statistic_function(self, function: BaseStatisticFunction) -> None:
+        """Register a function computing a statistic.
+
+        This method is called once the function has been created
+        by `create_objective` or `create_constraint`
+        or added to the optimization problem
+        by `add_constraint` or `add_observable`,
+        so that a failure leaves the U-MDO formulation unchanged.
+
+        Args:
+            function: The function computing the statistic.
+        """
+
+    def _check_statistic_name(self, statistic_name: str) -> None:
+        """Check that a statistic is available.
+
+        Args:
+            statistic_name: The name of the statistic.
+
+        Raises:
+            ValueError: When the statistic is not available.
+        """
+        if not self._statistic_factory.is_available(statistic_name):
+            msg = (
+                f"The statistic '{statistic_name}' is not available "
+                f"for the U-MDO formulation {self.__class__.__name__}; "
+                f"available statistics: {pretty_repr(self.available_statistics)}."
+            )
+            raise ValueError(msg)
 
     def _clear_input_data_to_output_data(self, x_vect: RealArray) -> None:
         """Clear the attribute `input_data_to_output_data` except for `x_vect`.
@@ -296,15 +286,35 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
     @property
     def available_statistics(self) -> list[str]:
         """The names of the statistics to quantify the output uncertainties."""
-        return self.__available_statistics
+        return self._statistic_factory.class_names
 
-    def __add_mdo_observable(
+    @staticmethod
+    def __get_mdo_observable_name(
+        output_names: Sequence[str], observable_name: str = ""
+    ) -> str:
+        """Return the name of the observable of the MDO formulations.
+
+        Args:
+            output_names: The names of the outputs to observe.
+            observable_name: The name of the observable.
+                If empty, concatenate the output names.
+
+        Returns:
+            The name of the observable.
+        """
+        return observable_name or "_".join(output_names)
+
+    def __check_mdo_observables(
         self,
         output_names: Sequence[str],
         observable_name: str = "",
         discipline: Discipline | None = None,
-    ) -> str:
-        """Add an observable to the MDO formulations if missing.
+    ) -> bool:
+        """Check the observables of the MDO formulations to be added, if missing.
+
+        The observables are added by `__add_mdo_observables()`;
+        checking them first rejects wrong output names
+        before changing the optimization problem.
 
         Args:
             output_names: The names of the outputs to observe.
@@ -314,29 +324,62 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
                 If `None`, the discipline is detected from inner disciplines.
 
         Returns:
-            The name of the observable.
+            Whether the observable is missing.
         """
-        function_name = observable_name or "_".join(output_names)
+        function_name = self.__get_mdo_observable_name(output_names, observable_name)
         function_names = [
             function_.name
             for function_ in self._mdo_formulation.problem.functions
             if function_ is not None
         ]
-        if function_name not in function_names:
-            for formulation in (
-                self._auxiliary_mdo_formulation,
-                self._mdo_formulation,
+        if function_name in function_names:
+            return False
+
+        for formulation in (self._auxiliary_mdo_formulation, self._mdo_formulation):
+            if formulation is None:
+                continue
+
+            disciplines = (
+                formulation.get_top_level_disciplines()
+                if discipline is None
+                else (discipline,)
+            )
+            if not any(
+                discipline_.io.output_grammar.has_names(output_names)
+                for discipline_ in disciplines
             ):
-                if formulation is not None:
-                    formulation.add_observable(
-                        output_names,
-                        observable_name=observable_name,
-                        discipline=discipline,
-                    )
+                # Creating the function raises the error for a wrong output name;
+                # it is not created otherwise as add_observable() will create it.
+                formulation.create_function(
+                    output_names, discipline=discipline, name=observable_name
+                )
 
-            self._post_add_mdo_observable()
+        return True
 
-        return function_name
+    def __add_mdo_observables(
+        self,
+        output_names: Sequence[str],
+        observable_name: str = "",
+        discipline: Discipline | None = None,
+    ) -> None:
+        """Add observables to the MDO formulations.
+
+        Args:
+            output_names: The names of the outputs to observe.
+            observable_name: The name of the observable.
+                If empty, concatenate the output names.
+            discipline: The discipline computing the observed outputs.
+                If `None`, the discipline is detected from inner disciplines.
+        """
+        for formulation in (self._auxiliary_mdo_formulation, self._mdo_formulation):
+            if formulation is not None:
+                formulation.add_observable(
+                    output_names=output_names,
+                    observable_name=observable_name,
+                    discipline=discipline,
+                )
+
+        self._post_add_mdo_observable()
 
     def create_objective(  # type: ignore[override]
         self,
@@ -361,22 +404,27 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
         Returns:
             The objective function.
         """
-        self.__check_statistic_parameters(statistic_name, statistic_parameters)
+        self._check_statistic_name(statistic_name)
         output_names = convert_strings_to_iterable(output_names)
-        function_name = self.__add_mdo_observable(output_names)
         statistic_parameters = self.__update_statistic_parameters(
             statistic_name, statistic_parameters, not minimize
         )
+        # The statistic function is created before adding the MDO observable
+        # so that invalid statistic parameters do not leave an orphan observable.
         objective = self._statistic_function_class(
             self,
-            function_name,
+            self.__get_mdo_observable_name(output_names),
             ArrayFunction.FunctionType.OBJ,
             statistic_name,
             **statistic_parameters,
         )
+        if self.__check_mdo_observables(output_names):
+            self.__add_mdo_observables(output_names)
+
         objective.name = objective_name or self.__compute_name(
             output_names, statistic_name, **statistic_parameters
         )
+        self._register_statistic_function(objective)
         return objective
 
     def add_observable(  # type: ignore[override]
@@ -393,14 +441,14 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
             **statistic_parameters: The values of the parameters of the statistic,
                 if any.
         """  # noqa: D205 D212 D415
-        self.__check_statistic_parameters(statistic_name, statistic_parameters)
+        self._check_statistic_name(statistic_name)
         output_names = convert_strings_to_iterable(output_names)
-        function_name = self.__add_mdo_observable(
-            output_names, observable_name=observable_name, discipline=discipline
+        statistic_parameters = self.__update_statistic_parameters(
+            statistic_name, statistic_parameters, None
         )
         observable = self._statistic_function_class(
             self,
-            function_name,
+            self.__get_mdo_observable_name(output_names, observable_name),
             ArrayFunction.FunctionType.NONE,
             statistic_name,
             **statistic_parameters,
@@ -408,8 +456,25 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
         observable.name = self.__compute_name(
             observable_name or output_names, statistic_name, **statistic_parameters
         )
+        # The observable is added to the problem before the MDO observables,
+        # so that a failure, e.g. a name collision,
+        # does not leave an orphan observable.
+        is_mdo_observable_missing = self.__check_mdo_observables(
+            output_names, observable_name=observable_name, discipline=discipline
+        )
+        is_observed = observable.name in self.problem.observables.get_names()
+        # The problem logs a warning and ignores the observable if already observed.
         self.problem.add_observable(observable)
+        if is_observed:
+            return
+
+        if is_mdo_observable_missing:
+            self.__add_mdo_observables(
+                output_names, observable_name=observable_name, discipline=discipline
+            )
+
         self._post_add_observable()
+        self._register_statistic_function(observable)
 
     def create_constraint(  # type: ignore[override]
         self,
@@ -440,17 +505,62 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
         Returns:
             The constraint function.
         """
-        self.__check_statistic_parameters(statistic_name, statistic_parameters)
         output_names = convert_strings_to_iterable(output_names)
-        function_name = self.__add_mdo_observable(output_names)
+        function, constraint = self.__create_constraint(
+            output_names,
+            statistic_name,
+            constraint_type=constraint_type,
+            constraint_name=constraint_name,
+            value=value,
+            positive=positive,
+            **statistic_parameters,
+        )
+        if self.__check_mdo_observables(output_names):
+            self.__add_mdo_observables(output_names)
+
+        self._register_statistic_function(function)
+        return constraint
+
+    def __create_constraint(
+        self,
+        output_names: Sequence[str],
+        statistic_name: str,
+        constraint_type: ArrayFunction.ConstraintType,
+        constraint_name: str,
+        value: float,
+        positive: bool,
+        **statistic_parameters: Any,
+    ) -> tuple[BaseStatisticFunction, ArrayFunction]:
+        """Create a constraint function associated with outputs names.
+
+        The MDO observable computing the outputs is not added.
+
+        Args:
+            output_names: The names of the outputs.
+            statistic_name: The name of the statistic of `output_names`.
+            constraint_type: The type of constraint.
+            constraint_name: The name of the constraint to be stored.
+                If empty,
+                the name is generated from `output_names` and `statistic_name`.
+            value: The value $a$.
+            positive: Whether the inequality constraint is positive.
+            **statistic_parameters: The values of the parameters of the statistic,
+                if any.
+
+        Returns:
+            The function computing the statistic
+            and the constraint function built from it.
+        """
+        self._check_statistic_name(statistic_name)
+        # An equality constraint does not have to be conservative.
         statistic_parameters = self.__update_statistic_parameters(
             statistic_name,
             statistic_parameters,
-            positive,
+            positive if constraint_type == ArrayFunction.ConstraintType.INEQ else None,
         )
         constraint = self._statistic_function_class(
             self,
-            function_name,
+            self.__get_mdo_observable_name(output_names),
             ArrayFunction.FunctionType.NONE,
             statistic_name,
             **statistic_parameters,
@@ -464,11 +574,14 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
             constraint.name = name
             constraint.has_default_name = True
 
-        return Constraints.format(
+        return (
             constraint,
-            value=value,
-            constraint_type=constraint_type,
-            positive=positive,
+            Constraints.format(
+                constraint,
+                value=value,
+                constraint_type=constraint_type,
+                positive=positive,
+            ),
         )
 
     def add_constraint(
@@ -497,18 +610,26 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
             **statistic_parameters: The values of the parameters of the statistic,
                 if any.
         """
-        self.problem.add_constraint(
-            self.create_constraint(
-                output_names,
-                statistic_name,
-                constraint_type=constraint_type,
-                constraint_name=constraint_name,
-                value=value,
-                positive=positive,
-                **statistic_parameters,
-            )
+        output_names = convert_strings_to_iterable(output_names)
+        function, constraint = self.__create_constraint(
+            output_names,
+            statistic_name,
+            constraint_type=constraint_type,
+            constraint_name=constraint_name,
+            value=value,
+            positive=positive,
+            **statistic_parameters,
         )
+        # The constraint is added to the problem before the MDO observables,
+        # so that a failure, e.g. a name collision,
+        # does not leave an orphan observable.
+        is_mdo_observable_missing = self.__check_mdo_observables(output_names)
+        self.problem.add_constraint(constraint)
+        if is_mdo_observable_missing:
+            self.__add_mdo_observables(output_names)
+
         self._post_add_constraint()
+        self._register_statistic_function(function)
 
     def _post_add_mdo_observable(self) -> None:
         """Apply actions after adding an observable to the MDO formulations."""

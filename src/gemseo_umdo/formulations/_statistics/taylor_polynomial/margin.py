@@ -18,6 +18,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from gemseo_umdo.formulations._statistics.base_margin import BaseMargin
 from gemseo_umdo.formulations._statistics.taylor_polynomial.base_taylor_polynomial_estimator import (  # noqa: E501
     BaseTaylorPolynomialEstimator,
 )
@@ -31,7 +32,7 @@ if TYPE_CHECKING:
     from gemseo.util.typing import RealArray
 
 
-class Margin(BaseTaylorPolynomialEstimator):
+class Margin(BaseMargin, BaseTaylorPolynomialEstimator):
     """Estimator of a margin, i.e. mean + factor * deviation."""
 
     __factor: float

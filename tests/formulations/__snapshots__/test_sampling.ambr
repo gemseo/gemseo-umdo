@@ -14,6 +14,15 @@
 # name: test_data_for_statistic_estimation_without_samples[store_jacobian=False]
   'The Jacobian of the statistics of f cannot be estimated, as the gradient of f is not available at any sample of the uncertain variables, e.g. because its evaluation failed or the DOE algorithm does not store the Jacobian.'
 # ---
+# name: test_failed_addition_leaves_formulation_unchanged
+  "No discipline known by formulation MDF has all outputs named ['typo']."
+# ---
+# name: test_failed_sampling[False]
+  'Failure.'
+# ---
+# name: test_failed_sampling[True]
+  'Failure.'
+# ---
 # name: test_iterative_statistic_jacobian_without_gradient[True]
   'The Jacobian of the statistics of f cannot be estimated, as the gradient of f is not available at any sample of the uncertain variables, e.g. because its evaluation failed or the DOE algorithm does not store the Jacobian.'
 # ---
@@ -22,6 +31,45 @@
 # ---
 # name: test_iterative_statistic_without_samples[jac-True]
   'The Jacobian of the statistics of f cannot be estimated, as f is not available at any sample of the uncertain variables, e.g. because its evaluation failed.'
+# ---
+# name: test_name_collision_leaves_formulation_unchanged[constraint]
+  "The function name 'E[o]' is already used by another function. Duplicated function names produce unpredictable behavior."
+# ---
+# name: test_name_collision_leaves_formulation_unchanged[observable]
+  "The function name 'E[o]' is already used by another function. Duplicated function names produce unpredictable behavior."
+# ---
+# name: test_quantile_invalid_arguments[level-one]
+  'The level of the quantile must be in ]0,1[; got 1.0.'
+# ---
+# name: test_quantile_invalid_arguments[level-zero]
+  'The level of the quantile must be in ]0,1[; got 0.0.'
+# ---
+# name: test_quantile_invalid_arguments[unknown-method]
+  "The method of the quantile must be a method of numpy.quantile; got 'foo'."
+# ---
+# name: test_quantile_invalid_conservative_level[maximized-objective]
+  'The level of the quantile must be in ]0,1[; got 0.0.'
+# ---
+# name: test_quantile_invalid_conservative_level[minimized-objective]
+  'The level of the quantile must be in ]0,1[; got 0.0.'
+# ---
+# name: test_quantile_invalid_conservative_level[negative-constraint]
+  'The level of the quantile must be in ]0,1[; got 1.2.'
+# ---
+# name: test_quantile_invalid_conservative_level[positive-constraint]
+  'The level of the quantile must be in ]0,1[; got 1.2.'
+# ---
+# name: test_quantile_with_iterative_estimation[add_constraint]
+  'The statistic \'Quantile\' cannot be estimated iteratively; use "estimate_statistics_iteratively=False".'
+# ---
+# name: test_quantile_with_iterative_estimation[add_observable]
+  'The statistic \'Quantile\' cannot be estimated iteratively; use "estimate_statistics_iteratively=False".'
+# ---
+# name: test_quantile_with_iterative_estimation[create_constraint]
+  'The statistic \'Quantile\' cannot be estimated iteratively; use "estimate_statistics_iteratively=False".'
+# ---
+# name: test_quantile_with_iterative_estimation[create_objective]
+  'The statistic \'Quantile\' cannot be estimated iteratively; use "estimate_statistics_iteratively=False".'
 # ---
 # name: test_statistic_jacobian_with_failing_jacobian_of_other_output
   'The Jacobian of the statistics of o cannot be estimated, as the gradient of o is not available at any sample of the uncertain variables, e.g. because its evaluation failed or the DOE algorithm does not store the Jacobian.'
@@ -70,4 +118,13 @@
 # ---
 # name: test_statistic_with_too_few_samples[standard-Variance]
   'The statistic V[f] cannot be estimated, as it requires at least 2 samples of f, while the number of samples of f is 1, e.g. because the DOE algorithm generated too few samples of the uncertain variables or because its evaluation failed at some of these samples.'
+# ---
+# name: test_unavailable_statistic[iterative-quantile]
+  'The statistic \'Quantile\' cannot be estimated iteratively; use "estimate_statistics_iteratively=False".'
+# ---
+# name: test_unavailable_statistic[iterative-unknown]
+  "The statistic 'Foo' is not available for the U-MDO formulation Sampling; available statistics: 'Margin', 'Mean', 'Probability', 'StandardDeviation' and 'Variance'."
+# ---
+# name: test_unavailable_statistic[one-shot-unknown]
+  "The statistic 'Foo' is not available for the U-MDO formulation Sampling; available statistics: 'Margin', 'Mean', 'Probability', 'Quantile', 'StandardDeviation' and 'Variance'."
 # ---

@@ -17,3 +17,6 @@
 # name: test_margin_with_zero_factor[0-create_objective]
   "The factor of a margin must be non-zero; a margin with a zero factor is the mean. Use the statistic 'Mean' instead."
 # ---
+# name: test_unavailable_statistic
+  "The statistic 'Foo' is not available for the U-MDO formulation MyUMDOFormulation; available statistics: 'Margin', 'Mean', 'Probability', 'Quantile', 'StandardDeviation' and 'Variance'."
+# ---

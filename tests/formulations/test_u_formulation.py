@@ -14,6 +14,7 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
 from typing import Any
 from typing import ClassVar
 from unittest import mock
@@ -28,9 +29,11 @@ from gemseo.mda import MDAGaussSeidel_Settings
 from gemseo.optimization import OptimizationProblem
 from gemseo.space import DesignSpace
 from gemseo.space import RandomSpace
-from gemseo.uncertainty.distribution import SPNormalDistribution_Settings
+from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 from gemseo.util.testing.helper import assert_exception
 from numpy import array
+from numpy import array_equal
+from numpy.testing import assert_equal
 
 from gemseo_umdo.formulations._statistics.sampling.factory import (
     SamplingEstimatorFactory,
@@ -38,6 +41,14 @@ from gemseo_umdo.formulations._statistics.sampling.factory import (
 from gemseo_umdo.formulations.base_umdo_formulation import BaseUMDOFormulation
 from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
 from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
+
+if TYPE_CHECKING:
+    from collections.abc import Mapping
+    from collections.abc import Sequence
+
+    from gemseo_umdo.formulations.base_umdo_formulation_settings import (
+        BaseUMDOFormulationSettings,
+    )
 
 
 @pytest.fixture
@@ -65,7 +76,7 @@ def design_space() -> DesignSpace:
 def uncertain_space() -> RandomSpace:
     """The uncertain space containing the random variable."""
     space = RandomSpace()
-    space.add_variable("u", SPNormalDistribution_Settings())
+    space.add_variable("u", OTNormalDistribution_Settings())
     return space
 
 
@@ -170,6 +181,7 @@ def test_available_statistics(formulation):
         "Margin",
         "Mean",
         "Probability",
+        "Quantile",
         "StandardDeviation",
         "Variance",
     ]
@@ -206,13 +218,115 @@ def test_multiobjective(disciplines, design_space, uncertain_space):
     assert formulation.problem.objective.name == "E[f_o]"
 
 
-@pytest.mark.parametrize("factor", [3.0, -3.0])
+def _execute_margin_scenario(
+    disciplines: Sequence[AnalyticDiscipline],
+    design_space: DesignSpace,
+    uncertain_space: RandomSpace,
+    statistic_estimation_settings: BaseUMDOFormulationSettings,
+    parameters: Mapping[str, float],
+    positive: bool = False,
+    maximize: bool = False,
+) -> dict[str, Any]:
+    """Execute a scenario whose functions are margins.
+
+    Args:
+        disciplines: The disciplines.
+        design_space: The design space.
+        uncertain_space: The uncertain space.
+        statistic_estimation_settings: The settings of the U-MDO formulation.
+        parameters: The parameters of the margins.
+        positive: Whether the inequality constraint is positive.
+        maximize: Whether to maximize the objective.
+
+    Returns:
+        The last item of the database.
+    """
+    scenario = UMDOScenario(
+        disciplines,
+        design_space,
+        uncertain_space,
+        statistic_estimation_settings=statistic_estimation_settings,
+        formulation_settings=MDF_Settings(),
+    )
+    scenario.add_objective("f", "Margin", minimize=not maximize, **parameters)
+    scenario.add_constraint("c", "Margin", positive=positive, **parameters)
+    scenario.add_observable("o", "Margin", **parameters)
+    scenario.execute(CustomDOE_Settings(samples=array([[1.0, 1.0, 1.0]])))
+    return scenario.formulation.problem.database.last_item
+
+
+@pytest.mark.parametrize(
+    ("parameters", "abs_factor"),
+    [({"factor": 3.0}, 3.0), ({"factor": -3.0}, 3.0), ({}, 2.0)],
+    ids=["positive", "negative", "default"],
+)
+@pytest.mark.parametrize(
+    ("positive", "constraint_name"),
+    [(False, "Margin[c; {}]"), (True, "-Margin[c; -{}]")],
+)
+@pytest.mark.parametrize(
+    ("maximize", "objective_name"),
+    [(False, "Margin[f; {}]"), (True, "-Margin[f; -{}]")],
+)
+def test_margin_objective_and_constraint(
+    disciplines,
+    design_space,
+    uncertain_space,
+    statistic_estimation_settings,
+    parameters,
+    abs_factor,
+    positive,
+    constraint_name,
+    maximize,
+    objective_name,
+):
+    """Check that the factor of a margin objective or constraint is conservative.
+
+    The factor is replaced by its absolute value, negated if conservative from below.
+    """
+    args = (disciplines, design_space, uncertain_space, statistic_estimation_settings)
+    reference = _execute_margin_scenario(
+        *args, {"factor": abs_factor}, positive=positive, maximize=maximize
+    )
+    last_item = _execute_margin_scenario(
+        *args, parameters, positive=positive, maximize=maximize
+    )
+    name = objective_name.format(abs_factor)
+    assert_equal(last_item[name], reference[name])
+    name = constraint_name.format(abs_factor)
+    assert_equal(last_item[name], reference[name])
+
+
+def test_margin_observable_default_factor(
+    disciplines, design_space, uncertain_space, statistic_estimation_settings
+):
+    """Check that the default factor of a margin observable is 2."""
+    args = (disciplines, design_space, uncertain_space, statistic_estimation_settings)
+    reference = _execute_margin_scenario(*args, {"factor": 2.0})
+    last_item = _execute_margin_scenario(*args, {})
+    assert_equal(last_item["Margin[o; 2.0]"], reference["Margin[o; 2.0]"])
+
+
+def test_margin_observable_negative_factor(
+    disciplines, design_space, uncertain_space, statistic_estimation_settings
+):
+    """Check that the negative factor of a margin observable is used as is."""
+    args = (disciplines, design_space, uncertain_space, statistic_estimation_settings)
+    reference = _execute_margin_scenario(*args, {"factor": 3.0})
+    last_item = _execute_margin_scenario(*args, {"factor": -3.0})
+    assert not array_equal(last_item["Margin[o; -3.0]"], reference["Margin[o; 3.0]"])
+
+
+@pytest.mark.parametrize(
+    ("parameters", "name"),
+    [({}, "Margin[c; 2.0]"), ({"factor": -3.0}, "Margin[c; -3.0]")],
+    ids=["default", "negative"],
+)
 @pytest.mark.parametrize("positive", [False, True])
-@pytest.mark.parametrize("maximize", [False, True])
-def test_margin(disciplines, design_space, uncertain_space, factor, positive, maximize):
-    """Test that Margin handles the factor correctly."""
-    # Firstly,
-    # we generate reference results with Margin.factor = abs(factor).
+def test_margin_equality_constraint(
+    disciplines, design_space, uncertain_space, parameters, name, positive
+):
+    """Check that the factor of a margin equality constraint is used as is."""
     scenario = UMDOScenario(
         disciplines,
         design_space,
@@ -220,41 +334,17 @@ def test_margin(disciplines, design_space, uncertain_space, factor, positive, ma
         statistic_estimation_settings=Sampling_Settings(n_samples=10),
         formulation_settings=MDF_Settings(),
     )
-    scenario.add_objective("f", "Margin", minimize=not maximize, factor=abs(factor))
-    scenario.add_constraint("c", "Margin", factor=abs(factor), positive=positive)
-    scenario.add_observable("o", "Margin", factor=abs(factor))
-    scenario.execute(CustomDOE_Settings(samples=array([[1.0, 1.0, 1.0]])))
-    reference = scenario.formulation.problem.database.last_item
-
-    # Secondly,
-    # we generate results with Margin.factor = factor.
-    scenario = UMDOScenario(
-        disciplines,
-        design_space,
-        uncertain_space,
-        statistic_estimation_settings=Sampling_Settings(n_samples=10),
-        formulation_settings=MDF_Settings(),
+    scenario.add_constraint(
+        "c",
+        "Margin",
+        constraint_type=ArrayFunction.ConstraintType.EQ,
+        positive=positive,
+        **parameters,
     )
-    scenario.add_objective("f", "Margin", minimize=not maximize, factor=factor)
-    scenario.add_constraint("c", "Margin", factor=factor, positive=positive)
-    scenario.add_observable("o", "Margin", factor=factor)
-    scenario.execute(CustomDOE_Settings(samples=array([[1.0, 1.0, 1.0]])))
-    last_item = scenario.formulation.problem.database.last_item
+    assert scenario.formulation.problem.constraints[-1].name.endswith(name)
 
-    # Finally,
-    # we check that the factor is replaced by its absolute value in the second case
-    # for the objective and constraint.
-    if maximize:
-        assert last_item["-Margin[f; -3.0]"] == reference["-Margin[f; -3.0]"]
-    else:
-        assert last_item["Margin[f; 3.0]"] == reference["Margin[f; 3.0]"]
 
-    if positive:
-        assert last_item["-Margin[c; -3.0]"] == reference["-Margin[c; -3.0]"]
-    else:
-        assert last_item["Margin[c; 3.0]"] == reference["Margin[c; 3.0]"]
-
-    if factor > 0:
-        assert last_item["Margin[o; 3.0]"] == reference["Margin[o; 3.0]"]
-    else:
-        assert last_item["Margin[o; -3.0]"] != reference["Margin[o; 3.0]"]
+def test_unavailable_statistic(formulation, snapshot):
+    """Check that an unavailable statistic raises an explicit error."""
+    with assert_exception(ValueError, snapshot):
+        formulation.add_observable("o", "Foo")

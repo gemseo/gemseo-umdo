@@ -68,7 +68,8 @@ then the U-MDO formulation will use [seed][gemseo.util.seeder.seed].
 ## Statistics
 
 This U-MDO formulation has been implemented
-for the expectation, the standard deviation, the variance, the margin and the probability.
+for the expectation, the standard deviation, the variance, the margin, the probability
+and the quantile.
 
 | Statistic          | Notation                         | Estimator                                                                                        |
 |--------------------|----------------------------------|--------------------------------------------------------------------------------------------------|
@@ -77,12 +78,52 @@ for the expectation, the standard deviation, the variance, the margin and the pr
 | Standard deviation | $\mathbb{S}[\varphi(x,U)]$       | $S_N[\varphi(x,U)]=\sqrt{V_N[\varphi(x,U)]}$                                                     |
 | Margin             | $\textrm{Margin}[\varphi(x,U)]$  | $\textrm{Margin}_N[\varphi(x,U)]=E_N[\varphi(x,U)]+\kappa\cdot S_N[\varphi(x,U)]$                |
 | Probability        | $\mathbb{P}[\varphi(x,U)\leq 0]$ | $P_N[\varphi(x,U)\leq 0]=E_N[\mathbb{1}_{\varphi(x,U)\leq 0}]$                                   |
+| Quantile           | $Q_\alpha[\varphi(x,U)]$         | $Q_{\alpha,N}[\varphi(x,U)]=(1-w)\varphi_{(j)}(x)+w\varphi_{(j+1)}(x)$                           |
+
+where $\varphi_{(1)}(x)\leq\ldots\leq\varphi_{(N)}(x)$ are the order statistics
+of $\varphi(x,u^{(1)}),\ldots,\varphi(x,u^{(N)})$
+and where the index $j$ and the weight $w\in[0,1[$ depend on $\alpha$, $N$
+and the method of [numpy.quantile][numpy.quantile] [@hyndman1996sample]
+set by the statistic parameter `method` (default: `"linear"`),
+e.g. `scenario.add_constraint("c", "Quantile", level=0.95, method="hazen")`.
+The default level $\alpha$ is 0.95.
+A warning is logged when $N\min(\alpha,1-\alpha)<10$
+as the estimation is then inaccurate.
+
+!!! warning "Quantile and iterative estimation"
+
+    The quantile cannot be estimated iteratively:
+    using it requires `estimate_statistics_iteratively=False`,
+    otherwise an error is raised.
 
 ## Gradient-based optimization
 
 When the multidisciplinary process is differentiable,
 and a gradient-based optimizer is used,
 analytical derivatives are implemented with the following statistics:
-mean, standard deviation, variance and margin.
+mean, standard deviation, variance, margin and quantile.
 For probability statistics,
 only derivatives approximated by finite differences are currently available.
+
+The derivative of the quantile estimator is
+$(1-w)\nabla_x\varphi_{(j)}(x)+w\nabla_x\varphi_{(j+1)}(x)$,
+which is the pathwise estimator of the quantile sensitivity [@hong2009estimating].
+This estimator is only piecewise differentiable:
+its gradient jumps when the ranking of the samples changes.
+
+- What it guarantees:
+  with a fixed sample,
+  i.e. with common random numbers as by default,
+  it is the exact gradient of the estimated quantile
+  wherever the ranking of the samples does not change,
+  so that the optimizer is consistent with the function it minimizes.
+- What it does not guarantee:
+  as it only uses the gradients at one or two samples,
+  it is not a consistent estimator of the gradient of the quantile
+  $\nabla_x Q_\alpha[\varphi(x,U)]=\mathbb{E}[\nabla_x\varphi(x,U)|\varphi(x,U)=Q_\alpha[\varphi(x,U)]]$:
+  its variance does not decrease when $N$ increases.
+
+Consistent estimators of this gradient exist,
+e.g. by batching the samples [@hong2009estimating]
+or with a kernel estimator [@liu2009kernel],
+but they are not the gradient of the estimated quantile.

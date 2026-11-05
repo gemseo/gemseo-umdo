@@ -16,9 +16,8 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
-
 import pytest
+from gemseo.core.base_factory import BaseFactory
 
 from gemseo_umdo.disciplines.noiser_factory import NoiserFactory
 from gemseo_umdo.formulations._statistics.control_variate.factory import (
@@ -39,9 +38,6 @@ from gemseo_umdo.statistics.multilevel.mlmc.pilots.factory import MLMCPilotFacto
 from gemseo_umdo.statistics.multilevel.mlmc_mlcv.pilots.factory import (
     MLMCMLCVPilotFactory,
 )
-
-if TYPE_CHECKING:
-    from gemseo.core.base_factory import BaseFactory
 
 
 @pytest.mark.parametrize(
@@ -70,3 +66,23 @@ def test_factory(reset_factory, factory_class: type[BaseFactory]) -> None:
     factory = factory_class()
     assert factory.failed_imports == {}
     assert factory.class_names
+
+
+def test_iterative_sampling_factory_class_names(reset_factory) -> None:
+    """Check that the iterative factory lists only the concrete estimators."""
+    factory = IterativeSamplingEstimatorFactory()
+    assert factory.class_names == [
+        "Margin",
+        "Mean",
+        "Probability",
+        "StandardDeviation",
+        "Variance",
+    ]
+
+
+def test_iterative_sampling_factory_keeps_base_cache(reset_factory) -> None:
+    """Check that the iterative factory does not alter the cache of BaseFactory."""
+    factory = IterativeSamplingEstimatorFactory()
+    factory.class_names  # noqa: B018
+    base_name_to_class_info = BaseFactory._name_to_class_info.fget(factory)
+    assert "BaseSamplingEstimator" in base_name_to_class_info

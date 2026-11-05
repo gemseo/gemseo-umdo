@@ -19,6 +19,7 @@ from typing import Final
 
 import pytest
 from gemseo import execute_algo
+from gemseo.discipline import AnalyticDiscipline
 from gemseo.doe import CustomDOE_Settings
 from gemseo.doe import MC_Settings
 from gemseo.doe import OT_HALTON_Settings
@@ -33,10 +34,14 @@ from gemseo.optimization import OptimizationProblem
 from gemseo.problem.uncertainty.ishigami import IshigamiDiscipline
 from gemseo.problem.uncertainty.ishigami import IshigamiProblem
 from gemseo.space import DesignSpace
+from gemseo.space import RandomSpace
+from gemseo.uncertainty.distribution import SPNormalDistribution_Settings
 from gemseo.util.seeder import seed
 from numpy import array
+from numpy.testing import assert_allclose
 from numpy.testing import assert_almost_equal
 from numpy.testing import assert_equal
+from scipy.stats import norm
 
 from gemseo_umdo.formulations.surrogate import Surrogate
 from gemseo_umdo.formulations.surrogate_settings import Surrogate_Settings
@@ -202,3 +207,32 @@ def test_scenario(quadratic_problem, statistic_estimation_parameters, y_opt):
     assert last_item["y_test_quality"].shape == (1,)
     dataset = scenario.to_dataset()
     assert {"y_learning_quality", "y_test_quality"} <= set(dataset.variable_names)
+
+
+def test_quantile():
+    """Check the quantile estimated from the samples of the surrogate model."""
+    design_space = DesignSpace()
+    design_space.add_variable("x", value=1.0)
+    uncertain_space = RandomSpace()
+    uncertain_space.add_variable("u", SPNormalDistribution_Settings())
+    scenario = UMDOScenario(
+        [AnalyticDiscipline({"f": "x+u", "c": "x+u", "o": "x+u"})],
+        design_space,
+        uncertain_space,
+        statistic_estimation_settings=Surrogate_Settings(
+            n_samples=20,
+            regressor_n_samples=10000,
+            regressor_settings=LinearRegressor_Settings(),
+        ),
+        formulation_settings=DisciplinaryOpt_Settings(),
+    )
+    # The levels are made conservative for the objective and the constraint
+    # while the default level is used for the observable.
+    scenario.add_objective("f", "Quantile", level=0.1)
+    scenario.add_constraint("c", "Quantile", level=0.9, positive=True)
+    scenario.add_observable("o", "Quantile")
+    scenario.execute(CustomDOE_Settings(samples=array([[1.0]])))
+    last_item = scenario.formulation.problem.database.last_item
+    assert_allclose(last_item["Q[f; 0.9]"], 1 + norm.ppf(0.9), atol=0.05)
+    assert_allclose(last_item["-Q[c; 0.1]"], -1 - norm.ppf(0.1), atol=0.05)
+    assert_allclose(last_item["Q[o; 0.95]"], 1 + norm.ppf(0.95), atol=0.05)

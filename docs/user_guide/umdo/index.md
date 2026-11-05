@@ -131,18 +131,33 @@ e.g.
 - the standard deviation operator $\mathbb{S}$,
 - the variance operator $\mathbb{V}$,
 - a margin, i.e. a combination of expectation and standard deviation operators parametrized by a weight $\kappa$: $\mathbb{E}+\kappa\cdot\mathbb{S}$,
-- a probability operator $\mathbb{P}$ parametrized by bounds $m$ and $M$.
+- a probability operator $\mathbb{P}$ parametrized by bounds $m$ and $M$,
+- a quantile operator $Q_\alpha$ parametrized by a level $\alpha\in]0,1[$.
 
 Concerning the margin,
 the sign of $\kappa$ depends on the function type:
 
 - $\kappa$ must be positive for an objective to minimize,
 - $\kappa$ must be negative for an objective to maximize,
-- $\kappa$ must be positive for a negativity constraint,
-- $\kappa$ must be negative for a positivity constraint,
-- $\kappa$ can be either positive of negative for an observable.
+- $\kappa$ must be positive for a negativity inequality constraint,
+- $\kappa$ must be negative for a positivity inequality constraint,
+- $\kappa$ can be either positive or negative
+  for an observable or an equality constraint.
 
 GEMSEO-UMDO will take care of changing the $\kappa$ sign according to these rules. No need to worry about it.
+
+Similarly,
+concerning the quantile,
+$\alpha$ must be greater than 0.5
+for an objective to minimize or a negativity inequality constraint,
+and lower than 0.5
+for an objective to maximize or a positivity inequality constraint.
+GEMSEO-UMDO will take care of replacing $\alpha$ by $1-\alpha$ according to these rules,
+i.e. it uses $\max(\alpha,1-\alpha)$ in the first case
+and $\min(\alpha,1-\alpha)$ in the second one,
+so the level can be passed as $\alpha$ or $1-\alpha$ indifferently;
+for an observable or an equality constraint,
+$\alpha$ is used as is.
 
 In practice,
 the statistics $\mathbb{K}_f[f(x,U)]$, $\mathbb{K}_g[g(x,U)]$ and $\mathbb{K}_h[h(x,U)]$ are unknown
@@ -179,6 +194,9 @@ e.g. $\mathbb{P}[|h(x,U)|\geq\epsilon]$.
     as in this case,
     the margins correspond to
     the 0.975- and 0.999- quantiles of $\phi(x,U)$ respectively.
+    When $\phi(x,U)$ is not normally distributed,
+    prefer the quantile operator $Q_\alpha$,
+    which does not rely on this assumption.
 
 ### Multidisciplinary optimization (MDO) problem
 

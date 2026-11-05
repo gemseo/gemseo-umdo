@@ -53,7 +53,10 @@ the iterative estimation reports that the output is not available
 while the non-iterative one reports that its gradient is not available.
 
 This argument is ignored when `samples_directory_path` is defined;
-in this case, the statistics are not estimated iteratively.""",
+in this case, the statistics are not estimated iteratively.
+
+Some statistics, e.g. the quantile, cannot be estimated iteratively;
+using them requires setting this argument to `False`.""",
     )
 
     samples_directory_path: str | Path = Field(

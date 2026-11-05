@@ -121,13 +121,17 @@ adding a new U-MDO formulation `Foo` implies to
   (the naming convention `Foo_Settings` binds the settings to `Foo`),
 - subclass `BaseStatisticFunction` to `StatisticFunctionForFoo`,
 - subclass `BaseStatisticEstimator` to `BaseFooEstimator`,
-- subclass `BaseFooEstimator` to `Mean`, `Variance`, etc.,
-- set `Foo._statistic_factory` to a factory of the `BaseFooEstimator` subclasses
-  and `Foo._statistic_function_class` to `StatisticFunctionForFoo`
+- subclass `BaseFooEstimator` to `Mean`, `Variance`, etc.;
+  an estimator whose parameters depend on the use of the statistic
+  overrides the class method `update_parameters`,
+  e.g. `Margin` derives from the mixin `BaseMargin`
+  to make its factor conservative for an objective or a constraint,
+- set `Foo._statistic_function_class` to `StatisticFunctionForFoo` at class level
+  and `Foo._statistic_factory` to a factory of the `BaseFooEstimator` subclasses
   at class level,
   unless the choice depends on the settings,
-  in which case set them in `Foo.__init__` before calling `super().__init__`
-  (as `Sampling` does to switch to iterative estimation).
+  in which case set it in `Foo.__init__` before calling `super().__init__`
+  (as `Sampling` does to estimate the statistics iteratively or in one go).
 
 ``` mermaid
 classDiagram
@@ -182,9 +186,9 @@ classDiagram
 
    BaseUMDOFormulation <|-- Sampling
    ArrayFunction <|-- BaseStatisticFunction
-   BaseStatisticFunction <|-- StatisticFunctionForStandardSampling
-   Sampling "1" --> "n" StatisticFunctionForStandardSampling
-   StatisticFunctionForStandardSampling *-- BaseSamplingEstimator
+   BaseStatisticFunction <|-- StatisticFunctionForSampling
+   Sampling "1" --> "n" StatisticFunctionForSampling
+   StatisticFunctionForSampling *-- BaseSamplingEstimator
    BaseStatisticEstimator <|-- BaseSamplingEstimator
    BaseSamplingEstimator <|-- Mean
 
@@ -202,7 +206,7 @@ classDiagram
 
    namespace Example {
     class Sampling
-    class StatisticFunctionForStandardSampling
+    class StatisticFunctionForSampling
     class BaseSamplingEstimator
     class Mean
    }

@@ -18,6 +18,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from gemseo_umdo.formulations._statistics.base_margin import BaseMargin
 from gemseo_umdo.formulations._statistics.control_variate.base_control_variate_estimator import (  # noqa: E501
     BaseControlVariateEstimator,
 )
@@ -31,7 +32,7 @@ if TYPE_CHECKING:
     from gemseo.util.typing import RealArray
 
 
-class Margin(BaseControlVariateEstimator):
+class Margin(BaseMargin, BaseControlVariateEstimator):
     """Estimator of a margin, i.e. mean + factor * deviation."""
 
     __factor: float

@@ -17,6 +17,7 @@
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
+from typing import Final
 
 import pytest
 from gemseo.discipline import Discipline
@@ -40,6 +41,10 @@ from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
 
 if TYPE_CHECKING:
     from gemseo.util.typing import StrKeyMapping
+
+    from gemseo_umdo.formulations.base_umdo_formulation_settings import (
+        BaseUMDOFormulationSettings,
+    )
 
 
 class A(Discipline):
@@ -69,31 +74,48 @@ class A(Discipline):
         self.jac = {"y": {"x": dydx, "u": dydu}}
 
 
-@pytest.mark.parametrize(
-    ("statistic", "symbol"),
-    [
-        ("Mean", "E"),
-        ("Variance", "V"),
-        ("StandardDeviation", "StD"),
-        ("Margin", "Margin"),
-    ],
+_statistics: Final[tuple[tuple[str, str], ...]] = (
+    ("Mean", "E[y]"),
+    ("Variance", "V[y]"),
+    ("StandardDeviation", "StD[y]"),
+    ("Margin", "Margin[y; 2.0]"),
+    ("Quantile", "Q[y; 0.95]"),
 )
-@pytest.mark.parametrize("n_x", [1, 2])
-@pytest.mark.parametrize("n_u", [1, 2])
-@pytest.mark.parametrize(
-    "settings",
-    [
+"""The statistics to check, with the names of the functions computing them."""
+
+_settings: Final[tuple[tuple[str, BaseUMDOFormulationSettings], ...]] = (
+    (
+        "iterative_sampling",
         Sampling_Settings(
             doe_algo_settings=OT_MONTE_CARLO_Settings(n_samples=5),
         ),
+    ),
+    (
+        "sampling",
         Sampling_Settings(
             doe_algo_settings=OT_MONTE_CARLO_Settings(n_samples=5),
             estimate_statistics_iteratively=False,
         ),
-        PCE_Settings(regressor_settings=PCERegressor_Settings(degree=1)),
+    ),
+    ("pce", PCE_Settings(regressor_settings=PCERegressor_Settings(degree=1))),
+)
+"""The settings of the U-MDO formulations to check, with their test IDs."""
+
+
+@pytest.mark.parametrize(
+    ("statistic", "name", "settings"),
+    [
+        pytest.param(statistic, name, settings, id=f"{statistic}-{settings_id}")
+        for statistic, name in _statistics
+        for settings_id, settings in _settings
+        # The quantile is available neither for PCE
+        # nor for the iterative sampling.
+        if not (statistic == "Quantile" and settings_id != "sampling")
     ],
 )
-def test_derivatives(statistic, symbol, n_x, n_u, settings):
+@pytest.mark.parametrize("n_x", [1, 2])
+@pytest.mark.parametrize("n_u", [1, 2])
+def test_derivatives(statistic, name, n_x, n_u, settings):
     """Check the analytical derivatives with different estimation techniques."""
     uncertain_space = RandomSpace()
     uncertain_space.add_variable("u", *[OTNormalDistribution_Settings()] * n_u)
@@ -127,9 +149,8 @@ def test_derivatives(statistic, symbol, n_x, n_u, settings):
         CustomDOE_Settings(samples=linspace(1, n_x, n_x)[newaxis, :], eval_jac=True)
     )
     new_last_item = scenario.formulation.problem.database.last_item
-    name = "@Margin[y; 2.0]" if statistic == "Margin" else f"@{symbol}[y]"
     assert_allclose(
-        new_last_item[name],
-        last_item[name],
+        new_last_item[f"@{name}"],
+        last_item[f"@{name}"],
         **{"atol": 1} if isinstance(settings, PCE_Settings) else {"rtol": 1e-5},
     )
