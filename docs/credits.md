@@ -7,4 +7,8 @@ http://creativecommons.org/licenses/by-sa/4.0/ or send a letter to Creative
 Commons, PO Box 1866, Mountain View, CA 94042, USA.
 -->
 
---8<-- "_docs/credits.md"
+```python exec="yes"
+import runpy
+
+print(runpy.run_path("docs/_scripts/credits.py")["render_credits"]())
+```

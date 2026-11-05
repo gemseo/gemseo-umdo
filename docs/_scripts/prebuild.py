@@ -14,8 +14,8 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 """Generate the documentation files that Zensical cannot generate itself.
 
-Zensical supports neither MkDocs hooks nor the mkdocs-gallery, gen-files
-and markdown-exec plugins, so this script does their work before the build.
+Zensical supports neither MkDocs hooks nor the mkdocs-gallery and gen-files plugins,
+so this script does their work before the build.
 Run it from the root of the repository before building or serving the documentation:
 
     uv run --group doc python docs/_scripts/prebuild.py [--no-gallery]
@@ -24,8 +24,7 @@ It
 
 - runs the mkdocs-gallery examples into ``docs/generated/examples``,
 - writes ``_docs/generated.yml``, inherited by ``mkdocs.yml``,
-  with the navigation of ``nav.yml`` where the gallery directories are expanded,
-- writes the credits into ``_docs/credits.md``.
+  with the navigation of ``nav.yml`` where the gallery directories are expanded.
 
 An example failing unexpectedly makes the script fail.
 
@@ -44,7 +43,6 @@ from __future__ import annotations
 
 import hashlib
 import re
-import runpy
 import shutil
 from argparse import ArgumentParser
 from pathlib import Path
@@ -218,10 +216,6 @@ def main() -> None:
     fix_image_paths()
     copy_gallery_stylesheets()
     write_generated_config(galleries_tocs)
-    render_credits = runpy.run_path(str(docs_dir / "_scripts" / "credits.py"))[
-        "render_credits"
-    ]
-    (generated_dir / "credits.md").write_text(render_credits(), encoding="utf-8")
 
 
 if __name__ == "__main__":

@@ -32,6 +32,9 @@ theme:
 plugins:
   search: {}
   autorefs: {}
+  # Render the python exec and tree fences.
+  markdown-exec:
+    languages: [python, tree]
   api-autonav:
     modules: [src/gemseo_umdo]
     nav_section_title: API documentation
@@ -87,11 +90,6 @@ markdown_extensions:
     custom_fences:
       - name: mermaid
         class: mermaid
-      # Render the tree fences with markdown-exec (its MkDocs plugin is not supported by Zensical).
-      - name: tree
-        class: tree
-        validator: !!python/name:markdown_exec.validator
-        format: !!python/name:markdown_exec.formatter
 - footnotes
 - toc:
     permalink: true
