@@ -40,7 +40,7 @@ class Probability(BaseSamplingEstimator):
     __threshold: float
     """The threshold against which the probability is estimated."""
 
-    def __init__(self, threshold: float = 0.0, greater: bool = True) -> None:
+    def __init__(self, threshold: float, greater: bool) -> None:
         """
         Args:
             threshold: The threshold against which the probability is estimated.

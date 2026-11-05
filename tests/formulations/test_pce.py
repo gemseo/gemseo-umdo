@@ -50,6 +50,7 @@ from numpy import ones
 from numpy.testing import assert_almost_equal
 from numpy.testing import assert_equal
 
+from gemseo_umdo.formulations import Margin_Settings
 from gemseo_umdo.formulations._statistics.pce.margin import Margin
 from gemseo_umdo.formulations._statistics.pce.mean import Mean
 from gemseo_umdo.formulations._statistics.pce.standard_deviation import (
@@ -115,7 +116,7 @@ def umdo_formulation(pce_regressor, ishigami_problem, doe_settings):
     formulation.problem.objective = formulation.create_objective("y", "Mean")
     formulation.add_constraint("y", "StandardDeviation")
     formulation.add_observable("y", "Variance")
-    formulation.add_observable("y", "Margin", factor=3)
+    formulation.add_observable("y", Margin_Settings(factor=3))
     return formulation
 
 

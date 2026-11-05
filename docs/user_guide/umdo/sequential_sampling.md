@@ -29,7 +29,7 @@ scenario = UMDOScenario(
     SequentialSampling_Settings(n_samples=20),
     formulation_settings=mdo_formulation_settings,
 )
-scenario.add_objective(objective_name, statistic_name)
+scenario.add_objective(objective_name, statistic_settings)
 ```
 
 ## Settings
@@ -67,7 +67,7 @@ then the U-MDO formulation will use [seed][gemseo.util.seeder.seed].
         settings,
         formulation_settings=mdo_formulation_settings,
     )
-    scenario.add_objective(objective_name, statistic_name)
+    scenario.add_objective(objective_name, statistic_settings)
     ```
 
 ### Sampling size profile

@@ -37,7 +37,7 @@ scenario = UMDOScenario(
     TaylorPolynomial_Settings(),
     formulation_settings=mdo_formulation_settings,
 )
-scenario.add_objective(objective_name, statistic_name)
+scenario.add_objective(objective_name, statistic_settings)
 ```
 
 ## Settings
@@ -65,7 +65,7 @@ to `"finite_differences"`.
         TaylorPolynomial_Settings(differentiation_method="finite_differences"),
         formulation_settings=mdo_formulation_settings,
     )
-    scenario.add_objective(objective_name, statistic_name)
+    scenario.add_objective(objective_name, statistic_settings)
     ```
 
 ### Second-order

@@ -49,8 +49,8 @@ from matplotlib import pyplot as plt
 from numpy import array
 from numpy import atleast_2d
 
-from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
-from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
+from gemseo_umdo.formulations import Sampling_Settings
+from gemseo_umdo.scenarios import UMDOScenario
 
 configuration.enable_fast_mode()
 

@@ -40,6 +40,7 @@ if TYPE_CHECKING:
     from gemseo.space import RandomSpace
     from gemseo.util.typing import RealArray
 
+    from gemseo_umdo.formulations.statistic_settings import BaseStatisticSettings
     from gemseo_umdo.formulations.taylor_polynomial import TaylorPolynomial
 
 TaylorPolynomialT = TypeVar("TaylorPolynomialT", bound="TaylorPolynomial")
@@ -62,15 +63,13 @@ class StatisticFunctionForTaylorPolynomial(BaseStatisticFunction[TaylorPolynomia
         umdo_formulation: TaylorPolynomialT,
         output_name: str,
         function_type: ArrayFunction.FunctionType,
-        statistic_operator_name: str,
-        **statistic_options: Any,
+        statistic_settings: BaseStatisticSettings,
     ) -> None:
         super().__init__(
             umdo_formulation,
             output_name,
             function_type,
-            statistic_operator_name,
-            **statistic_options,
+            statistic_settings,
         )
         formulation = self._umdo_formulation
         self.__problem = formulation.auxiliary_mdo_formulation.problem

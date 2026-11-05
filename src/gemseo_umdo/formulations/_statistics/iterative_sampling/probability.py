@@ -42,8 +42,8 @@ class Probability(BaseSamplingEstimator):
 
     def __init__(
         self,
-        threshold: float = 0.0,
-        greater: bool = True,
+        threshold: float,
+        greater: bool,
     ) -> None:
         """
         Args:

@@ -602,8 +602,9 @@ with a U-MDO formulation and declare these statistics as observables.
     [add_objective()][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario.add_objective]
     and the constraints are added with
     [add_constraint()][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario.add_constraint],
-    each of these methods taking the name of the statistic
-    to be applied to the output(s).
+    each of these methods taking the settings of the statistic
+    to be applied to the output(s)
+    (see [Statistic settings](#statistic-settings)).
 
 !!! example
 
@@ -617,8 +618,8 @@ with a U-MDO formulation and declare these statistics as observables.
     from gemseo.formulation import DisciplinaryOpt_Settings
     from gemseo.optimization import NLOPT_COBYLA_Settings
     from gemseo.space import DesignSpace
-    from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
-    from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
+    from gemseo_umdo.formulations import Sampling_Settings
+    from gemseo_umdo.scenarios import UMDOScenario
 
     design_space = DesignSpace()
     design_space.add_variable("x1", lower_bound=-1., upper_bound=1.)
@@ -634,6 +635,63 @@ with a U-MDO formulation and declare these statistics as observables.
     scenario.add_objective("y", "Mean")
     scenario.execute(NLOPT_COBYLA_Settings(max_iter=50))
     ```
+
+### Statistic settings
+
+A statistic is set by its settings,
+a Pydantic model importable from `gemseo_umdo.formulations`:
+
+| Statistic          | Settings                                                                                         | Fields (default)                          |
+|--------------------|--------------------------------------------------------------------------------------------------|-------------------------------------------|
+| Mean               | [Mean_Settings][gemseo_umdo.formulations.statistic_settings.Mean_Settings]                       |                                           |
+| Variance           | [Variance_Settings][gemseo_umdo.formulations.statistic_settings.Variance_Settings]               |                                           |
+| Standard deviation | [StandardDeviation_Settings][gemseo_umdo.formulations.statistic_settings.StandardDeviation_Settings] |                                       |
+| Margin             | [Margin_Settings][gemseo_umdo.formulations.statistic_settings.Margin_Settings]                   | `factor` (2.0)                            |
+| Probability        | [Probability_Settings][gemseo_umdo.formulations.statistic_settings.Probability_Settings]         | `threshold` (0.0), `greater` (`True`)     |
+| Quantile           | [Quantile_Settings][gemseo_umdo.formulations.statistic_settings.Quantile_Settings]               | `level` (0.95), `method` (`"linear"`)     |
+
+The name of the statistic,
+e.g. `"Mean"`,
+can be passed instead of its settings
+to use the default ones.
+Not every statistic estimation technique supports every statistic;
+see the page of each technique.
+
+``` py
+from gemseo_umdo.formulations import Margin_Settings
+from gemseo_umdo.formulations import Probability_Settings
+
+scenario.add_objective("f", "Mean")
+scenario.add_constraint("g", Margin_Settings(factor=3.0))
+scenario.add_observable("h", Probability_Settings(threshold=1.0, greater=False))
+```
+
+For an objective or an inequality constraint,
+the settings are made conservative:
+the sign of the factor of a margin is changed if necessary
+and the level $lpha$ of a quantile is replaced by $1-lpha$ if necessary,
+e.g. $\mathbb{E}[f]-3\mathbb{S}[f]$ for an objective to maximize.
+
+!!! note "Add a statistic"
+
+    A statistic `Foo` is defined by
+
+    - a subclass `Foo_Settings` of
+      [BaseStatisticSettings][gemseo_umdo.formulations.statistic_settings.BaseStatisticSettings]
+      whose fields are the parameters of the statistic
+      and which may override
+      [make_conservative()][gemseo_umdo.formulations.statistic_settings.BaseStatisticSettings.make_conservative],
+    - for each statistic estimation technique supporting `Foo`,
+      an estimator class `Foo` whose constructor takes these fields as arguments,
+      e.g. a subclass of
+      [BaseSamplingEstimator][gemseo_umdo.formulations._statistics.sampling.base_sampling_estimator.BaseSamplingEstimator]
+      for [Sampling][gemseo_umdo.formulations.sampling.Sampling],
+      in a module found by GEMSEO,
+      e.g. in a directory listed in the environment variable `GEMSEO_PATH`
+      or in a GEMSEO plugin.
+
+    Then, use it as any other statistic,
+    e.g. `scenario.add_objective("f", Foo_Settings(bar=1.0))`.
 
 ### Statistic estimation
 

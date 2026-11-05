@@ -44,8 +44,8 @@ class Probability(BaseControlVariateEstimator):
     def __init__(
         self,
         uncertain_space: RandomSpace,
-        threshold: float = 0.0,
-        greater: bool = True,
+        threshold: float,
+        greater: bool,
     ) -> None:
         """
         Args:

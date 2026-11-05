@@ -39,6 +39,7 @@ from numpy.testing import assert_almost_equal
 
 from gemseo_umdo.disciplines.additive_noiser import AdditiveNoiser
 from gemseo_umdo.disciplines.multiplicative_noiser import MultiplicativeNoiser
+from gemseo_umdo.formulations import Margin_Settings
 from gemseo_umdo.formulations.factory import UMDOFormulationsFactory
 from gemseo_umdo.formulations.sampling import Sampling
 from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
@@ -93,7 +94,7 @@ def scenario(disciplines, design_space, uncertain_space) -> UMDOScenario:
         ),
     )
     scn.add_objective("f", "Mean")
-    scn.add_constraint("c", "Margin", factor=3.0)
+    scn.add_constraint("c", Margin_Settings(factor=3.0))
     scn.add_observable("o", "Mean")
     return scn
 
@@ -384,7 +385,7 @@ def test_u_evaluation_scenario_input_space(u_evaluation_scenario):
 def test_u_evaluation_scenario_observables(u_evaluation_scenario):
     """Check that a UEvaluationScenario evaluates statistics as observables."""
     u_evaluation_scenario.add_observable("o", "Mean")
-    u_evaluation_scenario.add_observable("o", "Margin", factor=2.0)
+    u_evaluation_scenario.add_observable("o", Margin_Settings(factor=2.0))
     u_evaluation_scenario.execute(
         CustomDOE_Settings(samples=array([[0.1, 0.2, 0.3], [0.4, 0.5, 0.6]]))
     )

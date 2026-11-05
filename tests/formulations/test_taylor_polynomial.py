@@ -32,6 +32,7 @@ from numpy import array
 from numpy.testing import assert_almost_equal
 from numpy.testing import assert_equal
 
+from gemseo_umdo.formulations import Margin_Settings
 from gemseo_umdo.formulations._statistics.taylor_polynomial.margin import Margin
 from gemseo_umdo.formulations._statistics.taylor_polynomial.mean import Mean
 from gemseo_umdo.formulations._statistics.taylor_polynomial.standard_deviation import (
@@ -108,7 +109,7 @@ def scenario(disciplines, design_space, uncertain_space, request):
         formulation_settings=MDF_Settings(),
     )
     scn.add_objective("f", "Mean")
-    scn.add_constraint("c", "Margin", factor=3.0)
+    scn.add_constraint("c", Margin_Settings(factor=3.0))
     scn.add_observable("o", "Variance")
     return scn
 

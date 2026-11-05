@@ -69,8 +69,12 @@ Image tests use `syrupy-matplotlib`.
 
 ## Architecture
 
-There are no lazy re-exports in the `__init__.py` files: import from the defining
-module, e.g. `from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario`,
+Two packages have eager public re-exports (with `__all__`), for the users:
+`gemseo_umdo.formulations` (the settings of the U-MDO formulations and of the
+statistics; it imports only `*_settings.py` modules, never a formulation class, to
+avoid import cycles) and `gemseo_umdo.scenarios` (`UMDOScenario`,
+`UEvaluationScenario`). The docs examples import from them. Everywhere else, and in
+`src/`, import from the defining module, e.g.
 `from gemseo_umdo.formulations.sampling_settings import Sampling_Settings`.
 
 ### Scenarios
@@ -82,8 +86,9 @@ uncertain space) and the statistic estimation settings (a `*_Settings` of a U-MD
 formulation, passed to GEMSEO as the formulation settings); the inner MDO formulation
 is chosen with `formulation_settings` (default `MDF_Settings`).
 `add_observable` (both) and `add_objective`, `add_constraint` (`UMDOScenario` only)
-take a `statistic_name` plus
-`**statistic_parameters` (e.g. `factor` for `"Margin"`).
+take a `statistic_settings`: a `*_Settings` of a statistic (e.g.
+`Margin_Settings(factor=3.0)`) or a statistic name for its default settings (e.g.
+`"Mean"`).
 
 GEMSEO scenarios create their formulation through the class attribute
 `_formulation_factory`; `BaseUScenario.__init__` temporarily shadows it with a
@@ -115,13 +120,18 @@ Each objective/constraint/observable becomes a `BaseStatisticFunction` (an
 `ArrayFunction`, in `formulations/_functions/`) wrapping a statistic estimator.
 Estimators live in `formulations/_statistics/<technique>/`, one module per statistic
 (`mean.py`, `variance.py`, `standard_deviation.py`, `margin.py`, `probability.py`,
-`quantile.py`), discovered by the `BaseFactory` of that package: the `statistic_name`
-given by the user is the estimator **class name**, so a technique supports exactly the
-statistics its package defines (PCE and Taylor polynomial have no `Probability`, only
-the one-shot `sampling/` package has `Quantile`). An estimator exposes the classmethod
-`update_parameters`, which fills in default parameters (so that the function name
-includes them) and makes them conservative for an objective or inequality constraint
-(e.g. the `factor` of a margin, the `level` of a quantile), and `min_n_samples`.
+`quantile.py`), discovered by the `BaseFactory` of that package. A statistic is set by
+a settings model of `formulations/statistic_settings.py` deriving from
+`BaseStatisticSettings`; its `target_class_name` (`Margin` for `Margin_Settings`) is
+the estimator **class name**, and its fields (`model_dump()`) are passed to the
+estimator constructor, so a technique supports exactly the statistics its package
+defines (PCE and Taylor polynomial have no `Probability`, only the one-shot `sampling/`
+package has `Quantile`). The settings hold the defaults and the validation;
+`make_conservative` makes them conservative for an objective or inequality constraint
+(e.g. the `factor` of a margin, the `level` of a quantile); `get_name_parameters`
+gives the fields used in the function name (those of `_name_field_names`, e.g. the
+factor of a margin, plus those set explicitly). `BaseStatisticSettings.from_name`
+resolves a string. An estimator exposes `min_n_samples`.
 
 A formulation sets `_statistic_function_class` at class level and `_statistic_factory`
 at class level or at instantiation before calling `super().__init__`. `Sampling` picks

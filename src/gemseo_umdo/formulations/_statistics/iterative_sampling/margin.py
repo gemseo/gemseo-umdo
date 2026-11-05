@@ -18,7 +18,6 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from gemseo_umdo.formulations._statistics.base_margin import BaseMargin
 from gemseo_umdo.formulations._statistics.iterative_sampling.base_sampling_estimator import (  # noqa: E501
     BaseSamplingEstimator,
 )
@@ -31,7 +30,7 @@ if TYPE_CHECKING:
     from gemseo.util.typing import RealArray
 
 
-class Margin(BaseMargin, BaseSamplingEstimator):
+class Margin(BaseSamplingEstimator):
     """Iterative estimator of a margin, i.e. mean + factor * deviation."""
 
     __factor: float

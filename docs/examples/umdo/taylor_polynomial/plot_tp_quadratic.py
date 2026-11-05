@@ -38,10 +38,8 @@ from gemseo.space import DesignSpace
 from gemseo.space import RandomSpace
 from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 
-from gemseo_umdo.formulations.taylor_polynomial_settings import (
-    TaylorPolynomial_Settings,
-)
-from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
+from gemseo_umdo.formulations import TaylorPolynomial_Settings
+from gemseo_umdo.scenarios import UMDOScenario
 
 # %%
 # Firstly,

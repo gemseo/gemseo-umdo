@@ -52,9 +52,9 @@ from gemseo.space import RandomSpace
 from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 from numpy import array
 
-from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
+from gemseo_umdo.formulations import Sampling_Settings
 from gemseo_umdo.problems.uopt_as_umdo_scenario import UOptAsUMDOScenario
-from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
+from gemseo_umdo.scenarios import UMDOScenario
 
 # %%
 # ## Discipline and spaces

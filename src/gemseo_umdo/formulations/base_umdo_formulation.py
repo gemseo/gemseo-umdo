@@ -34,9 +34,10 @@ from gemseo.util.hashable_ndarray import HashableNdarray
 from gemseo.util.string import convert_strings_to_iterable
 from gemseo.util.string import pretty_repr
 
+from gemseo_umdo.formulations.statistic_settings import BaseStatisticSettings
+
 if TYPE_CHECKING:
     from collections.abc import Iterable
-    from collections.abc import MutableMapping
     from collections.abc import Sequence
 
     from gemseo.core.base_factory import BaseFactory
@@ -186,17 +187,16 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
         # The input space has been updated at instantiation by the MDO formulation.
         pass
 
-    def __update_statistic_parameters(
+    def __get_statistic_settings(
         self,
-        statistic_name: str,
-        statistic_parameters: MutableMapping[str, Any],
+        statistic_settings: str | BaseStatisticSettings,
         conservative_from_below: bool | None,
-    ) -> MutableMapping[str, Any]:
-        """Update the statistic parameters with the class of its estimator.
+    ) -> BaseStatisticSettings:
+        """Return the settings of a statistic, checked and made conservative.
 
         Args:
-            statistic_name: The name of the statistic.
-            statistic_parameters: The statistic parameters to be updated.
+            statistic_settings: Either the settings of the statistic
+                or the name of the statistic to use its default settings.
             conservative_from_below: Whether the statistic must be conservative
                 from below,
                 e.g. with a negative factor for a margin
@@ -206,12 +206,20 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
                 the statistic does not have to be conservative.
 
         Returns:
-            The updated statistic parameters.
+            The settings of the statistic.
         """
-        statistic_class = self._statistic_factory.get_class(statistic_name)
-        return statistic_class.update_parameters(
-            statistic_parameters, conservative_from_below
-        )
+        if isinstance(statistic_settings, str):
+            # The availability is checked first
+            # so that the error lists the statistics available for this formulation.
+            self._check_statistic_name(statistic_settings)
+            statistic_settings = BaseStatisticSettings.from_name(statistic_settings)
+        else:
+            self._check_statistic_name(statistic_settings.target_class_name)
+
+        if conservative_from_below is None:
+            return statistic_settings
+
+        return statistic_settings.make_conservative(conservative_from_below)
 
     def _register_statistic_function(self, function: BaseStatisticFunction) -> None:
         """Register a function computing a statistic.
@@ -384,45 +392,42 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
     def create_objective(  # type: ignore[override]
         self,
         output_names: str | Iterable[str],
-        statistic_name: str,
+        statistic_settings: str | BaseStatisticSettings,
         objective_name: str = "",
         minimize: bool = True,
-        **statistic_parameters: Any,
     ) -> ArrayFunction:
         """Create an objective function associated with outputs to be minimized.
 
         Args:
             output_names: The names of the outputs.
-            statistic_name: The name of the statistic of `output_names`.
+            statistic_settings: Either the settings of the statistic of `output_names`
+                or the name of the statistic to use its default settings,
+                e.g. `"Mean"`.
             objective_name: The name of the objective.
                 If empty,
-                the name is generated from `output_names` and `statistic_name`.
+                the name is generated from `output_names` and `statistic_settings`.
             minimize: Whether the statistic of the objective will be minimized.
-            **statistic_parameters: The values of the parameters of the statistic,
-                if any.
 
         Returns:
             The objective function.
         """
-        self._check_statistic_name(statistic_name)
         output_names = convert_strings_to_iterable(output_names)
-        statistic_parameters = self.__update_statistic_parameters(
-            statistic_name, statistic_parameters, not minimize
+        statistic_settings = self.__get_statistic_settings(
+            statistic_settings, not minimize
         )
         # The statistic function is created before adding the MDO observable
-        # so that invalid statistic parameters do not leave an orphan observable.
+        # so that an invalid statistic does not leave an orphan observable.
         objective = self._statistic_function_class(
             self,
             self.__get_mdo_observable_name(output_names),
             ArrayFunction.FunctionType.OBJ,
-            statistic_name,
-            **statistic_parameters,
+            statistic_settings,
         )
         if self.__check_mdo_observables(output_names):
             self.__add_mdo_observables(output_names)
 
         objective.name = objective_name or self.__compute_name(
-            output_names, statistic_name, **statistic_parameters
+            output_names, statistic_settings
         )
         self._register_statistic_function(objective)
         return objective
@@ -430,31 +435,26 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
     def add_observable(  # type: ignore[override]
         self,
         output_names: str | Sequence[str],
-        statistic_name: str,
+        statistic_settings: str | BaseStatisticSettings,
         observable_name: str = "",
         discipline: Discipline | None = None,
-        **statistic_parameters: Any,
     ) -> None:
         """
         Args:
-            statistic_name: The name of the statistic of `output_names`.
-            **statistic_parameters: The values of the parameters of the statistic,
-                if any.
+            statistic_settings: Either the settings of the statistic of `output_names`
+                or the name of the statistic to use its default settings,
+                e.g. `"Mean"`.
         """  # noqa: D205 D212 D415
-        self._check_statistic_name(statistic_name)
         output_names = convert_strings_to_iterable(output_names)
-        statistic_parameters = self.__update_statistic_parameters(
-            statistic_name, statistic_parameters, None
-        )
+        statistic_settings = self.__get_statistic_settings(statistic_settings, None)
         observable = self._statistic_function_class(
             self,
             self.__get_mdo_observable_name(output_names, observable_name),
             ArrayFunction.FunctionType.NONE,
-            statistic_name,
-            **statistic_parameters,
+            statistic_settings,
         )
         observable.name = self.__compute_name(
-            observable_name or output_names, statistic_name, **statistic_parameters
+            observable_name or output_names, statistic_settings
         )
         # The observable is added to the problem before the MDO observables,
         # so that a failure, e.g. a name collision,
@@ -479,28 +479,27 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
     def create_constraint(  # type: ignore[override]
         self,
         output_names: str | Sequence[str],
-        statistic_name: str,
+        statistic_settings: str | BaseStatisticSettings,
         constraint_type: ArrayFunction.ConstraintType = (
             ArrayFunction.ConstraintType.INEQ
         ),
         constraint_name: str = "",
         value: float = 0.0,
         positive: bool = False,
-        **statistic_parameters: Any,
     ) -> ArrayFunction:
         """Create a constraint function associated with outputs names.
 
         Args:
             output_names: The names of the outputs.
-            statistic_name: The name of the statistic of `output_names`.
+            statistic_settings: Either the settings of the statistic of `output_names`
+                or the name of the statistic to use its default settings,
+                e.g. `"Mean"`.
             constraint_type: The type of constraint.
             constraint_name: The name of the constraint to be stored.
                 If empty,
-                the name is generated from `output_names` and `statistic_name`.
+                the name is generated from `output_names` and `statistic_settings`.
             value: The value $a$.
             positive: Whether the inequality constraint is positive.
-            **statistic_parameters: The values of the parameters of the statistic,
-                if any.
 
         Returns:
             The constraint function.
@@ -508,12 +507,11 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
         output_names = convert_strings_to_iterable(output_names)
         function, constraint = self.__create_constraint(
             output_names,
-            statistic_name,
+            statistic_settings,
             constraint_type=constraint_type,
             constraint_name=constraint_name,
             value=value,
             positive=positive,
-            **statistic_parameters,
         )
         if self.__check_mdo_observables(output_names):
             self.__add_mdo_observables(output_names)
@@ -524,12 +522,11 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
     def __create_constraint(
         self,
         output_names: Sequence[str],
-        statistic_name: str,
+        statistic_settings: str | BaseStatisticSettings,
         constraint_type: ArrayFunction.ConstraintType,
         constraint_name: str,
         value: float,
         positive: bool,
-        **statistic_parameters: Any,
     ) -> tuple[BaseStatisticFunction, ArrayFunction]:
         """Create a constraint function associated with outputs names.
 
@@ -537,35 +534,32 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
 
         Args:
             output_names: The names of the outputs.
-            statistic_name: The name of the statistic of `output_names`.
+            statistic_settings: Either the settings of the statistic of `output_names`
+                or the name of the statistic to use its default settings,
+                e.g. `"Mean"`.
             constraint_type: The type of constraint.
             constraint_name: The name of the constraint to be stored.
                 If empty,
-                the name is generated from `output_names` and `statistic_name`.
+                the name is generated from `output_names` and `statistic_settings`.
             value: The value $a$.
             positive: Whether the inequality constraint is positive.
-            **statistic_parameters: The values of the parameters of the statistic,
-                if any.
 
         Returns:
             The function computing the statistic
             and the constraint function built from it.
         """
-        self._check_statistic_name(statistic_name)
         # An equality constraint does not have to be conservative.
-        statistic_parameters = self.__update_statistic_parameters(
-            statistic_name,
-            statistic_parameters,
+        statistic_settings = self.__get_statistic_settings(
+            statistic_settings,
             positive if constraint_type == ArrayFunction.ConstraintType.INEQ else None,
         )
         constraint = self._statistic_function_class(
             self,
             self.__get_mdo_observable_name(output_names),
             ArrayFunction.FunctionType.NONE,
-            statistic_name,
-            **statistic_parameters,
+            statistic_settings,
         )
-        name = self.__compute_name(output_names, statistic_name, **statistic_parameters)
+        name = self.__compute_name(output_names, statistic_settings)
         constraint.output_names = [name]
         if constraint_name:
             constraint.name = constraint_name
@@ -587,38 +581,36 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
     def add_constraint(
         self,
         output_names: str | Sequence[str],
-        statistic_name: str,
+        statistic_settings: str | BaseStatisticSettings,
         constraint_type: ArrayFunction.ConstraintType = (
             ArrayFunction.ConstraintType.INEQ
         ),
         constraint_name: str = "",
         value: float = 0.0,
         positive: bool = False,
-        **statistic_parameters: Any,
     ) -> None:
         """Add a constraint to the optimization problem.
 
         Args:
             output_names: The names of the outputs.
-            statistic_name: The name of the statistic of `output_names`.
+            statistic_settings: Either the settings of the statistic of `output_names`
+                or the name of the statistic to use its default settings,
+                e.g. `"Mean"`.
             constraint_type: The type of constraint.
             constraint_name: The name of the constraint to be stored.
                 If empty,
-                the name is generated from `output_names` and `statistic_name`.
+                the name is generated from `output_names` and `statistic_settings`.
             value: The value $a$.
             positive: Whether the inequality constraint is positive.
-            **statistic_parameters: The values of the parameters of the statistic,
-                if any.
         """
         output_names = convert_strings_to_iterable(output_names)
         function, constraint = self.__create_constraint(
             output_names,
-            statistic_name,
+            statistic_settings,
             constraint_type=constraint_type,
             constraint_name=constraint_name,
             value=value,
             positive=positive,
-            **statistic_parameters,
         )
         # The constraint is added to the problem before the MDO observables,
         # so that a failure, e.g. a name collision,
@@ -643,17 +635,14 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
     @staticmethod
     def __compute_name(
         output_name: str | Iterable[str],
-        statistic_name: str,
-        **statistic_parameters: Any,
+        statistic_settings: BaseStatisticSettings,
     ) -> str:
         """Create the string representation of a statistic applied to output variables.
 
         Args:
             output_name: Either the names of the output variables
                 for which to estimate the statistic or a unique name to define them.
-            statistic_name: The name of the statistic of `output_name`.
-            **statistic_parameters: The values of the parameters of the statistic,
-                if any.
+            statistic_settings: The settings of the statistic of `output_name`.
 
         Returns:
             The string representations of the statistic applied to the output variables.
@@ -663,8 +652,8 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
 
         return BaseStatistics.compute_expression(
             output_name,
-            FilePathManager.to_snake_case(statistic_name),
-            **statistic_parameters,
+            FilePathManager.to_snake_case(statistic_settings.target_class_name),
+            **statistic_settings.get_name_parameters(),
         )
 
     def update_top_level_disciplines(self, design_values: RealArray) -> None:

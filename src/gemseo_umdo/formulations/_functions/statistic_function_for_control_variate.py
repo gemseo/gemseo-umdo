@@ -44,6 +44,7 @@ if TYPE_CHECKING:
     from gemseo.util.typing import RealArray
 
     from gemseo_umdo.formulations.control_variate import ControlVariate
+    from gemseo_umdo.formulations.statistic_settings import BaseStatisticSettings
 
 ControlVariateT = TypeVar("ControlVariateT", bound="ControlVariate")
 
@@ -81,15 +82,13 @@ class StatisticFunctionForControlVariate(BaseStatisticFunction[ControlVariateT])
         umdo_formulation: ControlVariateT,
         output_name: str,
         function_type: ArrayFunction.FunctionType,
-        statistic_operator_name: str,
-        **statistic_options: Any,
+        statistic_settings: BaseStatisticSettings,
     ) -> None:
         super().__init__(
             umdo_formulation,
             output_name,
             function_type,
-            statistic_operator_name,
-            **statistic_options,
+            statistic_settings,
         )
         self.__mc_problem = self._umdo_formulation.mdo_formulation.problem
         formulation = self._umdo_formulation

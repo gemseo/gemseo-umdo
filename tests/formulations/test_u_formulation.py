@@ -35,6 +35,8 @@ from numpy import array
 from numpy import array_equal
 from numpy.testing import assert_equal
 
+from gemseo_umdo.formulations import BaseStatisticSettings
+from gemseo_umdo.formulations import Margin_Settings
 from gemseo_umdo.formulations._statistics.sampling.factory import (
     SamplingEstimatorFactory,
 )
@@ -98,8 +100,7 @@ class StatisticFunction(ArrayFunction):
         formulation: BaseUMDOFormulation,
         output_name: str,
         function_type: str,
-        name: str,
-        **parameters: Any,
+        statistic_settings: BaseStatisticSettings,
     ) -> None:
         super().__init__(lambda u: array([1.0]), name="func")
         self.mock = f"{output_name}_statistics"
@@ -131,7 +132,7 @@ def formulation(disciplines, design_space, mdf_settings, uncertain_space):
         mdo_formulation_settings=mdf_settings,
     )
     form.problem.objective = form.create_objective("f", "Mean")
-    form.add_constraint("c", "Margin", factor=3.0)
+    form.add_constraint("c", Margin_Settings(factor=3.0))
     form.add_observable("o", "Mean")
     return form
 
@@ -163,16 +164,6 @@ def test_constraint(formulation):
     opt_problem = formulation.problem
     assert opt_problem.constraints[0].mock == "c_statistics"
     assert opt_problem.constraints[0].name == "Margin[c; 3.0]"
-
-
-@pytest.mark.parametrize(
-    "method_name", ["create_objective", "create_constraint", "add_observable"]
-)
-@pytest.mark.parametrize("factor", [0, -0.0])
-def test_margin_with_zero_factor(formulation, method_name, factor, snapshot):
-    """Check that a margin with a zero factor is rejected, as it is the mean."""
-    with assert_exception(ValueError, snapshot):
-        getattr(formulation, method_name)("f", "Margin", factor=factor)
 
 
 def test_available_statistics(formulation):
@@ -248,9 +239,10 @@ def _execute_margin_scenario(
         statistic_estimation_settings=statistic_estimation_settings,
         formulation_settings=MDF_Settings(),
     )
-    scenario.add_objective("f", "Margin", minimize=not maximize, **parameters)
-    scenario.add_constraint("c", "Margin", positive=positive, **parameters)
-    scenario.add_observable("o", "Margin", **parameters)
+    statistic_settings = Margin_Settings(**parameters)
+    scenario.add_objective("f", statistic_settings, minimize=not maximize)
+    scenario.add_constraint("c", statistic_settings, positive=positive)
+    scenario.add_observable("o", statistic_settings)
     scenario.execute(CustomDOE_Settings(samples=array([[1.0, 1.0, 1.0]])))
     return scenario.formulation.problem.database.last_item
 
@@ -336,10 +328,9 @@ def test_margin_equality_constraint(
     )
     scenario.add_constraint(
         "c",
-        "Margin",
+        Margin_Settings(**parameters),
         constraint_type=ArrayFunction.ConstraintType.EQ,
         positive=positive,
-        **parameters,
     )
     assert scenario.formulation.problem.constraints[-1].name.endswith(name)
 

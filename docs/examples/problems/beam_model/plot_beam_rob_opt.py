@@ -26,8 +26,9 @@ from __future__ import annotations
 from gemseo.optimization import NLOPT_COBYLA_Settings
 from gemseo.post import OptHistoryView_Settings
 
-from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
-from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
+from gemseo_umdo.formulations import Probability_Settings
+from gemseo_umdo.formulations import Sampling_Settings
+from gemseo_umdo.scenarios import UMDOScenario
 from gemseo_umdo.use_cases.beam_model.constraints import BeamConstraints
 from gemseo_umdo.use_cases.beam_model.design_space import BeamDesignSpace
 from gemseo_umdo.use_cases.beam_model.discipline import Beam
@@ -41,10 +42,16 @@ scenario = UMDOScenario(
 )
 scenario.add_objective("w", "Mean")
 scenario.add_constraint(
-    "c_stress", "Probability", greater=False, threshold=1.0, positive=True, value=0.9
+    "c_stress",
+    Probability_Settings(greater=False, threshold=1.0),
+    positive=True,
+    value=0.9,
 )
 scenario.add_constraint(
-    "c_displ", "Probability", greater=True, threshold=1.0, positive=True, value=0.9
+    "c_displ",
+    Probability_Settings(greater=True, threshold=1.0),
+    positive=True,
+    value=0.9,
 )
 scenario.execute(NLOPT_COBYLA_Settings(max_iter=30))
 

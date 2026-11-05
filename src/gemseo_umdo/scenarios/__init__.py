@@ -15,3 +15,8 @@
 """Scenarios to address multidisciplinary design problems under uncertainty."""
 
 from __future__ import annotations
+
+from gemseo_umdo.scenarios.u_evaluation_scenario import UEvaluationScenario
+from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
+
+__all__ = ["UEvaluationScenario", "UMDOScenario"]

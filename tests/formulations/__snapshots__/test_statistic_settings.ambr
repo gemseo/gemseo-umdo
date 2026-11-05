@@ -1,0 +1,44 @@
+# serializer version: 1
+# name: test_invalid_settings[level-one]
+  '''
+  1 validation error for Quantile_Settings
+  level
+    Input should be less than 1 [type=less_than, input_value=1.0, input_type=float]
+      For further information visit https://errors.pydantic.dev/X.Y/v/less_than
+  '''
+# ---
+# name: test_invalid_settings[level-zero]
+  '''
+  1 validation error for Quantile_Settings
+  level
+    Input should be greater than 0 [type=greater_than, input_value=0.0, input_type=float]
+      For further information visit https://errors.pydantic.dev/X.Y/v/greater_than
+  '''
+# ---
+# name: test_invalid_settings[method]
+  '''
+  1 validation error for Quantile_Settings
+  method
+    Value error, The method of the quantile must be a method of numpy.quantile; got 'foo'. [type=value_error, input_value='foo', input_type=str]
+      For further information visit https://errors.pydantic.dev/X.Y/v/value_error
+  '''
+# ---
+# name: test_invalid_settings[negative-zero-factor]
+  '''
+  1 validation error for Margin_Settings
+  factor
+    Value error, The factor of a margin must be non-zero; a margin with a zero factor is the mean. Use the statistic 'Mean' instead. [type=value_error, input_value=-0.0, input_type=float]
+      For further information visit https://errors.pydantic.dev/X.Y/v/value_error
+  '''
+# ---
+# name: test_invalid_settings[zero-factor]
+  '''
+  1 validation error for Margin_Settings
+  factor
+    Value error, The factor of a margin must be non-zero; a margin with a zero factor is the mean. Use the statistic 'Mean' instead. [type=value_error, input_value=0, input_type=int]
+      For further information visit https://errors.pydantic.dev/X.Y/v/value_error
+  '''
+# ---
+# name: test_unsupported_statistic
+  "The statistic 'Quantile' is not available for the U-MDO formulation TaylorPolynomial; available statistics: 'Margin', 'Mean', 'StandardDeviation' and 'Variance'."
+# ---

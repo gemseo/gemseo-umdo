@@ -41,6 +41,7 @@ from numpy.testing import assert_allclose
 from numpy.testing import assert_almost_equal
 from numpy.testing import assert_equal
 
+from gemseo_umdo.formulations import Margin_Settings
 from gemseo_umdo.formulations._statistics.control_variate.margin import Margin
 from gemseo_umdo.formulations._statistics.control_variate.mean import Mean
 from gemseo_umdo.formulations._statistics.control_variate.probability import Probability
@@ -110,7 +111,7 @@ def scenario(disciplines, design_space, uncertain_space, algo_data) -> UMDOScena
         formulation_settings=MDF_Settings(),
     )
     scn.add_objective("f", "Mean")
-    scn.add_constraint("c", "Margin", factor=3.0)
+    scn.add_constraint("c", Margin_Settings(factor=3.0))
     scn.add_observable("o", "Variance")
     scn.execute(algo_data)
     return scn
