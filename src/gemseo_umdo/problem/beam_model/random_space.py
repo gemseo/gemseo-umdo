@@ -35,7 +35,13 @@ _default_delta: Final[dict[str, float]] = {
 
 
 class BeamRandomSpace(RandomSpace):
-    r"""The advanced uncertain space for the beam use case.
+    r"""The uncertain space for the beam use case.
+
+    It models the uncertainties about the load,
+    the Young's modulus and the allowable stress;
+    see [AdvancedBeamRandomSpace][gemseo_umdo.problem.beam_model.advanced_random_space.AdvancedBeamRandomSpace]
+    for the uncertainties about the geometry, the material
+    and the position and direction of the load.
 
     $F$, $E$ and $\sigma_{\text{all}}$ are random variables
     with nominal values -200000, 73500 and 300
@@ -50,7 +56,7 @@ class BeamRandomSpace(RandomSpace):
     and a Gaussian distribution is defined
     by the mean $\mu$ and the standard deviation $|\mu|\delta/3$,
     where $\delta$ is an aforementioned deviation value.
-    """
+    """  # noqa: E501
 
     def __init__(self, uniform: bool = True, **deltas: float) -> None:
         r"""
