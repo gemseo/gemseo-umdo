@@ -25,7 +25,7 @@ def test_inheritance():
 
 
 def test_mdo_formulation():
-    """Check that UMDOFormulationsFactory does not contain MDO formulations."""
+    """Check that UMDOFormulationFactory does not contain MDO formulations."""
     mdo_formulations = MDOFormulationFactory().class_names
     assert not set(mdo_formulations).intersection(
         set(umdo_formulation_factory.class_names)

@@ -44,9 +44,7 @@ if TYPE_CHECKING:
 
     from gemseo.util.typing import RealArray
 
-    from gemseo_umdo.formulation.base_umdo_formulation_settings import (
-        BaseUMDOFormulationSettings,
-    )
+    from gemseo_umdo.formulation.core.base_settings import BaseUMDOFormulationSettings
 
 design_points: Final[RealArray] = array([[-1.0], [0.0], [1.0]])
 """The design points at which to estimate the statistics."""

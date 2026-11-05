@@ -41,17 +41,15 @@ if TYPE_CHECKING:
     from gemseo.space import RandomSpace
     from gemseo.util.typing import StrKeyMapping
 
-    from gemseo_umdo.formulation.base_umdo_formulation import BaseUMDOFormulation
-    from gemseo_umdo.formulation.base_umdo_formulation_settings import (
-        BaseUMDOFormulationSettings,
-    )
-    from gemseo_umdo.formulation.factory import UMDOFormulationsFactory
+    from gemseo_umdo.formulation.core.base import BaseUMDOFormulation
+    from gemseo_umdo.formulation.core.base_settings import BaseUMDOFormulationSettings
+    from gemseo_umdo.formulation.factory import UMDOFormulationFactory
 
 
 class BaseUScenario:
     """Base scenario for multidisciplinary design problems under uncertainty."""
 
-    _formulation_factory: ClassVar[UMDOFormulationsFactory] = umdo_formulation_factory
+    _formulation_factory: ClassVar[UMDOFormulationFactory] = umdo_formulation_factory
     """The factory of U-MDO formulations."""
 
     formulation: BaseUMDOFormulation

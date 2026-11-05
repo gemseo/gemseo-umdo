@@ -41,13 +41,13 @@ from numpy.testing import assert_allclose
 from numpy.testing import assert_almost_equal
 from numpy.testing import assert_equal
 
-from gemseo_umdo.formulation._statistic.control_variate.margin import Margin
-from gemseo_umdo.formulation._statistic.control_variate.mean import Mean
-from gemseo_umdo.formulation._statistic.control_variate.probability import Probability
-from gemseo_umdo.formulation._statistic.control_variate.standard_deviation import (
+from gemseo_umdo.formulation._estimator.control_variate.margin import Margin
+from gemseo_umdo.formulation._estimator.control_variate.mean import Mean
+from gemseo_umdo.formulation._estimator.control_variate.probability import Probability
+from gemseo_umdo.formulation._estimator.control_variate.standard_deviation import (
     StandardDeviation,
 )
-from gemseo_umdo.formulation._statistic.control_variate.variance import Variance
+from gemseo_umdo.formulation._estimator.control_variate.variance import Variance
 from gemseo_umdo.formulation.control_variate import ControlVariate
 from gemseo_umdo.formulation.control_variate_settings import ControlVariate_Settings
 from gemseo_umdo.scenario.mdo import UMDOScenario

@@ -45,34 +45,32 @@ from numpy.testing import assert_almost_equal
 from numpy.testing import assert_equal
 from pandas._testing import assert_frame_equal
 
-from gemseo_umdo.formulation._function import statistic_function_for_sampling
-from gemseo_umdo.formulation._function.iterative_estimation import IterativeEstimation
-from gemseo_umdo.formulation._statistic.iterative_sampling.margin import (
+from gemseo_umdo.formulation._estimator.iterative_sampling.margin import (
     Margin as IterativeMargin,
 )
-from gemseo_umdo.formulation._statistic.iterative_sampling.mean import (
+from gemseo_umdo.formulation._estimator.iterative_sampling.mean import (
     Mean as IterativeMean,
 )
-from gemseo_umdo.formulation._statistic.iterative_sampling.probability import (
+from gemseo_umdo.formulation._estimator.iterative_sampling.probability import (
     Probability as IterativeProbability,
 )
-from gemseo_umdo.formulation._statistic.iterative_sampling.standard_deviation import (
+from gemseo_umdo.formulation._estimator.iterative_sampling.standard_deviation import (
     StandardDeviation as IterativeStandardDeviation,
 )
-from gemseo_umdo.formulation._statistic.iterative_sampling.variance import (
+from gemseo_umdo.formulation._estimator.iterative_sampling.variance import (
     Variance as IterativeVariance,
 )
-from gemseo_umdo.formulation._statistic.sampling.base_sampling_estimator import (
-    BaseSamplingEstimator,
-)
-from gemseo_umdo.formulation._statistic.sampling.margin import Margin
-from gemseo_umdo.formulation._statistic.sampling.mean import Mean
-from gemseo_umdo.formulation._statistic.sampling.probability import Probability
-from gemseo_umdo.formulation._statistic.sampling.quantile import Quantile
-from gemseo_umdo.formulation._statistic.sampling.standard_deviation import (
+from gemseo_umdo.formulation._estimator.sampling.base import BaseSamplingEstimator
+from gemseo_umdo.formulation._estimator.sampling.margin import Margin
+from gemseo_umdo.formulation._estimator.sampling.mean import Mean
+from gemseo_umdo.formulation._estimator.sampling.probability import Probability
+from gemseo_umdo.formulation._estimator.sampling.quantile import Quantile
+from gemseo_umdo.formulation._estimator.sampling.standard_deviation import (
     StandardDeviation,
 )
-from gemseo_umdo.formulation._statistic.sampling.variance import Variance
+from gemseo_umdo.formulation._estimator.sampling.variance import Variance
+from gemseo_umdo.formulation._function import sampling as sampling_function_module
+from gemseo_umdo.formulation._function.iterative_estimation import IterativeEstimation
 from gemseo_umdo.formulation.sampling import Sampling
 from gemseo_umdo.formulation.sampling_settings import Sampling_Settings
 from gemseo_umdo.scenario.mdo import UMDOScenario
@@ -86,7 +84,7 @@ if TYPE_CHECKING:
     from gemseo.util.typing import StrKeyMapping
     from numpy import ndarray
 
-    from gemseo_umdo.formulation._statistic.iterative_sampling.base_sampling_estimator import (  # noqa: E501
+    from gemseo_umdo.formulation._estimator.iterative_sampling.base import (  # noqa: E501
         BaseSamplingEstimator as BaseIterativeSamplingEstimator,
     )
 
@@ -881,7 +879,7 @@ def test_data_for_statistic_estimation_warning(
     assert [
         (level, text)
         for name, level, text in caplog.record_tuples
-        if name == statistic_function_for_sampling.__name__
+        if name == sampling_function_module.__name__
     ] == [(logging.WARNING, message) for message in messages]
 
 
@@ -1224,7 +1222,7 @@ def test_quantile_warning(caplog):
     estimator.estimate_statistic(samples)
     assert caplog.record_tuples == [
         (
-            "gemseo_umdo.formulation._statistic.sampling.quantile",
+            "gemseo_umdo.formulation._estimator.sampling.quantile",
             logging.WARNING,
             (
                 "The estimation of the 0.95-quantile from 20 samples may be inaccurate "

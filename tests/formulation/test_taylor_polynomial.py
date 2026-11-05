@@ -32,12 +32,12 @@ from numpy import array
 from numpy.testing import assert_almost_equal
 from numpy.testing import assert_equal
 
-from gemseo_umdo.formulation._statistic.taylor_polynomial.margin import Margin
-from gemseo_umdo.formulation._statistic.taylor_polynomial.mean import Mean
-from gemseo_umdo.formulation._statistic.taylor_polynomial.standard_deviation import (
+from gemseo_umdo.formulation._estimator.taylor_polynomial.margin import Margin
+from gemseo_umdo.formulation._estimator.taylor_polynomial.mean import Mean
+from gemseo_umdo.formulation._estimator.taylor_polynomial.standard_deviation import (
     StandardDeviation,
 )
-from gemseo_umdo.formulation._statistic.taylor_polynomial.variance import Variance
+from gemseo_umdo.formulation._estimator.taylor_polynomial.variance import Variance
 from gemseo_umdo.formulation.taylor_polynomial import TaylorPolynomial
 from gemseo_umdo.formulation.taylor_polynomial_settings import TaylorPolynomial_Settings
 from gemseo_umdo.scenario.mdo import UMDOScenario

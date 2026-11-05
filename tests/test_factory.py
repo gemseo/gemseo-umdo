@@ -20,18 +20,18 @@ import pytest
 from gemseo.core.base_factory import BaseFactory
 
 from gemseo_umdo.discipline.noiser.factory import NoiserFactory
-from gemseo_umdo.formulation._statistic.control_variate.factory import (
+from gemseo_umdo.formulation._estimator.control_variate.factory import (
     ControlVariateEstimatorFactory,
 )
-from gemseo_umdo.formulation._statistic.iterative_sampling.factory import (
+from gemseo_umdo.formulation._estimator.iterative_sampling.factory import (
     SamplingEstimatorFactory as IterativeSamplingEstimatorFactory,
 )
-from gemseo_umdo.formulation._statistic.pce.factory import PCEEstimatorFactory
-from gemseo_umdo.formulation._statistic.sampling.factory import SamplingEstimatorFactory
-from gemseo_umdo.formulation._statistic.taylor_polynomial.factory import (
+from gemseo_umdo.formulation._estimator.pce.factory import PCEEstimatorFactory
+from gemseo_umdo.formulation._estimator.sampling.factory import SamplingEstimatorFactory
+from gemseo_umdo.formulation._estimator.taylor_polynomial.factory import (
     TaylorPolynomialEstimatorFactory,
 )
-from gemseo_umdo.formulation.factory import UMDOFormulationsFactory
+from gemseo_umdo.formulation.factory import UMDOFormulationFactory
 from gemseo_umdo.statistic.multilevel.mlmc.pilot.factory import MLMCPilotFactory
 from gemseo_umdo.statistic.multilevel.mlmc_mlcv.pilot.factory import (
     MLMCMLCVPilotFactory,
@@ -42,7 +42,7 @@ from gemseo_umdo.statistic.multilevel.mlmc_mlcv.pilot.factory import (
     "factory_class",
     [
         pytest.param(NoiserFactory, id="NoiserFactory"),
-        pytest.param(UMDOFormulationsFactory, id="UMDOFormulationsFactory"),
+        pytest.param(UMDOFormulationFactory, id="UMDOFormulationFactory"),
         pytest.param(
             ControlVariateEstimatorFactory, id="ControlVariateEstimatorFactory"
         ),

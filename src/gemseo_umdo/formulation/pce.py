@@ -15,7 +15,7 @@
 r"""FCE-based U-MDO formulation.
 
 [PCE][gemseo_umdo.formulation.pce.PCE] is a
-[BaseUMDOFormulation][gemseo_umdo.formulation.base_umdo_formulation.BaseUMDOFormulation]
+[BaseUMDOFormulation][gemseo_umdo.formulation.core.base.BaseUMDOFormulation]
 estimating the statistics of $f(x,U)$ at a point $x$
 from the coefficients of a functional chaos expansion (FCE) model
 
@@ -39,10 +39,8 @@ from __future__ import annotations
 
 from typing import ClassVar
 
-from gemseo_umdo.formulation._function.statistic_function_for_pce import (
-    StatisticFunctionForPCE,
-)
-from gemseo_umdo.formulation._statistic.pce.factory import PCEEstimatorFactory
+from gemseo_umdo.formulation._estimator.pce.factory import PCEEstimatorFactory
+from gemseo_umdo.formulation._function.pce import StatisticFunctionForPCE
 from gemseo_umdo.formulation.pce_settings import PCE_Settings
 from gemseo_umdo.formulation.surrogate import Surrogate
 

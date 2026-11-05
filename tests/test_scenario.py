@@ -39,7 +39,7 @@ from numpy.testing import assert_almost_equal
 
 from gemseo_umdo.discipline.noiser.additive import AdditiveNoiser
 from gemseo_umdo.discipline.noiser.multiplicative import MultiplicativeNoiser
-from gemseo_umdo.formulation.factory import UMDOFormulationsFactory
+from gemseo_umdo.formulation.factory import UMDOFormulationFactory
 from gemseo_umdo.formulation.sampling import Sampling
 from gemseo_umdo.formulation.sampling_settings import Sampling_Settings
 from gemseo_umdo.scenario.evaluation import UEvaluationScenario
@@ -110,8 +110,8 @@ def test_available_statistics(scenario):
 
 
 def test_factory(scenario):
-    """Check that the UMDOScenario uses a UMDOFormulationsFactory."""
-    assert isinstance(scenario._formulation_factory, UMDOFormulationsFactory)
+    """Check that the UMDOScenario uses a UMDOFormulationFactory."""
+    assert isinstance(scenario._formulation_factory, UMDOFormulationFactory)
 
 
 def test_formulation(scenario):

@@ -20,7 +20,7 @@ from pathlib import Path
 
 from pydantic import Field
 
-from gemseo_umdo.formulation.base_sampling_settings import BaseSamplingSettings
+from gemseo_umdo.formulation.core.base_sampling_settings import BaseSamplingSettings
 
 
 class Sampling_Settings(BaseSamplingSettings):  # noqa: N801

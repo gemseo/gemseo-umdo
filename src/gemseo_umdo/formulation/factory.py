@@ -21,11 +21,10 @@ from typing import Final
 
 from gemseo.formulation.factory import MDOFormulationFactory
 
-from gemseo_umdo.formulation.base_umdo_formulation import BaseUMDOFormulation
+from gemseo_umdo.formulation.core.base import BaseUMDOFormulation
 
 
-# TODO: API: rename to UMDOFormulationFactory
-class UMDOFormulationsFactory(MDOFormulationFactory):
+class UMDOFormulationFactory(MDOFormulationFactory):
     """The factory of U-MDO formulations."""
 
     _class: ClassVar[type[BaseUMDOFormulation]] = BaseUMDOFormulation
@@ -33,5 +32,5 @@ class UMDOFormulationsFactory(MDOFormulationFactory):
     _package_names: ClassVar[tuple[str, ...]] = ("gemseo_umdo.formulation",)
 
 
-umdo_formulation_factory: Final[UMDOFormulationsFactory] = UMDOFormulationsFactory()
+umdo_formulation_factory: Final[UMDOFormulationFactory] = UMDOFormulationFactory()
 """The factory for ``BaseUMDOFormulation`` objects."""

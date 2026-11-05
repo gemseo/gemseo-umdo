@@ -58,9 +58,7 @@ from gemseo_umdo.scenario.mdo import UMDOScenario
 if TYPE_CHECKING:
     from gemseo.util.typing import RealArray
 
-    from gemseo_umdo.formulation.base_umdo_formulation_settings import (
-        BaseUMDOFormulationSettings,
-    )
+    from gemseo_umdo.formulation.core.base_settings import BaseUMDOFormulationSettings
 
 # %%
 # First,

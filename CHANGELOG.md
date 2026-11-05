@@ -92,7 +92,15 @@ and this project adheres to
     - `gemseo_umdo.disciplines.noiser_factory`
       → [gemseo_umdo.discipline.noiser.factory][gemseo_umdo.discipline.noiser.factory],
       following the naming rule of the factories;
-    - `gemseo_umdo.formulations` → [gemseo_umdo.formulation][gemseo_umdo.formulation];
+    - `gemseo_umdo.formulations` → [gemseo_umdo.formulation][gemseo_umdo.formulation],
+      whose base classes move to the subpackage
+      [core][gemseo_umdo.formulation.core], as in GEMSEO:
+        - `base_umdo_formulation` → [core.base][gemseo_umdo.formulation.core.base],
+        - `base_umdo_formulation_settings` → [core.base_settings][gemseo_umdo.formulation.core.base_settings],
+        - `base_sampling_settings` → [core.base_sampling_settings][gemseo_umdo.formulation.core.base_sampling_settings],
+        - `base_surrogate_settings` → [core.base_surrogate_settings][gemseo_umdo.formulation.core.base_surrogate_settings],
+      and whose factory `UMDOFormulationsFactory` is renamed
+      [UMDOFormulationFactory][gemseo_umdo.formulation.factory.UMDOFormulationFactory];
     - `gemseo_umdo.problems` → [gemseo_umdo.problem][gemseo_umdo.problem];
     - `gemseo_umdo.scenarios` → [gemseo_umdo.scenario][gemseo_umdo.scenario],
       whose modules are shortened as in GEMSEO:
@@ -152,7 +160,7 @@ and this project adheres to
   the disciplines, the settings,
   the uncertain space and the settings of the MDO formulation,
   and create the objective with
-  [create_objective()][gemseo_umdo.formulation.base_umdo_formulation.BaseUMDOFormulation.create_objective].
+  [create_objective()][gemseo_umdo.formulation.core.base.BaseUMDOFormulation.create_objective].
   Their MDO formulations evaluate the functions over the uncertain space
   with an [EvaluationProblem][gemseo.core.problem.evaluation.EvaluationProblem]
   whose observables include the output of the objective.
@@ -430,7 +438,7 @@ and this project adheres to
 
 ### Added
 
-- Each [BaseUMDOFormulation][gemseo_umdo.formulation.base_umdo_formulation.BaseUMDOFormulation]
+- Each [BaseUMDOFormulation][gemseo_umdo.formulation.core.base.BaseUMDOFormulation]
   has a Pydantic model to define its settings.
   For example,
   [Sampling_Settings][gemseo_umdo.formulation.sampling_settings.Sampling_Settings]
@@ -469,7 +477,7 @@ and this project adheres to
   which is a Pydantic model.
 - API CHANGE:
   The statistic estimation settings of
-  a [BaseUMDOFormulation][gemseo_umdo.formulation.base_umdo_formulation.BaseUMDOFormulation]
+  a [BaseUMDOFormulation][gemseo_umdo.formulation.core.base.BaseUMDOFormulation]
   passed as positional and keyword arguments
   have been replaced by the unique positional argument `settings_model`,
   which is a Pydantic model.
@@ -524,7 +532,7 @@ and this project adheres to
   [NoiserFactory][gemseo_umdo.discipline.noiser.factory.NoiserFactory]
   is available.
 - [ControlVariate][gemseo_umdo.formulation.control_variate.ControlVariate],
-  a new [BaseUMDOFormulation][gemseo_umdo.formulation.base_umdo_formulation.BaseUMDOFormulation]
+  a new [BaseUMDOFormulation][gemseo_umdo.formulation.core.base.BaseUMDOFormulation]
   estimating the statistics with a control variate technique based on Taylor polynomials.
 
 ### Changed
@@ -597,7 +605,7 @@ and this project adheres to
   to compute the statistics iteratively
   and so do not store the samples in a `Database`.
 - The package `gemseo_umdo.formulations.functions` contains the `MDOFunction`s
-  used by a [UMDOFormulation][gemseo_umdo.formulation.base_umdo_formulation.BaseUMDOFormulation]
+  used by a [UMDOFormulation][gemseo_umdo.formulation.core.base.BaseUMDOFormulation]
   to compute the statistics of the objective, constraints and observables.
 - The logs of the `UDOEScenario`
   and [UMDOScenario][gemseo_umdo.scenario.mdo.UMDOScenario]
@@ -650,10 +658,10 @@ and this project adheres to
   and [BeamDesignSpace][gemseo_umdo.problem.beam_model.design_space.BeamDesignSpace]
   to benchmark robust optimization algorithms.
 - [TaylorPolynomial][gemseo_umdo.formulation.taylor_polynomial.TaylorPolynomial],
-  a new [UMDOFormulation][gemseo_umdo.formulation.base_umdo_formulation.BaseUMDOFormulation]
+  a new [UMDOFormulation][gemseo_umdo.formulation.core.base.BaseUMDOFormulation]
   estimating the statistics with Taylor polynomials.
 - [SequentialSampling][gemseo_umdo.formulation.sequential_sampling.SequentialSampling],
-  a new [UMDOFormulation][gemseo_umdo.formulation.base_umdo_formulation.BaseUMDOFormulation]
+  a new [UMDOFormulation][gemseo_umdo.formulation.core.base.BaseUMDOFormulation]
   estimating the statistics with sequential sampling.
 - [UncertainCouplingGraph][gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph]
   to visualize the dispersion of the coupling variables.
@@ -673,7 +681,7 @@ and this project adheres to
 ### Changed
 
 - API change: the argument `statistic_estimation_options`
-  of [UMDOFormulation][gemseo_umdo.formulation.base_umdo_formulation.BaseUMDOFormulation]
+  of [UMDOFormulation][gemseo_umdo.formulation.core.base.BaseUMDOFormulation]
   has been renamed to `statistic_estimation_parameters`.
 - API change: `UMDOFormulation._processed_functions` replaces `Sampling.processed_functions`.
 

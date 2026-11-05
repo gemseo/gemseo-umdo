@@ -16,11 +16,13 @@
 
 from __future__ import annotations
 
-from gemseo_umdo.formulation.base_surrogate_settings import BaseSurrogate_Settings
-from gemseo_umdo.formulation.base_surrogate_settings import (
+from gemseo_umdo.formulation.core.base_surrogate_settings import BaseSurrogate_Settings
+from gemseo_umdo.formulation.core.base_surrogate_settings import (
     BaseSurrogateWithMCStatistics_Settings,
 )
-from gemseo_umdo.formulation.base_surrogate_settings import SurrogateQuality_Settings
+from gemseo_umdo.formulation.core.base_surrogate_settings import (
+    SurrogateQuality_Settings,
+)
 
 
 class Surrogate_Settings(  # noqa: N801

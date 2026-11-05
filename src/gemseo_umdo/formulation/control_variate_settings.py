@@ -27,7 +27,7 @@ from gemseo.util.seeder import seed
 from pydantic import Field
 from pydantic import model_validator
 
-from gemseo_umdo.formulation.base_surrogate_settings import (
+from gemseo_umdo.formulation.core.base_surrogate_settings import (
     BaseSurrogateWithMCStatistics_Settings,
 )
 from gemseo_umdo.formulation.sampling_settings import Sampling_Settings

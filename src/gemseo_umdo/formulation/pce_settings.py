@@ -26,7 +26,9 @@ from pydantic import Field
 from pydantic import PositiveFloat
 from pydantic import model_validator
 
-from gemseo_umdo.formulation.base_surrogate_settings import SurrogateQuality_Settings
+from gemseo_umdo.formulation.core.base_surrogate_settings import (
+    SurrogateQuality_Settings,
+)
 from gemseo_umdo.formulation.surrogate_settings import Surrogate_Settings
 
 if TYPE_CHECKING:

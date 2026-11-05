@@ -16,7 +16,7 @@ r"""Sequential sampling-based U-MDO formulation.
 
 [SequentialSampling][gemseo_umdo.formulation.sequential_sampling.SequentialSampling]
 is a
-[BaseUMDOFormulation][gemseo_umdo.formulation.base_umdo_formulation.BaseUMDOFormulation]
+[BaseUMDOFormulation][gemseo_umdo.formulation.core.base.BaseUMDOFormulation]
 estimating the statistics with sequential (quasi) Monte Carlo techniques.
 
 E.g.

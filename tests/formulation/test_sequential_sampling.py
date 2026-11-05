@@ -29,7 +29,7 @@ from gemseo.util.testing.helper import assert_exception
 from numpy import array
 from numpy.testing import assert_almost_equal
 
-from gemseo_umdo.formulation._function import statistic_function_for_sampling
+from gemseo_umdo.formulation._function import sampling as sampling_function_module
 from gemseo_umdo.formulation.sequential_sampling import SequentialSampling
 from gemseo_umdo.formulation.sequential_sampling_settings import (
     SequentialSampling_Settings,
@@ -142,7 +142,7 @@ def test_warning_with_more_samples(
     assert [
         (level, text)
         for name, level, text in caplog.record_tuples
-        if name == statistic_function_for_sampling.__name__
+        if name == sampling_function_module.__name__
     ] == [
         (
             logging.WARNING,

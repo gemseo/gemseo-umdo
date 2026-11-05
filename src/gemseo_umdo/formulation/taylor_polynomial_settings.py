@@ -19,9 +19,7 @@ from __future__ import annotations
 from gemseo.optimization import OptimizationProblem
 from pydantic import Field
 
-from gemseo_umdo.formulation.base_umdo_formulation_settings import (
-    BaseUMDOFormulationSettings,
-)
+from gemseo_umdo.formulation.core.base_settings import BaseUMDOFormulationSettings
 
 
 class TaylorPolynomial_Settings(BaseUMDOFormulationSettings):  # noqa: N801

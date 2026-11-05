@@ -33,7 +33,7 @@ or a design of experiments
 
 In the frame of U-MDO,
 the
-[BaseUMDOFormulation][gemseo_umdo.formulation.base_umdo_formulation.BaseUMDOFormulation]
+[BaseUMDOFormulation][gemseo_umdo.formulation.core.base.BaseUMDOFormulation]
 uses a [BaseMDOFormulation][gemseo.formulation.core.base_mdo.BaseMDOFormulation]
 with a [RandomSpace][gemseo.space.random.RandomSpace]
 defining the uncertain variables
@@ -45,7 +45,7 @@ it post-processed the associated [Database][gemseo.core.problem.database.Databas
 to estimate the statistics of the outputs defining the objective and constraints.
 
 The most common
-[BaseUMDOFormulation][gemseo_umdo.formulation.base_umdo_formulation.BaseUMDOFormulation]
+[BaseUMDOFormulation][gemseo_umdo.formulation.core.base.BaseUMDOFormulation]
 is [Sampling][gemseo_umdo.formulation.sampling.Sampling],
 consisting in estimating the statistics with (quasi) Monte Carlo techniques.
 """

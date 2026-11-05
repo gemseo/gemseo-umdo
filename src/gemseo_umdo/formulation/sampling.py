@@ -15,7 +15,7 @@
 r"""Sampling-based U-MDO formulation.
 
 [Sampling][gemseo_umdo.formulation.sampling.Sampling] is a
-[BaseUMDOFormulation][gemseo_umdo.formulation.base_umdo_formulation.BaseUMDOFormulation]
+[BaseUMDOFormulation][gemseo_umdo.formulation.core.base.BaseUMDOFormulation]
 estimating the statistics with (quasi) Monte Carlo techniques.
 
 E.g.
@@ -46,16 +46,14 @@ from gemseo.doe.factory import DOELibraryFactory
 from gemseo.util.logging import LoggingContext
 from gemseo.util.pydantic import create_model
 
-from gemseo_umdo.formulation._function.statistic_function_for_sampling import (
-    StatisticFunctionForSampling,
-)
-from gemseo_umdo.formulation._statistic.iterative_sampling.factory import (  # noqa: E501
+from gemseo_umdo.formulation._estimator.iterative_sampling.factory import (  # noqa: E501
     SamplingEstimatorFactory as IterativeSamplingEstimatorFactory,
 )
-from gemseo_umdo.formulation._statistic.sampling.factory import (
+from gemseo_umdo.formulation._estimator.sampling.factory import (
     SamplingEstimatorFactory as OneShotSamplingEstimatorFactory,
 )
-from gemseo_umdo.formulation.base_umdo_formulation import BaseUMDOFormulation
+from gemseo_umdo.formulation._function.sampling import StatisticFunctionForSampling
+from gemseo_umdo.formulation.core.base import BaseUMDOFormulation
 from gemseo_umdo.formulation.sampling_settings import Sampling_Settings
 
 if TYPE_CHECKING:

@@ -15,7 +15,7 @@
 r"""Surrogate-based U-MDO formulation.
 
 [Surrogate][gemseo_umdo.formulation.surrogate.Surrogate] is a
-[BaseUMDOFormulation][gemseo_umdo.formulation.base_umdo_formulation.BaseUMDOFormulation]
+[BaseUMDOFormulation][gemseo_umdo.formulation.core.base.BaseUMDOFormulation]
 estimating the statistics with (quasi) Monte Carlo techniques
 applied to a surrogate model.
 
@@ -53,11 +53,9 @@ from gemseo.util.logging import LoggingContext
 from gemseo.util.pydantic import create_model
 from numpy import full
 
-from gemseo_umdo.formulation._function.statistic_function_for_surrogate import (
-    StatisticFunctionForSurrogate,
-)
-from gemseo_umdo.formulation._statistic.sampling.factory import SamplingEstimatorFactory
-from gemseo_umdo.formulation.base_umdo_formulation import BaseUMDOFormulation
+from gemseo_umdo.formulation._estimator.sampling.factory import SamplingEstimatorFactory
+from gemseo_umdo.formulation._function.surrogate import StatisticFunctionForSurrogate
+from gemseo_umdo.formulation.core.base import BaseUMDOFormulation
 from gemseo_umdo.formulation.surrogate_settings import Surrogate_Settings
 
 if TYPE_CHECKING:

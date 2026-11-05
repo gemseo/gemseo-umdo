@@ -98,7 +98,7 @@ from a generated design variable `dv_x` and an uncertain variable.
 
 ### U-MDO formulations
 
-`formulation/`: every formulation derives from `BaseUMDOFormulation` and has a
+`formulation/`: every formulation derives from `BaseUMDOFormulation` (`formulation/core/base.py`) and has a
 sibling `<name>_settings.py` defining `<Name>_Settings` (deriving from
 `BaseUMDOFormulationSettings`), found by `umdo_formulation_factory`. The concrete ones
 are `Sampling` (and `SequentialSampling`), `TaylorPolynomial`, `ControlVariate`,
@@ -114,7 +114,7 @@ variables).
 
 Each objective/constraint/observable becomes a `BaseStatisticFunction` (an
 `ArrayFunction`, in `formulation/_function/`) wrapping a statistic estimator.
-Estimators live in `formulation/_statistic/<technique>/`, one module per statistic
+Estimators live in `formulation/_estimator/<technique>/` (base class in `base.py`), one module per statistic
 (`mean.py`, `variance.py`, `standard_deviation.py`, `margin.py`, `probability.py`,
 `quantile.py`), discovered by the `BaseFactory` of that package: the `statistic_name`
 given by the user is the estimator **class name**, so a technique supports exactly the
@@ -135,9 +135,6 @@ the function take part in the sampling.
 Samples or statistics computed at a design point are cached in
 `input_data_to_output_data`, which a listener on the optimization problem clears when
 the design point changes.
-
-`UMDOFormulationsFactory` predates the naming rules of `common.md` (see the
-`TODO: API` comment); renaming it is a breaking change.
 
 ### Other packages
 

@@ -50,10 +50,10 @@ from numpy import ones
 from numpy.testing import assert_almost_equal
 from numpy.testing import assert_equal
 
-from gemseo_umdo.formulation._statistic.pce.margin import Margin
-from gemseo_umdo.formulation._statistic.pce.mean import Mean
-from gemseo_umdo.formulation._statistic.pce.standard_deviation import StandardDeviation
-from gemseo_umdo.formulation._statistic.pce.variance import Variance
+from gemseo_umdo.formulation._estimator.pce.margin import Margin
+from gemseo_umdo.formulation._estimator.pce.mean import Mean
+from gemseo_umdo.formulation._estimator.pce.standard_deviation import StandardDeviation
+from gemseo_umdo.formulation._estimator.pce.variance import Variance
 from gemseo_umdo.formulation.pce import PCE
 from gemseo_umdo.formulation.pce_settings import PCE_Settings
 from gemseo_umdo.scenario.mdo import UMDOScenario
@@ -210,17 +210,13 @@ def test_quality(caplog, pce_regressor, ishigami_problem):
     pce.problem.objective = pce.create_objective("y", "Mean")
     pce.problem.objective.evaluate(array([0.0]))
     module, level, message = caplog.record_tuples[0]
-    assert (
-        module == "gemseo_umdo.formulation._function.statistic_function_for_surrogate"
-    )
+    assert module == "gemseo_umdo.formulation._function.surrogate"
     assert level == logging.INFO
     regex = r" {8}R2Measure"
     assert re.compile(regex).match(message)
 
     module, level, message = caplog.record_tuples[1]
-    assert (
-        module == "gemseo_umdo.formulation._function.statistic_function_for_surrogate"
-    )
+    assert module == "gemseo_umdo.formulation._function.surrogate"
     assert level == logging.WARNING
     regex = r" {12}y\[0\]: \d+\.\d+<0\.9 \(learning\) - -\d+\.\d+<0\.8 \(test\)"
     assert re.match(regex, message)
@@ -251,9 +247,7 @@ def test_quality_cv(caplog, pce_regressor, ishigami_problem, quality_cv_compute,
     pce.problem.objective = pce.create_objective("y", "Mean")
     pce.problem.objective.evaluate(array([0.0]))
     module, level, message = caplog.record_tuples[1]
-    assert (
-        module == "gemseo_umdo.formulation._function.statistic_function_for_surrogate"
-    )
+    assert module == "gemseo_umdo.formulation._function.surrogate"
     assert level == logging.WARNING
     assert re.match(regex, message)
 

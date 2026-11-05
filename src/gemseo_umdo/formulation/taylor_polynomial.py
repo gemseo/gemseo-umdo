@@ -15,7 +15,7 @@
 r"""U-MDO formulation based on Taylor polynomials.
 
 [TaylorPolynomial][gemseo_umdo.formulation.taylor_polynomial.TaylorPolynomial] is a
-[BaseUMDOFormulation][gemseo_umdo.formulation.base_umdo_formulation.BaseUMDOFormulation]
+[BaseUMDOFormulation][gemseo_umdo.formulation.core.base.BaseUMDOFormulation]
 estimating the statistics with first- or second-order Taylor polynomials
 around the expectation of the uncertain variables:
 
@@ -42,14 +42,14 @@ from typing import ClassVar
 from gemseo.core.problem.evaluation import EvaluationProblem
 from gemseo.util.pydantic import create_model
 
-from gemseo_umdo.formulation._function.hessian_function import HessianFunction
-from gemseo_umdo.formulation._function.statistic_function_for_taylor_polynomial import (  # noqa: E501
-    StatisticFunctionForTaylorPolynomial,
-)
-from gemseo_umdo.formulation._statistic.taylor_polynomial.factory import (  # noqa: E501
+from gemseo_umdo.formulation._estimator.taylor_polynomial.factory import (  # noqa: E501
     TaylorPolynomialEstimatorFactory,
 )
-from gemseo_umdo.formulation.base_umdo_formulation import BaseUMDOFormulation
+from gemseo_umdo.formulation._function.hessian import HessianFunction
+from gemseo_umdo.formulation._function.taylor_polynomial import (  # noqa: E501
+    StatisticFunctionForTaylorPolynomial,
+)
+from gemseo_umdo.formulation.core.base import BaseUMDOFormulation
 from gemseo_umdo.formulation.taylor_polynomial_settings import TaylorPolynomial_Settings
 
 if TYPE_CHECKING:

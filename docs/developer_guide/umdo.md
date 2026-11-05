@@ -31,11 +31,12 @@ gemseo_umdo
       multiplicative.py # Noising discipline multiplying a deterministic variable by a random one
       util.py # Function creating the chain of noising disciplines
   formulation # Subpackage including U-MDO formulations
+    core # Subpackage including the base classes
+      base.py # Base class for U-MDO formulations
+      base_settings.py # Base class for the settings of the U-MDO formulations
+      base_sampling_settings.py # Base class for the settings of the sampling-based U-MDO formulations
+      base_surrogate_settings.py # Base classes for the settings of the surrogate-based U-MDO formulations
     factory.py # Factory of U-MDO formulations
-    base_umdo_formulation.py # Base class for U-MDO formulations
-    base_umdo_formulation_settings.py # Base class for the settings of the U-MDO formulations
-    base_sampling_settings.py # Base class for the settings of the sampling-based U-MDO formulations
-    base_surrogate_settings.py # Base classes for the settings of the surrogate-based U-MDO formulations
     control_variate.py # U-MDO formulation estimating statistics using Taylor-based control variates
     control_variate_settings.py # Settings for ControlVariate
     pce.py # U-MDO formulation estimating statistics using polynomial chaos expansions (PCE)
@@ -49,13 +50,13 @@ gemseo_umdo
     taylor_polynomial.py # U-MDO formulation estimating statistics using Taylor polynomials
     taylor_polynomial_settings.py # Settings for TaylorPolynomial
     _function # Subpackage of statistic estimation functions to be used with EvaluationProblem
-      base_statistic_function.py # Base class for statistic estimation functions
-      statistic_function_for_a_specific_u_mdo_formulation.py # Statistic estimation functions for a U-MDO formulation
+      base.py # Base class for statistic estimation functions
+      specific_u_mdo_formulation.py # Statistic estimation functions for a U-MDO formulation
       ...
-    _statistic # Subpackage of statistic estimators
-      base_statistic_estimator.py # Base class for statistic estimators
+    _estimator # Subpackage of statistic estimators
+      base.py # Base class for statistic estimators
       specific_u_mdo_formulation # The subpackage of statistic estimators associated with a specific U-MDO formulation
-        base_sampling_estimator.py # The base class for statistic estimators associated with this U-MDO formulation
+        base.py # The base class for statistic estimators associated with this U-MDO formulation
         mean.py # The estimator of the mean associated with this U-MDO formulation
         variance.py # The estimator of the variance associated with this U-MDO formulation
         ...

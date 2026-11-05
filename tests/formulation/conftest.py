@@ -35,9 +35,7 @@ from gemseo_umdo.formulation.surrogate_settings import Surrogate_Settings
 from gemseo_umdo.formulation.taylor_polynomial_settings import TaylorPolynomial_Settings
 
 if TYPE_CHECKING:
-    from gemseo_umdo.formulation.base_umdo_formulation_settings import (
-        BaseUMDOFormulationSettings,
-    )
+    from gemseo_umdo.formulation.core.base_settings import BaseUMDOFormulationSettings
 
 
 @pytest.fixture

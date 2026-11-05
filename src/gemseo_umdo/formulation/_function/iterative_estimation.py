@@ -26,7 +26,7 @@ if TYPE_CHECKING:
     from gemseo.optimization.problem import EvaluationType
     from gemseo.util.typing import RealArray
 
-    from gemseo_umdo.formulation._statistic.iterative_sampling.base_sampling_estimator import (  # noqa: E501
+    from gemseo_umdo.formulation._estimator.iterative_sampling.base import (  # noqa: E501
         BaseSamplingEstimator,
     )
 

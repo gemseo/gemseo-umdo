@@ -15,7 +15,7 @@
 r"""Control variate-based U-MDO formulation.
 
 [ControlVariate][gemseo_umdo.formulation.control_variate.ControlVariate] is a
-[BaseUMDOFormulation][gemseo_umdo.formulation.base_umdo_formulation.BaseUMDOFormulation]
+[BaseUMDOFormulation][gemseo_umdo.formulation.core.base.BaseUMDOFormulation]
 estimating the statistics with first-order Taylor polynomials as control variates:
 
 $$\tilde{f}(x,u)=f(x,\mu) + (u-\mu)\frac{\partial f(x,\mu)}{\partial u}$$
@@ -44,14 +44,14 @@ from gemseo.doe.factory import DOELibraryFactory
 from gemseo.util.logging import LoggingContext
 from gemseo.util.pydantic import create_model
 
-from gemseo_umdo.formulation._function.statistic_function_for_control_variate import (
-    StatisticFunctionForControlVariate,
-)
-from gemseo_umdo.formulation._statistic.control_variate.factory import (  # noqa: E501
+from gemseo_umdo.formulation._estimator.control_variate.factory import (  # noqa: E501
     ControlVariateEstimatorFactory,
 )
-from gemseo_umdo.formulation.base_umdo_formulation import BaseUMDOFormulation
+from gemseo_umdo.formulation._function.control_variate import (
+    StatisticFunctionForControlVariate,
+)
 from gemseo_umdo.formulation.control_variate_settings import ControlVariate_Settings
+from gemseo_umdo.formulation.core.base import BaseUMDOFormulation
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
