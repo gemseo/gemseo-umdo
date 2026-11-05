@@ -114,13 +114,22 @@ variables).
 Each objective/constraint/observable becomes a `BaseStatisticFunction` (an
 `ArrayFunction`, in `formulations/_functions/`) wrapping a statistic estimator.
 Estimators live in `formulations/_statistics/<technique>/`, one module per statistic
-(`mean.py`, `variance.py`, `standard_deviation.py`, `margin.py`, `probability.py`),
-discovered by the `BaseFactory` of that package: the `statistic_name` given by the user
-is the estimator **class name**, so a technique supports exactly the statistics its
-package defines (PCE and Taylor polynomial have no `Probability`). A formulation
-sets the pair `_statistic_factory`, `_statistic_function_class` either at class level
-or at instantiation before calling `super().__init__`, as `Sampling` does to switch
-between one-shot and iterative estimation (`estimate_statistics_iteratively`).
+(`mean.py`, `variance.py`, `standard_deviation.py`, `margin.py`, `probability.py`,
+`quantile.py`), discovered by the `BaseFactory` of that package: the `statistic_name`
+given by the user is the estimator **class name**, so a technique supports exactly the
+statistics its package defines (PCE and Taylor polynomial have no `Probability`, only
+the one-shot `sampling/` package has `Quantile`). An estimator exposes the classmethod
+`update_parameters`, which fills in default parameters (so that the function name
+includes them) and makes them conservative for an objective or inequality constraint
+(e.g. the `factor` of a margin, the `level` of a quantile), and `min_n_samples`.
+
+A formulation sets `_statistic_function_class` at class level and `_statistic_factory`
+at class level or at instantiation before calling `super().__init__`. `Sampling` picks
+the iterative or one-shot factory from `estimate_statistics_iteratively` and raises an
+error for a statistic that cannot be estimated iteratively (`Quantile`) when this
+setting is `True`. `_register_statistic_function`, called at the end of
+`create_objective`, `create_constraint`, `add_constraint` and `add_observable`, makes
+the function take part in the sampling.
 
 Samples or statistics computed at a design point are cached in
 `input_data_to_output_data`, which a listener on the optimization problem clears when

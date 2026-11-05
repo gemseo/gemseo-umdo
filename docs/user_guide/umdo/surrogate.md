@@ -16,7 +16,7 @@ using surrogate models.
 At each iteration of the optimization loop,
 a surrogate model is built over the uncertain space
 and Monte Carlo sampling is used to estimate specific statistics,
-namely mean, standard deviation, variance, probability and margin.
+namely mean, standard deviation, variance, probability, margin and quantile.
 
 The quality of the surrogate model is logged
 and stored in the database attached to the scenario
@@ -111,7 +111,8 @@ providing information on the surrogates built at each optimization iteration:
 ## Statistics
 
 This U-MDO formulation has been implemented
-for the expectation, the standard deviation, the variance, the margin and the probability,
+for the expectation, the standard deviation, the variance, the margin, the probability
+and the quantile,
 by sampling the surrogate model $\widehat{\varphi}$ of $\varphi$.
 
 | Statistic          | Notation                         | Estimator                                                                                                                                         |
@@ -121,3 +122,12 @@ by sampling the surrogate model $\widehat{\varphi}$ of $\varphi$.
 | Standard deviation | $\mathbb{S}[\varphi(x,U)]$       | $S_{\textrm{PCE}}[\varphi(x,U)]=\sqrt{V_{\textrm{Surrogate}}[\varphi(x,U)]}$                                                                      |
 | Margin             | $\textrm{Margin}[\varphi(x,U)]$  | $\textrm{Margin}_{\textrm{Surrogate}}[\varphi(x,U)]=E_{\textrm{Surrogate}}[\varphi(x,U)] + \kappa \cdot S_{\textrm{Surrogate}}[\varphi(x,U)]$     |
 | Probability        | $\mathbb{P}[\varphi(x,U)\leq 0]$ | $P_{\textrm{PCE}}[\varphi(x,U)\leq 0]=E_N[\mathbb{1}_{\widehat{\varphi}(x,U)\leq 0}]$                                                             |
+| Quantile           | $Q_\alpha[\varphi(x,U)]$         | $Q_{\alpha,\textrm{Surrogate}}[\varphi(x,U)]=(1-w)\widehat{\varphi}_{(j)}(x)+w\widehat{\varphi}_{(j+1)}(x)$                                       |
+
+where $\widehat{\varphi}_{(1)}(x)\leq\ldots\leq\widehat{\varphi}_{(N)}(x)$ are the order statistics
+of $\widehat{\varphi}(x,u^{(1)}),\ldots,\widehat{\varphi}(x,u^{(N)})$
+and where the index $j$ and the weight $w\in[0,1[$ depend on $\alpha$, $N$
+and the method of [numpy.quantile][numpy.quantile]
+set by the statistic parameter `method` (default: `"linear"`),
+as for the [Sampling](sampling.md) U-MDO formulation.
+The default level $\alpha$ is 0.95.

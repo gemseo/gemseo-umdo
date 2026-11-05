@@ -18,6 +18,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from gemseo_umdo.formulations._statistics.base_margin import BaseMargin
 from gemseo_umdo.formulations._statistics.pce.base_pce_estimator import BasePCEEstimator
 
 if TYPE_CHECKING:
@@ -26,7 +27,7 @@ if TYPE_CHECKING:
     from gemseo.util.typing import RealArray
 
 
-class Margin(BasePCEEstimator):
+class Margin(BaseMargin, BasePCEEstimator):
     """Estimator of a margin, i.e. mean + factor * deviation."""
 
     arg_names: ClassVar[tuple[str, ...]] = (

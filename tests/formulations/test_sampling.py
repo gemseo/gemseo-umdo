@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import logging
 import pickle
+from functools import wraps
 from pathlib import Path
 from typing import TYPE_CHECKING
 from typing import Any
@@ -24,6 +25,7 @@ from typing import Final
 import pytest
 from gemseo import from_pickle
 from gemseo import to_pickle
+from gemseo.core.function.array_function import ArrayFunction
 from gemseo.dataset import IODataset
 from gemseo.discipline import AnalyticDiscipline
 from gemseo.doe import CustomDOE_Settings
@@ -35,12 +37,15 @@ from gemseo.space import RandomSpace
 from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 from gemseo.util.comparison import compare_dict_of_arrays
 from gemseo.util.testing.helper import assert_exception
+from numpy import arange
 from numpy import array
+from numpy import float64
+from numpy.testing import assert_allclose
 from numpy.testing import assert_almost_equal
 from numpy.testing import assert_equal
 from pandas._testing import assert_frame_equal
 
-from gemseo_umdo.formulations._functions import base_statistic_function_for_sampling
+from gemseo_umdo.formulations._functions import statistic_function_for_sampling
 from gemseo_umdo.formulations._functions.iterative_estimation import IterativeEstimation
 from gemseo_umdo.formulations._statistics.iterative_sampling.margin import (
     Margin as IterativeMargin,
@@ -63,6 +68,7 @@ from gemseo_umdo.formulations._statistics.sampling.base_sampling_estimator impor
 from gemseo_umdo.formulations._statistics.sampling.margin import Margin
 from gemseo_umdo.formulations._statistics.sampling.mean import Mean
 from gemseo_umdo.formulations._statistics.sampling.probability import Probability
+from gemseo_umdo.formulations._statistics.sampling.quantile import Quantile
 from gemseo_umdo.formulations._statistics.sampling.standard_deviation import (
     StandardDeviation,
 )
@@ -77,6 +83,7 @@ if TYPE_CHECKING:
     from collections.abc import Sequence
 
     from gemseo.discipline import Discipline
+    from gemseo.util.typing import StrKeyMapping
     from numpy import ndarray
 
     from gemseo_umdo.formulations._statistics.iterative_sampling.base_sampling_estimator import (  # noqa: E501
@@ -128,6 +135,37 @@ def create_umdo_formulation(
         formulation.add_constraint("c", "Mean")
         formulation.add_observable("o", "Mean")
         return formulation
+
+    return create
+
+
+@pytest.fixture
+def create_sampling(
+    disciplines: Sequence[Discipline],
+    design_space: DesignSpace,
+    uncertain_space: RandomSpace,
+) -> Callable[..., Sampling]:
+    """A function creating a Sampling U-MDO formulation with two samples."""
+
+    def create(**settings: Any) -> Sampling:
+        """Create a Sampling U-MDO formulation with two samples.
+
+        Args:
+            **settings: The settings of the U-MDO formulation
+                other than `doe_algo_settings`.
+
+        Returns:
+            The Sampling U-MDO formulation.
+        """
+        return Sampling(
+            OptimizationProblem(design_space),
+            disciplines,
+            Sampling_Settings(
+                doe_algo_settings=CustomDOE_Settings(samples=_two_samples),
+                **settings,
+            ),
+            uncertain_space=uncertain_space,
+        )
 
     return create
 
@@ -843,7 +881,7 @@ def test_data_for_statistic_estimation_warning(
     assert [
         (level, text)
         for name, level, text in caplog.record_tuples
-        if name == base_statistic_function_for_sampling.__name__
+        if name == statistic_function_for_sampling.__name__
     ] == [(logging.WARNING, message) for message in messages]
 
 
@@ -1132,22 +1170,574 @@ def test_standard_deviation_derivative_if_zero(estimate_statistics_iteratively):
     assert_equal(get("StD[z]"), array([[0.0]]))
 
 
-def test_available_statistics(
-    disciplines, design_space, uncertain_space, estimate_statistics_iteratively
+@pytest.mark.parametrize(
+    ("method", "expected"),
+    [("linear", array([1.5, 3.0])), ("inverted_cdf", array([1.0, 2.0]))],
+    ids=["linear", "inverted-cdf"],
+)
+def test_estimate_quantile(method, expected):
+    """Check the estimation of a quantile of a vector output."""
+    samples = array([[3.0, 6.0], [0.0, 0.0], [2.0, 4.0], [1.0, 2.0]])
+    assert_equal(Quantile(0.5, method).estimate_statistic(samples), expected)
+
+
+@pytest.mark.parametrize("method", ["linear", "inverted_cdf", "hazen", "midpoint"])
+@pytest.mark.parametrize("level", [0.1, 0.5, 0.95])
+def test_quantile_jacobian(method, level):
+    """Check the Jacobian of a quantile of a vector output with finite differences."""
+    a = arange(-10.0, 10.0).reshape((10, 2)) % 7 - 3
+    b = arange(20.0).reshape((10, 2)) % 5 / 10
+
+    def compute_samples(x: float) -> ndarray:
+        """Compute the samples s_i(x) = a_i x + b_i x^2."""
+        return a * x + b * x**2
+
+    x = 0.3
+    jac_samples = (a + 2 * b * x)[..., None]
+    estimator = Quantile(level, method)
+    step = 1e-7
+    expected = (
+        estimator.estimate_statistic(compute_samples(x + step))
+        - estimator.estimate_statistic(compute_samples(x - step))
+    ) / (2 * step)
+    jac = estimator.compute_jacobian(compute_samples(x), jac_samples)
+    assert jac.shape == (2, 1)
+    assert_allclose(jac[:, 0], expected, atol=1e-6)
+
+
+@pytest.mark.parametrize(
+    "kwargs",
+    [{"level": 0.0}, {"level": 1.0}, {"method": "foo"}],
+    ids=["level-zero", "level-one", "unknown-method"],
+)
+def test_quantile_invalid_arguments(kwargs, snapshot):
+    """Check that a level outside ]0,1[ or an unknown method raises an error."""
+    with assert_exception(ValueError, snapshot):
+        Quantile(**kwargs)
+
+
+def test_quantile_warning(caplog):
+    """Check the warning logged once when the tail has too few samples."""
+    estimator = Quantile(0.95)
+    samples = arange(20.0)[:, None]
+    estimator.estimate_statistic(samples)
+    estimator.estimate_statistic(samples)
+    assert caplog.record_tuples == [
+        (
+            "gemseo_umdo.formulations._statistics.sampling.quantile",
+            logging.WARNING,
+            (
+                "The estimation of the 0.95-quantile from 20 samples may be inaccurate "
+                "as the expected number of samples beyond the quantile is 1 < 10."
+            ),
+        )
+    ]
+
+
+def test_quantile_no_warning(caplog):
+    """Check that no warning is logged when the tail has enough samples."""
+    Quantile(0.95).estimate_statistic(arange(200.0)[:, None])
+    assert not caplog.records
+
+
+@pytest.fixture
+def quantile_formulation(create_sampling) -> Sampling:
+    """A sampling-based U-MDO formulation estimating the statistics in one go."""
+    return create_sampling(estimate_statistics_iteratively=False)
+
+
+@pytest.mark.parametrize(
+    ("kwargs", "level"),
+    [
+        ({}, 0.95),
+        ({"level": 0.9}, 0.9),
+        ({"level": 0.1}, 0.9),
+        ({"level": 0.9, "positive": True}, 0.1),
+        ({"level": 0.1, "positive": True}, 0.1),
+        ({"level": 0.07}, 0.93),
+        ({"level": 1 - 1e-13, "positive": True}, 1e-13),
+        ({"level": float64(0.9)}, 0.9),
+        ({"level": 0.05, "constraint_type": ArrayFunction.ConstraintType.EQ}, 0.05),
+        (
+            {
+                "level": 0.9,
+                "constraint_type": ArrayFunction.ConstraintType.EQ,
+                "positive": True,
+            },
+            0.9,
+        ),
+    ],
+    ids=[
+        "default",
+        "negative-high",
+        "negative-low",
+        "positive-high",
+        "positive-low",
+        "negative-decimal",
+        "positive-close-to-one",
+        "numpy-scalar",
+        "equality",
+        "equality-positive",
+    ],
+)
+def test_quantile_constraint_level(quantile_formulation, kwargs, level):
+    """Check the level of a quantile inequality constraint is conservative.
+
+    The level of a quantile equality constraint is used as is.
+    """
+    constraint = quantile_formulation.create_constraint("c", "Quantile", **kwargs)
+    assert constraint.has_default_name
+    assert constraint.name.endswith(f"Q[c; {level}]")
+
+
+@pytest.mark.parametrize(
+    ("minimize", "level"), [(True, 0.9), (False, 0.1)], ids=["minimize", "maximize"]
+)
+def test_quantile_objective_level(quantile_formulation, minimize, level):
+    """Check the level of a quantile objective is conservative."""
+    objective = quantile_formulation.create_objective(
+        "f", "Quantile", minimize=minimize, level=0.9
+    )
+    assert objective.name == f"Q[f; {level}]"
+
+
+@pytest.mark.parametrize(
+    ("method_name", "kwargs"),
+    [
+        ("create_constraint", {"level": 1.2, "positive": True}),
+        ("create_constraint", {"level": 1.2}),
+        ("create_objective", {"level": 0.0}),
+        ("create_objective", {"level": 0.0, "minimize": False}),
+    ],
+    ids=[
+        "positive-constraint",
+        "negative-constraint",
+        "minimized-objective",
+        "maximized-objective",
+    ],
+)
+def test_quantile_invalid_conservative_level(
+    quantile_formulation, method_name, kwargs, snapshot
 ):
-    """Check that the available statistics do not include base classes."""
+    """Check that an invalid level is reported before its conservative update."""
+    with assert_exception(ValueError, snapshot):
+        getattr(quantile_formulation, method_name)("c", "Quantile", **kwargs)
+
+
+@pytest.mark.parametrize(
+    ("kwargs", "name"),
+    [({}, "Q[o; 0.95]"), ({"level": 0.1, "method": "hazen"}, "Q[o; 0.1, hazen]")],
+    ids=["default", "custom"],
+)
+def test_quantile_observable_level(quantile_formulation, kwargs, name):
+    """Check the level of a quantile observable is left as is, default included."""
+    quantile_formulation.add_observable("o", "Quantile", **kwargs)
+    assert quantile_formulation.problem.observables[-1].name == name
+
+
+@pytest.mark.parametrize(
+    ("estimate_statistics_iteratively", "statistic_name"),
+    [(True, "Quantile"), (True, "Foo"), (False, "Foo")],
+    ids=["iterative-quantile", "iterative-unknown", "one-shot-unknown"],
+)
+def test_unavailable_statistic(
+    create_sampling, estimate_statistics_iteratively, statistic_name, snapshot
+):
+    """Check that an unavailable statistic raises an explicit error."""
+    formulation = create_sampling(
+        estimate_statistics_iteratively=estimate_statistics_iteratively
+    )
+    with assert_exception(ValueError, snapshot):
+        formulation.add_constraint("c", statistic_name)
+
+
+@pytest.mark.parametrize(
+    ("estimate_statistics_iteratively", "expected"),
+    [
+        (True, ["Margin", "Mean", "Probability", "StandardDeviation", "Variance"]),
+        (
+            False,
+            [
+                "Margin",
+                "Mean",
+                "Probability",
+                "Quantile",
+                "StandardDeviation",
+                "Variance",
+            ],
+        ),
+    ],
+    ids=["iterative", "one-shot"],
+)
+def test_available_statistics(
+    create_sampling, estimate_statistics_iteratively, expected
+):
+    """Check the available statistics."""
+    assert (
+        create_sampling(
+            estimate_statistics_iteratively=estimate_statistics_iteratively
+        ).available_statistics
+        == expected
+    )
+
+
+def create_with_mean_objective(
+    create_sampling: Callable[..., Sampling], **settings: Any
+) -> Sampling:
+    """Create a Sampling U-MDO formulation minimizing the mean of f.
+
+    Args:
+        create_sampling: A function creating a Sampling U-MDO formulation.
+        **settings: The settings of the U-MDO formulation.
+
+    Returns:
+        The Sampling U-MDO formulation.
+    """
+    formulation = create_sampling(**settings)
+    formulation.problem.objective = formulation.create_objective("f", "Mean")
+    return formulation
+
+
+_add_quantile: Final[pytest.MarkDecorator] = pytest.mark.parametrize(
+    "add_quantile",
+    [
+        lambda formulation: formulation.add_constraint("c", "Quantile"),
+        lambda formulation: formulation.add_observable("c", "Quantile"),
+        lambda formulation: formulation.create_constraint("c", "Quantile"),
+        lambda formulation: formulation.create_objective("c", "Quantile"),
+    ],
+    ids=["add_constraint", "add_observable", "create_constraint", "create_objective"],
+)
+"""The functions adding or creating a quantile with a Sampling U-MDO formulation."""
+
+
+@_add_quantile
+def test_quantile_with_iterative_estimation(create_sampling, add_quantile, snapshot):
+    """Check that a quantile cannot be used with the default iterative estimation."""
+    formulation = create_with_mean_objective(create_sampling)
+    with assert_exception(ValueError, snapshot):
+        add_quantile(formulation)
+
+    assert not formulation.problem.constraints
+    assert not formulation.problem.observables
+    assert formulation._statistic_functions == [formulation.problem.objective]
+
+
+def test_user_callback_with_iterative_estimation(create_sampling):
+    """Check that a user-defined callback does not disturb the iterative estimation."""
+    formulation = create_with_mean_objective(create_sampling)
+    evaluations = []
+    formulation.callbacks.append(lambda index, evaluation: evaluations.append(index))
+    reference = create_with_mean_objective(
+        create_sampling, estimate_statistics_iteratively=False
+    )
+    x = array([0.5] * 3)
+    assert_almost_equal(
+        formulation.problem.objective.func(x), reference.problem.objective.func(x)
+    )
+    assert evaluations == [0, 1]
+
+
+def test_failed_addition_leaves_formulation_unchanged(create_sampling, snapshot):
+    """Check that a statistic whose addition failed is not used afterwards."""
+    formulation = create_with_mean_objective(create_sampling)
+    reference = create_with_mean_objective(create_sampling)
+    with assert_exception(ValueError, snapshot):
+        formulation.add_constraint("typo", "Mean")
+
+    assert not formulation.problem.constraints
+    assert formulation._statistic_functions == [formulation.problem.objective]
+    x = array([0.5] * 3)
+    assert_equal(
+        formulation.problem.objective.func(x), reference.problem.objective.func(x)
+    )
+
+
+class _FailingOnceDiscipline(AnalyticDiscipline):
+    """An analytic discipline raising an error at its first execution."""
+
+    def __init__(self) -> None:  # noqa: D107
+        super().__init__({"y": "x+u"})
+        self.__has_failed = False
+
+    def _run(self, input_data: StrKeyMapping) -> StrKeyMapping | None:
+        if not self.__has_failed:
+            self.__has_failed = True
+            msg = "Failure."
+            raise RuntimeError(msg)
+
+        return super()._run(input_data)
+
+
+@pytest.mark.parametrize("estimate_statistics_iteratively", [False, True])
+def test_failed_sampling(estimate_statistics_iteratively, snapshot):
+    """Check that a sampling failure does not disturb the next samplings."""
+    design_space = DesignSpace()
+    design_space.add_variable("x", value=0.0)
+    uncertain_space = RandomSpace()
+    uncertain_space.add_variable("u", OTNormalDistribution_Settings())
     formulation = Sampling(
         OptimizationProblem(design_space),
-        disciplines,
+        [_FailingOnceDiscipline()],
         Sampling_Settings(
-            estimate_statistics_iteratively=estimate_statistics_iteratively
+            doe_algo_settings=CustomDOE_Settings(samples=array([[0.0], [1.0]])),
+            estimate_statistics_iteratively=estimate_statistics_iteratively,
         ),
         uncertain_space=uncertain_space,
+        mdo_formulation_settings=DisciplinaryOpt_Settings(),
     )
-    assert formulation.available_statistics == [
-        "Margin",
-        "Mean",
-        "Probability",
-        "StandardDeviation",
-        "Variance",
+    # The variance would differ if the samples were counted twice.
+    formulation.problem.objective = formulation.create_objective("y", "Variance")
+    callbacks = formulation._settings.doe_algo_settings.callbacks
+    x = array([0.0])
+    with assert_exception(RuntimeError, snapshot):
+        formulation.problem.objective.func(x)
+
+    assert formulation._settings.doe_algo_settings.callbacks == callbacks
+    assert_almost_equal(formulation.problem.objective.func(x), array([0.5]))
+    assert_almost_equal(formulation.problem.objective.func(array([1.0])), array([0.5]))
+
+
+@pytest.mark.parametrize(
+    ("add_first", "add_second"),
+    [
+        (
+            lambda formulation: formulation.add_constraint(
+                "c", "Mean", constraint_name="E[o]"
+            ),
+            lambda formulation: formulation.add_observable("o", "Mean"),
+        ),
+        (
+            lambda formulation: formulation.add_observable("o", "Mean"),
+            lambda formulation: formulation.add_constraint(
+                "c", "Mean", constraint_name="E[o]"
+            ),
+        ),
+    ],
+    ids=["observable", "constraint"],
+)
+def test_name_collision_leaves_formulation_unchanged(
+    create_sampling, add_first, add_second, snapshot
+):
+    """Check that a name collision does not leave an orphan MDO observable."""
+    formulation = create_with_mean_objective(create_sampling)
+    add_first(formulation)
+    mdo_observables = formulation.mdo_formulation.problem.observables.get_names()
+    with assert_exception(ValueError, snapshot):
+        add_second(formulation)
+
+    assert formulation.mdo_formulation.problem.observables.get_names() == (
+        mdo_observables
+    )
+
+
+def test_constraint_created_then_added(create_sampling):
+    """Check a constraint created by the formulation and added by the user."""
+    formulation = create_with_mean_objective(create_sampling)
+    reference = create_with_mean_objective(create_sampling)
+    reference.add_constraint("c", "Mean")
+    x = array([0.5] * 3)
+    # The data cached at x are computed without the constraint.
+    formulation.problem.objective.func(x)
+    formulation.problem.add_constraint(formulation.create_constraint("c", "Mean"))
+    constraint = formulation.problem.constraints[0]
+    reference_constraint = reference.problem.constraints[0]
+    assert_almost_equal(constraint.func(x), reference_constraint.func(x))
+    assert_almost_equal(constraint.jac(x), reference_constraint.jac(x))
+
+
+@pytest.mark.parametrize(
+    "statistic_name", ["Mean", "Variance", "StandardDeviation", "Margin"]
+)
+def test_jacobian_before_statistic(statistic_name):
+    """Check the iterative estimation of a Jacobian before the statistic."""
+    design_space = DesignSpace()
+    design_space.add_variable("x", value=0.0)
+    uncertain_space = RandomSpace()
+    uncertain_space.add_variable("u", OTNormalDistribution_Settings())
+    objectives = []
+    for estimate_statistics_iteratively in (True, False):
+        formulation = Sampling(
+            OptimizationProblem(design_space),
+            [AnalyticDiscipline({"y": "x*u+x**2"})],
+            Sampling_Settings(
+                doe_algo_settings=CustomDOE_Settings(
+                    samples=array([[0.0], [1.0], [3.0]])
+                ),
+                estimate_statistics_iteratively=estimate_statistics_iteratively,
+            ),
+            uncertain_space=uncertain_space,
+            mdo_formulation_settings=DisciplinaryOpt_Settings(),
+        )
+        formulation.problem.objective = formulation.create_objective(
+            "y", statistic_name
+        )
+        objectives.append(formulation.problem.objective)
+
+    objective, reference = objectives
+    for x in (array([1.0]), array([2.0])):
+        assert_almost_equal(objective.jac(x), reference.jac(x))
+        assert_almost_equal(objective.func(x), reference.func(x))
+
+
+def test_duplicate_observable_takes_no_part(create_sampling, caplog):
+    """Check that an observable already observed takes no part in the sampling."""
+    formulation = create_sampling()
+    formulation.add_observable("o", "Mean")
+    observable = formulation.problem.observables[0]
+    mdo_observables = formulation.mdo_formulation.problem.observables.get_names()
+    formulation.add_observable("o", "Mean")
+    assert caplog.records[0].message == (
+        'The optimization problem already observes "E[o]".'
+    )
+    assert formulation.problem.observables.get_names() == ["E[o]"]
+    assert formulation.mdo_formulation.problem.observables.get_names() == (
+        mdo_observables
+    )
+    assert formulation._statistic_functions == [observable]
+
+
+@pytest.mark.parametrize(
+    "create_function",
+    [
+        lambda formulation: formulation.create_objective("f", "Mean"),
+        lambda formulation: formulation.create_constraint("c", "Mean"),
+    ],
+    ids=["objective", "constraint"],
+)
+def test_created_function_takes_part(create_sampling, create_function):
+    """Check that a function takes part in the sampling once created."""
+    formulation = create_sampling()
+    function = create_function(formulation)
+    assert formulation._statistic_functions == [function]
+
+
+def test_reset_iterative_probability_before_estimation():
+    """Check that resetting an iterative probability before any estimation works."""
+    probability = IterativeProbability()
+    probability.reset()
+    assert_equal(probability.estimate_statistic(array([1.0])), array([1.0]))
+
+
+def _count_samplings(formulation: Sampling) -> list[None]:
+    """Count the samplings of a Sampling U-MDO formulation.
+
+    Args:
+        formulation: The Sampling U-MDO formulation.
+
+    Returns:
+        A list growing with each sampling.
+    """
+    calls = []
+    compute_samples = formulation.compute_samples
+
+    @wraps(compute_samples)
+    def wrapper(*args: Any, **kwargs: Any) -> None:
+        calls.append(None)
+        compute_samples(*args, **kwargs)
+
+    formulation.compute_samples = wrapper
+    return calls
+
+
+@pytest.mark.parametrize(
+    "constraint_first", [False, True], ids=["objective-first", "constraint-first"]
+)
+def test_one_shot_sampling_shared_by_functions(create_sampling, constraint_first):
+    """Check that the functions share the same sampling in one-shot mode.
+
+    The samples cached at the design point include the outputs of all the functions.
+    """
+    formulation = create_with_mean_objective(
+        create_sampling, estimate_statistics_iteratively=False
+    )
+    formulation.problem.add_constraint(formulation.create_constraint("c", "Mean"))
+    calls = _count_samplings(formulation)
+    functions = [formulation.problem.objective, formulation.problem.constraints[0]]
+    if constraint_first:
+        functions.reverse()
+
+    x = array([0.5] * 3)
+    for function in functions:
+        function.func(x)
+
+    assert len(calls) == 1
+
+
+@pytest.mark.parametrize("estimate_statistics_iteratively", [False, True])
+def test_constraint_added_after_evaluation(
+    create_sampling, estimate_statistics_iteratively
+):
+    """Check a constraint added after an evaluation at the same design point.
+
+    The cached data do not include the output of this constraint.
+    """
+    formulations = []
+    x = array([0.5] * 3)
+    for evaluate_before in (True, False):
+        formulation = create_with_mean_objective(
+            create_sampling,
+            estimate_statistics_iteratively=estimate_statistics_iteratively,
+        )
+        if evaluate_before:
+            formulation.problem.objective.func(x)
+
+        formulation.add_constraint("c", "Mean")
+        formulations.append(formulation)
+
+    formulation, reference = formulations
+    assert_almost_equal(
+        formulation.problem.constraints[0].func(x),
+        reference.problem.constraints[0].func(x),
+    )
+
+
+def test_replaced_objective_takes_part(create_sampling):
+    """Check that a replaced objective still takes part in the sampling."""
+    formulation = create_sampling()
+    formulation.problem.objective = formulation.create_objective("f", "Variance")
+    former_objective = formulation.problem.objective
+    formulation.problem.objective = formulation.create_objective("f", "Mean")
+    assert formulation._statistic_functions == [
+        former_objective,
+        formulation.problem.objective,
     ]
+
+
+def test_mdo_observables_added_by_mdo_formulation(create_sampling, monkeypatch):
+    """Check that the MDO observables are added by the MDO formulation."""
+    formulation = create_sampling()
+    calls = []
+    mdo_formulation = formulation.mdo_formulation
+    add_observable = mdo_formulation.add_observable
+
+    @wraps(add_observable)
+    def wrapper(*args: Any, **kwargs: Any) -> None:
+        calls.append(kwargs["output_names"])
+        add_observable(*args, **kwargs)
+
+    monkeypatch.setattr(mdo_formulation, "add_observable", wrapper)
+    formulation.add_observable("o", "Mean")
+    formulation.add_constraint("c", "Mean")
+    formulation.add_observable("o", "Variance")
+    assert calls == [["o"], ["c"]]
+    assert mdo_formulation.problem.observables.get_names() == ["o", "c"]
+
+
+def test_mdo_observable_function_created_once(create_sampling, monkeypatch):
+    """Check that the function of an MDO observable is created only once."""
+    formulation = create_sampling()
+    calls = []
+    mdo_formulation = formulation.mdo_formulation
+    create_function = mdo_formulation.create_function
+
+    @wraps(create_function)
+    def wrapper(*args: Any, **kwargs: Any) -> Any:
+        calls.append(None)
+        return create_function(*args, **kwargs)
+
+    monkeypatch.setattr(mdo_formulation, "create_function", wrapper)
+    formulation.add_observable("o", "Mean")
+    formulation.add_constraint("c", "Mean")
+    formulation.problem.objective = formulation.create_objective("f", "Mean")
+    assert len(calls) == 3

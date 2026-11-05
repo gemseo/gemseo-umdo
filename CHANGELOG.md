@@ -44,6 +44,28 @@ and this project adheres to
   [gemseo_umdo.use_cases.beam_model.core.variables][gemseo_umdo.use_cases.beam_model.core.variables].
 - [Sampling.doe_algo][gemseo_umdo.formulations.sampling.Sampling.doe_algo]
   is the DOE library used to sample the disciplines.
+- The U-MDO formulations
+  [Sampling][gemseo_umdo.formulations.sampling.Sampling],
+  [SequentialSampling][gemseo_umdo.formulations.sequential_sampling.SequentialSampling]
+  and [Surrogate][gemseo_umdo.formulations.surrogate.Surrogate]
+  support the statistic `"Quantile"`,
+  e.g. `scenario.add_constraint("c", "Quantile", level=0.95)`,
+  with analytical derivatives for the first two;
+  its parameters are the `level` (default: 0.95)
+  and the `method` of `numpy.quantile` (default: `"linear"`);
+  the `level` is replaced by `max(level, 1 - level)`
+  for an objective to minimize or a negativity inequality constraint
+  and by `min(level, 1 - level)`
+  for an objective to maximize or a positivity inequality constraint,
+  so that the quantile is conservative;
+  for an observable or an equality constraint, it is used as is;
+  the name of the statistic always includes the level,
+  e.g. `"Q[y; 0.95]"`.
+  For [Sampling][gemseo_umdo.formulations.sampling.Sampling]
+  and [SequentialSampling][gemseo_umdo.formulations.sequential_sampling.SequentialSampling],
+  this statistic cannot be estimated iteratively:
+  using it requires `estimate_statistics_iteratively=False`,
+  otherwise a `ValueError` is raised.
 
 ### Changed
 
@@ -54,6 +76,10 @@ and this project adheres to
   or when the lower bound $\mu-\delta$ of `b`, `h`, `t`, `L`, `E`, `Rd` or `Ry`
   is not positive.
 - GEMSEO-UMDO requires GEMSEO 7.
+- BREAKING CHANGE:
+  using a statistic that a U-MDO formulation does not support
+  raises a `ValueError` listing the available statistics
+  instead of an `ImportError`.
 - BREAKING CHANGE:
   [UMDOScenario][gemseo_umdo.scenarios.umdo_scenario.UMDOScenario]
   and [UOptAsUMDOScenario][gemseo_umdo.problems.uopt_as_umdo_scenario.UOptAsUMDOScenario]
@@ -94,9 +120,18 @@ and this project adheres to
   this combination used to estimate the Jacobian of the statistics
   from the derivatives with respect to the uncertain variables
   instead of the design variables.
-- The `factor` parameter of the statistic ``"Margin"`` is replaced by its absolute value
-  in the case of an objective to maximize or a positivity constraint.
-  In the case of observables, this parameter is not modified.
+- BREAKING CHANGE: the `factor` parameter of the statistic `"Margin"` (default: 2)
+  is replaced by its absolute value
+  for an objective to minimize or a negativity inequality constraint
+  and by the opposite of its absolute value
+  for an objective to maximize or a positivity inequality constraint,
+  so that the margin is conservative;
+  for an observable or an equality constraint, it is used as is,
+  whereas it used to be replaced by its absolute value for an equality constraint,
+  and by the opposite of its absolute value when `positive=True`.
+  The name of the statistic always includes the factor,
+  e.g. `"Margin[o; 2.0]"` for `add_observable("o", "Margin")`,
+  which used to be named `"Margin[o]"`.
 - BREAKING CHANGE: the ALL_CAPS class attributes and module-level constants
   are named in lower snake case, as in GEMSEO 7:
     - `BaseNoiser.SHORT_NAME` → [short_name][gemseo_umdo.disciplines.base_noiser.BaseNoiser.short_name];
@@ -104,6 +139,13 @@ and this project adheres to
       → [umdo_formulation_factory][gemseo_umdo.formulations.factory.umdo_formulation_factory].
 - BREAKING CHANGE: the enumeration `gemseo_umdo.formulations.DOE_ALGO_NAMES`
   is renamed [DOEAlgorithmName][gemseo_umdo.formulations.DOEAlgorithmName].
+- BREAKING CHANGE:
+  [Sampling.callbacks][gemseo_umdo.formulations.sampling.Sampling.callbacks]
+  and [Sampling.jacobian_callbacks][gemseo_umdo.formulations.sampling.Sampling.jacobian_callbacks]
+  only contain the callbacks added by the user;
+  with `estimate_statistics_iteratively=True`,
+  they no longer contain the iterative estimations of the statistics,
+  which are passed to the DOE algorithm at each sampling.
 - [Sampling][gemseo_umdo.formulations.sampling.Sampling]
   with `estimate_statistics_iteratively=False`
   reads the samples of the outputs and of their gradients at each design point
@@ -270,6 +312,14 @@ and this project adheres to
   `gemseo_umdo.statistics.multilevel.mlmc.pilots`;
   previously, it searched a non-existent package
   and reported it in its failed imports.
+- When adding the objective, a constraint or an observable fails,
+  e.g. because of invalid statistic parameters
+  as in `scenario.add_observable("o", "Mean", foo=1)`
+  or because its name is already used by another function,
+  the U-MDO formulations are left unchanged,
+  as when adding an observable already observed;
+  previously, the output was still added as an observable
+  of the problem of their MDO formulation.
 
 ## Version 4.3.0 (October 2025)
 

@@ -23,6 +23,8 @@ from typing import Any
 from gemseo.util.metaclass import ABCGoogleDocstringInheritanceMeta
 
 if TYPE_CHECKING:
+    from collections.abc import MutableMapping
+
     from gemseo.util.typing import RealArray
 
 
@@ -36,6 +38,29 @@ class BaseStatisticEstimator(metaclass=ABCGoogleDocstringInheritanceMeta):
         This number is used by the sampling-based U-MDO formulations.
         """
         return 1
+
+    @classmethod
+    def update_parameters(
+        cls, parameters: MutableMapping[str, Any], conservative_from_below: bool | None
+    ) -> MutableMapping[str, Any]:
+        """Update the parameters of the statistic according to its use.
+
+        By default, the parameters are left unchanged.
+
+        Args:
+            parameters: The parameters of the statistic to be updated.
+            conservative_from_below: Whether the statistic must be conservative
+                from below,
+                e.g. with a negative factor for a margin
+                and a level lower than 0.5 for a quantile.
+                If `None`,
+                e.g. for an observable,
+                the statistic does not have to be conservative.
+
+        Returns:
+            The updated parameters of the statistic.
+        """
+        return parameters
 
     @abstractmethod
     def estimate_statistic(self, *args: Any, **kwargs: Any) -> RealArray:  # noqa: D102
