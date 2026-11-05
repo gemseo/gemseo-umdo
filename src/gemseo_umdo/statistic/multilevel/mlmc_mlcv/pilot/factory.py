@@ -20,9 +20,7 @@ from typing import ClassVar
 
 from gemseo.core.base_factory import BaseFactory
 
-from gemseo_umdo.statistic.multilevel.mlmc_mlcv.pilot.base_mlmc_mlcv_pilot import (
-    BaseMLMCMLCVPilot,
-)
+from gemseo_umdo.statistic.multilevel.mlmc_mlcv.pilot.base import BaseMLMCMLCVPilot
 
 
 class MLMCMLCVPilotFactory(BaseFactory[BaseMLMCMLCVPilot]):

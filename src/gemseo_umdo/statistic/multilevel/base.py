@@ -38,7 +38,7 @@ class BasePilot(metaclass=ABCGoogleDocstringInheritanceMeta):
 
     A pilot is associated with a statistic, e.g. mean.
     The method
-    [compute_next_level_and_statistic()][gemseo_umdo.statistic.multilevel.base_pilot.BasePilot.compute_next_level_and_statistic]
+    [compute_next_level_and_statistic()][gemseo_umdo.statistic.multilevel.base.BasePilot.compute_next_level_and_statistic]
     returns a multilevel estimation of the statistic based on the current samples
     and the next level $\ell^*$ of the telescopic sum to sample
     in order to improve this estimation.

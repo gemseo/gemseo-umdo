@@ -24,7 +24,7 @@ from numpy import nanmean
 from numpy import nansum
 from numpy import nanvar
 
-from gemseo_umdo.statistic.multilevel.mlmc.pilot.base_mlmc_pilot import BaseMLMCPilot
+from gemseo_umdo.statistic.multilevel.mlmc.pilot.base import BaseMLMCPilot
 
 if TYPE_CHECKING:
     from collections.abc import Iterable

@@ -12,12 +12,12 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-"""The base pilot class for the MLMC algorithm."""
+"""The base pilot class for the MLMC-MLCV algorithm."""
 
 from __future__ import annotations
 
-from gemseo_umdo.statistic.multilevel.base_pilot import BasePilot
+from gemseo_umdo.statistic.multilevel.base import BasePilot
 
 
-class BaseMLMCPilot(BasePilot):
-    """The base pilot class for the MLMC algorithm."""
+class BaseMLMCMLCVPilot(BasePilot):
+    """The base pilot class for the MLMC-MLCV algorithm."""

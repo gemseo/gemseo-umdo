@@ -28,9 +28,7 @@ from numpy import nanvar
 from scipy.linalg import solve
 
 from gemseo_umdo.statistic.multilevel.mlmc_mlcv.mlmc_mlcv import MLMCMLCV
-from gemseo_umdo.statistic.multilevel.mlmc_mlcv.pilot.base_mlmc_mlcv_pilot import (
-    BaseMLMCMLCVPilot,
-)
+from gemseo_umdo.statistic.multilevel.mlmc_mlcv.pilot.base import BaseMLMCMLCVPilot
 
 if TYPE_CHECKING:
     from collections.abc import Iterable

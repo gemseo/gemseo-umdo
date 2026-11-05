@@ -23,7 +23,7 @@ from gemseo.util.testing.helper import concretize_classes
 from numpy import array
 from numpy.testing import assert_equal
 
-from gemseo_umdo.statistic.multilevel.base_pilot import BasePilot
+from gemseo_umdo.statistic.multilevel.base import BasePilot
 
 if TYPE_CHECKING:
     from collections.abc import Iterable

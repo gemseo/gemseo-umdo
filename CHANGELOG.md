@@ -100,10 +100,16 @@ and this project adheres to
         - `u_evaluation_scenario` → [evaluation][gemseo_umdo.scenario.evaluation],
         - `umdo_scenario` → [mdo][gemseo_umdo.scenario.mdo];
     - `gemseo_umdo.statistics` → [gemseo_umdo.statistic][gemseo_umdo.statistic];
+    - `gemseo_umdo.statistics.multilevel.base_pilot`
+      → [gemseo_umdo.statistic.multilevel.base][gemseo_umdo.statistic.multilevel.base];
     - `gemseo_umdo.statistics.multilevel.mlmc.pilots`
-      → [gemseo_umdo.statistic.multilevel.mlmc.pilot][gemseo_umdo.statistic.multilevel.mlmc.pilot];
+      → [gemseo_umdo.statistic.multilevel.mlmc.pilot][gemseo_umdo.statistic.multilevel.mlmc.pilot],
+      whose module `base_mlmc_pilot` is renamed
+      [base][gemseo_umdo.statistic.multilevel.mlmc.pilot.base];
     - `gemseo_umdo.statistics.multilevel.mlmc_mlcv.pilots`
-      → [gemseo_umdo.statistic.multilevel.mlmc_mlcv.pilot][gemseo_umdo.statistic.multilevel.mlmc_mlcv.pilot];
+      → [gemseo_umdo.statistic.multilevel.mlmc_mlcv.pilot][gemseo_umdo.statistic.multilevel.mlmc_mlcv.pilot],
+      whose module `base_mlmc_mlcv_pilot` is renamed
+      [base][gemseo_umdo.statistic.multilevel.mlmc_mlcv.pilot.base];
     - `gemseo_umdo.use_cases` → [gemseo_umdo.problem][gemseo_umdo.problem],
       merged with the problems as in GEMSEO;
     - `gemseo_umdo.use_cases.beam_model.core.variables`
