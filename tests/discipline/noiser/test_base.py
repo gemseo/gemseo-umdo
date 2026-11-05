@@ -18,7 +18,7 @@ from __future__ import annotations
 
 from gemseo.util.testing.helper import concretize_classes
 
-from gemseo_umdo.discipline.noiser.additive_noiser import AdditiveNoiser
+from gemseo_umdo.discipline.noiser.additive import AdditiveNoiser
 
 
 def test_grammar():

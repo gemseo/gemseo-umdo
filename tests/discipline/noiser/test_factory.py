@@ -19,7 +19,7 @@ from __future__ import annotations
 import pytest
 
 from gemseo_umdo.discipline.noiser.factory import NoiserFactory
-from gemseo_umdo.discipline.noiser.multiplicative_noiser import MultiplicativeNoiser
+from gemseo_umdo.discipline.noiser.multiplicative import MultiplicativeNoiser
 
 
 def test_classes():

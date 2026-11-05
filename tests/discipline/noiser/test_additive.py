@@ -12,7 +12,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-"""Tests for MultiplicativeNoiser."""
+"""Tests for AdditiveNoiser."""
 
 from __future__ import annotations
 
@@ -20,36 +20,40 @@ import pytest
 from numpy import array
 from numpy.testing import assert_equal
 
+from gemseo_umdo.discipline.noiser.additive import AdditiveNoiser
 from gemseo_umdo.discipline.noiser.factory import NoiserFactory
-from gemseo_umdo.discipline.noiser.multiplicative_noiser import MultiplicativeNoiser
 
 
 @pytest.fixture
-def multiplicative_noiser() -> MultiplicativeNoiser:
-    """An multiplicative noiser."""
-    return MultiplicativeNoiser("foo", "noised_foo", "noise")
+def additive_noiser() -> AdditiveNoiser:
+    """An additive noiser."""
+    return AdditiveNoiser("foo", "noised_foo", "noise")
 
 
 def test_short_name():
     """Check the short name."""
-    assert MultiplicativeNoiser.short_name == "*"
+    assert AdditiveNoiser.short_name == "+"
     noiser = NoiserFactory().create(
-        "*",
+        "+",
         variable_name="foo",
         noised_variable_name="noised_foo",
         uncertain_variable_name="noise",
     )
-    assert isinstance(noiser, MultiplicativeNoiser)
+    assert isinstance(noiser, AdditiveNoiser)
 
 
 @pytest.mark.parametrize(
     ("foo", "noise", "noised_foo"),
-    [(array([2]), array([3]), array([8])), (array([2, 2]), array([3]), array([8, 8]))],
+    [
+        (array([2]), array([3]), array([5])),
+        (array([2, 2]), array([3]), array([5, 5])),
+        (array([2, 2]), array([3, 4]), array([5, 6])),
+    ],
 )
-def test_execute(multiplicative_noiser, foo, noise, noised_foo):
+def test_execute(additive_noiser, foo, noise, noised_foo):
     """Check the execution."""
-    multiplicative_noiser.execute({"foo": foo, "noise": noise})
-    assert_equal(multiplicative_noiser.io.output_data["noised_foo"], noised_foo)
+    additive_noiser.execute({"foo": foo, "noise": noise})
+    assert_equal(additive_noiser.io.output_data["noised_foo"], noised_foo)
 
 
 @pytest.mark.parametrize(
@@ -58,33 +62,31 @@ def test_execute(multiplicative_noiser, foo, noise, noised_foo):
         (
             array([2]),
             array([3]),
-            {"noised_foo": {"foo": array([[4]]), "noise": array([[2]])}},
+            {"noised_foo": {"foo": array([[1]]), "noise": array([[1]])}},
         ),
         (
-            array([2, 5]),
+            array([2, 2]),
             array([3]),
             {
                 "noised_foo": {
-                    "foo": array([[4, 0], [0, 4]]),
-                    "noise": array([[2], [5]]),
+                    "foo": array([[1, 0], [0, 1]]),
+                    "noise": array([[1], [1]]),
                 }
             },
         ),
         (
-            array([2, 5]),
+            array([2, 2]),
             array([3, 4]),
             {
                 "noised_foo": {
-                    "foo": array([[4, 0], [0, 5]]),
-                    "noise": array([[2, 0], [0, 5]]),
+                    "foo": array([[1, 0], [0, 1]]),
+                    "noise": array([[1, 0], [0, 1]]),
                 }
             },
         ),
     ],
 )
-def test_jacobian(multiplicative_noiser, foo, noise, jac):
+def test_jacobian(additive_noiser, foo, noise, jac):
     """Check the computation of the Jacobian."""
-    multiplicative_noiser.linearize(
-        {"foo": foo, "noise": noise}, compute_all_jacobians=True
-    )
-    assert_equal(multiplicative_noiser.jac["noised_foo"], jac["noised_foo"])
+    additive_noiser.linearize({"foo": foo, "noise": noise}, compute_all_jacobians=True)
+    assert_equal(additive_noiser.jac["noised_foo"], jac["noised_foo"])

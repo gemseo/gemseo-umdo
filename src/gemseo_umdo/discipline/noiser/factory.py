@@ -20,7 +20,7 @@ from typing import ClassVar
 
 from gemseo.discipline.factory import DisciplineFactory
 
-from gemseo_umdo.discipline.noiser.base_noiser import BaseNoiser
+from gemseo_umdo.discipline.noiser.base import BaseNoiser
 
 
 class NoiserFactory(DisciplineFactory):

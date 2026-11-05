@@ -22,7 +22,7 @@ from typing import ClassVar
 from numpy import eye
 from numpy import ones
 
-from gemseo_umdo.discipline.noiser.base_noiser import BaseNoiser
+from gemseo_umdo.discipline.noiser.base import BaseNoiser
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
