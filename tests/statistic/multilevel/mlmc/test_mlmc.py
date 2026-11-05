@@ -28,14 +28,12 @@ from numpy import array
 from numpy.testing import assert_almost_equal
 from numpy.testing import assert_equal
 
+from gemseo_umdo.problem.heat_equation.model import HeatEquationModel
+from gemseo_umdo.problem.heat_equation.uncertain_space import HeatEquationUncertainSpace
 from gemseo_umdo.statistic.multilevel.mlmc.level import Level
 from gemseo_umdo.statistic.multilevel.mlmc.mlmc import MLMC
 from gemseo_umdo.statistic.multilevel.mlmc.pilot.mean import Mean
 from gemseo_umdo.statistic.multilevel.mlmc.pilot.variance import Variance
-from gemseo_umdo.use_case.heat_equation.model import HeatEquationModel
-from gemseo_umdo.use_case.heat_equation.uncertain_space import (
-    HeatEquationUncertainSpace,
-)
 
 if TYPE_CHECKING:
     from collections.abc import Callable

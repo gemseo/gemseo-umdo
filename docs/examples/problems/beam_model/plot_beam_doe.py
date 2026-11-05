@@ -27,9 +27,9 @@ from gemseo.post.dataset import ZvsXY
 from gemseo.post.dataset.zvsxy_settings import ZvsXY_Settings
 from gemseo.scenario import MDOScenario
 
-from gemseo_umdo.use_case.beam_model.constraints import BeamConstraints
-from gemseo_umdo.use_case.beam_model.design_space import BeamDesignSpace
-from gemseo_umdo.use_case.beam_model.discipline import Beam
+from gemseo_umdo.problem.beam_model.constraints import BeamConstraints
+from gemseo_umdo.problem.beam_model.design_space import BeamDesignSpace
+from gemseo_umdo.problem.beam_model.discipline import Beam
 
 disciplines = [Beam(), BeamConstraints()]
 

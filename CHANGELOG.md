@@ -37,11 +37,11 @@ and this project adheres to
   for design under uncertainty:
   the statistics are added as observables with
   [add_observable()][gemseo_umdo.scenario.base_u_scenario.BaseUScenario.add_observable].
-- The design strength [Rd][gemseo_umdo.use_case.beam_model.core.variable.Rd]
-  and the yield strength [Ry][gemseo_umdo.use_case.beam_model.core.variable.Ry]
-  of [AdvancedBeamUncertainSpace][gemseo_umdo.use_case.beam_model.advanced_uncertain_space.AdvancedBeamUncertainSpace]
+- The design strength [Rd][gemseo_umdo.problem.beam_model.core.variable.Rd]
+  and the yield strength [Ry][gemseo_umdo.problem.beam_model.core.variable.Ry]
+  of [AdvancedBeamUncertainSpace][gemseo_umdo.problem.beam_model.advanced_uncertain_space.AdvancedBeamUncertainSpace]
   are available in
-  [gemseo_umdo.use_case.beam_model.core.variable][gemseo_umdo.use_case.beam_model.core.variable].
+  [gemseo_umdo.problem.beam_model.core.variable][gemseo_umdo.problem.beam_model.core.variable].
 - [Sampling.doe_algo][gemseo_umdo.formulation.sampling.Sampling.doe_algo]
   is the DOE library used to sample the disciplines.
 - The U-MDO formulations
@@ -69,7 +69,7 @@ and this project adheres to
 
 ### Changed
 
-- [AdvancedBeamUncertainSpace][gemseo_umdo.use_case.beam_model.advanced_uncertain_space.AdvancedBeamUncertainSpace]
+- [AdvancedBeamUncertainSpace][gemseo_umdo.problem.beam_model.advanced_uncertain_space.AdvancedBeamUncertainSpace]
   raises a `ValueError`
   when a name in `nominal_values` or in the dispersions is not an uncertain variable,
   when a dispersion is not positive,
@@ -78,7 +78,7 @@ and this project adheres to
 - GEMSEO-UMDO requires GEMSEO 7.
 - BREAKING CHANGE: the packages and modules are named in the singular, as in GEMSEO 7,
   except when named after a class whose name is plural,
-  e.g. `gemseo_umdo.use_case.truss.bars` defining `Bars`:
+  e.g. `gemseo_umdo.problem.truss.bars` defining `Bars`:
     - `gemseo_umdo.disciplines` → [gemseo_umdo.discipline][gemseo_umdo.discipline];
     - `gemseo_umdo.disciplines.utils`
       → [gemseo_umdo.discipline.noiser.util][gemseo_umdo.discipline.noiser.util];
@@ -99,9 +99,10 @@ and this project adheres to
       → [gemseo_umdo.statistic.multilevel.mlmc.pilot][gemseo_umdo.statistic.multilevel.mlmc.pilot];
     - `gemseo_umdo.statistics.multilevel.mlmc_mlcv.pilots`
       → [gemseo_umdo.statistic.multilevel.mlmc_mlcv.pilot][gemseo_umdo.statistic.multilevel.mlmc_mlcv.pilot];
-    - `gemseo_umdo.use_cases` → [gemseo_umdo.use_case][gemseo_umdo.use_case];
+    - `gemseo_umdo.use_cases` → [gemseo_umdo.problem][gemseo_umdo.problem],
+      merged with the problems as in GEMSEO;
     - `gemseo_umdo.use_cases.beam_model.core.variables`
-      → [gemseo_umdo.use_case.beam_model.core.variable][gemseo_umdo.use_case.beam_model.core.variable];
+      → [gemseo_umdo.problem.beam_model.core.variable][gemseo_umdo.problem.beam_model.core.variable];
     - `gemseo_umdo.visualizations` → [gemseo_umdo.visualization][gemseo_umdo.visualization].
   The objects pickled with a previous version cannot be loaded,
   as their classes are stored with the old module paths.
@@ -212,7 +213,7 @@ and this project adheres to
   use the statistic `"Mean"` instead.
 - BREAKING CHANGE:
   the default dispersion $\delta$ of an uncertain variable of
-  [AdvancedBeamUncertainSpace][gemseo_umdo.use_case.beam_model.advanced_uncertain_space.AdvancedBeamUncertainSpace]
+  [AdvancedBeamUncertainSpace][gemseo_umdo.problem.beam_model.advanced_uncertain_space.AdvancedBeamUncertainSpace]
   is 5% of its nominal value $\mu$ for the positive variables,
   1 degree for the angles `alpha` and `beta`,
   instead of about 57 degrees,
@@ -268,7 +269,7 @@ and this project adheres to
   with `estimate_statistics_iteratively=True` (default)
   no longer lists `"BaseCentralMoment"` among its available statistics
   and no longer accepts it as a statistic name.
-- [AdvancedBeamUncertainSpace][gemseo_umdo.use_case.beam_model.advanced_uncertain_space.AdvancedBeamUncertainSpace]
+- [AdvancedBeamUncertainSpace][gemseo_umdo.problem.beam_model.advanced_uncertain_space.AdvancedBeamUncertainSpace]
   uses the standard deviation $\sigma=\delta/3$
   for a truncated normal variable whose dispersion $\delta$ is passed by the user,
   as documented;
@@ -276,7 +277,7 @@ and this project adheres to
   making the distribution 3 times too wide;
   its support is now $[\mu-\delta,\mu+\delta]$
   instead of $[\mu-3\delta,\mu+3\delta]$.
-- [AdvancedBeamUncertainSpace][gemseo_umdo.use_case.beam_model.advanced_uncertain_space.AdvancedBeamUncertainSpace]
+- [AdvancedBeamUncertainSpace][gemseo_umdo.problem.beam_model.advanced_uncertain_space.AdvancedBeamUncertainSpace]
   centers the uniform distributions of `b`, `h`, `t` and `L`
   on the `nominal_values` passed by the user;
   previously, it ignored them and used the default values.
@@ -369,7 +370,7 @@ and this project adheres to
 ### Added
 
 - The [ControlVariate][gemseo_umdo.formulation.control_variate.ControlVariate] U-MDO formulation can create the control variates from any [BaseRegressor][gemseo.machine_learning.regression.core.base_regressor.BaseRegressor] using the arguments `regressor_settings` (for defining the regressor) and `regressor_doe_algo_settings` (for creating the training dataset). By default, this U-MDO formulation uses control variates based on Taylor polynomials.
-- The subpackage [truss][gemseo_umdo.use_case.truss] includes modules for implementing a truss structure problem from the literature.
+- The subpackage [truss][gemseo_umdo.problem.truss] includes modules for implementing a truss structure problem from the literature.
 - The function [create_noising_discipline_chain][gemseo_umdo.discipline.noiser.util.create_noising_discipline_chain] returns a disciplines chain to noise input variables.
   This function is used by the `UDOEScenario` and [UMDOScenario][gemseo_umdo.scenario.umdo_scenario.UMDOScenario]
   when the argument ``uncertain_design_variables`` is set to noise design variables.
@@ -520,7 +521,7 @@ and this project adheres to
 - API CHANGE: `gemseo_umdo.formulations.formulation.UMDOFormulation` renamed to `gemseo_umdo.formulations.base_umdo_formulation.BaseUMDOFormulation`.
 - API CHANGE: `gemseo_umdo.formulations.statistics` is now a protected package.
 - API CHANGE: `gemseo_umdo.formulations.functions` is now a protected package.
-- The [BeamConstraints][gemseo_umdo.use_case.beam_model.constraints.BeamConstraints] discipline
+- The [BeamConstraints][gemseo_umdo.problem.beam_model.constraints.BeamConstraints] discipline
   computed outputs of the form `a/(b+eps)` where `eps` was used to avoid division by zero.
   Now,
   this discipline computes outputs of the form `b/a`
@@ -558,10 +559,10 @@ and this project adheres to
 - Support for Python 3.11.
 - A web documentation.
 - The heat equation problem (
-  [HeatEquationConfiguration][gemseo_umdo.use_case.heat_equation.configuration.HeatEquationConfiguration],
-  [HeatEquationDiscipline][gemseo_umdo.use_case.heat_equation.discipline.HeatEquation],
-  [HeatEquationModel][gemseo_umdo.use_case.heat_equation.model.HeatEquationModel]
-  and [HeatEquationUncertainSpace][gemseo_umdo.use_case.heat_equation.uncertain_space.HeatEquationUncertainSpace])
+  [HeatEquationConfiguration][gemseo_umdo.problem.heat_equation.configuration.HeatEquationConfiguration],
+  [HeatEquationDiscipline][gemseo_umdo.problem.heat_equation.discipline.HeatEquation],
+  [HeatEquationModel][gemseo_umdo.problem.heat_equation.model.HeatEquationModel]
+  and [HeatEquationUncertainSpace][gemseo_umdo.problem.heat_equation.uncertain_space.HeatEquationUncertainSpace])
   to illustrate the algorithms [MLMC][gemseo_umdo.statistic.multilevel.mlmc.mlmc.MLMC]
   and [MLMCMLCV][gemseo_umdo.statistic.multilevel.mlmc_mlcv.mlmc_mlcv.MLMCMLCV].
 - The [MLMC][gemseo_umdo.statistic.multilevel.mlmc.mlmc.MLMC] and
@@ -624,10 +625,10 @@ and this project adheres to
 
 ### Added
 
-- The beam problem ([Beam][gemseo_umdo.use_case.beam_model.discipline.Beam],
-  [BeamConstraints][gemseo_umdo.use_case.beam_model.constraints.BeamConstraints],
-  [BeamUncertainSpace][gemseo_umdo.use_case.beam_model.uncertain_space.BeamUncertainSpace]
-  and [BeamDesignSpace][gemseo_umdo.use_case.beam_model.design_space.BeamDesignSpace]
+- The beam problem ([Beam][gemseo_umdo.problem.beam_model.discipline.Beam],
+  [BeamConstraints][gemseo_umdo.problem.beam_model.constraints.BeamConstraints],
+  [BeamUncertainSpace][gemseo_umdo.problem.beam_model.uncertain_space.BeamUncertainSpace]
+  and [BeamDesignSpace][gemseo_umdo.problem.beam_model.design_space.BeamDesignSpace]
   to benchmark robust optimization algorithms.
 - [TaylorPolynomial][gemseo_umdo.formulation.taylor_polynomial.TaylorPolynomial],
   a new [UMDOFormulation][gemseo_umdo.formulation.base_umdo_formulation.BaseUMDOFormulation]
@@ -639,9 +640,9 @@ and this project adheres to
   to visualize the dispersion of the coupling variables.
 - [SobolGraph][gemseo_umdo.visualization.sobol_graph.SobolGraph]
   to visualize the first-, second- and total-order Sobol' indices.
-- The set of [SpringMassModel][gemseo_umdo.use_case.spring_mass_model.model.SpringMassModel],
-  [SpringMassDiscipline][gemseo_umdo.use_case.spring_mass_model.discipline.SpringMassDiscipline]
-  and [SpringMassUncertainSpace][gemseo_umdo.use_case.spring_mass_model.uncertain_space.SpringMassUncertainSpace]
+- The set of [SpringMassModel][gemseo_umdo.problem.spring_mass_model.model.SpringMassModel],
+  [SpringMassDiscipline][gemseo_umdo.problem.spring_mass_model.discipline.SpringMassDiscipline]
+  and [SpringMassUncertainSpace][gemseo_umdo.problem.spring_mass_model.uncertain_space.SpringMassUncertainSpace]
   is a use case based on a spring-mass system.
 
 ### Fixed

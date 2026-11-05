@@ -25,9 +25,9 @@ from __future__ import annotations
 from gemseo.discipline import DisciplineChain
 from gemseo.uncertainty.sensitivity import SobolAnalysis
 
-from gemseo_umdo.use_case.beam_model.constraints import BeamConstraints
-from gemseo_umdo.use_case.beam_model.discipline import Beam
-from gemseo_umdo.use_case.beam_model.uncertain_space import BeamUncertainSpace
+from gemseo_umdo.problem.beam_model.constraints import BeamConstraints
+from gemseo_umdo.problem.beam_model.discipline import Beam
+from gemseo_umdo.problem.beam_model.uncertain_space import BeamUncertainSpace
 
 uncertain_space = BeamUncertainSpace()
 

@@ -27,11 +27,11 @@ from gemseo.optimization import NLOPT_COBYLA_Settings
 from gemseo.post import OptHistoryView_Settings
 
 from gemseo_umdo.formulation.sampling_settings import Sampling_Settings
+from gemseo_umdo.problem.beam_model.constraints import BeamConstraints
+from gemseo_umdo.problem.beam_model.design_space import BeamDesignSpace
+from gemseo_umdo.problem.beam_model.discipline import Beam
+from gemseo_umdo.problem.beam_model.uncertain_space import BeamUncertainSpace
 from gemseo_umdo.scenario.umdo_scenario import UMDOScenario
-from gemseo_umdo.use_case.beam_model.constraints import BeamConstraints
-from gemseo_umdo.use_case.beam_model.design_space import BeamDesignSpace
-from gemseo_umdo.use_case.beam_model.discipline import Beam
-from gemseo_umdo.use_case.beam_model.uncertain_space import BeamUncertainSpace
 
 scenario = UMDOScenario(
     [Beam(), BeamConstraints()],

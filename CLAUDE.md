@@ -146,8 +146,7 @@ the design point changes.
 | `statistic/multilevel/` | `MLMC` and `MLMCMLCV` estimators, standalone (not used by the formulations), with pilot-statistic factories |
 | `monte_carlo_sampler.py` | `MonteCarloSampler` |
 | `visualization/` | `SobolGraph`, `UncertainCouplingGraph` |
-| `problem/` | `UOptAsUMDOScenario`: a single-discipline problem rewritten as a U-MDO scenario |
-| `use_case/` | Beam, heat equation, spring-mass and truss models used by the docs and tests |
+| `problem/` | `UOptAsUMDOScenario` (a single-discipline problem rewritten as a U-MDO scenario), and the beam, heat equation, spring-mass and truss models used by the docs and tests |
 | `_util/compatibility/` | Shims across numpy and openturns versions |
 
 ## Changelog and Docs
