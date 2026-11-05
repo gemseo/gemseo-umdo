@@ -684,8 +684,9 @@ e.g. $\mathbb{E}[f]-3\mathbb{S}[f]$ for an objective to maximize.
     - for each statistic estimation technique supporting `Foo`,
       an estimator class `Foo` whose constructor takes these settings
       as argument `settings`
-      (after the uncertain space for the techniques requiring it),
-      e.g. a subclass of
+      (after the uncertain space for the techniques requiring it)
+      and reads them from `self._settings`,
+      e.g. `class Foo(BaseSamplingEstimator[Foo_Settings])` deriving from
       [BaseSamplingEstimator][gemseo_umdo.formulations._statistics.sampling.base_sampling_estimator.BaseSamplingEstimator]
       for [Sampling][gemseo_umdo.formulations.sampling.Sampling],
       in a module found by GEMSEO,

@@ -19,6 +19,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from gemseo_umdo.formulations._statistics.pce.base_pce_estimator import BasePCEEstimator
+from gemseo_umdo.formulations.statistic_settings import StandardDeviation_Settings
 
 if TYPE_CHECKING:
     from typing import ClassVar
@@ -26,7 +27,7 @@ if TYPE_CHECKING:
     from gemseo.util.typing import RealArray
 
 
-class StandardDeviation(BasePCEEstimator):
+class StandardDeviation(BasePCEEstimator[StandardDeviation_Settings]):
     """Estimator of the standard deviation."""
 
     arg_names: ClassVar[tuple[str]] = (BasePCEEstimator.std_arg_name,)

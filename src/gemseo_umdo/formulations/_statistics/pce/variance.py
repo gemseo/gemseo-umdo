@@ -19,6 +19,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from gemseo_umdo.formulations._statistics.pce.base_pce_estimator import BasePCEEstimator
+from gemseo_umdo.formulations.statistic_settings import Variance_Settings
 
 if TYPE_CHECKING:
     from typing import ClassVar
@@ -26,7 +27,7 @@ if TYPE_CHECKING:
     from gemseo.util.typing import RealArray
 
 
-class Variance(BasePCEEstimator):
+class Variance(BasePCEEstimator[Variance_Settings]):
     """Estimator of the variance."""
 
     arg_names: ClassVar[tuple[str]] = (BasePCEEstimator.var_arg_name,)

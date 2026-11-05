@@ -51,6 +51,9 @@ from numpy.testing import assert_almost_equal
 from numpy.testing import assert_equal
 
 from gemseo_umdo.formulations import Margin_Settings
+from gemseo_umdo.formulations import Mean_Settings
+from gemseo_umdo.formulations import StandardDeviation_Settings
+from gemseo_umdo.formulations import Variance_Settings
 from gemseo_umdo.formulations._statistics.pce.margin import Margin
 from gemseo_umdo.formulations._statistics.pce.mean import Mean
 from gemseo_umdo.formulations._statistics.pce.standard_deviation import (
@@ -140,20 +143,22 @@ def variance() -> NumberArray:
 
 def test_mean(mean):
     """Check the PCE-based estimator of the mean."""
-    assert_equal(Mean().estimate_statistic(mean), mean)
+    assert_equal(Mean(Mean_Settings()).estimate_statistic(mean), mean)
 
 
 def test_standard_deviation(standard_deviation):
     """Check the PCE-based estimator of the standard deviation."""
     assert_equal(
-        StandardDeviation().estimate_statistic(standard_deviation),
+        StandardDeviation(StandardDeviation_Settings()).estimate_statistic(
+            standard_deviation
+        ),
         standard_deviation,
     )
 
 
 def test_variance(variance):
     """Check the PCE-based estimator of the variance."""
-    assert_equal(Variance().estimate_statistic(variance), variance)
+    assert_equal(Variance(Variance_Settings()).estimate_statistic(variance), variance)
 
 
 def test_margin(mean, standard_deviation):

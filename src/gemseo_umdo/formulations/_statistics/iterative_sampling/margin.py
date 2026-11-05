@@ -25,18 +25,16 @@ from gemseo_umdo.formulations._statistics.iterative_sampling.mean import Mean
 from gemseo_umdo.formulations._statistics.iterative_sampling.standard_deviation import (
     StandardDeviation,
 )
+from gemseo_umdo.formulations.statistic_settings import Margin_Settings
+from gemseo_umdo.formulations.statistic_settings import Mean_Settings
+from gemseo_umdo.formulations.statistic_settings import StandardDeviation_Settings
 
 if TYPE_CHECKING:
     from gemseo.util.typing import RealArray
 
-    from gemseo_umdo.formulations.statistic_settings import Margin_Settings
 
-
-class Margin(BaseSamplingEstimator):
+class Margin(BaseSamplingEstimator[Margin_Settings]):
     """Iterative estimator of a margin, i.e. mean + factor * deviation."""
-
-    __factor: float
-    """The factor related to the standard deviation."""
 
     __mean: Mean
     """The iterative estimator of the mean."""
@@ -50,9 +48,8 @@ class Margin(BaseSamplingEstimator):
             settings: The settings of the margin.
         """  # noqa: D205 D212 D415
         super().__init__(settings)
-        self.__mean = Mean()
-        self.__standard_deviation = StandardDeviation()
-        self.__factor = settings.factor
+        self.__mean = Mean(Mean_Settings())
+        self.__standard_deviation = StandardDeviation(StandardDeviation_Settings())
 
     @property
     def min_n_samples(self) -> int:  # noqa: D102
@@ -62,13 +59,13 @@ class Margin(BaseSamplingEstimator):
         self.shape = value.shape
         return self.__mean.estimate_statistic(
             value
-        ) + self.__factor * self.__standard_deviation.estimate_statistic(value)
+        ) + self._settings.factor * self.__standard_deviation.estimate_statistic(value)
 
     def compute_jacobian(self, value: RealArray, jac_value: RealArray) -> RealArray:
         self.jac_shape = jac_value.shape
         dmean_dx = self.__mean.compute_jacobian(value, jac_value)
         dstd_dx = self.__standard_deviation.compute_jacobian(value, jac_value)
-        return dmean_dx + self.__factor * dstd_dx
+        return dmean_dx + self._settings.factor * dstd_dx
 
     def reset(self) -> None:  # noqa: D102
         self.__mean.reset()

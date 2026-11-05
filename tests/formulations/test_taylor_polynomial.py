@@ -33,6 +33,9 @@ from numpy.testing import assert_almost_equal
 from numpy.testing import assert_equal
 
 from gemseo_umdo.formulations import Margin_Settings
+from gemseo_umdo.formulations import Mean_Settings
+from gemseo_umdo.formulations import StandardDeviation_Settings
+from gemseo_umdo.formulations import Variance_Settings
 from gemseo_umdo.formulations._statistics.taylor_polynomial.margin import Margin
 from gemseo_umdo.formulations._statistics.taylor_polynomial.mean import Mean
 from gemseo_umdo.formulations._statistics.taylor_polynomial.standard_deviation import (
@@ -156,21 +159,23 @@ def test_init_differentiation_method(umdo_formulation):
 
 def test_estimate_mean(umdo_formulation):
     """Check that E[f(x,U)] is estimated by f(x,m) + 0.5s²h(x,m)."""
-    mean = Mean(umdo_formulation.uncertain_space)
+    mean = Mean(umdo_formulation.uncertain_space, Mean_Settings())
     mean_estimation = mean.estimate_statistic(func, jac, hess)
     assert_equal(mean_estimation, array([115.0, -112.0]))
 
 
 def test_estimate_variance(umdo_formulation):
     """Check that V[f(x,U)] is estimated by (sj(x,m))²."""
-    variance = Variance(umdo_formulation.uncertain_space)
+    variance = Variance(umdo_formulation.uncertain_space, Variance_Settings())
     var_estimation = variance.estimate_statistic(func, jac, hess)
     assert_equal(var_estimation, array([98.0, 440.0]))
 
 
 def test_estimate_standard_derivation(umdo_formulation):
     """Check that V[f(x,u)] = S[f(x,U)]²."""
-    standard_deviation = StandardDeviation(umdo_formulation.uncertain_space)
+    standard_deviation = StandardDeviation(
+        umdo_formulation.uncertain_space, StandardDeviation_Settings()
+    )
     std_estimation = standard_deviation.estimate_statistic(func, jac, hess)
     assert_equal(std_estimation, array([98.0, 440.0]) ** 0.5)
 

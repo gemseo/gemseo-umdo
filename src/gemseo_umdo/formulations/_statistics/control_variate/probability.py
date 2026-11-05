@@ -24,6 +24,7 @@ from typing import Any
 from gemseo_umdo.formulations._statistics.control_variate.base_control_variate_estimator import (  # noqa: E501
     BaseControlVariateEstimator,
 )
+from gemseo_umdo.formulations.statistic_settings import Probability_Settings
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -31,17 +32,12 @@ if TYPE_CHECKING:
     from gemseo.space import RandomSpace
     from gemseo.util.typing import RealArray
 
-    from gemseo_umdo.formulations.statistic_settings import Probability_Settings
 
-
-class Probability(BaseControlVariateEstimator):
+class Probability(BaseControlVariateEstimator[Probability_Settings]):
     """Estimator of a probability."""
 
     __compare: Callable[[Any, Any], Any]
     """The comparison operator."""
-
-    __threshold: float
-    """The threshold against which the probability is estimated."""
 
     def __init__(
         self,
@@ -53,7 +49,6 @@ class Probability(BaseControlVariateEstimator):
             settings: The settings of the probability.
         """  # noqa: D205 D212 D415
         super().__init__(uncertain_space, settings)
-        self.__threshold = settings.threshold
         self.__compare = ge if settings.greater else le
 
     def estimate_statistic(  # noqa: D102
@@ -64,9 +59,9 @@ class Probability(BaseControlVariateEstimator):
         some_predictions: RealArray,
         many_predictions: RealArray,
     ) -> RealArray:
-        evaluations = self.__compare(evaluations, self.__threshold)
-        some_predictions = self.__compare(some_predictions, self.__threshold)
-        many_predictions = self.__compare(many_predictions, self.__threshold)
+        evaluations = self.__compare(evaluations, self._settings.threshold)
+        some_predictions = self.__compare(some_predictions, self._settings.threshold)
+        many_predictions = self.__compare(many_predictions, self._settings.threshold)
         alpha = self._compute_opposite_scaled_covariance(evaluations, some_predictions)
         return evaluations.mean(0) + alpha * (
             some_predictions.mean(0) - many_predictions.mean(0)

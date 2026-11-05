@@ -26,11 +26,11 @@ from numpy import quantile
 from gemseo_umdo.formulations._statistics.sampling.base_sampling_estimator import (
     BaseSamplingEstimator,
 )
+from gemseo_umdo.formulations.statistic_settings import Quantile_Settings
 
 if TYPE_CHECKING:
     from gemseo.util.typing import RealArray
 
-    from gemseo_umdo.formulations.statistic_settings import Quantile_Settings
 
 logger = logging.getLogger(__name__)
 
@@ -38,7 +38,7 @@ _min_tail_size: Final[int] = 10
 """The minimum number of samples expected in the tail beyond the quantile."""
 
 
-class Quantile(BaseSamplingEstimator):
+class Quantile(BaseSamplingEstimator[Quantile_Settings]):
     r"""Estimator of a quantile.
 
     The $\alpha$-quantile is estimated from the order statistics
@@ -61,12 +61,6 @@ class Quantile(BaseSamplingEstimator):
     as its variance does not decrease when the number of samples increases.
     """
 
-    __level: float
-    """The level of the quantile, in $]0,1[$."""
-
-    __method: str
-    """The name of the method of [numpy.quantile][numpy.quantile]."""
-
     __is_size_checked: bool
     """Whether the number of samples has been checked against the level."""
 
@@ -76,19 +70,21 @@ class Quantile(BaseSamplingEstimator):
             settings: The settings of the quantile.
         """  # noqa: D205 D212 D415
         super().__init__(settings)
-        self.__level = settings.level
-        self.__method = settings.method
         self.__is_size_checked = False
 
     def estimate_statistic(self, samples: RealArray) -> RealArray:
         self.__check_size(len(samples))
-        return quantile(samples, self.__level, axis=0, method=self.__method)
+        return quantile(
+            samples, self._settings.level, axis=0, method=self._settings.method
+        )
 
     def compute_jacobian(self, samples: RealArray, jac_samples: RealArray) -> RealArray:
         n_samples = len(samples)
         # The quantile of the sorted indices 0, ..., N-1 is the position j + w
         # of the quantile in the order statistics.
-        position = quantile(arange(n_samples), self.__level, method=self.__method)
+        position = quantile(
+            arange(n_samples), self._settings.level, method=self._settings.method
+        )
         index = int(position)
         weight = position - index
         # Only the order statistics j and j + 1 are needed, not a full sort.
@@ -110,12 +106,12 @@ class Quantile(BaseSamplingEstimator):
             return
 
         self.__is_size_checked = True
-        tail_size = n_samples * min(self.__level, 1 - self.__level)
+        tail_size = n_samples * min(self._settings.level, 1 - self._settings.level)
         if tail_size < _min_tail_size:
             logger.warning(
                 "The estimation of the %s-quantile from %s samples may be inaccurate "
                 "as the expected number of samples beyond the quantile is %.3g < %s.",
-                self.__level,
+                self._settings.level,
                 n_samples,
                 tail_size,
                 _min_tail_size,

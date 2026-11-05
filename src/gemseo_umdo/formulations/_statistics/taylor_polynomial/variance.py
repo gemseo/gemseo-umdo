@@ -22,6 +22,7 @@ from numpy import diag
 from numpy import diagonal
 from numpy.linalg import multi_dot
 
+from gemseo_umdo.formulations._statistics.base_statistic_estimator import T
 from gemseo_umdo.formulations._statistics.taylor_polynomial.base_taylor_polynomial_estimator import (  # noqa: E501
     BaseTaylorPolynomialEstimator,
 )
@@ -30,7 +31,7 @@ if TYPE_CHECKING:
     from gemseo.util.typing import RealArray
 
 
-class Variance(BaseTaylorPolynomialEstimator):
+class Variance(BaseTaylorPolynomialEstimator[T]):
     """Estimator of the variance."""
 
     def estimate_statistic(

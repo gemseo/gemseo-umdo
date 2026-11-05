@@ -22,15 +22,14 @@ from typing import TYPE_CHECKING
 from gemseo_umdo.formulations._statistics.base_statistic_estimator import (
     BaseStatisticEstimator,
 )
+from gemseo_umdo.formulations._statistics.base_statistic_estimator import T
 
 if TYPE_CHECKING:
     from gemseo.space import RandomSpace
     from gemseo.util.typing import RealArray
 
-    from gemseo_umdo.formulations.statistic_settings import BaseStatisticSettings
 
-
-class BaseTaylorPolynomialEstimator(BaseStatisticEstimator):
+class BaseTaylorPolynomialEstimator(BaseStatisticEstimator[T]):
     """Base statistic estimator for a U-MDO formulation using Taylor polynomials."""
 
     _standard_deviations: RealArray
@@ -39,7 +38,7 @@ class BaseTaylorPolynomialEstimator(BaseStatisticEstimator):
     def __init__(
         self,
         uncertain_space: RandomSpace,
-        settings: BaseStatisticSettings | None = None,
+        settings: T,
     ) -> None:
         """
         Args:

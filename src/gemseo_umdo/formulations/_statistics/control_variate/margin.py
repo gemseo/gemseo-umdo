@@ -25,19 +25,17 @@ from gemseo_umdo.formulations._statistics.control_variate.mean import Mean
 from gemseo_umdo.formulations._statistics.control_variate.standard_deviation import (
     StandardDeviation,
 )
+from gemseo_umdo.formulations.statistic_settings import Margin_Settings
+from gemseo_umdo.formulations.statistic_settings import Mean_Settings
+from gemseo_umdo.formulations.statistic_settings import StandardDeviation_Settings
 
 if TYPE_CHECKING:
     from gemseo.space import RandomSpace
     from gemseo.util.typing import RealArray
 
-    from gemseo_umdo.formulations.statistic_settings import Margin_Settings
 
-
-class Margin(BaseControlVariateEstimator):
+class Margin(BaseControlVariateEstimator[Margin_Settings]):
     """Estimator of a margin, i.e. mean + factor * deviation."""
-
-    __factor: float
-    """The factor related to the standard deviation."""
 
     __mean: Mean
     """The iterative estimator of the mean."""
@@ -55,9 +53,10 @@ class Margin(BaseControlVariateEstimator):
             settings: The settings of the margin.
         """  # noqa: D205 D212 D415
         super().__init__(uncertain_space, settings)
-        self.__mean = Mean(uncertain_space)
-        self.__standard_deviation = StandardDeviation(uncertain_space)
-        self.__factor = settings.factor
+        self.__mean = Mean(uncertain_space, Mean_Settings())
+        self.__standard_deviation = StandardDeviation(
+            uncertain_space, StandardDeviation_Settings()
+        )
 
     def estimate_statistic(  # noqa: D102
         self,
@@ -73,4 +72,4 @@ class Margin(BaseControlVariateEstimator):
         s = self.__standard_deviation.estimate_statistic(
             evaluations, mean, variance, some_predictions, many_predictions
         )
-        return m + self.__factor * s
+        return m + self._settings.factor * s

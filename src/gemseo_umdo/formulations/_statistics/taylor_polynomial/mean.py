@@ -24,12 +24,13 @@ from numpy.linalg import multi_dot
 from gemseo_umdo.formulations._statistics.taylor_polynomial.base_taylor_polynomial_estimator import (  # noqa: E501
     BaseTaylorPolynomialEstimator,
 )
+from gemseo_umdo.formulations.statistic_settings import Mean_Settings
 
 if TYPE_CHECKING:
     from gemseo.util.typing import RealArray
 
 
-class Mean(BaseTaylorPolynomialEstimator):
+class Mean(BaseTaylorPolynomialEstimator[Mean_Settings]):
     """Estimator of the expectation."""
 
     def estimate_statistic(  # noqa: D102

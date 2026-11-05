@@ -19,28 +19,30 @@ from __future__ import annotations
 from abc import abstractmethod
 from typing import TYPE_CHECKING
 from typing import Any
+from typing import Generic
+from typing import TypeVar
 
 from gemseo.util.metaclass import ABCGoogleDocstringInheritanceMeta
+
+from gemseo_umdo.formulations.statistic_settings import BaseStatisticSettings
 
 if TYPE_CHECKING:
     from gemseo.util.typing import RealArray
 
-    from gemseo_umdo.formulations.statistic_settings import BaseStatisticSettings
+
+T = TypeVar("T", bound=BaseStatisticSettings)
 
 
-class BaseStatisticEstimator(metaclass=ABCGoogleDocstringInheritanceMeta):
+class BaseStatisticEstimator(Generic[T], metaclass=ABCGoogleDocstringInheritanceMeta):
     """The base statistic estimator for U-MDO formulations."""
 
-    _settings: BaseStatisticSettings | None
-    """The settings of the statistic, if any."""
+    _settings: T
+    """The settings of the statistic."""
 
-    def __init__(self, settings: BaseStatisticSettings | None = None) -> None:
+    def __init__(self, settings: T) -> None:
         """
         Args:
             settings: The settings of the statistic.
-                If `None`,
-                the estimator does not depend on settings,
-                e.g. the estimator of a mean used by the estimator of a margin.
         """  # noqa: D205 D212 D415
         self._settings = settings
 

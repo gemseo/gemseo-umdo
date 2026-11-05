@@ -47,8 +47,11 @@ from pandas._testing import assert_frame_equal
 
 from gemseo_umdo.formulations import BaseStatisticSettings
 from gemseo_umdo.formulations import Margin_Settings
+from gemseo_umdo.formulations import Mean_Settings
 from gemseo_umdo.formulations import Probability_Settings
 from gemseo_umdo.formulations import Quantile_Settings
+from gemseo_umdo.formulations import StandardDeviation_Settings
+from gemseo_umdo.formulations import Variance_Settings
 from gemseo_umdo.formulations._functions import statistic_function_for_sampling
 from gemseo_umdo.formulations._functions.iterative_estimation import IterativeEstimation
 from gemseo_umdo.formulations._statistics.iterative_sampling.margin import (
@@ -288,14 +291,14 @@ def test_margins_with_different_factors(scenario, scenario_input_data):
 def estimate(
     statistic_class: BaseSamplingEstimator | BaseIterativeSamplingEstimator,
     samples: ndarray,
-    settings: BaseStatisticSettings | None = None,
+    settings: BaseStatisticSettings,
 ) -> ndarray:
     """A function estimating a statistic.
 
     Args:
         statistic_class: The class of the statistic.
         samples: The samples to estimate the statistics.
-        settings: The settings of the statistic, if any.
+        settings: The settings of the statistic.
 
     Returns:
         The estimation of the statistic.
@@ -314,7 +317,8 @@ def estimate(
 def test_estimate_mean(statistic_class):
     """Check the estimation of the mean."""
     assert_equal(
-        estimate(statistic_class, array([[0.0, 0.0], [1.0, 2.0]])), array([0.5, 1.0])
+        estimate(statistic_class, array([[0.0, 0.0], [1.0, 2.0]]), Mean_Settings()),
+        array([0.5, 1.0]),
     )
 
 
@@ -322,7 +326,8 @@ def test_estimate_mean(statistic_class):
 def test_estimate_variance(statistic_class):
     """Check the estimation of the variance."""
     assert_equal(
-        estimate(statistic_class, array([[0.0, 0.0], [1.0, 2.0]])), array([0.5, 2.0])
+        estimate(statistic_class, array([[0.0, 0.0], [1.0, 2.0]]), Variance_Settings()),
+        array([0.5, 2.0]),
     )
 
 
@@ -332,7 +337,11 @@ def test_estimate_variance(statistic_class):
 def test_estimate_standard_derivation(statistic_class):
     """Check the estimation of the standard deviation."""
     assert_equal(
-        estimate(statistic_class, array([[0.0, 0.0], [1.0, 2.0]])),
+        estimate(
+            statistic_class,
+            array([[0.0, 0.0], [1.0, 2.0]]),
+            StandardDeviation_Settings(),
+        ),
         array([0.5, 2.0]) ** 0.5,
     )
 
@@ -1058,7 +1067,7 @@ def test_iterative_estimation_with_missing_data(
     A sample missing only the gradient is counted as a sample of the output.
     """
     estimation = IterativeEstimation(
-        "f", "E[f]", IterativeMean(), return_statistic_jacobian
+        "f", "E[f]", IterativeMean(Mean_Settings()), return_statistic_jacobian
     )
     assert_equal(estimation(0, evaluation), array([]))
     assert estimation.n_samples == 0

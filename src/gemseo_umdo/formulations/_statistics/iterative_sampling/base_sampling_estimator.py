@@ -21,15 +21,14 @@ from typing import TYPE_CHECKING
 from gemseo_umdo.formulations._statistics.base_statistic_estimator import (
     BaseStatisticEstimator,
 )
+from gemseo_umdo.formulations._statistics.base_statistic_estimator import T
 
 if TYPE_CHECKING:
     from gemseo.util.typing import RealArray
     from openturns import IterativeAlgorithmImplementation
 
-    from gemseo_umdo.formulations.statistic_settings import BaseStatisticSettings
 
-
-class BaseSamplingEstimator(BaseStatisticEstimator):
+class BaseSamplingEstimator(BaseStatisticEstimator[T]):
     """Base statistic iterative estimator for a U-MDO formulation using sampling."""
 
     _estimator: IterativeAlgorithmImplementation | None
@@ -50,9 +49,7 @@ class BaseSamplingEstimator(BaseStatisticEstimator):
     jac_shape: tuple[int, int] | None
     """The shape of the Jacobian, if known."""
 
-    def __init__(  # noqa: D107
-        self, settings: BaseStatisticSettings | None = None
-    ) -> None:
+    def __init__(self, settings: T) -> None:  # noqa: D107
         super().__init__(settings)
         self.shape = None
         self.jac_shape = None

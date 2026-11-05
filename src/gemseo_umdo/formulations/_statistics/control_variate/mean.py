@@ -21,12 +21,13 @@ from typing import TYPE_CHECKING
 from gemseo_umdo.formulations._statistics.control_variate.base_control_variate_estimator import (  # noqa: E501
     BaseControlVariateEstimator,
 )
+from gemseo_umdo.formulations.statistic_settings import Mean_Settings
 
 if TYPE_CHECKING:
     from gemseo.util.typing import RealArray
 
 
-class Mean(BaseControlVariateEstimator):
+class Mean(BaseControlVariateEstimator[Mean_Settings]):
     """Estimator of the expectation."""
 
     def estimate_statistic(  # noqa: D102

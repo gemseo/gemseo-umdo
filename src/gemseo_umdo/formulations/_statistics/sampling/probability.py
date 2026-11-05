@@ -24,23 +24,19 @@ from typing import Any
 from gemseo_umdo.formulations._statistics.sampling.base_sampling_estimator import (
     BaseSamplingEstimator,
 )
+from gemseo_umdo.formulations.statistic_settings import Probability_Settings
 
 if TYPE_CHECKING:
     from collections.abc import Callable
 
     from gemseo.util.typing import RealArray
 
-    from gemseo_umdo.formulations.statistic_settings import Probability_Settings
 
-
-class Probability(BaseSamplingEstimator):
+class Probability(BaseSamplingEstimator[Probability_Settings]):
     """Estimator of a probability."""
 
     __compare: Callable[[Any, Any], Any]
     """The comparison operator."""
-
-    __threshold: float
-    """The threshold against which the probability is estimated."""
 
     def __init__(self, settings: Probability_Settings) -> None:
         """
@@ -48,8 +44,7 @@ class Probability(BaseSamplingEstimator):
             settings: The settings of the probability.
         """  # noqa: D205 D212 D415
         super().__init__(settings)
-        self.__threshold = settings.threshold
         self.__compare = ge if settings.greater else le
 
     def estimate_statistic(self, samples: RealArray) -> RealArray:
-        return self.__compare(samples, self.__threshold).mean(0)
+        return self.__compare(samples, self._settings.threshold).mean(0)

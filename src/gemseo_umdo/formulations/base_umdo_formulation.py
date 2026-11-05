@@ -215,6 +215,9 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
             statistic_settings = BaseStatisticSettings.from_name(statistic_settings)
         else:
             self._check_statistic_name(statistic_settings.target_class_name)
+            # The estimator reads its settings at each estimation,
+            # so it uses a copy that the user cannot change afterwards.
+            statistic_settings = statistic_settings.model_copy()
 
         if conservative_from_below is None:
             return statistic_settings

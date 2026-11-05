@@ -196,6 +196,29 @@ def test_unsupported_statistic(disciplines, design_space, uncertain_space, snaps
         scenario.add_objective("f", Quantile_Settings())
 
 
+def test_settings_changed_after_use(disciplines, design_space, uncertain_space):
+    """Check that changing the settings after adding a statistic has no effect."""
+
+    def execute(change_settings):
+        scenario = UMDOScenario(
+            disciplines,
+            design_space,
+            uncertain_space,
+            statistic_estimation_settings=Sampling_Settings(n_samples=10),
+            formulation_settings=MDF_Settings(),
+        )
+        scenario.add_objective("f", "Mean")
+        settings = Margin_Settings(factor=3.0)
+        scenario.add_observable("f", settings)
+        if change_settings:
+            settings.factor = 5.0
+
+        scenario.execute(CustomDOE_Settings(samples=array([[1.0, 1.0, 1.0]])))
+        return scenario.formulation.problem.database.last_item["Margin[f; 3.0]"]
+
+    assert_almost_equal(execute(True), execute(False))
+
+
 @pytest.mark.parametrize(
     ("package", "names"),
     [
@@ -242,11 +265,8 @@ class ScaledMean_Settings(BaseStatisticSettings):
     scale: float = 1.0
 
 
-class ScaledMean(BaseSamplingEstimator):
+class ScaledMean(BaseSamplingEstimator[ScaledMean_Settings]):
     """Estimator of a scaled mean."""
-
-    def __init__(self, settings):
-        super().__init__(settings)
 
     def estimate_statistic(self, samples):
         return self._settings.scale * samples.mean(0)

@@ -19,12 +19,13 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from gemseo_umdo.formulations._statistics.taylor_polynomial.variance import Variance
+from gemseo_umdo.formulations.statistic_settings import StandardDeviation_Settings
 
 if TYPE_CHECKING:
     from gemseo.util.typing import RealArray
 
 
-class StandardDeviation(Variance):
+class StandardDeviation(Variance[StandardDeviation_Settings]):
     """Estimator of the standard deviation."""
 
     def estimate_statistic(

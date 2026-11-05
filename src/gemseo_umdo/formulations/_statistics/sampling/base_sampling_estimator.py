@@ -22,12 +22,13 @@ from typing import TYPE_CHECKING
 from gemseo_umdo.formulations._statistics.base_statistic_estimator import (
     BaseStatisticEstimator,
 )
+from gemseo_umdo.formulations._statistics.base_statistic_estimator import T
 
 if TYPE_CHECKING:
     from gemseo.util.typing import RealArray
 
 
-class BaseSamplingEstimator(BaseStatisticEstimator):
+class BaseSamplingEstimator(BaseStatisticEstimator[T]):
     """Base statistic estimator for a U-MDO formulation using sampling."""
 
     @abstractmethod

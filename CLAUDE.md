@@ -124,8 +124,14 @@ Estimators live in `formulations/_statistics/<technique>/`, one module per stati
 a settings model of `formulations/statistic_settings.py` deriving from
 `BaseStatisticSettings`; its `target_class_name` (`Margin` for `Margin_Settings`) is
 the estimator **class name**, and the settings are passed to the estimator
-constructor as `settings` (`BaseFactory.create_from_settings`, stored in `_settings`;
-`None` for the estimators used internally, e.g. the mean of a margin), so a technique supports exactly the statistics its package
+constructor as `settings` (`BaseFactory.create_from_settings`, stored in `_settings`
+and read from there, never copied into attributes; the estimators used internally,
+e.g. the mean of a margin, get default settings). `BaseStatisticEstimator` is
+`Generic[T]` over the settings type: the technique bases stay generic, the concrete
+estimators bind it (`Margin(BaseSamplingEstimator[Margin_Settings])`), and `Variance`
+stays generic where `StandardDeviation` derives from it
+(`StandardDeviation(Variance[StandardDeviation_Settings])`). The
+formulation copies the settings of the user. So a technique supports exactly the statistics its package
 defines (PCE and Taylor polynomial have no `Probability`, only the one-shot `sampling/`
 package has `Quantile`). The settings hold the defaults and the validation;
 `make_conservative` makes them conservative for an objective or inequality constraint

@@ -42,7 +42,10 @@ from numpy.testing import assert_almost_equal
 from numpy.testing import assert_equal
 
 from gemseo_umdo.formulations import Margin_Settings
+from gemseo_umdo.formulations import Mean_Settings
 from gemseo_umdo.formulations import Probability_Settings
+from gemseo_umdo.formulations import StandardDeviation_Settings
+from gemseo_umdo.formulations import Variance_Settings
 from gemseo_umdo.formulations._statistics.control_variate.margin import Margin
 from gemseo_umdo.formulations._statistics.control_variate.mean import Mean
 from gemseo_umdo.formulations._statistics.control_variate.probability import Probability
@@ -208,7 +211,7 @@ variance: Final[RealArray] = diagonal(jac @ diag(array([1.0, 2.0, 1.5])) @ jac.T
 
 def test_estimate_mean(umdo_formulation):
     """Check the estimation of the mean."""
-    statistic_function = Mean(umdo_formulation.uncertain_space)
+    statistic_function = Mean(umdo_formulation.uncertain_space, Mean_Settings())
     assert_almost_equal(
         statistic_function.estimate_statistic(
             array([[0.0, 0.0], [1.0, 2.0]]),
@@ -223,7 +226,7 @@ def test_estimate_mean(umdo_formulation):
 
 def test_estimate_variance(umdo_formulation):
     """Check the estimation of the variance."""
-    statistic_function = Variance(umdo_formulation.uncertain_space)
+    statistic_function = Variance(umdo_formulation.uncertain_space, Variance_Settings())
     assert_almost_equal(
         statistic_function.estimate_statistic(
             array([[0.0, 0.0], [1.0, 2.0]]),
@@ -239,7 +242,9 @@ def test_estimate_variance(umdo_formulation):
 
 def test_estimate_standard_derivation(umdo_formulation):
     """Check the estimation of the standard deviation."""
-    statistic_function = StandardDeviation(umdo_formulation.uncertain_space)
+    statistic_function = StandardDeviation(
+        umdo_formulation.uncertain_space, StandardDeviation_Settings()
+    )
     assert_almost_equal(
         statistic_function.estimate_statistic(
             array([[0.0, 0.0], [1.0, 2.0]]),
