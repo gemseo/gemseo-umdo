@@ -12,14 +12,14 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-"""Functions to estimate statistics from a [BaseUMDOFormulation][gemseo_umdo.formulatio
-ns.base_umdo_formulation.BaseUMDOFormulation].
+"""Functions to estimate statistics from a
+[BaseUMDOFormulation][gemseo_umdo.formulation.base_umdo_formulation.BaseUMDOFormulation].
 
 The base function is a
 [BaseStatisticFunction][gemseo_umdo.formulation._function.base_statistic_function.BaseStatisticFunction]
 and derives from an
 [ArrayFunction][gemseo.core.function.array_function.ArrayFunction].
-Most of the other _functions derive from
+Most of the other functions derive from
 [BaseStatisticFunction][gemseo_umdo.formulation._function.base_statistic_function.BaseStatisticFunction]
 and are associated with an
 [BaseUMDOFormulation][gemseo_umdo.formulation.base_umdo_formulation.BaseUMDOFormulation],
