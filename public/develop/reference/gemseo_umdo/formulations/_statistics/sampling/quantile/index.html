@@ -8,31 +8,31 @@
       
       
       
-        <link rel="canonical" href="https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_functions/statistic_function_for_standard_sampling/">
+        <link rel="canonical" href="https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/formulations/_statistics/sampling/quantile/">
       
       
-        <link rel="prev" href="../statistic_function_for_pce/">
+        <link rel="prev" href="../probability/">
       
       
-        <link rel="next" href="../statistic_function_for_surrogate/">
+        <link rel="next" href="../standard_deviation/">
       
       
         
       
       
-      <link rel="icon" href="../../../../../images/monogram.png">
+      <link rel="icon" href="../../../../../../images/monogram.png">
       <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.8.0">
     
     
       
-        <title>Statistic function for standard sampling - gemseo-umdo</title>
+        <title>Quantile - gemseo-umdo</title>
       
     
     
-      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.57a0d79d.min.css">
+      <link rel="stylesheet" href="../../../../../../assets/stylesheets/main.57a0d79d.min.css">
       
         
-        <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.fb2fffe2.min.css">
+        <link rel="stylesheet" href="../../../../../../assets/stylesheets/palette.fb2fffe2.min.css">
       
       
 
@@ -51,25 +51,25 @@
       
     
     
-      <link rel="stylesheet" href="../../../../../assets/_markdown_exec_pyodide.css">
+      <link rel="stylesheet" href="../../../../../../assets/_markdown_exec_pyodide.css">
     
-      <link rel="stylesheet" href="../../../../../assets/_markdown_exec_ansi.css">
+      <link rel="stylesheet" href="../../../../../../assets/_markdown_exec_ansi.css">
     
-      <link rel="stylesheet" href="../../../../../assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../../../../../../assets/_mkdocstrings.css">
     
-      <link rel="stylesheet" href="../../../../../css/fontello.css">
+      <link rel="stylesheet" href="../../../../../../css/fontello.css">
     
-      <link rel="stylesheet" href="../../../../../css/xdsmjs.css">
+      <link rel="stylesheet" href="../../../../../../css/xdsmjs.css">
     
-      <link rel="stylesheet" href="../../../../../sg_gallery-binder.css">
+      <link rel="stylesheet" href="../../../../../../sg_gallery-dataframe.css">
     
-      <link rel="stylesheet" href="../../../../../sg_gallery.css">
+      <link rel="stylesheet" href="../../../../../../sg_gallery-binder.css">
     
-      <link rel="stylesheet" href="../../../../../sg_gallery-rendered-html.css">
+      <link rel="stylesheet" href="../../../../../../sg_gallery-rendered-html.css">
     
-      <link rel="stylesheet" href="../../../../../sg_gallery-dataframe.css">
+      <link rel="stylesheet" href="../../../../../../sg_gallery.css">
     
-    <script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -94,7 +94,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#gemseo_umdo.formulations._functions.statistic_function_for_standard_sampling" class="md-skip">
+        <a href="#gemseo_umdo.formulations._statistics.sampling.quantile" class="md-skip">
           Skip to content
         </a>
       
@@ -112,7 +112,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../../../.." title="gemseo-umdo" class="md-header__button md-logo" aria-label="gemseo-umdo" data-md-component="logo">
+    <a href="../../../../../.." title="gemseo-umdo" class="md-header__button md-logo" aria-label="gemseo-umdo" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -132,7 +132,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Statistic function for standard sampling
+              Quantile
             
           </span>
         </div>
@@ -245,7 +245,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../../.." class="md-tabs__link">
+        <a href="../../../../../.." class="md-tabs__link">
           
   
   
@@ -267,7 +267,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../../../user_guide/" class="md-tabs__link">
+        <a href="../../../../../../user_guide/" class="md-tabs__link">
           
   
   
@@ -296,7 +296,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../../../generated/examples/umdo/" class="md-tabs__link">
+        <a href="../../../../../../generated/examples/umdo/" class="md-tabs__link">
           
   
   
@@ -321,7 +321,7 @@
   
   
     <li class="md-tabs__item md-tabs__item--active">
-      <a href="../../../" class="md-tabs__link">
+      <a href="../../../../" class="md-tabs__link">
         
   
   
@@ -342,7 +342,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../../../developer_guide/umdo/" class="md-tabs__link">
+        <a href="../../../../../../developer_guide/umdo/" class="md-tabs__link">
           
   
   
@@ -378,7 +378,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../../../.." title="gemseo-umdo" class="md-nav__button md-logo" aria-label="gemseo-umdo" data-md-component="logo">
+    <a href="../../../../../.." title="gemseo-umdo" class="md-nav__button md-logo" aria-label="gemseo-umdo" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -435,7 +435,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../../.." class="md-nav__link ">
+            <a href="../../../../../.." class="md-nav__link ">
               
   
   
@@ -479,7 +479,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../changelog/" class="md-nav__link">
+      <a href="../../../../../../changelog/" class="md-nav__link">
         
   
   
@@ -507,7 +507,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../credits/" class="md-nav__link">
+      <a href="../../../../../../credits/" class="md-nav__link">
         
   
   
@@ -535,7 +535,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../licenses/" class="md-nav__link">
+      <a href="../../../../../../licenses/" class="md-nav__link">
         
   
   
@@ -597,7 +597,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../../../user_guide/" class="md-nav__link ">
+            <a href="../../../../../../user_guide/" class="md-nav__link ">
               
   
   
@@ -674,7 +674,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../../../user_guide/umdo/" class="md-nav__link ">
+            <a href="../../../../../../user_guide/umdo/" class="md-nav__link ">
               
   
   
@@ -718,7 +718,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../user_guide/umdo/sampling/" class="md-nav__link">
+      <a href="../../../../../../user_guide/umdo/sampling/" class="md-nav__link">
         
   
   
@@ -746,7 +746,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../user_guide/umdo/sequential_sampling/" class="md-nav__link">
+      <a href="../../../../../../user_guide/umdo/sequential_sampling/" class="md-nav__link">
         
   
   
@@ -774,7 +774,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../user_guide/umdo/taylor_polynomial/" class="md-nav__link">
+      <a href="../../../../../../user_guide/umdo/taylor_polynomial/" class="md-nav__link">
         
   
   
@@ -802,7 +802,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../user_guide/umdo/control_variate/" class="md-nav__link">
+      <a href="../../../../../../user_guide/umdo/control_variate/" class="md-nav__link">
         
   
   
@@ -830,7 +830,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../user_guide/umdo/surrogate/" class="md-nav__link">
+      <a href="../../../../../../user_guide/umdo/surrogate/" class="md-nav__link">
         
   
   
@@ -858,7 +858,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../user_guide/umdo/pce/" class="md-nav__link">
+      <a href="../../../../../../user_guide/umdo/pce/" class="md-nav__link">
         
   
   
@@ -917,7 +917,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../../../user_guide/statistics/" class="md-nav__link ">
+            <a href="../../../../../../user_guide/statistics/" class="md-nav__link ">
               
   
   
@@ -961,7 +961,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../user_guide/statistics/multilevel/" class="md-nav__link">
+      <a href="../../../../../../user_guide/statistics/multilevel/" class="md-nav__link">
         
   
   
@@ -1022,7 +1022,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../../../user_guide/visualization/" class="md-nav__link ">
+            <a href="../../../../../../user_guide/visualization/" class="md-nav__link ">
               
   
   
@@ -1066,7 +1066,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../user_guide/visualization/uncertain_coupling_graph/" class="md-nav__link">
+      <a href="../../../../../../user_guide/visualization/uncertain_coupling_graph/" class="md-nav__link">
         
   
   
@@ -1094,7 +1094,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../user_guide/visualization/sobol_graph/" class="md-nav__link">
+      <a href="../../../../../../user_guide/visualization/sobol_graph/" class="md-nav__link">
         
   
   
@@ -1232,7 +1232,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../../../generated/examples/umdo/" class="md-nav__link ">
+            <a href="../../../../../../generated/examples/umdo/" class="md-nav__link ">
               
   
   
@@ -1336,7 +1336,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../generated/examples/umdo/control_variate/plot_cv_quadratic/" class="md-nav__link">
+      <a href="../../../../../../generated/examples/umdo/control_variate/plot_cv_quadratic/" class="md-nav__link">
         
   
   
@@ -1364,7 +1364,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../generated/examples/umdo/control_variate/plot_cv_rosenbrock/" class="md-nav__link">
+      <a href="../../../../../../generated/examples/umdo/control_variate/plot_cv_rosenbrock/" class="md-nav__link">
         
   
   
@@ -1392,7 +1392,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../generated/examples/umdo/control_variate/cv_sellar/" class="md-nav__link">
+      <a href="../../../../../../generated/examples/umdo/control_variate/cv_sellar/" class="md-nav__link">
         
   
   
@@ -1420,7 +1420,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../generated/examples/umdo/control_variate/plot_control_variate_vs_sampling/" class="md-nav__link">
+      <a href="../../../../../../generated/examples/umdo/control_variate/plot_control_variate_vs_sampling/" class="md-nav__link">
         
   
   
@@ -1514,7 +1514,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../generated/examples/umdo/mdo_formulations/plot_equality_constraints/" class="md-nav__link">
+      <a href="../../../../../../generated/examples/umdo/mdo_formulations/plot_equality_constraints/" class="md-nav__link">
         
   
   
@@ -1542,7 +1542,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../generated/examples/umdo/mdo_formulations/plot_bilevel_rosenbrock/" class="md-nav__link">
+      <a href="../../../../../../generated/examples/umdo/mdo_formulations/plot_bilevel_rosenbrock/" class="md-nav__link">
         
   
   
@@ -1570,7 +1570,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../generated/examples/umdo/mdo_formulations/bilevel_sobieski/" class="md-nav__link">
+      <a href="../../../../../../generated/examples/umdo/mdo_formulations/bilevel_sobieski/" class="md-nav__link">
         
   
   
@@ -1664,7 +1664,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../generated/examples/umdo/misc/plot_u_evaluation_quadratic/" class="md-nav__link">
+      <a href="../../../../../../generated/examples/umdo/misc/plot_u_evaluation_quadratic/" class="md-nav__link">
         
   
   
@@ -1692,7 +1692,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../generated/examples/umdo/misc/sellar_sampling_opt_repetitions/" class="md-nav__link">
+      <a href="../../../../../../generated/examples/umdo/misc/sellar_sampling_opt_repetitions/" class="md-nav__link">
         
   
   
@@ -1720,7 +1720,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../generated/examples/umdo/misc/plot_vectorization/" class="md-nav__link">
+      <a href="../../../../../../generated/examples/umdo/misc/plot_vectorization/" class="md-nav__link">
         
   
   
@@ -1812,7 +1812,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../generated/examples/umdo/pce/plot_pce_quadratic_approximated_jacobians/" class="md-nav__link">
+      <a href="../../../../../../generated/examples/umdo/pce/plot_pce_quadratic_approximated_jacobians/" class="md-nav__link">
         
   
   
@@ -1840,7 +1840,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../generated/examples/umdo/pce/plot_pce_quadratic/" class="md-nav__link">
+      <a href="../../../../../../generated/examples/umdo/pce/plot_pce_quadratic/" class="md-nav__link">
         
   
   
@@ -1877,6 +1877,8 @@
   
     
     
+      
+        
       
         
       
@@ -1936,7 +1938,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../generated/examples/umdo/sampling/plot_s_quadratic/" class="md-nav__link">
+      <a href="../../../../../../generated/examples/umdo/sampling/plot_s_quadratic/" class="md-nav__link">
         
   
   
@@ -1964,7 +1966,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../generated/examples/umdo/sampling/plot_s_rosenbrock/" class="md-nav__link">
+      <a href="../../../../../../generated/examples/umdo/sampling/plot_s_rosenbrock/" class="md-nav__link">
         
   
   
@@ -1992,7 +1994,35 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../generated/examples/umdo/sampling/s_sobieski/" class="md-nav__link">
+      <a href="../../../../../../generated/examples/umdo/sampling/plot_s_quantile/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    A quantile constraint
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../../generated/examples/umdo/sampling/s_sobieski/" class="md-nav__link">
         
   
   
@@ -2020,7 +2050,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../generated/examples/umdo/sampling/s_sellar/" class="md-nav__link">
+      <a href="../../../../../../generated/examples/umdo/sampling/s_sellar/" class="md-nav__link">
         
   
   
@@ -2110,7 +2140,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../generated/examples/umdo/sequential_sampling/plot_ss_quadratic/" class="md-nav__link">
+      <a href="../../../../../../generated/examples/umdo/sequential_sampling/plot_ss_quadratic/" class="md-nav__link">
         
   
   
@@ -2200,7 +2230,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../generated/examples/umdo/surrogate/plot_surrogate/" class="md-nav__link">
+      <a href="../../../../../../generated/examples/umdo/surrogate/plot_surrogate/" class="md-nav__link">
         
   
   
@@ -2294,7 +2324,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../generated/examples/umdo/taylor_polynomial/plot_tp_quadratic/" class="md-nav__link">
+      <a href="../../../../../../generated/examples/umdo/taylor_polynomial/plot_tp_quadratic/" class="md-nav__link">
         
   
   
@@ -2322,7 +2352,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../generated/examples/umdo/taylor_polynomial/tp_sobieski/" class="md-nav__link">
+      <a href="../../../../../../generated/examples/umdo/taylor_polynomial/tp_sobieski/" class="md-nav__link">
         
   
   
@@ -2350,7 +2380,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../generated/examples/umdo/taylor_polynomial/tp_sellar/" class="md-nav__link">
+      <a href="../../../../../../generated/examples/umdo/taylor_polynomial/tp_sellar/" class="md-nav__link">
         
   
   
@@ -2419,7 +2449,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../../../generated/examples/visualizations/" class="md-nav__link ">
+            <a href="../../../../../../generated/examples/visualizations/" class="md-nav__link ">
               
   
   
@@ -2521,7 +2551,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../generated/examples/visualizations/sobol_graph/plot_sellar_sobol_graph/" class="md-nav__link">
+      <a href="../../../../../../generated/examples/visualizations/sobol_graph/plot_sellar_sobol_graph/" class="md-nav__link">
         
   
   
@@ -2549,7 +2579,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../generated/examples/visualizations/sobol_graph/plot_sobieski_sobol_graph/" class="md-nav__link">
+      <a href="../../../../../../generated/examples/visualizations/sobol_graph/plot_sobieski_sobol_graph/" class="md-nav__link">
         
   
   
@@ -2577,7 +2607,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../generated/examples/visualizations/sobol_graph/plot_ishigami_sobol_graph/" class="md-nav__link">
+      <a href="../../../../../../generated/examples/visualizations/sobol_graph/plot_ishigami_sobol_graph/" class="md-nav__link">
         
   
   
@@ -2667,7 +2697,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../generated/examples/visualizations/uncertain_coupling_graph/plot_sobieski_coupling_graph/" class="md-nav__link">
+      <a href="../../../../../../generated/examples/visualizations/uncertain_coupling_graph/plot_sobieski_coupling_graph/" class="md-nav__link">
         
   
   
@@ -2736,7 +2766,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../../../generated/examples/problems/" class="md-nav__link ">
+            <a href="../../../../../../generated/examples/problems/" class="md-nav__link ">
               
   
   
@@ -2840,7 +2870,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../generated/examples/problems/beam_model/plot_beam_opt/" class="md-nav__link">
+      <a href="../../../../../../generated/examples/problems/beam_model/plot_beam_opt/" class="md-nav__link">
         
   
   
@@ -2868,7 +2898,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../generated/examples/problems/beam_model/plot_beam_sa/" class="md-nav__link">
+      <a href="../../../../../../generated/examples/problems/beam_model/plot_beam_sa/" class="md-nav__link">
         
   
   
@@ -2896,7 +2926,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../generated/examples/problems/beam_model/plot_beam_rob_opt/" class="md-nav__link">
+      <a href="../../../../../../generated/examples/problems/beam_model/plot_beam_rob_opt/" class="md-nav__link">
         
   
   
@@ -2924,7 +2954,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../generated/examples/problems/beam_model/plot_beam_doe/" class="md-nav__link">
+      <a href="../../../../../../generated/examples/problems/beam_model/plot_beam_doe/" class="md-nav__link">
         
   
   
@@ -3014,7 +3044,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../generated/examples/problems/uopt_as_umdo/plot_uopt_as_umdo/" class="md-nav__link">
+      <a href="../../../../../../generated/examples/problems/uopt_as_umdo/plot_uopt_as_umdo/" class="md-nav__link">
         
   
   
@@ -3105,7 +3135,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../" class="md-nav__link ">
+            <a href="../../../../" class="md-nav__link ">
               
   
   
@@ -3147,7 +3177,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../monte_carlo_sampler/" class="md-nav__link">
+      <a href="../../../../monte_carlo_sampler/" class="md-nav__link">
         
   
   
@@ -3194,7 +3224,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../_utils/" class="md-nav__link ">
+            <a href="../../../../_utils/" class="md-nav__link ">
               
   
   
@@ -3257,7 +3287,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../_utils/compatibility/" class="md-nav__link ">
+            <a href="../../../../_utils/compatibility/" class="md-nav__link ">
               
   
   
@@ -3299,7 +3329,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../_utils/compatibility/numpy/" class="md-nav__link">
+      <a href="../../../../_utils/compatibility/numpy/" class="md-nav__link">
         
   
   
@@ -3327,7 +3357,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../_utils/compatibility/openturns/" class="md-nav__link">
+      <a href="../../../../_utils/compatibility/openturns/" class="md-nav__link">
         
   
   
@@ -3398,7 +3428,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../disciplines/" class="md-nav__link ">
+            <a href="../../../../disciplines/" class="md-nav__link ">
               
   
   
@@ -3440,7 +3470,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../disciplines/additive_noiser/" class="md-nav__link">
+      <a href="../../../../disciplines/additive_noiser/" class="md-nav__link">
         
   
   
@@ -3468,7 +3498,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../disciplines/base_noiser/" class="md-nav__link">
+      <a href="../../../../disciplines/base_noiser/" class="md-nav__link">
         
   
   
@@ -3496,7 +3526,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../disciplines/multiplicative_noiser/" class="md-nav__link">
+      <a href="../../../../disciplines/multiplicative_noiser/" class="md-nav__link">
         
   
   
@@ -3524,7 +3554,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../disciplines/noiser_factory/" class="md-nav__link">
+      <a href="../../../../disciplines/noiser_factory/" class="md-nav__link">
         
   
   
@@ -3552,7 +3582,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../disciplines/utils/" class="md-nav__link">
+      <a href="../../../../disciplines/utils/" class="md-nav__link">
         
   
   
@@ -3645,7 +3675,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../" class="md-nav__link ">
+            <a href="../../../" class="md-nav__link ">
               
   
   
@@ -3687,7 +3717,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../base_sampling_settings/" class="md-nav__link">
+      <a href="../../../base_sampling_settings/" class="md-nav__link">
         
   
   
@@ -3715,7 +3745,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../base_surrogate_settings/" class="md-nav__link">
+      <a href="../../../base_surrogate_settings/" class="md-nav__link">
         
   
   
@@ -3743,7 +3773,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../base_umdo_formulation/" class="md-nav__link">
+      <a href="../../../base_umdo_formulation/" class="md-nav__link">
         
   
   
@@ -3771,7 +3801,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../base_umdo_formulation_settings/" class="md-nav__link">
+      <a href="../../../base_umdo_formulation_settings/" class="md-nav__link">
         
   
   
@@ -3799,7 +3829,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../control_variate/" class="md-nav__link">
+      <a href="../../../control_variate/" class="md-nav__link">
         
   
   
@@ -3827,7 +3857,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../control_variate_settings/" class="md-nav__link">
+      <a href="../../../control_variate_settings/" class="md-nav__link">
         
   
   
@@ -3855,7 +3885,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../factory/" class="md-nav__link">
+      <a href="../../../factory/" class="md-nav__link">
         
   
   
@@ -3883,7 +3913,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../pce/" class="md-nav__link">
+      <a href="../../../pce/" class="md-nav__link">
         
   
   
@@ -3911,7 +3941,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../pce_settings/" class="md-nav__link">
+      <a href="../../../pce_settings/" class="md-nav__link">
         
   
   
@@ -3939,7 +3969,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../sampling/" class="md-nav__link">
+      <a href="../../../sampling/" class="md-nav__link">
         
   
   
@@ -3967,7 +3997,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../sampling_settings/" class="md-nav__link">
+      <a href="../../../sampling_settings/" class="md-nav__link">
         
   
   
@@ -3995,7 +4025,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../sequential_sampling/" class="md-nav__link">
+      <a href="../../../sequential_sampling/" class="md-nav__link">
         
   
   
@@ -4023,7 +4053,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../sequential_sampling_settings/" class="md-nav__link">
+      <a href="../../../sequential_sampling_settings/" class="md-nav__link">
         
   
   
@@ -4051,7 +4081,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../surrogate/" class="md-nav__link">
+      <a href="../../../surrogate/" class="md-nav__link">
         
   
   
@@ -4079,7 +4109,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../surrogate_settings/" class="md-nav__link">
+      <a href="../../../surrogate_settings/" class="md-nav__link">
         
   
   
@@ -4107,7 +4137,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../taylor_polynomial/" class="md-nav__link">
+      <a href="../../../taylor_polynomial/" class="md-nav__link">
         
   
   
@@ -4135,7 +4165,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../taylor_polynomial_settings/" class="md-nav__link">
+      <a href="../../../taylor_polynomial_settings/" class="md-nav__link">
         
   
   
@@ -4160,16 +4190,10 @@
                 
   
   
-    
   
   
-  
     
     
-      
-        
-      
-        
       
         
       
@@ -4194,15 +4218,15 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4_18" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4_18" >
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../" class="md-nav__link ">
+            <a href="../../../_functions/" class="md-nav__link ">
               
   
   
@@ -4226,7 +4250,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_4_18_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_4_18_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_4_4_18">
             <span class="md-nav__icon md-icon"></span>
             
@@ -4244,7 +4268,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../base_statistic_function/" class="md-nav__link">
+      <a href="../../../_functions/base_statistic_function/" class="md-nav__link">
         
   
   
@@ -4272,35 +4296,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../base_statistic_function_for_sampling/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Base statistic function for sampling
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../hessian_function/" class="md-nav__link">
+      <a href="../../../_functions/hessian_function/" class="md-nav__link">
         
   
   
@@ -4328,7 +4324,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../iterative_estimation/" class="md-nav__link">
+      <a href="../../../_functions/iterative_estimation/" class="md-nav__link">
         
   
   
@@ -4356,7 +4352,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../statistic_function_for_control_variate/" class="md-nav__link">
+      <a href="../../../_functions/statistic_function_for_control_variate/" class="md-nav__link">
         
   
   
@@ -4384,35 +4380,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../statistic_function_for_iterative_sampling/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Statistic function for iterative sampling
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../statistic_function_for_pce/" class="md-nav__link">
+      <a href="../../../_functions/statistic_function_for_pce/" class="md-nav__link">
         
   
   
@@ -4437,42 +4405,17 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Statistic function for standard sampling
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../../_functions/statistic_function_for_sampling/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Statistic function for standard sampling
+    Statistic function for sampling
   
 
     
@@ -4481,69 +4424,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#gemseo_umdo.formulations._functions.statistic_function_for_standard_sampling" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;statistic_function_for_standard_sampling
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label=" statistic_function_for_standard_sampling">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#gemseo_umdo.formulations._functions.statistic_function_for_standard_sampling-classes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Classes
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Classes">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#gemseo_umdo.formulations._functions.statistic_function_for_standard_sampling.StatisticFunctionForStandardSampling" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;StatisticFunctionForStandardSampling
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -4556,7 +4436,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../statistic_function_for_surrogate/" class="md-nav__link">
+      <a href="../../../_functions/statistic_function_for_surrogate/" class="md-nav__link">
         
   
   
@@ -4584,7 +4464,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../statistic_function_for_taylor_polynomial/" class="md-nav__link">
+      <a href="../../../_functions/statistic_function_for_taylor_polynomial/" class="md-nav__link">
         
   
   
@@ -4617,8 +4497,10 @@
                 
   
   
+    
   
   
+  
     
     
       
@@ -4634,6 +4516,8 @@
       
         
       
+        
+      
     
     
     
@@ -4641,15 +4525,15 @@
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4_19" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4_19" checked>
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../_statistics/" class="md-nav__link ">
+            <a href="../../" class="md-nav__link ">
               
   
   
@@ -4673,7 +4557,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_4_19_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_4_19_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_4_4_19">
             <span class="md-nav__icon md-icon"></span>
             
@@ -4691,7 +4575,35 @@
   
   
     <li class="md-nav__item">
-      <a href="../../_statistics/base_statistic_estimator/" class="md-nav__link">
+      <a href="../../base_margin/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Base margin
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../base_statistic_estimator/" class="md-nav__link">
         
   
   
@@ -4746,11 +4658,11 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4_19_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4_19_3" >
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../_statistics/control_variate/" class="md-nav__link ">
+            <a href="../../control_variate/" class="md-nav__link ">
               
   
   
@@ -4768,14 +4680,14 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_4_4_19_2" id="__nav_4_4_19_2_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_4_4_19_3" id="__nav_4_4_19_3_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_4_4_19_2_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4_4_19_2">
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_4_4_19_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4_19_3">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -4792,7 +4704,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../_statistics/control_variate/base_control_variate_estimator/" class="md-nav__link">
+      <a href="../../control_variate/base_control_variate_estimator/" class="md-nav__link">
         
   
   
@@ -4820,7 +4732,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../_statistics/control_variate/factory/" class="md-nav__link">
+      <a href="../../control_variate/factory/" class="md-nav__link">
         
   
   
@@ -4848,7 +4760,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../_statistics/control_variate/margin/" class="md-nav__link">
+      <a href="../../control_variate/margin/" class="md-nav__link">
         
   
   
@@ -4876,7 +4788,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../_statistics/control_variate/mean/" class="md-nav__link">
+      <a href="../../control_variate/mean/" class="md-nav__link">
         
   
   
@@ -4904,7 +4816,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../_statistics/control_variate/probability/" class="md-nav__link">
+      <a href="../../control_variate/probability/" class="md-nav__link">
         
   
   
@@ -4932,7 +4844,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../_statistics/control_variate/standard_deviation/" class="md-nav__link">
+      <a href="../../control_variate/standard_deviation/" class="md-nav__link">
         
   
   
@@ -4960,7 +4872,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../_statistics/control_variate/variance/" class="md-nav__link">
+      <a href="../../control_variate/variance/" class="md-nav__link">
         
   
   
@@ -5001,309 +4913,6 @@
         
       
         
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-    
-    
-    
-      
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4_19_3" >
-        
-          
-          <div class="md-nav__link md-nav__container">
-            <a href="../../_statistics/iterative_sampling/" class="md-nav__link ">
-              
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Iterative sampling
-  
-
-    
-  </span>
-  
-  
-
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_4_4_19_3" id="__nav_4_4_19_3_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
-        
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_4_4_19_3_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4_4_19_3">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Iterative sampling
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../_statistics/iterative_sampling/base_central_moment/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Base central moment
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../_statistics/iterative_sampling/base_sampling_estimator/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Base sampling estimator
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../_statistics/iterative_sampling/factory/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Factory
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../_statistics/iterative_sampling/margin/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Margin
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../_statistics/iterative_sampling/mean/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Mean
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../_statistics/iterative_sampling/probability/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Probability
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../_statistics/iterative_sampling/standard_deviation/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Standard deviation
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../_statistics/iterative_sampling/variance/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Variance
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
       
         
       
@@ -5332,14 +4941,14 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../_statistics/pce/" class="md-nav__link ">
+            <a href="../../iterative_sampling/" class="md-nav__link ">
               
   
   
   <span class="md-ellipsis">
     
   
-    Pce
+    Iterative sampling
   
 
     
@@ -5361,7 +4970,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Pce
+    Iterative sampling
   
 
           </label>
@@ -5374,14 +4983,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../_statistics/pce/base_pce_estimator/" class="md-nav__link">
+      <a href="../../iterative_sampling/base_central_moment/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Base pce estimator
+    Base central moment
   
 
     
@@ -5402,7 +5011,35 @@
   
   
     <li class="md-nav__item">
-      <a href="../../_statistics/pce/factory/" class="md-nav__link">
+      <a href="../../iterative_sampling/base_sampling_estimator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Base sampling estimator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../iterative_sampling/factory/" class="md-nav__link">
         
   
   
@@ -5430,7 +5067,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../_statistics/pce/margin/" class="md-nav__link">
+      <a href="../../iterative_sampling/margin/" class="md-nav__link">
         
   
   
@@ -5458,7 +5095,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../_statistics/pce/mean/" class="md-nav__link">
+      <a href="../../iterative_sampling/mean/" class="md-nav__link">
         
   
   
@@ -5486,7 +5123,35 @@
   
   
     <li class="md-nav__item">
-      <a href="../../_statistics/pce/standard_deviation/" class="md-nav__link">
+      <a href="../../iterative_sampling/probability/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Probability
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../iterative_sampling/standard_deviation/" class="md-nav__link">
         
   
   
@@ -5514,7 +5179,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../_statistics/pce/variance/" class="md-nav__link">
+      <a href="../../iterative_sampling/variance/" class="md-nav__link">
         
   
   
@@ -5551,8 +5216,6 @@
   
     
     
-      
-        
       
         
       
@@ -5581,14 +5244,14 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../_statistics/sampling/" class="md-nav__link ">
+            <a href="../../pce/" class="md-nav__link ">
               
   
   
   <span class="md-ellipsis">
     
   
-    Sampling
+    Pce
   
 
     
@@ -5610,7 +5273,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Sampling
+    Pce
   
 
           </label>
@@ -5623,14 +5286,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../_statistics/sampling/base_sampling_estimator/" class="md-nav__link">
+      <a href="../../pce/base_pce_estimator/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Base sampling estimator
+    Base pce estimator
   
 
     
@@ -5651,7 +5314,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../_statistics/sampling/factory/" class="md-nav__link">
+      <a href="../../pce/factory/" class="md-nav__link">
         
   
   
@@ -5679,7 +5342,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../_statistics/sampling/margin/" class="md-nav__link">
+      <a href="../../pce/margin/" class="md-nav__link">
         
   
   
@@ -5707,7 +5370,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../_statistics/sampling/mean/" class="md-nav__link">
+      <a href="../../pce/mean/" class="md-nav__link">
         
   
   
@@ -5735,35 +5398,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../_statistics/sampling/probability/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Probability
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../_statistics/sampling/standard_deviation/" class="md-nav__link">
+      <a href="../../pce/standard_deviation/" class="md-nav__link">
         
   
   
@@ -5791,7 +5426,499 @@
   
   
     <li class="md-nav__item">
-      <a href="../../_statistics/sampling/variance/" class="md-nav__link">
+      <a href="../../pce/variance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Variance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4_19_6" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sampling
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_4_19_6" id="__nav_4_4_19_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_4_4_19_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4_4_19_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sampling
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../base_sampling_estimator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Base sampling estimator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../factory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Factory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../margin/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Margin
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mean/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mean
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../probability/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Probability
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quantile
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quantile
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations._statistics.sampling.quantile" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;quantile
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" quantile">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations._statistics.sampling.quantile-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Classes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Classes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations._statistics.sampling.quantile.Quantile" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;Quantile
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" Quantile">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations._statistics.sampling.quantile.Quantile-attributes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Attributes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Attributes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations._statistics.sampling.quantile.Quantile.default_level" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;default_level
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations._statistics.sampling.quantile.Quantile.min_n_samples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;min_n_samples
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations._statistics.sampling.quantile.Quantile-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Methods:
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Methods:">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations._statistics.sampling.quantile.Quantile.compute_jacobian" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;compute_jacobian
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations._statistics.sampling.quantile.Quantile.estimate_statistic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;estimate_statistic
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations._statistics.sampling.quantile.Quantile.update_parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;update_parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../standard_deviation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standard deviation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../variance/" class="md-nav__link">
         
   
   
@@ -5852,11 +5979,11 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4_19_6" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4_19_7" >
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../_statistics/taylor_polynomial/" class="md-nav__link ">
+            <a href="../../taylor_polynomial/" class="md-nav__link ">
               
   
   
@@ -5874,14 +6001,14 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_4_4_19_6" id="__nav_4_4_19_6_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_4_4_19_7" id="__nav_4_4_19_7_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_4_4_19_6_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4_4_19_6">
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_4_4_19_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4_19_7">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -5898,7 +6025,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../_statistics/taylor_polynomial/base_taylor_polynomial_estimator/" class="md-nav__link">
+      <a href="../../taylor_polynomial/base_taylor_polynomial_estimator/" class="md-nav__link">
         
   
   
@@ -5926,7 +6053,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../_statistics/taylor_polynomial/factory/" class="md-nav__link">
+      <a href="../../taylor_polynomial/factory/" class="md-nav__link">
         
   
   
@@ -5954,7 +6081,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../_statistics/taylor_polynomial/margin/" class="md-nav__link">
+      <a href="../../taylor_polynomial/margin/" class="md-nav__link">
         
   
   
@@ -5982,7 +6109,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../_statistics/taylor_polynomial/mean/" class="md-nav__link">
+      <a href="../../taylor_polynomial/mean/" class="md-nav__link">
         
   
   
@@ -6010,7 +6137,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../_statistics/taylor_polynomial/standard_deviation/" class="md-nav__link">
+      <a href="../../taylor_polynomial/standard_deviation/" class="md-nav__link">
         
   
   
@@ -6038,7 +6165,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../_statistics/taylor_polynomial/variance/" class="md-nav__link">
+      <a href="../../taylor_polynomial/variance/" class="md-nav__link">
         
   
   
@@ -6109,7 +6236,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../problems/" class="md-nav__link ">
+            <a href="../../../../problems/" class="md-nav__link ">
               
   
   
@@ -6151,7 +6278,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../problems/uopt_as_umdo_scenario/" class="md-nav__link">
+      <a href="../../../../problems/uopt_as_umdo_scenario/" class="md-nav__link">
         
   
   
@@ -6210,7 +6337,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../scenarios/" class="md-nav__link ">
+            <a href="../../../../scenarios/" class="md-nav__link ">
               
   
   
@@ -6252,7 +6379,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../scenarios/base_u_scenario/" class="md-nav__link">
+      <a href="../../../../scenarios/base_u_scenario/" class="md-nav__link">
         
   
   
@@ -6280,7 +6407,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../scenarios/u_evaluation_scenario/" class="md-nav__link">
+      <a href="../../../../scenarios/u_evaluation_scenario/" class="md-nav__link">
         
   
   
@@ -6308,7 +6435,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../scenarios/umdo_scenario/" class="md-nav__link">
+      <a href="../../../../scenarios/umdo_scenario/" class="md-nav__link">
         
   
   
@@ -6363,7 +6490,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../statistics/" class="md-nav__link ">
+            <a href="../../../../statistics/" class="md-nav__link ">
               
   
   
@@ -6428,7 +6555,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../statistics/multilevel/" class="md-nav__link ">
+            <a href="../../../../statistics/multilevel/" class="md-nav__link ">
               
   
   
@@ -6470,7 +6597,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../statistics/multilevel/base_pilot/" class="md-nav__link">
+      <a href="../../../../statistics/multilevel/base_pilot/" class="md-nav__link">
         
   
   
@@ -6521,7 +6648,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../statistics/multilevel/mlmc/" class="md-nav__link ">
+            <a href="../../../../statistics/multilevel/mlmc/" class="md-nav__link ">
               
   
   
@@ -6563,7 +6690,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../statistics/multilevel/mlmc/level/" class="md-nav__link">
+      <a href="../../../../statistics/multilevel/mlmc/level/" class="md-nav__link">
         
   
   
@@ -6591,7 +6718,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../statistics/multilevel/mlmc/mlmc/" class="md-nav__link">
+      <a href="../../../../statistics/multilevel/mlmc/mlmc/" class="md-nav__link">
         
   
   
@@ -6644,7 +6771,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../statistics/multilevel/mlmc/pilots/" class="md-nav__link ">
+            <a href="../../../../statistics/multilevel/mlmc/pilots/" class="md-nav__link ">
               
   
   
@@ -6686,7 +6813,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../statistics/multilevel/mlmc/pilots/base_mlmc_pilot/" class="md-nav__link">
+      <a href="../../../../statistics/multilevel/mlmc/pilots/base_mlmc_pilot/" class="md-nav__link">
         
   
   
@@ -6714,7 +6841,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../statistics/multilevel/mlmc/pilots/factory/" class="md-nav__link">
+      <a href="../../../../statistics/multilevel/mlmc/pilots/factory/" class="md-nav__link">
         
   
   
@@ -6742,7 +6869,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../statistics/multilevel/mlmc/pilots/mean/" class="md-nav__link">
+      <a href="../../../../statistics/multilevel/mlmc/pilots/mean/" class="md-nav__link">
         
   
   
@@ -6770,7 +6897,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../statistics/multilevel/mlmc/pilots/variance/" class="md-nav__link">
+      <a href="../../../../statistics/multilevel/mlmc/pilots/variance/" class="md-nav__link">
         
   
   
@@ -6837,7 +6964,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../statistics/multilevel/mlmc_mlcv/" class="md-nav__link ">
+            <a href="../../../../statistics/multilevel/mlmc_mlcv/" class="md-nav__link ">
               
   
   
@@ -6879,7 +7006,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../statistics/multilevel/mlmc_mlcv/level/" class="md-nav__link">
+      <a href="../../../../statistics/multilevel/mlmc_mlcv/level/" class="md-nav__link">
         
   
   
@@ -6907,7 +7034,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../statistics/multilevel/mlmc_mlcv/mlmc_mlcv/" class="md-nav__link">
+      <a href="../../../../statistics/multilevel/mlmc_mlcv/mlmc_mlcv/" class="md-nav__link">
         
   
   
@@ -6958,7 +7085,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../statistics/multilevel/mlmc_mlcv/pilots/" class="md-nav__link ">
+            <a href="../../../../statistics/multilevel/mlmc_mlcv/pilots/" class="md-nav__link ">
               
   
   
@@ -7000,7 +7127,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../statistics/multilevel/mlmc_mlcv/pilots/base_mlmc_mlcv_pilot/" class="md-nav__link">
+      <a href="../../../../statistics/multilevel/mlmc_mlcv/pilots/base_mlmc_mlcv_pilot/" class="md-nav__link">
         
   
   
@@ -7028,7 +7155,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../statistics/multilevel/mlmc_mlcv/pilots/factory/" class="md-nav__link">
+      <a href="../../../../statistics/multilevel/mlmc_mlcv/pilots/factory/" class="md-nav__link">
         
   
   
@@ -7056,7 +7183,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../statistics/multilevel/mlmc_mlcv/pilots/mean/" class="md-nav__link">
+      <a href="../../../../statistics/multilevel/mlmc_mlcv/pilots/mean/" class="md-nav__link">
         
   
   
@@ -7141,7 +7268,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../use_cases/" class="md-nav__link ">
+            <a href="../../../../use_cases/" class="md-nav__link ">
               
   
   
@@ -7212,7 +7339,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../use_cases/beam_model/" class="md-nav__link ">
+            <a href="../../../../use_cases/beam_model/" class="md-nav__link ">
               
   
   
@@ -7254,7 +7381,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../use_cases/beam_model/advanced_uncertain_space/" class="md-nav__link">
+      <a href="../../../../use_cases/beam_model/advanced_uncertain_space/" class="md-nav__link">
         
   
   
@@ -7282,7 +7409,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../use_cases/beam_model/constraints/" class="md-nav__link">
+      <a href="../../../../use_cases/beam_model/constraints/" class="md-nav__link">
         
   
   
@@ -7310,7 +7437,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../use_cases/beam_model/design_space/" class="md-nav__link">
+      <a href="../../../../use_cases/beam_model/design_space/" class="md-nav__link">
         
   
   
@@ -7338,7 +7465,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../use_cases/beam_model/discipline/" class="md-nav__link">
+      <a href="../../../../use_cases/beam_model/discipline/" class="md-nav__link">
         
   
   
@@ -7366,7 +7493,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../use_cases/beam_model/uncertain_space/" class="md-nav__link">
+      <a href="../../../../use_cases/beam_model/uncertain_space/" class="md-nav__link">
         
   
   
@@ -7419,7 +7546,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../use_cases/beam_model/core/" class="md-nav__link ">
+            <a href="../../../../use_cases/beam_model/core/" class="md-nav__link ">
               
   
   
@@ -7461,7 +7588,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../use_cases/beam_model/core/design_space/" class="md-nav__link">
+      <a href="../../../../use_cases/beam_model/core/design_space/" class="md-nav__link">
         
   
   
@@ -7489,7 +7616,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../use_cases/beam_model/core/model/" class="md-nav__link">
+      <a href="../../../../use_cases/beam_model/core/model/" class="md-nav__link">
         
   
   
@@ -7517,7 +7644,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../use_cases/beam_model/core/output_data/" class="md-nav__link">
+      <a href="../../../../use_cases/beam_model/core/output_data/" class="md-nav__link">
         
   
   
@@ -7545,7 +7672,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../use_cases/beam_model/core/variables/" class="md-nav__link">
+      <a href="../../../../use_cases/beam_model/core/variables/" class="md-nav__link">
         
   
   
@@ -7614,7 +7741,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../use_cases/heat_equation/" class="md-nav__link ">
+            <a href="../../../../use_cases/heat_equation/" class="md-nav__link ">
               
   
   
@@ -7656,7 +7783,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../use_cases/heat_equation/configuration/" class="md-nav__link">
+      <a href="../../../../use_cases/heat_equation/configuration/" class="md-nav__link">
         
   
   
@@ -7684,7 +7811,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../use_cases/heat_equation/discipline/" class="md-nav__link">
+      <a href="../../../../use_cases/heat_equation/discipline/" class="md-nav__link">
         
   
   
@@ -7712,7 +7839,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../use_cases/heat_equation/model/" class="md-nav__link">
+      <a href="../../../../use_cases/heat_equation/model/" class="md-nav__link">
         
   
   
@@ -7740,7 +7867,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../use_cases/heat_equation/uncertain_space/" class="md-nav__link">
+      <a href="../../../../use_cases/heat_equation/uncertain_space/" class="md-nav__link">
         
   
   
@@ -7799,7 +7926,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../use_cases/spring_mass_model/" class="md-nav__link ">
+            <a href="../../../../use_cases/spring_mass_model/" class="md-nav__link ">
               
   
   
@@ -7841,7 +7968,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../use_cases/spring_mass_model/discipline/" class="md-nav__link">
+      <a href="../../../../use_cases/spring_mass_model/discipline/" class="md-nav__link">
         
   
   
@@ -7869,7 +7996,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../use_cases/spring_mass_model/model/" class="md-nav__link">
+      <a href="../../../../use_cases/spring_mass_model/model/" class="md-nav__link">
         
   
   
@@ -7897,7 +8024,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../use_cases/spring_mass_model/uncertain_space/" class="md-nav__link">
+      <a href="../../../../use_cases/spring_mass_model/uncertain_space/" class="md-nav__link">
         
   
   
@@ -7962,7 +8089,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../use_cases/truss/" class="md-nav__link ">
+            <a href="../../../../use_cases/truss/" class="md-nav__link ">
               
   
   
@@ -8004,7 +8131,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../use_cases/truss/bar/" class="md-nav__link">
+      <a href="../../../../use_cases/truss/bar/" class="md-nav__link">
         
   
   
@@ -8032,7 +8159,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../use_cases/truss/bars/" class="md-nav__link">
+      <a href="../../../../use_cases/truss/bars/" class="md-nav__link">
         
   
   
@@ -8060,7 +8187,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../use_cases/truss/discipline/" class="md-nav__link">
+      <a href="../../../../use_cases/truss/discipline/" class="md-nav__link">
         
   
   
@@ -8088,7 +8215,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../use_cases/truss/forces/" class="md-nav__link">
+      <a href="../../../../use_cases/truss/forces/" class="md-nav__link">
         
   
   
@@ -8116,7 +8243,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../use_cases/truss/model/" class="md-nav__link">
+      <a href="../../../../use_cases/truss/model/" class="md-nav__link">
         
   
   
@@ -8144,7 +8271,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../use_cases/truss/uncertain_space/" class="md-nav__link">
+      <a href="../../../../use_cases/truss/uncertain_space/" class="md-nav__link">
         
   
   
@@ -8209,7 +8336,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../visualizations/" class="md-nav__link ">
+            <a href="../../../../visualizations/" class="md-nav__link ">
               
   
   
@@ -8251,7 +8378,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../visualizations/sobol_graph/" class="md-nav__link">
+      <a href="../../../../visualizations/sobol_graph/" class="md-nav__link">
         
   
   
@@ -8279,7 +8406,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../visualizations/uncertain_coupling_graph/" class="md-nav__link">
+      <a href="../../../../visualizations/uncertain_coupling_graph/" class="md-nav__link">
         
   
   
@@ -8376,7 +8503,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../developer_guide/umdo/" class="md-nav__link">
+      <a href="../../../../../../developer_guide/umdo/" class="md-nav__link">
         
   
   
@@ -8429,19 +8556,19 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#gemseo_umdo.formulations._functions.statistic_function_for_standard_sampling" class="md-nav__link">
+  <a href="#gemseo_umdo.formulations._statistics.sampling.quantile" class="md-nav__link">
     <span class="md-ellipsis">
       
-        <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;statistic_function_for_standard_sampling
+        <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;quantile
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label=" statistic_function_for_standard_sampling">
+    <nav class="md-nav" aria-label=" quantile">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#gemseo_umdo.formulations._functions.statistic_function_for_standard_sampling-classes" class="md-nav__link">
+  <a href="#gemseo_umdo.formulations._statistics.sampling.quantile-classes" class="md-nav__link">
     <span class="md-ellipsis">
       
         Classes
@@ -8453,13 +8580,108 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#gemseo_umdo.formulations._functions.statistic_function_for_standard_sampling.StatisticFunctionForStandardSampling" class="md-nav__link">
+  <a href="#gemseo_umdo.formulations._statistics.sampling.quantile.Quantile" class="md-nav__link">
     <span class="md-ellipsis">
       
-        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;StatisticFunctionForStandardSampling
+        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;Quantile
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label=" Quantile">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations._statistics.sampling.quantile.Quantile-attributes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Attributes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Attributes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations._statistics.sampling.quantile.Quantile.default_level" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;default_level
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations._statistics.sampling.quantile.Quantile.min_n_samples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;min_n_samples
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations._statistics.sampling.quantile.Quantile-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Methods:
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Methods:">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations._statistics.sampling.quantile.Quantile.compute_jacobian" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;compute_jacobian
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations._statistics.sampling.quantile.Quantile.estimate_statistic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;estimate_statistic
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_umdo.formulations._statistics.sampling.quantile.Quantile.update_parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;update_parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -8493,22 +8715,21 @@
   
 
 
-  <h1>Statistic function for standard sampling</h1>
+  <h1>Quantile</h1>
 
 <div class="doc doc-object doc-module">
 
 
 
-<h2 id="gemseo_umdo.formulations._functions.statistic_function_for_standard_sampling" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>            <span class="doc doc-object-name doc-module-name">statistic_function_for_standard_sampling</span>
+<h2 id="gemseo_umdo.formulations._statistics.sampling.quantile" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>            <span class="doc doc-object-name doc-module-name">quantile</span>
 
 
-<a href="#gemseo_umdo.formulations._functions.statistic_function_for_standard_sampling" class="headerlink" title="Permanent link">&para;</a></h2>
+<a href="#gemseo_umdo.formulations._statistics.sampling.quantile" class="headerlink" title="Permanent link">&para;</a></h2>
 
     <div class="doc doc-contents first">
 
-        <p>A function to compute a statistic from <code>Sampling</code>.</p>
-<p>See also <a class="autorefs autorefs-internal" title="            Sampling" href="../../sampling/#gemseo_umdo.formulations.sampling.Sampling">Sampling</a>.</p>
+        <p>Estimator of a quantile for sampling-based U-MDO formulations.</p>
 
 
 
@@ -8527,52 +8748,52 @@
 
 
 
-<h3 id="gemseo_umdo.formulations._functions.statistic_function_for_standard_sampling-classes">Classes<a href="#gemseo_umdo.formulations._functions.statistic_function_for_standard_sampling-classes" class="headerlink" title="Permanent link">&para;</a></h3>
+<h3 id="gemseo_umdo.formulations._statistics.sampling.quantile-classes">Classes<a href="#gemseo_umdo.formulations._statistics.sampling.quantile-classes" class="headerlink" title="Permanent link">&para;</a></h3>
 
 <div class="doc doc-object doc-class">
 
 
 
-<h4 id="gemseo_umdo.formulations._functions.statistic_function_for_standard_sampling.StatisticFunctionForStandardSampling" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">StatisticFunctionForStandardSampling</span>
+<h4 id="gemseo_umdo.formulations._statistics.sampling.quantile.Quantile" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">Quantile</span>
 
 
-<a href="#gemseo_umdo.formulations._functions.statistic_function_for_standard_sampling.StatisticFunctionForStandardSampling" class="headerlink" title="Permanent link">&para;</a></h4>
-<div class="doc-signature highlight"><pre><span></span><code><span class="nf">StatisticFunctionForStandardSampling</span><span class="p">(</span>
-    <span class="n">umdo_formulation</span><span class="p">:</span> <span class="n"><span title="gemseo_umdo.formulations._functions.base_statistic_function.UMDOFormulationT">UMDOFormulationT</span></span><span class="p">,</span>
-    <span class="n">output_name</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a></span><span class="p">,</span>
-    <span class="n">function_type</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.core.function.array_function.ArrayFunction.FunctionType" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/core/function/array_function/#gemseo.core.function.array_function.ArrayFunction.FunctionType">FunctionType</a></span><span class="p">,</span>
-    <span class="n">statistic_operator_name</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a></span><span class="p">,</span>
-    <span class="o">**</span><span class="n">statistic_options</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></span>
+<a href="#gemseo_umdo.formulations._statistics.sampling.quantile.Quantile" class="headerlink" title="Permanent link">&para;</a></h4>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">Quantile</span><span class="p">(</span>
+    <span class="n">level</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/functions.html#float">float</a></span> <span class="o">=</span> <span class="n"><a class="autorefs autorefs-internal" title="            default_level
+
+
+  
+      class-attribute
+   (gemseo_umdo.formulations._statistics.sampling.quantile.Quantile.default_level)" href="#gemseo_umdo.formulations._statistics.sampling.quantile.Quantile.default_level">default_level</a></span><span class="p">,</span> <span class="n">method</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a></span> <span class="o">=</span> <span class="s2">"linear"</span>
 <span class="p">)</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
-              Bases: <code><a class="autorefs autorefs-internal" title="            BaseStatisticFunctionForSampling (gemseo_umdo.formulations._functions.base_statistic_function_for_sampling.BaseStatisticFunctionForSampling)" href="../base_statistic_function_for_sampling/#gemseo_umdo.formulations._functions.base_statistic_function_for_sampling.BaseStatisticFunctionForSampling">BaseStatisticFunctionForSampling</a>[<span title="gemseo_umdo.formulations._functions.statistic_function_for_standard_sampling.SamplingT">SamplingT</span>]</code></p>
+              Bases: <code><a class="autorefs autorefs-internal" title="            BaseSamplingEstimator (gemseo_umdo.formulations._statistics.sampling.base_sampling_estimator.BaseSamplingEstimator)" href="../base_sampling_estimator/#gemseo_umdo.formulations._statistics.sampling.base_sampling_estimator.BaseSamplingEstimator">BaseSamplingEstimator</a></code></p>
 
 
 
-        <p>A function to compute a statistic from <code>Sampling</code>.</p>
+        <p>Estimator of a quantile.</p>
+<p>The <span class="arithmatex">\(\alpha\)</span>-quantile is estimated from the order statistics
+<span class="arithmatex">\(\varphi_{(1)}\leq\ldots\leq\varphi_{(N)}\)</span> of the samples
+with one of the methods of
+<a class="autorefs autorefs-external" href="https://numpy.org/doc/stable/reference/generated/numpy.quantile.html#numpy.quantile">numpy.quantile</a>
+[@hyndman1996sample],
+which all read <span class="arithmatex">\((1-w)\varphi_{(j)}+w\varphi_{(j+1)}\)</span>
+where <span class="arithmatex">\(j\)</span> and <span class="arithmatex">\(w\in[0,1[\)</span> depend on <span class="arithmatex">\(\alpha\)</span>, <span class="arithmatex">\(N\)</span> and the method.</p>
+<p>The Jacobian is the same combination of the Jacobians of the samples
+<span class="arithmatex">\(\varphi_{(j)}\)</span> and <span class="arithmatex">\(\varphi_{(j+1)}\)</span>,
+i.e. the pathwise estimator of the quantile sensitivity [@hong2009estimating].
+The estimator is only piecewise differentiable:
+its Jacobian jumps when the ranking of the samples changes,
+and one of the tied samples is used in case of ties.
+It is the exact Jacobian of the estimated quantile
+wherever the ranking of the samples does not change,
+but not a consistent estimator of the Jacobian of the quantile,
+as its variance does not decrease when the number of samples increases.</p>
 
-
-<details class="note" open>
-  <summary>Note</summary>
-  <p>The callable can be set to <code>None</code> (default)
-when the user does not want to use a callable
-but a database to browse for the output vector corresponding to an input vector
-(see
-<a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/core/function/array_function/#gemseo.core.function.array_function.ArrayFunction.set_pt_from_database">set_pt_from_database()</a>).</p>
-</details>
-
-<details class="warning" open>
-  <summary>Warning</summary>
-  <p>For the literal expression,
-do not use <code>"f(x) = 2*x"</code> nor <code>"f = 2*x"</code> but <code>"2*x"</code>.
-The other elements will be added automatically
-in the string representation of the function
-based on the name of the function and the names of its inputs.</p>
-</details>
 
 
 <table>
@@ -8585,87 +8806,74 @@ based on the name of the function and the names of its inputs.</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
-                <code>umdo_formulation</code>
+                <code>level</code>
             </td>
             <td class="doc-param-details">
               <div class="doc-md-description">
-                <p>The U-MDO formulation
-associated with the output of interest.</p>
+                <p>The level <span class="arithmatex">\(\alpha\)</span> of the quantile, in <span class="arithmatex">\(]0,1[\)</span>.</p>
               </div>
               <p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
-                      <code><span title="gemseo_umdo.formulations._functions.base_statistic_function.UMDOFormulationT">UMDOFormulationT</span></code>
-                  </span>
-              </p>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>output_name</code>
-            </td>
-            <td class="doc-param-details">
-              <div class="doc-md-description">
-                <p>The name of the output of interest.</p>
-              </div>
-              <p>
-                  <span class="doc-param-annotation">
-                    <b>TYPE:</b>
-                      <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a></code>
-                  </span>
-              </p>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>function_type</code>
-            </td>
-            <td class="doc-param-details">
-              <div class="doc-md-description">
-                <p>The type of function.</p>
-              </div>
-              <p>
-                  <span class="doc-param-annotation">
-                    <b>TYPE:</b>
-                      <code><a class="autorefs autorefs-external" title="gemseo.core.function.array_function.ArrayFunction.FunctionType" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/core/function/array_function/#gemseo.core.function.array_function.ArrayFunction.FunctionType">FunctionType</a></code>
-                  </span>
-              </p>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>statistic_operator_name</code>
-            </td>
-            <td class="doc-param-details">
-              <div class="doc-md-description">
-                <p>The name of the statistic operator.</p>
-              </div>
-              <p>
-                  <span class="doc-param-annotation">
-                    <b>TYPE:</b>
-                      <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a></code>
-                  </span>
-              </p>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>**statistic_options</code>
-            </td>
-            <td class="doc-param-details">
-              <div class="doc-md-description">
-                <p>The options of the statistic.</p>
-              </div>
-              <p>
-                  <span class="doc-param-annotation">
-                    <b>TYPE:</b>
-                      <code><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></code>
+                      <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/functions.html#float">float</a></code>
                   </span>
                   <span class="doc-param-default">
                     <b>DEFAULT:</b>
-                      <code>{}</code>
+                      <code><a class="autorefs autorefs-internal" title="            default_level
+
+
+  
+      class-attribute
+   (gemseo_umdo.formulations._statistics.sampling.quantile.Quantile.default_level)" href="#gemseo_umdo.formulations._statistics.sampling.quantile.Quantile.default_level">default_level</a></code>
                   </span>
               </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>method</code>
+            </td>
+            <td class="doc-param-details">
+              <div class="doc-md-description">
+                <p>The name of the method of <a class="autorefs autorefs-external" href="https://numpy.org/doc/stable/reference/generated/numpy.quantile.html#numpy.quantile">numpy.quantile</a>
+to estimate the quantile.</p>
+              </div>
+              <p>
+                  <span class="doc-param-annotation">
+                    <b>TYPE:</b>
+                      <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a></code>
+                  </span>
+                  <span class="doc-param-default">
+                    <b>DEFAULT:</b>
+                      <code>&#39;linear&#39;</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<table>
+      <thead>
+        <tr>
+          <th><span class="doc-section-title">RAISES</span></th>
+          <th><span>DESCRIPTION</span></th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+              <span class="doc-raises-annotation">
+                  <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/exceptions.html#ValueError">ValueError</a></code>
+              </span>
+            </td>
+            <td class="doc-raises-details">
+              <div class="doc-md-description">
+                <p>When the level is not in <span class="arithmatex">\(]0,1[\)</span>
+or when the method is not a method of
+<a class="autorefs autorefs-external" href="https://numpy.org/doc/stable/reference/generated/numpy.quantile.html#numpy.quantile">numpy.quantile</a>.</p>
+              </div>
             </td>
           </tr>
       </tbody>
@@ -8679,32 +8887,8 @@ associated with the output of interest.</p>
 
 
                   <details class="mkdocstrings-source">
-                    <summary>Source code in <code>src/gemseo_umdo/formulations/_functions/base_statistic_function.py</code></summary>
-                    <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 73</span>
-<span class="normal"> 74</span>
-<span class="normal"> 75</span>
-<span class="normal"> 76</span>
-<span class="normal"> 77</span>
-<span class="normal"> 78</span>
-<span class="normal"> 79</span>
-<span class="normal"> 80</span>
-<span class="normal"> 81</span>
-<span class="normal"> 82</span>
-<span class="normal"> 83</span>
-<span class="normal"> 84</span>
-<span class="normal"> 85</span>
-<span class="normal"> 86</span>
-<span class="normal"> 87</span>
-<span class="normal"> 88</span>
-<span class="normal"> 89</span>
-<span class="normal"> 90</span>
-<span class="normal"> 91</span>
-<span class="normal"> 92</span>
-<span class="normal"> 93</span>
-<span class="normal"> 94</span>
-<span class="normal"> 95</span>
-<span class="normal"> 96</span>
-<span class="normal"> 97</span>
+                    <summary>Source code in <code>src/gemseo_umdo/formulations/_statistics/sampling/quantile.py</code></summary>
+                    <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 97</span>
 <span class="normal"> 98</span>
 <span class="normal"> 99</span>
 <span class="normal">100</span>
@@ -8717,44 +8901,50 @@ associated with the output of interest.</p>
 <span class="normal">107</span>
 <span class="normal">108</span>
 <span class="normal">109</span>
-<span class="normal">110</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
-    <span class="bp">self</span><span class="p">,</span>
-    <span class="n">umdo_formulation</span><span class="p">:</span> <span class="n">UMDOFormulationT</span><span class="p">,</span>
-    <span class="n">output_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-    <span class="n">function_type</span><span class="p">:</span> <span class="n">ArrayFunction</span><span class="o">.</span><span class="n">FunctionType</span><span class="p">,</span>
-    <span class="n">statistic_operator_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-    <span class="o">**</span><span class="n">statistic_options</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">level</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">default_level</span><span class="p">,</span> <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"linear"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">    Args:</span>
-<span class="sd">        umdo_formulation: The U-MDO formulation</span>
-<span class="sd">            associated with the output of interest.</span>
-<span class="sd">        output_name: The name of the output of interest.</span>
-<span class="sd">        function_type: The type of function.</span>
-<span class="sd">        statistic_operator_name: The name of the statistic operator.</span>
-<span class="sd">        **statistic_options: The options of the statistic.</span>
+<span class="sd">        level: The level $\alpha$ of the quantile, in $]0,1[$.</span>
+<span class="sd">        method: The name of the method of [numpy.quantile][numpy.quantile]</span>
+<span class="sd">            to estimate the quantile.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: When the level is not in $]0,1[$</span>
+<span class="sd">            or when the method is not a method of</span>
+<span class="sd">            [numpy.quantile][numpy.quantile].</span>
 <span class="sd">    """</span>  <span class="c1"># noqa: D205 D212 D415</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">_output_name</span> <span class="o">=</span> <span class="n">output_name</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">_output_jac_name</span> <span class="o">=</span> <span class="n">Database</span><span class="o">.</span><span class="n">get_gradient_name</span><span class="p">(</span><span class="n">output_name</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">_umdo_formulation</span> <span class="o">=</span> <span class="n">umdo_formulation</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">_statistic_estimator</span> <span class="o">=</span> <span class="n">umdo_formulation</span><span class="o">.</span><span class="n">_statistic_factory</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
-        <span class="n">statistic_operator_name</span><span class="p">,</span>
-        <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_statistic_estimator_parameters</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">statistic_options</span><span class="p">,</span>
-    <span class="p">)</span>
-    <span class="c1"># The statistic options are part of the name</span>
-    <span class="c1"># so that two statistics differing only in their options,</span>
-    <span class="c1"># e.g. two margins with different factors, have different names.</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">_statistic_name</span> <span class="o">=</span> <span class="n">BaseStatistics</span><span class="o">.</span><span class="n">compute_expression</span><span class="p">(</span>
-        <span class="n">output_name</span><span class="p">,</span>
-        <span class="n">FilePathManager</span><span class="o">.</span><span class="n">to_snake_case</span><span class="p">(</span><span class="n">statistic_operator_name</span><span class="p">),</span>
-        <span class="n">show_name</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">statistic_options</span><span class="p">,</span>
-    <span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">_statistic_jac_name</span> <span class="o">=</span> <span class="n">Database</span><span class="o">.</span><span class="n">get_gradient_name</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_statistic_name</span><span class="p">)</span>
-    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_func</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">output_name</span><span class="p">,</span> <span class="n">f_type</span><span class="o">=</span><span class="n">function_type</span><span class="p">,</span> <span class="n">jac</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_jac</span>
-    <span class="p">)</span>
+    <span class="n">_check_level</span><span class="p">(</span><span class="n">level</span><span class="p">)</span>
+    <span class="c1"># The method is checked with a cheap call to numpy.quantile</span>
+    <span class="c1"># so that a wrong method fails before any sampling,</span>
+    <span class="c1"># as NumPy does not expose its list of methods.</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">quantile</span><span class="p">(</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]),</span> <span class="n">level</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="s2">"The method of the quantile must be a method of numpy.quantile; "</span>
+            <span class="sa">f</span><span class="s2">"got '</span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s2">'."</span>
+        <span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">error</span>
+
+    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__level</span> <span class="o">=</span> <span class="n">level</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__method</span> <span class="o">=</span> <span class="n">method</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__is_size_checked</span> <span class="o">=</span> <span class="kc">False</span>
 </code></pre></div></td></tr></table></div>
                   </details>
 
@@ -8766,10 +8956,446 @@ associated with the output of interest.</p>
 
 
 
+<h5 id="gemseo_umdo.formulations._statistics.sampling.quantile.Quantile-attributes">Attributes<a href="#gemseo_umdo.formulations._statistics.sampling.quantile.Quantile-attributes" class="headerlink" title="Permanent link">&para;</a></h5>
+
+<div class="doc doc-object doc-attribute">
 
 
 
+<h6 id="gemseo_umdo.formulations._statistics.sampling.quantile.Quantile.default_level" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">default_level</span>
 
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+  </span>
+
+<a href="#gemseo_umdo.formulations._statistics.sampling.quantile.Quantile.default_level" class="headerlink" title="Permanent link">&para;</a></h6>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">default_level</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/functions.html#float">float</a></span> <span class="o">=</span> <span class="mf">0.95</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>The default level of the quantile.</p>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h6 id="gemseo_umdo.formulations._statistics.sampling.quantile.Quantile.min_n_samples" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">min_n_samples</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#gemseo_umdo.formulations._statistics.sampling.quantile.Quantile.min_n_samples" class="headerlink" title="Permanent link">&para;</a></h6>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">min_n_samples</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/functions.html#int">int</a></span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>The minimum number of samples to estimate the statistic and its Jacobian.</p>
+<p>This number is used by the sampling-based U-MDO formulations.</p>
+
+    </div>
+
+</div>
+
+
+<h5 id="gemseo_umdo.formulations._statistics.sampling.quantile.Quantile-functions">Methods:<a href="#gemseo_umdo.formulations._statistics.sampling.quantile.Quantile-functions" class="headerlink" title="Permanent link">&para;</a></h5>
+
+<div class="doc doc-object doc-function">
+
+
+<h6 id="gemseo_umdo.formulations._statistics.sampling.quantile.Quantile.compute_jacobian" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">compute_jacobian</span>
+
+
+<a href="#gemseo_umdo.formulations._statistics.sampling.quantile.Quantile.compute_jacobian" class="headerlink" title="Permanent link">&para;</a></h6>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">compute_jacobian</span><span class="p">(</span>
+    <span class="n">samples</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.util.typing.RealArray" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/util/typing/#gemseo.util.typing.RealArray">RealArray</a></span><span class="p">,</span> <span class="n">jac_samples</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.util.typing.RealArray" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/util/typing/#gemseo.util.typing.RealArray">RealArray</a></span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.util.typing.RealArray" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/util/typing/#gemseo.util.typing.RealArray">RealArray</a></span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Compute the Jacobian of the statistic estimation.</p>
+
+
+<table>
+      <thead>
+        <tr>
+          <th><span class="doc-section-title">PARAMETER</span></th>
+          <th><span>DESCRIPTION</span></th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>samples</code>
+            </td>
+            <td class="doc-param-details">
+              <div class="doc-md-description">
+                <p>The samples to estimate the statistic.</p>
+              </div>
+              <p>
+                  <span class="doc-param-annotation">
+                    <b>TYPE:</b>
+                      <code><a class="autorefs autorefs-external" title="gemseo.util.typing.RealArray" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/util/typing/#gemseo.util.typing.RealArray">RealArray</a></code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>jac_samples</code>
+            </td>
+            <td class="doc-param-details">
+              <div class="doc-md-description">
+                <p>The samples to estimate the Jacobian of the statistic.</p>
+              </div>
+              <p>
+                  <span class="doc-param-annotation">
+                    <b>TYPE:</b>
+                      <code><a class="autorefs autorefs-external" title="gemseo.util.typing.RealArray" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/util/typing/#gemseo.util.typing.RealArray">RealArray</a></code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<table>
+      <thead>
+        <tr>
+          <th><span class="doc-section-title">RETURNS</span></th>
+          <th><span>DESCRIPTION</span></th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <span class="doc-returns-annotation">
+                    <code><a class="autorefs autorefs-external" title="gemseo.util.typing.RealArray" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/util/typing/#gemseo.util.typing.RealArray">RealArray</a></code>
+                </span>
+            </td>
+            <td class="doc-returns-details">
+              <div class="doc-md-description">
+                <p>The Jacobian of the statistic estimation.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/gemseo_umdo/formulations/_statistics/sampling/quantile.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_jacobian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">samples</span><span class="p">:</span> <span class="n">RealArray</span><span class="p">,</span> <span class="n">jac_samples</span><span class="p">:</span> <span class="n">RealArray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RealArray</span><span class="p">:</span>
+    <span class="n">n_samples</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+    <span class="c1"># The quantile of the sorted indices 0, ..., N-1 is the position j + w</span>
+    <span class="c1"># of the quantile in the order statistics.</span>
+    <span class="n">position</span> <span class="o">=</span> <span class="n">quantile</span><span class="p">(</span><span class="n">arange</span><span class="p">(</span><span class="n">n_samples</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">__level</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__method</span><span class="p">)</span>
+    <span class="n">index</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">position</span><span class="p">)</span>
+    <span class="n">weight</span> <span class="o">=</span> <span class="n">position</span> <span class="o">-</span> <span class="n">index</span>
+    <span class="c1"># Only the order statistics j and j + 1 are needed, not a full sort.</span>
+    <span class="n">ranks</span> <span class="o">=</span> <span class="n">samples</span><span class="o">.</span><span class="n">argpartition</span><span class="p">((</span><span class="n">index</span><span class="p">,</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">if</span> <span class="n">weight</span> <span class="k">else</span> <span class="n">index</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">components</span> <span class="o">=</span> <span class="n">arange</span><span class="p">(</span><span class="n">samples</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">jac</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">weight</span><span class="p">)</span> <span class="o">*</span> <span class="n">jac_samples</span><span class="p">[</span><span class="n">ranks</span><span class="p">[</span><span class="n">index</span><span class="p">],</span> <span class="n">components</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">weight</span><span class="p">:</span>
+        <span class="n">jac</span> <span class="o">+=</span> <span class="n">weight</span> <span class="o">*</span> <span class="n">jac_samples</span><span class="p">[</span><span class="n">ranks</span><span class="p">[</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span> <span class="n">components</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">jac</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h6 id="gemseo_umdo.formulations._statistics.sampling.quantile.Quantile.estimate_statistic" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">estimate_statistic</span>
+
+
+<a href="#gemseo_umdo.formulations._statistics.sampling.quantile.Quantile.estimate_statistic" class="headerlink" title="Permanent link">&para;</a></h6>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">estimate_statistic</span><span class="p">(</span><span class="n">samples</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.util.typing.RealArray" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/util/typing/#gemseo.util.typing.RealArray">RealArray</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.util.typing.RealArray" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/util/typing/#gemseo.util.typing.RealArray">RealArray</a></span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Estimate the statistic.</p>
+
+
+<table>
+      <thead>
+        <tr>
+          <th><span class="doc-section-title">PARAMETER</span></th>
+          <th><span>DESCRIPTION</span></th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>samples</code>
+            </td>
+            <td class="doc-param-details">
+              <div class="doc-md-description">
+                <p>The samples to estimate the statistic.</p>
+              </div>
+              <p>
+                  <span class="doc-param-annotation">
+                    <b>TYPE:</b>
+                      <code><a class="autorefs autorefs-external" title="gemseo.util.typing.RealArray" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/util/typing/#gemseo.util.typing.RealArray">RealArray</a></code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<table>
+      <thead>
+        <tr>
+          <th><span class="doc-section-title">RETURNS</span></th>
+          <th><span>DESCRIPTION</span></th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <span class="doc-returns-annotation">
+                    <code><a class="autorefs autorefs-external" title="gemseo.util.typing.RealArray" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/util/typing/#gemseo.util.typing.RealArray">RealArray</a></code>
+                </span>
+            </td>
+            <td class="doc-returns-details">
+              <div class="doc-md-description">
+                <p>The estimation of the statistic.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/gemseo_umdo/formulations/_statistics/sampling/quantile.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">estimate_statistic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">samples</span><span class="p">:</span> <span class="n">RealArray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RealArray</span><span class="p">:</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__check_size</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">samples</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">quantile</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__level</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__method</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h6 id="gemseo_umdo.formulations._statistics.sampling.quantile.Quantile.update_parameters" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">update_parameters</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#gemseo_umdo.formulations._statistics.sampling.quantile.Quantile.update_parameters" class="headerlink" title="Permanent link">&para;</a></h6>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">update_parameters</span><span class="p">(</span>
+    <span class="n">parameters</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="collections.abc.MutableMapping" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.MutableMapping">MutableMapping</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></span><span class="p">],</span>
+    <span class="n">conservative_from_below</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/functions.html#bool">bool</a></span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" title="collections.abc.MutableMapping" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.MutableMapping">MutableMapping</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></span><span class="p">]</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Update the parameters of the statistic according to its use.</p>
+<p>By default, the parameters are left unchanged.</p>
+
+
+<table>
+      <thead>
+        <tr>
+          <th><span class="doc-section-title">PARAMETER</span></th>
+          <th><span>DESCRIPTION</span></th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>parameters</code>
+            </td>
+            <td class="doc-param-details">
+              <div class="doc-md-description">
+                <p>The parameters of the statistic to be updated.</p>
+              </div>
+              <p>
+                  <span class="doc-param-annotation">
+                    <b>TYPE:</b>
+                      <code><a class="autorefs autorefs-external" title="collections.abc.MutableMapping" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.MutableMapping">MutableMapping</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a>, <a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a>]</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>conservative_from_below</code>
+            </td>
+            <td class="doc-param-details">
+              <div class="doc-md-description">
+                <p>Whether the statistic must be conservative
+from below,
+e.g. with a negative factor for a margin
+and a level lower than 0.5 for a quantile.
+If <code>None</code>,
+e.g. for an observable,
+the statistic does not have to be conservative.</p>
+              </div>
+              <p>
+                  <span class="doc-param-annotation">
+                    <b>TYPE:</b>
+                      <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/functions.html#bool">bool</a> | None</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<table>
+      <thead>
+        <tr>
+          <th><span class="doc-section-title">RETURNS</span></th>
+          <th><span>DESCRIPTION</span></th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <span class="doc-returns-annotation">
+                    <code><a class="autorefs autorefs-external" title="collections.abc.MutableMapping" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.MutableMapping">MutableMapping</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a>, <a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a>]</code>
+                </span>
+            </td>
+            <td class="doc-returns-details">
+              <div class="doc-md-description">
+                <p>The updated parameters of the statistic.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<table>
+      <thead>
+        <tr>
+          <th><span class="doc-section-title">RAISES</span></th>
+          <th><span>DESCRIPTION</span></th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+              <span class="doc-raises-annotation">
+                  <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/exceptions.html#ValueError">ValueError</a></code>
+              </span>
+            </td>
+            <td class="doc-raises-details">
+              <div class="doc-md-description">
+                <p>When the level is not in <span class="arithmatex">\(]0,1[\)</span>.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/gemseo_umdo/formulations/_statistics/sampling/quantile.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">update_parameters</span><span class="p">(</span>
+    <span class="bp">cls</span><span class="p">,</span> <span class="n">parameters</span><span class="p">:</span> <span class="n">MutableMapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">conservative_from_below</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MutableMapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: When the level is not in $]0,1[$.</span>
+<span class="sd">    """</span>  <span class="c1"># noqa: D205 D212 D415</span>
+    <span class="c1"># The default level is filled in so that the name of the statistic includes it.</span>
+    <span class="n">level</span> <span class="o">=</span> <span class="n">parameters</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">_level_name</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">default_level</span><span class="p">)</span>
+    <span class="c1"># The level is checked before its conservative update</span>
+    <span class="c1"># so that an error reports the level passed by the user.</span>
+    <span class="n">_check_level</span><span class="p">(</span><span class="n">level</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">conservative_from_below</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># The conversion to float handles NumPy scalars,</span>
+        <span class="c1"># whose repr is not a valid decimal string, e.g. np.float64(0.9).</span>
+        <span class="n">level</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">level</span><span class="p">)</span>
+        <span class="c1"># The decimal arithmetic avoids names like Q[f; 0.09999999999999998]</span>
+        <span class="c1"># for the complementary level of 0.9.</span>
+        <span class="n">complementary_level</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">Decimal</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">level</span><span class="p">)))</span>
+        <span class="n">parameters</span><span class="p">[</span><span class="n">_level_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="nb">min</span><span class="p">(</span><span class="n">level</span><span class="p">,</span> <span class="n">complementary_level</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">conservative_from_below</span>
+            <span class="k">else</span> <span class="nb">max</span><span class="p">(</span><span class="n">level</span><span class="p">,</span> <span class="n">complementary_level</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">parameters</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
 
 
 
@@ -8836,16 +9462,16 @@ associated with the output of interest.</p>
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../../../../..", "features": ["navigation.tabs", "navigation.instant", "navigation.indexes"], "search": "../../../../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../../../..", "features": ["navigation.tabs", "navigation.instant", "navigation.indexes"], "search": "../../../../../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../../../../assets/javascripts/bundle.c21346df.min.js"></script>
+      <script src="../../../../../../assets/javascripts/bundle.c21346df.min.js"></script>
       
-        <script src="../../../../../assets/_markdown_exec_pyodide.js"></script>
+        <script src="../../../../../../assets/_markdown_exec_pyodide.js"></script>
       
-        <script src="../../../../../javascripts/mathjax.js"></script>
+        <script src="../../../../../../javascripts/mathjax.js"></script>
       
-        <script src="../../../../../javascripts/xdsmjs.js"></script>
+        <script src="../../../../../../javascripts/xdsmjs.js"></script>
       
         <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
       

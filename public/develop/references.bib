@@ -157,3 +157,36 @@ author = {Géraud Blatman and Bruno Sudret},
 keywords = {Least angle regression, Adaptive stochastic finite elements, Sequential experimental design, Sparse polynomial chaos expansion, Sensitivity analysis, Response surfaces},
 abstract = {Polynomial chaos (PC) expansions are used in stochastic finite element analysis to represent the random model response by a set of coefficients in a suitable (so-called polynomial chaos) basis. The number of terms to be computed grows dramatically with the size of the input random vector, which makes the computational cost of classical solution schemes (may it be intrusive (i.e. of Galerkin type) or non intrusive) unaffordable when the deterministic finite element model is expensive to evaluate. To address such problems, the paper describes a non intrusive method that builds a sparse PC expansion. First, an original strategy for truncating the PC expansions, based on hyperbolic index sets, is proposed. Then an adaptive algorithm based on least angle regression (LAR) is devised for automatically detecting the significant coefficients of the PC expansion. Beside the sparsity of the basis, the experimental design used at each step of the algorithm is systematically complemented in order to avoid the overfitting phenomenon. The accuracy of the PC metamodel is checked using an estimate inspired by statistical learning theory, namely the corrected leave-one-out error. As a consequence, a rather small number of PC terms are eventually retained (sparse representation), which may be obtained at a reduced computational cost compared to the classical “full” PC approximation. The convergence of the algorithm is shown on an analytical function. Then the method is illustrated on three stochastic finite element problems. The first model features 10 input random variables, whereas the two others involve an input random field, which is discretized into 38 and 30−500 random variables, respectively.}
 }
+
+@article{hyndman1996sample,
+title = {Sample Quantiles in Statistical Packages},
+journal = {The American Statistician},
+volume = {50},
+number = {4},
+pages = {361-365},
+year = {1996},
+doi = {10.1080/00031305.1996.10473566},
+author = {Rob J. Hyndman and Yanan Fan}
+}
+
+@article{hong2009estimating,
+title = {Estimating Quantile Sensitivities},
+journal = {Operations Research},
+volume = {57},
+number = {1},
+pages = {118-130},
+year = {2009},
+doi = {10.1287/opre.1080.0531},
+author = {L. Jeff Hong}
+}
+
+@article{liu2009kernel,
+title = {Kernel Estimation for Quantile Sensitivities},
+journal = {Naval Research Logistics},
+volume = {56},
+number = {6},
+pages = {511-525},
+year = {2009},
+doi = {10.1002/nav.20358},
+author = {Guangwu Liu and L. Jeff Hong}
+}
