@@ -32,8 +32,8 @@ def test_no_deprecated_graph_view_import(monkeypatch, module_name):
     """Check that importing a module does not use `gemseo.post._graph_view`."""
     package_name, attribute_name = module_name.rsplit(".", 1)
     monkeypatch.delitem(sys.modules, "gemseo.post._graph_view", raising=False)
-    monkeypatch.delitem(sys.modules, module_name)
-    monkeypatch.delattr(import_module(package_name), attribute_name)
+    monkeypatch.delitem(sys.modules, module_name, raising=False)
+    monkeypatch.delattr(import_module(package_name), attribute_name, raising=False)
     with warnings.catch_warnings(record=True) as records:
         warnings.simplefilter("always")
         import_module(module_name)
