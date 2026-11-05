@@ -29,7 +29,7 @@ gemseo_umdo
       base_noiser.py # Base class for noising disciplines
       factory.py # Factory of noising disciplines
       multiplicative_noiser.py # Noising discipline multiplying a deterministic variable by a random one
-    util.py # Function creating the chain of noising disciplines
+      util.py # Function creating the chain of noising disciplines
   formulation # Subpackage including U-MDO formulations
     factory.py # Factory of U-MDO formulations
     base_umdo_formulation.py # Base class for U-MDO formulations

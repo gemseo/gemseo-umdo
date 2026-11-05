@@ -93,8 +93,8 @@ GEMSEO scenarios create their formulation through the class attribute
 `uncertain_design_variables` prepends a chain of noising disciplines
 (`discipline/noiser/`: `AdditiveNoiser`, `MultiplicativeNoiser`, found by class name
 or `short_name` through `NoiserFactory` in `discipline/noiser/factory.py`), built by
-`create_noising_discipline_chain` of `discipline/util.py`, that computes `x` from a
-generated design variable `dv_x` and an uncertain variable.
+`create_noising_discipline_chain` of `discipline/noiser/util.py`, that computes `x`
+from a generated design variable `dv_x` and an uncertain variable.
 
 ### U-MDO formulations
 

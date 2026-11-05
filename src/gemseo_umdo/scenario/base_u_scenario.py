@@ -26,7 +26,7 @@ from gemseo.util.constant import read_only_empty_dict
 from gemseo.util.string import MultiLineString
 from gemseo.util.string import pretty_str
 
-from gemseo_umdo.discipline.util import create_noising_discipline_chain
+from gemseo_umdo.discipline.noiser.util import create_noising_discipline_chain
 from gemseo_umdo.formulation.factory import umdo_formulation_factory
 
 if TYPE_CHECKING:

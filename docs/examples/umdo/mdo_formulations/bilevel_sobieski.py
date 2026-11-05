@@ -46,7 +46,7 @@ from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 from matplotlib import pyplot as plt
 from numpy import atleast_2d
 
-from gemseo_umdo.discipline.util import create_noising_discipline_chain
+from gemseo_umdo.discipline.noiser.util import create_noising_discipline_chain
 from gemseo_umdo.formulation.sampling_settings import Sampling_Settings
 from gemseo_umdo.scenario.umdo_scenario import UMDOScenario
 

@@ -80,7 +80,8 @@ and this project adheres to
   except when named after a class whose name is plural,
   e.g. `gemseo_umdo.use_case.truss.bars` defining `Bars`:
     - `gemseo_umdo.disciplines` → [gemseo_umdo.discipline][gemseo_umdo.discipline];
-    - `gemseo_umdo.disciplines.utils` → [gemseo_umdo.discipline.util][gemseo_umdo.discipline.util];
+    - `gemseo_umdo.disciplines.utils`
+      → [gemseo_umdo.discipline.noiser.util][gemseo_umdo.discipline.noiser.util];
     - `gemseo_umdo.disciplines.base_noiser`
       → [gemseo_umdo.discipline.noiser.base_noiser][gemseo_umdo.discipline.noiser.base_noiser];
     - `gemseo_umdo.disciplines.additive_noiser`
@@ -367,7 +368,7 @@ and this project adheres to
 
 - The [ControlVariate][gemseo_umdo.formulation.control_variate.ControlVariate] U-MDO formulation can create the control variates from any [BaseRegressor][gemseo.machine_learning.regression.core.base_regressor.BaseRegressor] using the arguments `regressor_settings` (for defining the regressor) and `regressor_doe_algo_settings` (for creating the training dataset). By default, this U-MDO formulation uses control variates based on Taylor polynomials.
 - The subpackage [truss][gemseo_umdo.use_case.truss] includes modules for implementing a truss structure problem from the literature.
-- The function [create_noising_discipline_chain][gemseo_umdo.discipline.util.create_noising_discipline_chain] returns a disciplines chain to noise input variables.
+- The function [create_noising_discipline_chain][gemseo_umdo.discipline.noiser.util.create_noising_discipline_chain] returns a disciplines chain to noise input variables.
   This function is used by the `UDOEScenario` and [UMDOScenario][gemseo_umdo.scenario.umdo_scenario.UMDOScenario]
   when the argument ``uncertain_design_variables`` is set to noise design variables.
   In the case of bi-level formulations,
