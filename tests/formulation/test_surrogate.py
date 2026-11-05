@@ -45,7 +45,7 @@ from scipy.stats import norm
 
 from gemseo_umdo.formulation.surrogate import Surrogate
 from gemseo_umdo.formulation.surrogate_settings import Surrogate_Settings
-from gemseo_umdo.scenario.umdo_scenario import UMDOScenario
+from gemseo_umdo.scenario.mdo import UMDOScenario
 
 if TYPE_CHECKING:
     from gemseo.core.function.collection.observables import Observables

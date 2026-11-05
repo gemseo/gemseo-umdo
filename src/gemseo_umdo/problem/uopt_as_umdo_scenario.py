@@ -39,7 +39,7 @@ from gemseo.problem.mdo.opt_as_mdo_scenario import LinearLinkDiscipline
 from gemseo.problem.mdo.opt_as_mdo_scenario import create_disciplines
 from gemseo.util.constant import read_only_empty_dict
 
-from gemseo_umdo.scenario.umdo_scenario import UMDOScenario
+from gemseo_umdo.scenario.mdo import UMDOScenario
 
 if TYPE_CHECKING:
     from collections.abc import Callable

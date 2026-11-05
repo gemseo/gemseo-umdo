@@ -50,7 +50,7 @@ from gemseo_umdo.formulation._statistic.control_variate.standard_deviation impor
 from gemseo_umdo.formulation._statistic.control_variate.variance import Variance
 from gemseo_umdo.formulation.control_variate import ControlVariate
 from gemseo_umdo.formulation.control_variate_settings import ControlVariate_Settings
-from gemseo_umdo.scenario.umdo_scenario import UMDOScenario
+from gemseo_umdo.scenario.mdo import UMDOScenario
 
 if TYPE_CHECKING:
     from collections.abc import Sequence

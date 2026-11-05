@@ -53,7 +53,7 @@ from gemseo.space import RandomSpace
 from gemseo.uncertainty.distribution import OTTriangularDistribution_Settings
 
 from gemseo_umdo.formulation.control_variate_settings import ControlVariate_Settings
-from gemseo_umdo.scenario.umdo_scenario import UMDOScenario
+from gemseo_umdo.scenario.mdo import UMDOScenario
 
 # %%
 # Firstly,
@@ -86,7 +86,7 @@ uncertain_space.add_variable(
 
 # %%
 # Then,
-# we define a [UMDOScenario][gemseo_umdo.scenario.umdo_scenario.UMDOScenario]
+# we define a [UMDOScenario][gemseo_umdo.scenario.mdo.UMDOScenario]
 # to minimize the statistic $\mathbb{E}[f(x,z_2,y_1,y_2)]$
 # estimated using a control variates technique
 # based on Taylor polynomials and 50 samples at each iteration of the optimization loop:

@@ -61,9 +61,9 @@ gemseo_umdo
         ...
       ...
   scenario # Subpackage including scenarios using U-MDO formulations
-    base_u_scenario.py # Base scenario using a U-MDO formulation
-    u_evaluation_scenario.py # Scenario evaluating statistics over the design space with a DOE
-    umdo_scenario.py # Scenario solving a U-MDO problem with an optimizer or a DOE
+    base.py # Base scenario using a U-MDO formulation
+    evaluation.py # Scenario evaluating statistics over the design space with a DOE
+    mdo.py # Scenario solving a U-MDO problem with an optimizer or a DOE
 ```
 
 ## Class diagram

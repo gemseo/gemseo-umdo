@@ -30,13 +30,13 @@ and this project adheres to
 
 ### Added
 
-- [UEvaluationScenario][gemseo_umdo.scenario.u_evaluation_scenario.UEvaluationScenario]
+- [UEvaluationScenario][gemseo_umdo.scenario.evaluation.UEvaluationScenario]
   evaluates statistics of outputs over the design space with a DOE algorithm;
   it is the counterpart of
   [EvaluationScenario][gemseo.scenario.evaluation.EvaluationScenario]
   for design under uncertainty:
   the statistics are added as observables with
-  [add_observable()][gemseo_umdo.scenario.base_u_scenario.BaseUScenario.add_observable].
+  [add_observable()][gemseo_umdo.scenario.base.BaseUScenario.add_observable].
 - The design strength [Rd][gemseo_umdo.problem.beam_model.core.variable.Rd]
   and the yield strength [Ry][gemseo_umdo.problem.beam_model.core.variable.Ry]
   of [AdvancedBeamUncertainSpace][gemseo_umdo.problem.beam_model.advanced_uncertain_space.AdvancedBeamUncertainSpace]
@@ -94,7 +94,11 @@ and this project adheres to
       following the naming rule of the factories;
     - `gemseo_umdo.formulations` → [gemseo_umdo.formulation][gemseo_umdo.formulation];
     - `gemseo_umdo.problems` → [gemseo_umdo.problem][gemseo_umdo.problem];
-    - `gemseo_umdo.scenarios` → [gemseo_umdo.scenario][gemseo_umdo.scenario];
+    - `gemseo_umdo.scenarios` → [gemseo_umdo.scenario][gemseo_umdo.scenario],
+      whose modules are shortened as in GEMSEO:
+        - `base_u_scenario` → [base][gemseo_umdo.scenario.base],
+        - `u_evaluation_scenario` → [evaluation][gemseo_umdo.scenario.evaluation],
+        - `umdo_scenario` → [mdo][gemseo_umdo.scenario.mdo];
     - `gemseo_umdo.statistics` → [gemseo_umdo.statistic][gemseo_umdo.statistic];
     - `gemseo_umdo.statistics.multilevel.mlmc.pilots`
       → [gemseo_umdo.statistic.multilevel.mlmc.pilot][gemseo_umdo.statistic.multilevel.mlmc.pilot];
@@ -112,14 +116,14 @@ and this project adheres to
   raises a `ValueError` listing the available statistics
   instead of an `ImportError`.
 - BREAKING CHANGE:
-  [UMDOScenario][gemseo_umdo.scenario.umdo_scenario.UMDOScenario]
+  [UMDOScenario][gemseo_umdo.scenario.mdo.UMDOScenario]
   and [UOptAsUMDOScenario][gemseo_umdo.problem.uopt_as_umdo_scenario.UOptAsUMDOScenario]
   follow the API of the GEMSEO 7 scenarios:
     - they are instantiated from the disciplines (or the discipline),
       the design space, the uncertain space and the statistic estimation settings,
       e.g. `UMDOScenario(disciplines, design_space, uncertain_space, Sampling_Settings())`;
     - the objective is set after instantiation with
-      [add_objective()][gemseo_umdo.scenario.umdo_scenario.UMDOScenario.add_objective],
+      [add_objective()][gemseo_umdo.scenario.mdo.UMDOScenario.add_objective],
       e.g. `scenario.add_objective("f", "Mean")`,
       and maximized with `minimize=False`;
       the arguments `objective_name`, `objective_statistic_name`,
@@ -230,9 +234,9 @@ and this project adheres to
 
 - Support for Python 3.10.
 - BREAKING CHANGE: `UDOEScenario` was removed, as GEMSEO 7 removed `DOEScenario`;
-  use [UMDOScenario][gemseo_umdo.scenario.umdo_scenario.UMDOScenario]
+  use [UMDOScenario][gemseo_umdo.scenario.mdo.UMDOScenario]
   with the settings of a DOE algorithm to sample a U-MDO problem,
-  or [UEvaluationScenario][gemseo_umdo.scenario.u_evaluation_scenario.UEvaluationScenario]
+  or [UEvaluationScenario][gemseo_umdo.scenario.evaluation.UEvaluationScenario]
   to evaluate statistics without objective or constraints.
 - BREAKING CHANGE: `SobolGraph.DEFAULT_FILE_PATH`, which had no effect.
 
@@ -373,7 +377,7 @@ and this project adheres to
 - The [ControlVariate][gemseo_umdo.formulation.control_variate.ControlVariate] U-MDO formulation can create the control variates from any [BaseRegressor][gemseo.machine_learning.regression.core.base_regressor.BaseRegressor] using the arguments `regressor_settings` (for defining the regressor) and `regressor_doe_algo_settings` (for creating the training dataset). By default, this U-MDO formulation uses control variates based on Taylor polynomials.
 - The subpackage [truss][gemseo_umdo.problem.truss] includes modules for implementing a truss structure problem from the literature.
 - The function [create_noising_discipline_chain][gemseo_umdo.discipline.noiser.util.create_noising_discipline_chain] returns a disciplines chain to noise input variables.
-  This function is used by the `UDOEScenario` and [UMDOScenario][gemseo_umdo.scenario.umdo_scenario.UMDOScenario]
+  This function is used by the `UDOEScenario` and [UMDOScenario][gemseo_umdo.scenario.mdo.UMDOScenario]
   when the argument ``uncertain_design_variables`` is set to noise design variables.
   In the case of bi-level formulations,
   it may be preferable to use this function directly rather than through this argument,
@@ -440,13 +444,13 @@ and this project adheres to
 
 - API CHANGE:
   `UDOEScenario`
-  and [UMDOScenario][gemseo_umdo.scenario.umdo_scenario.UMDOScenario]
+  and [UMDOScenario][gemseo_umdo.scenario.mdo.UMDOScenario]
   no longer have a default statistic estimation technique.
   The `statistic_estimation_settings` argument must be defined.
 - API CHANGE:
   The `statistic_estimation` and `statistic_estimation_parameters` keyword arguments of
   `UDOEScenario`
-  and [UMDOScenario][gemseo_umdo.scenario.umdo_scenario.UMDOScenario]
+  and [UMDOScenario][gemseo_umdo.scenario.mdo.UMDOScenario]
   have been replaced by the positional argument `statistic_estimation_settings`,
   which is a Pydantic model.
 - API CHANGE:
@@ -463,7 +467,7 @@ and this project adheres to
   and [TaylorPolynomial][gemseo_umdo.formulation.taylor_polynomial.TaylorPolynomial]
   use non-normalized data has been corrected.
 - `UDOEScenario`
-  and [UMDOScenario][gemseo_umdo.scenario.umdo_scenario.UMDOScenario]
+  and [UMDOScenario][gemseo_umdo.scenario.mdo.UMDOScenario]
   now accept disciplines with variables that are floats rather than NumPy arrays.
 
 ## Version 3.0.0 (November 2024)
@@ -484,14 +488,14 @@ and this project adheres to
   have an option `samples_directory_path`
   to save the samples at each iteration of the algorithm chosen for the execution of the
   `UDOEScenario`
-  or [UMDOScenario][gemseo_umdo.scenario.umdo_scenario.UMDOScenario].
+  or [UMDOScenario][gemseo_umdo.scenario.mdo.UMDOScenario].
 - The U-MDO formulation [SequentialSampling][gemseo_umdo.formulation.sequential_sampling.SequentialSampling]
   has an option `estimate_statistics_iteratively` (default: `True`)
   to compute the statistics iteratively
   and so do not store the samples in a `Database`.
 - The dictionary argument `uncertain_design_variables` of
   `UDOEScenario`
-  and [UMDOScenario][gemseo_umdo.scenario.umdo_scenario.UMDOScenario]
+  and [UMDOScenario][gemseo_umdo.scenario.mdo.UMDOScenario]
   can now accept values such as `("+", "u")` and `("*", "u")`
   to noise the corresponding key `x` as `x = dv_x + u` and `x = dv_x * (1 + u)`
   where `x` is a discipline input made uncertain by the random variable `u`.
@@ -535,7 +539,7 @@ and this project adheres to
   and the DOE option `n_processes` is greater than 1.
 - The docstring of the `uncertain_design_variables` argument of
   `UDOEScenario`
-  and [UMDOScenario][gemseo_umdo.scenario.umdo_scenario.UMDOScenario]
+  and [UMDOScenario][gemseo_umdo.scenario.mdo.UMDOScenario]
   explains that specifying a value such as `"{} + u"` at key `"x"`
   assumes that both the uncertain design variable `"x"`
   and the uncertain variable `"u"` are scalar variables.
@@ -582,7 +586,7 @@ and this project adheres to
   used by a [UMDOFormulation][gemseo_umdo.formulation.base_umdo_formulation.BaseUMDOFormulation]
   to compute the statistics of the objective, constraints and observables.
 - The logs of the `UDOEScenario`
-  and [UMDOScenario][gemseo_umdo.scenario.umdo_scenario.UMDOScenario]
+  and [UMDOScenario][gemseo_umdo.scenario.mdo.UMDOScenario]
   include the uncertain space.
 
 ### Changed
@@ -606,7 +610,7 @@ and this project adheres to
 ### Fixed
 
 - The `UDOEScenario`
-  and [UMDOScenario][gemseo_umdo.scenario.umdo_scenario.UMDOScenario]
+  and [UMDOScenario][gemseo_umdo.scenario.mdo.UMDOScenario]
   maximize the statistic of the objective
   when the argument `maximize_objective` is set to `True`.
 - The log of the objective and constraint is now consistent

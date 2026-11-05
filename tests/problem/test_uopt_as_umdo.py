@@ -25,7 +25,7 @@ from pandas._testing import assert_frame_equal
 
 from gemseo_umdo.formulation.sampling_settings import Sampling_Settings
 from gemseo_umdo.problem.uopt_as_umdo_scenario import UOptAsUMDOScenario
-from gemseo_umdo.scenario.umdo_scenario import UMDOScenario
+from gemseo_umdo.scenario.mdo import UMDOScenario
 
 
 def test_u_opt_as_umdo_scenario():

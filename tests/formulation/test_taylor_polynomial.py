@@ -40,7 +40,7 @@ from gemseo_umdo.formulation._statistic.taylor_polynomial.standard_deviation imp
 from gemseo_umdo.formulation._statistic.taylor_polynomial.variance import Variance
 from gemseo_umdo.formulation.taylor_polynomial import TaylorPolynomial
 from gemseo_umdo.formulation.taylor_polynomial_settings import TaylorPolynomial_Settings
-from gemseo_umdo.scenario.umdo_scenario import UMDOScenario
+from gemseo_umdo.scenario.mdo import UMDOScenario
 
 if TYPE_CHECKING:
     from collections.abc import Sequence

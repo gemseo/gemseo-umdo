@@ -75,7 +75,7 @@ from gemseo_umdo.formulation._statistic.sampling.standard_deviation import (
 from gemseo_umdo.formulation._statistic.sampling.variance import Variance
 from gemseo_umdo.formulation.sampling import Sampling
 from gemseo_umdo.formulation.sampling_settings import Sampling_Settings
-from gemseo_umdo.scenario.umdo_scenario import UMDOScenario
+from gemseo_umdo.scenario.mdo import UMDOScenario
 
 if TYPE_CHECKING:
     from collections.abc import Callable

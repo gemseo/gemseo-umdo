@@ -30,7 +30,7 @@ from numpy import stack
 from numpy import vstack
 
 from gemseo_umdo.formulation.sampling_settings import Sampling_Settings
-from gemseo_umdo.scenario.umdo_scenario import UMDOScenario
+from gemseo_umdo.scenario.mdo import UMDOScenario
 
 # %%
 # Firstly,
@@ -67,7 +67,7 @@ uncertain_space.add_variable(
 
 # %%
 # Then,
-# we build 10 [UMDOScenario][gemseo_umdo.scenario.umdo_scenario.UMDOScenario]
+# we build 10 [UMDOScenario][gemseo_umdo.scenario.mdo.UMDOScenario]
 # to minimize a sampling-based estimation
 # of the expectation $\mathbb{E}[obj]$
 # and store the history of the design values:

@@ -38,7 +38,7 @@ from numpy.testing import assert_equal
 from gemseo_umdo.formulation._statistic.sampling.factory import SamplingEstimatorFactory
 from gemseo_umdo.formulation.base_umdo_formulation import BaseUMDOFormulation
 from gemseo_umdo.formulation.sampling_settings import Sampling_Settings
-from gemseo_umdo.scenario.umdo_scenario import UMDOScenario
+from gemseo_umdo.scenario.mdo import UMDOScenario
 
 if TYPE_CHECKING:
     from collections.abc import Mapping

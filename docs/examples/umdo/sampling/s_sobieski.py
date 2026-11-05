@@ -28,7 +28,7 @@ from gemseo.space import RandomSpace
 from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 
 from gemseo_umdo.formulation.sampling_settings import Sampling_Settings
-from gemseo_umdo.scenario.umdo_scenario import UMDOScenario
+from gemseo_umdo.scenario.mdo import UMDOScenario
 
 # %%
 # Firstly,
@@ -54,14 +54,14 @@ uncertain_space.add_variable(
 # %%
 # and an uncertainty over the design variable `"x_2"`,
 # expressed as an additive term `"u_x_2"`
-# defined just after in the [UMDOScenario][gemseo_umdo.scenario.umdo_scenario.UMDOScenario]:
+# defined just after in the [UMDOScenario][gemseo_umdo.scenario.mdo.UMDOScenario]:
 uncertain_space.add_variable(
     "u_x_2", OTNormalDistribution_Settings(mu=0.0, sigma=1 * 0.05)
 )
 
 # %%
 # Then,
-# we build an [UMDOScenario][gemseo_umdo.scenario.umdo_scenario.UMDOScenario]
+# we build an [UMDOScenario][gemseo_umdo.scenario.mdo.UMDOScenario]
 # to maximize a sampling-based estimation
 # of the expectation $\mathbb{E}[y_4]$:
 scenario = UMDOScenario(

@@ -48,7 +48,7 @@ from numpy import atleast_2d
 
 from gemseo_umdo.discipline.noiser.util import create_noising_discipline_chain
 from gemseo_umdo.formulation.sampling_settings import Sampling_Settings
-from gemseo_umdo.scenario.umdo_scenario import UMDOScenario
+from gemseo_umdo.scenario.mdo import UMDOScenario
 
 configuration.enable_fast_mode()
 
@@ -163,7 +163,7 @@ for k, v in x_opt_as_dict.items():
 # we set ``uncertain_design_variables`` to ``{"x_shared": ("+", "u_x_shared")}``
 # to rename the variable ``"x_shared"`` into ``"dv_x_shared"`` automatically.
 # In this way,
-# [UMDOScenario][gemseo_umdo.scenario.umdo_scenario.UMDOScenario]
+# [UMDOScenario][gemseo_umdo.scenario.mdo.UMDOScenario]
 # is able to propagate the uncertainty ``"u_x_shared"``
 # through the multidisciplinary process
 # using the expression

@@ -31,7 +31,7 @@ from gemseo_umdo.problem.beam_model.constraints import BeamConstraints
 from gemseo_umdo.problem.beam_model.design_space import BeamDesignSpace
 from gemseo_umdo.problem.beam_model.discipline import Beam
 from gemseo_umdo.problem.beam_model.uncertain_space import BeamUncertainSpace
-from gemseo_umdo.scenario.umdo_scenario import UMDOScenario
+from gemseo_umdo.scenario.mdo import UMDOScenario
 
 scenario = UMDOScenario(
     [Beam(), BeamConstraints()],

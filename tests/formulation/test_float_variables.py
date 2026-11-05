@@ -24,7 +24,7 @@ from gemseo.discipline import AutoPyDiscipline
 from numpy import array
 from numpy import zeros
 
-from gemseo_umdo.scenario.umdo_scenario import UMDOScenario
+from gemseo_umdo.scenario.mdo import UMDOScenario
 from numpy import ndarray  # noqa: TC002
 from gemseo.doe import CustomDOE_Settings
 from gemseo.uncertainty.distribution import OTNormalDistribution_Settings

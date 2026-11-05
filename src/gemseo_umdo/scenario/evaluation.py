@@ -19,7 +19,7 @@ from __future__ import annotations
 from gemseo.scenario import EvaluationScenario
 from gemseo.space import DesignSpace
 
-from gemseo_umdo.scenario.base_u_scenario import BaseUScenario
+from gemseo_umdo.scenario.base import BaseUScenario
 
 
 class UEvaluationScenario(BaseUScenario, EvaluationScenario[DesignSpace]):
@@ -27,10 +27,10 @@ class UEvaluationScenario(BaseUScenario, EvaluationScenario[DesignSpace]):
 
     The statistics of the outputs of interest are declared as observables
     using the
-    [add_observable()][gemseo_umdo.scenario.base_u_scenario.BaseUScenario.add_observable]
+    [add_observable()][gemseo_umdo.scenario.base.BaseUScenario.add_observable]
     method
     and evaluated over the design space with a DOE algorithm.
 
-    Use [UMDOScenario][gemseo_umdo.scenario.umdo_scenario.UMDOScenario]
+    Use [UMDOScenario][gemseo_umdo.scenario.mdo.UMDOScenario]
     to define an objective and constraints.
     """

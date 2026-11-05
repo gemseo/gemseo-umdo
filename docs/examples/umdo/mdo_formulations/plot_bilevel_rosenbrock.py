@@ -50,7 +50,7 @@ from numpy import array
 from numpy import atleast_2d
 
 from gemseo_umdo.formulation.sampling_settings import Sampling_Settings
-from gemseo_umdo.scenario.umdo_scenario import UMDOScenario
+from gemseo_umdo.scenario.mdo import UMDOScenario
 
 configuration.enable_fast_mode()
 

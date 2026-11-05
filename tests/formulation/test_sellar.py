@@ -33,7 +33,7 @@ from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 from numpy.testing import assert_almost_equal
 
 from gemseo_umdo.formulation.surrogate_settings import Surrogate_Settings
-from gemseo_umdo.scenario.umdo_scenario import UMDOScenario
+from gemseo_umdo.scenario.mdo import UMDOScenario
 
 if TYPE_CHECKING:
     from gemseo.util.typing import RealArray

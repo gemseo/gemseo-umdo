@@ -70,7 +70,7 @@ Image tests use `syrupy-matplotlib`.
 ## Architecture
 
 There are no lazy re-exports in the `__init__.py` files: import from the defining
-module, e.g. `from gemseo_umdo.scenario.umdo_scenario import UMDOScenario`,
+module, e.g. `from gemseo_umdo.scenario.mdo import UMDOScenario`,
 `from gemseo_umdo.formulation.sampling_settings import Sampling_Settings`.
 
 ### Scenarios

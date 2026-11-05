@@ -36,7 +36,7 @@ from gemseo.space import RandomSpace
 from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 
 from gemseo_umdo.formulation.sampling_settings import Sampling_Settings
-from gemseo_umdo.scenario.umdo_scenario import UMDOScenario
+from gemseo_umdo.scenario.mdo import UMDOScenario
 
 # %%
 # Firstly,
@@ -57,7 +57,7 @@ uncertain_space.add_variable("u", OTNormalDistribution_Settings(mu=1.0, sigma=0.
 
 # %%
 # Then,
-# we define a [UMDOScenario][gemseo_umdo.scenario.umdo_scenario.UMDOScenario]
+# we define a [UMDOScenario][gemseo_umdo.scenario.mdo.UMDOScenario]
 # to minimize the statistic $\mathbb{E}[(U-x)^2+100(y-x^2)^2]$
 # estimated using a first-order Taylor polynomial of $f$ at $\mathbb{E}[U]=0.2$
 # at each iteration of the optimization loop:

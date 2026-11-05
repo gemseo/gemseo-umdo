@@ -37,7 +37,7 @@ from gemseo_umdo.formulation.sequential_sampling_settings import (
     SequentialSampling_Settings,
 )
 from gemseo_umdo.formulation.surrogate_settings import Surrogate_Settings
-from gemseo_umdo.scenario.umdo_scenario import UMDOScenario
+from gemseo_umdo.scenario.mdo import UMDOScenario
 
 if TYPE_CHECKING:
     from collections.abc import Callable

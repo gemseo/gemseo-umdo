@@ -24,9 +24,9 @@ from gemseo.discipline import Discipline
 class BaseNoiser(Discipline):
     """A discipline noising a variable.
 
-    [UEvaluationScenario][gemseo_umdo.scenario.u_evaluation_scenario.UEvaluationScenario]
+    [UEvaluationScenario][gemseo_umdo.scenario.evaluation.UEvaluationScenario]
     and
-    [UMDOScenario][gemseo_umdo.scenario.umdo_scenario.UMDOScenario]
+    [UMDOScenario][gemseo_umdo.scenario.mdo.UMDOScenario]
     create this kind of discipline
     when using their argument `uncertain_design_variables`
     in order to define the link between design and uncertain variables
@@ -52,9 +52,9 @@ class BaseNoiser(Discipline):
     In particular,
     this short name can be used to set the `uncertain_design_variables` argument
     of
-    [UEvaluationScenario][gemseo_umdo.scenario.u_evaluation_scenario.UEvaluationScenario]
+    [UEvaluationScenario][gemseo_umdo.scenario.evaluation.UEvaluationScenario]
     and
-    [UMDOScenario][gemseo_umdo.scenario.umdo_scenario.UMDOScenario].
+    [UMDOScenario][gemseo_umdo.scenario.mdo.UMDOScenario].
     """
 
     def __init__(

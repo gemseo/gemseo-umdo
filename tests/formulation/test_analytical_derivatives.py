@@ -37,7 +37,7 @@ from numpy.testing import assert_allclose
 
 from gemseo_umdo.formulation.pce_settings import PCE_Settings
 from gemseo_umdo.formulation.sampling_settings import Sampling_Settings
-from gemseo_umdo.scenario.umdo_scenario import UMDOScenario
+from gemseo_umdo.scenario.mdo import UMDOScenario
 
 if TYPE_CHECKING:
     from gemseo.util.typing import StrKeyMapping

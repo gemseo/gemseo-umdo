@@ -30,7 +30,7 @@ from numpy.testing import assert_allclose
 
 from gemseo_umdo.formulation.sampling_settings import Sampling_Settings
 from gemseo_umdo.formulation.taylor_polynomial_settings import TaylorPolynomial_Settings
-from gemseo_umdo.scenario.umdo_scenario import UMDOScenario
+from gemseo_umdo.scenario.mdo import UMDOScenario
 
 
 @pytest.mark.parametrize(

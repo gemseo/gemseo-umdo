@@ -47,7 +47,7 @@ from gemseo.space import RandomSpace
 from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 
 from gemseo_umdo.formulation.sampling_settings import Sampling_Settings
-from gemseo_umdo.scenario.umdo_scenario import UMDOScenario
+from gemseo_umdo.scenario.mdo import UMDOScenario
 
 # %%
 # Firstly,
@@ -67,7 +67,7 @@ uncertain_space.add_variable("u", OTNormalDistribution_Settings())
 
 # %%
 # Then,
-# we define a [UMDOScenario][gemseo_umdo.scenario.umdo_scenario.UMDOScenario]
+# we define a [UMDOScenario][gemseo_umdo.scenario.mdo.UMDOScenario]
 # estimating the statistics with a crude Monte Carlo sampling strategy
 # with 1000 samples at each iteration of the optimization loop:
 scenario = UMDOScenario(

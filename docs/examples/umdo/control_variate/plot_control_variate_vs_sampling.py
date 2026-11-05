@@ -53,7 +53,7 @@ from numpy.linalg import norm
 
 from gemseo_umdo.formulation.control_variate_settings import ControlVariate_Settings
 from gemseo_umdo.formulation.sampling_settings import Sampling_Settings
-from gemseo_umdo.scenario.umdo_scenario import UMDOScenario
+from gemseo_umdo.scenario.mdo import UMDOScenario
 
 if TYPE_CHECKING:
     from gemseo.util.typing import RealArray

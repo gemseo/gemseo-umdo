@@ -34,7 +34,7 @@ from gemseo_umdo.formulation.sequential_sampling import SequentialSampling
 from gemseo_umdo.formulation.sequential_sampling_settings import (
     SequentialSampling_Settings,
 )
-from gemseo_umdo.scenario.umdo_scenario import UMDOScenario
+from gemseo_umdo.scenario.mdo import UMDOScenario
 
 
 def increment(n_samples: int) -> int:

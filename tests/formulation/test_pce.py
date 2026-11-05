@@ -56,7 +56,7 @@ from gemseo_umdo.formulation._statistic.pce.standard_deviation import StandardDe
 from gemseo_umdo.formulation._statistic.pce.variance import Variance
 from gemseo_umdo.formulation.pce import PCE
 from gemseo_umdo.formulation.pce_settings import PCE_Settings
-from gemseo_umdo.scenario.umdo_scenario import UMDOScenario
+from gemseo_umdo.scenario.mdo import UMDOScenario
 
 if TYPE_CHECKING:
     from gemseo.core.function.collection.observables import Observables

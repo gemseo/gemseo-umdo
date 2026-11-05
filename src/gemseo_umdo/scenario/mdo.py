@@ -22,7 +22,7 @@ from typing import Any
 from gemseo.core.function.array_function import ArrayFunction
 from gemseo.scenario import MDOScenario
 
-from gemseo_umdo.scenario.base_u_scenario import BaseUScenario
+from gemseo_umdo.scenario.base import BaseUScenario
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
