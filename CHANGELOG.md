@@ -93,19 +93,18 @@ and this project adheres to
       → [gemseo_umdo.discipline.noiser.factory][gemseo_umdo.discipline.noiser.factory],
       following the naming rule of the factories;
     - `gemseo_umdo.formulations` → [gemseo_umdo.formulation][gemseo_umdo.formulation],
-      whose base classes move to the subpackage
+      whose factory `UMDOFormulationsFactory` is renamed
+      [UMDOFormulationFactory][gemseo_umdo.formulation.factory.UMDOFormulationFactory]
+      and whose base classes move to the subpackage
       [core][gemseo_umdo.formulation.core], as in GEMSEO:
         - `base_umdo_formulation` → [core.base][gemseo_umdo.formulation.core.base],
         - `base_umdo_formulation_settings` → [core.base_settings][gemseo_umdo.formulation.core.base_settings],
         - `base_sampling_settings` → [core.base_sampling_settings][gemseo_umdo.formulation.core.base_sampling_settings],
-        - `base_surrogate_settings` → [core.base_surrogate_settings][gemseo_umdo.formulation.core.base_surrogate_settings],
-      and whose factory `UMDOFormulationsFactory` is renamed
-      [UMDOFormulationFactory][gemseo_umdo.formulation.factory.UMDOFormulationFactory];
+        - `base_surrogate_settings` → [core.base_surrogate_settings][gemseo_umdo.formulation.core.base_surrogate_settings];
     - `gemseo_umdo.problems` → [gemseo_umdo.problem][gemseo_umdo.problem];
     - `gemseo_umdo.scenarios` → [gemseo_umdo.scenario][gemseo_umdo.scenario],
       whose modules are shortened as in GEMSEO:
         - `base_u_scenario` → [base][gemseo_umdo.scenario.base],
-        - `u_evaluation_scenario` → [evaluation][gemseo_umdo.scenario.evaluation],
         - `umdo_scenario` → [mdo][gemseo_umdo.scenario.mdo];
     - `gemseo_umdo.statistics` → [gemseo_umdo.statistic][gemseo_umdo.statistic];
     - `gemseo_umdo.statistics.multilevel.base_pilot`
@@ -123,9 +122,12 @@ and this project adheres to
     - `gemseo_umdo.use_cases.beam_model.core.variables`
       → [gemseo_umdo.problem.beam_model.core.variable][gemseo_umdo.problem.beam_model.core.variable];
     - `gemseo_umdo.use_cases.{beam_model,heat_equation,spring_mass_model,truss}.uncertain_space`
-      → `gemseo_umdo.problem.{beam_model,heat_equation,spring_mass_model,truss}.random_space`,
+      → `gemseo_umdo.problem.{beam_model,heat_equation,spring_mass_model,truss}.random_space`
+      and `gemseo_umdo.use_cases.beam_model.advanced_uncertain_space`
+      → [gemseo_umdo.problem.beam_model.advanced_random_space][gemseo_umdo.problem.beam_model.advanced_random_space],
       whose classes are renamed as the GEMSEO class they derive from, i.e.
       [RandomSpace][gemseo.space.random.RandomSpace]:
+      `AdvancedBeamUncertainSpace` → [AdvancedBeamRandomSpace][gemseo_umdo.problem.beam_model.advanced_random_space.AdvancedBeamRandomSpace],
       `BeamUncertainSpace` → [BeamRandomSpace][gemseo_umdo.problem.beam_model.random_space.BeamRandomSpace],
       `HeatEquationUncertainSpace` → [HeatEquationRandomSpace][gemseo_umdo.problem.heat_equation.random_space.HeatEquationRandomSpace],
       `SpringMassUncertainSpace` → [SpringMassRandomSpace][gemseo_umdo.problem.spring_mass_model.random_space.SpringMassRandomSpace]
