@@ -29,3 +29,6 @@ __pycache__/
 
 /.pytest_cache
 **/result_images
+
+/_docs
+/docs/css/gallery
