@@ -1,5 +1,5 @@
 version = 1
-revision = 5
+revision = 3
 requires-python = ">=3.11, <3.15"
 resolution-markers = [
     "python_full_version >= '3.12'",
@@ -580,8 +580,8 @@ wheels = [
 
 [[package]]
 name = "docs-tools"
-version = "0.1.dev20+gb70274501"
-source = { git = "https://gitlab.com/gemseo/dev/doc/docs-tools.git?branch=develop#b70274501616665d959a791ada9a71f4c8c09dcd" }
+version = "0.1.dev21+g4d4e83e3c"
+source = { git = "https://gitlab.com/gemseo/dev/doc/docs-tools.git?branch=gallery-list#4d4e83e3c563a8c989910dfaa499e0f2395d5ad4" }
 dependencies = [
     { name = "jinja2" },
     { name = "markdown" },
@@ -822,7 +822,7 @@ dist = [{ name = "check-wheel-contents" }]
 doc = [
     { name = "black" },
     { name = "click" },
-    { name = "docs-tools", git = "https://gitlab.com/gemseo/dev/doc/docs-tools.git?branch=develop" },
+    { name = "docs-tools", git = "https://gitlab.com/gemseo/dev/doc/docs-tools.git?branch=gallery-list" },
     { name = "griffe-fieldz" },
     { name = "griffe-inherited-docstrings" },
     { name = "markdown-exec" },
