@@ -104,11 +104,12 @@ markdown_extensions:
 extra_css:
   - css/fontello.css
   - css/xdsmjs.css
-  # The stylesheets of mkdocs-gallery, copied by docs-tools prebuild.
+  # The stylesheets of mkdocs-gallery and docs-tools, copied by docs-tools prebuild.
   - css/gallery/sg_gallery.css
   - css/gallery/sg_gallery-binder.css
   - css/gallery/sg_gallery-dataframe.css
   - css/gallery/sg_gallery-rendered-html.css
+  - css/gallery/gallery.css
 
 extra_javascript:
 - javascripts/mathjax.js
