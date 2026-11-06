@@ -580,8 +580,8 @@ wheels = [
 
 [[package]]
 name = "docs-tools"
-version = "0.1.dev21+g4d4e83e3c"
-source = { git = "https://gitlab.com/gemseo/dev/doc/docs-tools.git?branch=gallery-list#4d4e83e3c563a8c989910dfaa499e0f2395d5ad4" }
+version = "0.1.dev22+g3997d9ed7"
+source = { git = "https://gitlab.com/gemseo/dev/doc/docs-tools.git?branch=gallery-list#3997d9ed778ffa6ff514b42cab09e936c8dffe9a" }
 dependencies = [
     { name = "jinja2" },
     { name = "markdown" },
