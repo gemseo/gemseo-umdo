@@ -49,16 +49,13 @@ doc = [
     "griffe-fieldz",
     "griffe-inherited-docstrings",
     "mike",
-    # The Python-Markdown extensions of the documentation, e.g. the citations.
+    # The citations and the command docs-tools prebuild.
     "docs-tools",
     # The tree fences, used as a Python-Markdown custom fence, not as a plugin.
     "markdown-exec",
     "mkdocs-api-autonav",
-    # Used as a library by docs/_scripts/prebuild.py.
-    "mkdocs-gallery",
     "mkdocstrings[python]",
     "mkdocs-autorefs",
-    "pyyaml",
     "zensical",
 ]
 check = [

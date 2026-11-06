@@ -580,11 +580,15 @@ wheels = [
 
 [[package]]
 name = "docs-tools"
-version = "0.1.dev8+gebe0521f5"
-source = { git = "https://gitlab.com/gemseo/dev/doc/docs-tools.git?branch=develop#ebe0521f5aaf2d290f5f82c051a976445342a035" }
+version = "0.1.dev20+gb70274501"
+source = { git = "https://gitlab.com/gemseo/dev/doc/docs-tools.git?branch=develop#b70274501616665d959a791ada9a71f4c8c09dcd" }
 dependencies = [
+    { name = "jinja2" },
     { name = "markdown" },
+    { name = "mkdocs-gallery" },
+    { name = "packaging" },
     { name = "pybtex" },
+    { name = "pyyaml" },
 ]
 
 [[package]]
@@ -775,9 +779,7 @@ doc = [
     { name = "mike" },
     { name = "mkdocs-api-autonav" },
     { name = "mkdocs-autorefs" },
-    { name = "mkdocs-gallery" },
     { name = "mkdocstrings", extra = ["python"] },
-    { name = "pyyaml" },
     { name = "zensical" },
 ]
 test = [
@@ -827,9 +829,7 @@ doc = [
     { name = "mike", git = "https://github.com/squidfunk/mike.git" },
     { name = "mkdocs-api-autonav" },
     { name = "mkdocs-autorefs" },
-    { name = "mkdocs-gallery" },
     { name = "mkdocstrings", extras = ["python"] },
-    { name = "pyyaml" },
     { name = "zensical" },
 ]
 test = [

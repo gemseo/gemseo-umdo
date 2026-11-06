@@ -1,5 +1,5 @@
 # The navigation of the documentation.
-# docs/_scripts/prebuild.py expands the gallery directories it references
+# docs-tools prebuild expands the gallery directories it references
 # and writes the result into _docs/generated.yml, inherited by mkdocs.yml.
 # The api-autonav plugin fills the "API documentation" entry with the API pages.
 nav:

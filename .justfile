@@ -46,7 +46,7 @@ check *args: install-hooks
 [arg("gallery", long="no-gallery", value="--no-gallery")]
 [group('doc')]
 doc-prebuild gallery="":
-    uv run --group doc python docs/_scripts/prebuild.py {{ gallery }}
+    uv run --group doc docs-tools prebuild {{ gallery }}
 
 # Build and serve the documentation, `--no-gallery` skips the examples, pass the Zensical options after `--`
 [arg("gallery", long="no-gallery", value="--no-gallery")]
