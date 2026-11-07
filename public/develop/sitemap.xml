@@ -1,483 +1,483 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/changelog/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/changelog/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/credits/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/credits/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/developer_guide/umdo/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/developer_guide/umdo/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/examples/problems/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/examples/problems/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/examples/problems/beam_model/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/examples/problems/beam_model/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/examples/problems/uopt_as_umdo/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/examples/problems/uopt_as_umdo/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/examples/umdo/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/examples/umdo/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/examples/umdo/control_variate/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/examples/umdo/control_variate/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/examples/umdo/mdo_formulations/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/examples/umdo/mdo_formulations/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/examples/umdo/misc/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/examples/umdo/misc/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/examples/umdo/pce/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/examples/umdo/pce/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/examples/umdo/sampling/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/examples/umdo/sampling/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/examples/umdo/sequential_sampling/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/examples/umdo/sequential_sampling/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/examples/umdo/surrogate/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/examples/umdo/surrogate/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/examples/umdo/taylor_polynomial/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/examples/umdo/taylor_polynomial/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/examples/visualizations/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/examples/visualizations/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/examples/visualizations/sobol_graph/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/examples/visualizations/sobol_graph/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/examples/visualizations/uncertain_coupling_graph/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/examples/visualizations/uncertain_coupling_graph/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/generated/examples/problems/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/generated/examples/problems/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/generated/examples/problems/beam_model/mg_execution_times/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/generated/examples/problems/beam_model/mg_execution_times/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/generated/examples/problems/beam_model/plot_beam_doe/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/generated/examples/problems/beam_model/plot_beam_doe/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/generated/examples/problems/beam_model/plot_beam_opt/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/generated/examples/problems/beam_model/plot_beam_opt/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/generated/examples/problems/beam_model/plot_beam_rob_opt/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/generated/examples/problems/beam_model/plot_beam_rob_opt/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/generated/examples/problems/beam_model/plot_beam_sa/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/generated/examples/problems/beam_model/plot_beam_sa/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/generated/examples/problems/uopt_as_umdo/mg_execution_times/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/generated/examples/problems/uopt_as_umdo/mg_execution_times/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/generated/examples/problems/uopt_as_umdo/plot_uopt_as_umdo/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/generated/examples/problems/uopt_as_umdo/plot_uopt_as_umdo/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/generated/examples/umdo/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/generated/examples/umdo/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/generated/examples/umdo/control_variate/cv_sellar/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/generated/examples/umdo/control_variate/cv_sellar/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/generated/examples/umdo/control_variate/mg_execution_times/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/generated/examples/umdo/control_variate/mg_execution_times/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/generated/examples/umdo/control_variate/plot_control_variate_vs_sampling/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/generated/examples/umdo/control_variate/plot_control_variate_vs_sampling/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/generated/examples/umdo/control_variate/plot_cv_quadratic/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/generated/examples/umdo/control_variate/plot_cv_quadratic/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/generated/examples/umdo/control_variate/plot_cv_rosenbrock/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/generated/examples/umdo/control_variate/plot_cv_rosenbrock/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/generated/examples/umdo/mdo_formulations/bilevel_sobieski/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/generated/examples/umdo/mdo_formulations/bilevel_sobieski/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/generated/examples/umdo/mdo_formulations/mg_execution_times/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/generated/examples/umdo/mdo_formulations/mg_execution_times/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/generated/examples/umdo/mdo_formulations/plot_bilevel_rosenbrock/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/generated/examples/umdo/mdo_formulations/plot_bilevel_rosenbrock/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/generated/examples/umdo/mdo_formulations/plot_equality_constraints/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/generated/examples/umdo/mdo_formulations/plot_equality_constraints/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/generated/examples/umdo/misc/mg_execution_times/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/generated/examples/umdo/misc/mg_execution_times/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/generated/examples/umdo/misc/plot_u_evaluation_quadratic/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/generated/examples/umdo/misc/plot_u_evaluation_quadratic/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/generated/examples/umdo/misc/plot_vectorization/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/generated/examples/umdo/misc/plot_vectorization/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/generated/examples/umdo/misc/sellar_sampling_opt_repetitions/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/generated/examples/umdo/misc/sellar_sampling_opt_repetitions/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/generated/examples/umdo/pce/mg_execution_times/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/generated/examples/umdo/pce/mg_execution_times/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/generated/examples/umdo/pce/plot_pce_quadratic/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/generated/examples/umdo/pce/plot_pce_quadratic/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/generated/examples/umdo/pce/plot_pce_quadratic_approximated_jacobians/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/generated/examples/umdo/pce/plot_pce_quadratic_approximated_jacobians/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/generated/examples/umdo/sampling/mg_execution_times/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/generated/examples/umdo/sampling/mg_execution_times/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/generated/examples/umdo/sampling/plot_s_quadratic/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/generated/examples/umdo/sampling/plot_s_quadratic/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/generated/examples/umdo/sampling/plot_s_quantile/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/generated/examples/umdo/sampling/plot_s_quantile/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/generated/examples/umdo/sampling/plot_s_rosenbrock/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/generated/examples/umdo/sampling/plot_s_rosenbrock/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/generated/examples/umdo/sampling/s_sellar/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/generated/examples/umdo/sampling/s_sellar/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/generated/examples/umdo/sampling/s_sobieski/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/generated/examples/umdo/sampling/s_sobieski/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/generated/examples/umdo/sequential_sampling/mg_execution_times/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/generated/examples/umdo/sequential_sampling/mg_execution_times/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/generated/examples/umdo/sequential_sampling/plot_ss_quadratic/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/generated/examples/umdo/sequential_sampling/plot_ss_quadratic/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/generated/examples/umdo/surrogate/mg_execution_times/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/generated/examples/umdo/surrogate/mg_execution_times/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/generated/examples/umdo/surrogate/plot_surrogate/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/generated/examples/umdo/surrogate/plot_surrogate/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/generated/examples/umdo/taylor_polynomial/mg_execution_times/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/generated/examples/umdo/taylor_polynomial/mg_execution_times/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/generated/examples/umdo/taylor_polynomial/plot_tp_quadratic/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/generated/examples/umdo/taylor_polynomial/plot_tp_quadratic/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/generated/examples/umdo/taylor_polynomial/tp_sellar/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/generated/examples/umdo/taylor_polynomial/tp_sellar/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/generated/examples/umdo/taylor_polynomial/tp_sobieski/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/generated/examples/umdo/taylor_polynomial/tp_sobieski/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/generated/examples/visualizations/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/generated/examples/visualizations/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/generated/examples/visualizations/sobol_graph/mg_execution_times/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/generated/examples/visualizations/sobol_graph/mg_execution_times/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/generated/examples/visualizations/sobol_graph/plot_ishigami_sobol_graph/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/generated/examples/visualizations/sobol_graph/plot_ishigami_sobol_graph/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/generated/examples/visualizations/sobol_graph/plot_sellar_sobol_graph/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/generated/examples/visualizations/sobol_graph/plot_sellar_sobol_graph/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/generated/examples/visualizations/sobol_graph/plot_sobieski_sobol_graph/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/generated/examples/visualizations/sobol_graph/plot_sobieski_sobol_graph/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/generated/examples/visualizations/uncertain_coupling_graph/mg_execution_times/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/generated/examples/visualizations/uncertain_coupling_graph/mg_execution_times/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/generated/examples/visualizations/uncertain_coupling_graph/plot_sobieski_coupling_graph/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/generated/examples/visualizations/uncertain_coupling_graph/plot_sobieski_coupling_graph/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/licenses/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/licenses/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/disciplines/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/disciplines/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/disciplines/additive_noiser/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/disciplines/additive_noiser/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/disciplines/base_noiser/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/disciplines/base_noiser/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/disciplines/multiplicative_noiser/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/disciplines/multiplicative_noiser/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/disciplines/noiser_factory/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/disciplines/noiser_factory/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/disciplines/utils/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/disciplines/utils/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/formulations/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/formulations/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/formulations/base_sampling_settings/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/formulations/base_sampling_settings/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/formulations/base_surrogate_settings/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/formulations/base_surrogate_settings/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/formulations/base_umdo_formulation/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/formulations/base_umdo_formulation/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/formulations/base_umdo_formulation_settings/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/formulations/base_umdo_formulation_settings/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/formulations/control_variate/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/formulations/control_variate/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/formulations/control_variate_settings/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/formulations/control_variate_settings/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/formulations/factory/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/formulations/factory/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/formulations/pce/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/formulations/pce/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/formulations/pce_settings/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/formulations/pce_settings/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/formulations/sampling/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/formulations/sampling/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/formulations/sampling_settings/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/formulations/sampling_settings/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/formulations/sequential_sampling/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/formulations/sequential_sampling/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/formulations/sequential_sampling_settings/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/formulations/sequential_sampling_settings/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/formulations/surrogate/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/formulations/surrogate/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/formulations/surrogate_settings/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/formulations/surrogate_settings/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/formulations/taylor_polynomial/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/formulations/taylor_polynomial/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/formulations/taylor_polynomial_settings/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/formulations/taylor_polynomial_settings/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/monte_carlo_sampler/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/monte_carlo_sampler/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/problems/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/problems/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/problems/uopt_as_umdo_scenario/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/problems/uopt_as_umdo_scenario/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/scenarios/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/scenarios/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/scenarios/base_u_scenario/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/scenarios/base_u_scenario/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/scenarios/u_evaluation_scenario/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/scenarios/u_evaluation_scenario/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/scenarios/umdo_scenario/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/scenarios/umdo_scenario/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/statistics/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/statistics/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/statistics/multilevel/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/statistics/multilevel/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/statistics/multilevel/base_pilot/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/statistics/multilevel/base_pilot/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/statistics/multilevel/mlmc/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/statistics/multilevel/mlmc/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/statistics/multilevel/mlmc/level/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/statistics/multilevel/mlmc/level/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/statistics/multilevel/mlmc/mlmc/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/statistics/multilevel/mlmc/mlmc/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/statistics/multilevel/mlmc/pilots/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/statistics/multilevel/mlmc/pilots/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/statistics/multilevel/mlmc/pilots/base_mlmc_pilot/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/statistics/multilevel/mlmc/pilots/base_mlmc_pilot/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/statistics/multilevel/mlmc/pilots/factory/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/statistics/multilevel/mlmc/pilots/factory/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/statistics/multilevel/mlmc/pilots/mean/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/statistics/multilevel/mlmc/pilots/mean/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/statistics/multilevel/mlmc/pilots/variance/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/statistics/multilevel/mlmc/pilots/variance/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/statistics/multilevel/mlmc_mlcv/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/statistics/multilevel/mlmc_mlcv/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/statistics/multilevel/mlmc_mlcv/level/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/statistics/multilevel/mlmc_mlcv/level/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/statistics/multilevel/mlmc_mlcv/mlmc_mlcv/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/statistics/multilevel/mlmc_mlcv/mlmc_mlcv/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/statistics/multilevel/mlmc_mlcv/pilots/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/statistics/multilevel/mlmc_mlcv/pilots/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/statistics/multilevel/mlmc_mlcv/pilots/base_mlmc_mlcv_pilot/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/statistics/multilevel/mlmc_mlcv/pilots/base_mlmc_mlcv_pilot/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/statistics/multilevel/mlmc_mlcv/pilots/factory/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/statistics/multilevel/mlmc_mlcv/pilots/factory/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/statistics/multilevel/mlmc_mlcv/pilots/mean/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/statistics/multilevel/mlmc_mlcv/pilots/mean/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/use_cases/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/use_cases/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/use_cases/beam_model/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/use_cases/beam_model/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/use_cases/beam_model/advanced_uncertain_space/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/use_cases/beam_model/advanced_uncertain_space/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/use_cases/beam_model/constraints/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/use_cases/beam_model/constraints/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/use_cases/beam_model/core/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/use_cases/beam_model/core/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/use_cases/beam_model/core/design_space/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/use_cases/beam_model/core/design_space/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/use_cases/beam_model/core/model/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/use_cases/beam_model/core/model/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/use_cases/beam_model/core/output_data/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/use_cases/beam_model/core/output_data/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/use_cases/beam_model/core/variables/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/use_cases/beam_model/core/variables/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/use_cases/beam_model/design_space/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/use_cases/beam_model/design_space/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/use_cases/beam_model/discipline/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/use_cases/beam_model/discipline/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/use_cases/beam_model/uncertain_space/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/use_cases/beam_model/uncertain_space/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/use_cases/heat_equation/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/use_cases/heat_equation/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/use_cases/heat_equation/configuration/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/use_cases/heat_equation/configuration/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/use_cases/heat_equation/discipline/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/use_cases/heat_equation/discipline/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/use_cases/heat_equation/model/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/use_cases/heat_equation/model/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/use_cases/heat_equation/uncertain_space/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/use_cases/heat_equation/uncertain_space/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/use_cases/spring_mass_model/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/use_cases/spring_mass_model/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/use_cases/spring_mass_model/discipline/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/use_cases/spring_mass_model/discipline/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/use_cases/spring_mass_model/model/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/use_cases/spring_mass_model/model/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/use_cases/spring_mass_model/uncertain_space/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/use_cases/spring_mass_model/uncertain_space/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/use_cases/truss/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/use_cases/truss/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/use_cases/truss/bar/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/use_cases/truss/bar/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/use_cases/truss/bars/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/use_cases/truss/bars/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/use_cases/truss/discipline/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/use_cases/truss/discipline/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/use_cases/truss/forces/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/use_cases/truss/forces/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/use_cases/truss/model/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/use_cases/truss/model/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/use_cases/truss/uncertain_space/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/use_cases/truss/uncertain_space/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/visualizations/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/visualizations/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/visualizations/sobol_graph/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/visualizations/sobol_graph/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/reference/gemseo_umdo/visualizations/uncertain_coupling_graph/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/visualizations/uncertain_coupling_graph/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/user_guide/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/user_guide/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/user_guide/statistics/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/user_guide/statistics/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/user_guide/statistics/multilevel/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/user_guide/statistics/multilevel/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/user_guide/umdo/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/user_guide/umdo/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/user_guide/umdo/control_variate/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/user_guide/umdo/control_variate/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/user_guide/umdo/pce/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/user_guide/umdo/pce/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/user_guide/umdo/sampling/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/user_guide/umdo/sampling/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/user_guide/umdo/sequential_sampling/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/user_guide/umdo/sequential_sampling/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/user_guide/umdo/surrogate/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/user_guide/umdo/surrogate/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/user_guide/umdo/taylor_polynomial/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/user_guide/umdo/taylor_polynomial/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/user_guide/visualization/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/user_guide/visualization/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/user_guide/visualization/sobol_graph/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/user_guide/visualization/sobol_graph/</loc>
       </url>
       <url>
-        <loc>https://gemseo.gitlab.io/dev/latest/user_guide/visualization/uncertain_coupling_graph/</loc>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/user_guide/visualization/uncertain_coupling_graph/</loc>
       </url>
 </urlset>
