@@ -96,4 +96,4 @@ cache-keys = [
 gemseo = { git = "https://gitlab.com/gemseo/dev/gemseo.git", branch = "develop" }
 # The fork of mike compatible with Zensical, not published on PyPI.
 mike = { git = "https://github.com/squidfunk/mike.git" }
-docs-tools = { git = "https://gitlab.com/gemseo/dev/doc/docs-tools.git", branch = "gallery-list" }
+docs-tools = { git = "https://gitlab.com/gemseo/dev/doc/docs-tools.git", branch = "develop" }

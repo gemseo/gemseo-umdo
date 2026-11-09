@@ -573,8 +573,8 @@ wheels = [
 
 [[package]]
 name = "docs-tools"
-version = "0.1.dev34+gc04072904"
-source = { git = "https://gitlab.com/gemseo/dev/doc/docs-tools.git?branch=gallery-list#c04072904808e1f3f36c40b27b1332af9e689091" }
+version = "0.1.dev35+gd23261cba"
+source = { git = "https://gitlab.com/gemseo/dev/doc/docs-tools.git?branch=develop#d23261cbaf13b5ef63364e341c20fb52a32cdb3a" }
 dependencies = [
     { name = "jinja2" },
     { name = "markdown" },
@@ -815,7 +815,7 @@ dist = [{ name = "check-wheel-contents" }]
 doc = [
     { name = "black" },
     { name = "click" },
-    { name = "docs-tools", git = "https://gitlab.com/gemseo/dev/doc/docs-tools.git?branch=gallery-list" },
+    { name = "docs-tools", git = "https://gitlab.com/gemseo/dev/doc/docs-tools.git?branch=develop" },
     { name = "griffe-fieldz" },
     { name = "griffe-inherited-docstrings" },
     { name = "markdown-exec" },
