@@ -14,6 +14,9 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 from __future__ import annotations
 
+import sys
+import warnings
+from importlib import import_module
 from pathlib import Path
 from typing import TYPE_CHECKING
 
@@ -170,3 +173,17 @@ def test_visualize_save(uncertain_coupling_graph, save, tmp_wd):
     graph_view = uncertain_coupling_graph.visualize(show=False, save=save)
     assert isinstance(graph_view, GraphView)
     assert Path("graph_view.png").exists() is save
+
+
+def test_no_deprecated_graph_view_import(monkeypatch):
+    """Check that importing the module does not use `gemseo.post._graph_view`."""
+    module_name = "gemseo_umdo.visualization.uncertain_coupling_graph"
+    monkeypatch.delitem(sys.modules, "gemseo.post._graph_view", raising=False)
+    monkeypatch.delitem(sys.modules, module_name, raising=False)
+    package_name, attribute_name = module_name.rsplit(".", 1)
+    monkeypatch.delattr(import_module(package_name), attribute_name, raising=False)
+    with warnings.catch_warnings(record=True) as records:
+        warnings.simplefilter("always")
+        import_module(module_name)
+
+    assert not [r for r in records if "_graph_view" in str(r.message)]

@@ -54,6 +54,16 @@ class MyPilot(BasePilot):
         )
 
 
+@pytest.fixture
+def samples() -> list[NDArray[float]]:
+    """The samples used to test the pilot."""
+    return [
+        array([[1.0, 1.2], [2.0, 2.3]]),
+        array([[1.1, 1.4], [2.1, 2.5]]),
+        array([[1.2, 1.6], [2.2, 2.7]]),
+    ]
+
+
 @pytest.fixture(scope="module")
 def pilot() -> MyPilot:
     """The pilot and the samples."""

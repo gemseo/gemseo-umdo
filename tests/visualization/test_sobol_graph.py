@@ -15,6 +15,9 @@
 from __future__ import annotations
 
 import re
+import sys
+import warnings
+from importlib import import_module
 from pathlib import Path
 
 import pytest
@@ -162,3 +165,17 @@ def test_from_pce(tmp_wd, pce, output_name):
         show=False, clean_up=False, file_path=file_name
     )
     check_dot_file(file_name)
+
+
+def test_no_deprecated_graph_view_import(monkeypatch):
+    """Check that importing the module does not use `gemseo.post._graph_view`."""
+    module_name = "gemseo_umdo.visualization.sobol_graph"
+    monkeypatch.delitem(sys.modules, "gemseo.post._graph_view", raising=False)
+    monkeypatch.delitem(sys.modules, module_name, raising=False)
+    package_name, attribute_name = module_name.rsplit(".", 1)
+    monkeypatch.delattr(import_module(package_name), attribute_name, raising=False)
+    with warnings.catch_warnings(record=True) as records:
+        warnings.simplefilter("always")
+        import_module(module_name)
+
+    assert not [r for r in records if "_graph_view" in str(r.message)]
