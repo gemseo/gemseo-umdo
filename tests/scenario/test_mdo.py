@@ -39,6 +39,7 @@ from gemseo_umdo.formulation.factory import UMDOFormulationFactory
 from gemseo_umdo.formulation.sampling import Sampling
 from gemseo_umdo.formulation.sampling_settings import Sampling_Settings
 from gemseo_umdo.scenario.mdo import UMDOScenario
+from gemseo_umdo.statistic import Margin_Settings
 
 
 @pytest.fixture
@@ -56,7 +57,7 @@ def scenario(disciplines, design_space, uncertain_space) -> UMDOScenario:
         ),
     )
     scn.add_objective("f", "Mean")
-    scn.add_constraint("c", "Margin", factor=3.0)
+    scn.add_constraint("c", Margin_Settings(factor=3.0))
     scn.add_observable("o", "Mean")
     return scn
 

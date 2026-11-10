@@ -19,34 +19,18 @@ from __future__ import annotations
 from operator import ge
 from operator import le
 from typing import TYPE_CHECKING
-from typing import Any
 
 from gemseo_umdo.formulation._estimator.sampling.base import BaseSamplingEstimator
+from gemseo_umdo.statistic.settings import Probability_Settings
 
 if TYPE_CHECKING:
-    from collections.abc import Callable
-
     from gemseo.util.typing import RealArray
 
 
-class Probability(BaseSamplingEstimator):
+class Probability(BaseSamplingEstimator[Probability_Settings]):
     """Estimator of a probability."""
 
-    __compare: Callable[[Any, Any], Any]
-    """The comparison operator."""
-
-    __threshold: float
-    """The threshold against which the probability is estimated."""
-
-    def __init__(self, threshold: float = 0.0, greater: bool = True) -> None:
-        """
-        Args:
-            threshold: The threshold against which the probability is estimated.
-            greater: Whether to compute the probability of exceeding the threshold.
-        """  # noqa: D205 D212 D415
-        super().__init__()
-        self.__threshold = threshold
-        self.__compare = ge if greater else le
-
     def estimate_statistic(self, samples: RealArray) -> RealArray:
-        return self.__compare(samples, self.__threshold).mean(0)
+        settings = self._settings
+        compare = ge if settings.greater else le
+        return compare(samples, settings.threshold).mean(0)

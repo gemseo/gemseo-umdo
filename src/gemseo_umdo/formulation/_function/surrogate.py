@@ -35,6 +35,7 @@ if TYPE_CHECKING:
 
     from gemseo_umdo.formulation._function.base import UMDOFormulationT
     from gemseo_umdo.formulation.surrogate import Surrogate
+    from gemseo_umdo.statistic.settings import BaseStatisticSettings
 
 logger = logging.getLogger(__name__)
 
@@ -52,15 +53,13 @@ class StatisticFunctionForSurrogate(BaseStatisticFunction[SurrogateT]):
         umdo_formulation: UMDOFormulationT,
         output_name: str,
         function_type: BaseStatisticFunction.FunctionType,
-        statistic_operator_name: str,
-        **statistic_options: Any,
+        statistic_settings: BaseStatisticSettings,
     ) -> None:
         super().__init__(
             umdo_formulation,
             output_name,
             function_type,
-            statistic_operator_name,
-            **statistic_options,
+            statistic_settings,
         )
         self.__output_names_to_qualities = {}
 

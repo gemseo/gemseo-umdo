@@ -46,6 +46,9 @@ from scipy.stats import norm
 from gemseo_umdo.formulation.surrogate import Surrogate
 from gemseo_umdo.formulation.surrogate_settings import Surrogate_Settings
 from gemseo_umdo.scenario.mdo import UMDOScenario
+from gemseo_umdo.statistic import Margin_Settings
+from gemseo_umdo.statistic import Probability_Settings
+from gemseo_umdo.statistic import Quantile_Settings
 
 if TYPE_CHECKING:
     from gemseo.core.function.collection.observables import Observables
@@ -103,8 +106,8 @@ def umdo_formulation(ishigami_problem, doe_settings):
     formulation.problem.objective = formulation.create_objective("y", "Mean")
     formulation.add_constraint("y", "StandardDeviation")
     formulation.add_observable("y", "Variance")
-    formulation.add_observable("y", "Margin", factor=3)
-    formulation.add_observable("y", "Probability", greater=False, threshold=0.5)
+    formulation.add_observable("y", Margin_Settings(factor=3))
+    formulation.add_observable("y", Probability_Settings(greater=False, threshold=0.5))
     return formulation
 
 
@@ -228,8 +231,8 @@ def test_quantile():
     )
     # The levels are made conservative for the objective and the constraint
     # while the default level is used for the observable.
-    scenario.add_objective("f", "Quantile", level=0.1)
-    scenario.add_constraint("c", "Quantile", level=0.9, positive=True)
+    scenario.add_objective("f", Quantile_Settings(level=0.1))
+    scenario.add_constraint("c", Quantile_Settings(level=0.9), positive=True)
     scenario.add_observable("o", "Quantile")
     scenario.execute(CustomDOE_Settings(samples=array([[1.0]])))
     last_item = scenario.formulation.problem.database.last_item

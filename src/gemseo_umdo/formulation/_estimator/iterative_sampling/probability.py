@@ -24,42 +24,23 @@ from gemseo_umdo._util.compatibility.openturns import IterativeThresholdExceedan
 from gemseo_umdo.formulation._estimator.iterative_sampling.base import (
     BaseIterativeSamplingEstimator,
 )
+from gemseo_umdo.statistic.settings import Probability_Settings
 
 if TYPE_CHECKING:
     from gemseo.util.typing import RealArray
 
 
-class Probability(BaseIterativeSamplingEstimator):
+class Probability(BaseIterativeSamplingEstimator[Probability_Settings]):
     """Iterative estimator of a probability."""
 
     _estimator: IterativeThresholdExceedance | None
-
-    __greater: bool
-    """Whether the probability is linked to exceeding the threshold."""
-
-    __threshold: float
-    """The threshold against which the probability is estimated."""
-
-    def __init__(
-        self,
-        threshold: float = 0.0,
-        greater: bool = True,
-    ) -> None:
-        """
-        Args:
-            threshold: The threshold against which the probability is estimated.
-            greater: Whether to compute the probability of exceeding the threshold.
-        """  # noqa: D205 D212 D415
-        super().__init__()
-        self.__threshold = threshold
-        self.__greater = greater
 
     def _get_estimation(self) -> RealArray:
         result = array(
             self._estimator.getThresholdExceedance()
             / self._estimator.getIterationNumber()
         )
-        return result if self.__greater else 1 - result
+        return result if self._settings.greater else 1 - result
 
     def _create_estimator(self, size: int) -> None:
-        self._estimator = IterativeThresholdExceedance(size, self.__threshold)
+        self._estimator = IterativeThresholdExceedance(size, self._settings.threshold)

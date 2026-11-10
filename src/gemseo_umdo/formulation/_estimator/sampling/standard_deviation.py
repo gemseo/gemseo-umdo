@@ -22,12 +22,13 @@ from numpy import newaxis
 from numpy import where
 
 from gemseo_umdo.formulation._estimator.sampling.variance import Variance
+from gemseo_umdo.statistic.settings import StandardDeviation_Settings
 
 if TYPE_CHECKING:
     from gemseo.util.typing import RealArray
 
 
-class StandardDeviation(Variance):
+class StandardDeviation(Variance[StandardDeviation_Settings]):
     """Estimator of the standard deviation."""
 
     def estimate_statistic(self, samples: RealArray) -> RealArray:

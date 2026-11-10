@@ -74,6 +74,12 @@ from gemseo_umdo.formulation._function.iterative_estimation import IterativeEsti
 from gemseo_umdo.formulation.sampling import Sampling
 from gemseo_umdo.formulation.sampling_settings import Sampling_Settings
 from gemseo_umdo.scenario.mdo import UMDOScenario
+from gemseo_umdo.statistic import Margin_Settings
+from gemseo_umdo.statistic import Mean_Settings
+from gemseo_umdo.statistic import Probability_Settings
+from gemseo_umdo.statistic import Quantile_Settings
+from gemseo_umdo.statistic import StandardDeviation_Settings
+from gemseo_umdo.statistic import Variance_Settings
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -87,6 +93,7 @@ if TYPE_CHECKING:
     from gemseo_umdo.formulation._estimator.iterative_sampling.base import (
         BaseIterativeSamplingEstimator,
     )
+    from gemseo_umdo.statistic.settings import BaseStatisticSettings
 
 _two_samples: Final[ndarray] = array([[0.0] * 3, [1.0] * 3])
 """Two samples of the uncertain variables, used by default by the DOE algorithm."""
@@ -236,7 +243,7 @@ def scenario(
         formulation_settings=MDF_Settings(),
     )
     scn.add_objective("f", "Mean", minimize=not maximize_objective)
-    scn.add_constraint("c", "Margin", factor=3.0)
+    scn.add_constraint("c", Margin_Settings(factor=3.0))
     scn.add_observable("o", "Variance")
     return scn
 
@@ -275,26 +282,26 @@ def test_margins_with_different_factors(scenario, scenario_input_data):
     for name, factor in zip(names, (3.0, 2.0), strict=True):
         assert_almost_equal(
             problem.database.get_function_value(name, -1),
-            Margin(factor).estimate_statistic(samples),
+            Margin(Margin_Settings(factor=factor)).estimate_statistic(samples),
         )
 
 
 def estimate(
     statistic_class: BaseSamplingEstimator | BaseIterativeSamplingEstimator,
     samples: ndarray,
-    **options: Any,
+    settings: BaseStatisticSettings,
 ) -> ndarray:
     """A function estimating a statistic.
 
     Args:
         statistic_class: The class of the statistic.
         samples: The samples to estimate the statistics.
-        **options: The options to instantiate the class of the statistic.
+        settings: The settings of the statistic.
 
     Returns:
         The estimation of the statistic.
     """
-    statistic = statistic_class(**options)
+    statistic = statistic_class(settings)
     if issubclass(statistic_class, BaseSamplingEstimator):
         return statistic.estimate_statistic(samples)
 
@@ -308,7 +315,8 @@ def estimate(
 def test_estimate_mean(statistic_class):
     """Check the estimation of the mean."""
     assert_equal(
-        estimate(statistic_class, array([[0.0, 0.0], [1.0, 2.0]])), array([0.5, 1.0])
+        estimate(statistic_class, array([[0.0, 0.0], [1.0, 2.0]]), Mean_Settings()),
+        array([0.5, 1.0]),
     )
 
 
@@ -316,7 +324,8 @@ def test_estimate_mean(statistic_class):
 def test_estimate_variance(statistic_class):
     """Check the estimation of the variance."""
     assert_equal(
-        estimate(statistic_class, array([[0.0, 0.0], [1.0, 2.0]])), array([0.5, 2.0])
+        estimate(statistic_class, array([[0.0, 0.0], [1.0, 2.0]]), Variance_Settings()),
+        array([0.5, 2.0]),
     )
 
 
@@ -326,7 +335,11 @@ def test_estimate_variance(statistic_class):
 def test_estimate_standard_derivation(statistic_class):
     """Check the estimation of the standard deviation."""
     assert_equal(
-        estimate(statistic_class, array([[0.0, 0.0], [1.0, 2.0]])),
+        estimate(
+            statistic_class,
+            array([[0.0, 0.0], [1.0, 2.0]]),
+            StandardDeviation_Settings(),
+        ),
         array([0.5, 2.0]) ** 0.5,
     )
 
@@ -335,7 +348,11 @@ def test_estimate_standard_derivation(statistic_class):
 def test_estimate_margin(statistic_class):
     """Check the estimation of the margin."""
     assert_equal(
-        estimate(statistic_class, array([[0.0, 0.0], [1.0, 2.0]]), factor=3),
+        estimate(
+            statistic_class,
+            array([[0.0, 0.0], [1.0, 2.0]]),
+            Margin_Settings(factor=3),
+        ),
         array([0.5, 1.0]) + 3 * array([0.5, 2.0]) ** 0.5,
     )
 
@@ -350,8 +367,7 @@ def test_estimate_probability(greater, result, statistic_class):
         estimate(
             statistic_class,
             array([[0.0, 0.0], [1.0, 2.0]]),
-            threshold=1.5,
-            greater=greater,
+            Probability_Settings(threshold=1.5, greater=greater),
         ),
         result,
     )
@@ -359,7 +375,7 @@ def test_estimate_probability(greater, result, statistic_class):
 
 def test_reset_iterative_probability():
     """Verify that the iterative probability estimator can be reset."""
-    probability = IterativeProbability()
+    probability = IterativeProbability(Probability_Settings())
     assert probability._estimator is None
 
     probability.estimate_statistic(array([0.0, 0.0]))
@@ -668,16 +684,14 @@ def test_data_for_statistic_estimation_without_samples(
 
 
 _too_few_samples_statistics: Final = [
-    pytest.param("Variance", {}, id="Variance"),
-    pytest.param("StandardDeviation", {}, id="StandardDeviation"),
-    pytest.param("Margin", {"factor": 2.0}, id="Margin"),
+    pytest.param("Variance", id="Variance"),
+    pytest.param("StandardDeviation", id="StandardDeviation"),
+    pytest.param(Margin_Settings(factor=2.0), id="Margin"),
 ]
-"""The statistics requiring at least two samples and their parameters."""
+"""The settings of the statistics requiring at least two samples."""
 
 
-@pytest.mark.parametrize(
-    ("statistic_name", "statistic_parameters"), _too_few_samples_statistics
-)
+@pytest.mark.parametrize("statistic_settings", _too_few_samples_statistics)
 @pytest.mark.parametrize(
     "estimate_statistics_iteratively",
     [pytest.param(False, id="standard"), pytest.param(True, id="iterative")],
@@ -685,8 +699,7 @@ _too_few_samples_statistics: Final = [
 def test_statistic_with_too_few_samples(
     umdo_formulation,
     disciplines,
-    statistic_name,
-    statistic_parameters,
+    statistic_settings,
     monkeypatch,
     snapshot,
 ):
@@ -696,16 +709,12 @@ def test_statistic_with_too_few_samples(
     while these statistics require at least two samples.
     """
     _make_discipline_fail(monkeypatch, disciplines[0], "_run", (1.0,))
-    function = umdo_formulation.create_objective(
-        "f", statistic_name, **statistic_parameters
-    )
+    function = umdo_formulation.create_objective("f", statistic_settings)
     with assert_exception(ValueError, snapshot):
         function.evaluate(array([0.0] * 3))
 
 
-@pytest.mark.parametrize(
-    ("statistic_name", "statistic_parameters"), _too_few_samples_statistics
-)
+@pytest.mark.parametrize("statistic_settings", _too_few_samples_statistics)
 @pytest.mark.parametrize(
     ("estimate_statistics_iteratively", "failing_method_name"),
     [
@@ -717,8 +726,7 @@ def test_statistic_with_too_few_samples(
 def test_statistic_jacobian_with_too_few_samples(
     umdo_formulation,
     disciplines,
-    statistic_name,
-    statistic_parameters,
+    statistic_settings,
     failing_method_name,
     monkeypatch,
     snapshot,
@@ -734,9 +742,7 @@ def test_statistic_jacobian_with_too_few_samples(
     as an optimizer does and as the iterative estimation requires.
     """
     _make_discipline_fail(monkeypatch, disciplines[0], failing_method_name, (1.0,))
-    function = umdo_formulation.create_objective(
-        "f", statistic_name, **statistic_parameters
-    )
+    function = umdo_formulation.create_objective("f", statistic_settings)
     if failing_method_name == "_compute_jacobian":
         function.evaluate(array([0.0] * 3))
 
@@ -930,16 +936,16 @@ _three_samples: Final[ndarray] = array([[0.0] * 3, [1.0] * 3, [0.5, 2.0, -1.0]])
 """Three distinct samples of the uncertain variables."""
 
 _statistics: Final = [
-    pytest.param("Mean", {}, id="Mean"),
+    pytest.param("Mean", id="Mean"),
     *_too_few_samples_statistics,
 ]
-"""The differentiable statistics and their parameters."""
+"""The settings of the differentiable statistics."""
 
 
 @pytest.mark.parametrize("doe_samples", [_three_samples], indirect=True)
-@pytest.mark.parametrize(("statistic_name", "statistic_parameters"), _statistics)
+@pytest.mark.parametrize("statistic_settings", _statistics)
 def test_iterative_statistic_jacobian_before_statistic(
-    create_umdo_formulation, statistic_name, statistic_parameters
+    create_umdo_formulation, statistic_settings
 ):
     """Check the Jacobian of a statistic estimated iteratively before the statistic.
 
@@ -948,7 +954,7 @@ def test_iterative_statistic_jacobian_before_statistic(
     input_value = array([0.5, 0.2, 0.1])
     jacobians = [
         create_umdo_formulation(estimate_statistics_iteratively)
-        .create_objective("f", statistic_name, **statistic_parameters)
+        .create_objective("f", statistic_settings)
         .jac(input_value)
         for estimate_statistics_iteratively in [False, True]
     ]
@@ -956,11 +962,10 @@ def test_iterative_statistic_jacobian_before_statistic(
 
 
 @pytest.mark.parametrize("doe_samples", [_three_samples], indirect=True)
-@pytest.mark.parametrize(("statistic_name", "statistic_parameters"), _statistics)
+@pytest.mark.parametrize("statistic_settings", _statistics)
 def test_iterative_statistic_after_interrupted_sampling(
     create_umdo_formulation,
-    statistic_name,
-    statistic_parameters,
+    statistic_settings,
     monkeypatch,
 ):
     """Check that an interrupted sampling does not alter the next estimations.
@@ -971,7 +976,7 @@ def test_iterative_statistic_after_interrupted_sampling(
     are the same as those estimated in one go.
     """
     formulation = create_umdo_formulation(True)
-    function = formulation.create_objective("f", statistic_name, **statistic_parameters)
+    function = formulation.create_objective("f", statistic_settings)
     compute_samples = formulation.compute_samples
 
     def _interrupt(*args, **kwargs):
@@ -987,7 +992,7 @@ def test_iterative_statistic_after_interrupted_sampling(
 
     monkeypatch.setattr(formulation, "compute_samples", compute_samples)
     reference_function = create_umdo_formulation(False).create_objective(
-        "f", statistic_name, **statistic_parameters
+        "f", statistic_settings
     )
     input_value = array([0.5, 0.2, 0.1])
     assert_almost_equal(
@@ -997,12 +1002,11 @@ def test_iterative_statistic_after_interrupted_sampling(
 
 
 @pytest.mark.parametrize("doe_samples", [_three_samples], indirect=True)
-@pytest.mark.parametrize(("statistic_name", "statistic_parameters"), _statistics)
+@pytest.mark.parametrize("statistic_settings", _statistics)
 def test_iterative_statistic_after_failed_sampling(
     create_umdo_formulation,
     disciplines,
-    statistic_name,
-    statistic_parameters,
+    statistic_settings,
     monkeypatch,
 ):
     """Check that a sampling failing in the DOE does not alter the next estimations.
@@ -1014,7 +1018,7 @@ def test_iterative_statistic_after_failed_sampling(
     are the same as those estimated in one go.
     """
     formulation = create_umdo_formulation(True)
-    function = formulation.create_objective("f", statistic_name, **statistic_parameters)
+    function = formulation.create_objective("f", statistic_settings)
     doe_algo_settings = formulation._settings.doe_algo_settings
     original_callbacks = doe_algo_settings.callbacks
     discipline = disciplines[0]
@@ -1036,7 +1040,7 @@ def test_iterative_statistic_after_failed_sampling(
 
     monkeypatch.undo()
     reference_function = create_umdo_formulation(False).create_objective(
-        "f", statistic_name, **statistic_parameters
+        "f", statistic_settings
     )
     input_value = array([0.5, 0.2, 0.1])
     assert_almost_equal(
@@ -1061,7 +1065,7 @@ def test_iterative_estimation_with_missing_data(
     A sample missing only the gradient is counted as a sample of the output.
     """
     estimation = IterativeEstimation(
-        "f", "E[f]", IterativeMean(), return_statistic_jacobian
+        "f", "E[f]", IterativeMean(Mean_Settings()), return_statistic_jacobian
     )
     assert_equal(estimation(0, evaluation), array([]))
     assert estimation.n_samples == 0
@@ -1097,7 +1101,7 @@ def test_save_samples(disciplines, design_space, uncertain_space, tmp_wd):
         formulation_settings=MDF_Settings(),
     )
     scenario.add_objective("f", "Mean")
-    scenario.add_constraint("c", "Margin", factor=3.0)
+    scenario.add_constraint("c", Margin_Settings(factor=3.0))
     scenario.add_observable("o", "Variance")
     scenario.execute(
         algorithm_settings=CustomDOE_Settings(
@@ -1176,7 +1180,12 @@ def test_standard_deviation_derivative_if_zero(estimate_statistics_iteratively):
 def test_estimate_quantile(method, expected):
     """Check the estimation of a quantile of a vector output."""
     samples = array([[3.0, 6.0], [0.0, 0.0], [2.0, 4.0], [1.0, 2.0]])
-    assert_equal(Quantile(0.5, method).estimate_statistic(samples), expected)
+    assert_equal(
+        Quantile(Quantile_Settings(level=0.5, method=method)).estimate_statistic(
+            samples
+        ),
+        expected,
+    )
 
 
 @pytest.mark.parametrize("method", ["linear", "inverted_cdf", "hazen", "midpoint"])
@@ -1192,7 +1201,7 @@ def test_quantile_jacobian(method, level):
 
     x = 0.3
     jac_samples = (a + 2 * b * x)[..., None]
-    estimator = Quantile(level, method)
+    estimator = Quantile(Quantile_Settings(level=level, method=method))
     step = 1e-7
     expected = (
         estimator.estimate_statistic(compute_samples(x + step))
@@ -1203,20 +1212,9 @@ def test_quantile_jacobian(method, level):
     assert_allclose(jac[:, 0], expected, atol=1e-6)
 
 
-@pytest.mark.parametrize(
-    "kwargs",
-    [{"level": 0.0}, {"level": 1.0}, {"method": "foo"}],
-    ids=["level-zero", "level-one", "unknown-method"],
-)
-def test_quantile_invalid_arguments(kwargs, snapshot):
-    """Check that a level outside ]0,1[ or an unknown method raises an error."""
-    with assert_exception(ValueError, snapshot):
-        Quantile(**kwargs)
-
-
 def test_quantile_warning(caplog):
     """Check the warning logged once when the tail has too few samples."""
-    estimator = Quantile(0.95)
+    estimator = Quantile(Quantile_Settings())
     samples = arange(20.0)[:, None]
     estimator.estimate_statistic(samples)
     estimator.estimate_statistic(samples)
@@ -1234,7 +1232,7 @@ def test_quantile_warning(caplog):
 
 def test_quantile_no_warning(caplog):
     """Check that no warning is logged when the tail has enough samples."""
-    Quantile(0.95).estimate_statistic(arange(200.0)[:, None])
+    Quantile(Quantile_Settings()).estimate_statistic(arange(200.0)[:, None])
     assert not caplog.records
 
 
@@ -1245,23 +1243,24 @@ def quantile_formulation(create_sampling) -> Sampling:
 
 
 @pytest.mark.parametrize(
-    ("kwargs", "level"),
+    ("statistic_settings", "kwargs", "level"),
     [
-        ({}, 0.95),
-        ({"level": 0.9}, 0.9),
-        ({"level": 0.1}, 0.9),
-        ({"level": 0.9, "positive": True}, 0.1),
-        ({"level": 0.1, "positive": True}, 0.1),
-        ({"level": 0.07}, 0.93),
-        ({"level": 1 - 1e-13, "positive": True}, 1e-13),
-        ({"level": float64(0.9)}, 0.9),
-        ({"level": 0.05, "constraint_type": ArrayFunction.ConstraintType.EQ}, 0.05),
+        ("Quantile", {}, 0.95),
+        (Quantile_Settings(level=0.9), {}, 0.9),
+        (Quantile_Settings(level=0.1), {}, 0.9),
+        (Quantile_Settings(level=0.9), {"positive": True}, 0.1),
+        (Quantile_Settings(level=0.1), {"positive": True}, 0.1),
+        (Quantile_Settings(level=0.07), {}, 0.93),
+        (Quantile_Settings(level=1 - 1e-13), {"positive": True}, 1e-13),
+        (Quantile_Settings(level=float64(0.9)), {}, 0.9),
         (
-            {
-                "level": 0.9,
-                "constraint_type": ArrayFunction.ConstraintType.EQ,
-                "positive": True,
-            },
+            Quantile_Settings(level=0.05),
+            {"constraint_type": ArrayFunction.ConstraintType.EQ},
+            0.05,
+        ),
+        (
+            Quantile_Settings(level=0.9),
+            {"constraint_type": ArrayFunction.ConstraintType.EQ, "positive": True},
             0.9,
         ),
     ],
@@ -1278,12 +1277,16 @@ def quantile_formulation(create_sampling) -> Sampling:
         "equality-positive",
     ],
 )
-def test_quantile_constraint_level(quantile_formulation, kwargs, level):
+def test_quantile_constraint_level(
+    quantile_formulation, statistic_settings, kwargs, level
+):
     """Check the level of a quantile inequality constraint is conservative.
 
     The level of a quantile equality constraint is used as is.
     """
-    constraint = quantile_formulation.create_constraint("c", "Quantile", **kwargs)
+    constraint = quantile_formulation.create_constraint(
+        "c", statistic_settings, **kwargs
+    )
     assert constraint.has_default_name
     assert constraint.name.endswith(f"Q[c; {level}]")
 
@@ -1294,42 +1297,22 @@ def test_quantile_constraint_level(quantile_formulation, kwargs, level):
 def test_quantile_objective_level(quantile_formulation, minimize, level):
     """Check the level of a quantile objective is conservative."""
     objective = quantile_formulation.create_objective(
-        "f", "Quantile", minimize=minimize, level=0.9
+        "f", Quantile_Settings(level=0.9), minimize=minimize
     )
     assert objective.name == f"Q[f; {level}]"
 
 
 @pytest.mark.parametrize(
-    ("method_name", "kwargs"),
+    ("statistic_settings", "name"),
     [
-        ("create_constraint", {"level": 1.2, "positive": True}),
-        ("create_constraint", {"level": 1.2}),
-        ("create_objective", {"level": 0.0}),
-        ("create_objective", {"level": 0.0, "minimize": False}),
+        ("Quantile", "Q[o; 0.95]"),
+        (Quantile_Settings(level=0.1, method="hazen"), "Q[o; 0.1, hazen]"),
     ],
-    ids=[
-        "positive-constraint",
-        "negative-constraint",
-        "minimized-objective",
-        "maximized-objective",
-    ],
-)
-def test_quantile_invalid_conservative_level(
-    quantile_formulation, method_name, kwargs, snapshot
-):
-    """Check that an invalid level is reported before its conservative update."""
-    with assert_exception(ValueError, snapshot):
-        getattr(quantile_formulation, method_name)("c", "Quantile", **kwargs)
-
-
-@pytest.mark.parametrize(
-    ("kwargs", "name"),
-    [({}, "Q[o; 0.95]"), ({"level": 0.1, "method": "hazen"}, "Q[o; 0.1, hazen]")],
     ids=["default", "custom"],
 )
-def test_quantile_observable_level(quantile_formulation, kwargs, name):
+def test_quantile_observable_level(quantile_formulation, statistic_settings, name):
     """Check the level of a quantile observable is left as is, default included."""
-    quantile_formulation.add_observable("o", "Quantile", **kwargs)
+    quantile_formulation.add_observable("o", statistic_settings)
     assert quantile_formulation.problem.observables[-1].name == name
 
 
@@ -1612,7 +1595,7 @@ def test_created_function_takes_part(create_sampling, create_function):
 
 def test_reset_iterative_probability_before_estimation():
     """Check that resetting an iterative probability before any estimation works."""
-    probability = IterativeProbability()
+    probability = IterativeProbability(Probability_Settings())
     probability.reset()
     assert_equal(probability.estimate_statistic(array([1.0])), array([1.0]))
 

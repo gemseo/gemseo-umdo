@@ -24,12 +24,13 @@ from numpy import array
 from gemseo_umdo.formulation._estimator.iterative_sampling.base_central_moment import (
     BaseCentralMoment,
 )
+from gemseo_umdo.statistic.settings import Mean_Settings
 
 if TYPE_CHECKING:
     from gemseo.util.typing import RealArray
 
 
-class Mean(BaseCentralMoment):
+class Mean(BaseCentralMoment[Mean_Settings]):
     """Iterative estimator of the expectation."""
 
     _order: ClassVar[int] = 1

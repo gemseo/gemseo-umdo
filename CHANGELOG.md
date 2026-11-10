@@ -48,10 +48,12 @@ and this project adheres to
   [Sampling][gemseo_umdo.formulation.sampling.Sampling],
   [SequentialSampling][gemseo_umdo.formulation.sequential_sampling.SequentialSampling]
   and [Surrogate][gemseo_umdo.formulation.surrogate.Surrogate]
-  support the statistic `"Quantile"`,
-  e.g. `scenario.add_constraint("c", "Quantile", level=0.95)`,
+  support the quantile,
+  e.g. `scenario.add_constraint("c", Quantile_Settings(level=0.95))`,
   with analytical derivatives for the first two;
-  its parameters are the `level` (default: 0.95)
+  the fields of
+  [Quantile_Settings][gemseo_umdo.statistic.settings.Quantile_Settings]
+  are the `level` (default: 0.95)
   and the `method` of `numpy.quantile` (default: `"linear"`);
   the `level` is replaced by `max(level, 1 - level)`
   for an objective to minimize or a negativity inequality constraint
@@ -66,6 +68,27 @@ and this project adheres to
   this statistic cannot be estimated iteratively:
   using it requires `estimate_statistics_iteratively=False`,
   otherwise a `ValueError` is raised.
+- The statistics of the U-scenarios and U-MDO formulations are set by Pydantic models:
+  [Mean_Settings][gemseo_umdo.statistic.settings.Mean_Settings],
+  [Variance_Settings][gemseo_umdo.statistic.settings.Variance_Settings],
+  [StandardDeviation_Settings][gemseo_umdo.statistic.settings.StandardDeviation_Settings],
+  [Margin_Settings][gemseo_umdo.statistic.settings.Margin_Settings],
+  [Probability_Settings][gemseo_umdo.statistic.settings.Probability_Settings]
+  and [Quantile_Settings][gemseo_umdo.statistic.settings.Quantile_Settings],
+  e.g. `scenario.add_constraint("c", Margin_Settings(factor=3.0))`;
+  the name of a statistic, e.g. `"Mean"`, can be used for its default settings.
+  A user can add a statistic `Foo`
+  by deriving `Foo_Settings` from
+  [BaseStatisticSettings][gemseo_umdo.statistic.settings.BaseStatisticSettings]
+  and implementing an estimator `Foo` for each statistic estimation technique
+  supporting it.
+- The settings of the U-MDO formulations can be imported from
+  [gemseo_umdo.formulation][gemseo_umdo.formulation],
+  e.g. `from gemseo_umdo.formulation import Sampling_Settings`,
+  the settings of the statistics from [gemseo_umdo.statistic][gemseo_umdo.statistic],
+  e.g. `from gemseo_umdo.statistic import Margin_Settings`,
+  and the U-scenarios from `gemseo_umdo.scenario`,
+  e.g. `from gemseo_umdo.scenario import UMDOScenario`.
 
 ### Changed
 
@@ -180,8 +203,9 @@ and this project adheres to
   this combination used to estimate the Jacobian of the statistics
   from the derivatives with respect to the uncertain variables
   instead of the design variables.
-- BREAKING CHANGE: the `factor` parameter of the statistic `"Margin"` (default: 2)
-  is replaced by its absolute value
+- BREAKING CHANGE: the `factor` of
+  [Margin_Settings][gemseo_umdo.statistic.settings.Margin_Settings]
+  (default: 2) is replaced by its absolute value
   for an objective to minimize or a negativity inequality constraint
   and by the opposite of its absolute value
   for an objective to maximize or a positivity inequality constraint,
@@ -192,6 +216,19 @@ and this project adheres to
   The name of the statistic always includes the factor,
   e.g. `"Margin[o; 2.0]"` for `add_observable("o", "Margin")`,
   which used to be named `"Margin[o]"`.
+- BREAKING CHANGE:
+  the methods `add_objective()`, `add_constraint()` and `add_observable()`
+  of [UMDOScenario][gemseo_umdo.scenario.mdo.UMDOScenario]
+  and [UEvaluationScenario][gemseo_umdo.scenario.evaluation.UEvaluationScenario],
+  and the methods `create_objective()`, `create_constraint()`, `add_constraint()`
+  and `add_observable()` of the U-MDO formulations,
+  take the settings of the statistic, or its name for its default settings,
+  instead of the name of the statistic and its parameters as keyword arguments,
+  e.g. `scenario.add_objective("f", Margin_Settings(factor=3.0))`
+  instead of `scenario.add_objective("f", "Margin", factor=3.0)`;
+  the argument `statistic_name` is renamed to `statistic_settings`.
+  An integer `factor` is converted to a float,
+  e.g. `"Margin[f; 3.0]"` instead of `"Margin[f; 3]"` for `factor=3`.
 - BREAKING CHANGE: the ALL_CAPS class attributes and module-level constants
   are named in lower snake case, as in GEMSEO 7:
     - `BaseNoiser.SHORT_NAME` → [short_name][gemseo_umdo.discipline.noiser.base.BaseNoiser.short_name];
@@ -236,10 +273,10 @@ and this project adheres to
   [ControlVariate][gemseo_umdo.formulation.control_variate.ControlVariate],
   [Surrogate][gemseo_umdo.formulation.surrogate.Surrogate]
   and [PCE][gemseo_umdo.formulation.pce.PCE],
-  raises a `ValueError`
-  when adding an objective, a constraint or an observable
-  whose statistic is `"Margin"` with a zero `factor` parameter,
-  as such a margin is the mean;
+  rejects a margin with a zero factor,
+  as such a margin is the mean:
+  [Margin_Settings][gemseo_umdo.statistic.settings.Margin_Settings]
+  raises a `ValueError` when `factor` is zero;
   use the statistic `"Mean"` instead.
 - BREAKING CHANGE:
   the default dispersion $\delta$ of an uncertain variable of

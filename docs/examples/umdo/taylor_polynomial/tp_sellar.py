@@ -52,8 +52,9 @@ from gemseo.space import DesignSpace
 from gemseo.space import RandomSpace
 from gemseo.uncertainty.distribution import OTTriangularDistribution_Settings
 
-from gemseo_umdo.formulation.taylor_polynomial_settings import TaylorPolynomial_Settings
-from gemseo_umdo.scenario.mdo import UMDOScenario
+from gemseo_umdo.formulation import TaylorPolynomial_Settings
+from gemseo_umdo.scenario import UMDOScenario
+from gemseo_umdo.statistic import Margin_Settings
 
 # %%
 # Firstly,
@@ -103,8 +104,8 @@ scenario.add_objective("obj", "Mean")
 # $\mathbb{E}[c_1(y_1)]+3\mathbb{S}[c_1(y_1)] \leq 0$
 # and
 # $\mathbb{E}[c_2(y_2)]+3\mathbb{S}[c_2(y_2)] \leq 0$:
-scenario.add_constraint("c1", "Margin", factor=3.0)
-scenario.add_constraint("c2", "Margin", factor=3.0)
+scenario.add_constraint("c1", Margin_Settings(factor=3.0))
+scenario.add_constraint("c2", Margin_Settings(factor=3.0))
 
 # %%
 # We execute this scenario using the gradient-free optimizer COBYLA:

@@ -27,6 +27,7 @@ from numpy.testing import assert_almost_equal
 from gemseo_umdo.formulation.sampling import Sampling
 from gemseo_umdo.formulation.sampling_settings import Sampling_Settings
 from gemseo_umdo.scenario.evaluation import UEvaluationScenario
+from gemseo_umdo.statistic import Margin_Settings
 
 
 @pytest.fixture
@@ -76,7 +77,7 @@ def test_u_evaluation_scenario_input_space(u_evaluation_scenario):
 def test_u_evaluation_scenario_observables(u_evaluation_scenario):
     """Check that a UEvaluationScenario evaluates statistics as observables."""
     u_evaluation_scenario.add_observable("o", "Mean")
-    u_evaluation_scenario.add_observable("o", "Margin", factor=2.0)
+    u_evaluation_scenario.add_observable("o", Margin_Settings(factor=2.0))
     u_evaluation_scenario.execute(
         CustomDOE_Settings(samples=array([[0.1, 0.2, 0.3], [0.4, 0.5, 0.6]]))
     )

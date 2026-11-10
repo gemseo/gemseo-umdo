@@ -28,8 +28,6 @@ from typing import TypeVar
 
 from gemseo.core.function.array_function import ArrayFunction
 from gemseo.core.problem.database import Database
-from gemseo.uncertainty.statistic.core.base import BaseStatistics
-from gemseo.util.file_path_manager import FilePathManager
 from gemseo.util.hashable_ndarray import HashableNdarray
 from gemseo.util.metaclass import ABCGoogleDocstringInheritanceMeta
 
@@ -39,6 +37,7 @@ if TYPE_CHECKING:
 
     from gemseo_umdo.formulation._estimator.base import BaseStatisticEstimator
     from gemseo_umdo.formulation.core.base import BaseUMDOFormulation
+    from gemseo_umdo.statistic.settings import BaseStatisticSettings
 
 UMDOFormulationT = TypeVar("UMDOFormulationT", bound="BaseUMDOFormulation")
 
@@ -73,8 +72,7 @@ class BaseStatisticFunction(
         umdo_formulation: UMDOFormulationT,
         output_name: str,
         function_type: ArrayFunction.FunctionType,
-        statistic_operator_name: str,
-        **statistic_options: Any,
+        statistic_settings: BaseStatisticSettings,
     ) -> None:
         """
         Args:
@@ -82,25 +80,21 @@ class BaseStatisticFunction(
                 associated with the output of interest.
             output_name: The name of the output of interest.
             function_type: The type of function.
-            statistic_operator_name: The name of the statistic operator.
-            **statistic_options: The options of the statistic.
+            statistic_settings: The settings of the statistic.
         """  # noqa: D205 D212 D415
         self._output_name = output_name
         self._output_jac_name = Database.get_gradient_name(output_name)
         self._umdo_formulation = umdo_formulation
-        self._statistic_estimator = umdo_formulation._statistic_factory.create(
-            statistic_operator_name,
-            *self._statistic_estimator_parameters,
-            **statistic_options,
+        self._statistic_estimator = (
+            umdo_formulation._statistic_factory.create_from_settings(
+                statistic_settings, *self._statistic_estimator_parameters
+            )
         )
-        # The statistic options are part of the name
-        # so that two statistics differing only in their options,
+        # The statistic settings are part of the name
+        # so that two statistics differing only in their settings,
         # e.g. two margins with different factors, have different names.
-        self._statistic_name = BaseStatistics.compute_expression(
-            output_name,
-            FilePathManager.to_snake_case(statistic_operator_name),
-            show_name=True,
-            **statistic_options,
+        self._statistic_name = statistic_settings.compute_expression(
+            output_name, show_name=True
         )
         self._statistic_jac_name = Database.get_gradient_name(self._statistic_name)
         super().__init__(

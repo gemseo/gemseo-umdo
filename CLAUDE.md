@@ -69,8 +69,14 @@ Image tests use `syrupy-matplotlib`.
 
 ## Architecture
 
-There are no lazy re-exports in the `__init__.py` files: import from the defining
-module, e.g. `from gemseo_umdo.scenario.mdo import UMDOScenario`,
+Three packages have eager public re-exports (with `__all__`), for the users:
+`gemseo_umdo.formulation` (the settings of the U-MDO formulations; it imports only
+`*_settings.py` modules, never a formulation class, to avoid import cycles),
+`gemseo_umdo.statistic` (the concrete settings of the statistics, from
+`statistic/settings.py`; `BaseStatisticSettings` is imported from that module) and
+`gemseo_umdo.scenario` (`UMDOScenario`, `UEvaluationScenario`). The docs examples
+import from them. Everywhere else, and in
+`src/`, import from the defining module, e.g.
 `from gemseo_umdo.formulation.sampling_settings import Sampling_Settings`.
 
 ### Scenarios
@@ -82,8 +88,9 @@ uncertain space) and the statistic estimation settings (a `*_Settings` of a U-MD
 formulation, passed to GEMSEO as the formulation settings); the inner MDO formulation
 is chosen with `formulation_settings` (default `MDF_Settings`).
 `add_observable` (both) and `add_objective`, `add_constraint` (`UMDOScenario` only)
-take a `statistic_name` plus
-`**statistic_parameters` (e.g. `factor` for `"Margin"`).
+take a `statistic_settings`: a `*_Settings` of a statistic (e.g.
+`Margin_Settings(factor=3.0)`) or a statistic name for its default settings (e.g.
+`"Mean"`).
 
 GEMSEO scenarios create their formulation through the class attribute
 `_formulation_factory`; `BaseUScenario.__init__` temporarily shadows it with a
@@ -116,13 +123,25 @@ Each objective/constraint/observable becomes a `BaseStatisticFunction` (an
 `ArrayFunction`, in `formulation/_function/`) wrapping a statistic estimator.
 Estimators live in `formulation/_estimator/<technique>/` (base class in `base.py`), one module per statistic
 (`mean.py`, `variance.py`, `standard_deviation.py`, `margin.py`, `probability.py`,
-`quantile.py`), discovered by the `BaseFactory` of that package: the `statistic_name`
-given by the user is the estimator **class name**, so a technique supports exactly the
-statistics its package defines (PCE and Taylor polynomial have no `Probability`, only
-the one-shot `sampling/` package has `Quantile`). An estimator exposes the classmethod
-`update_parameters`, which fills in default parameters (so that the function name
-includes them) and makes them conservative for an objective or inequality constraint
-(e.g. the `factor` of a margin, the `level` of a quantile), and `min_n_samples`.
+`quantile.py`), discovered by the `BaseFactory` of that package. A statistic is set by
+a settings model of `statistic/settings.py` deriving from
+`BaseStatisticSettings`; its `target_class_name` (`Margin` for `Margin_Settings`) is
+the estimator **class name**, and the settings are passed to the estimator
+constructor as `settings` (`BaseFactory.create_from_settings`, stored in `_settings`
+and read from there, never copied into attributes; the estimators used internally,
+e.g. the mean of a margin, get default settings). `BaseStatisticEstimator` is
+`Generic[T]` over the settings type: the technique bases stay generic, the concrete
+estimators bind it (`Margin(BaseSamplingEstimator[Margin_Settings])`), and `Variance`
+stays generic where `StandardDeviation` derives from it
+(`StandardDeviation(Variance[StandardDeviation_Settings])`). The
+formulation copies the settings of the user. So a technique supports exactly the statistics its package
+defines (PCE and Taylor polynomial have no `Probability`, only the one-shot `sampling/`
+package has `Quantile`). The settings hold the defaults and the validation;
+`make_conservative` makes them conservative for an objective or inequality constraint
+(e.g. the `factor` of a margin, the `level` of a quantile); `get_name_parameters`
+gives the fields used in the function name (those of `_name_field_names`, e.g. the
+factor of a margin, plus those set explicitly). `BaseStatisticSettings.from_name`
+resolves a string. An estimator exposes `min_n_samples`.
 
 A formulation sets `_statistic_function_class` at class level and `_statistic_factory`
 at class level or at instantiation before calling `super().__init__`. `Sampling` picks

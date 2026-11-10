@@ -41,6 +41,7 @@ if TYPE_CHECKING:
     from gemseo.util.typing import RealArray
 
     from gemseo_umdo.formulation.sampling import Sampling
+    from gemseo_umdo.statistic.settings import BaseStatisticSettings
 
 SamplingT = TypeVar("SamplingT", bound="Sampling")
 
@@ -75,15 +76,13 @@ class StatisticFunctionForSampling(BaseStatisticFunction[SamplingT]):
         umdo_formulation: SamplingT,
         output_name: str,
         function_type: ArrayFunction.FunctionType,
-        statistic_operator_name: str,
-        **statistic_options: Any,
+        statistic_settings: BaseStatisticSettings,
     ) -> None:
         super().__init__(
             umdo_formulation,
             output_name,
             function_type,
-            statistic_operator_name,
-            **statistic_options,
+            statistic_settings,
         )
         self.__iterative_estimations = None
         if umdo_formulation._estimate_statistics_iteratively:

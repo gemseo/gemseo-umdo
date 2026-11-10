@@ -19,7 +19,6 @@ from __future__ import annotations
 from functools import partial
 from types import SimpleNamespace
 from typing import TYPE_CHECKING
-from typing import Any
 from typing import ClassVar
 
 from gemseo.util.constant import read_only_empty_dict
@@ -44,6 +43,7 @@ if TYPE_CHECKING:
     from gemseo_umdo.formulation.core.base import BaseUMDOFormulation
     from gemseo_umdo.formulation.core.base_settings import BaseUMDOFormulationSettings
     from gemseo_umdo.formulation.factory import UMDOFormulationFactory
+    from gemseo_umdo.statistic.settings import BaseStatisticSettings
 
 
 class BaseUScenario:
@@ -150,23 +150,22 @@ class BaseUScenario:
     def add_observable(
         self,
         output_names: Sequence[str],
-        statistic_name: str,
+        statistic_settings: str | BaseStatisticSettings,
         observable_name: str = "",
         discipline: Discipline | None = None,
-        **statistic_parameters: Any,
     ) -> None:
         """
         Args:
-            statistic_name: The name of the statistic of `output_names`, e.g. "Margin".
-            **statistic_parameters: The parameters of the statistic,
-                e.g. `factor=2.` when `statistic_name="Margin"`.
+            statistic_settings: Either the settings of the statistic of
+                `output_names`, e.g. `Margin_Settings(factor=3.0)`,
+                or the name of the statistic to use its default settings,
+                e.g. `"Mean"`.
         """  # noqa: D205 D212 D415
         self.formulation.add_observable(
             output_names,
-            statistic_name,
+            statistic_settings,
             observable_name=observable_name,
             discipline=discipline,
-            **statistic_parameters,
         )
 
     def __repr__(self) -> str:

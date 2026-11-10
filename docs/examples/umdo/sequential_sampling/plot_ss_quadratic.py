@@ -38,10 +38,8 @@ from gemseo.space import DesignSpace
 from gemseo.space import RandomSpace
 from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 
-from gemseo_umdo.formulation.sequential_sampling_settings import (
-    SequentialSampling_Settings,
-)
-from gemseo_umdo.scenario.mdo import UMDOScenario
+from gemseo_umdo.formulation import SequentialSampling_Settings
+from gemseo_umdo.scenario import UMDOScenario
 
 # %%
 # Firstly,

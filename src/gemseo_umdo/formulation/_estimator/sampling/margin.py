@@ -18,22 +18,21 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from gemseo_umdo.formulation._estimator.base_margin import BaseMargin
 from gemseo_umdo.formulation._estimator.sampling.base import BaseSamplingEstimator
 from gemseo_umdo.formulation._estimator.sampling.mean import Mean
 from gemseo_umdo.formulation._estimator.sampling.standard_deviation import (
     StandardDeviation,
 )
+from gemseo_umdo.statistic.settings import Margin_Settings
+from gemseo_umdo.statistic.settings import Mean_Settings
+from gemseo_umdo.statistic.settings import StandardDeviation_Settings
 
 if TYPE_CHECKING:
     from gemseo.util.typing import RealArray
 
 
-class Margin(BaseMargin, BaseSamplingEstimator):
+class Margin(BaseSamplingEstimator[Margin_Settings]):
     """Estimator of a margin, i.e. mean + factor * deviation."""
-
-    __factor: float
-    """The factor related to the standard deviation."""
 
     __mean: Mean
     """The iterative estimator of the mean."""
@@ -41,15 +40,14 @@ class Margin(BaseMargin, BaseSamplingEstimator):
     __standard_deviation: StandardDeviation
     """The iterative estimator of the standard deviation."""
 
-    def __init__(self, factor: float) -> None:
+    def __init__(self, settings: Margin_Settings) -> None:
         """
         Args:
-            factor: The factor related to the standard deviation.
+            settings: The settings of the margin.
         """  # noqa: D205 D212 D415
-        super().__init__()
-        self.__mean = Mean()
-        self.__standard_deviation = StandardDeviation()
-        self.__factor = factor
+        super().__init__(settings)
+        self.__mean = Mean(Mean_Settings())
+        self.__standard_deviation = StandardDeviation(StandardDeviation_Settings())
 
     @property
     def min_n_samples(self) -> int:  # noqa: D102
@@ -58,11 +56,11 @@ class Margin(BaseMargin, BaseSamplingEstimator):
     def estimate_statistic(self, samples: RealArray) -> RealArray:
         mean = self.__mean.estimate_statistic(samples)
         standard_deviation = self.__standard_deviation.estimate_statistic(samples)
-        return mean + self.__factor * standard_deviation
+        return mean + self._settings.factor * standard_deviation
 
     def compute_jacobian(self, samples: RealArray, jac_samples: RealArray) -> RealArray:
         mean_jac = self.__mean.compute_jacobian(samples, jac_samples)
         standard_deviation_jac = self.__standard_deviation.compute_jacobian(
             samples, jac_samples
         )
-        return mean_jac + self.__factor * standard_deviation_jac
+        return mean_jac + self._settings.factor * standard_deviation_jac

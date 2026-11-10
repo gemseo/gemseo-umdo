@@ -35,8 +35,8 @@ from gemseo.space import DesignSpace
 from gemseo.space import RandomSpace
 from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 
-from gemseo_umdo.formulation.control_variate_settings import ControlVariate_Settings
-from gemseo_umdo.scenario.mdo import UMDOScenario
+from gemseo_umdo.formulation import ControlVariate_Settings
+from gemseo_umdo.scenario import UMDOScenario
 
 # %%
 # Firstly,

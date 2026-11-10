@@ -41,6 +41,10 @@ from gemseo_umdo.formulation._estimator.taylor_polynomial.variance import Varian
 from gemseo_umdo.formulation.taylor_polynomial import TaylorPolynomial
 from gemseo_umdo.formulation.taylor_polynomial_settings import TaylorPolynomial_Settings
 from gemseo_umdo.scenario.mdo import UMDOScenario
+from gemseo_umdo.statistic import Margin_Settings
+from gemseo_umdo.statistic import Mean_Settings
+from gemseo_umdo.statistic import StandardDeviation_Settings
+from gemseo_umdo.statistic import Variance_Settings
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
@@ -106,7 +110,7 @@ def scenario(disciplines, design_space, uncertain_space, request):
         formulation_settings=MDF_Settings(),
     )
     scn.add_objective("f", "Mean")
-    scn.add_constraint("c", "Margin", factor=3.0)
+    scn.add_constraint("c", Margin_Settings(factor=3.0))
     scn.add_observable("o", "Variance")
     return scn
 
@@ -153,28 +157,30 @@ def test_init_differentiation_method(umdo_formulation):
 
 def test_estimate_mean(umdo_formulation):
     """Check that E[f(x,U)] is estimated by f(x,m) + 0.5s²h(x,m)."""
-    mean = Mean(umdo_formulation.uncertain_space)
+    mean = Mean(umdo_formulation.uncertain_space, Mean_Settings())
     mean_estimation = mean.estimate_statistic(func, jac, hess)
     assert_equal(mean_estimation, array([115.0, -112.0]))
 
 
 def test_estimate_variance(umdo_formulation):
     """Check that V[f(x,U)] is estimated by (sj(x,m))²."""
-    variance = Variance(umdo_formulation.uncertain_space)
+    variance = Variance(umdo_formulation.uncertain_space, Variance_Settings())
     var_estimation = variance.estimate_statistic(func, jac, hess)
     assert_equal(var_estimation, array([98.0, 440.0]))
 
 
 def test_estimate_standard_derivation(umdo_formulation):
     """Check that V[f(x,u)] = S[f(x,U)]²."""
-    standard_deviation = StandardDeviation(umdo_formulation.uncertain_space)
+    standard_deviation = StandardDeviation(
+        umdo_formulation.uncertain_space, StandardDeviation_Settings()
+    )
     std_estimation = standard_deviation.estimate_statistic(func, jac, hess)
     assert_equal(std_estimation, array([98.0, 440.0]) ** 0.5)
 
 
 def test_estimate_margin(umdo_formulation):
     """Check that Margin[f(x,u);k] = E[f(x,U)] + kS[f(x,U)]."""
-    margin = Margin(umdo_formulation.uncertain_space, factor=3.0)
+    margin = Margin(umdo_formulation.uncertain_space, Margin_Settings(factor=3.0))
     margin_estimation = margin.estimate_statistic(func, jac, hess)
     assert_equal(
         margin_estimation, array([115.0, -112.0]) + 3.0 * array([98.0, 440.0]) ** 0.5
