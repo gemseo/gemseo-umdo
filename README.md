@@ -71,6 +71,12 @@ to submit bugs or questions.
 ## Contributing
 
 See the [contributing guide of GEMSEO](https://gemseo.org/contribute/contributing/).
+<<<<<<< before updating
+=======
+
+Build and serve the documentation with `just doc`, which first runs `docs-tools prebuild` to generate the files that Zensical needs.
+Use `just doc --no-gallery` to skip running the examples.
+>>>>>>> after updating
 
 ## Contributors
 

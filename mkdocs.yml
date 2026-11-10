@@ -6,35 +6,63 @@ site_url: https://gemseo.gitlab.io/dev/gemseo-umdo
 repo_url: https://gitlab.com/gemseo/dev/gemseo-umdo
 repo_name: gemseo-umdo
 
+# Single-quoted: the answers are free text, which YAML could read as a comment,
+# a mapping, a boolean or null.
+copyright: 'Copyright &copy; GEMSEO developers'
+
 theme:
   name: material
   # Keep the look of Material for MkDocs.
   variant: classic
+<<<<<<< before updating
   favicon: images/monogram.png
+=======
+  custom_dir: overrides
+  favicon: assets/images/gemseo/small_monogram.png
+  icon:
+    # The repository link of the navigation drawer.
+    repo: fontawesome/brands/gitlab
+  # Shown as "<logo> / <extra.logo_suffix>" in the header (see overrides/partials/header.html).
+  logo: assets/images/gemseo/gemseo_logo_transparent.svg
+>>>>>>> after updating
   features:
     - navigation.tabs
+    - navigation.tabs.sticky
     - navigation.instant
     - navigation.indexes
+<<<<<<< before updating
+=======
+    - navigation.path
+>>>>>>> after updating
   palette:
-    - scheme: default
-      primary: teal
+    - media: "(prefers-color-scheme)"
+      # Only for the first paint: avoids an indigo header flash before the palette script runs.
+      primary: white
       toggle:
-        icon: material/lightbulb-outline
-        name: Switch to dark mode
-    - scheme: slate
-      primary: teal
-      toggle:
-        icon: material/lightbulb
+        icon: material/brightness-auto
         name: Switch to light mode
-  icon:
-    repo: fontawesome/brands/gitlab
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: white
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: black
+      toggle:
+        icon: material/brightness-4
+        name: Switch to system preference
 
 plugins:
   search: {}
   autorefs: {}
+<<<<<<< before updating
   # Render the tree fences.
   markdown-exec:
     languages: [tree]
+=======
+>>>>>>> after updating
   api-autonav:
     modules: [src/gemseo_umdo]
     nav_section_title: API documentation
@@ -93,7 +121,10 @@ markdown_extensions:
 - footnotes
 - toc:
     permalink: true
-- pymdownx.snippets
+# Fail the build when an included file is missing,
+# e.g. _docs/credits.md when docs-tools prebuild did not run.
+- pymdownx.snippets:
+    check_paths: true
 - pymdownx.emoji:
     emoji_index: !!python/name:zensical.extensions.emoji.twemoji
     emoji_generator: !!python/name:zensical.extensions.emoji.to_svg
@@ -102,16 +133,28 @@ markdown_extensions:
     bib_file: docs/references.bib
 
 extra_css:
+<<<<<<< before updating
   - css/fontello.css
   - css/xdsmjs.css
   # The stylesheets of mkdocs-gallery and docs-tools, copied by docs-tools prebuild.
+=======
+  # The stylesheets of mkdocs-gallery and docs-tools, copied by docs-tools prebuild;
+  # gallery.css lays out the thumbnails of the gallery index pages.
+>>>>>>> after updating
   - css/gallery/sg_gallery.css
   - css/gallery/sg_gallery-binder.css
   - css/gallery/sg_gallery-dataframe.css
   - css/gallery/sg_gallery-rendered-html.css
   - css/gallery/gallery.css
+<<<<<<< before updating
+=======
+  - assets/css/style.css
+  - assets/css/header.css
+  - assets/css/footer.css
+>>>>>>> after updating
 
 extra_javascript:
+- assets/js/version-selector.js
 - javascripts/mathjax.js
 - javascripts/xdsmjs.js
 - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
@@ -122,5 +165,39 @@ watch:
   - CHANGELOG.md
 
 extra:
+  # Name shown in the header logo bar (see overrides/partials/header.html).
+  logo_suffix: 'umdo'
   version:
     provider: mike
+  social:
+    - icon: fontawesome/brands/gitlab
+      link: https://gitlab.com/gemseo/dev/gemseo-umdo
+      name: gemseo-umdo on GitLab
+    - icon: simple/pypi
+      link: https://pypi.org/project/gemseo-umdo/
+      name: gemseo-umdo on PyPI
+    - icon: fontawesome/brands/discourse
+      link: https://gemseo.discourse.group/
+      name: GEMSEO on Discourse
+  # The footer link columns rendered by overrides/partials/footer.html.
+  # Each column has an optional `title` (heading shown above the column)
+  # and `links`, each link having a `title` and EXACTLY ONE of:
+  #   href    external absolute URL (opens in a new tab)
+  #   page    site-relative page path (resolved via the `url` filter)
+  #   mailto  email address (rendered as a mailto: link)
+  footer:
+    columns:
+      - links:
+          - { title: Overview, page: "" }
+          - { title: Changelog, page: changelog/ }
+          - { title: Licenses, page: licenses/ }
+          - { title: Credits, page: credits/ }
+      - links:
+          - { title: Source code, href: "https://gitlab.com/gemseo/dev/gemseo-umdo" }
+          - { title: Issue tracker, href: "https://gitlab.com/gemseo/dev/gemseo-umdo/-/issues" }
+          - { title: PyPI, href: "https://pypi.org/project/gemseo-umdo/" }
+      - links:
+          - { title: GEMSEO, href: https://gemseo.org/ }
+          - { title: Plugins, href: https://gemseo.org/plugins/catalog/ }
+          - { title: Discussion forum, href: https://gemseo.discourse.group/ }
+          - { title: Contact us, mailto: "contact@gemseo.org" }
