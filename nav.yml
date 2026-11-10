@@ -1,10 +1,7 @@
 # The navigation of the documentation.
-<<<<<<< before updating
-=======
 # Every page written in docs must be listed here:
 # a page left out is built but not linked from the navigation,
 # and the build reports neither an error nor a warning about it.
->>>>>>> after updating
 # docs-tools prebuild expands the gallery directories it references
 # and writes the result into _docs/generated.yml, inherited by mkdocs.yml.
 # The api-autonav plugin fills the "API documentation" entry with the API pages.
@@ -16,7 +13,6 @@ nav:
   - Licenses: licenses.md
 - User guide:
   - User guide: user_guide/index.md
-<<<<<<< before updating
   - MDO under uncertainty:
     - MDO under uncertainty: user_guide/umdo/index.md
     - Sampling: user_guide/umdo/sampling.md
@@ -39,10 +35,3 @@ nav:
 - API documentation
 - Developer guide:
   - U-MDO: developer_guide/umdo.md
-=======
-# A gallery is a directory of docs/examples including a README.md,
-# it is referenced by its generated directory, e.g.
-# - Examples:
-#   - <Gallery title>: generated/examples/<gallery>
-- API documentation
->>>>>>> after updating

@@ -14,9 +14,6 @@ theme:
   name: material
   # Keep the look of Material for MkDocs.
   variant: classic
-<<<<<<< before updating
-  favicon: images/monogram.png
-=======
   custom_dir: overrides
   favicon: assets/images/gemseo/small_monogram.png
   icon:
@@ -24,16 +21,12 @@ theme:
     repo: fontawesome/brands/gitlab
   # Shown as "<logo> / <extra.logo_suffix>" in the header (see overrides/partials/header.html).
   logo: assets/images/gemseo/gemseo_logo_transparent.svg
->>>>>>> after updating
   features:
     - navigation.tabs
     - navigation.tabs.sticky
     - navigation.instant
     - navigation.indexes
-<<<<<<< before updating
-=======
     - navigation.path
->>>>>>> after updating
   palette:
     - media: "(prefers-color-scheme)"
       # Only for the first paint: avoids an indigo header flash before the palette script runs.
@@ -57,12 +50,9 @@ theme:
 plugins:
   search: {}
   autorefs: {}
-<<<<<<< before updating
   # Render the tree fences.
   markdown-exec:
     languages: [tree]
-=======
->>>>>>> after updating
   api-autonav:
     modules: [src/gemseo_umdo]
     nav_section_title: API documentation
@@ -133,25 +123,18 @@ markdown_extensions:
     bib_file: docs/references.bib
 
 extra_css:
-<<<<<<< before updating
   - css/fontello.css
   - css/xdsmjs.css
-  # The stylesheets of mkdocs-gallery and docs-tools, copied by docs-tools prebuild.
-=======
   # The stylesheets of mkdocs-gallery and docs-tools, copied by docs-tools prebuild;
   # gallery.css lays out the thumbnails of the gallery index pages.
->>>>>>> after updating
   - css/gallery/sg_gallery.css
   - css/gallery/sg_gallery-binder.css
   - css/gallery/sg_gallery-dataframe.css
   - css/gallery/sg_gallery-rendered-html.css
   - css/gallery/gallery.css
-<<<<<<< before updating
-=======
   - assets/css/style.css
   - assets/css/header.css
   - assets/css/footer.css
->>>>>>> after updating
 
 extra_javascript:
 - assets/js/version-selector.js

@@ -59,7 +59,9 @@ then the U-MDO formulation will use [seed][gemseo.util.seeder.seed].
     e.g.
 
     ``` py
-    settings = SequentialSampling_Settings(doe_algo_settings=OT_MONTE_CARLO_Settings(n_samples=20, n_processes=2))
+    settings = SequentialSampling_Settings(
+        doe_algo_settings=OT_MONTE_CARLO_Settings(n_samples=20, n_processes=2)
+    )
     scenario = UMDOScenario(
         disciplines,
         design_space,

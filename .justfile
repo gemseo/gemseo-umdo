@@ -8,16 +8,11 @@ set shell := ["powershell.exe", "-NoLogo", "-Command"]
 # override it with UV_PYTHON.
 
 # Recursive invocations shall use the very same just binary and justfile.
-<<<<<<< before updating
-# PowerShell, the windows-shell, needs its call operator to run a quoted path.
-just := (if os_family() == "windows" { "& " } else { "" }) + quote(just_executable()) + ' --justfile ' + quote(justfile())
-=======
 # PowerShell, the shell under Windows, needs its call operator to run a quoted path.
 just := (if os_family() == "windows" { "& " } else { "" }) + quote(just_executable()) + ' --justfile ' + quote(justfile())
 
 # The temporary files and directories removed by the clean recipe.
 clean_paths := ".venv .pytest_cache .mypy_cache .ruff_cache .coverage coverage.xml htmlcov diff-cover.html dist site _docs docs/css/gallery docs/generated/examples"
->>>>>>> after updating
 
 [private]
 default:
@@ -56,10 +51,7 @@ check *args: install-hooks
 
 # Generate the documentation files that Zensical cannot generate itself (gallery, nav, ...), `--no-gallery` skips the examples
 [arg("gallery", long="no-gallery", value="--no-gallery")]
-<<<<<<< before updating
-=======
 [env("DOCSTRING_INHERITANCE_ENABLE", "1")]
->>>>>>> after updating
 [group('doc')]
 doc-prebuild gallery="":
     uv run --group doc docs-tools prebuild {{ gallery }}
@@ -97,22 +89,14 @@ install *args:
 [group('lifecycle')]
 [unix]
 clean:
-<<<<<<< before updating
-    rm -rf .venv .pytest_cache .mypy_cache .ruff_cache .coverage coverage.xml htmlcov diff-cover.html dist site _docs
-=======
     rm -rf {{ clean_paths }}
->>>>>>> after updating
     find . -type d -name __pycache__ -prune -exec rm -rf {} +
 
 # Remove the temporary files
 [group('lifecycle')]
 [windows]
 clean:
-<<<<<<< before updating
-    Remove-Item -Recurse -Force -ErrorAction Ignore .venv, .pytest_cache, .mypy_cache, .ruff_cache, .coverage, coverage.xml, htmlcov, diff-cover.html, dist, site, _docs
-=======
     Remove-Item -Recurse -Force -ErrorAction Ignore {{ replace(clean_paths, ' ', ', ') }}
->>>>>>> after updating
     Get-ChildItem -Recurse -Directory -Filter __pycache__ | Remove-Item -Recurse -Force -ErrorAction Ignore
 
 # Recreate the project virtualenv from scratch

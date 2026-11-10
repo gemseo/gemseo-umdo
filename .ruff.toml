@@ -153,7 +153,6 @@ runtime-evaluated-base-classes = [
     "gemseo.uncertainty.reliability.openturns.form_settings.OT_FORM_Settings",
     "gemseo.util.pydantic.BaseModel",
     "gemseo.space.variable.base.BaseVariable",
-<<<<<<< before updating
     "pydantic_settings.BaseSettings",
     "gemseo.optimization.core.base_milp_settings.BaseMILPSettings",
     "gemseo.optimization.core.base_gradient_based_algorithm_settings.BaseGradientBasedAlgorithmSettings",
@@ -166,11 +165,9 @@ runtime-evaluated-base-classes = [
     "gemseo_umdo.formulation.control_variate_settings.ControlVariate_Settings",
     "gemseo_umdo.formulation.core.base_surrogate_settings.BaseSurrogate_Settings",
     "gemseo_umdo.formulation.surrogate_settings.Surrogate_Settings",
-=======
     "gemseo.space.variable.numeric.BaseNumericVariable",
     "gemseo.space.variable.deterministic.BaseDeterministicVariable",
     "gemseo.space.variable.interval.BaseIntervalVariable",
->>>>>>> after updating
 ]
 
 [lint.isort]

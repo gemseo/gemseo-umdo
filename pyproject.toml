@@ -51,21 +51,14 @@ doc = [
     "mike",
     # The citations and the command docs-tools prebuild.
     "docs-tools",
-<<<<<<< before updating
-    # The tree fences, used as a Python-Markdown custom fence, not as a plugin.
-    "markdown-exec",
-    "mkdocs-api-autonav",
-    "mkdocstrings[python]",
-    "mkdocs-autorefs",
-    "zensical",
-=======
     # mkdocstrings and mkdocs-autorefs do not support MkDocs 2.
     "mkdocs <2",
     "mkdocstrings[python]",
     "mkdocs-autorefs",
+    # The tree fences, used as a Python-Markdown custom fence, not as a plugin.
+    "markdown-exec",
     # Zensical 0.1.0 implements the api-autonav plugin itself.
     "zensical >=0.1.0",
->>>>>>> after updating
 ]
 check = [
     "prek",

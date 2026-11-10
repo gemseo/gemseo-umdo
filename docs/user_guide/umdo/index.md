@@ -513,18 +513,21 @@ can take them into account.
 
 
     class MyDiscipline(Discipline):
-
         def __init__(self):
             super().__init__()
             self.input_grammar.update_from_names(["x1", "x2", "U"])
             self.output_grammar.update_from_names(["y"])
-            self.default_input_data = {"x1": array([0.]), "x2": array([0.]), "U": array([0.5])}
+            self.default_input_data = {
+                "x1": array([0.0]),
+                "x2": array([0.0]),
+                "U": array([0.5]),
+            }
 
         def _run(self, input_data):
             x1 = input_data["x1"]
             x2 = input_data["x2"]
             U = input_data["U"]
-            return {"y": (x1+U)**2 + (x2+U)**2}
+            return {"y": (x1 + U) ** 2 + (x2 + U) ** 2}
     ```
 
     This discipline can be executed
@@ -621,8 +624,8 @@ with a U-MDO formulation and declare these statistics as observables.
     from gemseo_umdo.scenario.mdo import UMDOScenario
 
     design_space = DesignSpace()
-    design_space.add_variable("x1", lower_bound=-1., upper_bound=1.)
-    design_space.add_variable("x2", lower_bound=-1., upper_bound=1.)
+    design_space.add_variable("x1", lower_bound=-1.0, upper_bound=1.0)
+    design_space.add_variable("x2", lower_bound=-1.0, upper_bound=1.0)
 
     scenario = UMDOScenario(
         [discipline],
