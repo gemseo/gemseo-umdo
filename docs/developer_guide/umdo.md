@@ -190,9 +190,10 @@ classDiagram
    ArrayFunction <|-- BaseStatisticFunction
    BaseStatisticFunction <|-- StatisticFunctionForSampling
    Sampling "1" --> "n" StatisticFunctionForSampling
-   StatisticFunctionForSampling *-- BaseSamplingEstimator
-   BaseStatisticEstimator <|-- BaseSamplingEstimator
-   BaseSamplingEstimator <|-- Mean
+   StatisticFunctionForSampling *-- BaseIterativeSamplingEstimator
+   BaseStatisticEstimator <|-- BaseIterativeSamplingEstimator
+   BaseIterativeSamplingEstimator <|-- BaseCentralMoment
+   BaseCentralMoment <|-- Mean
 
    BaseUMDOFormulation *-- BaseUMDOFormulationSettings
    BaseFormulationSettings <|-- BaseUMDOFormulationSettings
@@ -203,13 +204,15 @@ classDiagram
    <<abstract>> BaseUMDOFormulation
    <<abstract>> BaseStatisticFunction
    <<abstract>> BaseStatisticEstimator
-   <<abstract>> BaseSamplingEstimator
+   <<abstract>> BaseIterativeSamplingEstimator
+   <<abstract>> BaseCentralMoment
    <<abstract>> BaseNoiser
 
    namespace Example {
     class Sampling
     class StatisticFunctionForSampling
-    class BaseSamplingEstimator
+    class BaseIterativeSamplingEstimator
+    class BaseCentralMoment
     class Mean
    }
 

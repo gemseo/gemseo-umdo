@@ -135,6 +135,7 @@ and this project adheres to
     - `gemseo_umdo.visualizations` → [gemseo_umdo.visualization][gemseo_umdo.visualization].
   The objects pickled with a previous version cannot be loaded,
   as their classes are stored with the old module paths.
+  The loggers are named after the new module paths.
 - BREAKING CHANGE:
   using a statistic that a U-MDO formulation does not support
   raises a `ValueError` listing the available statistics
@@ -407,7 +408,7 @@ and this project adheres to
   it may be preferable to use this function directly rather than through this argument,
   as illustrated in an example of the documentation.
 - The argument `n_samples_increment` of
-  the [SequentialSampling][gemseo_umdo.formulation.sampling.Sampling] U-MDO formulation
+  the [SequentialSampling][gemseo_umdo.formulation.sequential_sampling.SequentialSampling] U-MDO formulation
   can be either the increment of the sampling size
   or a function computing this increment from the current sampling size.
 - The U-MDO formulations [Surrogate][gemseo_umdo.formulation.surrogate.Surrogate]
@@ -447,7 +448,7 @@ and this project adheres to
   is the Pydantic model for the [Sampling][gemseo_umdo.formulation.sampling.Sampling] U-MDO formulation.
 - The U-MDO formulations
   [Sampling][gemseo_umdo.formulation.sampling.Sampling],
-  [SequentialSampling][gemseo_umdo.formulation.sampling.Sampling]
+  [SequentialSampling][gemseo_umdo.formulation.sequential_sampling.SequentialSampling]
   and [PCE][gemseo_umdo.formulation.pce.PCE]
   are differentiable,
   so that gradient-based optimizer can be used
