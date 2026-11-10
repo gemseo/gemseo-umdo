@@ -9,7 +9,7 @@
 
 # Control variate
 
-[ControlVariate][gemseo_umdo.formulations.control_variate.ControlVariate]
+[ControlVariate][gemseo_umdo.formulation.control_variate.ControlVariate]
 is a U-MDO formulation that estimates the statistics
 using control variates based on either first-order Taylor polynomials (default) or regression models,
 a.k.a. surrogate models.

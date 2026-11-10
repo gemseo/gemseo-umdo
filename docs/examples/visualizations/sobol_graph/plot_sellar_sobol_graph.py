@@ -23,7 +23,7 @@ from gemseo.problem.mdo.sellar import SellarDesignSpace
 from gemseo.problem.mdo.sellar import SellarSystem
 from gemseo.uncertainty.sensitivity import SobolAnalysis
 
-from gemseo_umdo.visualizations.sobol_graph import SobolGraph
+from gemseo_umdo.visualization.sobol_graph import SobolGraph
 
 # %%
 # First,

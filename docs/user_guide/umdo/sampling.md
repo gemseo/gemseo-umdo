@@ -9,7 +9,7 @@
 
 # Sampling
 
-[Sampling][gemseo_umdo.formulations.sampling.Sampling]
+[Sampling][gemseo_umdo.formulation.sampling.Sampling]
 is a U-MDO formulation that estimates the statistics unbiasedly
 using Monte Carlo sampling.
 

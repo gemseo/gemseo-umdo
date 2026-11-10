@@ -9,10 +9,10 @@
 
 # Sequential sampling
 
-[SequentialSampling][gemseo_umdo.formulations.sequential_sampling.SequentialSampling]
+[SequentialSampling][gemseo_umdo.formulation.sequential_sampling.SequentialSampling]
 is a U-MDO formulation that estimates the statistics unbiasedly
 by using Monte Carlo sampling.
-Contrary to [Sampling][gemseo_umdo.formulations.sampling.Sampling],
+Contrary to [Sampling][gemseo_umdo.formulation.sampling.Sampling],
 this U-MDO formulation does not use a constant sample size
 but a sample size that increases with the iterations of the optimization loop.
 

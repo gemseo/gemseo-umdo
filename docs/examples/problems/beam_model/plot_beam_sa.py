@@ -17,7 +17,7 @@ r"""# Sobol' sensitivity analysis.
 
 Compute and plot the total Sobol' indices for the field constraints $c_{\text{stress}}$
 and $c_{\text{displacement}}$ where $F$, $E$ and $\sigma_{\text{all}}$ are random
-variables defined by `BeamUncertainSpace`.
+variables defined by `BeamRandomSpace`.
 """
 
 from __future__ import annotations
@@ -25,11 +25,11 @@ from __future__ import annotations
 from gemseo.discipline import DisciplineChain
 from gemseo.uncertainty.sensitivity import SobolAnalysis
 
-from gemseo_umdo.use_cases.beam_model.constraints import BeamConstraints
-from gemseo_umdo.use_cases.beam_model.discipline import Beam
-from gemseo_umdo.use_cases.beam_model.uncertain_space import BeamUncertainSpace
+from gemseo_umdo.problem.beam_model.constraints import BeamConstraints
+from gemseo_umdo.problem.beam_model.discipline import Beam
+from gemseo_umdo.problem.beam_model.random_space import BeamRandomSpace
 
-uncertain_space = BeamUncertainSpace()
+uncertain_space = BeamRandomSpace()
 
 n_y = n_z = 10
 

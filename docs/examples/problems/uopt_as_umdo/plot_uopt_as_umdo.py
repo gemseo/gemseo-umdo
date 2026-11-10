@@ -18,7 +18,7 @@ r"""
 
 ## Introduction
 
-[UOptAsUMDOScenario][gemseo_umdo.problems.uopt_as_umdo_scenario.UOptAsUMDOScenario]
+[UOptAsUMDOScenario][gemseo_umdo.problem.uopt_as_umdo_scenario.UOptAsUMDOScenario]
 is a class to make a monodisciplinary optimization problem under uncertainty
 multidisciplinary[@AzizAlaoui2025].
 The only requirement is that
@@ -52,9 +52,9 @@ from gemseo.space import RandomSpace
 from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 from numpy import array
 
-from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
-from gemseo_umdo.problems.uopt_as_umdo_scenario import UOptAsUMDOScenario
-from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
+from gemseo_umdo.formulation.sampling_settings import Sampling_Settings
+from gemseo_umdo.problem.uopt_as_umdo_scenario import UOptAsUMDOScenario
+from gemseo_umdo.scenario.mdo import UMDOScenario
 
 # %%
 # ## Discipline and spaces
@@ -103,7 +103,7 @@ u_opt_scenario.execute(NLOPT_SLSQP_Settings(max_iter=100))
 # ## MDO problem under uncertainty
 # Now,
 # we use the
-# [UOptAsUMDOScenario][gemseo_umdo.problems.uopt_as_umdo_scenario.UOptAsUMDOScenario]
+# [UOptAsUMDOScenario][gemseo_umdo.problem.uopt_as_umdo_scenario.UOptAsUMDOScenario]
 # to rewrite this optimization problem under uncertainty
 # as an MDO problem under uncertainty with two strongly coupled disciplines.
 #
@@ -112,7 +112,7 @@ u_opt_scenario.execute(NLOPT_SLSQP_Settings(max_iter=100))
 design_space.set_current_value(initial_point)
 # %%
 # and create the
-# [UOptAsUMDOScenario][gemseo_umdo.problems.uopt_as_umdo_scenario.UOptAsUMDOScenario],
+# [UOptAsUMDOScenario][gemseo_umdo.problem.uopt_as_umdo_scenario.UOptAsUMDOScenario],
 # orchestrated by an MDF formulation:
 umdo_scenario = UOptAsUMDOScenario(
     discipline,
