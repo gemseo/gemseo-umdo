@@ -44,8 +44,8 @@ from matplotlib import pyplot as plt
 from matplotlib.pyplot import colormaps
 from numpy import array
 
-from gemseo_umdo.formulations.sampling_settings import Sampling_Settings
-from gemseo_umdo.scenarios.umdo_scenario import UMDOScenario
+from gemseo_umdo.formulation.sampling_settings import Sampling_Settings
+from gemseo_umdo.scenario.mdo import UMDOScenario
 
 # %%
 # ## Discipline and design space

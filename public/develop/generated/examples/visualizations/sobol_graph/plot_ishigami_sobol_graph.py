@@ -16,7 +16,7 @@
 r"""# Sobol' graph for the Ishigami use case.
 
 This example illustrates
-the concept of [SobolGraph][gemseo_umdo.visualizations.sobol_graph.SobolGraph]
+the concept of [SobolGraph][gemseo_umdo.visualization.sobol_graph.SobolGraph]
 in the case of the Ishigami problem:
 
 $$f(X_1,X_2,X_3) = \sin(X_1)+ 7\sin(X_2)^2 + 0.1X_3^4\sin(X_1)$$
@@ -25,7 +25,7 @@ where $X_1$, $X_2$ and $X_3$ are independent random variables
 uniformly distributed over the interval $[-\pi,\pi]$.
 
 We are going to represent the Sobol' indices of $f$
-using a [SobolGraph][gemseo_umdo.visualizations.sobol_graph.SobolGraph].
+using a [SobolGraph][gemseo_umdo.visualization.sobol_graph.SobolGraph].
 """
 
 from __future__ import annotations
@@ -47,7 +47,7 @@ from gemseo.problem.uncertainty.ishigami.statistics import total_sobol_2
 from gemseo.problem.uncertainty.ishigami.statistics import total_sobol_3
 from gemseo.uncertainty.sensitivity import SobolAnalysis
 
-from gemseo_umdo.visualizations.sobol_graph import SobolGraph
+from gemseo_umdo.visualization.sobol_graph import SobolGraph
 
 # %%
 # ## Analytical Sobol' indices
@@ -76,7 +76,7 @@ sobol_graph
 # while an edge represents a second-order index.
 #
 # !!! note
-#     A [SobolGraph][gemseo_umdo.visualizations.sobol_graph.SobolGraph]
+#     A [SobolGraph][gemseo_umdo.visualization.sobol_graph.SobolGraph]
 #     can easily be displayed in an HTML page or in a Jupyter notebook.
 #     You can also use its `visualize` method
 #     to save it on the disk or display it with a dedicated program.
