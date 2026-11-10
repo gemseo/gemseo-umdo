@@ -18,7 +18,6 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from gemseo_umdo.formulation._estimator.base_margin import BaseMargin
 from gemseo_umdo.formulation._estimator.taylor_polynomial.base import (
     BaseTaylorPolynomialEstimator,
 )
@@ -26,17 +25,17 @@ from gemseo_umdo.formulation._estimator.taylor_polynomial.mean import Mean
 from gemseo_umdo.formulation._estimator.taylor_polynomial.standard_deviation import (
     StandardDeviation,
 )
+from gemseo_umdo.statistic.settings import Margin_Settings
+from gemseo_umdo.statistic.settings import Mean_Settings
+from gemseo_umdo.statistic.settings import StandardDeviation_Settings
 
 if TYPE_CHECKING:
     from gemseo.space import RandomSpace
     from gemseo.util.typing import RealArray
 
 
-class Margin(BaseMargin, BaseTaylorPolynomialEstimator):
+class Margin(BaseTaylorPolynomialEstimator[Margin_Settings]):
     """Estimator of a margin, i.e. mean + factor * deviation."""
-
-    __factor: float
-    """The factor related to the standard deviation."""
 
     __mean: Mean
     """The iterative estimator of the mean."""
@@ -47,20 +46,21 @@ class Margin(BaseMargin, BaseTaylorPolynomialEstimator):
     def __init__(
         self,
         uncertain_space: RandomSpace,
-        factor: float,
+        settings: Margin_Settings,
     ) -> None:
         """
         Args:
-            factor: The factor related to the standard deviation.
+            settings: The settings of the margin.
         """  # noqa: D205 D212 D415
-        super().__init__(uncertain_space)
-        self.__mean = Mean(uncertain_space)
-        self.__standard_deviation = StandardDeviation(uncertain_space)
-        self.__factor = factor
+        super().__init__(uncertain_space, settings)
+        self.__mean = Mean(uncertain_space, Mean_Settings())
+        self.__standard_deviation = StandardDeviation(
+            uncertain_space, StandardDeviation_Settings()
+        )
 
     def estimate_statistic(  # noqa: D102
         self, func: RealArray, jac: RealArray, hess: RealArray
     ) -> RealArray:
         mean = self.__mean.estimate_statistic(func, jac, hess)
         std = self.__standard_deviation.estimate_statistic(func, jac, hess)
-        return mean + self.__factor * std
+        return mean + self._settings.factor * std

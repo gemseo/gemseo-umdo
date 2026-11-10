@@ -18,8 +18,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from gemseo_umdo.formulation._estimator.base_margin import BaseMargin
 from gemseo_umdo.formulation._estimator.pce.base import BasePCEEstimator
+from gemseo_umdo.statistic.settings import Margin_Settings
 
 if TYPE_CHECKING:
     from typing import ClassVar
@@ -27,7 +27,7 @@ if TYPE_CHECKING:
     from gemseo.util.typing import RealArray
 
 
-class Margin(BaseMargin, BasePCEEstimator):
+class Margin(BasePCEEstimator[Margin_Settings]):
     """Estimator of a margin, i.e. mean + factor * deviation."""
 
     arg_names: ClassVar[tuple[str, ...]] = (
@@ -35,22 +35,12 @@ class Margin(BaseMargin, BasePCEEstimator):
         BasePCEEstimator.std_arg_name,
     )
 
-    __factor: float
-    """The factor related to the standard deviation."""
-
-    def __init__(self, factor: float) -> None:
-        """
-        Args:
-            factor: The factor related to the standard deviation.
-        """  # noqa: D205 D212 D415
-        self.__factor = factor
-
     def estimate_statistic(
         self, mean: RealArray, standard_deviation: RealArray
     ) -> RealArray:
-        return mean + self.__factor * standard_deviation
+        return mean + self._settings.factor * standard_deviation
 
     def compute_jacobian(
         self, mean_jac: RealArray, standard_deviation_jac: RealArray
     ) -> RealArray:
-        return mean_jac + self.__factor * standard_deviation_jac
+        return mean_jac + self._settings.factor * standard_deviation_jac

@@ -122,12 +122,15 @@ adding a new U-MDO formulation `Foo` implies to
 - subclass `BaseUMDOFormulationSettings` to `Foo_Settings`
   (the naming convention `Foo_Settings` binds the settings to `Foo`),
 - subclass `BaseStatisticFunction` to `StatisticFunctionForFoo`,
-- subclass `BaseStatisticEstimator` to `BaseFooEstimator`,
-- subclass `BaseFooEstimator` to `Mean`, `Variance`, etc.;
-  an estimator whose parameters depend on the use of the statistic
-  overrides the class method `update_parameters`,
-  e.g. `Margin` derives from the mixin `BaseMargin`
-  to make its factor conservative for an objective or a constraint,
+- subclass `BaseStatisticEstimator[T]` to `BaseFooEstimator[T]`,
+  generic in the type `T` of the settings of the statistic,
+- subclass `BaseFooEstimator` to `Mean`, `Variance`, etc.,
+  e.g. `class Margin(BaseFooEstimator[Margin_Settings])`,
+  whose constructors take the settings of the statistic as argument `settings`,
+  stored in `_settings`
+  (the settings of the statistics are defined in `statistic_settings.py`;
+  their `make_conservative` method makes them conservative
+  for an objective or a constraint),
 - set `Foo._statistic_function_class` to `StatisticFunctionForFoo` at class level
   and `Foo._statistic_factory` to a factory of the `BaseFooEstimator` subclasses
   at class level,

@@ -57,6 +57,10 @@ from gemseo_umdo.formulation._estimator.pce.variance import Variance
 from gemseo_umdo.formulation.pce import PCE
 from gemseo_umdo.formulation.pce_settings import PCE_Settings
 from gemseo_umdo.scenario.mdo import UMDOScenario
+from gemseo_umdo.statistic import Margin_Settings
+from gemseo_umdo.statistic import Mean_Settings
+from gemseo_umdo.statistic import StandardDeviation_Settings
+from gemseo_umdo.statistic import Variance_Settings
 
 if TYPE_CHECKING:
     from gemseo.core.function.collection.observables import Observables
@@ -113,7 +117,7 @@ def umdo_formulation(pce_regressor, ishigami_problem, doe_settings):
     formulation.problem.objective = formulation.create_objective("y", "Mean")
     formulation.add_constraint("y", "StandardDeviation")
     formulation.add_observable("y", "Variance")
-    formulation.add_observable("y", "Margin", factor=3)
+    formulation.add_observable("y", Margin_Settings(factor=3))
     return formulation
 
 
@@ -137,26 +141,28 @@ def variance() -> NumberArray:
 
 def test_mean(mean):
     """Check the PCE-based estimator of the mean."""
-    assert_equal(Mean().estimate_statistic(mean), mean)
+    assert_equal(Mean(Mean_Settings()).estimate_statistic(mean), mean)
 
 
 def test_standard_deviation(standard_deviation):
     """Check the PCE-based estimator of the standard deviation."""
     assert_equal(
-        StandardDeviation().estimate_statistic(standard_deviation),
+        StandardDeviation(StandardDeviation_Settings()).estimate_statistic(
+            standard_deviation
+        ),
         standard_deviation,
     )
 
 
 def test_variance(variance):
     """Check the PCE-based estimator of the variance."""
-    assert_equal(Variance().estimate_statistic(variance), variance)
+    assert_equal(Variance(Variance_Settings()).estimate_statistic(variance), variance)
 
 
 def test_margin(mean, standard_deviation):
     """Check the PCE-based estimator of the margin."""
     assert_equal(
-        Margin(3).estimate_statistic(mean, standard_deviation),
+        Margin(Margin_Settings(factor=3)).estimate_statistic(mean, standard_deviation),
         mean + 3 * standard_deviation,
     )
 

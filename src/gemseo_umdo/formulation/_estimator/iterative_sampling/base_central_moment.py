@@ -22,6 +22,7 @@ from typing import ClassVar
 
 from openturns import IterativeMoments
 
+from gemseo_umdo.formulation._estimator.base import T
 from gemseo_umdo.formulation._estimator.iterative_sampling.base import (
     BaseIterativeSamplingEstimator,
 )
@@ -30,7 +31,7 @@ if TYPE_CHECKING:
     from gemseo.util.typing import RealArray
 
 
-class BaseCentralMoment(BaseIterativeSamplingEstimator):
+class BaseCentralMoment(BaseIterativeSamplingEstimator[T]):
     """Base iterative estimator of a central moment, e.g. expectation or variance."""
 
     _estimator: IterativeMoments | None

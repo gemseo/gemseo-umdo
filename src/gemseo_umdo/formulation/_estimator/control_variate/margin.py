@@ -18,7 +18,6 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from gemseo_umdo.formulation._estimator.base_margin import BaseMargin
 from gemseo_umdo.formulation._estimator.control_variate.base import (
     BaseControlVariateEstimator,
 )
@@ -26,17 +25,17 @@ from gemseo_umdo.formulation._estimator.control_variate.mean import Mean
 from gemseo_umdo.formulation._estimator.control_variate.standard_deviation import (
     StandardDeviation,
 )
+from gemseo_umdo.statistic.settings import Margin_Settings
+from gemseo_umdo.statistic.settings import Mean_Settings
+from gemseo_umdo.statistic.settings import StandardDeviation_Settings
 
 if TYPE_CHECKING:
     from gemseo.space import RandomSpace
     from gemseo.util.typing import RealArray
 
 
-class Margin(BaseMargin, BaseControlVariateEstimator):
+class Margin(BaseControlVariateEstimator[Margin_Settings]):
     """Estimator of a margin, i.e. mean + factor * deviation."""
-
-    __factor: float
-    """The factor related to the standard deviation."""
 
     __mean: Mean
     """The iterative estimator of the mean."""
@@ -47,16 +46,17 @@ class Margin(BaseMargin, BaseControlVariateEstimator):
     def __init__(
         self,
         uncertain_space: RandomSpace,
-        factor: float,
+        settings: Margin_Settings,
     ) -> None:
         """
         Args:
-            factor: The factor related to the standard deviation.
+            settings: The settings of the margin.
         """  # noqa: D205 D212 D415
-        super().__init__(uncertain_space)
-        self.__mean = Mean(uncertain_space)
-        self.__standard_deviation = StandardDeviation(uncertain_space)
-        self.__factor = factor
+        super().__init__(uncertain_space, settings)
+        self.__mean = Mean(uncertain_space, Mean_Settings())
+        self.__standard_deviation = StandardDeviation(
+            uncertain_space, StandardDeviation_Settings()
+        )
 
     def estimate_statistic(  # noqa: D102
         self,
@@ -72,4 +72,4 @@ class Margin(BaseMargin, BaseControlVariateEstimator):
         s = self.__standard_deviation.estimate_statistic(
             evaluations, mean, variance, some_predictions, many_predictions
         )
-        return m + self.__factor * s
+        return m + self._settings.factor * s

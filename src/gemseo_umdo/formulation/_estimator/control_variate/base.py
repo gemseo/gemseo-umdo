@@ -22,20 +22,26 @@ from typing import TYPE_CHECKING
 from gemseo.util.constant import epsilon
 
 from gemseo_umdo.formulation._estimator.base import BaseStatisticEstimator
+from gemseo_umdo.formulation._estimator.base import T
 
 if TYPE_CHECKING:
     from gemseo.space import RandomSpace
     from gemseo.util.typing import RealArray
 
 
-class BaseControlVariateEstimator(BaseStatisticEstimator):
+class BaseControlVariateEstimator(BaseStatisticEstimator[T]):
     """Base statistic estimator for a U-MDO formulation using control variates."""
 
-    def __init__(self, uncertain_space: RandomSpace) -> None:
+    def __init__(
+        self,
+        uncertain_space: RandomSpace,
+        settings: T,
+    ) -> None:
         """
         Args:
             uncertain_space: The uncertain space.
         """  # noqa: D205 D212 D415
+        super().__init__(settings)
         self._uncertain_space = uncertain_space
 
     @abstractmethod

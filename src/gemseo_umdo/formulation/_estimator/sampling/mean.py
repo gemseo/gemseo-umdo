@@ -19,12 +19,13 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from gemseo_umdo.formulation._estimator.sampling.base import BaseSamplingEstimator
+from gemseo_umdo.statistic.settings import Mean_Settings
 
 if TYPE_CHECKING:
     from gemseo.util.typing import RealArray
 
 
-class Mean(BaseSamplingEstimator):
+class Mean(BaseSamplingEstimator[Mean_Settings]):
     """Estimator of the expectation."""
 
     def estimate_statistic(self, samples: RealArray) -> RealArray:

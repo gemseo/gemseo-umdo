@@ -19,42 +19,18 @@ from __future__ import annotations
 from operator import ge
 from operator import le
 from typing import TYPE_CHECKING
-from typing import Any
 
 from gemseo_umdo.formulation._estimator.control_variate.base import (
     BaseControlVariateEstimator,
 )
+from gemseo_umdo.statistic.settings import Probability_Settings
 
 if TYPE_CHECKING:
-    from collections.abc import Callable
-
-    from gemseo.space import RandomSpace
     from gemseo.util.typing import RealArray
 
 
-class Probability(BaseControlVariateEstimator):
+class Probability(BaseControlVariateEstimator[Probability_Settings]):
     """Estimator of a probability."""
-
-    __compare: Callable[[Any, Any], Any]
-    """The comparison operator."""
-
-    __threshold: float
-    """The threshold against which the probability is estimated."""
-
-    def __init__(
-        self,
-        uncertain_space: RandomSpace,
-        threshold: float = 0.0,
-        greater: bool = True,
-    ) -> None:
-        """
-        Args:
-            threshold: The threshold against which the probability is estimated.
-            greater: Whether to compute the probability of exceeding the threshold.
-        """  # noqa: D205 D212 D415
-        super().__init__(uncertain_space)
-        self.__threshold = threshold
-        self.__compare = ge if greater else le
 
     def estimate_statistic(  # noqa: D102
         self,
@@ -64,9 +40,12 @@ class Probability(BaseControlVariateEstimator):
         some_predictions: RealArray,
         many_predictions: RealArray,
     ) -> RealArray:
-        evaluations = self.__compare(evaluations, self.__threshold)
-        some_predictions = self.__compare(some_predictions, self.__threshold)
-        many_predictions = self.__compare(many_predictions, self.__threshold)
+        settings = self._settings
+        compare = ge if settings.greater else le
+        threshold = settings.threshold
+        evaluations = compare(evaluations, threshold)
+        some_predictions = compare(some_predictions, threshold)
+        many_predictions = compare(many_predictions, threshold)
         alpha = self._compute_opposite_scaled_covariance(evaluations, some_predictions)
         return evaluations.mean(0) + alpha * (
             some_predictions.mean(0) - many_predictions.mean(0)

@@ -51,9 +51,9 @@ from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 from numpy import array
 from numpy.linalg import norm
 
-from gemseo_umdo.formulation.control_variate_settings import ControlVariate_Settings
-from gemseo_umdo.formulation.sampling_settings import Sampling_Settings
-from gemseo_umdo.scenario.mdo import UMDOScenario
+from gemseo_umdo.formulation import ControlVariate_Settings
+from gemseo_umdo.formulation import Sampling_Settings
+from gemseo_umdo.scenario import UMDOScenario
 
 if TYPE_CHECKING:
     from gemseo.util.typing import RealArray

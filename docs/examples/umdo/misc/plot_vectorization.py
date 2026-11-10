@@ -51,8 +51,8 @@ from gemseo.space import RandomSpace
 from gemseo.uncertainty.distribution import OTTriangularDistribution_Settings
 from gemseo.util.timer import Timer
 
-from gemseo_umdo.formulation.sampling_settings import Sampling_Settings
-from gemseo_umdo.scenario.mdo import UMDOScenario
+from gemseo_umdo.formulation import Sampling_Settings
+from gemseo_umdo.scenario import UMDOScenario
 
 if TYPE_CHECKING:
     from gemseo.dataset import OptimizationDataset

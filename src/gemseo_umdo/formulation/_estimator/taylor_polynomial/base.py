@@ -20,24 +20,30 @@ from abc import abstractmethod
 from typing import TYPE_CHECKING
 
 from gemseo_umdo.formulation._estimator.base import BaseStatisticEstimator
+from gemseo_umdo.formulation._estimator.base import T
 
 if TYPE_CHECKING:
     from gemseo.space import RandomSpace
     from gemseo.util.typing import RealArray
 
 
-class BaseTaylorPolynomialEstimator(BaseStatisticEstimator):
+class BaseTaylorPolynomialEstimator(BaseStatisticEstimator[T]):
     """Base statistic estimator for a U-MDO formulation using Taylor polynomials."""
 
     _standard_deviations: RealArray
     """The standard deviations associated with each component of the uncertain space."""
 
-    def __init__(self, uncertain_space: RandomSpace) -> None:
+    def __init__(
+        self,
+        uncertain_space: RandomSpace,
+        settings: T,
+    ) -> None:
         """
         Args:
             uncertain_space: The uncertain variables
                 with their probability distributions.
         """  # noqa: D205 D212 D415
+        super().__init__(settings)
         self._standard_deviations = (
             uncertain_space.variables.distribution.standard_deviation
         )

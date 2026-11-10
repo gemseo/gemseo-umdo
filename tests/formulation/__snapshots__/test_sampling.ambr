@@ -38,27 +38,6 @@
 # name: test_name_collision_leaves_formulation_unchanged[observable]
   "The function name 'E[o]' is already used by another function. Duplicated function names produce unpredictable behavior."
 # ---
-# name: test_quantile_invalid_arguments[level-one]
-  'The level of the quantile must be in ]0,1[; got 1.0.'
-# ---
-# name: test_quantile_invalid_arguments[level-zero]
-  'The level of the quantile must be in ]0,1[; got 0.0.'
-# ---
-# name: test_quantile_invalid_arguments[unknown-method]
-  "The method of the quantile must be a method of numpy.quantile; got 'foo'."
-# ---
-# name: test_quantile_invalid_conservative_level[maximized-objective]
-  'The level of the quantile must be in ]0,1[; got 0.0.'
-# ---
-# name: test_quantile_invalid_conservative_level[minimized-objective]
-  'The level of the quantile must be in ]0,1[; got 0.0.'
-# ---
-# name: test_quantile_invalid_conservative_level[negative-constraint]
-  'The level of the quantile must be in ]0,1[; got 1.2.'
-# ---
-# name: test_quantile_invalid_conservative_level[positive-constraint]
-  'The level of the quantile must be in ]0,1[; got 1.2.'
-# ---
 # name: test_quantile_with_iterative_estimation[add_constraint]
   'The statistic \'Quantile\' cannot be estimated iteratively; use "estimate_statistics_iteratively=False".'
 # ---

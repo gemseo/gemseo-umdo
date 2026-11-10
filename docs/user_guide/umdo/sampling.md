@@ -23,7 +23,7 @@ scenario = UMDOScenario(
     Sampling_Settings(n_samples=20),
     formulation_settings=mdo_formulation_settings,
 )
-scenario.add_objective(objective_name, statistic_name)
+scenario.add_objective(objective_name, statistic_settings)
 ```
 
 ## Settings
@@ -62,7 +62,7 @@ then the U-MDO formulation will use [seed][gemseo.util.seeder.seed].
         settings,
         formulation_settings=mdo_formulation_settings,
     )
-    scenario.add_objective(objective_name, statistic_name)
+    scenario.add_objective(objective_name, statistic_settings)
     ```
 
 ## Statistics
@@ -84,8 +84,10 @@ where $\varphi_{(1)}(x)\leq\ldots\leq\varphi_{(N)}(x)$ are the order statistics
 of $\varphi(x,u^{(1)}),\ldots,\varphi(x,u^{(N)})$
 and where the index $j$ and the weight $w\in[0,1[$ depend on $\alpha$, $N$
 and the method of [numpy.quantile][numpy.quantile] [@hyndman1996sample]
-set by the statistic parameter `method` (default: `"linear"`),
-e.g. `scenario.add_constraint("c", "Quantile", level=0.95, method="hazen")`.
+set by the field `method` of
+[Quantile_Settings][gemseo_umdo.statistic.settings.Quantile_Settings]
+(default: `"linear"`),
+e.g. `scenario.add_constraint("c", Quantile_Settings(level=0.95, method="hazen"))`.
 The default level $\alpha$ is 0.95.
 A warning is logged when $N\min(\alpha,1-\alpha)<10$
 as the estimation is then inaccurate.
