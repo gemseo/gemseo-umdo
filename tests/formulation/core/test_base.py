@@ -17,18 +17,16 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 from typing import Any
 from typing import ClassVar
+from typing import Final
 from unittest import mock
 
 import pytest
 from gemseo.core.function.array_function import ArrayFunction
-from gemseo.discipline import AnalyticDiscipline
 from gemseo.doe import CustomDOE_Settings
 from gemseo.formulation import MDF_Settings
 from gemseo.mda import MDAChain_Settings
 from gemseo.mda import MDAGaussSeidel_Settings
 from gemseo.optimization import OptimizationProblem
-from gemseo.space import DesignSpace
-from gemseo.space import RandomSpace
 from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 from gemseo.util.testing.helper import assert_exception
 from numpy import array
@@ -44,36 +42,17 @@ if TYPE_CHECKING:
     from collections.abc import Mapping
     from collections.abc import Sequence
 
+    from gemseo.discipline import AnalyticDiscipline
+    from gemseo.space import DesignSpace
+    from gemseo.space import RandomSpace
+
     from gemseo_umdo.formulation.core.base_settings import BaseUMDOFormulationSettings
 
 
-@pytest.fixture
-def disciplines() -> list[AnalyticDiscipline]:
-    """Three coupled disciplines, with two strongly coupled ones."""
-    disc0 = AnalyticDiscipline(
-        {"f": "x0+y1+y2", "c": "x0+y1+y2", "o": "x0+y1+y2"}, name="D0"
-    )
-    disc1 = AnalyticDiscipline({"y1": "x0+x1+2*y2"}, name="D1")
-    disc2 = AnalyticDiscipline({"y2": "x0+x2+y1+u"}, name="D2")
-    return [disc0, disc1, disc2]
-
-
-@pytest.fixture
-def design_space() -> DesignSpace:
-    """The design space containing the global and local design variables."""
-    space = DesignSpace()
-    for name in ["x0", "x1", "x2"]:
-        space.add_variable(name, lower_bound=0.0, upper_bound=1.0, value=0.5)
-    space.add_variable("y1", lower_bound=0.0, upper_bound=1.0, value=0.5)
-    return space
-
-
-@pytest.fixture
-def uncertain_space() -> RandomSpace:
-    """The uncertain space containing the random variable."""
-    space = RandomSpace()
-    space.add_variable("u", OTNormalDistribution_Settings())
-    return space
+_with_ot_distribution: Final[pytest.MarkDecorator] = pytest.mark.parametrize(
+    "toy_uncertain_space", [OTNormalDistribution_Settings()], indirect=True
+)
+"""Use an OpenTURNS distribution, as required by some U-MDO formulations, e.g. PCE."""
 
 
 @pytest.fixture
@@ -117,13 +96,13 @@ class MyUMDOFormulation(BaseUMDOFormulation):
 
 
 @pytest.fixture
-def formulation(disciplines, design_space, mdf_settings, uncertain_space):
+def formulation(toy_disciplines, toy_design_space, mdf_settings, toy_uncertain_space):
     """A dummy formulation with an observable and a constraint."""
     form = MyUMDOFormulation(
-        OptimizationProblem(design_space),
-        disciplines,
+        OptimizationProblem(toy_design_space),
+        toy_disciplines,
         Sampling_Settings(n_samples=10),
-        uncertain_space=uncertain_space,
+        uncertain_space=toy_uncertain_space,
         mdo_formulation_settings=mdf_settings,
     )
     form.problem.objective = form.create_objective("f", "Mean")
@@ -202,13 +181,13 @@ def test_init_sub_formulation(formulation):
     assert list(sub_form.input_space.variables) == ["u"]
 
 
-def test_multiobjective(disciplines, design_space, uncertain_space):
+def test_multiobjective(toy_disciplines, toy_design_space, toy_uncertain_space):
     """Check the name of the objective function for a multiobjective case."""
     formulation = MyUMDOFormulation(
-        OptimizationProblem(design_space),
-        disciplines,
+        OptimizationProblem(toy_design_space),
+        toy_disciplines,
         Sampling_Settings(n_samples=10),
-        uncertain_space=uncertain_space,
+        uncertain_space=toy_uncertain_space,
     )
     formulation.problem.objective = formulation.create_objective(["f", "o"], "Mean")
     assert formulation.problem.objective.name == "E[f_o]"
@@ -251,6 +230,7 @@ def _execute_margin_scenario(
     return scenario.formulation.problem.database.last_item
 
 
+@_with_ot_distribution
 @pytest.mark.parametrize(
     ("parameters", "abs_factor"),
     [({"factor": 3.0}, 3.0), ({"factor": -3.0}, 3.0), ({}, 2.0)],
@@ -265,9 +245,9 @@ def _execute_margin_scenario(
     [(False, "Margin[f; {}]"), (True, "-Margin[f; -{}]")],
 )
 def test_margin_objective_and_constraint(
-    disciplines,
-    design_space,
-    uncertain_space,
+    toy_disciplines,
+    toy_design_space,
+    toy_uncertain_space,
     statistic_estimation_settings,
     parameters,
     abs_factor,
@@ -280,7 +260,12 @@ def test_margin_objective_and_constraint(
 
     The factor is replaced by its absolute value, negated if conservative from below.
     """
-    args = (disciplines, design_space, uncertain_space, statistic_estimation_settings)
+    args = (
+        toy_disciplines,
+        toy_design_space,
+        toy_uncertain_space,
+        statistic_estimation_settings,
+    )
     reference = _execute_margin_scenario(
         *args, {"factor": abs_factor}, positive=positive, maximize=maximize
     )
@@ -293,21 +278,39 @@ def test_margin_objective_and_constraint(
     assert_equal(last_item[name], reference[name])
 
 
+@_with_ot_distribution
 def test_margin_observable_default_factor(
-    disciplines, design_space, uncertain_space, statistic_estimation_settings
+    toy_disciplines,
+    toy_design_space,
+    toy_uncertain_space,
+    statistic_estimation_settings,
 ):
     """Check that the default factor of a margin observable is 2."""
-    args = (disciplines, design_space, uncertain_space, statistic_estimation_settings)
+    args = (
+        toy_disciplines,
+        toy_design_space,
+        toy_uncertain_space,
+        statistic_estimation_settings,
+    )
     reference = _execute_margin_scenario(*args, {"factor": 2.0})
     last_item = _execute_margin_scenario(*args, {})
     assert_equal(last_item["Margin[o; 2.0]"], reference["Margin[o; 2.0]"])
 
 
+@_with_ot_distribution
 def test_margin_observable_negative_factor(
-    disciplines, design_space, uncertain_space, statistic_estimation_settings
+    toy_disciplines,
+    toy_design_space,
+    toy_uncertain_space,
+    statistic_estimation_settings,
 ):
     """Check that the negative factor of a margin observable is used as is."""
-    args = (disciplines, design_space, uncertain_space, statistic_estimation_settings)
+    args = (
+        toy_disciplines,
+        toy_design_space,
+        toy_uncertain_space,
+        statistic_estimation_settings,
+    )
     reference = _execute_margin_scenario(*args, {"factor": 3.0})
     last_item = _execute_margin_scenario(*args, {"factor": -3.0})
     assert not array_equal(last_item["Margin[o; -3.0]"], reference["Margin[o; 3.0]"])
@@ -320,13 +323,13 @@ def test_margin_observable_negative_factor(
 )
 @pytest.mark.parametrize("positive", [False, True])
 def test_margin_equality_constraint(
-    disciplines, design_space, uncertain_space, parameters, name, positive
+    toy_disciplines, toy_design_space, toy_uncertain_space, parameters, name, positive
 ):
     """Check that the factor of a margin equality constraint is used as is."""
     scenario = UMDOScenario(
-        disciplines,
-        design_space,
-        uncertain_space,
+        toy_disciplines,
+        toy_design_space,
+        toy_uncertain_space,
         statistic_estimation_settings=Sampling_Settings(n_samples=10),
         formulation_settings=MDF_Settings(),
     )
