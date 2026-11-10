@@ -1,0 +1,346 @@
+# Copyright 2021 IRT Saint Exupéry, https://www.irt-saintexupery.com
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public
+# License version 3 as published by the Free Software Foundation.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program; if not, write to the Free Software Foundation,
+# Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+from typing import Any
+from typing import ClassVar
+from unittest import mock
+
+import pytest
+from gemseo.core.function.array_function import ArrayFunction
+from gemseo.discipline import AnalyticDiscipline
+from gemseo.doe import CustomDOE_Settings
+from gemseo.formulation import MDF_Settings
+from gemseo.mda import MDAChain_Settings
+from gemseo.mda import MDAGaussSeidel_Settings
+from gemseo.optimization import OptimizationProblem
+from gemseo.space import DesignSpace
+from gemseo.space import RandomSpace
+from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
+from gemseo.util.testing.helper import assert_exception
+from numpy import array
+from numpy import array_equal
+from numpy.testing import assert_equal
+
+from gemseo_umdo.formulation._estimator.sampling.factory import SamplingEstimatorFactory
+from gemseo_umdo.formulation.core.base import BaseUMDOFormulation
+from gemseo_umdo.formulation.sampling_settings import Sampling_Settings
+from gemseo_umdo.scenario.mdo import UMDOScenario
+
+if TYPE_CHECKING:
+    from collections.abc import Mapping
+    from collections.abc import Sequence
+
+    from gemseo_umdo.formulation.core.base_settings import BaseUMDOFormulationSettings
+
+
+@pytest.fixture
+def disciplines() -> list[AnalyticDiscipline]:
+    """Three coupled disciplines, with two strongly coupled ones."""
+    disc0 = AnalyticDiscipline(
+        {"f": "x0+y1+y2", "c": "x0+y1+y2", "o": "x0+y1+y2"}, name="D0"
+    )
+    disc1 = AnalyticDiscipline({"y1": "x0+x1+2*y2"}, name="D1")
+    disc2 = AnalyticDiscipline({"y2": "x0+x2+y1+u"}, name="D2")
+    return [disc0, disc1, disc2]
+
+
+@pytest.fixture
+def design_space() -> DesignSpace:
+    """The design space containing the global and local design variables."""
+    space = DesignSpace()
+    for name in ["x0", "x1", "x2"]:
+        space.add_variable(name, lower_bound=0.0, upper_bound=1.0, value=0.5)
+    space.add_variable("y1", lower_bound=0.0, upper_bound=1.0, value=0.5)
+    return space
+
+
+@pytest.fixture
+def uncertain_space() -> RandomSpace:
+    """The uncertain space containing the random variable."""
+    space = RandomSpace()
+    space.add_variable("u", OTNormalDistribution_Settings())
+    return space
+
+
+@pytest.fixture
+def mdf_settings() -> MDF_Settings:
+    """The settings of the MDF formulation."""
+    return MDF_Settings(
+        main_mda_settings=MDAChain_Settings(
+            inner_mda_settings=MDAGaussSeidel_Settings()
+        )
+    )
+
+
+class StatisticFunction(ArrayFunction):
+    """A function to compute a statistic."""
+
+    def __init__(  # noqa: D107
+        self,
+        formulation: BaseUMDOFormulation,
+        output_name: str,
+        function_type: str,
+        name: str,
+        **parameters: Any,
+    ) -> None:
+        super().__init__(lambda u: array([1.0]), name="func")
+        self.mock = f"{output_name}_statistics"
+        self.f_type = ArrayFunction.ConstraintType.INEQ
+        statistic_estimator = mock.Mock()
+        statistic_estimator.factor = 2
+        self.statistic_estimator = statistic_estimator
+
+
+class MyUMDOFormulation(BaseUMDOFormulation):
+    """A dummy BaseUMDOFormulation."""
+
+    settings_class: ClassVar[type[Sampling_Settings]] = Sampling_Settings
+
+    def __init__(self, *args, **kwargs):  # noqa: D107
+        self._statistic_function_class = StatisticFunction
+        self._statistic_factory = SamplingEstimatorFactory()
+        super().__init__(*args, **kwargs)
+
+
+@pytest.fixture
+def formulation(disciplines, design_space, mdf_settings, uncertain_space):
+    """A dummy formulation with an observable and a constraint."""
+    form = MyUMDOFormulation(
+        OptimizationProblem(design_space),
+        disciplines,
+        Sampling_Settings(n_samples=10),
+        uncertain_space=uncertain_space,
+        mdo_formulation_settings=mdf_settings,
+    )
+    form.problem.objective = form.create_objective("f", "Mean")
+    form.add_constraint("c", "Margin", factor=3.0)
+    form.add_observable("o", "Mean")
+    return form
+
+
+def test_uncertain_space(formulation):
+    """Check that the uncertain space contains the uncertain variable."""
+    assert list(formulation.uncertain_space.variables) == ["u"]
+
+
+def test_name(formulation):
+    """Check the name of the BaseUMDOFormulation."""
+    assert formulation.name == "MyUMDOFormulation[MDF]"
+
+
+def test_objective(formulation):
+    """Check the objective function is correctly set."""
+    assert formulation.problem.objective.mock == "f_statistics"
+    assert formulation.problem.objective.name == "E[f]"
+
+
+def test_observable(formulation):
+    """Check the observable function is correctly set."""
+    assert formulation.problem.observables[0].mock == "o_statistics"
+    assert formulation.problem.observables[0].name == "E[o]"
+
+
+def test_constraint(formulation):
+    """Check the constraint function is correctly set."""
+    opt_problem = formulation.problem
+    assert opt_problem.constraints[0].mock == "c_statistics"
+    assert opt_problem.constraints[0].name == "Margin[c; 3.0]"
+
+
+@pytest.mark.parametrize(
+    "method_name", ["create_objective", "create_constraint", "add_observable"]
+)
+@pytest.mark.parametrize("factor", [0, -0.0])
+def test_margin_with_zero_factor(formulation, method_name, factor, snapshot):
+    """Check that a margin with a zero factor is rejected, as it is the mean."""
+    with assert_exception(ValueError, snapshot):
+        getattr(formulation, method_name)("f", "Margin", factor=factor)
+
+
+def test_available_statistics(formulation):
+    """Check the available statistics returned by a property."""
+    assert formulation.available_statistics == [
+        "Margin",
+        "Mean",
+        "Probability",
+        "Quantile",
+        "StandardDeviation",
+        "Variance",
+    ]
+
+
+def test_update_top_level_disciplines(formulation):
+    """Check the update of the top-level discipline."""
+    formulation.update_top_level_disciplines(array([1, 2, 3]))
+    for discipline in formulation.get_top_level_disciplines():
+        assert discipline.default_input_data["x0"] == array([1])
+        assert discipline.default_input_data["x1"] == array([2])
+        assert discipline.default_input_data["x2"] == array([3])
+
+
+def test_init_sub_formulation(formulation):
+    """Check the properties of the MDO formulation."""
+    sub_form = formulation.mdo_formulation
+    assert sub_form.__class__.__name__ == "MDF"
+    assert sub_form.mda.inner_mdas[0].name == "MDAGaussSeidel"
+    assert sub_form.disciplines == formulation.disciplines
+    assert [o.name for o in sub_form.problem.observables] == ["f", "c", "o"]
+    assert list(sub_form.input_space.variables) == ["u"]
+
+
+def test_multiobjective(disciplines, design_space, uncertain_space):
+    """Check the name of the objective function for a multiobjective case."""
+    formulation = MyUMDOFormulation(
+        OptimizationProblem(design_space),
+        disciplines,
+        Sampling_Settings(n_samples=10),
+        uncertain_space=uncertain_space,
+    )
+    formulation.problem.objective = formulation.create_objective(["f", "o"], "Mean")
+    assert formulation.problem.objective.name == "E[f_o]"
+
+
+def _execute_margin_scenario(
+    disciplines: Sequence[AnalyticDiscipline],
+    design_space: DesignSpace,
+    uncertain_space: RandomSpace,
+    statistic_estimation_settings: BaseUMDOFormulationSettings,
+    parameters: Mapping[str, float],
+    positive: bool = False,
+    maximize: bool = False,
+) -> dict[str, Any]:
+    """Execute a scenario whose functions are margins.
+
+    Args:
+        disciplines: The disciplines.
+        design_space: The design space.
+        uncertain_space: The uncertain space.
+        statistic_estimation_settings: The settings of the U-MDO formulation.
+        parameters: The parameters of the margins.
+        positive: Whether the inequality constraint is positive.
+        maximize: Whether to maximize the objective.
+
+    Returns:
+        The last item of the database.
+    """
+    scenario = UMDOScenario(
+        disciplines,
+        design_space,
+        uncertain_space,
+        statistic_estimation_settings=statistic_estimation_settings,
+        formulation_settings=MDF_Settings(),
+    )
+    scenario.add_objective("f", "Margin", minimize=not maximize, **parameters)
+    scenario.add_constraint("c", "Margin", positive=positive, **parameters)
+    scenario.add_observable("o", "Margin", **parameters)
+    scenario.execute(CustomDOE_Settings(samples=array([[1.0, 1.0, 1.0]])))
+    return scenario.formulation.problem.database.last_item
+
+
+@pytest.mark.parametrize(
+    ("parameters", "abs_factor"),
+    [({"factor": 3.0}, 3.0), ({"factor": -3.0}, 3.0), ({}, 2.0)],
+    ids=["positive", "negative", "default"],
+)
+@pytest.mark.parametrize(
+    ("positive", "constraint_name"),
+    [(False, "Margin[c; {}]"), (True, "-Margin[c; -{}]")],
+)
+@pytest.mark.parametrize(
+    ("maximize", "objective_name"),
+    [(False, "Margin[f; {}]"), (True, "-Margin[f; -{}]")],
+)
+def test_margin_objective_and_constraint(
+    disciplines,
+    design_space,
+    uncertain_space,
+    statistic_estimation_settings,
+    parameters,
+    abs_factor,
+    positive,
+    constraint_name,
+    maximize,
+    objective_name,
+):
+    """Check that the factor of a margin objective or constraint is conservative.
+
+    The factor is replaced by its absolute value, negated if conservative from below.
+    """
+    args = (disciplines, design_space, uncertain_space, statistic_estimation_settings)
+    reference = _execute_margin_scenario(
+        *args, {"factor": abs_factor}, positive=positive, maximize=maximize
+    )
+    last_item = _execute_margin_scenario(
+        *args, parameters, positive=positive, maximize=maximize
+    )
+    name = objective_name.format(abs_factor)
+    assert_equal(last_item[name], reference[name])
+    name = constraint_name.format(abs_factor)
+    assert_equal(last_item[name], reference[name])
+
+
+def test_margin_observable_default_factor(
+    disciplines, design_space, uncertain_space, statistic_estimation_settings
+):
+    """Check that the default factor of a margin observable is 2."""
+    args = (disciplines, design_space, uncertain_space, statistic_estimation_settings)
+    reference = _execute_margin_scenario(*args, {"factor": 2.0})
+    last_item = _execute_margin_scenario(*args, {})
+    assert_equal(last_item["Margin[o; 2.0]"], reference["Margin[o; 2.0]"])
+
+
+def test_margin_observable_negative_factor(
+    disciplines, design_space, uncertain_space, statistic_estimation_settings
+):
+    """Check that the negative factor of a margin observable is used as is."""
+    args = (disciplines, design_space, uncertain_space, statistic_estimation_settings)
+    reference = _execute_margin_scenario(*args, {"factor": 3.0})
+    last_item = _execute_margin_scenario(*args, {"factor": -3.0})
+    assert not array_equal(last_item["Margin[o; -3.0]"], reference["Margin[o; 3.0]"])
+
+
+@pytest.mark.parametrize(
+    ("parameters", "name"),
+    [({}, "Margin[c; 2.0]"), ({"factor": -3.0}, "Margin[c; -3.0]")],
+    ids=["default", "negative"],
+)
+@pytest.mark.parametrize("positive", [False, True])
+def test_margin_equality_constraint(
+    disciplines, design_space, uncertain_space, parameters, name, positive
+):
+    """Check that the factor of a margin equality constraint is used as is."""
+    scenario = UMDOScenario(
+        disciplines,
+        design_space,
+        uncertain_space,
+        statistic_estimation_settings=Sampling_Settings(n_samples=10),
+        formulation_settings=MDF_Settings(),
+    )
+    scenario.add_constraint(
+        "c",
+        "Margin",
+        constraint_type=ArrayFunction.ConstraintType.EQ,
+        positive=positive,
+        **parameters,
+    )
+    assert scenario.formulation.problem.constraints[-1].name.endswith(name)
+
+
+def test_unavailable_statistic(formulation, snapshot):
+    """Check that an unavailable statistic raises an explicit error."""
+    with assert_exception(ValueError, snapshot):
+        formulation.add_observable("o", "Foo")

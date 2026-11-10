@@ -1,0 +1,63 @@
+# Copyright 2021 IRT Saint Exupéry, https://www.irt-saintexupery.com
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public
+# License version 3 as published by the Free Software Foundation.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program; if not, write to the Free Software Foundation,
+# Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+r"""FCE-based U-MDO formulation.
+
+[PCE][gemseo_umdo.formulation.pce.PCE] is a
+[BaseUMDOFormulation][gemseo_umdo.formulation.core.base.BaseUMDOFormulation]
+estimating the statistics of $f(x,U)$ at a point $x$
+from the coefficients of a functional chaos expansion (FCE) model
+
+$$\hat{f}_x(U)=\alpha_0 + \sum_{1\geq i\leq P}\alpha_i\Phi_i(U)$$
+
+built over the uncertain space.
+
+E.g.
+
+$$\mathbb{E}[f(x,U)] \approx \alpha_0$$
+
+and
+
+$$\mathbb{V}[f(x,U)] \approx \sum_{1\geq i\leq P}\alpha_i^2.$$
+
+The best-known FCE is the polynomial chaos expansion (PCE),
+hence the name of the U-MDO formulation.
+"""
+
+from __future__ import annotations
+
+from typing import ClassVar
+
+from gemseo_umdo.formulation._estimator.pce.factory import PCEEstimatorFactory
+from gemseo_umdo.formulation._function.pce import StatisticFunctionForPCE
+from gemseo_umdo.formulation.pce_settings import PCE_Settings
+from gemseo_umdo.formulation.surrogate import Surrogate
+
+
+class PCE(Surrogate):
+    """FCE-based U-MDO formulation.
+
+    !!! note "DOE algorithms"
+        This formulation uses a DOE algorithm;
+        read the documentation of the [DOE algorithms][gemseo.doe]
+        for more information about the available DOE algorithms and their settings.
+    """
+
+    settings_class: ClassVar[type[PCE_Settings]] = PCE_Settings
+
+    _statistic_factory: PCEEstimatorFactory = PCEEstimatorFactory()
+
+    _statistic_function_class: type[StatisticFunctionForPCE] = StatisticFunctionForPCE
+
+    _use_auxiliary_mdo_formulation: ClassVar[bool] = True

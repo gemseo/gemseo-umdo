@@ -9,7 +9,7 @@
 
 # Taylor polynomial
 
-[TaylorPolynomial][gemseo_umdo.formulations.taylor_polynomial.TaylorPolynomial]
+[TaylorPolynomial][gemseo_umdo.formulation.taylor_polynomial.TaylorPolynomial]
 is a U-MDO formulation that estimates the statistics
 using Taylor polynomials.
 

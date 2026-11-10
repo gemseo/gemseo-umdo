@@ -22,7 +22,7 @@ on certain disciplines.
 
 Then,
 the goal of the
-[UncertainCouplingGraph][gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph]
+[UncertainCouplingGraph][gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph]
 proposed by GEMSEO-UMDO
 is to identify:
 
@@ -42,7 +42,7 @@ to uncertain inputs.
 ### Dispersion measures
 
 The dispersion of a coupling variable is computed using a
-[DispersionMeasure][gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph.DispersionMeasure].
+[DispersionMeasure][gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.DispersionMeasure].
 GEMSEO-UMDO proposes two dispersion measures.
 
 The
@@ -74,7 +74,7 @@ where $\mathbb{q}_{\alpha}[Y]$ is the $\alpha$-quantile of $Y$.
 ## API
 
 Firstly,
-the [UncertainCouplingGraph][gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph]
+the [UncertainCouplingGraph][gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph]
 is built from
 a collection of disciplines,
 an uncertain space
@@ -119,7 +119,7 @@ the DOE algorithm and its options can be modified
 by passing other DOE settings,
 e.g. `OT_MONTE_CARLO_Settings(n_samples=100)`,
 to the method
-[sample()][gemseo_umdo.visualizations.uncertain_coupling_graph.UncertainCouplingGraph.sample].
+[sample()][gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.sample].
 
 At the visualization stage,
 the string argument `dispersion_measure`

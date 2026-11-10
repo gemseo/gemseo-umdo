@@ -1,0 +1,238 @@
+# Copyright 2021 IRT Saint Exupéry, https://www.irt-saintexupery.com
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public
+# License version 3 as published by the Free Software Foundation.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program; if not, write to the Free Software Foundation,
+# Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+from typing import Final
+
+import pytest
+from gemseo import execute_algo
+from gemseo.discipline import AnalyticDiscipline
+from gemseo.doe import CustomDOE_Settings
+from gemseo.doe import MC_Settings
+from gemseo.doe import OT_HALTON_Settings
+from gemseo.doe.factory import DOELibraryFactory
+from gemseo.doe.openturns.openturns import OpenTURNS
+from gemseo.enum import UniformDistribution
+from gemseo.formulation import DisciplinaryOpt_Settings
+from gemseo.machine_learning import LinearRegressor_Settings
+from gemseo.machine_learning import RBFRegressor_Settings
+from gemseo.machine_learning.regression.model import RBFRegressor
+from gemseo.optimization import OptimizationProblem
+from gemseo.problem.uncertainty.ishigami import IshigamiDiscipline
+from gemseo.problem.uncertainty.ishigami import IshigamiProblem
+from gemseo.space import DesignSpace
+from gemseo.space import RandomSpace
+from gemseo.uncertainty.distribution import SPNormalDistribution_Settings
+from gemseo.util.seeder import seed
+from numpy import array
+from numpy.testing import assert_allclose
+from numpy.testing import assert_almost_equal
+from numpy.testing import assert_equal
+from scipy.stats import norm
+
+from gemseo_umdo.formulation.surrogate import Surrogate
+from gemseo_umdo.formulation.surrogate_settings import Surrogate_Settings
+from gemseo_umdo.scenario.mdo import UMDOScenario
+
+if TYPE_CHECKING:
+    from gemseo.core.function.collection.observables import Observables
+    from gemseo.doe.core.base_doe_settings import BaseDOESettings
+    from gemseo.util.typing import RealArray
+
+
+@pytest.fixture(scope="module")
+def ishigami_problem() -> IshigamiProblem:
+    return IshigamiProblem(UniformDistribution.OPENTURNS)
+
+
+@pytest.fixture(scope="module")
+def rbf_regressor(ishigami_problem) -> RBFRegressor:
+    """A RBF regressor for the Ishigami function."""
+    execute_algo(
+        ishigami_problem,
+        algo_type="doe",
+        settings_model=OT_HALTON_Settings(n_samples=20),
+    )
+    learning_dataset = ishigami_problem.to_dataset()
+    learning_dataset.rename_variable("Ishigami", "y")
+    regressor = RBFRegressor(learning_dataset)
+    regressor.learn()
+    return regressor
+
+
+@pytest.fixture(scope="module")
+def samples(ishigami_problem) -> RealArray:
+    lib = OpenTURNS("OT_HALTON")
+    return lib.sample_space(
+        ishigami_problem.input_space, settings=OT_HALTON_Settings(n_samples=20)
+    )
+
+
+@pytest.fixture(scope="module", params=("CustomDOE", "OT_HALTON"))
+def doe_settings(request, samples) -> BaseDOESettings:
+    if request.param == "CustomDOE":
+        return CustomDOE_Settings(samples=samples)
+
+    return OT_HALTON_Settings(n_samples=20)
+
+
+@pytest.fixture(scope="module")
+def umdo_formulation(ishigami_problem, doe_settings):
+    """The UMDO formulation."""
+    discipline = IshigamiDiscipline()
+    formulation = Surrogate(
+        OptimizationProblem(DesignSpace()),
+        [discipline],
+        Surrogate_Settings(regressor_n_samples=10, doe_algo_settings=doe_settings),
+        uncertain_space=ishigami_problem.input_space,
+        mdo_formulation_settings=DisciplinaryOpt_Settings(),
+    )
+    formulation.problem.objective = formulation.create_objective("y", "Mean")
+    formulation.add_constraint("y", "StandardDeviation")
+    formulation.add_observable("y", "Variance")
+    formulation.add_observable("y", "Margin", factor=3)
+    formulation.add_observable("y", "Probability", greater=False, threshold=0.5)
+    return formulation
+
+
+@pytest.fixture(scope="module")
+def output_samples(umdo_formulation, rbf_regressor) -> RealArray:
+    """The output samples."""
+    uncertain_space = umdo_formulation.uncertain_space
+    convert_array_to_dict = uncertain_space.convert_array_to_dict
+    doe_algo = DOELibraryFactory().create("MC")
+    input_samples = doe_algo.sample_space(
+        uncertain_space, settings=MC_Settings(n_samples=10, seed=seed)
+    )
+    return rbf_regressor.predict(convert_array_to_dict(input_samples))["y"]
+
+
+@pytest.fixture(scope="module")
+def observables(umdo_formulation) -> Observables:
+    """The observable functions."""
+    return umdo_formulation.problem.observables
+
+
+def test_output_samples(output_samples):
+    """Check the shape of output_samples."""
+    assert output_samples.shape == (10, 1)
+
+
+_x: Final[RealArray] = array([0.0])
+"""The design point at which to evaluate the statistics."""
+
+
+def test_mean(umdo_formulation, output_samples):
+    """Check the estimation of the mean from a surrogate-based UMDO formulation."""
+    mean = output_samples.mean(0)
+    assert_equal(umdo_formulation.problem.objective.evaluate(_x), mean)
+
+
+def test_standard_deviation(umdo_formulation, output_samples):
+    """Check the estimation of the std from a surrogate-based UMDO formulation."""
+    std = output_samples.std(0, ddof=1)
+    constraint = umdo_formulation.problem.constraints[0]
+    assert_equal(constraint.evaluate(_x), std)
+
+
+def test_variance(observables, output_samples):
+    """Check the estimation of the variance from a surrogate-based UMDO formulation."""
+    var = output_samples.var(0, ddof=1)
+    assert_equal(observables[0].evaluate(_x), var)
+
+
+def test_margin(observables, output_samples):
+    """Check the estimation of a margin from a surrogate-based UMDO formulation."""
+    mean = output_samples.mean(0)
+    std = output_samples.std(0, ddof=1)
+    assert_equal(observables[1].evaluate(_x), mean + 3 * std)
+
+
+def test_probability(observables, output_samples):
+    """Check the estimation of a probability from a surrogate-based UMDO formulation."""
+    prob = (output_samples < 0.5).mean(0)
+    assert_equal(observables[2].evaluate(_x), prob)
+
+
+@pytest.mark.parametrize(
+    ("statistic_estimation_parameters", "y_opt"),
+    [
+        ({"n_samples": 20}, 1.9517113683160991),
+        ({"n_samples": 20, "regressor_n_samples": 10}, 2.464446895981287),
+        (
+            {
+                "n_samples": 20,
+                "regressor_settings": RBFRegressor_Settings(kernel="cubic"),
+            },
+            1.9870120429785478,
+        ),
+        (
+            {"n_samples": 20, "regressor_settings": LinearRegressor_Settings()},
+            1.9935244102531822,
+        ),
+    ],
+)
+def test_scenario(quadratic_problem, statistic_estimation_parameters, y_opt):
+    """Check the surrogate-based U-MDO formulation in a scenario with a toy case."""
+    discipline, design_space, uncertain_space = quadratic_problem
+    scenario = UMDOScenario(
+        [discipline],
+        design_space,
+        uncertain_space,
+        statistic_estimation_settings=Surrogate_Settings(
+            **statistic_estimation_parameters
+        ),
+        formulation_settings=DisciplinaryOpt_Settings(),
+    )
+    scenario.add_objective("y", "Mean")
+    scenario.execute(CustomDOE_Settings(samples=array([[1.0]])))
+    assert_almost_equal(scenario.optimization_result.x_opt, array([1.0]))
+    assert_almost_equal(scenario.optimization_result.f_opt, y_opt)
+    last_item = scenario.formulation.problem.database.last_item
+    assert last_item.keys() == {"y_learning_quality", "y_test_quality", "E[y]"}
+    assert last_item["y_learning_quality"].shape == (1,)
+    assert last_item["y_test_quality"].shape == (1,)
+    dataset = scenario.to_dataset()
+    assert {"y_learning_quality", "y_test_quality"} <= set(dataset.variable_names)
+
+
+def test_quantile():
+    """Check the quantile estimated from the samples of the surrogate model."""
+    design_space = DesignSpace()
+    design_space.add_variable("x", value=1.0)
+    uncertain_space = RandomSpace()
+    uncertain_space.add_variable("u", SPNormalDistribution_Settings())
+    scenario = UMDOScenario(
+        [AnalyticDiscipline({"f": "x+u", "c": "x+u", "o": "x+u"})],
+        design_space,
+        uncertain_space,
+        statistic_estimation_settings=Surrogate_Settings(
+            n_samples=20,
+            regressor_n_samples=10000,
+            regressor_settings=LinearRegressor_Settings(),
+        ),
+        formulation_settings=DisciplinaryOpt_Settings(),
+    )
+    # The levels are made conservative for the objective and the constraint
+    # while the default level is used for the observable.
+    scenario.add_objective("f", "Quantile", level=0.1)
+    scenario.add_constraint("c", "Quantile", level=0.9, positive=True)
+    scenario.add_observable("o", "Quantile")
+    scenario.execute(CustomDOE_Settings(samples=array([[1.0]])))
+    last_item = scenario.formulation.problem.database.last_item
+    assert_allclose(last_item["Q[f; 0.9]"], 1 + norm.ppf(0.9), atol=0.05)
+    assert_allclose(last_item["-Q[c; 0.1]"], -1 - norm.ppf(0.1), atol=0.05)
+    assert_allclose(last_item["Q[o; 0.95]"], 1 + norm.ppf(0.95), atol=0.05)
