@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import pytest
 from gemseo.util.testing.helper import assert_exception
+from numpy import float64
 
 from gemseo_umdo.statistic.quantile_settings import Quantile_Settings
 
@@ -41,6 +42,17 @@ def test_invalid_settings(kwargs, snapshot):
         (0.9, True, 0.1),
         (0.1, True, 0.1),
         (0.07, False, 0.93),
+        (1 - 1e-13, True, 1e-13),
+        (float64(0.9), False, 0.9),
+    ],
+    ids=[
+        "above-high",
+        "above-low",
+        "below-high",
+        "below-low",
+        "above-decimal",
+        "below-close-to-one",
+        "numpy-scalar",
     ],
 )
 def test_make_conservative(level, from_below, expected):

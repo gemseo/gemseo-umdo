@@ -21,13 +21,13 @@ from typing import TYPE_CHECKING
 from typing import ClassVar
 
 from gemseo_umdo.formulation._estimator.base import BaseStatisticEstimator
-from gemseo_umdo.formulation._estimator.base import T
+from gemseo_umdo.formulation._estimator.base import StatisticSettingsT
 
 if TYPE_CHECKING:
     from gemseo.util.typing import RealArray
 
 
-class BaseSamplingEstimator(BaseStatisticEstimator[T]):
+class BaseSamplingEstimator(BaseStatisticEstimator[StatisticSettingsT]):
     """Base statistic estimator for a U-MDO formulation using sampling."""
 
     can_compute_jacobian: ClassVar[bool] = True

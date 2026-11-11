@@ -31,19 +31,22 @@ if TYPE_CHECKING:
     from gemseo_umdo.statistic.core.base_settings import BaseStatisticSettings
 
 
-T = TypeVar("T", bound="BaseStatisticSettings")
+StatisticSettingsT = TypeVar("StatisticSettingsT", bound="BaseStatisticSettings")
+"""The type of the settings of a statistic."""
 
 
-class BaseStatisticEstimator(Generic[T], metaclass=ABCGoogleDocstringInheritanceMeta):
+class BaseStatisticEstimator(
+    Generic[StatisticSettingsT], metaclass=ABCGoogleDocstringInheritanceMeta
+):
     """The base statistic estimator for U-MDO formulations."""
 
     can_compute_jacobian: ClassVar[bool] = False
     """Whether the estimator can estimate the Jacobian of the statistic."""
 
-    _settings: T
+    _settings: StatisticSettingsT
     """The settings of the statistic."""
 
-    def __init__(self, settings: T) -> None:
+    def __init__(self, settings: StatisticSettingsT) -> None:
         """
         Args:
             settings: The settings of the statistic.
