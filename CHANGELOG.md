@@ -233,6 +233,11 @@ and this project adheres to
   The name of a probability always includes the threshold,
   e.g. `"P[f >= 0.0]"` for `add_observable("f", "Probability")`,
   which used to be named `"P[f >= ]"`.
+- BREAKING CHANGE:
+  the argument `output_name` of the method `add_constraint()`
+  of [UMDOScenario][gemseo_umdo.scenario.mdo.UMDOScenario]
+  and of the U-MDO formulations is renamed to `output_names`,
+  as in GEMSEO.
 - BREAKING CHANGE: the ALL_CAPS class attributes and module-level constants
   are named in lower snake case, as in GEMSEO 7:
     - `BaseNoiser.SHORT_NAME` → [short_name][gemseo_umdo.discipline.noiser.base.BaseNoiser.short_name];
