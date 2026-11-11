@@ -52,7 +52,7 @@ and this project adheres to
   e.g. `scenario.add_constraint("c", Quantile_Settings(level=0.95))`,
   with analytical derivatives for the first two;
   the fields of
-  [Quantile_Settings][gemseo_umdo.statistic.quantile_settings.Quantile_Settings]
+  [Quantile_Settings][gemseo_umdo.statistic.settings.quantile.Quantile_Settings]
   are the `level` (default: 0.95)
   and the `method` of `numpy.quantile` (default: `"linear"`);
   the `level` is replaced by `max(level, 1 - level)`
@@ -69,18 +69,18 @@ and this project adheres to
   using it requires `estimate_statistics_iteratively=False`,
   otherwise a `ValueError` is raised.
 - The statistics of the U-scenarios and U-MDO formulations are set by Pydantic models:
-  [Mean_Settings][gemseo_umdo.statistic.mean_settings.Mean_Settings],
-  [Variance_Settings][gemseo_umdo.statistic.variance_settings.Variance_Settings],
-  [StandardDeviation_Settings][gemseo_umdo.statistic.standard_deviation_settings.StandardDeviation_Settings],
-  [Margin_Settings][gemseo_umdo.statistic.margin_settings.Margin_Settings],
-  [Probability_Settings][gemseo_umdo.statistic.probability_settings.Probability_Settings]
-  and [Quantile_Settings][gemseo_umdo.statistic.quantile_settings.Quantile_Settings],
+  [Mean_Settings][gemseo_umdo.statistic.settings.mean.Mean_Settings],
+  [Variance_Settings][gemseo_umdo.statistic.settings.variance.Variance_Settings],
+  [StandardDeviation_Settings][gemseo_umdo.statistic.settings.standard_deviation.StandardDeviation_Settings],
+  [Margin_Settings][gemseo_umdo.statistic.settings.margin.Margin_Settings],
+  [Probability_Settings][gemseo_umdo.statistic.settings.probability.Probability_Settings]
+  and [Quantile_Settings][gemseo_umdo.statistic.settings.quantile.Quantile_Settings],
   e.g. `scenario.add_constraint("c", Margin_Settings(factor=3.0))`;
   the name of a statistic, e.g. `"Mean"`, or `"mean"` as the name is case-insensitive,
   can be used for its default settings.
   A user can add a statistic `Foo`
   by deriving `Foo_Settings` from
-  [BaseStatisticSettings][gemseo_umdo.statistic.core.base_settings.BaseStatisticSettings]
+  [BaseStatisticSettings][gemseo_umdo.statistic.settings.core.base.BaseStatisticSettings]
   and implementing an estimator `Foo` for each statistic estimation technique
   supporting it.
 - The settings of the U-MDO formulations can be imported from
@@ -205,7 +205,7 @@ and this project adheres to
   from the derivatives with respect to the uncertain variables
   instead of the design variables.
 - BREAKING CHANGE: the `factor` of
-  [Margin_Settings][gemseo_umdo.statistic.margin_settings.Margin_Settings]
+  [Margin_Settings][gemseo_umdo.statistic.settings.margin.Margin_Settings]
   (default: 2) is replaced by its absolute value
   for an objective to minimize or a negativity inequality constraint
   and by the opposite of its absolute value
@@ -284,7 +284,7 @@ and this project adheres to
   and [PCE][gemseo_umdo.formulation.pce.PCE],
   rejects a margin with a zero factor,
   as such a margin is the mean:
-  [Margin_Settings][gemseo_umdo.statistic.margin_settings.Margin_Settings]
+  [Margin_Settings][gemseo_umdo.statistic.settings.margin.Margin_Settings]
   raises a `ValueError` when `factor` is zero;
   use the statistic `"Mean"` instead.
 - BREAKING CHANGE:

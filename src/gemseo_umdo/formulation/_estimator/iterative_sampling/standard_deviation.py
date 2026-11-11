@@ -23,7 +23,7 @@ from numpy import newaxis
 from numpy import where
 
 from gemseo_umdo.formulation._estimator.iterative_sampling.variance import Variance
-from gemseo_umdo.statistic.standard_deviation_settings import StandardDeviation_Settings
+from gemseo_umdo.statistic.settings.standard_deviation import StandardDeviation_Settings
 
 if TYPE_CHECKING:
     from gemseo.util.typing import RealArray

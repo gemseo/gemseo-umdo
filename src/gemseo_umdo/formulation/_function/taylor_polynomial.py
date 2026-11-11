@@ -39,7 +39,7 @@ if TYPE_CHECKING:
     from gemseo.util.typing import RealArray
 
     from gemseo_umdo.formulation.taylor_polynomial import TaylorPolynomial
-    from gemseo_umdo.statistic.core.base_settings import BaseStatisticSettings
+    from gemseo_umdo.statistic.settings.core.base import BaseStatisticSettings
 
 TaylorPolynomialT = TypeVar("TaylorPolynomialT", bound="TaylorPolynomial")
 

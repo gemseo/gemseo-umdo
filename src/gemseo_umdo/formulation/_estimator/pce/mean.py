@@ -19,7 +19,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from gemseo_umdo.formulation._estimator.pce.base import BasePCEEstimator
-from gemseo_umdo.statistic.mean_settings import Mean_Settings
+from gemseo_umdo.statistic.settings.mean import Mean_Settings
 
 if TYPE_CHECKING:
     from typing import ClassVar

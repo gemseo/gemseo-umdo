@@ -43,7 +43,7 @@ if TYPE_CHECKING:
     from gemseo_umdo.formulation.core.base import BaseUMDOFormulation
     from gemseo_umdo.formulation.core.base_settings import BaseUMDOFormulationSettings
     from gemseo_umdo.formulation.factory import UMDOFormulationFactory
-    from gemseo_umdo.statistic.core.base_settings import BaseStatisticSettings
+    from gemseo_umdo.statistic.settings.core.base import BaseStatisticSettings
 
 
 class BaseUScenario:

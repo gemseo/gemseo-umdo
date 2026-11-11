@@ -128,8 +128,8 @@ adding a new U-MDO formulation `Foo` implies to
   e.g. `class Margin(BaseFooEstimator[Margin_Settings])`,
   whose constructors take the settings of the statistic as argument `settings`,
   stored in `_settings`
-  (the settings of a statistic `Bar` are defined in `statistic/bar_settings.py`,
-  deriving from `BaseStatisticSettings` of `statistic/core/base_settings.py`;
+  (the settings of a statistic `Bar` are defined in `statistic/settings/bar.py`,
+  deriving from `BaseStatisticSettings` of `statistic/settings/core/base.py`;
   their `make_conservative` method makes them conservative
   for an objective or a constraint),
 - set `Foo._statistic_function_class` to `StatisticFunctionForFoo` at class level

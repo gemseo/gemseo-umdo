@@ -21,13 +21,13 @@ import gc
 import pytest
 from gemseo.util.testing.helper import assert_exception
 
-from gemseo_umdo.statistic.core.base_settings import BaseStatisticSettings
-from gemseo_umdo.statistic.margin_settings import Margin_Settings
-from gemseo_umdo.statistic.mean_settings import Mean_Settings
-from gemseo_umdo.statistic.probability_settings import Probability_Settings
-from gemseo_umdo.statistic.quantile_settings import Quantile_Settings
-from gemseo_umdo.statistic.standard_deviation_settings import StandardDeviation_Settings
-from gemseo_umdo.statistic.variance_settings import Variance_Settings
+from gemseo_umdo.statistic.settings.core.base import BaseStatisticSettings
+from gemseo_umdo.statistic.settings.margin import Margin_Settings
+from gemseo_umdo.statistic.settings.mean import Mean_Settings
+from gemseo_umdo.statistic.settings.probability import Probability_Settings
+from gemseo_umdo.statistic.settings.quantile import Quantile_Settings
+from gemseo_umdo.statistic.settings.standard_deviation import StandardDeviation_Settings
+from gemseo_umdo.statistic.settings.variance import Variance_Settings
 
 
 def _get_subclasses(cls: type) -> set[type]:

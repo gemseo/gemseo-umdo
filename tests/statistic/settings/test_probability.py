@@ -21,7 +21,7 @@ from operator import le
 
 import pytest
 
-from gemseo_umdo.statistic.probability_settings import Probability_Settings
+from gemseo_umdo.statistic.settings.probability import Probability_Settings
 
 
 @pytest.mark.parametrize(

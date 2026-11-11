@@ -19,7 +19,7 @@ from __future__ import annotations
 import pytest
 from gemseo.util.testing.helper import assert_exception
 
-from gemseo_umdo.statistic.margin_settings import Margin_Settings
+from gemseo_umdo.statistic.settings.margin import Margin_Settings
 
 
 @pytest.mark.parametrize("factor", [0, -0.0], ids=["zero", "negative-zero"])

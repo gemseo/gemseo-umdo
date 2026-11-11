@@ -39,7 +39,7 @@ from gemseo_umdo.formulation.factory import UMDOFormulationFactory
 from gemseo_umdo.formulation.sampling import Sampling
 from gemseo_umdo.formulation.sampling_settings import Sampling_Settings
 from gemseo_umdo.scenario.mdo import UMDOScenario
-from gemseo_umdo.statistic.margin_settings import Margin_Settings
+from gemseo_umdo.statistic.settings.margin import Margin_Settings
 
 
 @pytest.fixture

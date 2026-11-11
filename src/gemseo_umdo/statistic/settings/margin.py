@@ -22,7 +22,7 @@ from typing import Self
 from pydantic import Field
 from pydantic import field_validator
 
-from gemseo_umdo.statistic.core.base_settings import BaseStatisticSettings
+from gemseo_umdo.statistic.settings.core.base import BaseStatisticSettings
 
 
 class Margin_Settings(BaseStatisticSettings):  # noqa: N801

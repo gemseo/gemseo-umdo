@@ -24,7 +24,7 @@ from gemseo_umdo._util.compatibility.openturns import IterativeThresholdExceedan
 from gemseo_umdo.formulation._estimator.iterative_sampling.base import (
     BaseIterativeSamplingEstimator,
 )
-from gemseo_umdo.statistic.probability_settings import Probability_Settings
+from gemseo_umdo.statistic.settings.probability import Probability_Settings
 
 if TYPE_CHECKING:
     from gemseo.util.typing import RealArray

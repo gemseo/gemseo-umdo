@@ -35,7 +35,7 @@ if TYPE_CHECKING:
 
     from gemseo_umdo.formulation._function.base import UMDOFormulationT
     from gemseo_umdo.formulation.surrogate import Surrogate
-    from gemseo_umdo.statistic.core.base_settings import BaseStatisticSettings
+    from gemseo_umdo.statistic.settings.core.base import BaseStatisticSettings
 
 logger = logging.getLogger(__name__)
 
