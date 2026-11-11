@@ -16,6 +16,9 @@
 
 from __future__ import annotations
 
+from operator import ge
+from operator import le
+
 import pytest
 
 from gemseo_umdo.statistic.probability_settings import Probability_Settings
@@ -28,7 +31,18 @@ from gemseo_umdo.statistic.probability_settings import Probability_Settings
         (Probability_Settings(threshold=0.0), "P[f >= 0.0]"),
         (Probability_Settings(threshold=1.0, greater=False), "P[f <= 1.0]"),
     ],
+    ids=["default", "explicit-default-threshold", "lower"],
 )
 def test_compute_expression(settings, expression):
     """Check that the name of a probability always includes its threshold."""
     assert settings.compute_expression("f") == expression
+
+
+@pytest.mark.parametrize(
+    ("greater", "operator"), [(True, ge), (False, le)], ids=["greater", "lower"]
+)
+def test_comparison_operator(greater, operator):
+    """Check the operator comparing samples to the threshold."""
+    settings = Probability_Settings(greater=greater)
+    assert settings.comparison_operator is operator
+    assert "comparison_operator" not in settings.model_dump()

@@ -16,11 +16,20 @@
 
 from __future__ import annotations
 
+from operator import ge
+from operator import le
+from typing import TYPE_CHECKING
 from typing import ClassVar
 
 from pydantic import Field
 
 from gemseo_umdo.statistic.core.base_settings import BaseStatisticSettings
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
+
+    from gemseo.util.typing import BooleanArray
+    from gemseo.util.typing import RealArray
 
 
 class Probability_Settings(BaseStatisticSettings):  # noqa: N801
@@ -38,3 +47,12 @@ class Probability_Settings(BaseStatisticSettings):  # noqa: N801
 
 Otherwise, compute the probability of being below the threshold.""",
     )
+
+    @property
+    def comparison_operator(self) -> Callable[[RealArray, float], BooleanArray]:
+        """The operator comparing samples to the threshold.
+
+        This is `>=` to compute the probability of exceeding the threshold
+        and `<=` otherwise.
+        """
+        return ge if self.greater else le

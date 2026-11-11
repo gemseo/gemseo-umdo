@@ -16,8 +16,6 @@
 
 from __future__ import annotations
 
-from operator import ge
-from operator import le
 from typing import TYPE_CHECKING
 
 from gemseo_umdo.formulation._estimator.control_variate.base import (
@@ -41,7 +39,7 @@ class Probability(BaseControlVariateEstimator[Probability_Settings]):
         many_predictions: RealArray,
     ) -> RealArray:
         settings = self._settings
-        compare = ge if settings.greater else le
+        compare = settings.comparison_operator
         threshold = settings.threshold
         evaluations = compare(evaluations, threshold)
         some_predictions = compare(some_predictions, threshold)
