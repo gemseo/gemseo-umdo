@@ -49,9 +49,11 @@ class Variance(BaseCentralMoment[StatisticSettingsT]):
 
     def __init__(self, settings: StatisticSettingsT) -> None:  # noqa: D107
         super().__init__(settings)
-        self.__mean_jac = Mean(Mean_Settings())
-        self.__mean = Mean(Mean_Settings())
-        self.__prod_mean = Mean(Mean_Settings())
+        # The estimators only read their settings, so they can share them.
+        mean_settings = Mean_Settings()
+        self.__mean_jac = Mean(mean_settings)
+        self.__mean = Mean(mean_settings)
+        self.__prod_mean = Mean(mean_settings)
 
     @property
     def min_n_samples(self) -> int:  # noqa: D102
