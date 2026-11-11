@@ -2,3 +2,6 @@
 # name: test_from_name_unknown
   "The statistic 'Unknown' has no settings class; available statistics: Margin, Mean, Probability, Quantile, StandardDeviation, Variance."
 # ---
+# name: test_from_name_with_names_equal_up_to_case
+  "The name 'foo' matches several statistics up to the case: FOO, Foo; use the exact name."
+# ---

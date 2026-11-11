@@ -118,9 +118,30 @@ def test_get_name_parameters(settings, parameters):
     assert settings.get_name_parameters() == parameters
 
 
-def test_from_name():
-    """Check the default settings created from the name of a statistic."""
-    assert BaseStatisticSettings.from_name("Margin") == Margin_Settings()
+@pytest.mark.parametrize(
+    "name",
+    ["Margin", "margin", "MARGIN", "marGin"],
+    ids=["exact", "lower", "upper", "mixed"],
+)
+def test_from_name(name):
+    """Check the default settings created from a case-insensitive name."""
+    assert BaseStatisticSettings.from_name(name) == Margin_Settings()
+
+
+@pytest.mark.usefixtures("isolated_subclasses")
+def test_from_name_with_names_equal_up_to_case(snapshot):
+    """Check from_name with statistics whose names differ only by the case."""
+
+    class Foo_Settings(BaseStatisticSettings):  # noqa: N801
+        """The settings of a statistic."""
+
+    class FOO_Settings(BaseStatisticSettings):  # noqa: N801
+        """The settings of another statistic."""
+
+    assert type(BaseStatisticSettings.from_name("Foo")) is Foo_Settings
+    assert type(BaseStatisticSettings.from_name("FOO")) is FOO_Settings
+    with assert_exception(ValueError, snapshot):
+        BaseStatisticSettings.from_name("foo")
 
 
 @pytest.mark.usefixtures("isolated_subclasses")

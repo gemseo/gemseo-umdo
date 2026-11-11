@@ -49,7 +49,8 @@ class UMDOScenario(BaseUScenario, MDOScenario):
             output_names: The names of the outputs used as objective.
             statistic_settings: Either the settings of the statistic of
                 `output_names`, e.g. `Margin_Settings(factor=3.0)`,
-                or the name of the statistic to use its default settings,
+                or the case-insensitive name of the statistic
+                to use its default settings,
                 e.g. `"Mean"`.
             minimize: Whether to minimize the statistic of the objective.
             objective_name: The name of the objective to be stored.
@@ -80,7 +81,8 @@ class UMDOScenario(BaseUScenario, MDOScenario):
         Args:
             statistic_settings: Either the settings of the statistic of
                 `output_name`, e.g. `Margin_Settings(factor=3.0)`,
-                or the name of the statistic to use its default settings,
+                or the case-insensitive name of the statistic
+                to use its default settings,
                 e.g. `"Mean"`.
         """  # noqa: D205 D212 D415
         self.formulation.add_constraint(
