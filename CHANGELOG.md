@@ -76,7 +76,8 @@ and this project adheres to
   [Probability_Settings][gemseo_umdo.statistic.probability_settings.Probability_Settings]
   and [Quantile_Settings][gemseo_umdo.statistic.quantile_settings.Quantile_Settings],
   e.g. `scenario.add_constraint("c", Margin_Settings(factor=3.0))`;
-  the name of a statistic, e.g. `"Mean"`, can be used for its default settings.
+  the name of a statistic, e.g. `"Mean"`, or `"mean"` as the name is case-insensitive,
+  can be used for its default settings.
   A user can add a statistic `Foo`
   by deriving `Foo_Settings` from
   [BaseStatisticSettings][gemseo_umdo.statistic.core.base_settings.BaseStatisticSettings]

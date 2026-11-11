@@ -337,7 +337,20 @@ def test_unavailable_statistic(formulation, snapshot):
         formulation.add_observable("o", "Foo")
 
 
-def test_unsupported_statistic(disciplines, design_space, uncertain_space, snapshot):
+def test_case_insensitive_statistic_name(formulation):
+    """Check that the name of a statistic is case-insensitive."""
+    formulation.add_observable("o", "margin")
+    assert formulation.problem.observables[-1].name == "Margin[o; 2.0]"
+
+
+@pytest.mark.parametrize(
+    "statistic",
+    ["quantile", Quantile_Settings()],
+    ids=["name", "settings"],
+)
+def test_unsupported_statistic(
+    disciplines, design_space, uncertain_space, statistic, snapshot
+):
     """Check the error raised for a statistic not supported by a formulation."""
     scenario = UMDOScenario(
         disciplines,
@@ -347,7 +360,7 @@ def test_unsupported_statistic(disciplines, design_space, uncertain_space, snaps
         formulation_settings=MDF_Settings(),
     )
     with assert_exception(ValueError, snapshot):
-        scenario.add_objective("f", Quantile_Settings())
+        scenario.add_objective("f", statistic)
 
 
 def _set_factor(settings: Margin_Settings) -> None:

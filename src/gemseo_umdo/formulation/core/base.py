@@ -190,7 +190,8 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
 
         Args:
             statistic_settings: Either the settings of the statistic
-                or the name of the statistic to use its default settings.
+                or the case-insensitive name of the statistic
+                to use its default settings.
             conservative_from_below: Whether the statistic must be conservative
                 from below,
                 e.g. with a negative factor for a margin
@@ -202,19 +203,21 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
         Returns:
             The settings of the statistic.
         """
-        is_name = isinstance(statistic_settings, str)
-        # The availability is checked first
-        # so that the error lists the statistics available for this formulation.
-        self._check_statistic_name(
-            statistic_settings if is_name else statistic_settings.target_class_name
-        )
-        # The estimator reads its settings at each estimation,
-        # so it uses a deep copy that the user cannot change afterwards.
-        settings = (
-            BaseStatisticSettings.from_name(statistic_settings)
-            if is_name
-            else statistic_settings.model_copy(deep=True)
-        )
+        if isinstance(statistic_settings, str):
+            # The name is case-insensitive.
+            try:
+                settings = BaseStatisticSettings.from_name(statistic_settings)
+            except ValueError:
+                # The error of a statistic unknown to this formulation
+                # lists the statistics available for this formulation.
+                self._check_statistic_name(statistic_settings)
+                raise
+        else:
+            # The estimator reads its settings at each estimation,
+            # so it uses a deep copy that the user cannot change afterwards.
+            settings = statistic_settings.model_copy(deep=True)
+
+        self._check_statistic_name(settings.target_class_name)
         if conservative_from_below is not None:
             settings = settings.make_conservative(conservative_from_below)
 
@@ -400,7 +403,8 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
         Args:
             output_names: The names of the outputs.
             statistic_settings: Either the settings of the statistic of `output_names`
-                or the name of the statistic to use its default settings,
+                or the case-insensitive name of the statistic
+                to use its default settings,
                 e.g. `"Mean"`.
             objective_name: The name of the objective.
                 If empty,
@@ -441,7 +445,8 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
         """
         Args:
             statistic_settings: Either the settings of the statistic of `output_names`
-                or the name of the statistic to use its default settings,
+                or the case-insensitive name of the statistic
+                to use its default settings,
                 e.g. `"Mean"`.
         """  # noqa: D205 D212 D415
         output_names = convert_strings_to_iterable(output_names)
@@ -491,7 +496,8 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
         Args:
             output_names: The names of the outputs.
             statistic_settings: Either the settings of the statistic of `output_names`
-                or the name of the statistic to use its default settings,
+                or the case-insensitive name of the statistic
+                to use its default settings,
                 e.g. `"Mean"`.
             constraint_type: The type of constraint.
             constraint_name: The name of the constraint to be stored.
@@ -534,7 +540,8 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
         Args:
             output_names: The names of the outputs.
             statistic_settings: Either the settings of the statistic of `output_names`
-                or the name of the statistic to use its default settings,
+                or the case-insensitive name of the statistic
+                to use its default settings,
                 e.g. `"Mean"`.
             constraint_type: The type of constraint.
             constraint_name: The name of the constraint to be stored.
@@ -593,7 +600,8 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
         Args:
             output_names: The names of the outputs.
             statistic_settings: Either the settings of the statistic of `output_names`
-                or the name of the statistic to use its default settings,
+                or the case-insensitive name of the statistic
+                to use its default settings,
                 e.g. `"Mean"`.
             constraint_type: The type of constraint.
             constraint_name: The name of the constraint to be stored.

@@ -158,7 +158,8 @@ class BaseUScenario:
         Args:
             statistic_settings: Either the settings of the statistic of
                 `output_names`, e.g. `Margin_Settings(factor=3.0)`,
-                or the name of the statistic to use its default settings,
+                or the case-insensitive name of the statistic
+                to use its default settings,
                 e.g. `"Mean"`.
         """  # noqa: D205 D212 D415
         self.formulation.add_observable(

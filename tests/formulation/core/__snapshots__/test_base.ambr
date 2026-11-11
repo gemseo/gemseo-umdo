@@ -2,6 +2,9 @@
 # name: test_unavailable_statistic
   "The statistic 'Foo' is not available for the U-MDO formulation MyUMDOFormulation; available statistics: 'Margin', 'Mean', 'Probability', 'Quantile', 'StandardDeviation' and 'Variance'."
 # ---
-# name: test_unsupported_statistic
+# name: test_unsupported_statistic[name]
+  "The statistic 'Quantile' is not available for the U-MDO formulation TaylorPolynomial; available statistics: 'Margin', 'Mean', 'StandardDeviation' and 'Variance'."
+# ---
+# name: test_unsupported_statistic[settings]
   "The statistic 'Quantile' is not available for the U-MDO formulation TaylorPolynomial; available statistics: 'Margin', 'Mean', 'StandardDeviation' and 'Variance'."
 # ---
