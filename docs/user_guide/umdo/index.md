@@ -689,12 +689,18 @@ e.g. $\mathbb{E}[f]-3\mathbb{S}[f]$ for an objective to maximize.
       as argument `settings`
       (after the uncertain space for the techniques requiring it)
       and reads them from `self._settings`,
-      e.g. `class Foo(BaseSamplingEstimator[Foo_Settings])` deriving from
-      [BaseSamplingEstimator][gemseo_umdo.formulation._estimator.sampling.base.BaseSamplingEstimator]
+      e.g. `class Foo(BaseSamplingEstimator)`
       for [Sampling][gemseo_umdo.formulation.sampling.Sampling],
+      with `BaseSamplingEstimator` imported
+      from `gemseo_umdo.formulation._estimator.sampling.base`,
       in a module found by GEMSEO,
       e.g. in a directory listed in the environment variable `GEMSEO_PATH`
       or in a GEMSEO plugin.
+
+    The base classes of the estimators,
+    such as `BaseSamplingEstimator`,
+    are internal to gemseo-umdo
+    and may change without notice.
 
     Then, use it as any other statistic,
     e.g. `scenario.add_objective("f", Foo_Settings(bar=1.0))`.
