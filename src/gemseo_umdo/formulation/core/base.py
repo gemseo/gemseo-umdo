@@ -35,7 +35,7 @@ from gemseo.util.string import convert_strings_to_iterable
 from gemseo.util.string import pretty_repr
 
 from gemseo_umdo.formulation._function.base import BaseStatisticFunction
-from gemseo_umdo.statistic.core.base_settings import BaseStatisticSettings
+from gemseo_umdo.statistic.settings.core.base import BaseStatisticSettings
 
 if TYPE_CHECKING:
     from collections.abc import Iterable

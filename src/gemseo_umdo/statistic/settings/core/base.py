@@ -16,7 +16,7 @@
 
 A statistic is defined by a settings model `X_Settings`
 deriving from
-[BaseStatisticSettings][gemseo_umdo.statistic.core.base_settings.BaseStatisticSettings]
+[BaseStatisticSettings][gemseo_umdo.statistic.settings.core.base.BaseStatisticSettings]
 and by one estimator class `X` per estimation technique
 supporting this statistic,
 found by the factory of statistic estimators of this technique.

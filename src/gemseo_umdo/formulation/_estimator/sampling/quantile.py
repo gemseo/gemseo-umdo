@@ -24,7 +24,7 @@ from numpy import arange
 from numpy import quantile
 
 from gemseo_umdo.formulation._estimator.sampling.base import BaseSamplingEstimator
-from gemseo_umdo.statistic.quantile_settings import Quantile_Settings
+from gemseo_umdo.statistic.settings.quantile import Quantile_Settings
 
 if TYPE_CHECKING:
     from gemseo.util.typing import RealArray

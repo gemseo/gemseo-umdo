@@ -16,7 +16,7 @@
 
 from __future__ import annotations
 
-from gemseo_umdo.statistic.core.base_settings import BaseStatisticSettings
+from gemseo_umdo.statistic.settings.core.base import BaseStatisticSettings
 
 
 class StandardDeviation_Settings(BaseStatisticSettings):  # noqa: N801

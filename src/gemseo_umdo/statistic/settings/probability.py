@@ -23,7 +23,7 @@ from typing import ClassVar
 
 from pydantic import Field
 
-from gemseo_umdo.statistic.core.base_settings import BaseStatisticSettings
+from gemseo_umdo.statistic.settings.core.base import BaseStatisticSettings
 
 if TYPE_CHECKING:
     from collections.abc import Callable

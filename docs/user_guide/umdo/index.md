@@ -646,12 +646,12 @@ a Pydantic model importable from [gemseo_umdo.statistic][gemseo_umdo.statistic]:
 
 | Statistic          | Settings                                                                                         | Fields (default)                          |
 |--------------------|--------------------------------------------------------------------------------------------------|-------------------------------------------|
-| Mean               | [Mean_Settings][gemseo_umdo.statistic.mean_settings.Mean_Settings]                       |                                           |
-| Variance           | [Variance_Settings][gemseo_umdo.statistic.variance_settings.Variance_Settings]               |                                           |
-| Standard deviation | [StandardDeviation_Settings][gemseo_umdo.statistic.standard_deviation_settings.StandardDeviation_Settings] |                                       |
-| Margin             | [Margin_Settings][gemseo_umdo.statistic.margin_settings.Margin_Settings]                   | `factor` (2.0)                            |
-| Probability        | [Probability_Settings][gemseo_umdo.statistic.probability_settings.Probability_Settings]         | `threshold` (0.0), `greater` (`True`)     |
-| Quantile           | [Quantile_Settings][gemseo_umdo.statistic.quantile_settings.Quantile_Settings]               | `level` (0.95), `method` (`"linear"`)     |
+| Mean               | [Mean_Settings][gemseo_umdo.statistic.settings.mean.Mean_Settings]                       |                                           |
+| Variance           | [Variance_Settings][gemseo_umdo.statistic.settings.variance.Variance_Settings]               |                                           |
+| Standard deviation | [StandardDeviation_Settings][gemseo_umdo.statistic.settings.standard_deviation.StandardDeviation_Settings] |                                       |
+| Margin             | [Margin_Settings][gemseo_umdo.statistic.settings.margin.Margin_Settings]                   | `factor` (2.0)                            |
+| Probability        | [Probability_Settings][gemseo_umdo.statistic.settings.probability.Probability_Settings]         | `threshold` (0.0), `greater` (`True`)     |
+| Quantile           | [Quantile_Settings][gemseo_umdo.statistic.settings.quantile.Quantile_Settings]               | `level` (0.95), `method` (`"linear"`)     |
 
 The name of the statistic,
 e.g. `"Mean"`,
@@ -680,10 +680,10 @@ e.g. $\mathbb{E}[f]-3\mathbb{S}[f]$ for an objective to maximize.
     A statistic `Foo` is defined by
 
     - a subclass `Foo_Settings` of
-      [BaseStatisticSettings][gemseo_umdo.statistic.core.base_settings.BaseStatisticSettings]
+      [BaseStatisticSettings][gemseo_umdo.statistic.settings.core.base.BaseStatisticSettings]
       whose fields are the parameters of the statistic
       and which may override
-      [make_conservative()][gemseo_umdo.statistic.core.base_settings.BaseStatisticSettings.make_conservative],
+      [make_conservative()][gemseo_umdo.statistic.settings.core.base.BaseStatisticSettings.make_conservative],
     - for each statistic estimation technique supporting `Foo`,
       an estimator class `Foo` whose constructor takes these settings
       as argument `settings`

@@ -25,7 +25,7 @@ from numpy import quantile
 from pydantic import Field
 from pydantic import field_validator
 
-from gemseo_umdo.statistic.core.base_settings import BaseStatisticSettings
+from gemseo_umdo.statistic.settings.core.base import BaseStatisticSettings
 
 
 class Quantile_Settings(BaseStatisticSettings):  # noqa: N801

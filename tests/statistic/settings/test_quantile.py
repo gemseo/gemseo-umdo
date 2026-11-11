@@ -20,7 +20,7 @@ import pytest
 from gemseo.util.testing.helper import assert_exception
 from numpy import float64
 
-from gemseo_umdo.statistic.quantile_settings import Quantile_Settings
+from gemseo_umdo.statistic.settings.quantile import Quantile_Settings
 
 
 @pytest.mark.parametrize(

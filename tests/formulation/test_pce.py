@@ -57,10 +57,10 @@ from gemseo_umdo.formulation._estimator.pce.variance import Variance
 from gemseo_umdo.formulation.pce import PCE
 from gemseo_umdo.formulation.pce_settings import PCE_Settings
 from gemseo_umdo.scenario.mdo import UMDOScenario
-from gemseo_umdo.statistic.margin_settings import Margin_Settings
-from gemseo_umdo.statistic.mean_settings import Mean_Settings
-from gemseo_umdo.statistic.standard_deviation_settings import StandardDeviation_Settings
-from gemseo_umdo.statistic.variance_settings import Variance_Settings
+from gemseo_umdo.statistic.settings.margin import Margin_Settings
+from gemseo_umdo.statistic.settings.mean import Mean_Settings
+from gemseo_umdo.statistic.settings.standard_deviation import StandardDeviation_Settings
+from gemseo_umdo.statistic.settings.variance import Variance_Settings
 
 if TYPE_CHECKING:
     from gemseo.core.function.collection.observables import Observables

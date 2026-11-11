@@ -85,7 +85,7 @@ of $\varphi(x,u^{(1)}),\ldots,\varphi(x,u^{(N)})$
 and where the index $j$ and the weight $w\in[0,1[$ depend on $\alpha$, $N$
 and the method of [numpy.quantile][numpy.quantile] [@hyndman1996sample]
 set by the field `method` of
-[Quantile_Settings][gemseo_umdo.statistic.quantile_settings.Quantile_Settings]
+[Quantile_Settings][gemseo_umdo.statistic.settings.quantile.Quantile_Settings]
 (default: `"linear"`),
 e.g. `scenario.add_constraint("c", Quantile_Settings(level=0.95, method="hazen"))`.
 The default level $\alpha$ is 0.95.

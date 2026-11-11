@@ -42,8 +42,8 @@ from gemseo_umdo.formulation.core.base import BaseUMDOFormulation
 from gemseo_umdo.formulation.sampling_settings import Sampling_Settings
 from gemseo_umdo.formulation.taylor_polynomial_settings import TaylorPolynomial_Settings
 from gemseo_umdo.scenario.mdo import UMDOScenario
-from gemseo_umdo.statistic.margin_settings import Margin_Settings
-from gemseo_umdo.statistic.quantile_settings import Quantile_Settings
+from gemseo_umdo.statistic.settings.margin import Margin_Settings
+from gemseo_umdo.statistic.settings.quantile import Quantile_Settings
 
 if TYPE_CHECKING:
     from collections.abc import Mapping
@@ -55,7 +55,7 @@ if TYPE_CHECKING:
     from gemseo.space import RandomSpace
 
     from gemseo_umdo.formulation.core.base_settings import BaseUMDOFormulationSettings
-    from gemseo_umdo.statistic.core.base_settings import BaseStatisticSettings
+    from gemseo_umdo.statistic.settings.core.base import BaseStatisticSettings
 
 
 _with_ot_distribution: Final[pytest.MarkDecorator] = pytest.mark.parametrize(
@@ -446,7 +446,7 @@ from __future__ import annotations
 
 from pydantic import Field
 
-from gemseo_umdo.statistic.core.base_settings import BaseStatisticSettings
+from gemseo_umdo.statistic.settings.core.base import BaseStatisticSettings
 from gemseo_umdo.formulation._estimator.sampling.base import (
     BaseSamplingEstimator,
 )

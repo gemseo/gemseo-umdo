@@ -26,7 +26,7 @@ from gemseo_umdo.scenario.base import BaseUScenario
 if TYPE_CHECKING:
     from collections.abc import Sequence
 
-    from gemseo_umdo.statistic.core.base_settings import BaseStatisticSettings
+    from gemseo_umdo.statistic.settings.core.base import BaseStatisticSettings
 
 
 class UMDOScenario(BaseUScenario, MDOScenario):
