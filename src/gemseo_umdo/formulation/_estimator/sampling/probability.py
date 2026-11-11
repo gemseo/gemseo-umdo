@@ -16,8 +16,6 @@
 
 from __future__ import annotations
 
-from operator import ge
-from operator import le
 from typing import TYPE_CHECKING
 
 from gemseo_umdo.formulation._estimator.sampling.base import BaseSamplingEstimator
@@ -32,5 +30,4 @@ class Probability(BaseSamplingEstimator[Probability_Settings]):
 
     def estimate_statistic(self, samples: RealArray) -> RealArray:
         settings = self._settings
-        compare = ge if settings.greater else le
-        return compare(samples, settings.threshold).mean(0)
+        return settings.comparison_operator(samples, settings.threshold).mean(0)

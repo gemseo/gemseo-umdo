@@ -30,6 +30,7 @@ from typing import Final
 from typing import Self
 from weakref import WeakValueDictionary
 
+from gemseo.uncertainty.statistic.core.base import BaseStatistics
 from gemseo.util.file_path_manager import FilePathManager
 from gemseo.util.pydantic import BaseSettings
 
@@ -104,12 +105,6 @@ class BaseStatisticSettings(BaseSettings):
         Returns:
             The string representation of the statistic of the output.
         """
-        # Imported here
-        # so that importing gemseo_umdo.statistic,
-        # e.g. for its standalone multilevel estimators,
-        # does not import gemseo.uncertainty.statistic.
-        from gemseo.uncertainty.statistic.core.base import BaseStatistics
-
         return BaseStatistics.compute_expression(
             output_name,
             FilePathManager.to_snake_case(self.target_class_name),
