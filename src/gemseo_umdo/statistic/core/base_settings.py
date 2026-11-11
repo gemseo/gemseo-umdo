@@ -33,6 +33,7 @@ from weakref import WeakValueDictionary
 from gemseo.uncertainty.statistic.core.base import BaseStatistics
 from gemseo.util.file_path_manager import FilePathManager
 from gemseo.util.pydantic import BaseSettings
+from gemseo.util.string import pretty_str
 
 _target_class_name_attribute: Final[str] = "_BaseSettings__target_class_name"
 """The class attribute where GEMSEO stores the target class name of settings."""
@@ -155,16 +156,16 @@ class BaseStatisticSettings(BaseSettings):
             ]
             if len(names) > 1:
                 msg = (
-                    f"The name '{name}' matches several statistics "
-                    f"up to the case: {', '.join(sorted(names))}; "
+                    f"The name {name!r} matches several statistics "
+                    f"up to the case: {pretty_str(names)}; "
                     "use the exact name."
                 )
                 raise ValueError(msg)
 
             if not names:
                 msg = (
-                    f"The statistic '{name}' has no settings class; "
-                    f"available statistics: {', '.join(sorted(_name_to_class))}."
+                    f"The statistic {name!r} has no settings class; "
+                    f"available statistics: {pretty_str(_name_to_class.keys())}."
                 )
                 raise ValueError(msg)
 
