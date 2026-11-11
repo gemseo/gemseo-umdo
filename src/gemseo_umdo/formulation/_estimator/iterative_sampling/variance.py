@@ -22,7 +22,7 @@ from typing import ClassVar
 from numpy import array
 from numpy import newaxis
 
-from gemseo_umdo.formulation._estimator.base import T
+from gemseo_umdo.formulation._estimator.base import StatisticSettingsT
 from gemseo_umdo.formulation._estimator.iterative_sampling.base_central_moment import (
     BaseCentralMoment,
 )
@@ -33,7 +33,7 @@ if TYPE_CHECKING:
     from gemseo.util.typing import RealArray
 
 
-class Variance(BaseCentralMoment[T]):
+class Variance(BaseCentralMoment[StatisticSettingsT]):
     """Iterative estimator of the variance."""
 
     _order: ClassVar[int] = 2
@@ -47,7 +47,7 @@ class Variance(BaseCentralMoment[T]):
     __prod_mean: Mean
     """The iterative estimator of the product between the mean and its Jacobian."""
 
-    def __init__(self, settings: T) -> None:  # noqa: D107
+    def __init__(self, settings: StatisticSettingsT) -> None:  # noqa: D107
         super().__init__(settings)
         self.__mean_jac = Mean(Mean_Settings())
         self.__mean = Mean(Mean_Settings())

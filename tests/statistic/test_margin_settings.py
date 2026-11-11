@@ -37,6 +37,7 @@ def test_zero_factor(factor, snapshot):
         (3.0, True, -3.0),
         (-3.0, True, -3.0),
     ],
+    ids=["above-positive", "above-negative", "below-positive", "below-negative"],
 )
 def test_make_conservative(factor, from_below, expected):
     """Check that the factor of a conservative margin has the right sign."""

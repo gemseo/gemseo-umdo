@@ -87,7 +87,7 @@ and this project adheres to
   e.g. `from gemseo_umdo.formulation import Sampling_Settings`,
   the settings of the statistics from [gemseo_umdo.statistic][gemseo_umdo.statistic],
   e.g. `from gemseo_umdo.statistic import Margin_Settings`,
-  and the U-scenarios from `gemseo_umdo.scenario`,
+  and the U-scenarios from [gemseo_umdo.scenario][gemseo_umdo.scenario],
   e.g. `from gemseo_umdo.scenario import UMDOScenario`.
 
 ### Changed

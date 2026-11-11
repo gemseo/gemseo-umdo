@@ -51,6 +51,7 @@ import gemseo_umdo.statistic
             },
         ),
     ],
+    ids=["formulation", "scenario", "statistic"],
 )
 def test_public_names(package, names):
     """Check the names exported by the public packages."""

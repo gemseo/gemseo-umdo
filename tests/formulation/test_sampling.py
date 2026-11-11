@@ -39,7 +39,6 @@ from gemseo.util.comparison import compare_dict_of_arrays
 from gemseo.util.testing.helper import assert_exception
 from numpy import arange
 from numpy import array
-from numpy import float64
 from numpy.testing import assert_allclose
 from numpy.testing import assert_almost_equal
 from numpy.testing import assert_equal
@@ -1246,13 +1245,8 @@ def quantile_formulation(create_sampling) -> Sampling:
     ("statistic_settings", "kwargs", "level"),
     [
         ("Quantile", {}, 0.95),
-        (Quantile_Settings(level=0.9), {}, 0.9),
         (Quantile_Settings(level=0.1), {}, 0.9),
         (Quantile_Settings(level=0.9), {"positive": True}, 0.1),
-        (Quantile_Settings(level=0.1), {"positive": True}, 0.1),
-        (Quantile_Settings(level=0.07), {}, 0.93),
-        (Quantile_Settings(level=1 - 1e-13), {"positive": True}, 1e-13),
-        (Quantile_Settings(level=float64(0.9)), {}, 0.9),
         (
             Quantile_Settings(level=0.05),
             {"constraint_type": ArrayFunction.ConstraintType.EQ},
@@ -1266,13 +1260,8 @@ def quantile_formulation(create_sampling) -> Sampling:
     ],
     ids=[
         "default",
-        "negative-high",
-        "negative-low",
-        "positive-high",
-        "positive-low",
-        "negative-decimal",
-        "positive-close-to-one",
-        "numpy-scalar",
+        "negative",
+        "positive",
         "equality",
         "equality-positive",
     ],
@@ -1283,6 +1272,7 @@ def test_quantile_constraint_level(
     """Check the level of a quantile inequality constraint is conservative.
 
     The level of a quantile equality constraint is used as is.
+    The conservative levels are checked by the tests of the settings.
     """
     constraint = quantile_formulation.create_constraint(
         "c", statistic_settings, **kwargs

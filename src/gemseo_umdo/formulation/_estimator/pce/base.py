@@ -19,14 +19,14 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from gemseo_umdo.formulation._estimator.base import BaseStatisticEstimator
-from gemseo_umdo.formulation._estimator.base import T
+from gemseo_umdo.formulation._estimator.base import StatisticSettingsT
 
 if TYPE_CHECKING:
     from typing import ClassVar
     from typing import Final
 
 
-class BasePCEEstimator(BaseStatisticEstimator[T]):
+class BasePCEEstimator(BaseStatisticEstimator[StatisticSettingsT]):
     """Base statistic estimator for a U-MDO formulation using PCE."""
 
     mean_arg_name: Final[str] = "mean"
