@@ -72,8 +72,9 @@ Image tests use `syrupy-matplotlib`.
 Three packages have eager public re-exports (with `__all__`), for the users:
 `gemseo_umdo.formulation` (the settings of the U-MDO formulations; it imports only
 `*_settings.py` modules, never a formulation class, to avoid import cycles),
-`gemseo_umdo.statistic` (the concrete settings of the statistics, from
-`statistic/settings.py`; `BaseStatisticSettings` is imported from that module) and
+`gemseo_umdo.statistic` (the concrete settings of the statistics, one
+`statistic/<name>_settings.py` per class; `BaseStatisticSettings` is imported from
+`statistic/core/base_settings.py`) and
 `gemseo_umdo.scenario` (`UMDOScenario`, `UEvaluationScenario`). The docs examples
 import from them. Everywhere else, and in
 `src/`, import from the defining module, e.g.
@@ -124,8 +125,8 @@ Each objective/constraint/observable becomes a `BaseStatisticFunction` (an
 Estimators live in `formulation/_estimator/<technique>/` (base class in `base.py`), one module per statistic
 (`mean.py`, `variance.py`, `standard_deviation.py`, `margin.py`, `probability.py`,
 `quantile.py`), discovered by the `BaseFactory` of that package. A statistic is set by
-a settings model of `statistic/settings.py` deriving from
-`BaseStatisticSettings`; its `target_class_name` (`Margin` for `Margin_Settings`) is
+a settings model of `statistic/<name>_settings.py` deriving from
+`BaseStatisticSettings` (`statistic/core/base_settings.py`); its `target_class_name` (`Margin` for `Margin_Settings`) is
 the estimator **class name**, and the settings are passed to the estimator
 constructor as `settings` (`BaseFactory.create_from_settings`, stored in `_settings`
 and read from there, never copied into attributes; the estimators used internally,

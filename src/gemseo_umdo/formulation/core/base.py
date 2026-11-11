@@ -32,7 +32,7 @@ from gemseo.util.hashable_ndarray import HashableNdarray
 from gemseo.util.string import convert_strings_to_iterable
 from gemseo.util.string import pretty_repr
 
-from gemseo_umdo.statistic.settings import BaseStatisticSettings
+from gemseo_umdo.statistic.core.base_settings import BaseStatisticSettings
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -208,17 +208,21 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
         self._check_statistic_name(
             statistic_settings if is_name else statistic_settings.target_class_name
         )
-        if is_name:
-            statistic_settings = BaseStatisticSettings.from_name(statistic_settings)
-        else:
-            # The estimator reads its settings at each estimation,
-            # so it uses a copy that the user cannot change afterwards.
-            statistic_settings = statistic_settings.model_copy()
+        settings = (
+            BaseStatisticSettings.from_name(statistic_settings)
+            if is_name
+            else statistic_settings
+        )
+        if conservative_from_below is not None:
+            settings = settings.make_conservative(conservative_from_below)
 
-        if conservative_from_below is None:
-            return statistic_settings
+        # The estimator reads its settings at each estimation,
+        # so it uses a deep copy that the user cannot change afterwards;
+        # make_conservative already returns a copy when it changes the settings.
+        if settings is statistic_settings:
+            settings = settings.model_copy(deep=True)
 
-        return statistic_settings.make_conservative(conservative_from_below)
+        return settings
 
     def _register_statistic_function(self, function: BaseStatisticFunction) -> None:
         """Register a function computing a statistic.

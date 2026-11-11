@@ -42,7 +42,7 @@ if TYPE_CHECKING:
     from gemseo.util.typing import RealArray
 
     from gemseo_umdo.formulation.control_variate import ControlVariate
-    from gemseo_umdo.statistic.settings import BaseStatisticSettings
+    from gemseo_umdo.statistic.core.base_settings import BaseStatisticSettings
 
 ControlVariateT = TypeVar("ControlVariateT", bound="ControlVariate")
 

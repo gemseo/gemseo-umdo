@@ -15,10 +15,12 @@
 from __future__ import annotations
 
 import sys
+from importlib import import_module
 from textwrap import dedent
 from typing import TYPE_CHECKING
 from typing import Any
 from typing import ClassVar
+from typing import Final
 from unittest import mock
 
 import pytest
@@ -43,15 +45,16 @@ from gemseo_umdo.formulation.core.base import BaseUMDOFormulation
 from gemseo_umdo.formulation.sampling_settings import Sampling_Settings
 from gemseo_umdo.formulation.taylor_polynomial_settings import TaylorPolynomial_Settings
 from gemseo_umdo.scenario.mdo import UMDOScenario
-from gemseo_umdo.statistic import Margin_Settings
-from gemseo_umdo.statistic import Quantile_Settings
+from gemseo_umdo.statistic.margin_settings import Margin_Settings
+from gemseo_umdo.statistic.quantile_settings import Quantile_Settings
 
 if TYPE_CHECKING:
     from collections.abc import Mapping
     from collections.abc import Sequence
+    from types import ModuleType
 
     from gemseo_umdo.formulation.core.base_settings import BaseUMDOFormulationSettings
-    from gemseo_umdo.statistic.settings import BaseStatisticSettings
+    from gemseo_umdo.statistic.core.base_settings import BaseStatisticSettings
 
 
 @pytest.fixture
@@ -378,26 +381,36 @@ def test_settings_changed_after_use(disciplines, design_space, uncertain_space):
     assert_almost_equal(execute(True), execute(False))
 
 
+_user_statistic_module_name: Final[str] = "user_statistic_for_gemseo_umdo"
+"""The name of the module defining a statistic of the user."""
+
 _user_statistic_module = '''
 from __future__ import annotations
 
-from gemseo_umdo.statistic.settings import BaseStatisticSettings
+from pydantic import Field
+
+from gemseo_umdo.statistic.core.base_settings import BaseStatisticSettings
 from gemseo_umdo.formulation._estimator.sampling.base import (
     BaseSamplingEstimator,
 )
 
 
 class ScaledMean_Settings(BaseStatisticSettings):
-    """The settings of a scaled mean."""
+    """The settings of a shifted and scaled mean."""
 
     scale: float = 1.0
 
+    offsets: list[float] = Field(default_factory=list)
 
-class ScaledMean(BaseSamplingEstimator[ScaledMean_Settings]):
-    """Estimator of a scaled mean."""
+
+# The base class is not parametrized by the settings class,
+# as the cache of typing would keep the settings class alive after the test,
+# and so registered as a subclass of BaseStatisticSettings.
+class ScaledMean(BaseSamplingEstimator):
+    """Estimator of a shifted and scaled mean."""
 
     def estimate_statistic(self, samples):
-        return self._settings.scale * samples.mean(0)
+        return self._settings.scale * samples.mean(0) + sum(self._settings.offsets)
 
     def compute_jacobian(self, samples, jac_samples):
         return self._settings.scale * jac_samples.mean(0)
@@ -405,17 +418,29 @@ class ScaledMean(BaseSamplingEstimator[ScaledMean_Settings]):
 """A module defining a statistic of the user."""
 
 
-@pytest.mark.usefixtures("reset_factory")
+@pytest.fixture
+def user_statistic_module(tmp_wd, monkeypatch, reset_factory) -> ModuleType:
+    """A module of the user defining a statistic, found through GEMSEO_PATH.
+
+    The module is removed from the imported modules after the test.
+    """
+    (tmp_wd / f"{_user_statistic_module_name}.py").write_text(
+        dedent(_user_statistic_module)
+    )
+    monkeypatch.setenv("GEMSEO_PATH", str(tmp_wd))
+    monkeypatch.syspath_prepend(str(tmp_wd))
+    yield import_module(_user_statistic_module_name)
+    del sys.modules[_user_statistic_module_name]
+
+
 def test_user_statistic(
-    disciplines, design_space, uncertain_space, tmp_path, monkeypatch
+    disciplines, design_space, uncertain_space, user_statistic_module
 ):
-    """Check that a user can add a statistic with its settings and estimator."""
-    module_name = "user_statistic_for_gemseo_umdo"
-    (tmp_path / f"{module_name}.py").write_text(dedent(_user_statistic_module))
-    monkeypatch.setenv("GEMSEO_PATH", str(tmp_path))
-    monkeypatch.syspath_prepend(str(tmp_path))
-    monkeypatch.delitem(sys.modules, module_name, raising=False)
-    user_module = __import__(module_name)
+    """Check that a user can add a statistic with its settings and estimator.
+
+    The settings are deep-copied:
+    changing a mutable field after adding the statistic has no effect.
+    """
 
     def execute(statistic_settings):
         scenario = UMDOScenario(
@@ -428,10 +453,13 @@ def test_user_statistic(
             formulation_settings=MDF_Settings(),
         )
         scenario.add_objective("f", statistic_settings)
+        if not isinstance(statistic_settings, str):
+            statistic_settings.offsets.append(1.0)
+
         scenario.execute(CustomDOE_Settings(samples=array([[1.0, 1.0, 1.0]])))
         return scenario.formulation.problem
 
-    problem = execute(user_module.ScaledMean_Settings(scale=3.0))
+    problem = execute(user_statistic_module.ScaledMean_Settings(scale=3.0))
     reference_problem = execute("Mean")
     assert problem.objective.name == "scaled_mean[f; 3.0]"
     assert_almost_equal(

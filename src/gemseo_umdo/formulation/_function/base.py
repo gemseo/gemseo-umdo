@@ -37,7 +37,7 @@ if TYPE_CHECKING:
 
     from gemseo_umdo.formulation._estimator.base import BaseStatisticEstimator
     from gemseo_umdo.formulation.core.base import BaseUMDOFormulation
-    from gemseo_umdo.statistic.settings import BaseStatisticSettings
+    from gemseo_umdo.statistic.core.base_settings import BaseStatisticSettings
 
 UMDOFormulationT = TypeVar("UMDOFormulationT", bound="BaseUMDOFormulation")
 

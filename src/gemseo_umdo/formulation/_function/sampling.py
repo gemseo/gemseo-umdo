@@ -41,7 +41,7 @@ if TYPE_CHECKING:
     from gemseo.util.typing import RealArray
 
     from gemseo_umdo.formulation.sampling import Sampling
-    from gemseo_umdo.statistic.settings import BaseStatisticSettings
+    from gemseo_umdo.statistic.core.base_settings import BaseStatisticSettings
 
 SamplingT = TypeVar("SamplingT", bound="Sampling")
 

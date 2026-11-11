@@ -74,12 +74,12 @@ from gemseo_umdo.formulation._function.iterative_estimation import IterativeEsti
 from gemseo_umdo.formulation.sampling import Sampling
 from gemseo_umdo.formulation.sampling_settings import Sampling_Settings
 from gemseo_umdo.scenario.mdo import UMDOScenario
-from gemseo_umdo.statistic import Margin_Settings
-from gemseo_umdo.statistic import Mean_Settings
-from gemseo_umdo.statistic import Probability_Settings
-from gemseo_umdo.statistic import Quantile_Settings
-from gemseo_umdo.statistic import StandardDeviation_Settings
-from gemseo_umdo.statistic import Variance_Settings
+from gemseo_umdo.statistic.margin_settings import Margin_Settings
+from gemseo_umdo.statistic.mean_settings import Mean_Settings
+from gemseo_umdo.statistic.probability_settings import Probability_Settings
+from gemseo_umdo.statistic.quantile_settings import Quantile_Settings
+from gemseo_umdo.statistic.standard_deviation_settings import StandardDeviation_Settings
+from gemseo_umdo.statistic.variance_settings import Variance_Settings
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -93,7 +93,7 @@ if TYPE_CHECKING:
     from gemseo_umdo.formulation._estimator.iterative_sampling.base import (
         BaseIterativeSamplingEstimator,
     )
-    from gemseo_umdo.statistic.settings import BaseStatisticSettings
+    from gemseo_umdo.statistic.core.base_settings import BaseStatisticSettings
 
 _two_samples: Final[ndarray] = array([[0.0] * 3, [1.0] * 3])
 """Two samples of the uncertain variables, used by default by the DOE algorithm."""

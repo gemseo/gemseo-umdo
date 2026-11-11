@@ -16,17 +16,17 @@
 
 This package exposes the settings of the statistics
 to be estimated by the U-MDO formulations,
-e.g. [Margin_Settings][gemseo_umdo.statistic.settings.Margin_Settings].
+e.g. [Margin_Settings][gemseo_umdo.statistic.margin_settings.Margin_Settings].
 """
 
 from __future__ import annotations
 
-from gemseo_umdo.statistic.settings import Margin_Settings
-from gemseo_umdo.statistic.settings import Mean_Settings
-from gemseo_umdo.statistic.settings import Probability_Settings
-from gemseo_umdo.statistic.settings import Quantile_Settings
-from gemseo_umdo.statistic.settings import StandardDeviation_Settings
-from gemseo_umdo.statistic.settings import Variance_Settings
+from gemseo_umdo.statistic.margin_settings import Margin_Settings
+from gemseo_umdo.statistic.mean_settings import Mean_Settings
+from gemseo_umdo.statistic.probability_settings import Probability_Settings
+from gemseo_umdo.statistic.quantile_settings import Quantile_Settings
+from gemseo_umdo.statistic.standard_deviation_settings import StandardDeviation_Settings
+from gemseo_umdo.statistic.variance_settings import Variance_Settings
 
 __all__ = [
     "Margin_Settings",

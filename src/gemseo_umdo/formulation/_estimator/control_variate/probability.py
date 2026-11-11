@@ -23,7 +23,7 @@ from typing import TYPE_CHECKING
 from gemseo_umdo.formulation._estimator.control_variate.base import (
     BaseControlVariateEstimator,
 )
-from gemseo_umdo.statistic.settings import Probability_Settings
+from gemseo_umdo.statistic.probability_settings import Probability_Settings
 
 if TYPE_CHECKING:
     from gemseo.util.typing import RealArray

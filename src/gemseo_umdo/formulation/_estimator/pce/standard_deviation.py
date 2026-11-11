@@ -19,7 +19,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from gemseo_umdo.formulation._estimator.pce.base import BasePCEEstimator
-from gemseo_umdo.statistic.settings import StandardDeviation_Settings
+from gemseo_umdo.statistic.standard_deviation_settings import StandardDeviation_Settings
 
 if TYPE_CHECKING:
     from typing import ClassVar

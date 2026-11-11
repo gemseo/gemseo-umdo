@@ -51,11 +51,11 @@ from gemseo_umdo.formulation._estimator.control_variate.variance import Variance
 from gemseo_umdo.formulation.control_variate import ControlVariate
 from gemseo_umdo.formulation.control_variate_settings import ControlVariate_Settings
 from gemseo_umdo.scenario.mdo import UMDOScenario
-from gemseo_umdo.statistic import Margin_Settings
-from gemseo_umdo.statistic import Mean_Settings
-from gemseo_umdo.statistic import Probability_Settings
-from gemseo_umdo.statistic import StandardDeviation_Settings
-from gemseo_umdo.statistic import Variance_Settings
+from gemseo_umdo.statistic.margin_settings import Margin_Settings
+from gemseo_umdo.statistic.mean_settings import Mean_Settings
+from gemseo_umdo.statistic.probability_settings import Probability_Settings
+from gemseo_umdo.statistic.standard_deviation_settings import StandardDeviation_Settings
+from gemseo_umdo.statistic.variance_settings import Variance_Settings
 
 if TYPE_CHECKING:
     from collections.abc import Sequence

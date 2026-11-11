@@ -24,13 +24,13 @@ from typing import TypeVar
 
 from gemseo.util.metaclass import ABCGoogleDocstringInheritanceMeta
 
-from gemseo_umdo.statistic.settings import BaseStatisticSettings
-
 if TYPE_CHECKING:
     from gemseo.util.typing import RealArray
 
+    from gemseo_umdo.statistic.core.base_settings import BaseStatisticSettings
 
-T = TypeVar("T", bound=BaseStatisticSettings)
+
+T = TypeVar("T", bound="BaseStatisticSettings")
 
 
 class BaseStatisticEstimator(Generic[T], metaclass=ABCGoogleDocstringInheritanceMeta):
