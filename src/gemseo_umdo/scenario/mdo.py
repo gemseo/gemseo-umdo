@@ -68,7 +68,7 @@ class UMDOScenario(BaseUScenario, MDOScenario):
 
     def add_constraint(
         self,
-        output_name: str | Sequence[str],
+        output_names: str | Sequence[str],
         statistic_settings: str | BaseStatisticSettings,
         constraint_type: ArrayFunction.ConstraintType = (
             ArrayFunction.ConstraintType.INEQ
@@ -80,13 +80,13 @@ class UMDOScenario(BaseUScenario, MDOScenario):
         """
         Args:
             statistic_settings: Either the settings of the statistic of
-                `output_name`, e.g. `Margin_Settings(factor=3.0)`,
+                `output_names`, e.g. `Margin_Settings(factor=3.0)`,
                 or the case-insensitive name of the statistic
                 to use its default settings,
                 e.g. `"Mean"`.
         """  # noqa: D205 D212 D415
         self.formulation.add_constraint(
-            output_name,
+            output_names,
             statistic_settings,
             constraint_type=constraint_type,
             constraint_name=constraint_name,
