@@ -24,7 +24,7 @@ from numpy.linalg import multi_dot
 from gemseo_umdo.formulation._estimator.taylor_polynomial.base import (
     BaseTaylorPolynomialEstimator,
 )
-from gemseo_umdo.statistic.settings import Mean_Settings
+from gemseo_umdo.statistic.mean_settings import Mean_Settings
 
 if TYPE_CHECKING:
     from gemseo.util.typing import RealArray

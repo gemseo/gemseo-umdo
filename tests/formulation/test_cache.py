@@ -44,7 +44,7 @@ from gemseo_umdo.formulation.sequential_sampling_settings import (
 )
 from gemseo_umdo.formulation.surrogate_settings import Surrogate_Settings
 from gemseo_umdo.scenario.mdo import UMDOScenario
-from gemseo_umdo.statistic import Probability_Settings
+from gemseo_umdo.statistic.probability_settings import Probability_Settings
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -52,7 +52,7 @@ if TYPE_CHECKING:
     from gemseo.util.typing import RealArray
 
     from gemseo_umdo.formulation.core.base_settings import BaseUMDOFormulationSettings
-    from gemseo_umdo.statistic.settings import BaseStatisticSettings
+    from gemseo_umdo.statistic.core.base_settings import BaseStatisticSettings
 
 design_points: Final[RealArray] = array([[-1.0], [0.0], [1.0]])
 """The design points at which to estimate the statistics."""

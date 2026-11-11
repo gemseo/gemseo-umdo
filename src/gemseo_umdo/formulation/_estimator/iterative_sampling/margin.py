@@ -25,9 +25,9 @@ from gemseo_umdo.formulation._estimator.iterative_sampling.mean import Mean
 from gemseo_umdo.formulation._estimator.iterative_sampling.standard_deviation import (
     StandardDeviation,
 )
-from gemseo_umdo.statistic.settings import Margin_Settings
-from gemseo_umdo.statistic.settings import Mean_Settings
-from gemseo_umdo.statistic.settings import StandardDeviation_Settings
+from gemseo_umdo.statistic.margin_settings import Margin_Settings
+from gemseo_umdo.statistic.mean_settings import Mean_Settings
+from gemseo_umdo.statistic.standard_deviation_settings import StandardDeviation_Settings
 
 if TYPE_CHECKING:
     from gemseo.util.typing import RealArray

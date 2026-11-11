@@ -1,0 +1,4 @@
+# serializer version: 1
+# name: test_from_name_unknown
+  "The statistic 'Unknown' has no settings class; available statistics: Margin, Mean, Probability, Quantile, StandardDeviation, Variance."
+# ---

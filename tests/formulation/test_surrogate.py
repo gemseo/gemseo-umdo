@@ -46,9 +46,9 @@ from scipy.stats import norm
 from gemseo_umdo.formulation.surrogate import Surrogate
 from gemseo_umdo.formulation.surrogate_settings import Surrogate_Settings
 from gemseo_umdo.scenario.mdo import UMDOScenario
-from gemseo_umdo.statistic import Margin_Settings
-from gemseo_umdo.statistic import Probability_Settings
-from gemseo_umdo.statistic import Quantile_Settings
+from gemseo_umdo.statistic.margin_settings import Margin_Settings
+from gemseo_umdo.statistic.probability_settings import Probability_Settings
+from gemseo_umdo.statistic.quantile_settings import Quantile_Settings
 
 if TYPE_CHECKING:
     from gemseo.core.function.collection.observables import Observables

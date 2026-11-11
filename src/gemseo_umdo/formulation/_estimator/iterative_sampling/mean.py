@@ -24,7 +24,7 @@ from numpy import array
 from gemseo_umdo.formulation._estimator.iterative_sampling.base_central_moment import (
     BaseCentralMoment,
 )
-from gemseo_umdo.statistic.settings import Mean_Settings
+from gemseo_umdo.statistic.mean_settings import Mean_Settings
 
 if TYPE_CHECKING:
     from gemseo.util.typing import RealArray

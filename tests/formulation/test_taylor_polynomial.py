@@ -41,10 +41,10 @@ from gemseo_umdo.formulation._estimator.taylor_polynomial.variance import Varian
 from gemseo_umdo.formulation.taylor_polynomial import TaylorPolynomial
 from gemseo_umdo.formulation.taylor_polynomial_settings import TaylorPolynomial_Settings
 from gemseo_umdo.scenario.mdo import UMDOScenario
-from gemseo_umdo.statistic import Margin_Settings
-from gemseo_umdo.statistic import Mean_Settings
-from gemseo_umdo.statistic import StandardDeviation_Settings
-from gemseo_umdo.statistic import Variance_Settings
+from gemseo_umdo.statistic.margin_settings import Margin_Settings
+from gemseo_umdo.statistic.mean_settings import Mean_Settings
+from gemseo_umdo.statistic.standard_deviation_settings import StandardDeviation_Settings
+from gemseo_umdo.statistic.variance_settings import Variance_Settings
 
 if TYPE_CHECKING:
     from collections.abc import Sequence

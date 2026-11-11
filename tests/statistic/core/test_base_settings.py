@@ -12,20 +12,51 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-"""Tests for the settings of the statistics."""
+"""Tests for the base settings of the statistics."""
 
 from __future__ import annotations
+
+import gc
 
 import pytest
 from gemseo.util.testing.helper import assert_exception
 
-from gemseo_umdo.statistic import Margin_Settings
-from gemseo_umdo.statistic import Mean_Settings
-from gemseo_umdo.statistic import Probability_Settings
-from gemseo_umdo.statistic import Quantile_Settings
-from gemseo_umdo.statistic import StandardDeviation_Settings
-from gemseo_umdo.statistic import Variance_Settings
-from gemseo_umdo.statistic.settings import BaseStatisticSettings
+from gemseo_umdo.statistic.core.base_settings import BaseStatisticSettings
+from gemseo_umdo.statistic.margin_settings import Margin_Settings
+from gemseo_umdo.statistic.mean_settings import Mean_Settings
+from gemseo_umdo.statistic.probability_settings import Probability_Settings
+from gemseo_umdo.statistic.quantile_settings import Quantile_Settings
+from gemseo_umdo.statistic.standard_deviation_settings import StandardDeviation_Settings
+from gemseo_umdo.statistic.variance_settings import Variance_Settings
+
+
+def _get_subclasses(cls: type) -> set[type]:
+    """Return the subclasses of a class, recursively.
+
+    Args:
+        cls: The class.
+
+    Returns:
+        The subclasses of the class.
+    """
+    subclasses = set()
+    for subclass in cls.__subclasses__():
+        subclasses |= {subclass, *_get_subclasses(subclass)}
+
+    return subclasses
+
+
+@pytest.fixture
+def isolated_subclasses():
+    """Check that the settings classes defined by a test do not outlive it."""
+    # The classes defined in a test are freed with the frame of the test,
+    # but their reference cycles require a garbage collection,
+    # including those of the previous tests.
+    gc.collect()
+    subclasses = _get_subclasses(BaseStatisticSettings)
+    yield
+    gc.collect()
+    assert _get_subclasses(BaseStatisticSettings) == subclasses
 
 
 @pytest.mark.parametrize(
@@ -46,59 +77,6 @@ def test_defaults(settings_class, name, fields):
     assert settings.model_dump() == fields
 
 
-@pytest.mark.parametrize(
-    ("settings_class", "kwargs"),
-    [
-        (Margin_Settings, {"factor": 0}),
-        (Margin_Settings, {"factor": -0.0}),
-        (Quantile_Settings, {"level": 0.0}),
-        (Quantile_Settings, {"level": 1.0}),
-        (Quantile_Settings, {"method": "foo"}),
-    ],
-    ids=["zero-factor", "negative-zero-factor", "level-zero", "level-one", "method"],
-)
-def test_invalid_settings(settings_class, kwargs, snapshot):
-    """Check that invalid settings raise an error at instantiation."""
-    with assert_exception(ValueError, snapshot):
-        settings_class(**kwargs)
-
-
-@pytest.mark.parametrize(
-    ("factor", "from_below", "expected"),
-    [
-        (3.0, False, 3.0),
-        (-3.0, False, 3.0),
-        (3.0, True, -3.0),
-        (-3.0, True, -3.0),
-    ],
-)
-def test_margin_make_conservative(factor, from_below, expected):
-    """Check that the factor of a conservative margin has the right sign."""
-    settings = Margin_Settings(factor=factor)
-    conservative_settings = settings.make_conservative(from_below)
-    assert conservative_settings.factor == expected
-    assert settings.factor == factor
-
-
-@pytest.mark.parametrize(
-    ("level", "from_below", "expected"),
-    [
-        (0.9, False, 0.9),
-        (0.1, False, 0.9),
-        (0.9, True, 0.1),
-        (0.1, True, 0.1),
-        (0.07, False, 0.93),
-    ],
-)
-def test_quantile_make_conservative(level, from_below, expected):
-    """Check that the level of a conservative quantile is on the right side."""
-    settings = Quantile_Settings(level=level, method="hazen")
-    conservative_settings = settings.make_conservative(from_below)
-    assert conservative_settings.level == expected
-    assert conservative_settings.method == "hazen"
-    assert settings.level == level
-
-
 @pytest.mark.parametrize("from_below", [False, True])
 def test_default_make_conservative(from_below):
     """Check that the settings are unchanged by default."""
@@ -113,8 +91,8 @@ def test_default_make_conservative(from_below):
         (Margin_Settings(), {"factor": 2.0}),
         (Quantile_Settings(), {"level": 0.95}),
         (Quantile_Settings(method="hazen"), {"level": 0.95, "method": "hazen"}),
-        (Probability_Settings(), {}),
-        (Probability_Settings(greater=False), {"greater": False}),
+        (Probability_Settings(), {"threshold": 0.0}),
+        (Probability_Settings(greater=False), {"threshold": 0.0, "greater": False}),
         (Margin_Settings().make_conservative(True), {"factor": -2.0}),
     ],
 )
@@ -128,31 +106,14 @@ def test_from_name():
     assert BaseStatisticSettings.from_name("Margin") == Margin_Settings()
 
 
-def test_from_name_unknown():
-    """Check the error raised when no settings class is defined for a statistic.
-
-    The message is not snapshotted
-    as it lists the settings classes defined by the other tests, if any.
-    """
-    prefix = "The statistic 'Unknown' has no settings class; available statistics: "
-    with pytest.raises(ValueError, match=r"^The statistic 'Unknown'") as error:
+@pytest.mark.usefixtures("isolated_subclasses")
+def test_from_name_unknown(snapshot):
+    """Check the error raised when no settings class is defined for a statistic."""
+    with assert_exception(ValueError, snapshot):
         BaseStatisticSettings.from_name("Unknown")
 
-    message = str(error.value)
-    assert message.startswith(prefix)
-    assert message.endswith(".")
-    names = message.removeprefix(prefix).removesuffix(".").split(", ")
-    assert names == sorted(names)
-    assert {
-        "Margin",
-        "Mean",
-        "Probability",
-        "Quantile",
-        "StandardDeviation",
-        "Variance",
-    } <= set(names)
 
-
+@pytest.mark.usefixtures("isolated_subclasses")
 def test_from_name_with_subclass():
     """Check that a subclass of a settings class does not shadow it."""
 
@@ -164,6 +125,7 @@ def test_from_name_with_subclass():
     assert type(BaseStatisticSettings.from_name("OtherMargin")) is OtherMargin_Settings
 
 
+@pytest.mark.usefixtures("isolated_subclasses")
 def test_from_name_with_intermediate_base_class():
     """Check that a statistic deriving from an intermediate base class is found."""
 
@@ -178,3 +140,23 @@ def test_from_name_with_intermediate_base_class():
         type(BaseStatisticSettings.from_name("IntermediateFoo"))
         is IntermediateFoo_Settings
     )
+
+
+@pytest.mark.usefixtures("isolated_subclasses")
+def test_from_name_with_post_init_reading_required_field():
+    """Check that from_name does not instantiate the settings classes.
+
+    A settings class whose post-initialization reads a required field
+    cannot be instantiated without this field.
+    """
+
+    class Doubled_Settings(BaseStatisticSettings):  # noqa: N801
+        """The settings of a statistic with a required field."""
+
+        value: float
+
+        def model_post_init(self, context, /) -> None:
+            self.value *= 2
+
+    assert BaseStatisticSettings.from_name("Mean") == Mean_Settings()
+    assert Doubled_Settings(value=1.0).value == 2.0
