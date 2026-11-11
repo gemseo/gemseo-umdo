@@ -89,4 +89,4 @@ it is replaced by $1-\alpha$ if necessary to make the quantile conservative.""",
             if from_below
             else max(level, complementary_level)
         )
-        return self.model_copy(update={"level": level}, deep=True)
+        return self.model_copy(update={"level": level})

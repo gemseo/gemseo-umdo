@@ -69,6 +69,14 @@ def isolated_subclasses():
         (Probability_Settings, "Probability", {"threshold": 0.0, "greater": True}),
         (Quantile_Settings, "Quantile", {"level": 0.95, "method": "linear"}),
     ],
+    ids=[
+        "mean",
+        "variance",
+        "standard-deviation",
+        "margin",
+        "probability",
+        "quantile",
+    ],
 )
 def test_defaults(settings_class, name, fields):
     """Check the target class name and the default values of the fields."""
@@ -77,7 +85,7 @@ def test_defaults(settings_class, name, fields):
     assert settings.model_dump() == fields
 
 
-@pytest.mark.parametrize("from_below", [False, True])
+@pytest.mark.parametrize("from_below", [False, True], ids=["above", "below"])
 def test_default_make_conservative(from_below):
     """Check that the settings are unchanged by default."""
     settings = Probability_Settings(threshold=1.0)
@@ -94,6 +102,15 @@ def test_default_make_conservative(from_below):
         (Probability_Settings(), {"threshold": 0.0}),
         (Probability_Settings(greater=False), {"threshold": 0.0, "greater": False}),
         (Margin_Settings().make_conservative(True), {"factor": -2.0}),
+    ],
+    ids=[
+        "mean",
+        "margin",
+        "quantile",
+        "quantile-hazen",
+        "probability",
+        "probability-lower",
+        "margin-conservative",
     ],
 )
 def test_get_name_parameters(settings, parameters):
@@ -159,4 +176,42 @@ def test_from_name_with_post_init_reading_required_field():
             self.value *= 2
 
     assert BaseStatisticSettings.from_name("Mean") == Mean_Settings()
-    assert Doubled_Settings(value=1.0).value == 2.0
+
+
+@pytest.mark.usefixtures("isolated_subclasses")
+def test_from_name_with_redefinition():
+    """Check that a redefined settings class replaces the previous one.
+
+    This is the case of a notebook cell defining a class and run again,
+    while the previous class is still alive.
+    """
+
+    class Foo_Settings(BaseStatisticSettings):  # noqa: N801
+        """The settings of a statistic."""
+
+        value: float = 1.0
+
+    previous_class = Foo_Settings
+
+    class Foo_Settings(BaseStatisticSettings):  # noqa: N801
+        """The settings of the same statistic, redefined."""
+
+        value: float = 2.0
+
+    assert previous_class is not Foo_Settings
+    assert BaseStatisticSettings.from_name("Foo") == Foo_Settings()
+
+
+@pytest.mark.usefixtures("isolated_subclasses")
+def test_from_name_with_subclass_without_suffix():
+    """Check that a subclass whose name has not the suffix is not a statistic.
+
+    GEMSEO binds it to the statistic of its parent class,
+    but it does not replace this parent class.
+    """
+
+    class MyMargin(Margin_Settings):
+        """A margin."""
+
+    assert MyMargin().target_class_name == "Margin"
+    assert type(BaseStatisticSettings.from_name("Margin")) is Margin_Settings

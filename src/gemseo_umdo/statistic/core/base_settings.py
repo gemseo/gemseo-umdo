@@ -28,13 +28,24 @@ from typing import Any
 from typing import ClassVar
 from typing import Final
 from typing import Self
+from weakref import WeakValueDictionary
 
-from gemseo.uncertainty.statistic.core.base import BaseStatistics
 from gemseo.util.file_path_manager import FilePathManager
 from gemseo.util.pydantic import BaseSettings
 
-_settings_suffix: Final[str] = "_Settings"
-"""The suffix of the name of a settings class of a statistic."""
+_target_class_name_attribute: Final[str] = "_BaseSettings__target_class_name"
+"""The class attribute where GEMSEO stores the target class name of settings."""
+
+_name_to_class: Final[WeakValueDictionary[str, type[BaseStatisticSettings]]] = (
+    WeakValueDictionary()
+)
+"""The settings classes of the statistics bound to their names.
+
+A class is registered at its definition
+and a later definition of a class with the same name replaces it,
+e.g. when a notebook cell defining a class is run again.
+The references are weak so that this registry does not keep a class alive.
+"""
 
 
 class BaseStatisticSettings(BaseSettings):
@@ -56,7 +67,6 @@ class BaseStatisticSettings(BaseSettings):
         """Return the settings making the statistic conservative.
 
         By default, the settings are returned unchanged.
-        A derived class changing the settings must return a deep copy of them.
 
         Args:
             from_below: Whether the statistic must be conservative from below,
@@ -94,6 +104,12 @@ class BaseStatisticSettings(BaseSettings):
         Returns:
             The string representation of the statistic of the output.
         """
+        # Imported here
+        # so that importing gemseo_umdo.statistic,
+        # e.g. for its standalone multilevel estimators,
+        # does not import gemseo.uncertainty.statistic.
+        from gemseo.uncertainty.statistic.core.base import BaseStatistics
+
         return BaseStatistics.compute_expression(
             output_name,
             FilePathManager.to_snake_case(self.target_class_name),
@@ -102,8 +118,22 @@ class BaseStatisticSettings(BaseSettings):
         )
 
     @classmethod
+    def __pydantic_init_subclass__(cls, **kwargs: Any) -> None:
+        super().__pydantic_init_subclass__(**kwargs)
+        # GEMSEO sets the target class name of a class
+        # when the name of this class ends with the suffix of the settings,
+        # e.g. Margin for Margin_Settings;
+        # the other classes, e.g. intermediate base classes, are not statistics.
+        name = vars(cls).get(_target_class_name_attribute)
+        if name:
+            _name_to_class[name] = cls
+
+    @classmethod
     def from_name(cls, name: str) -> BaseStatisticSettings:
         """Return the default settings of a statistic from its name.
+
+        When several settings classes are defined for the same statistic,
+        the most recently defined one is used.
 
         Args:
             name: The name of the statistic, e.g. `"Margin"`.
@@ -114,40 +144,12 @@ class BaseStatisticSettings(BaseSettings):
         Raises:
             ValueError: When no settings class is defined for this statistic.
         """
-        name_to_class = cls.__get_name_to_class()
-        settings_class = name_to_class.get(name)
+        settings_class = _name_to_class.get(name)
         if settings_class is None:
             msg = (
                 f"The statistic '{name}' has no settings class; "
-                f"available statistics: {', '.join(sorted(name_to_class))}."
+                f"available statistics: {', '.join(sorted(_name_to_class))}."
             )
             raise ValueError(msg)
 
         return settings_class()
-
-    @classmethod
-    def __get_name_to_class(cls) -> dict[str, type[BaseStatisticSettings]]:
-        """Return the settings classes of the statistics bound to their names.
-
-        The name of a statistic is read from the name of its settings class,
-        without instantiating this class.
-        A class closer to `BaseStatisticSettings` takes precedence.
-
-        Returns:
-            The settings classes of the statistics bound to their names.
-        """
-        name_to_class = {}
-        classes = [BaseStatisticSettings]
-        while classes:
-            subclasses = []
-            for class_ in classes:
-                for subclass in class_.__subclasses__():
-                    class_name = subclass.__name__
-                    if class_name.endswith(_settings_suffix):
-                        name = class_name.removesuffix(_settings_suffix)
-                        name_to_class.setdefault(name, subclass)
-                    subclasses.append(subclass)
-
-            classes = subclasses
-
-        return name_to_class

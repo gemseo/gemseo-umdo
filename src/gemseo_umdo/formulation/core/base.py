@@ -208,19 +208,15 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
         self._check_statistic_name(
             statistic_settings if is_name else statistic_settings.target_class_name
         )
+        # The estimator reads its settings at each estimation,
+        # so it uses a deep copy that the user cannot change afterwards.
         settings = (
             BaseStatisticSettings.from_name(statistic_settings)
             if is_name
-            else statistic_settings
+            else statistic_settings.model_copy(deep=True)
         )
         if conservative_from_below is not None:
             settings = settings.make_conservative(conservative_from_below)
-
-        # The estimator reads its settings at each estimation,
-        # so it uses a deep copy that the user cannot change afterwards;
-        # make_conservative already returns a copy when it changes the settings.
-        if settings is statistic_settings:
-            settings = settings.model_copy(deep=True)
 
         return settings
 

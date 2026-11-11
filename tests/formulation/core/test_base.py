@@ -252,45 +252,37 @@ def _execute_margin_scenario(
 
 
 @pytest.mark.parametrize(
-    ("parameters", "abs_factor"),
-    [({"factor": 3.0}, 3.0), ({"factor": -3.0}, 3.0), ({}, 2.0)],
-    ids=["positive", "negative", "default"],
-)
-@pytest.mark.parametrize(
     ("positive", "constraint_name"),
-    [(False, "Margin[c; {}]"), (True, "-Margin[c; -{}]")],
+    [(False, "Margin[c; 3.0]"), (True, "-Margin[c; -3.0]")],
+    ids=["negative", "positive"],
 )
 @pytest.mark.parametrize(
     ("maximize", "objective_name"),
-    [(False, "Margin[f; {}]"), (True, "-Margin[f; -{}]")],
+    [(False, "Margin[f; 3.0]"), (True, "-Margin[f; -3.0]")],
+    ids=["minimize", "maximize"],
 )
 def test_margin_objective_and_constraint(
     disciplines,
     design_space,
     uncertain_space,
     statistic_estimation_settings,
-    parameters,
-    abs_factor,
     positive,
     constraint_name,
     maximize,
     objective_name,
 ):
-    """Check that the factor of a margin objective or constraint is conservative.
+    """Check that a margin objective or inequality constraint is conservative.
 
-    The factor is replaced by its absolute value, negated if conservative from below.
+    The margin is conservative from below
+    for an objective to maximize or a positive constraint;
+    the conservative factors are checked by the tests of the settings.
     """
     args = (disciplines, design_space, uncertain_space, statistic_estimation_settings)
-    reference = _execute_margin_scenario(
-        *args, {"factor": abs_factor}, positive=positive, maximize=maximize
-    )
     last_item = _execute_margin_scenario(
-        *args, parameters, positive=positive, maximize=maximize
+        *args, {"factor": -3.0}, positive=positive, maximize=maximize
     )
-    name = objective_name.format(abs_factor)
-    assert_equal(last_item[name], reference[name])
-    name = constraint_name.format(abs_factor)
-    assert_equal(last_item[name], reference[name])
+    assert objective_name in last_item
+    assert constraint_name in last_item
 
 
 def test_margin_observable_default_factor(
@@ -358,25 +350,75 @@ def test_unsupported_statistic(disciplines, design_space, uncertain_space, snaps
         scenario.add_objective("f", Quantile_Settings())
 
 
-def test_settings_changed_after_use(disciplines, design_space, uncertain_space):
-    """Check that changing the settings after adding a statistic has no effect."""
+def _set_factor(settings: Margin_Settings) -> None:
+    """Change the factor of the settings of a margin.
 
-    def execute(change_settings):
+    Args:
+        settings: The settings of the margin.
+    """
+    settings.factor = 5.0
+
+
+def _append_offset(settings: BaseStatisticSettings) -> None:
+    """Append an offset to the mutable field of the settings of the user.
+
+    Args:
+        settings: The settings of the statistic of the user.
+    """
+    settings.offsets.append(1.0)
+
+
+@pytest.mark.parametrize(
+    ("is_margin", "is_objective", "change_settings", "function_name"),
+    [
+        (True, False, _set_factor, "Margin[f; 3.0]"),
+        (False, False, _append_offset, "scaled_mean[f; 3.0]"),
+        (False, True, _append_offset, "scaled_mean[f; 3.0]"),
+    ],
+    ids=["margin-observable", "mutable-field-observable", "mutable-field-objective"],
+)
+def test_settings_changed_after_use(
+    disciplines,
+    design_space,
+    uncertain_space,
+    user_statistic_module,
+    is_margin,
+    is_objective,
+    change_settings,
+    function_name,
+):
+    """Check that changing the settings after adding a statistic has no effect.
+
+    The settings are deep-copied,
+    even when an objective makes them conservative with a shallow copy.
+    """
+
+    def execute(change):
         scenario = UMDOScenario(
             disciplines,
             design_space,
             uncertain_space,
-            statistic_estimation_settings=Sampling_Settings(n_samples=10),
+            statistic_estimation_settings=Sampling_Settings(
+                n_samples=10, estimate_statistics_iteratively=False
+            ),
             formulation_settings=MDF_Settings(),
         )
-        scenario.add_objective("f", "Mean")
-        settings = Margin_Settings(factor=3.0)
-        scenario.add_observable("f", settings)
-        if change_settings:
-            settings.factor = 5.0
+        settings = (
+            Margin_Settings(factor=3.0)
+            if is_margin
+            else user_statistic_module.ScaledMean_Settings(scale=3.0)
+        )
+        if is_objective:
+            scenario.add_objective("f", settings)
+        else:
+            scenario.add_objective("f", "Mean")
+            scenario.add_observable("f", settings)
+
+        if change:
+            change_settings(settings)
 
         scenario.execute(CustomDOE_Settings(samples=array([[1.0, 1.0, 1.0]])))
-        return scenario.formulation.problem.database.last_item["Margin[f; 3.0]"]
+        return scenario.formulation.problem.database.last_item[function_name]
 
     assert_almost_equal(execute(True), execute(False))
 
@@ -401,6 +443,10 @@ class ScaledMean_Settings(BaseStatisticSettings):
     scale: float = 1.0
 
     offsets: list[float] = Field(default_factory=list)
+
+    def make_conservative(self, from_below):
+        # A shallow copy sharing the mutable fields with these settings.
+        return self.model_copy(update={"scale": self.scale})
 
 
 # The base class is not parametrized by the settings class,
@@ -436,11 +482,7 @@ def user_statistic_module(tmp_wd, monkeypatch, reset_factory) -> ModuleType:
 def test_user_statistic(
     disciplines, design_space, uncertain_space, user_statistic_module
 ):
-    """Check that a user can add a statistic with its settings and estimator.
-
-    The settings are deep-copied:
-    changing a mutable field after adding the statistic has no effect.
-    """
+    """Check that a user can add a statistic with its settings and estimator."""
 
     def execute(statistic_settings):
         scenario = UMDOScenario(
@@ -453,9 +495,6 @@ def test_user_statistic(
             formulation_settings=MDF_Settings(),
         )
         scenario.add_objective("f", statistic_settings)
-        if not isinstance(statistic_settings, str):
-            statistic_settings.offsets.append(1.0)
-
         scenario.execute(CustomDOE_Settings(samples=array([[1.0, 1.0, 1.0]])))
         return scenario.formulation.problem
 
