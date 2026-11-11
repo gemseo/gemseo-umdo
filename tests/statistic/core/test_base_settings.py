@@ -151,21 +151,53 @@ def test_from_name_unknown(snapshot):
         BaseStatisticSettings.from_name("Unknown")
 
 
-@pytest.mark.usefixtures("isolated_subclasses")
-def test_from_name_with_subclass():
-    """Check that a subclass of a settings class does not shadow it."""
+def _define_subclass_with_suffix() -> tuple[
+    dict[type[BaseStatisticSettings], str], dict[str, type[BaseStatisticSettings]]
+]:
+    """Define a subclass of a settings class whose name has the suffix.
+
+    Returns:
+        The target class names of the defined classes
+        and the settings classes expected from their names.
+    """
 
     class OtherMargin_Settings(Margin_Settings):  # noqa: N801
         """Another margin."""
 
-    assert OtherMargin_Settings().target_class_name == "OtherMargin"
-    assert type(BaseStatisticSettings.from_name("Margin")) is Margin_Settings
-    assert type(BaseStatisticSettings.from_name("OtherMargin")) is OtherMargin_Settings
+    return (
+        {OtherMargin_Settings: "OtherMargin"},
+        {"OtherMargin": OtherMargin_Settings, "Margin": Margin_Settings},
+    )
 
 
-@pytest.mark.usefixtures("isolated_subclasses")
-def test_from_name_with_intermediate_base_class():
-    """Check that a statistic deriving from an intermediate base class is found."""
+def _define_subclass_without_suffix() -> tuple[
+    dict[type[BaseStatisticSettings], str], dict[str, type[BaseStatisticSettings]]
+]:
+    """Define a subclass of a settings class whose name has not the suffix.
+
+    GEMSEO binds it to the statistic of its parent class,
+    but it does not replace this parent class.
+
+    Returns:
+        The target class names of the defined classes
+        and the settings classes expected from their names.
+    """
+
+    class MyMargin(Margin_Settings):
+        """A margin."""
+
+    return {MyMargin: "Margin"}, {"Margin": Margin_Settings}
+
+
+def _define_intermediate_base_class() -> tuple[
+    dict[type[BaseStatisticSettings], str], dict[str, type[BaseStatisticSettings]]
+]:
+    """Define a statistic deriving from an intermediate base class.
+
+    Returns:
+        The target class names of the defined classes
+        and the settings classes expected from their names.
+    """
 
     class BaseFooStatisticSettings(BaseStatisticSettings):
         """An intermediate base class, bound to no statistic."""
@@ -173,30 +205,34 @@ def test_from_name_with_intermediate_base_class():
     class IntermediateFoo_Settings(BaseFooStatisticSettings):  # noqa: N801
         """The settings of a statistic deriving from an intermediate base class."""
 
-    assert not BaseFooStatisticSettings().target_class_name
-    assert (
-        type(BaseStatisticSettings.from_name("IntermediateFoo"))
-        is IntermediateFoo_Settings
+    return (
+        {BaseFooStatisticSettings: "", IntermediateFoo_Settings: "IntermediateFoo"},
+        {"IntermediateFoo": IntermediateFoo_Settings},
     )
 
 
 @pytest.mark.usefixtures("isolated_subclasses")
-def test_from_name_with_post_init_reading_required_field():
-    """Check that from_name does not instantiate the settings classes.
+@pytest.mark.parametrize(
+    "define_classes",
+    [
+        _define_subclass_with_suffix,
+        _define_subclass_without_suffix,
+        _define_intermediate_base_class,
+    ],
+    ids=["subclass-with-suffix", "subclass-without-suffix", "intermediate-base"],
+)
+def test_from_name_registration(define_classes):
+    """Check that a class is registered under the target class name of GEMSEO.
 
-    A settings class whose post-initialization reads a required field
-    cannot be instantiated without this field.
+    GEMSEO sets this name only for a class whose name has the suffix `_Settings`,
+    so the other classes are not registered.
     """
+    classes_to_target_class_names, names_to_classes = define_classes()
+    for settings_class, name in classes_to_target_class_names.items():
+        assert settings_class().target_class_name == name
 
-    class Doubled_Settings(BaseStatisticSettings):  # noqa: N801
-        """The settings of a statistic with a required field."""
-
-        value: float
-
-        def model_post_init(self, context, /) -> None:
-            self.value *= 2
-
-    assert BaseStatisticSettings.from_name("Mean") == Mean_Settings()
+    for name, settings_class in names_to_classes.items():
+        assert type(BaseStatisticSettings.from_name(name)) is settings_class
 
 
 @pytest.mark.usefixtures("isolated_subclasses")
@@ -221,18 +257,3 @@ def test_from_name_with_redefinition():
 
     assert previous_class is not Foo_Settings
     assert BaseStatisticSettings.from_name("Foo") == Foo_Settings()
-
-
-@pytest.mark.usefixtures("isolated_subclasses")
-def test_from_name_with_subclass_without_suffix():
-    """Check that a subclass whose name has not the suffix is not a statistic.
-
-    GEMSEO binds it to the statistic of its parent class,
-    but it does not replace this parent class.
-    """
-
-    class MyMargin(Margin_Settings):
-        """A margin."""
-
-    assert MyMargin().target_class_name == "Margin"
-    assert type(BaseStatisticSettings.from_name("Margin")) is Margin_Settings
