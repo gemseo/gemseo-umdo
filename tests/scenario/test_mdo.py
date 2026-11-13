@@ -42,12 +42,12 @@ from gemseo_umdo.scenario.mdo import UMDOScenario
 
 
 @pytest.fixture
-def scenario(disciplines, design_space, uncertain_space) -> UMDOScenario:
+def scenario(toy_disciplines, toy_design_space, toy_uncertain_space) -> UMDOScenario:
     """The MDO scenario under uncertainty."""
     scn = UMDOScenario(
-        disciplines,
-        design_space,
-        uncertain_space,
+        toy_disciplines,
+        toy_design_space,
+        toy_uncertain_space,
         statistic_estimation_settings=Sampling_Settings(n_samples=3),
         formulation_settings=MDF_Settings(
             main_mda_settings=MDAChain_Settings(
@@ -61,9 +61,9 @@ def scenario(disciplines, design_space, uncertain_space) -> UMDOScenario:
     return scn
 
 
-def test_disciplines_copy(scenario, disciplines):
+def test_disciplines_copy(scenario, toy_disciplines):
     """Check that the BaseUScenario works on a copy of the sequence of disciplines."""
-    assert id(scenario.disciplines) != id(disciplines)
+    assert id(scenario.disciplines) != id(toy_disciplines)
 
 
 def test_available_statistics(scenario):
@@ -122,12 +122,14 @@ def test_mdo_formulation(scenario):
     assert list(scenario.mdo_formulation.input_space.variables) == ["u"]
 
 
-def test_pydantic_mdo_formulation(disciplines, design_space, uncertain_space):
+def test_pydantic_mdo_formulation(
+    toy_disciplines, toy_design_space, toy_uncertain_space
+):
     """Check that the MDO formulation can be passed as a Pydantic model."""
     scenario = UMDOScenario(
-        disciplines,
-        design_space,
-        uncertain_space,
+        toy_disciplines,
+        toy_design_space,
+        toy_uncertain_space,
         statistic_estimation_settings=Sampling_Settings(n_samples=3),
         formulation_settings=MDF_Settings(),
     )
@@ -138,13 +140,15 @@ def test_pydantic_mdo_formulation(disciplines, design_space, uncertain_space):
 @pytest.mark.parametrize(
     "minimize", [None, True, False], ids=["default", "minimize", "maximize"]
 )
-def test_minimize_objective(disciplines, design_space, uncertain_space, minimize):
+def test_minimize_objective(
+    toy_disciplines, toy_design_space, toy_uncertain_space, minimize
+):
     """Check that the argument minimize of add_objective is correctly used."""
     kwargs = {} if minimize is None else {"minimize": minimize}
     scn = UMDOScenario(
-        disciplines,
-        design_space,
-        uncertain_space,
+        toy_disciplines,
+        toy_design_space,
+        toy_uncertain_space,
         statistic_estimation_settings=Sampling_Settings(n_samples=3),
     )
     scn.add_objective("f", "Mean", **kwargs)
@@ -154,15 +158,17 @@ def test_minimize_objective(disciplines, design_space, uncertain_space, minimize
     assert scn.formulation.problem.objective.name == expected_name
 
 
-def test_uncertain_design_variables(disciplines, design_space, uncertain_space):
+def test_uncertain_design_variables(
+    toy_disciplines, toy_design_space, toy_uncertain_space
+):
     """Check that a design variable can be noised.
 
     Here we check the disciplines created by the BaseUScenario.
     """
     scn = UMDOScenario(
-        disciplines,
-        design_space,
-        uncertain_space,
+        toy_disciplines,
+        toy_design_space,
+        toy_uncertain_space,
         statistic_estimation_settings=Sampling_Settings(n_samples=3),
         uncertain_design_variables={
             "x0": ("+", "v0"),
@@ -176,7 +182,7 @@ def test_uncertain_design_variables(disciplines, design_space, uncertain_space):
         assert f"x{i}" not in design_space
         assert f"dv_x{i}" in design_space
 
-    assert len(scn.disciplines) == len(disciplines) + 1
+    assert len(scn.disciplines) == len(toy_disciplines) + 1
     mdo_chain = scn.disciplines[0]
     assert isinstance(mdo_chain, DisciplineChain)
 
@@ -230,7 +236,9 @@ def test_uncertain_design_variables_values(x, u1, u2):
     assert scenario.optimization_result.f_opt == (f(x + u1) + f(x + u2)) / 2
 
 
-def test_statistic_no_estimation_parameters(disciplines, design_space, uncertain_space):
+def test_statistic_no_estimation_parameters(
+    toy_disciplines, toy_design_space, toy_uncertain_space
+):
     """Check that a TypeError is raised when estimation settings are missing."""
     with pytest.raises(
         TypeError,
@@ -239,7 +247,7 @@ def test_statistic_no_estimation_parameters(disciplines, design_space, uncertain
             "'statistic_estimation_settings'"
         ),
     ):
-        UMDOScenario(disciplines, design_space, uncertain_space)
+        UMDOScenario(toy_disciplines, toy_design_space, toy_uncertain_space)
 
 
 @pytest.mark.parametrize(

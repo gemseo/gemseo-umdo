@@ -31,13 +31,13 @@ from gemseo_umdo.scenario.evaluation import UEvaluationScenario
 
 @pytest.fixture
 def u_evaluation_scenario(
-    disciplines, design_space, uncertain_space
+    toy_disciplines, toy_design_space, toy_uncertain_space
 ) -> UEvaluationScenario:
     """A UEvaluationScenario with an uncertain design variable."""
     return UEvaluationScenario(
-        disciplines,
-        design_space,
-        uncertain_space,
+        toy_disciplines,
+        toy_design_space,
+        toy_uncertain_space,
         Sampling_Settings(n_samples=3),
         uncertain_design_variables={"x0": ("+", "u")},
     )
