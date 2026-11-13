@@ -57,8 +57,11 @@ Run a single test or a selection with the usual pytest arguments:
 
 ## Testing
 
-`tests/` mirrors `src/gemseo_umdo/`. `tests/conftest.py` only re-exports the shared
-fixtures of `gemseo.util.testing.pytest_conftest`. `tests/formulation/conftest.py`
+`tests/` mirrors `src/gemseo_umdo/`. `tests/conftest.py` re-exports the shared
+fixtures of `gemseo.util.testing.pytest_conftest` and defines the toy problem of the
+scenario and `BaseUMDOFormulation` tests (`toy_disciplines`, `toy_design_space`,
+`toy_uncertain_space`, whose distribution settings, SciPy-based by default, can be set
+by indirect parametrization). `tests/formulation/conftest.py`
 provides a toy problem (`disciplines`, `design_space`, `uncertain_space`,
 `quadratic_problem`) and `statistic_estimation_settings`, parametrized over one
 settings instance of every U-MDO formulation; `statistic_estimation_settings_for_dirac`
