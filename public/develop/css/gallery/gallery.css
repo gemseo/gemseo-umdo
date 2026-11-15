@@ -10,7 +10,7 @@ Commons, PO Box 1866, Mountain View, CA 94042, USA.
 /*
 Styles for the example gallery, in two independent parts.
 
-The first one lays out the list entries of the index pages, emitted by the
+The first one lays out the cards of the examples on the index pages, emitted by the
 patched `_thumbnail_div` of docs_tools._mkdocs_gallery; it applies to both
 schemes.
 
@@ -30,20 +30,68 @@ gallery entries, are closer to their description than the other headings.
   margin-bottom: 0.5em;
 }
 
+/*
+Each entry is a card whose only link is the title, stretched over the whole card,
+so that the links of the API names of the intros are not mistaken for examples.
+*/
 .gallery-item {
+  position: relative;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 0.8em;
   margin: 0.6em 0;
+  padding: 0.6em 0.8em;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 0.2rem;
+  transition: border-color 125ms, box-shadow 125ms;
 }
 
-/*
-Occupies its width even when the example produced no figure, so that the titles
-of a list line up whether or not they are preceded by a thumbnail.
-*/
+.gallery-item:hover {
+  border-color: var(--md-accent-fg-color);
+  box-shadow: var(--md-shadow-z2);
+}
+
+/* Not justified, as the short lines of a card would be stretched. */
+.md-typeset .gallery-item-text {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+  text-align: left;
+}
+
+.md-typeset .gallery-item-title {
+  display: block;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.md-typeset .gallery-item-title::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+/* The focus ring is drawn around the card, which the title covers. */
+.md-typeset .gallery-item-title:focus-visible {
+  outline: none;
+}
+
+.gallery-item:has(.gallery-item-title:focus-visible) {
+  outline: 2px solid var(--md-accent-fg-color);
+  outline-offset: 2px;
+}
+
+.gallery-item-intro {
+  display: block;
+  margin-top: 0.2em;
+  color: var(--md-default-fg-color--light);
+  font-size: 0.9em;
+}
+
+/* Only in the entries of the examples which produced a figure. */
 .gallery-item-thumb {
-  flex: 0 0 4.5em;
-  text-align: center;
+  flex: 0 0 5em;
 }
 
 /*
@@ -53,18 +101,20 @@ the page is meant to show through a thumbnail in both schemes. Painting it white
 would also hide the border below on the dark page.
 */
 .gallery-item-thumb img {
+  display: block;
   max-width: 100%;
-  height: auto;
+  max-height: 4em;
+  margin: auto;
+  object-fit: contain;
   border: 1px solid var(--md-default-fg-color--lightest);
   border-radius: 0.1rem;
 }
 
-.gallery-item-text {
-  margin: 0;
-}
-
-.gallery-item-intro {
-  color: var(--md-default-fg-color--light);
+/* The thumbnails would take too much of the width of a phone. */
+@media screen and (max-width: 30em) {
+  .gallery-item-thumb {
+    display: none;
+  }
 }
 
 /* ------------------------------------------------------------ Example pages */
