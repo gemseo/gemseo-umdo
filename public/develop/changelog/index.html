@@ -7654,6 +7654,18 @@ and this project adheres to
   this statistic cannot be estimated iteratively:
   using it requires <code>estimate_statistics_iteratively=False</code>,
   otherwise a <code>ValueError</code> is raised.</li>
+<li><a class="autorefs autorefs-internal" title="            estimate_statistic_jacobians
+
+
+  
+      instance-attribute
+  " href="../reference/gemseo_umdo/formulation/core/base/#gemseo_umdo.formulation.core.base.BaseUMDOFormulation.estimate_statistic_jacobians">BaseUMDOFormulation.estimate_statistic_jacobians</a>
+  is whether to sample a design point once to estimate both the statistics
+  and their Jacobians;
+  the U-scenarios set it from their driver
+  and the differentiation method of their problem,
+  and reset it at the end of each execution with
+  <a class="autorefs autorefs-internal" title="            reset_execution_state" href="../reference/gemseo_umdo/formulation/core/base/#gemseo_umdo.formulation.core.base.BaseUMDOFormulation.reset_execution_state">BaseUMDOFormulation.reset_execution_state()</a>.</li>
 </ul>
 <h3 id="changed">Changed<a class="headerlink" href="#changed" title="Permanent link">&para;</a></h3>
 <ul>
@@ -7819,16 +7831,12 @@ and this project adheres to
   
       instance-attribute
   " href="../reference/gemseo_umdo/formulation/sampling/#gemseo_umdo.formulation.sampling.Sampling.callbacks">Sampling.callbacks</a>
-  and <a class="autorefs autorefs-internal" title="            jacobian_callbacks
-
-
-  
-      instance-attribute
-  " href="../reference/gemseo_umdo/formulation/sampling/#gemseo_umdo.formulation.sampling.Sampling.jacobian_callbacks">Sampling.jacobian_callbacks</a>
-  only contain the callbacks added by the user;
+  only contains the callbacks added by the user;
   with <code>estimate_statistics_iteratively=True</code>,
-  they no longer contain the iterative estimations of the statistics,
-  which are passed to the DOE algorithm at each sampling.</li>
+  it no longer contains the iterative estimations of the statistics,
+  which are passed to the DOE algorithm at each sampling
+  and estimate both the statistics and,
+  when the Jacobians of the outputs are evaluated, their Jacobians.</li>
 <li><a class="autorefs autorefs-internal" title="            Sampling" href="../reference/gemseo_umdo/formulation/sampling/#gemseo_umdo.formulation.sampling.Sampling">Sampling</a>
   with <code>estimate_statistics_iteratively=False</code>
   reads the samples of the outputs and of their gradients at each design point
@@ -7877,6 +7885,12 @@ and this project adheres to
   e.g. an almost deterministic Young modulus <code>E</code>
   and a thickness <code>t</code> varying by ±40%.
   A non-positive nominal value of a positive variable raises a <code>ValueError</code>.</li>
+<li>Requesting the Jacobian of a statistic that the U-MDO formulation cannot estimate,
+  e.g. <code>"Probability"</code> with <a class="autorefs autorefs-internal" title="            Sampling" href="../reference/gemseo_umdo/formulation/sampling/#gemseo_umdo.formulation.sampling.Sampling">Sampling</a>
+  or any statistic with <a class="autorefs autorefs-internal" title="            Surrogate" href="../reference/gemseo_umdo/formulation/surrogate/#gemseo_umdo.formulation.surrogate.Surrogate">Surrogate</a>,
+  raises a <code>NotImplementedError</code> naming the statistic, the output and the formulation;
+  a U-scenario whose driver requires this Jacobian
+  raises it before executing the driver, so before sampling the disciplines.</li>
 </ul>
 <h3 id="removed">Removed<a class="headerlink" href="#removed" title="Permanent link">&para;</a></h3>
 <ul>
@@ -7887,6 +7901,16 @@ and this project adheres to
   or <a class="autorefs autorefs-internal" title="            UEvaluationScenario" href="../reference/gemseo_umdo/scenario/evaluation/#gemseo_umdo.scenario.evaluation.UEvaluationScenario">UEvaluationScenario</a>
   to evaluate statistics without objective or constraints.</li>
 <li>BREAKING CHANGE: <code>SobolGraph.DEFAULT_FILE_PATH</code>, which had no effect.</li>
+<li>BREAKING CHANGE: <code>Sampling.jacobian_callbacks</code>;
+  use <a class="autorefs autorefs-internal" title="            callbacks
+
+
+  
+      instance-attribute
+  " href="../reference/gemseo_umdo/formulation/sampling/#gemseo_umdo.formulation.sampling.Sampling.callbacks">Sampling.callbacks</a>,
+  which are also called when estimating the Jacobians of the statistics.</li>
+<li>BREAKING CHANGE: <code>Sampling.input_data_to_output_samples</code>
+  and <code>Surrogate.input_data_to_output_samples</code>, which were not used.</li>
 </ul>
 <h3 id="fixed">Fixed<a class="headerlink" href="#fixed" title="Permanent link">&para;</a></h3>
 <ul>
@@ -7896,22 +7920,43 @@ and this project adheres to
   for <a class="autorefs autorefs-internal" title="            Sampling" href="../reference/gemseo_umdo/formulation/sampling/#gemseo_umdo.formulation.sampling.Sampling">Sampling</a>
   with <code>estimate_statistics_iteratively=True</code> (default)
   and twice for the other ones.
-  When the gradients are required,
-  they sample the disciplines once more per design point
-  to estimate the gradients of all the statistics.
-  The results are the same, except for
+  When the driver requires the gradients and they are not approximated,
+  this sampling is also used to estimate the gradients of all the statistics,
+  instead of a second one;
+  the disciplines are then linearized at every design point,
+  including those where only the statistics are required,
+  e.g. the line search points of a gradient-based optimizer,
+  and the statistics of an output are estimated
+  from the samples where its gradient is available too
+  (see
+  <a class="autorefs autorefs-internal" title="            estimate_statistic_jacobians
+
+
+  
+      instance-attribute
+  " href="../reference/gemseo_umdo/formulation/core/base/#gemseo_umdo.formulation.core.base.BaseUMDOFormulation.estimate_statistic_jacobians">BaseUMDOFormulation.estimate_statistic_jacobians</a>).
+  Otherwise, the results are the same, except for
   <a class="autorefs autorefs-internal" title="            SequentialSampling" href="../reference/gemseo_umdo/formulation/sequential_sampling/#gemseo_umdo.formulation.sequential_sampling.SequentialSampling">SequentialSampling</a>,
-  which now increases the number of samples once per sampling
-  instead of once per statistic;
-  without gradients,
-  it uses <span class="arithmatex">\(N_k\)</span> samples at the <span class="arithmatex">\(k\)</span>-th iteration for all the statistics,
-  as documented,
-  while with gradients,
-  the gradients are estimated with more samples than the statistics.</li>
+  which now increases the number of samples only when sampling a new design point,
+  instead of once per statistic,
+  and uses <span class="arithmatex">\(N_k\)</span> samples at the <span class="arithmatex">\(k\)</span>-th iteration
+  for all the statistics and their gradients,
+  as documented.</li>
+<li>When <a class="autorefs autorefs-internal" title="            Sampling" href="../reference/gemseo_umdo/formulation/sampling/#gemseo_umdo.formulation.sampling.Sampling">Sampling</a> estimates
+  the Jacobians of the statistics,
+  it estimates the statistics of an output and their Jacobians
+  from the same samples, i.e. those where both the output and its gradient
+  are available, whatever <code>estimate_statistics_iteratively</code>;
+  with <code>estimate_statistics_iteratively=False</code>,
+  the statistics also used the samples where only the output was available,
+  so that a gradient-based optimizer could get a gradient
+  inconsistent with the value of the statistic.
+  With <code>estimate_statistics_iteratively=True</code>,
+  a sample whose evaluation raises an error is still discarded for all the outputs,
+  as the DOE algorithm skips it.</li>
 <li><a class="autorefs autorefs-internal" title="            PCE" href="../reference/gemseo_umdo/formulation/pce/#gemseo_umdo.formulation.pce.PCE">PCE</a> fits the polynomial chaos expansion
-  once per design point to estimate the statistics
-  (and once more when their gradients are required),
-  instead of once per statistic.</li>
+  once per design point to estimate the statistics and their gradients,
+  instead of once per statistic and once more per gradient.</li>
 <li><a class="autorefs autorefs-internal" title="            Sampling" href="../reference/gemseo_umdo/formulation/sampling/#gemseo_umdo.formulation.sampling.Sampling">Sampling</a>
   with <code>estimate_statistics_iteratively=True</code> (default)
   estimates correctly two statistics of the same output and of the same type
@@ -7944,8 +7989,6 @@ and this project adheres to
   the samples of these outputs were no longer aligned
   with those of the other outputs and of the gradients.
   For each sampling of the uncertain variables,
-  i.e. once to estimate the statistics at a design point
-  and once to estimate their Jacobians,
   it logs a single warning listing the outputs
   that are missing at some samples generated by the DOE algorithm,
   e.g. because their evaluation failed,
@@ -8003,6 +8046,17 @@ and this project adheres to
   as when adding an observable already observed;
   previously, the output was still added as an observable
   of the problem of their MDO formulation.</li>
+<li>The U-MDO formulations reuse the data computed at a design point
+  even if the caller modifies the array of this design point in place
+  after the evaluation;
+  previously, they sampled the disciplines again.</li>
+<li><a class="autorefs autorefs-internal" title="            Sampling" href="../reference/gemseo_umdo/formulation/sampling/#gemseo_umdo.formulation.sampling.Sampling">Sampling</a>
+  no longer changes the <code>callbacks</code>, <code>eval_jac</code> and <code>evaluate_observable_jacobian</code>
+  of the settings of its DOE algorithm,
+  even when a sampling fails;
+  previously, a sampling left <code>eval_jac</code> and <code>evaluate_observable_jacobian</code>
+  set to <code>True</code> in these settings when it estimated the gradients
+  and a failed sampling left its callbacks in them.</li>
 </ul>
 <h2 id="version-430-october-2025">Version 4.3.0 (October 2025)<a class="headerlink" href="#version-430-october-2025" title="Permanent link">&para;</a></h2>
 <h3 id="added_1">Added<a class="headerlink" href="#added_1" title="Permanent link">&para;</a></h3>
