@@ -14,9 +14,13 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 from __future__ import annotations
 
+import contextlib
 import re
+from typing import TYPE_CHECKING
+from unittest import mock
 
 import pytest
+from gemseo.core.function.array_function import ArrayFunction
 from gemseo.discipline import AnalyticDiscipline
 from gemseo.discipline import AutoPyDiscipline
 from gemseo.discipline import DisciplineChain
@@ -25,13 +29,17 @@ from gemseo.formulation import MDF_Settings
 from gemseo.formulation.mdf import MDF
 from gemseo.mda import MDAChain_Settings
 from gemseo.mda import MDAGaussSeidel_Settings
+from gemseo.optimization import NLOPT_COBYLA_Settings
+from gemseo.optimization import SLSQP_Settings
 from gemseo.space import DesignSpace
 from gemseo.space import RandomSpace
 from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
+from gemseo.util.testing.helper import assert_exception
 from numpy import array
 from numpy import atleast_2d
 from numpy import vstack
 from numpy.linalg import norm
+from numpy.testing import assert_equal
 
 from gemseo_umdo.discipline.noiser.additive import AdditiveNoiser
 from gemseo_umdo.discipline.noiser.multiplicative import MultiplicativeNoiser
@@ -39,6 +47,11 @@ from gemseo_umdo.formulation.factory import UMDOFormulationFactory
 from gemseo_umdo.formulation.sampling import Sampling
 from gemseo_umdo.formulation.sampling_settings import Sampling_Settings
 from gemseo_umdo.scenario.mdo import UMDOScenario
+
+if TYPE_CHECKING:
+    from collections.abc import Generator
+
+    from gemseo_umdo.formulation.core.base import BaseUMDOFormulation
 
 
 @pytest.fixture
@@ -306,3 +319,290 @@ def test_log(
     assert objective_expr in caplog.text
     assert constraint_expr in caplog.text
     assert constraint_res in caplog.text
+
+
+@contextlib.contextmanager
+def record_joint_sampling_flags(
+    formulation: BaseUMDOFormulation,
+) -> Generator[list[bool], None, None]:
+    """Record whether the joint sampling is enabled at each sampling.
+
+    Args:
+        formulation: The U-MDO formulation.
+
+    Yields:
+        The values of `estimate_statistic_jacobians` at each sampling.
+    """
+    flags = []
+    compute_samples = formulation.compute_samples
+
+    def record_flag(*args, **kwargs):
+        flags.append(formulation.estimate_statistic_jacobians)
+        return compute_samples(*args, **kwargs)
+
+    with mock.patch.object(formulation, "compute_samples", side_effect=record_flag):
+        yield flags
+
+
+def create_toy_scenario(
+    discipline: AnalyticDiscipline,
+    design_space: DesignSpace,
+    uncertain_space: RandomSpace,
+) -> UMDOScenario:
+    """Create a U-MDO scenario without objective from the toy problem.
+
+    Args:
+        discipline: The discipline.
+        design_space: The design space.
+        uncertain_space: The uncertain space.
+
+    Returns:
+        The U-MDO scenario.
+    """
+    return UMDOScenario(
+        [discipline], design_space, uncertain_space, Sampling_Settings(n_samples=3)
+    )
+
+
+@pytest.mark.parametrize(
+    ("algorithm_settings", "differentiation_method", "expected"),
+    [
+        pytest.param(SLSQP_Settings(max_iter=2), "user", True, id="SLSQP-user"),
+        pytest.param(
+            SLSQP_Settings(max_iter=2),
+            "finite_differences",
+            False,
+            id="SLSQP-finite_differences",
+        ),
+        pytest.param(NLOPT_COBYLA_Settings(max_iter=2), "user", False, id="COBYLA"),
+        pytest.param(
+            CustomDOE_Settings(samples=array([[0.5] * 3])), "user", False, id="DOE"
+        ),
+        pytest.param(
+            CustomDOE_Settings(samples=array([[0.5] * 3]), eval_jac=True),
+            "user",
+            True,
+            id="DOE-eval_jac",
+        ),
+    ],
+)
+def test_estimate_statistic_jacobians_from_driver(
+    scenario,
+    toy_disciplines,
+    algorithm_settings,
+    differentiation_method,
+    expected,
+    enable_discipline_statistics,
+):
+    """Check that the U-scenario sets estimate_statistic_jacobians from the driver.
+
+    The disciplines must be linearized only when the driver uses the gradients
+    of the statistics computed from the Jacobians of the disciplines,
+    and not when it approximates them, e.g. with finite differences.
+    """
+    scenario.set_differentiation_method(differentiation_method)
+    formulation = scenario.formulation
+    formulation.estimate_statistic_jacobians = not expected
+    with record_joint_sampling_flags(formulation) as flags:
+        scenario.execute(algorithm_settings)
+
+    assert flags[0] is expected
+    n_linearizations = toy_disciplines[0].execution_statistics.n_linearizations
+    assert (n_linearizations > 0) is expected
+
+
+def add_probability_objective(scenario: UMDOScenario) -> None:
+    """Add a probability to minimize as objective.
+
+    Args:
+        scenario: The U-MDO scenario.
+    """
+    scenario.add_objective("y", "Probability", threshold=0.5)
+
+
+def add_probability_objective_to_maximize(scenario: UMDOScenario) -> None:
+    """Add a probability to maximize as objective.
+
+    Args:
+        scenario: The U-MDO scenario.
+    """
+    scenario.add_objective("y", "Probability", threshold=0.5, minimize=False)
+
+
+def add_probability_constraint(scenario: UMDOScenario) -> None:
+    """Add a mean as objective and a positive probability with an offset as constraint.
+
+    Args:
+        scenario: The U-MDO scenario.
+    """
+    scenario.add_objective("z", "Mean")
+    scenario.add_constraint("y", "Probability", threshold=0.5, positive=True, value=0.1)
+
+
+def add_probability_observable(scenario: UMDOScenario) -> None:
+    """Add a mean as objective and a probability as observable.
+
+    Args:
+        scenario: The U-MDO scenario.
+    """
+    scenario.add_objective("z", "Mean")
+    scenario.add_observable("y", "Probability", threshold=0.5)
+
+
+@pytest.mark.parametrize(
+    ("add_functions", "algorithm_settings"),
+    [
+        pytest.param(
+            add_probability_objective, SLSQP_Settings(max_iter=2), id="objective"
+        ),
+        pytest.param(
+            add_probability_objective_to_maximize,
+            SLSQP_Settings(max_iter=2),
+            id="objective-maximize",
+        ),
+        pytest.param(
+            add_probability_constraint, SLSQP_Settings(max_iter=2), id="constraint"
+        ),
+        pytest.param(
+            add_probability_observable,
+            NLOPT_COBYLA_Settings(max_iter=2, evaluate_observable_jacobian=True),
+            id="observable",
+        ),
+        pytest.param(
+            add_probability_observable,
+            CustomDOE_Settings(samples=array([[0.5]]), eval_jac=True),
+            id="observable-DOE",
+        ),
+    ],
+)
+def test_unsupported_jacobian_from_driver(
+    toy_problem,
+    add_functions,
+    algorithm_settings,
+    snapshot,
+    enable_discipline_statistics,
+):
+    """Check that a driver requiring an unsupported Jacobian raises an error.
+
+    The error must be raised before any sampling.
+    """
+    scenario = create_toy_scenario(*toy_problem)
+    add_functions(scenario)
+    with assert_exception(NotImplementedError, snapshot):
+        scenario.execute(algorithm_settings)
+
+    assert not toy_problem[0].execution_statistics.n_executions
+
+
+@pytest.mark.parametrize(
+    "algorithm_settings",
+    [
+        pytest.param(NLOPT_COBYLA_Settings(max_iter=2), id="COBYLA"),
+        pytest.param(SLSQP_Settings(max_iter=2), id="SLSQP"),
+        pytest.param(CustomDOE_Settings(samples=array([[0.5]])), id="DOE"),
+    ],
+)
+def test_unsupported_jacobian_not_required(toy_problem, algorithm_settings):
+    """Check that a statistic whose Jacobian cannot be estimated can be used.
+
+    The driver must not differentiate this statistic,
+    e.g. an observable of an optimizer that does not evaluate its Jacobian.
+    """
+    scenario = create_toy_scenario(*toy_problem)
+    add_probability_observable(scenario)
+    scenario.execute(algorithm_settings)
+
+
+def test_jacobian_of_non_statistic_observable_from_driver(toy_problem):
+    """Check that a driver can differentiate an observable that is not a statistic.
+
+    E.g. a function of the design variables added to the problem directly.
+    """
+    scenario = create_toy_scenario(*toy_problem)
+    scenario.add_objective("z", "Mean")
+    problem = scenario.formulation.problem
+    problem.add_observable(
+        ArrayFunction(lambda x: 2 * x, "g", jac=lambda x: array([[2.0]]))
+    )
+    scenario.execute(CustomDOE_Settings(samples=array([[0.5]]), eval_jac=True))
+    assert_equal(problem.database.get_gradient_history("g"), array([[2.0]]))
+
+
+def test_estimate_statistic_jacobians_without_new_iter_observable(toy_problem):
+    """Check that an observable not evaluated at each new iteration is ignored.
+
+    The driver evaluating the Jacobians of the observables
+    evaluated at each new iteration
+    will not request the Jacobian of this observable.
+    """
+    scenario = create_toy_scenario(*toy_problem)
+    scenario.add_objective("z", "Probability", threshold=0.5)
+    scenario.add_observable("y", "Mean")
+    problem = scenario.formulation.problem
+    problem.new_iter_observables = []
+    with record_joint_sampling_flags(scenario.formulation) as flags:
+        scenario.execute(
+            CustomDOE_Settings(
+                samples=array([[0.5]]), evaluate_observable_jacobian=True
+            )
+        )
+
+    assert not flags[0]
+
+
+def test_optimizer_observable_jacobians(scenario):
+    """Check that an optimizer evaluating the observable Jacobians samples once.
+
+    A gradient-free optimizer evaluating the Jacobians of the observables
+    must sample the disciplines once per design point,
+    including the first one.
+    """
+    formulation = scenario.formulation
+    with mock.patch.object(
+        formulation, "compute_samples", wraps=formulation.compute_samples
+    ) as compute_samples:
+        scenario.execute(
+            NLOPT_COBYLA_Settings(max_iter=2, evaluate_observable_jacobian=True)
+        )
+
+    assert compute_samples.call_count == len(formulation.problem.database)
+
+
+def test_optimizer_observable_jacobians_without_observable(
+    toy_disciplines, toy_design_space, toy_uncertain_space, enable_discipline_statistics
+):
+    """Check that a gradient-free optimizer without observables does not linearize.
+
+    Evaluating the Jacobians of the observables
+    must not linearize the disciplines
+    when there is no observable whose Jacobian can be estimated.
+    """
+    scenario = UMDOScenario(
+        toy_disciplines,
+        toy_design_space,
+        toy_uncertain_space,
+        statistic_estimation_settings=Sampling_Settings(n_samples=3),
+        formulation_settings=MDF_Settings(),
+    )
+    scenario.add_objective("f", "Mean")
+    scenario.execute(
+        NLOPT_COBYLA_Settings(max_iter=2, evaluate_observable_jacobian=True)
+    )
+    assert not any(d.execution_statistics.n_linearizations for d in toy_disciplines)
+
+
+def test_no_joint_sampling_after_execution(
+    scenario, toy_disciplines, enable_discipline_statistics
+):
+    """Check that the evaluations after an execution do not linearize the disciplines.
+
+    E.g. a post-processing evaluating the statistics at new design points.
+    """
+    scenario.execute(SLSQP_Settings(max_iter=2))
+    n_linearizations = [
+        d.execution_statistics.n_linearizations for d in toy_disciplines
+    ]
+    scenario.formulation.problem.objective.evaluate(array([0.1, 0.2, 0.3, 0.4]))
+    assert [
+        d.execution_statistics.n_linearizations for d in toy_disciplines
+    ] == n_linearizations

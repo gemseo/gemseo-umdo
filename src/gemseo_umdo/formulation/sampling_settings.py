@@ -42,15 +42,14 @@ e.g. that of an output or of a gradient,
 the DOE algorithm skips this sample.
 In this case,
 the iterative estimation does not use this sample for any output,
-while the non-iterative one uses the outputs evaluated before the error
-(and, to estimate the Jacobians, their gradients),
+while the non-iterative one uses the outputs evaluated before the error,
 as they are stored in the database.
 So, the statistics of an output can be estimated from fewer samples
-with the iterative estimation;
-in particular,
-when the gradient of an output fails at all the samples,
-the iterative estimation reports that the output is not available
-while the non-iterative one reports that its gradient is not available.
+with the iterative estimation.
+With both estimations,
+when the Jacobians of the statistics are estimated,
+the statistics of an output and their Jacobians are estimated
+from the samples where both the output and its gradient are available.
 
 This argument is ignored when `samples_directory_path` is defined;
 in this case, the statistics are not estimated iteratively.

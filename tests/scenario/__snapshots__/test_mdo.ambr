@@ -1,0 +1,16 @@
+# serializer version: 1
+# name: test_unsupported_jacobian_from_driver[constraint]
+  'The Jacobian of the statistic Probability of y cannot be estimated with Sampling.'
+# ---
+# name: test_unsupported_jacobian_from_driver[objective-maximize]
+  'The Jacobian of the statistic Probability of y cannot be estimated with Sampling.'
+# ---
+# name: test_unsupported_jacobian_from_driver[objective]
+  'The Jacobian of the statistic Probability of y cannot be estimated with Sampling.'
+# ---
+# name: test_unsupported_jacobian_from_driver[observable-DOE]
+  'The Jacobian of the statistic Probability of y cannot be estimated with Sampling.'
+# ---
+# name: test_unsupported_jacobian_from_driver[observable]
+  'The Jacobian of the statistic Probability of y cannot be estimated with Sampling.'
+# ---

@@ -1,18 +1,18 @@
 # serializer version: 1
 # name: test_data_for_statistic_estimation_without_samples[_compute_jacobian]
-  'The Jacobian of the statistics of f cannot be estimated, as the gradient of f is not available at any sample of the uncertain variables, e.g. because its evaluation failed or the DOE algorithm does not store the Jacobian.'
+  'The Jacobian of the statistics of f cannot be estimated, as f and its gradient are not available together at any sample of the uncertain variables, e.g. because their evaluation failed or the DOE algorithm does not store the Jacobian.'
 # ---
 # name: test_data_for_statistic_estimation_without_samples[_run]
-  'The Jacobian of the statistics of f cannot be estimated, as f is not available at any sample of the uncertain variables, e.g. because its evaluation failed.'
+  'The Jacobian of the statistics of f cannot be estimated, as f and its gradient are not available together at any sample of the uncertain variables, e.g. because their evaluation failed or the DOE algorithm does not store the Jacobian.'
 # ---
 # name: test_data_for_statistic_estimation_without_samples[jacobian of f and too few samples]
-  'The Jacobian of the statistics of f cannot be estimated, as the gradient of f is not available at any sample of the uncertain variables, e.g. because its evaluation failed or the DOE algorithm does not store the Jacobian.'
+  'The Jacobian of the statistics of f cannot be estimated, as f and its gradient are not available together at any sample of the uncertain variables, e.g. because their evaluation failed or the DOE algorithm does not store the Jacobian.'
 # ---
 # name: test_data_for_statistic_estimation_without_samples[jacobian of f]
-  'The Jacobian of the statistics of f cannot be estimated, as the gradient of f is not available at any sample of the uncertain variables, e.g. because its evaluation failed or the DOE algorithm does not store the Jacobian.'
+  'The Jacobian of the statistics of f cannot be estimated, as f and its gradient are not available together at any sample of the uncertain variables, e.g. because their evaluation failed or the DOE algorithm does not store the Jacobian.'
 # ---
 # name: test_data_for_statistic_estimation_without_samples[store_jacobian=False]
-  'The Jacobian of the statistics of f cannot be estimated, as the gradient of f is not available at any sample of the uncertain variables, e.g. because its evaluation failed or the DOE algorithm does not store the Jacobian.'
+  'The Jacobian of the statistics of f cannot be estimated, as f and its gradient are not available together at any sample of the uncertain variables, e.g. because their evaluation failed or the DOE algorithm does not store the Jacobian.'
 # ---
 # name: test_failed_addition_leaves_formulation_unchanged
   "No discipline known by formulation MDF has all outputs named ['typo']."
@@ -24,13 +24,13 @@
   'Failure.'
 # ---
 # name: test_iterative_statistic_jacobian_without_gradient[True]
-  'The Jacobian of the statistics of f cannot be estimated, as the gradient of f is not available at any sample of the uncertain variables, e.g. because its evaluation failed or the DOE algorithm does not store the Jacobian.'
+  'The Jacobian of the statistics of f cannot be estimated, as f and its gradient are not available together at any sample of the uncertain variables, e.g. because their evaluation failed or the DOE algorithm does not store the Jacobian.'
 # ---
 # name: test_iterative_statistic_without_samples[evaluate-True]
   'The statistics of f cannot be estimated, as f is not available at any sample of the uncertain variables, e.g. because its evaluation failed.'
 # ---
 # name: test_iterative_statistic_without_samples[jac-True]
-  'The Jacobian of the statistics of f cannot be estimated, as f is not available at any sample of the uncertain variables, e.g. because its evaluation failed.'
+  'The Jacobian of the statistics of f cannot be estimated, as f and its gradient are not available together at any sample of the uncertain variables, e.g. because their evaluation failed or the DOE algorithm does not store the Jacobian.'
 # ---
 # name: test_name_collision_leaves_formulation_unchanged[constraint]
   "The function name 'E[o]' is already used by another function. Duplicated function names produce unpredictable behavior."
@@ -72,7 +72,7 @@
   'The statistic \'Quantile\' cannot be estimated iteratively; use "estimate_statistics_iteratively=False".'
 # ---
 # name: test_statistic_jacobian_with_failing_jacobian_of_other_output
-  'The Jacobian of the statistics of o cannot be estimated, as the gradient of o is not available at any sample of the uncertain variables, e.g. because its evaluation failed or the DOE algorithm does not store the Jacobian.'
+  'The Jacobian of the statistics of o cannot be estimated, as o and its gradient are not available together at any sample of the uncertain variables, e.g. because their evaluation failed or the DOE algorithm does not store the Jacobian.'
 # ---
 # name: test_statistic_jacobian_with_too_few_samples[iterative-_compute_jacobian-Margin]
   'The Jacobian of the statistic Margin[f; factor=2.0] cannot be estimated, as it requires at least 2 samples of f and its gradient, while the number of samples where both are available is 1, e.g. because the DOE algorithm generated too few samples of the uncertain variables or because their evaluation failed at some of these samples.'

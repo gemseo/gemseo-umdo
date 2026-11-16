@@ -17,6 +17,7 @@
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
+from typing import ClassVar
 
 from numpy import array
 
@@ -31,6 +32,8 @@ if TYPE_CHECKING:
 
 class Probability(BaseIterativeSamplingEstimator):
     """Iterative estimator of a probability."""
+
+    can_compute_jacobian: ClassVar[bool] = False
 
     _estimator: IterativeThresholdExceedance | None
 

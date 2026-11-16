@@ -41,6 +41,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 from typing import ClassVar
 
+from gemseo.util.hashable_ndarray import HashableNdarray
 from gemseo.util.pydantic import create_model
 
 from gemseo_umdo.formulation.sampling import Sampling
@@ -75,6 +76,16 @@ class SequentialSampling(Sampling):
     __final_n_samples: int
     """The maximum number of samples when evaluating the U-MDO formulation."""
 
+    __last_input_point: HashableNdarray | None
+    """The last sampled input point, if any.
+
+    The number of samples is increased
+    only when sampling an input point different from this one,
+    so that sampling the same input point again,
+    e.g. to estimate the Jacobians after the statistics,
+    uses the same number of samples.
+    """
+
     def __init__(  # noqa: D107
         self,
         problem: OptimizationProblem,
@@ -87,6 +98,7 @@ class SequentialSampling(Sampling):
         settings = create_model(self.settings_class, settings_model=settings)
         self.__final_n_samples = settings.doe_algo_settings.n_samples
         settings.doe_algo_settings.n_samples = settings.initial_n_samples
+        self.__last_input_point = None
         super().__init__(
             problem,
             disciplines,
@@ -101,10 +113,18 @@ class SequentialSampling(Sampling):
         input_data: RealArray,
         compute_jacobian: bool = False,
     ) -> None:
-        super().compute_samples(problem, input_data, compute_jacobian=compute_jacobian)
-        doe_algo_settings = self._settings.doe_algo_settings
-        if (n_samples := doe_algo_settings.n_samples) < self.__final_n_samples:
+        # The input point is copied
+        # so that a change of the input array during or after this call
+        # does not change the key.
+        input_point = HashableNdarray(input_data, copy=True)
+        last_input_point = self.__last_input_point
+        if last_input_point is not None and input_point != last_input_point:
+            doe_algo_settings = self._settings.doe_algo_settings
+            n_samples = doe_algo_settings.n_samples
             doe_algo_settings.n_samples = min(
                 self.__final_n_samples,
                 n_samples + self._settings.n_samples_increment(n_samples),
             )
+
+        self.__last_input_point = input_point
+        super().compute_samples(problem, input_data, compute_jacobian=compute_jacobian)

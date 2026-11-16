@@ -22,6 +22,7 @@ from __future__ import annotations
 import logging
 from typing import TYPE_CHECKING
 from typing import Any
+from typing import ClassVar
 from typing import TypeAlias
 from typing import TypeVar
 
@@ -30,6 +31,7 @@ from numpy import array_equal
 from numpy import flatnonzero
 
 from gemseo_umdo.formulation._function.base import BaseStatisticFunction
+from gemseo_umdo.formulation._function.base import _with_jacobian_name
 from gemseo_umdo.formulation._function.iterative_estimation import IterativeEstimation
 
 if TYPE_CHECKING:
@@ -44,10 +46,9 @@ if TYPE_CHECKING:
 
 SamplingT = TypeVar("SamplingT", bound="Sampling")
 
-_EstimationData: TypeAlias = tuple["RealArray", int, int | None]
-"""The estimation of a statistic or its Jacobian,
-the number of samples of the output used to compute it
-and, for a Jacobian, the number of samples of its gradient."""
+_EstimationData: TypeAlias = tuple["RealArray | None", int]
+"""The iterative estimation of a statistic or of its Jacobian, if any,
+and the number of samples used to compute it."""
 
 logger = logging.getLogger(__name__)
 
@@ -64,8 +65,10 @@ class StatisticFunctionForSampling(BaseStatisticFunction[SamplingT]):
     once created or added by this formulation.
     """
 
-    __iterative_estimations: tuple[IterativeEstimation, IterativeEstimation] | None
-    """The iterative estimations of the statistic and of its Jacobian, if any.
+    _can_estimate_jacobian: ClassVar[bool] = True
+
+    iterative_estimation: IterativeEstimation | None
+    """The iterative estimation of the statistic and of its Jacobian, if any.
 
     `None` when the U-MDO formulation does not estimate the statistics iteratively.
     """
@@ -85,74 +88,44 @@ class StatisticFunctionForSampling(BaseStatisticFunction[SamplingT]):
             statistic_operator_name,
             **statistic_options,
         )
-        self.__iterative_estimations = None
+        self.iterative_estimation = None
         if umdo_formulation._estimate_statistics_iteratively:
-            estimator = self._statistic_estimator
-            self.__iterative_estimations = (
-                IterativeEstimation(output_name, self._statistic_name, estimator),
-                IterativeEstimation(
-                    output_name,
-                    self._statistic_jac_name,
-                    estimator,
-                    return_statistic_jacobian=True,
-                ),
+            self.iterative_estimation = IterativeEstimation(
+                output_name,
+                self._statistic_name,
+                self._statistic_estimator,
+                self._statistic_jac_name,
             )
 
     @property
     def __estimate_iteratively(self) -> bool:
         """Whether to estimate the statistic iteratively."""
-        return self.__iterative_estimations is not None
-
-    def get_iterative_estimation(self, jacobian: bool) -> IterativeEstimation:
-        """Return the iterative estimation of the statistic or of its Jacobian.
-
-        To be used only when the U-MDO formulation estimates the statistics iteratively.
-
-        Args:
-            jacobian: Whether to return the iterative estimation of the Jacobian.
-
-        Returns:
-            The iterative estimation of the statistic or of its Jacobian.
-        """
-        # The iterative estimations are ordered as (statistic, Jacobian).
-        return self.__iterative_estimations[jacobian]
+        return self.iterative_estimation is not None
 
     def _compute_statistic_estimation(self, data: Mapping[str, Any]) -> RealArray:
+        with_gradient = data[_with_jacobian_name]
         if self.__estimate_iteratively:
-            return self.__get_iterative_estimation(data, self._statistic_name)
+            estimation, n_samples = data[self._statistic_name]
+            self._check_n_samples(n_samples, with_gradient)
+            return estimation
 
         samples = data.get(self._output_name)
-        self._check_n_samples(self.__get_n_samples(samples))
+        self._check_n_samples(self.__get_n_samples(samples), with_gradient)
         return self._statistic_estimator.estimate_statistic(samples)
 
     def _compute_statistic_jacobian_estimation(
         self, data: Mapping[str, Any]
     ) -> RealArray:
         if self.__estimate_iteratively:
-            return self.__get_iterative_estimation(data, self._statistic_jac_name)
+            estimation, n_samples = data[self._statistic_jac_name]
+            self._check_n_samples(n_samples, True, jacobian=True)
+            return estimation
 
         samples = data.get(self._output_name)
-        gradient_samples = data.get(self._output_jac_name)
-        self._check_n_samples(
-            self.__get_n_samples(samples), self.__get_n_samples(gradient_samples)
+        self._check_n_samples(self.__get_n_samples(samples), True, jacobian=True)
+        return self._statistic_estimator.compute_jacobian(
+            samples, data[self._output_jac_name]
         )
-        return self._statistic_estimator.compute_jacobian(samples, gradient_samples)
-
-    def __get_iterative_estimation(
-        self, data: Mapping[str, _EstimationData], name: str
-    ) -> RealArray:
-        """Return an iterative estimation after checking its numbers of samples.
-
-        Args:
-            data: The iterative estimations with their numbers of samples.
-            name: The name of the statistic or of its Jacobian.
-
-        Returns:
-            The iterative estimation of the statistic or of its Jacobian.
-        """
-        estimation, n_samples, n_gradient_samples = data[name]
-        self._check_n_samples(n_samples, n_gradient_samples)
-        return estimation
 
     @staticmethod
     def __get_n_samples(samples: RealArray | None) -> int:
@@ -160,8 +133,7 @@ class StatisticFunctionForSampling(BaseStatisticFunction[SamplingT]):
 
         Args:
             samples: The samples, if any;
-                an output or a gradient missing at all the samples
-                has no entry in the data.
+                an output missing at all the samples has no entry in the data.
 
         Returns:
             The number of samples.
@@ -169,44 +141,41 @@ class StatisticFunctionForSampling(BaseStatisticFunction[SamplingT]):
         return 0 if samples is None else len(samples)
 
     def _check_n_samples(
-        self, n_samples: int, n_gradient_samples: int | None = None
+        self, n_samples: int, with_gradient: bool, jacobian: bool = False
     ) -> None:
         """Check that the number of samples suffices to estimate the statistic.
 
         Args:
-            n_samples: The number of samples of the output of interest
-                used to estimate the statistic or its Jacobian.
-            n_gradient_samples: The number of samples of the gradient
-                of the output of interest
-                used to estimate the Jacobian of the statistic.
-                If `None`, check the samples to estimate the statistic.
+            n_samples: The number of samples used to estimate the statistic
+                or its Jacobian.
+            with_gradient: Whether these samples are those
+                where both the output of interest and its gradient are available.
+            jacobian: Whether to check the samples
+                to estimate the Jacobian of the statistic.
 
         Raises:
             ValueError: When the output of interest
-                or, to estimate the Jacobian of the statistic, its gradient
+                or, with `with_gradient`, its gradient
                 is not available at any sample of the uncertain variables,
                 or when they are available at fewer samples
                 than the statistic requires.
         """
         output_name = self._output_name
-        with_gradient = n_gradient_samples is not None
-        if not n_samples or (with_gradient and not n_gradient_samples):
-            statistics = "Jacobian of the statistics" if with_gradient else "statistics"
-
-            if n_samples:
-                missing = f"the gradient of {output_name}"
+        if not n_samples:
+            statistics = "Jacobian of the statistics" if jacobian else "statistics"
+            if with_gradient:
+                missing = f"{output_name} and its gradient are not available together"
                 causes = (
-                    "its evaluation failed "
+                    "their evaluation failed "
                     "or the DOE algorithm does not store the Jacobian"
                 )
             else:
-                missing = output_name
+                missing = f"{output_name} is not available"
                 causes = "its evaluation failed"
 
             msg = (
                 f"The {statistics} of {output_name} cannot be estimated, "
-                f"as {missing} is not available "
-                "at any sample of the uncertain variables, "
+                f"as {missing} at any sample of the uncertain variables, "
                 f"e.g. because {causes}."
             )
             raise ValueError(msg)
@@ -216,11 +185,13 @@ class StatisticFunctionForSampling(BaseStatisticFunction[SamplingT]):
             return
 
         statistic = f"statistic {self._statistic_name}"
+        if jacobian:
+            statistic = f"Jacobian of the {statistic}"
+
         names = output_name
         where = f"of {output_name}"
         pronoun = "its"
         if with_gradient:
-            statistic = f"Jacobian of the {statistic}"
             names = f"{output_name} and its gradient"
             where = "where both are available"
             pronoun = "their"
@@ -238,46 +209,32 @@ class StatisticFunctionForSampling(BaseStatisticFunction[SamplingT]):
     @staticmethod
     def __log_missing_samples(
         n_doe_samples: int,
-        output_names_to_n_samples: Mapping[str, tuple[int, int | None]],
+        output_names_to_n_samples: Mapping[str, int],
+        with_gradient: bool,
     ) -> None:
         """Log the outputs missing at some samples of the uncertain variables.
 
         An output is reported as `"1 for f"`
         when its statistics are estimated from fewer samples
         than generated by the DOE algorithm,
-        as `"1 for f and its gradient"`
-        when the Jacobians of its statistics are estimated
-        from fewer samples than generated by the DOE algorithm,
-        or as `"0 for the gradient of f"`
-        when its gradient is missing at all the samples
-        while the output is available at some of them.
+        or as `"1 for f and its gradient"`
+        when its statistics and their Jacobians are estimated
+        from the samples where both are available.
 
         Args:
             n_doe_samples: The number of samples generated by the DOE algorithm.
             output_names_to_n_samples: The names of the outputs
-                bound to the numbers of samples
-                used to estimate their statistics or their Jacobians,
-                as passed to `_check_n_samples`.
+                bound to the number of samples used to estimate their statistics.
                 If no output is missing at any sample, do not log anything.
+            with_gradient: Whether these samples are those
+                where both the outputs and their gradients are available.
         """
-        missing_samples = []
-        for output_name, (
-            n_samples,
-            n_gradient_samples,
-        ) in output_names_to_n_samples.items():
-            if n_gradient_samples:
-                if n_samples < n_doe_samples:
-                    missing_samples.append(
-                        f"{n_samples} for {output_name} and its gradient"
-                    )
-                continue
-
-            if n_samples < n_doe_samples:
-                missing_samples.append(f"{n_samples} for {output_name}")
-
-            if n_gradient_samples == 0 and n_samples:
-                missing_samples.append(f"0 for the gradient of {output_name}")
-
+        suffix = " and its gradient" if with_gradient else ""
+        missing_samples = [
+            f"{n_samples} for {output_name}{suffix}"
+            for output_name, n_samples in output_names_to_n_samples.items()
+            if n_samples < n_doe_samples
+        ]
         if missing_samples:
             # A single message for all the outputs avoids flooding the log.
             logger.warning(
@@ -299,38 +256,13 @@ class StatisticFunctionForSampling(BaseStatisticFunction[SamplingT]):
         doe_samples = formulation.doe_algo.samples
         if self.__estimate_iteratively:
             return self.__get_iterative_estimations(
-                formulation.get_iterative_estimations(estimate_jacobian),
+                formulation._iterative_estimations,
                 len(doe_samples),
                 problem.function_names,
+                estimate_jacobian,
             )
 
         return self.__get_samples(problem, doe_samples, estimate_jacobian)
-
-    @staticmethod
-    def __get_n_iterative_samples(
-        estimation: IterativeEstimation,
-    ) -> tuple[int, int | None]:
-        """Return the numbers of samples used by an iterative estimation.
-
-        Args:
-            estimation: The iterative estimation.
-
-        Returns:
-            The number of samples of the output
-            used to estimate the statistic or its Jacobian
-            and, when estimating the Jacobian,
-            the number of samples of its gradient,
-            as passed to `_check_n_samples`.
-        """
-        n_samples = estimation.n_samples
-        if not estimation.return_statistic_jacobian:
-            return n_samples, None
-
-        # A sample is used only if both the output and its gradient are available.
-        # When the gradient is missing at all the samples,
-        # the samples of the output are counted
-        # to tell this failure from that of the output.
-        return n_samples or estimation.n_output_samples, n_samples
 
     @classmethod
     def __get_iterative_estimations(
@@ -338,6 +270,7 @@ class StatisticFunctionForSampling(BaseStatisticFunction[SamplingT]):
         estimations: Iterable[IterativeEstimation],
         n_doe_samples: int,
         output_names: Iterable[str],
+        estimate_jacobian: bool,
     ) -> dict[str, _EstimationData]:
         """Return the iterative estimations with their numbers of samples.
 
@@ -346,21 +279,34 @@ class StatisticFunctionForSampling(BaseStatisticFunction[SamplingT]):
             n_doe_samples: The number of samples generated by the DOE algorithm.
             output_names: The names of the outputs of the sampled problem,
                 in the order of the log.
+            estimate_jacobian: Whether the last sampling evaluated the Jacobians.
 
         Returns:
-            The estimations of the statistics or of their Jacobians,
+            The estimations of the statistics and, if any, of their Jacobians,
             bound to the names of these statistics or Jacobians,
             with the numbers of samples used to compute them.
         """
-        estimations_to_n_samples = {
-            estimation: cls.__get_n_iterative_samples(estimation)
-            for estimation in estimations
-        }
-        # The statistics of the same output use the same samples.
-        output_names_to_n_samples = {
-            estimation.output_name: n_samples
-            for estimation, n_samples in estimations_to_n_samples.items()
-        }
+        data = {}
+        # The numbers of samples of each output, as passed to __log_missing_samples;
+        # the estimations of the statistics of an output use the same samples.
+        output_names_to_n_samples = {}
+        for estimation in estimations:
+            n_samples = estimation.n_samples
+            data[estimation.output_statistic_name] = (
+                estimation.last_estimation,
+                n_samples,
+            )
+            if (
+                estimate_jacobian
+                and estimation.statistic_estimator.can_compute_jacobian
+            ):
+                data[estimation.output_statistic_jac_name] = (
+                    estimation.last_jacobian_estimation,
+                    n_samples,
+                )
+
+            output_names_to_n_samples[estimation.output_name] = n_samples
+
         # The outputs are logged in the same order as with the one-shot estimation,
         # rather than in the order in which the functions take part in the sampling.
         cls.__log_missing_samples(
@@ -370,11 +316,9 @@ class StatisticFunctionForSampling(BaseStatisticFunction[SamplingT]):
                 for name in output_names
                 if name in output_names_to_n_samples
             },
+            estimate_jacobian,
         )
-        return {
-            estimation.output_statistic_name: (estimation.last_estimation, *n_samples)
-            for estimation, n_samples in estimations_to_n_samples.items()
-        }
+        return data
 
     @classmethod
     def __get_samples(
@@ -391,10 +335,15 @@ class StatisticFunctionForSampling(BaseStatisticFunction[SamplingT]):
             estimate_jacobian: Whether to return the samples of the gradients.
 
         Returns:
-            The samples of the outputs and of their gradients,
-            shaped as `(n_samples, output_size)`
-            and `(n_samples, output_size, input_size)` respectively.
-            An output or a gradient missing at all the samples has no entry.
+            The samples of the outputs,
+            shaped as `(n_samples, output_size)`,
+            and, bound to the names of their gradients if required,
+            the samples of these gradients,
+            shaped as `(n_samples, output_size, input_size)`.
+            When the gradients are required,
+            the samples of an output are those where its gradient is available too,
+            so that its statistics and their Jacobians use the same samples.
+            An output missing at all the samples has no entry.
         """
         # The samples are read from the database in a single pass
         # over those generated by the DOE algorithm,
@@ -428,53 +377,48 @@ class StatisticFunctionForSampling(BaseStatisticFunction[SamplingT]):
             for name in names
         }
         data = {}
-        # The numbers of samples used to estimate the statistics of the outputs
-        # or their Jacobians, as passed to _check_n_samples.
+        # The numbers of samples of each output, as passed to __log_missing_samples.
         output_names_to_n_samples = {}
         for output_name, gradient_name in zip(
             output_names, gradient_names, strict=True
         ):
-            # The statistics of an output need its samples
-            # and, when estimating their Jacobian, those of its gradient.
             # The DOE algorithm skips a sample whose evaluation fails,
-            # but the database may keep the outputs evaluated before the failure;
-            # discarding such an incomplete sample keeps the samples of an output
-            # aligned with those of its gradient,
+            # but the database may keep the outputs evaluated before the failure.
+            # When the gradients are required,
+            # discarding a sample missing the gradient of an output
+            # estimates the statistics of this output and their Jacobians
+            # from the same samples,
+            # as the iterative estimation does,
             # while the statistics of an output do not depend on the failures
             # of the other ones.
             mask = name_to_mask[output_name]
-            use_gradient = False
             if estimate_jacobian:
-                complete_mask = mask & name_to_mask[gradient_name]
-                # When the gradient failed at every sample,
-                # the samples of the output are kept without those of its gradient,
-                # to tell this failure from that of the output.
-                use_gradient = bool(complete_mask.any())
-                if use_gradient:
-                    mask = complete_mask
+                mask = mask & name_to_mask[gradient_name]
 
             n_samples = int(mask.sum())
-            n_gradient_samples = None
-            if estimate_jacobian:
-                n_gradient_samples = n_samples if use_gradient else 0
-
-            output_names_to_n_samples[output_name] = (n_samples, n_gradient_samples)
+            output_names_to_n_samples[output_name] = n_samples
             if n_samples == 0:
                 continue
 
-            output_samples = [samples[index] for index in flatnonzero(mask)]
+            indices = flatnonzero(mask)
             # An output has the same size at all the samples,
             # so that its history cannot be ragged.
-            output_history = array([sample[output_name] for sample in output_samples])
-            data[output_name] = output_history.reshape(n_samples, -1)
-            if use_gradient:
-                # The gradient of an output of size m
-                # is stored as an array shaped as (m, d), or (d,) when m is 1,
-                # so that its history is reshaped from the size of the output
-                # rather than from the number of dimensions of the stored arrays.
-                data[gradient_name] = array([
-                    sample[gradient_name] for sample in output_samples
-                ]).reshape(n_samples, data[output_name].shape[1], -1)
+            output_history = array([
+                samples[index][output_name] for index in indices
+            ]).reshape(n_samples, -1)
+            data[output_name] = output_history
+            if not estimate_jacobian:
+                continue
 
-        cls.__log_missing_samples(len(doe_samples), output_names_to_n_samples)
+            # The gradient of an output of size m
+            # is stored as an array shaped as (m, d), or (d,) when m is 1,
+            # so that its history is reshaped from the size of the output
+            # rather than from the number of dimensions of the stored arrays.
+            data[gradient_name] = array([
+                samples[index][gradient_name] for index in indices
+            ]).reshape(n_samples, output_history.shape[1], -1)
+
+        cls.__log_missing_samples(
+            len(doe_samples), output_names_to_n_samples, estimate_jacobian
+        )
         return data
