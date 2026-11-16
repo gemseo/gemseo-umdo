@@ -38,7 +38,6 @@ class StandardDeviation(Variance):
         return array(self._estimator.getStandardDeviation())
 
     def compute_jacobian(self, value: RealArray, jac_value: RealArray) -> RealArray:
-        self.estimate_statistic(value)
         std = self._get_estimation()
         std_zeros = where(std == 0)[0]
         std[std == 0] = 1

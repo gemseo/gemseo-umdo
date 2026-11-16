@@ -17,6 +17,7 @@
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
+from typing import ClassVar
 
 from gemseo_umdo.formulation._estimator.base import BaseStatisticEstimator
 
@@ -27,6 +28,8 @@ if TYPE_CHECKING:
 
 class BaseIterativeSamplingEstimator(BaseStatisticEstimator):
     """Base statistic iterative estimator for a U-MDO formulation using sampling."""
+
+    can_compute_jacobian: ClassVar[bool] = True
 
     _estimator: IterativeAlgorithmImplementation | None
     """The iterative estimator of the statistic.
@@ -105,6 +108,10 @@ class BaseIterativeSamplingEstimator(BaseStatisticEstimator):
         """
         Args:
             value: The value of the function output.
+                `estimate_statistic(value)` must be called just before,
+                as the estimation of the Jacobian may use
+                the estimation of the statistic
+                from the samples up to `value` included.
             jac_value: The value of the Jacobian.
         """  # noqa: D205 D212
         if self._jac_estimator is None:

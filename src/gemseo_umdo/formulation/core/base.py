@@ -19,6 +19,8 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 from typing import Any
 from typing import ClassVar
+from typing import Final
+from weakref import WeakKeyDictionary
 
 from gemseo.core.function.array_function import ArrayFunction
 from gemseo.core.problem.evaluation import EvaluationProblem
@@ -34,6 +36,8 @@ from gemseo.util.hashable_ndarray import HashableNdarray
 from gemseo.util.string import convert_strings_to_iterable
 from gemseo.util.string import pretty_repr
 
+from gemseo_umdo.formulation._function.base import BaseStatisticFunction
+
 if TYPE_CHECKING:
     from collections.abc import Iterable
     from collections.abc import MutableMapping
@@ -48,8 +52,12 @@ if TYPE_CHECKING:
     from gemseo.space import RandomSpace
     from gemseo.util.typing import RealArray
 
-    from gemseo_umdo.formulation._function.base import BaseStatisticFunction
     from gemseo_umdo.formulation.core.base_settings import BaseUMDOFormulationSettings
+
+_functions_attribute_name: Final[str] = (
+    "_BaseUMDOFormulation__objective_and_constraint_functions"
+)
+"""The name of the attribute weakly referencing the objectives and constraints."""
 
 
 class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignSpace]):
@@ -96,12 +104,51 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
     _uncertain_space: RandomSpace
     """The uncertain space."""
 
-    input_data_to_output_data: dict[HashableNdarray, dict[bool, dict[str, Any]]]
+    input_data_to_output_data: dict[HashableNdarray, dict[str, Any]]
     """The output samples or output statistics associated with the input data.
 
-    For each input point,
-    the data to estimate the statistics are stored with the key `False`
-    and the data to estimate their Jacobians with the key `True`.
+    The data of an input point also store with the key `"__with_jacobian__"`
+    whether they allow to estimate the Jacobians of the statistics.
+    """
+
+    __objective_and_constraint_functions: WeakKeyDictionary[BaseStatisticFunction, None]
+    """The statistic functions of the objectives and of the constraints.
+
+    They are the functions before any transformation hiding their type,
+    e.g. the negation of an objective to maximize or of a positive constraint.
+    They are weakly referenced,
+    so that a function created but not used, e.g. a constraint not added to the problem,
+    is garbage collected and not checked by `_check_jacobian_estimation()`.
+    """
+
+    estimate_statistic_jacobians: bool
+    """Whether to compute the data to estimate the Jacobians of the statistics
+    when computing the data to estimate the statistics.
+
+    When `True`,
+    the disciplines are sampled once per design point
+    to estimate both the statistics and their Jacobians,
+    but they are also linearized at the design points
+    where only the statistics are required,
+    e.g. the line search points of a gradient-based optimizer,
+    and the statistics of an output are estimated
+    from the samples where its gradient is available too,
+    so that the statistics and their Jacobians use the same samples.
+    The U-scenarios set it before executing their driver,
+    from the driver and the differentiation method of the problem,
+    and reset it with `reset_execution_state()` at the end
+    (see `_execute()` of
+    [BaseUScenario][gemseo_umdo.scenario.base.BaseUScenario]).
+
+    In any case,
+    it becomes `True` at the first request of the Jacobian of a statistic
+    and stays `True` until it is reset,
+    so that the next design points are sampled once for statistics and Jacobians.
+    When it was `False` before this request,
+    the design point of this request is sampled again
+    to estimate both the statistics and their Jacobians;
+    with a seeded DOE algorithm,
+    this sampling uses the same samples as the previous one.
     """
 
     def __init__(
@@ -170,8 +217,11 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
             f"{self.__class__.__name__}[{self._mdo_formulation.__class__.__name__}]"
         )
 
+        self.__objective_and_constraint_functions = WeakKeyDictionary()
+
         # Initialize the cache mechanism.
         self.input_data_to_output_data = {}
+        self.estimate_statistic_jacobians = False
         self.problem.add_listener(self._clear_input_data_to_output_data)
 
     def _create_multidisciplinary_process(self) -> None:
@@ -251,10 +301,60 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
             x_vect: An input vector.
         """
         data = self.input_data_to_output_data
-        current_output_data = data.get(key := HashableNdarray(x_vect))
-        data.clear()
-        if current_output_data is not None:
-            data[key] = current_output_data
+        current_key = HashableNdarray(x_vect)
+        # The key of x_vect, if any, is kept as is, as it is already a copy.
+        for key in [key for key in data if key != current_key]:
+            del data[key]
+
+    def reset_execution_state(self) -> None:
+        """Reset the state of the formulation specific to an execution.
+
+        The U-scenarios call it at the end of their execution,
+        so that the evaluations of the functions after this execution,
+        e.g. by a post-processing,
+        do not linearize the disciplines unless their Jacobians are requested.
+        """
+        self.estimate_statistic_jacobians = False
+
+    def __getstate__(self) -> dict[str, Any]:
+        state = self.__dict__.copy()
+        # A weak reference cannot be pickled.
+        name = _functions_attribute_name
+        state[name] = list(state[name])
+        return state
+
+    def __setstate__(self, state: dict[str, Any]) -> None:
+        name = _functions_attribute_name
+        state[name] = WeakKeyDictionary(dict.fromkeys(state[name]))
+        self.__dict__.update(state)
+
+    def _check_jacobian_estimation(
+        self,
+        objective_and_constraints: bool,
+        observables: Iterable[ArrayFunction] = (),
+    ) -> None:
+        """Check that the Jacobians of statistics can be estimated.
+
+        The U-scenarios call it before executing their driver,
+        so that a driver requiring a Jacobian that cannot be estimated
+        raises an error before any sampling.
+
+        Args:
+            objective_and_constraints: Whether to check the statistics
+                of the objectives and of the constraints.
+            observables: The observables whose statistics are checked.
+
+        Raises:
+            NotImplementedError: When the Jacobian of one of these statistics
+                cannot be estimated.
+        """
+        functions: list[ArrayFunction] = list(observables)
+        if objective_and_constraints:
+            functions[:0] = self.__objective_and_constraint_functions.keys()
+
+        for function in functions:
+            if isinstance(function, BaseStatisticFunction):
+                function.check_jacobian_estimation()
 
     @property
     def mdo_formulation(self) -> BaseMDOFormulation:
@@ -420,6 +520,7 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
         objective.name = objective_name or self.__compute_name(
             output_names, statistic_name, **statistic_parameters
         )
+        self.__objective_and_constraint_functions[objective] = None
         self._register_statistic_function(objective)
         return objective
 
@@ -514,6 +615,7 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
         if self.__check_mdo_observables(output_names):
             self.__add_mdo_observables(output_names)
 
+        self.__objective_and_constraint_functions[function] = None
         self._register_statistic_function(function)
         return constraint
 
@@ -625,6 +727,7 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
             self.__add_mdo_observables(output_names)
 
         self._post_add_constraint()
+        self.__objective_and_constraint_functions[function] = None
         self._register_statistic_function(function)
 
     def _post_add_mdo_observable(self) -> None:

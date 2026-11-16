@@ -66,6 +66,13 @@ and this project adheres to
   this statistic cannot be estimated iteratively:
   using it requires `estimate_statistics_iteratively=False`,
   otherwise a `ValueError` is raised.
+- [BaseUMDOFormulation.estimate_statistic_jacobians][gemseo_umdo.formulation.core.base.BaseUMDOFormulation.estimate_statistic_jacobians]
+  is whether to sample a design point once to estimate both the statistics
+  and their Jacobians;
+  the U-scenarios set it from their driver
+  and the differentiation method of their problem,
+  and reset it at the end of each execution with
+  [BaseUMDOFormulation.reset_execution_state()][gemseo_umdo.formulation.core.base.BaseUMDOFormulation.reset_execution_state].
 
 ### Changed
 
@@ -201,11 +208,12 @@ and this project adheres to
   is renamed [DOEAlgorithmName][gemseo_umdo.formulation.DOEAlgorithmName].
 - BREAKING CHANGE:
   [Sampling.callbacks][gemseo_umdo.formulation.sampling.Sampling.callbacks]
-  and [Sampling.jacobian_callbacks][gemseo_umdo.formulation.sampling.Sampling.jacobian_callbacks]
-  only contain the callbacks added by the user;
+  only contains the callbacks added by the user;
   with `estimate_statistics_iteratively=True`,
-  they no longer contain the iterative estimations of the statistics,
-  which are passed to the DOE algorithm at each sampling.
+  it no longer contains the iterative estimations of the statistics,
+  which are passed to the DOE algorithm at each sampling
+  and estimate both the statistics and,
+  when the Jacobians of the outputs are evaluated, their Jacobians.
 - [Sampling][gemseo_umdo.formulation.sampling.Sampling]
   with `estimate_statistics_iteratively=False`
   reads the samples of the outputs and of their gradients at each design point
@@ -254,6 +262,12 @@ and this project adheres to
   e.g. an almost deterministic Young modulus `E`
   and a thickness `t` varying by ±40%.
   A non-positive nominal value of a positive variable raises a `ValueError`.
+- Requesting the Jacobian of a statistic that the U-MDO formulation cannot estimate,
+  e.g. `"Probability"` with [Sampling][gemseo_umdo.formulation.sampling.Sampling]
+  or any statistic with [Surrogate][gemseo_umdo.formulation.surrogate.Surrogate],
+  raises a `NotImplementedError` naming the statistic, the output and the formulation;
+  a U-scenario whose driver requires this Jacobian
+  raises it before executing the driver, so before sampling the disciplines.
 
 ### Removed
 
@@ -264,6 +278,11 @@ and this project adheres to
   or [UEvaluationScenario][gemseo_umdo.scenario.evaluation.UEvaluationScenario]
   to evaluate statistics without objective or constraints.
 - BREAKING CHANGE: `SobolGraph.DEFAULT_FILE_PATH`, which had no effect.
+- BREAKING CHANGE: `Sampling.jacobian_callbacks`;
+  use [Sampling.callbacks][gemseo_umdo.formulation.sampling.Sampling.callbacks],
+  which are also called when estimating the Jacobians of the statistics.
+- BREAKING CHANGE: `Sampling.input_data_to_output_samples`
+  and `Surrogate.input_data_to_output_samples`, which were not used.
 
 ### Fixed
 
@@ -273,22 +292,38 @@ and this project adheres to
   for [Sampling][gemseo_umdo.formulation.sampling.Sampling]
   with `estimate_statistics_iteratively=True` (default)
   and twice for the other ones.
-  When the gradients are required,
-  they sample the disciplines once more per design point
-  to estimate the gradients of all the statistics.
-  The results are the same, except for
+  When the driver requires the gradients and they are not approximated,
+  this sampling is also used to estimate the gradients of all the statistics,
+  instead of a second one;
+  the disciplines are then linearized at every design point,
+  including those where only the statistics are required,
+  e.g. the line search points of a gradient-based optimizer,
+  and the statistics of an output are estimated
+  from the samples where its gradient is available too
+  (see
+  [BaseUMDOFormulation.estimate_statistic_jacobians][gemseo_umdo.formulation.core.base.BaseUMDOFormulation.estimate_statistic_jacobians]).
+  Otherwise, the results are the same, except for
   [SequentialSampling][gemseo_umdo.formulation.sequential_sampling.SequentialSampling],
-  which now increases the number of samples once per sampling
-  instead of once per statistic;
-  without gradients,
-  it uses $N_k$ samples at the $k$-th iteration for all the statistics,
-  as documented,
-  while with gradients,
-  the gradients are estimated with more samples than the statistics.
+  which now increases the number of samples only when sampling a new design point,
+  instead of once per statistic,
+  and uses $N_k$ samples at the $k$-th iteration
+  for all the statistics and their gradients,
+  as documented.
+- When [Sampling][gemseo_umdo.formulation.sampling.Sampling] estimates
+  the Jacobians of the statistics,
+  it estimates the statistics of an output and their Jacobians
+  from the same samples, i.e. those where both the output and its gradient
+  are available, whatever `estimate_statistics_iteratively`;
+  with `estimate_statistics_iteratively=False`,
+  the statistics also used the samples where only the output was available,
+  so that a gradient-based optimizer could get a gradient
+  inconsistent with the value of the statistic.
+  With `estimate_statistics_iteratively=True`,
+  a sample whose evaluation raises an error is still discarded for all the outputs,
+  as the DOE algorithm skips it.
 - [PCE][gemseo_umdo.formulation.pce.PCE] fits the polynomial chaos expansion
-  once per design point to estimate the statistics
-  (and once more when their gradients are required),
-  instead of once per statistic.
+  once per design point to estimate the statistics and their gradients,
+  instead of once per statistic and once more per gradient.
 - [Sampling][gemseo_umdo.formulation.sampling.Sampling]
   with `estimate_statistics_iteratively=True` (default)
   estimates correctly two statistics of the same output and of the same type
@@ -321,8 +356,6 @@ and this project adheres to
   the samples of these outputs were no longer aligned
   with those of the other outputs and of the gradients.
   For each sampling of the uncertain variables,
-  i.e. once to estimate the statistics at a design point
-  and once to estimate their Jacobians,
   it logs a single warning listing the outputs
   that are missing at some samples generated by the DOE algorithm,
   e.g. because their evaluation failed,
@@ -380,6 +413,17 @@ and this project adheres to
   as when adding an observable already observed;
   previously, the output was still added as an observable
   of the problem of their MDO formulation.
+- The U-MDO formulations reuse the data computed at a design point
+  even if the caller modifies the array of this design point in place
+  after the evaluation;
+  previously, they sampled the disciplines again.
+- [Sampling][gemseo_umdo.formulation.sampling.Sampling]
+  no longer changes the `callbacks`, `eval_jac` and `evaluate_observable_jacobian`
+  of the settings of its DOE algorithm,
+  even when a sampling fails;
+  previously, a sampling left `eval_jac` and `evaluate_observable_jacobian`
+  set to `True` in these settings when it estimated the gradients
+  and a failed sampling left its callbacks in them.
 
 ## Version 4.3.0 (October 2025)
 

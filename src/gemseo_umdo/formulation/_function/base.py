@@ -23,6 +23,8 @@ from __future__ import annotations
 from abc import abstractmethod
 from typing import TYPE_CHECKING
 from typing import Any
+from typing import ClassVar
+from typing import Final
 from typing import Generic
 from typing import TypeVar
 
@@ -42,6 +44,10 @@ if TYPE_CHECKING:
 
 UMDOFormulationT = TypeVar("UMDOFormulationT", bound="BaseUMDOFormulation")
 
+_with_jacobian_name: Final[str] = "__with_jacobian__"
+"""The name of the flag of the cached data telling whether they also allow
+to estimate the Jacobians of the statistics."""
+
 
 class BaseStatisticFunction(
     ArrayFunction,
@@ -49,6 +55,13 @@ class BaseStatisticFunction(
     metaclass=ABCGoogleDocstringInheritanceMeta,
 ):
     """A function to estimate a statistic from a U-MDO formulation."""
+
+    _can_estimate_jacobian: ClassVar[bool] = False
+    """Whether the data computed by this class allow to estimate the Jacobian.
+
+    Whether the Jacobian of a given statistic can be estimated
+    also depends on its estimator.
+    """
 
     _output_jac_name: str
     """The name of the Jacobian of the output of interest."""
@@ -126,15 +139,24 @@ class BaseStatisticFunction(
             The estimation of the statistic or its Jacobian at the given input point.
         """
         umdo_formulation = self._umdo_formulation
+        # From the first Jacobian request, sample once for statistics and Jacobians.
+        umdo_formulation.estimate_statistic_jacobians |= estimate_jacobian
+
         hashable_input_data = HashableNdarray(input_data)
         i_to_o = umdo_formulation.input_data_to_output_data
 
         # 1. We test whether the data to estimate the statistic or its Jacobian
         #    have already been computed at this input point,
         #    e.g. when estimating another statistic.
-        input_data_to_data = i_to_o.setdefault(hashable_input_data, {})
-        data_for_statistic_estimation = input_data_to_data.get(estimate_jacobian)
-        if data_for_statistic_estimation is None:
+        data_for_statistic_estimation = i_to_o.get(hashable_input_data)
+        if data_for_statistic_estimation is None or (
+            estimate_jacobian and not data_for_statistic_estimation[_with_jacobian_name]
+        ):
+            # The key is a copy of the input point
+            # so that a change of the input array during or after this call,
+            # e.g. by a driver,
+            # does not change the key.
+            hashable_input_data.copy_wrapped_array()
             # 2. If not, we compute them from a new sampling,
             #    so we reset the evaluation sub-problems
             #    to forget the samples of the previous sampling,
@@ -148,10 +170,15 @@ class BaseStatisticFunction(
                 problem.reset()
 
             umdo_formulation.update_top_level_disciplines(input_data)
+            # The data to estimate the Jacobian also allow to estimate the statistic,
+            # so the disciplines are sampled once per input point
+            # when the Jacobians are required.
+            with_jacobian = umdo_formulation.estimate_statistic_jacobians
             data_for_statistic_estimation = self._compute_data_for_statistic_estimation(
-                input_data, estimate_jacobian
+                input_data, with_jacobian
             )
-            input_data_to_data[estimate_jacobian] = data_for_statistic_estimation
+            data_for_statistic_estimation[_with_jacobian_name] = with_jacobian
+            i_to_o[hashable_input_data] = data_for_statistic_estimation
 
         # 3. We compute the estimation of the statistic of interest or its Jacobian.
         if estimate_jacobian:
@@ -179,8 +206,34 @@ class BaseStatisticFunction(
 
         Returns:
             The estimation of the Jacobian of the statistic at the given input point.
+
+        Raises:
+            NotImplementedError: When the Jacobian of the statistic
+                cannot be estimated.
         """
+        # The error is raised before sampling for this request
+        # and before enabling the joint sampling of statistics and Jacobians.
+        self.check_jacobian_estimation()
         return self.__compute_statistic_estimation(input_data, True)
+
+    def check_jacobian_estimation(self) -> None:
+        """Check that the Jacobian of the statistic can be estimated.
+
+        Raises:
+            NotImplementedError: When the Jacobian of the statistic
+                cannot be estimated.
+        """
+        if not (
+            self._can_estimate_jacobian
+            and self._statistic_estimator.can_compute_jacobian
+        ):
+            msg = (
+                "The Jacobian of the statistic "
+                f"{self._statistic_estimator.__class__.__name__} "
+                f"of {self._output_name} cannot be estimated "
+                f"with {self._umdo_formulation.__class__.__name__}."
+            )
+            raise NotImplementedError(msg)
 
     @abstractmethod
     def _compute_statistic_estimation(self, data: dict[str, Any]) -> RealArray:
@@ -214,6 +267,8 @@ class BaseStatisticFunction(
             input_data: The input point.
             estimate_jacobian: Whether to estimate the Jacobian of the statistic
                 with respect to the input variables.
+                In this case,
+                the data must also allow to estimate the statistic.
 
         Returns:
             The data to estimate the statistic or its Jacobian at the given input point.

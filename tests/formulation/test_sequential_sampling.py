@@ -105,13 +105,14 @@ def test_scenario(
     assert discipline.execution_statistics.n_executions == (3 + 5 + 7 + 7 + 7)
 
 
-def test_warning_with_more_samples(
+def test_warning_with_jacobian_resampling(
     discipline, design_space, uncertain_space, monkeypatch, caplog
 ):
-    """Check the warning when the Jacobian is estimated from more samples.
+    """Check the warning when the Jacobian is estimated from a new sampling.
 
     The estimation of the statistics uses 2 samples, all complete,
-    and that of their Jacobians uses 3 samples, one without gradient;
+    and that of their Jacobians uses a new sampling with the same number of samples,
+    one without gradient;
     this failure is reported at the warning level.
     """
     caplog.set_level(logging.INFO)
@@ -147,10 +148,10 @@ def test_warning_with_more_samples(
         (
             logging.WARNING,
             (
-                "Some outputs or gradients are missing at some of the 3 samples "
+                "Some outputs or gradients are missing at some of the 2 samples "
                 "of the uncertain variables, e.g. because their evaluation failed; "
                 "the numbers of samples used to estimate the statistics are: "
-                "2 for y and its gradient."
+                "1 for y and its gradient."
             ),
         )
     ]

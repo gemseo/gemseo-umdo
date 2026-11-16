@@ -109,3 +109,32 @@ def test_u_evaluation_scenario_values():
     scenario.execute(CustomDOE_Settings(samples=array([[-0.5], [0.0], [0.5]])))
     mean = scenario.to_dataset().get_view(variable_names="E[y]").to_numpy()
     assert_almost_equal(mean, array([[1.25], [1.0], [1.25]]))
+
+
+@pytest.mark.parametrize(
+    ("eval_jac", "evaluate_observable_jacobian"),
+    [
+        pytest.param(False, True, id="evaluate_observable_jacobian"),
+        # The evaluation problem has neither objective nor constraints.
+        pytest.param(True, False, id="eval_jac"),
+    ],
+)
+def test_u_evaluation_scenario_observable_jacobians(
+    toy_problem, eval_jac, evaluate_observable_jacobian, enable_discipline_statistics
+):
+    """Check that a DOE evaluating the observable Jacobians samples once per point."""
+    discipline, design_space, uncertain_space = toy_problem
+    scenario = UEvaluationScenario(
+        [discipline], design_space, uncertain_space, Sampling_Settings(n_samples=5)
+    )
+    scenario.add_observable("y", "Mean")
+    scenario.execute(
+        CustomDOE_Settings(
+            samples=array([[-0.5], [0.0], [0.5]]),
+            eval_jac=eval_jac,
+            evaluate_observable_jacobian=evaluate_observable_jacobian,
+        )
+    )
+    statistics = discipline.execution_statistics
+    assert statistics.n_executions == 15
+    assert statistics.n_linearizations == 15
