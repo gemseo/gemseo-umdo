@@ -1,4 +1,7 @@
 # The navigation of the documentation.
+# Every page written in docs must be listed here:
+# a page left out is built but not linked from the navigation,
+# and the build reports neither an error nor a warning about it.
 # docs-tools prebuild expands the gallery directories it references
 # and writes the result into _docs/generated.yml, inherited by mkdocs.yml.
 # The api-autonav plugin fills the "API documentation" entry with the API pages.

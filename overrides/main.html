@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+
+{#-
+  The navbar (tabs) is rendered inside partials/header.html as part of the single
+  header row, so suppress the default second-row include from base.html.
+-#}
+{% block tabs %}{% endblock %}

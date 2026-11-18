@@ -49,14 +49,16 @@ doc = [
     "griffe-fieldz",
     "griffe-inherited-docstrings",
     "mike",
-    # The citations and the command docs-tools prebuild.
+    # The citations and the commands docs-tools prebuild and serve.
     "docs-tools",
-    # The tree fences, used as a Python-Markdown custom fence, not as a plugin.
-    "markdown-exec",
-    "mkdocs-api-autonav",
+    # mkdocstrings and mkdocs-autorefs do not support MkDocs 2.
+    "mkdocs <2",
     "mkdocstrings[python]",
     "mkdocs-autorefs",
-    "zensical",
+    # The tree fences, used as a Python-Markdown custom fence, not as a plugin.
+    "markdown-exec",
+    # Zensical 0.1.0 implements the api-autonav plugin itself.
+    "zensical >=0.1.0",
 ]
 check = [
     "prek",
@@ -95,5 +97,5 @@ cache-keys = [
 [tool.uv.sources]
 gemseo = { git = "https://gitlab.com/gemseo/dev/gemseo.git", branch = "develop" }
 # The fork of mike compatible with Zensical, not published on PyPI.
-mike = { git = "https://github.com/squidfunk/mike.git" }
+mike = { git = "https://github.com/squidfunk/mike.git", tag = "2.2.0+zensical-0.1.0" }
 docs-tools = { git = "https://gitlab.com/gemseo/dev/doc/docs-tools.git", branch = "develop" }

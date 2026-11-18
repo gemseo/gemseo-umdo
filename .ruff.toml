@@ -105,6 +105,7 @@ select = [
 [lint.flake8-type-checking]
 runtime-evaluated-base-classes = [
     "pydantic.BaseModel",
+    "gemseo.util.pydantic.BasePydanticModel",
     "gemseo.util.pydantic.BaseSettings",
     "gemseo.doe.core.base_doe_settings.BaseDOESettings",
     "gemseo.linear.core.base_linear_solver_settings.BaseLinearSolverSettings",
@@ -164,6 +165,9 @@ runtime-evaluated-base-classes = [
     "gemseo_umdo.formulation.control_variate_settings.ControlVariate_Settings",
     "gemseo_umdo.formulation.core.base_surrogate_settings.BaseSurrogate_Settings",
     "gemseo_umdo.formulation.surrogate_settings.Surrogate_Settings",
+    "gemseo.space.variable.numeric.BaseNumericVariable",
+    "gemseo.space.variable.deterministic.BaseDeterministicVariable",
+    "gemseo.space.variable.interval.BaseIntervalVariable",
 ]
 
 [lint.isort]
@@ -174,6 +178,8 @@ required-imports = ["from __future__ import annotations"]
 convention = "google"
 
 [lint.per-file-ignores]
+# rumdl checks the Python code blocks of the Markdown files as _.py.
+"_.py" = ["INP001"]
 "tests/**/*.py" = ["D", "PT009", "PT011", "PT027", "PTH", "B018"]
 "docs/**/*.py" = [
     "T",

@@ -8,4 +8,4 @@ enabled = true
 [code-block-tools.languages.python]
 lint = ["ruff:check"]
 format = ["ruff:format"]
-on-error = "ignore"
+on-error = "skip"

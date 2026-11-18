@@ -1,11 +1,21 @@
-set windows-shell := ["powershell.exe", "-NoLogo", "-Command"]
+# The recipes use features of just 1.56.0, older versions cannot parse this file.
+set minimum-version := "1.56.0"
+
+# The comments inside the recipes are not sent to the shell.
+set ignore-comments := true
+
+[windows]
+set shell := ["powershell.exe", "-NoLogo", "-Command"]
 
 # Most recipes use the Python version defined by .python-version,
 # override it with UV_PYTHON.
 
 # Recursive invocations shall use the very same just binary and justfile.
-# PowerShell, the windows-shell, needs its call operator to run a quoted path.
+# PowerShell, the shell under Windows, needs its call operator to run a quoted path.
 just := (if os_family() == "windows" { "& " } else { "" }) + quote(just_executable()) + ' --justfile ' + quote(justfile())
+
+# The temporary files and directories removed by the clean recipe.
+clean_paths := ".venv .pytest_cache .mypy_cache .ruff_cache .coverage coverage.xml htmlcov diff-cover.html dist site _docs docs/css/gallery docs/generated/examples"
 
 [private]
 default:
@@ -44,16 +54,17 @@ check *args: install-hooks
 
 # Generate the documentation files that Zensical cannot generate itself (gallery, nav, ...), `--no-gallery` skips the examples
 [arg("gallery", long="no-gallery", value="--no-gallery")]
+[env("DOCSTRING_INHERITANCE_ENABLE", "1")]
 [group('doc')]
 doc-prebuild gallery="":
     uv run --group doc docs-tools prebuild {{ gallery }}
 
-# Build and serve the documentation, `--no-gallery` skips the examples, pass the Zensical options after `--`
+# Build and serve the documentation, updated when an example or nav.yml changes, `--no-gallery` skips the examples, pass the Zensical options after `--`
 [arg("gallery", long="no-gallery", value="--no-gallery")]
 [env("DOCSTRING_INHERITANCE_ENABLE", "1")]
 [group('doc')]
-doc gallery="" *args: (doc-prebuild gallery)
-    uv run --group doc zensical serve {{ args }}
+doc gallery="" *args:
+    uv run --group doc docs-tools serve {{ gallery }} -- {{ args }}
 
 # Create and check the PyPI distribution
 [group('packaging')]
@@ -81,15 +92,16 @@ install *args:
 [group('lifecycle')]
 [unix]
 clean:
-    rm -rf .venv .pytest_cache .mypy_cache .ruff_cache .coverage coverage.xml htmlcov diff-cover.html dist site _docs
+    rm -rf {{ clean_paths }}
     find . -type d -name __pycache__ -prune -exec rm -rf {} +
 
 # Remove the temporary files
 [group('lifecycle')]
 [windows]
 clean:
-    Remove-Item -Recurse -Force -ErrorAction Ignore .venv, .pytest_cache, .mypy_cache, .ruff_cache, .coverage, coverage.xml, htmlcov, diff-cover.html, dist, site, _docs
-    Get-ChildItem -Recurse -Directory -Filter __pycache__ | Remove-Item -Recurse -Force -ErrorAction Ignore
+    # Skip the missing paths: Remove-Item fails on them even with -ErrorAction Ignore.
+    '{{ replace(clean_paths, ' ', "', '") }}' | Where-Object { Test-Path -LiteralPath $_ } | Remove-Item -Recurse -Force
+    Get-ChildItem -Recurse -Directory -Filter __pycache__ | Remove-Item -Recurse -Force
 
 # Recreate the project virtualenv from scratch
 [group('lifecycle')]
