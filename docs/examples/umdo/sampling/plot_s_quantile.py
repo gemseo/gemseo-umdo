@@ -46,8 +46,9 @@ from gemseo.space import DesignSpace
 from gemseo.space import RandomSpace
 from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 
-from gemseo_umdo.formulation.sampling_settings import Sampling_Settings
-from gemseo_umdo.scenario.mdo import UMDOScenario
+from gemseo_umdo.formulation import Sampling_Settings
+from gemseo_umdo.scenario import UMDOScenario
+from gemseo_umdo.statistic import Quantile_Settings
 
 # %%
 # Firstly,
@@ -88,11 +89,11 @@ scenario.add_objective("y", "Mean")
 
 # %%
 # We add the quantile constraint $Q_{0.95}[U-x]\leq 0$:
-scenario.add_constraint("c", "Quantile", level=0.95)
+scenario.add_constraint("c", Quantile_Settings(level=0.95))
 
 # %%
 # We also observe the median of the objective output:
-scenario.add_observable("y", "Quantile", level=0.5)
+scenario.add_observable("y", Quantile_Settings(level=0.5))
 
 # %%
 # !!! note

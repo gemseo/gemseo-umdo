@@ -44,14 +44,15 @@ from gemseo_umdo.formulation.sequential_sampling_settings import (
 )
 from gemseo_umdo.formulation.surrogate_settings import Surrogate_Settings
 from gemseo_umdo.scenario.mdo import UMDOScenario
+from gemseo_umdo.statistic.settings.probability import Probability_Settings
 
 if TYPE_CHECKING:
     from collections.abc import Callable
-    from collections.abc import Mapping
 
     from gemseo.util.typing import RealArray
 
     from gemseo_umdo.formulation.core.base_settings import BaseUMDOFormulationSettings
+    from gemseo_umdo.statistic.settings.core.base import BaseStatisticSettings
 
 design_points: Final[RealArray] = array([[-1.0], [0.0], [1.0]])
 """The design points at which to estimate the statistics."""
@@ -692,30 +693,25 @@ def test_pce_approximated_jacobians_after_failure(pce_scenario: UMDOScenario) ->
 
 
 @pytest.mark.parametrize(
-    ("settings", "statistic_name", "statistic_parameters"),
+    ("settings", "statistic_settings"),
     [
         pytest.param(
             Sampling_Settings(n_samples=5),
-            "Probability",
-            {"threshold": 0.0},
+            Probability_Settings(threshold=0.0),
             id="Sampling-iterative",
         ),
         pytest.param(
             Sampling_Settings(n_samples=5, estimate_statistics_iteratively=False),
-            "Probability",
-            {"threshold": 0.0},
+            Probability_Settings(threshold=0.0),
             id="Sampling",
         ),
-        pytest.param(
-            ControlVariate_Settings(n_samples=5), "Mean", {}, id="ControlVariate"
-        ),
-        pytest.param(Surrogate_Settings(n_samples=5), "Mean", {}, id="Surrogate"),
+        pytest.param(ControlVariate_Settings(n_samples=5), "Mean", id="ControlVariate"),
+        pytest.param(Surrogate_Settings(n_samples=5), "Mean", id="Surrogate"),
     ],
 )
 def test_unsupported_jacobian(
     settings: BaseUMDOFormulationSettings,
-    statistic_name: str,
-    statistic_parameters: Mapping[str, float],
+    statistic_settings: str | BaseStatisticSettings,
     snapshot,
 ) -> None:
     """Check that an unsupported Jacobian raises an error before any sampling.
@@ -723,7 +719,7 @@ def test_unsupported_jacobian(
     The joint sampling of statistics and Jacobians must not be enabled either.
     """
     scenario = create_scenario(settings, False)
-    scenario.add_observable("g1", statistic_name, **statistic_parameters)
+    scenario.add_observable("g1", statistic_settings)
     formulation = scenario.formulation
     with (
         mock.patch.object(formulation, "compute_samples") as compute_samples,

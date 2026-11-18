@@ -29,8 +29,9 @@ from numpy import save
 from numpy import stack
 from numpy import vstack
 
-from gemseo_umdo.formulation.sampling_settings import Sampling_Settings
-from gemseo_umdo.scenario.mdo import UMDOScenario
+from gemseo_umdo.formulation import Sampling_Settings
+from gemseo_umdo.scenario import UMDOScenario
+from gemseo_umdo.statistic import Margin_Settings
 
 # %%
 # Firstly,
@@ -81,8 +82,8 @@ for i in range(10):
         Sampling_Settings(doe_algo_settings=OT_LHS_Settings(n_samples=100, seed=i + 1)),
     )
     scenario.add_objective("obj", "Mean")
-    scenario.add_constraint("c1", "Margin", factor=3.0)
-    scenario.add_constraint("c2", "Margin", factor=3.0)
+    scenario.add_constraint("c1", Margin_Settings(factor=3.0))
+    scenario.add_constraint("c2", Margin_Settings(factor=3.0))
     scenario.execute(NLOPT_COBYLA_Settings(max_iter=100))
     x_hist.append(vstack(scenario.formulation.problem.database.get_x_vect_history()))
 

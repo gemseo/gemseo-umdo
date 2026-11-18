@@ -56,7 +56,28 @@ from enum import StrEnum
 
 from gemseo.doe.factory import doe_library_factory
 
+# Only settings modules are imported,
+# so that importing this package does not import the U-MDO formulations.
+from gemseo_umdo.formulation.control_variate_settings import ControlVariate_Settings
+from gemseo_umdo.formulation.pce_settings import PCE_Settings
+from gemseo_umdo.formulation.sampling_settings import Sampling_Settings
+from gemseo_umdo.formulation.sequential_sampling_settings import (
+    SequentialSampling_Settings,
+)
+from gemseo_umdo.formulation.surrogate_settings import Surrogate_Settings
+from gemseo_umdo.formulation.taylor_polynomial_settings import TaylorPolynomial_Settings
+
 DOEAlgorithmName = StrEnum(
     "DOEAlgorithmName", {name: name for name in doe_library_factory.algorithms}
 )
 """The names of the available DOE algorithms."""
+
+__all__ = [
+    "ControlVariate_Settings",
+    "DOEAlgorithmName",
+    "PCE_Settings",
+    "Sampling_Settings",
+    "SequentialSampling_Settings",
+    "Surrogate_Settings",
+    "TaylorPolynomial_Settings",
+]

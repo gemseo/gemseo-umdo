@@ -20,13 +20,14 @@ from typing import TYPE_CHECKING
 
 from numpy import newaxis
 
+from gemseo_umdo.formulation._estimator.base import StatisticSettingsT
 from gemseo_umdo.formulation._estimator.sampling.base import BaseSamplingEstimator
 
 if TYPE_CHECKING:
     from gemseo.util.typing import RealArray
 
 
-class Variance(BaseSamplingEstimator):
+class Variance(BaseSamplingEstimator[StatisticSettingsT]):
     """Estimator of the variance."""
 
     @property

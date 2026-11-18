@@ -25,8 +25,8 @@ from gemseo.space import DesignSpace
 from gemseo.space import RandomSpace
 from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 
-from gemseo_umdo.formulation.sampling_settings import Sampling_Settings
-from gemseo_umdo.scenario.evaluation import UEvaluationScenario
+from gemseo_umdo.formulation import Sampling_Settings
+from gemseo_umdo.scenario import UEvaluationScenario
 
 # %%
 # Firstly,

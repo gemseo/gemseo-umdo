@@ -18,6 +18,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from gemseo_umdo.formulation._estimator.base import StatisticSettingsT
 from gemseo_umdo.formulation._estimator.control_variate.base import (
     BaseControlVariateEstimator,
 )
@@ -26,7 +27,7 @@ if TYPE_CHECKING:
     from gemseo.util.typing import RealArray
 
 
-class Variance(BaseControlVariateEstimator):
+class Variance(BaseControlVariateEstimator[StatisticSettingsT]):
     """Estimator of the variance."""
 
     def estimate_statistic(  # noqa: D102

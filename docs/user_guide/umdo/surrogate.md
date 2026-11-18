@@ -32,7 +32,7 @@ scenario = UMDOScenario(
     Surrogate_Settings(n_samples=20),
     formulation_settings=mdo_formulation_settings,
 )
-scenario.add_objective(objective_name, statistic_name)
+scenario.add_objective(objective_name, statistic_settings)
 ```
 
 ## Settings
@@ -88,7 +88,7 @@ and `regressor_n_samples` to `100` to estimate the statistics with 100 Monte Car
         settings,
         formulation_settings=mdo_formulation_settings,
     )
-    scenario.add_objective(objective_name, statistic_name)
+    scenario.add_objective(objective_name, statistic_settings)
     ```
 
 ### Quality options

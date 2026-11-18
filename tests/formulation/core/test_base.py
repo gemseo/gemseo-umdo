@@ -14,6 +14,9 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 from __future__ import annotations
 
+import sys
+from importlib import import_module
+from textwrap import dedent
 from typing import TYPE_CHECKING
 from typing import Any
 from typing import ClassVar
@@ -31,22 +34,28 @@ from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 from gemseo.util.testing.helper import assert_exception
 from numpy import array
 from numpy import array_equal
+from numpy.testing import assert_almost_equal
 from numpy.testing import assert_equal
 
 from gemseo_umdo.formulation._estimator.sampling.factory import SamplingEstimatorFactory
 from gemseo_umdo.formulation.core.base import BaseUMDOFormulation
 from gemseo_umdo.formulation.sampling_settings import Sampling_Settings
+from gemseo_umdo.formulation.taylor_polynomial_settings import TaylorPolynomial_Settings
 from gemseo_umdo.scenario.mdo import UMDOScenario
+from gemseo_umdo.statistic.settings.margin import Margin_Settings
+from gemseo_umdo.statistic.settings.quantile import Quantile_Settings
 
 if TYPE_CHECKING:
     from collections.abc import Mapping
     from collections.abc import Sequence
+    from types import ModuleType
 
     from gemseo.discipline import AnalyticDiscipline
     from gemseo.space import DesignSpace
     from gemseo.space import RandomSpace
 
     from gemseo_umdo.formulation.core.base_settings import BaseUMDOFormulationSettings
+    from gemseo_umdo.statistic.settings.core.base import BaseStatisticSettings
 
 
 _with_ot_distribution: Final[pytest.MarkDecorator] = pytest.mark.parametrize(
@@ -73,8 +82,7 @@ class StatisticFunction(ArrayFunction):
         formulation: BaseUMDOFormulation,
         output_name: str,
         function_type: str,
-        name: str,
-        **parameters: Any,
+        statistic_settings: BaseStatisticSettings,
     ) -> None:
         super().__init__(lambda u: array([1.0]), name="func")
         self.mock = f"{output_name}_statistics"
@@ -106,7 +114,7 @@ def formulation(toy_disciplines, toy_design_space, mdf_settings, toy_uncertain_s
         mdo_formulation_settings=mdf_settings,
     )
     form.problem.objective = form.create_objective("f", "Mean")
-    form.add_constraint("c", "Margin", factor=3.0)
+    form.add_constraint("c", Margin_Settings(factor=3.0))
     form.add_observable("o", "Mean")
     return form
 
@@ -138,16 +146,6 @@ def test_constraint(formulation):
     opt_problem = formulation.problem
     assert opt_problem.constraints[0].mock == "c_statistics"
     assert opt_problem.constraints[0].name == "Margin[c; 3.0]"
-
-
-@pytest.mark.parametrize(
-    "method_name", ["create_objective", "create_constraint", "add_observable"]
-)
-@pytest.mark.parametrize("factor", [0, -0.0])
-def test_margin_with_zero_factor(formulation, method_name, factor, snapshot):
-    """Check that a margin with a zero factor is rejected, as it is the mean."""
-    with assert_exception(ValueError, snapshot):
-        getattr(formulation, method_name)("f", "Margin", factor=factor)
 
 
 def test_available_statistics(formulation):
@@ -223,42 +221,40 @@ def _execute_margin_scenario(
         statistic_estimation_settings=statistic_estimation_settings,
         formulation_settings=MDF_Settings(),
     )
-    scenario.add_objective("f", "Margin", minimize=not maximize, **parameters)
-    scenario.add_constraint("c", "Margin", positive=positive, **parameters)
-    scenario.add_observable("o", "Margin", **parameters)
+    statistic_settings = Margin_Settings(**parameters)
+    scenario.add_objective("f", statistic_settings, minimize=not maximize)
+    scenario.add_constraint("c", statistic_settings, positive=positive)
+    scenario.add_observable("o", statistic_settings)
     scenario.execute(CustomDOE_Settings(samples=array([[1.0, 1.0, 1.0]])))
     return scenario.formulation.problem.database.last_item
 
 
 @_with_ot_distribution
 @pytest.mark.parametrize(
-    ("parameters", "abs_factor"),
-    [({"factor": 3.0}, 3.0), ({"factor": -3.0}, 3.0), ({}, 2.0)],
-    ids=["positive", "negative", "default"],
-)
-@pytest.mark.parametrize(
     ("positive", "constraint_name"),
-    [(False, "Margin[c; {}]"), (True, "-Margin[c; -{}]")],
+    [(False, "Margin[c; 3.0]"), (True, "-Margin[c; -3.0]")],
+    ids=["negative", "positive"],
 )
 @pytest.mark.parametrize(
     ("maximize", "objective_name"),
-    [(False, "Margin[f; {}]"), (True, "-Margin[f; -{}]")],
+    [(False, "Margin[f; 3.0]"), (True, "-Margin[f; -3.0]")],
+    ids=["minimize", "maximize"],
 )
 def test_margin_objective_and_constraint(
     toy_disciplines,
     toy_design_space,
     toy_uncertain_space,
     statistic_estimation_settings,
-    parameters,
-    abs_factor,
     positive,
     constraint_name,
     maximize,
     objective_name,
 ):
-    """Check that the factor of a margin objective or constraint is conservative.
+    """Check that a margin objective or inequality constraint is conservative.
 
-    The factor is replaced by its absolute value, negated if conservative from below.
+    The margin is conservative from below
+    for an objective to maximize or a positive constraint;
+    the conservative factors are checked by the tests of the settings.
     """
     args = (
         toy_disciplines,
@@ -266,16 +262,11 @@ def test_margin_objective_and_constraint(
         toy_uncertain_space,
         statistic_estimation_settings,
     )
-    reference = _execute_margin_scenario(
-        *args, {"factor": abs_factor}, positive=positive, maximize=maximize
-    )
     last_item = _execute_margin_scenario(
-        *args, parameters, positive=positive, maximize=maximize
+        *args, {"factor": -3.0}, positive=positive, maximize=maximize
     )
-    name = objective_name.format(abs_factor)
-    assert_equal(last_item[name], reference[name])
-    name = constraint_name.format(abs_factor)
-    assert_equal(last_item[name], reference[name])
+    assert objective_name in last_item
+    assert constraint_name in last_item
 
 
 @_with_ot_distribution
@@ -335,10 +326,9 @@ def test_margin_equality_constraint(
     )
     scenario.add_constraint(
         "c",
-        "Margin",
+        Margin_Settings(**parameters),
         constraint_type=ArrayFunction.ConstraintType.EQ,
         positive=positive,
-        **parameters,
     )
     assert scenario.formulation.problem.constraints[-1].name.endswith(name)
 
@@ -347,3 +337,198 @@ def test_unavailable_statistic(formulation, snapshot):
     """Check that an unavailable statistic raises an explicit error."""
     with assert_exception(ValueError, snapshot):
         formulation.add_observable("o", "Foo")
+
+
+@pytest.mark.parametrize(
+    "statistic",
+    ["Quantile", Quantile_Settings()],
+    ids=["name", "settings"],
+)
+def test_unsupported_statistic(
+    disciplines, design_space, uncertain_space, statistic, snapshot
+):
+    """Check the error raised for a statistic not supported by a formulation."""
+    scenario = UMDOScenario(
+        disciplines,
+        design_space,
+        uncertain_space,
+        statistic_estimation_settings=TaylorPolynomial_Settings(),
+        formulation_settings=MDF_Settings(),
+    )
+    with assert_exception(ValueError, snapshot):
+        scenario.add_objective("f", statistic)
+
+
+def _set_factor(settings: Margin_Settings) -> None:
+    """Change the factor of the settings of a margin.
+
+    Args:
+        settings: The settings of the margin.
+    """
+    settings.factor = 5.0
+
+
+def _append_offset(settings: BaseStatisticSettings) -> None:
+    """Append an offset to the mutable field of the settings of the user.
+
+    Args:
+        settings: The settings of the statistic of the user.
+    """
+    settings.offsets.append(1.0)
+
+
+@pytest.mark.parametrize(
+    ("is_margin", "is_objective", "change_settings", "function_name"),
+    [
+        (True, False, _set_factor, "Margin[f; 3.0]"),
+        (False, False, _append_offset, "scaled_mean[f; 3.0]"),
+        (False, True, _append_offset, "scaled_mean[f; 3.0]"),
+    ],
+    ids=["margin-observable", "mutable-field-observable", "mutable-field-objective"],
+)
+def test_settings_changed_after_use(
+    disciplines,
+    design_space,
+    uncertain_space,
+    user_statistic_module,
+    is_margin,
+    is_objective,
+    change_settings,
+    function_name,
+):
+    """Check that changing the settings after adding a statistic has no effect.
+
+    The settings are deep-copied,
+    even when an objective makes them conservative with a shallow copy.
+    """
+
+    def execute(change):
+        scenario = UMDOScenario(
+            disciplines,
+            design_space,
+            uncertain_space,
+            statistic_estimation_settings=Sampling_Settings(
+                n_samples=10, estimate_statistics_iteratively=False
+            ),
+            formulation_settings=MDF_Settings(),
+        )
+        settings = (
+            Margin_Settings(factor=3.0)
+            if is_margin
+            else user_statistic_module.ScaledMean_Settings(scale=3.0)
+        )
+        if is_objective:
+            scenario.add_objective("f", settings)
+        else:
+            scenario.add_objective("f", "Mean")
+            scenario.add_observable("f", settings)
+
+        if change:
+            change_settings(settings)
+
+        scenario.execute(CustomDOE_Settings(samples=array([[1.0, 1.0, 1.0]])))
+        return scenario.formulation.problem.database.last_item[function_name]
+
+    assert_almost_equal(execute(True), execute(False))
+
+
+_user_statistic_module_name: Final[str] = "user_statistic_for_gemseo_umdo"
+"""The name of the module defining a statistic of the user."""
+
+_user_statistic_module = '''
+from __future__ import annotations
+
+from pydantic import Field
+
+from gemseo_umdo.statistic.settings.core.base import BaseStatisticSettings
+from gemseo_umdo.formulation._estimator.sampling.base import (
+    BaseSamplingEstimator,
+)
+
+
+class ScaledMean_Settings(BaseStatisticSettings):
+    """The settings of a shifted and scaled mean."""
+
+    scale: float = 1.0
+
+    offsets: list[float] = Field(default_factory=list)
+
+    def make_conservative(self, from_below):
+        # A shallow copy sharing the mutable fields with these settings.
+        return self.model_copy(update={"scale": self.scale})
+
+
+# The base class is not parametrized by the settings class,
+# as the cache of typing would keep the settings class alive after the test,
+# and so registered as a subclass of BaseStatisticSettings.
+class ScaledMean(BaseSamplingEstimator):
+    """Estimator of a shifted and scaled mean."""
+
+    def estimate_statistic(self, samples):
+        return self._settings.scale * samples.mean(0) + sum(self._settings.offsets)
+
+    def compute_jacobian(self, samples, jac_samples):
+        return self._settings.scale * jac_samples.mean(0)
+'''
+"""A module defining a statistic of the user."""
+
+
+@pytest.fixture
+def user_statistic_module(tmp_wd, monkeypatch, reset_factory) -> ModuleType:
+    """A module of the user defining a statistic, found through GEMSEO_PATH.
+
+    The module is removed from the imported modules after the test.
+    """
+    (tmp_wd / f"{_user_statistic_module_name}.py").write_text(
+        dedent(_user_statistic_module)
+    )
+    monkeypatch.setenv("GEMSEO_PATH", str(tmp_wd))
+    monkeypatch.syspath_prepend(str(tmp_wd))
+    yield import_module(_user_statistic_module_name)
+    del sys.modules[_user_statistic_module_name]
+
+
+@pytest.mark.parametrize(
+    ("use_name", "scale", "objective_name"),
+    [(False, 3.0, "scaled_mean[f; 3.0]"), (True, 1.0, "scaled_mean[f; 1.0]")],
+    ids=["settings", "name"],
+)
+def test_user_statistic(
+    disciplines,
+    design_space,
+    uncertain_space,
+    user_statistic_module,
+    use_name,
+    scale,
+    objective_name,
+):
+    """Check that a user can add a statistic with its settings and estimator.
+
+    The statistic can be set by its settings or by its name for its default settings.
+    """
+
+    def execute(statistic_settings):
+        scenario = UMDOScenario(
+            disciplines,
+            design_space,
+            uncertain_space,
+            statistic_estimation_settings=Sampling_Settings(
+                n_samples=10, estimate_statistics_iteratively=False
+            ),
+            formulation_settings=MDF_Settings(),
+        )
+        scenario.add_objective("f", statistic_settings)
+        scenario.execute(CustomDOE_Settings(samples=array([[1.0, 1.0, 1.0]])))
+        return scenario.formulation.problem
+
+    problem = execute(
+        "ScaledMean"
+        if use_name
+        else user_statistic_module.ScaledMean_Settings(scale=scale)
+    )
+    reference_problem = execute("Mean")
+    assert problem.objective.name == objective_name
+    assert_almost_equal(
+        problem.database.last_item[objective_name],
+        scale * reference_problem.database.last_item["E[f]"],
+    )

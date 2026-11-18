@@ -36,6 +36,7 @@ from gemseo_umdo.statistic.multilevel.mlmc.pilot.factory import MLMCPilotFactory
 from gemseo_umdo.statistic.multilevel.mlmc_mlcv.pilot.factory import (
     MLMCMLCVPilotFactory,
 )
+from gemseo_umdo.statistic.settings.core.factory import StatisticSettingsFactory
 
 
 @pytest.mark.parametrize(
@@ -57,6 +58,7 @@ from gemseo_umdo.statistic.multilevel.mlmc_mlcv.pilot.factory import (
         ),
         pytest.param(MLMCPilotFactory, id="MLMCPilotFactory"),
         pytest.param(MLMCMLCVPilotFactory, id="MLMCMLCVPilotFactory"),
+        pytest.param(StatisticSettingsFactory, id="StatisticSettingsFactory"),
     ],
 )
 def test_factory(reset_factory, factory_class: type[BaseFactory]) -> None:
@@ -84,3 +86,16 @@ def test_iterative_sampling_factory_keeps_base_cache(reset_factory) -> None:
     factory.class_names  # noqa: B018
     base_name_to_class_info = BaseFactory._name_to_class_info.fget(factory)
     assert "BaseIterativeSamplingEstimator" in base_name_to_class_info
+
+
+def test_statistic_settings_factory_class_names(reset_factory) -> None:
+    """Check that the factory of settings of statistics finds the statistics."""
+    assert StatisticSettingsFactory().class_names == [
+        "BaseStatisticSettings",
+        "Margin_Settings",
+        "Mean_Settings",
+        "Probability_Settings",
+        "Quantile_Settings",
+        "StandardDeviation_Settings",
+        "Variance_Settings",
+    ]

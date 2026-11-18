@@ -30,7 +30,7 @@ scenario = UMDOScenario(
     PCE_Settings(n_samples=20),
     formulation_settings=mdo_formulation_settings,
 )
-scenario.add_objective(objective_name, statistic_name)
+scenario.add_objective(objective_name, statistic_settings)
 ```
 
 ## Settings
@@ -82,7 +82,7 @@ You only have to enable the option `approximate_statistics_jacobians`.
     settings = PCE_Settings(
         doe_algo_settings=OT_MONTE_CARLO_Settings(n_samples=20, n_processes=2),
         regressor_settings=PCERegressor_Settings(use_lars=True, degree=3),
-        )
+    )
     scenario = UMDOScenario(
         disciplines,
         design_space,
@@ -90,7 +90,7 @@ You only have to enable the option `approximate_statistics_jacobians`.
         settings,
         formulation_settings=mdo_formulation_settings,
     )
-    scenario.add_objective(objective_name, statistic_name)
+    scenario.add_objective(objective_name, statistic_settings)
     ```
 
 ### Quality options

@@ -47,6 +47,8 @@ from gemseo_umdo.formulation.factory import UMDOFormulationFactory
 from gemseo_umdo.formulation.sampling import Sampling
 from gemseo_umdo.formulation.sampling_settings import Sampling_Settings
 from gemseo_umdo.scenario.mdo import UMDOScenario
+from gemseo_umdo.statistic.settings.margin import Margin_Settings
+from gemseo_umdo.statistic.settings.probability import Probability_Settings
 
 if TYPE_CHECKING:
     from collections.abc import Generator
@@ -69,7 +71,7 @@ def scenario(toy_disciplines, toy_design_space, toy_uncertain_space) -> UMDOScen
         ),
     )
     scn.add_objective("f", "Mean")
-    scn.add_constraint("c", "Margin", factor=3.0)
+    scn.add_constraint("c", Margin_Settings(factor=3.0))
     scn.add_observable("o", "Mean")
     return scn
 
@@ -417,7 +419,7 @@ def add_probability_objective(scenario: UMDOScenario) -> None:
     Args:
         scenario: The U-MDO scenario.
     """
-    scenario.add_objective("y", "Probability", threshold=0.5)
+    scenario.add_objective("y", Probability_Settings(threshold=0.5))
 
 
 def add_probability_objective_to_maximize(scenario: UMDOScenario) -> None:
@@ -426,7 +428,7 @@ def add_probability_objective_to_maximize(scenario: UMDOScenario) -> None:
     Args:
         scenario: The U-MDO scenario.
     """
-    scenario.add_objective("y", "Probability", threshold=0.5, minimize=False)
+    scenario.add_objective("y", Probability_Settings(threshold=0.5), minimize=False)
 
 
 def add_probability_constraint(scenario: UMDOScenario) -> None:
@@ -436,7 +438,9 @@ def add_probability_constraint(scenario: UMDOScenario) -> None:
         scenario: The U-MDO scenario.
     """
     scenario.add_objective("z", "Mean")
-    scenario.add_constraint("y", "Probability", threshold=0.5, positive=True, value=0.1)
+    scenario.add_constraint(
+        "y", Probability_Settings(threshold=0.5), positive=True, value=0.1
+    )
 
 
 def add_probability_observable(scenario: UMDOScenario) -> None:
@@ -446,7 +450,7 @@ def add_probability_observable(scenario: UMDOScenario) -> None:
         scenario: The U-MDO scenario.
     """
     scenario.add_objective("z", "Mean")
-    scenario.add_observable("y", "Probability", threshold=0.5)
+    scenario.add_observable("y", Probability_Settings(threshold=0.5))
 
 
 @pytest.mark.parametrize(
@@ -536,7 +540,7 @@ def test_estimate_statistic_jacobians_without_new_iter_observable(toy_problem):
     will not request the Jacobian of this observable.
     """
     scenario = create_toy_scenario(*toy_problem)
-    scenario.add_objective("z", "Probability", threshold=0.5)
+    scenario.add_objective("z", Probability_Settings(threshold=0.5))
     scenario.add_observable("y", "Mean")
     problem = scenario.formulation.problem
     problem.new_iter_observables = []
