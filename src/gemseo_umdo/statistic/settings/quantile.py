@@ -21,6 +21,7 @@ from typing import ClassVar
 from typing import Self
 
 from numpy import array
+from numpy import nextafter
 from numpy import quantile
 from pydantic import Field
 from pydantic import field_validator
@@ -83,10 +84,18 @@ it is replaced by $1-\alpha$ if necessary to make the quantile conservative.""",
         level = float(self.level)
         # The decimal arithmetic avoids names like Q[f; 0.09999999999999998]
         # for the complementary level of 0.9.
-        complementary_level = float(1 - Decimal(repr(level)))
+        # The complementary level of a level close to 0, e.g. 1e-17,
+        # is rounded to 1, which is not a valid level:
+        # the largest float lower than 1 is used instead.
+        complementary_level = min(
+            float(1 - Decimal(repr(level))), float(nextafter(1.0, 0.0))
+        )
         level = (
             min(level, complementary_level)
             if from_below
             else max(level, complementary_level)
         )
-        return self.model_copy(update={"level": level})
+        return self.model_validate({
+            **self.model_dump(exclude_unset=True),
+            "level": level,
+        })

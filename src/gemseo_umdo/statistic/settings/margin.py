@@ -67,4 +67,7 @@ its sign is changed if necessary to make the margin conservative.""",
         if from_below:
             factor *= -1
 
-        return self.model_copy(update={"factor": factor})
+        return self.model_validate({
+            **self.model_dump(exclude_unset=True),
+            "factor": factor,
+        })
