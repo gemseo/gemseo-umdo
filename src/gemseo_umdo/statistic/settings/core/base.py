@@ -55,12 +55,12 @@ class BaseStatisticSettings(BaseSettings):
 
         Args:
             from_below: Whether the statistic must be conservative from below,
-                e.g. for an objective to maximize or a positive inequality
-                constraint.
+                e.g. for an objective to maximize
+                or a positive inequality constraint.
                 Otherwise,
                 it must be conservative from above,
-                e.g. for an objective to minimize or a negative inequality
-                constraint.
+                e.g. for an objective to minimize
+                or a negative inequality constraint.
 
         Returns:
             The settings making the statistic conservative.
