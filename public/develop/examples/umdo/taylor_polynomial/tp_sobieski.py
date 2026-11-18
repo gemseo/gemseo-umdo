@@ -27,8 +27,8 @@ from gemseo.problem.mdo.sobieski import SobieskiStructure
 from gemseo.space import RandomSpace
 from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 
-from gemseo_umdo.formulation.taylor_polynomial_settings import TaylorPolynomial_Settings
-from gemseo_umdo.scenario.mdo import UMDOScenario
+from gemseo_umdo.formulation import TaylorPolynomial_Settings
+from gemseo_umdo.scenario import UMDOScenario
 
 # %%
 # Firstly,

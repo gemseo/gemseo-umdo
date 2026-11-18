@@ -436,6 +436,36 @@
         <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/statistic/multilevel/mlmc_mlcv/pilot/mean/</loc>
       </url>
       <url>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/statistic/settings/</loc>
+      </url>
+      <url>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/statistic/settings/core/</loc>
+      </url>
+      <url>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/statistic/settings/core/base/</loc>
+      </url>
+      <url>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/statistic/settings/core/factory/</loc>
+      </url>
+      <url>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/statistic/settings/margin/</loc>
+      </url>
+      <url>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/statistic/settings/mean/</loc>
+      </url>
+      <url>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/statistic/settings/probability/</loc>
+      </url>
+      <url>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/statistic/settings/quantile/</loc>
+      </url>
+      <url>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/statistic/settings/standard_deviation/</loc>
+      </url>
+      <url>
+        <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/statistic/settings/variance/</loc>
+      </url>
+      <url>
         <loc>https://gemseo.gitlab.io/dev/gemseo-umdo/latest/reference/gemseo_umdo/visualization/</loc>
       </url>
       <url>
