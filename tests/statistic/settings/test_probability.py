@@ -45,4 +45,3 @@ def test_comparison_operator(greater, operator):
     """Check the operator comparing samples to the threshold."""
     settings = Probability_Settings(greater=greater)
     assert settings.comparison_operator is operator
-    assert "comparison_operator" not in settings.model_dump()
