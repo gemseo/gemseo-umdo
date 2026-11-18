@@ -20,20 +20,38 @@ from abc import abstractmethod
 from typing import TYPE_CHECKING
 from typing import Any
 from typing import ClassVar
+from typing import Generic
+from typing import TypeVar
 
 from gemseo.util.metaclass import ABCGoogleDocstringInheritanceMeta
 
 if TYPE_CHECKING:
-    from collections.abc import MutableMapping
-
     from gemseo.util.typing import RealArray
 
+    from gemseo_umdo.statistic.settings.core.base import BaseStatisticSettings
 
-class BaseStatisticEstimator(metaclass=ABCGoogleDocstringInheritanceMeta):
+
+StatisticSettingsT = TypeVar("StatisticSettingsT", bound="BaseStatisticSettings")
+"""The type of the settings of a statistic."""
+
+
+class BaseStatisticEstimator(
+    Generic[StatisticSettingsT], metaclass=ABCGoogleDocstringInheritanceMeta
+):
     """The base statistic estimator for U-MDO formulations."""
 
     can_compute_jacobian: ClassVar[bool] = False
     """Whether the estimator can estimate the Jacobian of the statistic."""
+
+    _settings: StatisticSettingsT
+    """The settings of the statistic."""
+
+    def __init__(self, settings: StatisticSettingsT) -> None:
+        """
+        Args:
+            settings: The settings of the statistic.
+        """  # noqa: D205 D212 D415
+        self._settings = settings
 
     @property
     def min_n_samples(self) -> int:
@@ -42,29 +60,6 @@ class BaseStatisticEstimator(metaclass=ABCGoogleDocstringInheritanceMeta):
         This number is used by the sampling-based U-MDO formulations.
         """
         return 1
-
-    @classmethod
-    def update_parameters(
-        cls, parameters: MutableMapping[str, Any], conservative_from_below: bool | None
-    ) -> MutableMapping[str, Any]:
-        """Update the parameters of the statistic according to its use.
-
-        By default, the parameters are left unchanged.
-
-        Args:
-            parameters: The parameters of the statistic to be updated.
-            conservative_from_below: Whether the statistic must be conservative
-                from below,
-                e.g. with a negative factor for a margin
-                and a level lower than 0.5 for a quantile.
-                If `None`,
-                e.g. for an observable,
-                the statistic does not have to be conservative.
-
-        Returns:
-            The updated parameters of the statistic.
-        """
-        return parameters
 
     @abstractmethod
     def estimate_statistic(self, *args: Any, **kwargs: Any) -> RealArray:  # noqa: D102

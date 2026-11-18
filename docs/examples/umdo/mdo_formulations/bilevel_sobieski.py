@@ -47,8 +47,8 @@ from matplotlib import pyplot as plt
 from numpy import atleast_2d
 
 from gemseo_umdo.discipline.noiser.util import create_noising_discipline_chain
-from gemseo_umdo.formulation.sampling_settings import Sampling_Settings
-from gemseo_umdo.scenario.mdo import UMDOScenario
+from gemseo_umdo.formulation import Sampling_Settings
+from gemseo_umdo.scenario import UMDOScenario
 
 configuration.enable_fast_mode()
 

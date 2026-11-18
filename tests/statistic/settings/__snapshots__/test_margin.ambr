@@ -1,0 +1,17 @@
+# serializer version: 1
+# name: test_zero_factor[negative-zero]
+  '''
+  1 validation error for Margin_Settings
+  factor
+    Value error, The factor of a margin must be non-zero; a margin with a zero factor is the mean. Use the statistic 'Mean' instead. [type=value_error, input_value=-0.0, input_type=float]
+      For further information visit https://errors.pydantic.dev/X.Y/v/value_error
+  '''
+# ---
+# name: test_zero_factor[zero]
+  '''
+  1 validation error for Margin_Settings
+  factor
+    Value error, The factor of a margin must be non-zero; a margin with a zero factor is the mean. Use the statistic 'Mean' instead. [type=value_error, input_value=0, input_type=int]
+      For further information visit https://errors.pydantic.dev/X.Y/v/value_error
+  '''
+# ---
