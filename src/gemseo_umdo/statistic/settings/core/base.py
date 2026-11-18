@@ -128,47 +128,24 @@ class BaseStatisticSettings(BaseSettings):
     def from_name(cls, name: str) -> BaseStatisticSettings:
         """Return the default settings of a statistic from its name.
 
-        The name is case-insensitive,
-        e.g. `"mean"` or `"MEAN"` for the statistic `"Mean"`,
-        unless several statistics have this name up to the case:
-        the case must then match exactly.
-
         When several settings classes are defined for the same statistic,
         the most recently defined one is used.
 
         Args:
-            name: The name of the statistic, e.g. `"Margin"` or `"margin"`.
+            name: The name of the statistic, e.g. `"Margin"`.
 
         Returns:
             The default settings of the statistic.
 
         Raises:
-            ValueError: When no settings class is defined for this statistic
-                or when several statistics have this name up to the case.
+            ValueError: When no settings class is defined for this statistic.
         """
         settings_class = _name_to_class.get(name)
         if settings_class is None:
-            folded_name = name.casefold()
-            names = [
-                registered_name
-                for registered_name in _name_to_class
-                if registered_name.casefold() == folded_name
-            ]
-            if len(names) > 1:
-                msg = (
-                    f"The name {name!r} matches several statistics "
-                    f"up to the case: {pretty_str(names)}; "
-                    "use the exact name."
-                )
-                raise ValueError(msg)
-
-            if not names:
-                msg = (
-                    f"The statistic {name!r} has no settings class; "
-                    f"available statistics: {pretty_str(_name_to_class.keys())}."
-                )
-                raise ValueError(msg)
-
-            settings_class = _name_to_class[names[0]]
+            msg = (
+                f"The statistic {name!r} has no settings class; "
+                f"available statistics: {pretty_str(_name_to_class.keys())}."
+            )
+            raise ValueError(msg)
 
         return settings_class()

@@ -239,7 +239,7 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
 
         Args:
             statistic_settings: Either the settings of the statistic
-                or the case-insensitive name of the statistic
+                or the name of the statistic
                 to use its default settings.
             conservative_from_below: Whether the statistic must be conservative
                 from below,
@@ -253,7 +253,6 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
             The settings of the statistic.
         """
         if isinstance(statistic_settings, str):
-            # The name is case-insensitive.
             try:
                 settings = BaseStatisticSettings.from_name(statistic_settings)
             except ValueError:
@@ -502,7 +501,7 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
         Args:
             output_names: The names of the outputs.
             statistic_settings: Either the settings of the statistic of `output_names`
-                or the case-insensitive name of the statistic
+                or the name of the statistic
                 to use its default settings,
                 e.g. `"Mean"`.
             objective_name: The name of the objective.
@@ -545,7 +544,7 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
         """
         Args:
             statistic_settings: Either the settings of the statistic of `output_names`
-                or the case-insensitive name of the statistic
+                or the name of the statistic
                 to use its default settings,
                 e.g. `"Mean"`.
         """  # noqa: D205 D212 D415
@@ -596,7 +595,7 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
         Args:
             output_names: The names of the outputs.
             statistic_settings: Either the settings of the statistic of `output_names`
-                or the case-insensitive name of the statistic
+                or the name of the statistic
                 to use its default settings,
                 e.g. `"Mean"`.
             constraint_type: The type of constraint.
@@ -641,7 +640,7 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
         Args:
             output_names: The names of the outputs.
             statistic_settings: Either the settings of the statistic of `output_names`
-                or the case-insensitive name of the statistic
+                or the name of the statistic
                 to use its default settings,
                 e.g. `"Mean"`.
             constraint_type: The type of constraint.
@@ -701,7 +700,7 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
         Args:
             output_names: The names of the outputs.
             statistic_settings: Either the settings of the statistic of `output_names`
-                or the case-insensitive name of the statistic
+                or the name of the statistic
                 to use its default settings,
                 e.g. `"Mean"`.
             constraint_type: The type of constraint.

@@ -339,15 +339,9 @@ def test_unavailable_statistic(formulation, snapshot):
         formulation.add_observable("o", "Foo")
 
 
-def test_case_insensitive_statistic_name(formulation):
-    """Check that the name of a statistic is case-insensitive."""
-    formulation.add_observable("o", "margin")
-    assert formulation.problem.observables[-1].name == "Margin[o; 2.0]"
-
-
 @pytest.mark.parametrize(
     "statistic",
-    ["quantile", Quantile_Settings()],
+    ["Quantile", Quantile_Settings()],
     ids=["name", "settings"],
 )
 def test_unsupported_statistic(
