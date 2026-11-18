@@ -46,7 +46,7 @@ interpreter is the one of `.python-version` (3.11), overridable with `UV_PYTHON`
 | `just coverage [args]` | Tests plus XML/HTML coverage reports |
 | `just coverage-diff upstream/develop` | Coverage then `diff-cover` on the changed lines, `--fail-under=100` |
 | `just check` | Installs the git hooks then runs `prek` on all files (ruff, rumdl, license headers, commitizen, uv-lock) |
-| `just doc [--no-gallery] [-- args]` | Run `docs-tools prebuild` (`just doc-prebuild`) then serve the docs with Zensical (sets `DOCSTRING_INHERITANCE_ENABLE`); `--no-gallery` skips the examples |
+| `just doc [--no-gallery] [-- args]` | Serve the docs with `docs-tools serve`, which runs the prebuild (`just doc-prebuild`) first and again on a change of an example or `nav.yml` (sets `DOCSTRING_INHERITANCE_ENABLE`); `--no-gallery` skips the examples |
 | `just install` / `just fresh` | `uv sync`; `fresh` wipes `.venv` and the caches first |
 | `just update` | `uv lock --upgrade` and update the git hooks |
 | `just dist` / `just publish` | Build and check the wheel, then upload |
@@ -184,11 +184,11 @@ Docs are built by Zensical, configured by `mkdocs.yml`: the user guide is in
 MkDocs hooks nor the mkdocs-gallery and gen-files plugins, so the command
 `docs-tools prebuild` runs the gallery and writes `_docs/generated.yml` (the
 navigation of `nav.yml` with the galleries expanded, inherited by `mkdocs.yml`) and
-`_docs/credits.md` (included by `docs/credits.md`) before every build; edit the navigation in `nav.yml`. `zensical serve` does not run
-the prebuild, so run `just doc-prebuild` again after a change of `nav.yml` or of an
-example. An example runs again when its file changes, and all of them when a file of `src` or `uv.lock` changes
+`_docs/credits.md` (included by `docs/credits.md`) before every build; edit the navigation in `nav.yml`. `just doc` runs
+`docs-tools serve`, which runs the prebuild then `zensical serve`, and runs the
+prebuild again when `nav.yml` or an example changes. An example runs again when its file changes, and all of them when a file of `src` or `uv.lock` changes
 (an MD5 stored in `docs/generated/examples/library.md5`); `just doc --no-gallery`
 skips the examples, and the Zensical options go after `--`. The
 `[@key]` citations are rendered by the Python-Markdown extension of
-the `docs-tools` package, which also provides the prebuild command, from the repository
+the `docs-tools` package, which also provides the prebuild and serve commands, from the repository
 [gemseo/dev/doc/docs-tools](https://gitlab.com/gemseo/dev/doc/docs-tools).
