@@ -26,28 +26,11 @@ from __future__ import annotations
 
 from typing import Any
 from typing import ClassVar
-from typing import Final
 from typing import Self
-from weakref import WeakValueDictionary
 
 from gemseo.uncertainty.statistic.core.base import BaseStatistics
 from gemseo.util.file_path_manager import FilePathManager
 from gemseo.util.pydantic import BaseSettings
-from gemseo.util.string import pretty_str
-
-_target_class_name_attribute: Final[str] = "_BaseSettings__target_class_name"
-"""The class attribute where GEMSEO stores the target class name of settings."""
-
-_name_to_class: Final[WeakValueDictionary[str, type[BaseStatisticSettings]]] = (
-    WeakValueDictionary()
-)
-"""The settings classes of the statistics bound to their names.
-
-A class is registered at its definition
-and a later definition of a class with the same name replaces it,
-e.g. when a notebook cell defining a class is run again.
-The references are weak so that this registry does not keep a class alive.
-"""
 
 
 class BaseStatisticSettings(BaseSettings):
@@ -112,40 +95,3 @@ class BaseStatisticSettings(BaseSettings):
             show_name=show_name,
             **self.get_name_parameters(),
         )
-
-    @classmethod
-    def __pydantic_init_subclass__(cls, **kwargs: Any) -> None:
-        super().__pydantic_init_subclass__(**kwargs)
-        # GEMSEO sets the target class name of a class
-        # when the name of this class ends with the suffix of the settings,
-        # e.g. Margin for Margin_Settings;
-        # the other classes, e.g. intermediate base classes, are not statistics.
-        name = vars(cls).get(_target_class_name_attribute)
-        if name:
-            _name_to_class[name] = cls
-
-    @classmethod
-    def from_name(cls, name: str) -> BaseStatisticSettings:
-        """Return the default settings of a statistic from its name.
-
-        When several settings classes are defined for the same statistic,
-        the most recently defined one is used.
-
-        Args:
-            name: The name of the statistic, e.g. `"Margin"`.
-
-        Returns:
-            The default settings of the statistic.
-
-        Raises:
-            ValueError: When no settings class is defined for this statistic.
-        """
-        settings_class = _name_to_class.get(name)
-        if settings_class is None:
-            msg = (
-                f"The statistic {name!r} has no settings class; "
-                f"available statistics: {pretty_str(_name_to_class.keys())}."
-            )
-            raise ValueError(msg)
-
-        return settings_class()

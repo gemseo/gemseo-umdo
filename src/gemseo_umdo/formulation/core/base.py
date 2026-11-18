@@ -35,7 +35,7 @@ from gemseo.util.string import convert_strings_to_iterable
 from gemseo.util.string import pretty_repr
 
 from gemseo_umdo.formulation._function.base import BaseStatisticFunction
-from gemseo_umdo.statistic.settings.core.base import BaseStatisticSettings
+from gemseo_umdo.statistic.settings.core.factory import StatisticSettingsFactory
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -51,6 +51,7 @@ if TYPE_CHECKING:
     from gemseo.util.typing import RealArray
 
     from gemseo_umdo.formulation.core.base_settings import BaseUMDOFormulationSettings
+    from gemseo_umdo.statistic.settings.core.base import BaseStatisticSettings
 
 _functions_attribute_name: Final[str] = (
     "_BaseUMDOFormulation__objective_and_constraint_functions"
@@ -253,13 +254,10 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
             The settings of the statistic.
         """
         if isinstance(statistic_settings, str):
-            try:
-                settings = BaseStatisticSettings.from_name(statistic_settings)
-            except ValueError:
-                # The error of a statistic unknown to this formulation
-                # lists the statistics available for this formulation.
-                self._check_statistic_name(statistic_settings)
-                raise
+            self._check_statistic_name(statistic_settings)
+            settings = StatisticSettingsFactory().create(
+                f"{statistic_settings}_Settings"
+            )
         else:
             # The estimator reads its settings at each estimation,
             # so it uses a deep copy that the user cannot change afterwards.

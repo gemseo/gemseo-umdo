@@ -488,10 +488,24 @@ def user_statistic_module(tmp_wd, monkeypatch, reset_factory) -> ModuleType:
     del sys.modules[_user_statistic_module_name]
 
 
+@pytest.mark.parametrize(
+    ("use_name", "scale", "objective_name"),
+    [(False, 3.0, "scaled_mean[f; 3.0]"), (True, 1.0, "scaled_mean[f; 1.0]")],
+    ids=["settings", "name"],
+)
 def test_user_statistic(
-    disciplines, design_space, uncertain_space, user_statistic_module
+    disciplines,
+    design_space,
+    uncertain_space,
+    user_statistic_module,
+    use_name,
+    scale,
+    objective_name,
 ):
-    """Check that a user can add a statistic with its settings and estimator."""
+    """Check that a user can add a statistic with its settings and estimator.
+
+    The statistic can be set by its settings or by its name for its default settings.
+    """
 
     def execute(statistic_settings):
         scenario = UMDOScenario(
@@ -507,10 +521,14 @@ def test_user_statistic(
         scenario.execute(CustomDOE_Settings(samples=array([[1.0, 1.0, 1.0]])))
         return scenario.formulation.problem
 
-    problem = execute(user_statistic_module.ScaledMean_Settings(scale=3.0))
+    problem = execute(
+        "ScaledMean"
+        if use_name
+        else user_statistic_module.ScaledMean_Settings(scale=scale)
+    )
     reference_problem = execute("Mean")
-    assert problem.objective.name == "scaled_mean[f; 3.0]"
+    assert problem.objective.name == objective_name
     assert_almost_equal(
-        problem.database.last_item[problem.objective.name],
-        3.0 * reference_problem.database.last_item["E[f]"],
+        problem.database.last_item[objective_name],
+        scale * reference_problem.database.last_item["E[f]"],
     )

@@ -144,8 +144,10 @@ package has `Quantile`). The settings hold the defaults and the validation;
 `make_conservative` makes them conservative for an objective or inequality constraint
 (e.g. the `factor` of a margin, the `level` of a quantile); `get_name_parameters`
 gives the fields used in the function name (those of `_name_field_names`, e.g. the
-factor of a margin, plus those set explicitly). `BaseStatisticSettings.from_name`
-resolves a string. An estimator exposes `min_n_samples`.
+factor of a margin, plus those set explicitly). A statistic name `X`, used for its
+default settings, is resolved by `StatisticSettingsFactory`
+(`statistic/settings/core/factory.py`) as the class `X_Settings`, after checking that
+the formulation supports `X`. An estimator exposes `min_n_samples`.
 
 A formulation sets `_statistic_function_class` at class level and `_statistic_factory`
 at class level or at instantiation before calling `super().__init__`. `Sampling` picks

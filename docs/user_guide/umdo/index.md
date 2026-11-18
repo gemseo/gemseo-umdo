@@ -703,7 +703,9 @@ e.g. $\mathbb{E}[f]-3\mathbb{S}[f]$ for an objective to maximize.
     and may change without notice.
 
     Then, use it as any other statistic,
-    e.g. `scenario.add_objective("f", Foo_Settings(bar=1.0))`.
+    e.g. `scenario.add_objective("f", Foo_Settings(bar=1.0))`,
+    or `scenario.add_objective("f", "Foo")` for its default settings
+    when `Foo_Settings` is also defined in a module found by GEMSEO.
 
 ### Statistic estimation
 

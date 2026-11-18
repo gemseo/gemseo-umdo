@@ -16,47 +16,14 @@
 
 from __future__ import annotations
 
-import gc
-
 import pytest
-from gemseo.util.testing.helper import assert_exception
 
-from gemseo_umdo.statistic.settings.core.base import BaseStatisticSettings
 from gemseo_umdo.statistic.settings.margin import Margin_Settings
 from gemseo_umdo.statistic.settings.mean import Mean_Settings
 from gemseo_umdo.statistic.settings.probability import Probability_Settings
 from gemseo_umdo.statistic.settings.quantile import Quantile_Settings
 from gemseo_umdo.statistic.settings.standard_deviation import StandardDeviation_Settings
 from gemseo_umdo.statistic.settings.variance import Variance_Settings
-
-
-def _get_subclasses(cls: type) -> set[type]:
-    """Return the subclasses of a class, recursively.
-
-    Args:
-        cls: The class.
-
-    Returns:
-        The subclasses of the class.
-    """
-    subclasses = set()
-    for subclass in cls.__subclasses__():
-        subclasses |= {subclass, *_get_subclasses(subclass)}
-
-    return subclasses
-
-
-@pytest.fixture
-def isolated_subclasses():
-    """Check that the settings classes defined by a test do not outlive it."""
-    # The classes defined in a test are freed with the frame of the test,
-    # but their reference cycles require a garbage collection,
-    # including those of the previous tests.
-    gc.collect()
-    subclasses = _get_subclasses(BaseStatisticSettings)
-    yield
-    gc.collect()
-    assert _get_subclasses(BaseStatisticSettings) == subclasses
 
 
 @pytest.mark.parametrize(
@@ -116,123 +83,3 @@ def test_default_make_conservative(from_below):
 def test_get_name_parameters(settings, parameters):
     """Check the parameters used in the name of a statistic."""
     assert settings.get_name_parameters() == parameters
-
-
-def test_from_name():
-    """Check the default settings created from the name of a statistic."""
-    assert BaseStatisticSettings.from_name("Margin") == Margin_Settings()
-
-
-@pytest.mark.usefixtures("isolated_subclasses")
-def test_from_name_unknown(snapshot):
-    """Check the error raised when no settings class is defined for a statistic."""
-    with assert_exception(ValueError, snapshot):
-        BaseStatisticSettings.from_name("Unknown")
-
-
-def _define_subclass_with_suffix() -> tuple[
-    dict[type[BaseStatisticSettings], str], dict[str, type[BaseStatisticSettings]]
-]:
-    """Define a subclass of a settings class whose name has the suffix.
-
-    Returns:
-        The target class names of the defined classes
-        and the settings classes expected from their names.
-    """
-
-    class OtherMargin_Settings(Margin_Settings):  # noqa: N801
-        """Another margin."""
-
-    return (
-        {OtherMargin_Settings: "OtherMargin"},
-        {"OtherMargin": OtherMargin_Settings, "Margin": Margin_Settings},
-    )
-
-
-def _define_subclass_without_suffix() -> tuple[
-    dict[type[BaseStatisticSettings], str], dict[str, type[BaseStatisticSettings]]
-]:
-    """Define a subclass of a settings class whose name has not the suffix.
-
-    GEMSEO binds it to the statistic of its parent class,
-    but it does not replace this parent class.
-
-    Returns:
-        The target class names of the defined classes
-        and the settings classes expected from their names.
-    """
-
-    class MyMargin(Margin_Settings):
-        """A margin."""
-
-    return {MyMargin: "Margin"}, {"Margin": Margin_Settings}
-
-
-def _define_intermediate_base_class() -> tuple[
-    dict[type[BaseStatisticSettings], str], dict[str, type[BaseStatisticSettings]]
-]:
-    """Define a statistic deriving from an intermediate base class.
-
-    Returns:
-        The target class names of the defined classes
-        and the settings classes expected from their names.
-    """
-
-    class BaseFooStatisticSettings(BaseStatisticSettings):
-        """An intermediate base class, bound to no statistic."""
-
-    class IntermediateFoo_Settings(BaseFooStatisticSettings):  # noqa: N801
-        """The settings of a statistic deriving from an intermediate base class."""
-
-    return (
-        {BaseFooStatisticSettings: "", IntermediateFoo_Settings: "IntermediateFoo"},
-        {"IntermediateFoo": IntermediateFoo_Settings},
-    )
-
-
-@pytest.mark.usefixtures("isolated_subclasses")
-@pytest.mark.parametrize(
-    "define_classes",
-    [
-        _define_subclass_with_suffix,
-        _define_subclass_without_suffix,
-        _define_intermediate_base_class,
-    ],
-    ids=["subclass-with-suffix", "subclass-without-suffix", "intermediate-base"],
-)
-def test_from_name_registration(define_classes):
-    """Check that a class is registered under the target class name of GEMSEO.
-
-    GEMSEO sets this name only for a class whose name has the suffix `_Settings`,
-    so the other classes are not registered.
-    """
-    classes_to_target_class_names, names_to_classes = define_classes()
-    for settings_class, name in classes_to_target_class_names.items():
-        assert settings_class().target_class_name == name
-
-    for name, settings_class in names_to_classes.items():
-        assert type(BaseStatisticSettings.from_name(name)) is settings_class
-
-
-@pytest.mark.usefixtures("isolated_subclasses")
-def test_from_name_with_redefinition():
-    """Check that a redefined settings class replaces the previous one.
-
-    This is the case of a notebook cell defining a class and run again,
-    while the previous class is still alive.
-    """
-
-    class Foo_Settings(BaseStatisticSettings):  # noqa: N801
-        """The settings of a statistic."""
-
-        value: float = 1.0
-
-    previous_class = Foo_Settings
-
-    class Foo_Settings(BaseStatisticSettings):  # noqa: N801
-        """The settings of the same statistic, redefined."""
-
-        value: float = 2.0
-
-    assert previous_class is not Foo_Settings
-    assert BaseStatisticSettings.from_name("Foo") == Foo_Settings()
