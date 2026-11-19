@@ -313,6 +313,18 @@ and this project adheres to
   raises a `NotImplementedError` naming the statistic, the output and the formulation;
   a U-scenario whose driver requires this Jacobian
   raises it before executing the driver, so before sampling the disciplines.
+- BREAKING CHANGE:
+  [UncertainCouplingGraph.visualize()][gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.visualize]
+  raises a `ValueError` naming the variables of interest
+  that were not defined at instantiation;
+  previously, such a variable was ignored if it was not a coupling variable
+  and raised a `KeyError` otherwise.
+- [UncertainCouplingGraph.visualize()][gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.visualize]
+  scales the thickness of the edges by the largest finite absolute dispersion,
+  so that the most dispersed coupling is drawn with `maximum_thickness`;
+  previously, the thickness was the dispersion times `maximum_thickness`,
+  which could exceed `maximum_thickness`
+  as a dispersion measure can be greater than 1.
 
 ### Removed
 
@@ -331,6 +343,11 @@ and this project adheres to
 
 ### Fixed
 
+- [UncertainCouplingGraph][gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph]
+  accepts a single-use iterable of variable names, e.g. a generator, at instantiation;
+  previously, this iterable was exhausted at instantiation
+  and [visualize()][gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.visualize]
+  drew no edge.
 - The sampling-based U-MDO formulations sample the disciplines once per design point
   to estimate the objective and the constraints,
   instead of 1 + number of constraints times
@@ -469,6 +486,19 @@ and this project adheres to
   previously, a sampling left `eval_jac` and `evaluate_observable_jacobian`
   set to `True` in these settings when it estimated the gradients
   and a failed sampling left its callbacks in them.
+- The coefficient of variation used as dispersion measure by
+  [UncertainCouplingGraph][gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph]
+  is computed component-wise,
+  i.e. the standard deviation of each component of a coupling variable
+  is normalized by the mean of this component;
+  previously, it was normalized by the mean of all the components,
+  which changed the thickness of the edges of a vector coupling variable.
+- [UncertainCouplingGraph.visualize()][gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.visualize]
+  draws an edge of maximum thickness for an infinite dispersion,
+  e.g. the coefficient of variation of a non-constant component whose mean is zero,
+  and an edge of zero thickness for an undefined dispersion,
+  e.g. the coefficient of variation of a component equal to zero;
+  previously, the thickness of this edge was `inf` or `nan`.
 
 ## Version 4.3.0 (October 2025)
 

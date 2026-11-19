@@ -1,0 +1,9 @@
+digraph {
+	D1 [color=black fillcolor=white fontcolor=black penwidth=1.0 style=filled]
+	D2 [color=black fillcolor=white fontcolor=black penwidth=1.0 style=filled]
+	D3 [color=black fillcolor=white fontcolor=black penwidth=1.0 style=filled]
+	D1 -> D3 [label=v color=black dir=forward fontcolor=black penwidth=1.88]
+	D1 -> D3 [label=x color=black dir=forward fontcolor=black penwidth=30.0]
+	D1 -> D3 [label=y color=black dir=forward fontcolor=black penwidth=30.0]
+	D2 -> D3 [label=w color=black dir=forward fontcolor=black penwidth=0.0]
+}

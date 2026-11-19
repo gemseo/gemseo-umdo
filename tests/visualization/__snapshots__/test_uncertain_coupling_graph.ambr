@@ -1,0 +1,4 @@
+# serializer version: 1
+# name: test_unknown_variable_names
+  "The variables of interest must be among those defined at instantiation; got unknown ones: 'y_12'."
+# ---

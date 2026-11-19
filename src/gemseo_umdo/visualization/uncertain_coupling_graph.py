@@ -21,12 +21,19 @@ from typing import TYPE_CHECKING
 from typing import Final
 
 from gemseo.core.dependency_graph import DependencyGraph
+from gemseo.dataset.dataset import Dataset
 from gemseo.post.graph_view import GraphView
 from gemseo.scenario import EvaluationScenario
+from gemseo.uncertainty.statistic.empirical import EmpiricalStatistics
 from gemseo.util.discipline import get_all_outputs
+from gemseo.util.string import pretty_repr
 from gemseo.util.string import repr_variable
-from numpy import atleast_1d
-from numpy import quantile
+from numpy import absolute
+from numpy import errstate
+from numpy import hstack
+from numpy import inf
+from numpy import isfinite
+from numpy import nan_to_num
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -38,20 +45,6 @@ if TYPE_CHECKING:
     from gemseo.doe.core.base_doe_settings import BaseDOESettings
     from gemseo.space.base import BaseVariableSpace
     from gemseo.util.typing import RealArray
-
-
-def _compute_qcd(x: RealArray) -> RealArray:
-    """Compute the quartile coefficient of dispersion.
-
-    Args:
-        x: The data to compute the quartile coefficient of dispersion.
-
-    Returns:
-        The quartile coefficient of dispersion.
-    """
-    q025 = quantile(x, 0.25, 0)
-    q075 = quantile(x, 0.75, 0)
-    return (q075 - q025) / (q025 + q075)
 
 
 class UncertainCouplingGraph:
@@ -103,7 +96,7 @@ class UncertainCouplingGraph:
         if variable_names is None:
             self.__output_names = get_all_outputs(disciplines)
         else:
-            self.__output_names = variable_names
+            self.__output_names = tuple(variable_names)
 
         self.__scenario = EvaluationScenario(disciplines, uncertain_space)
         for output_name in self.__output_names:
@@ -131,9 +124,11 @@ class UncertainCouplingGraph:
         """Generate the uncertain coupling graph.
 
         Args:
-            maximum_thickness: The maximum thickness of a line.
+            maximum_thickness: The maximum thickness of a line,
+                given to the edge of the most dispersed coupling.
             dispersion_measure: A standardized measure of dispersion.
-            variable_names: The names of the coupling variables of interest.
+            variable_names: The names of the coupling variables of interest,
+                among those defined at instantiation.
                 If `None`,
                 use all the coupling variables of interest defined at instantiation.
             show: Whether to display the graph
@@ -145,52 +140,112 @@ class UncertainCouplingGraph:
 
         Returns:
             The view of the uncertain coupling graph.
+
+        Raises:
+            ValueError: When a variable of interest
+                was not defined as such at instantiation.
+
+        Note:
+            The thickness of an edge is proportional to the absolute dispersion
+            of its coupling,
+            the most dispersed coupling being drawn with the maximum thickness.
+            An infinite dispersion,
+            e.g. the coefficient of variation of a non-constant component
+            whose mean is zero,
+            is drawn with the maximum thickness,
+            while an undefined dispersion,
+            e.g. the coefficient of variation of a component equal to zero,
+            is drawn with zero thickness.
         """
         if variable_names is None:
-            all_output_names = self.__output_names
-        else:
-            all_output_names = variable_names
+            variable_names = self.__output_names
 
-        database = self.__scenario.formulation.problem.database
-        output_names_to_measures = {
-            output_name: _disp_meas_to_function[dispersion_measure](
-                database.get_function_history(output_name)
+        variable_names = set(variable_names)
+        unobserved_names = variable_names.difference(self.__output_names)
+        if unobserved_names:
+            msg = (
+                "The variables of interest must be among those defined "
+                f"at instantiation; got unknown ones: {pretty_repr(unobserved_names)}."
             )
-            for output_name in self.__output_names
-        }
+            raise ValueError(msg)
+
         dependency_graph = DependencyGraph(self.__scenario.disciplines).graph
+        edges = [
+            (head_disc, tail_disc, variable_names.intersection(coupling_names))
+            for head_disc, tail_disc, coupling_names in dependency_graph.edges(
+                data="io"
+            )
+        ]
+        edges.extend(
+            (
+                discipline,
+                discipline,
+                variable_names.intersection(
+                    discipline.io.input_grammar.names
+                ).intersection(discipline.io.output_grammar.names),
+            )
+            for discipline in dependency_graph.nodes
+        )
         graph_view = GraphView()
         for discipline in self.__scenario.disciplines:
             graph_view.node(discipline.name)
 
-        for head_disc, tail_disc, coupling_names in dependency_graph.edges(data="io"):
-            variable_names = set(coupling_names).intersection(set(all_output_names))
-            for coupling_name in variable_names:
-                disp_meas = atleast_1d(output_names_to_measures[coupling_name])
+        coupling_names = set().union(*(names for _, _, names in edges))
+        output_names_to_measures = {}
+        # Skip an empty selection, for which there is no history to stack.
+        if coupling_names:
+            # EvaluationScenario.to_dataset() exports only the last DOE samples,
+            # whereas the database of its problem accumulates those of all the runs;
+            # only the histories of the coupling variables of interest are read.
+            database = self.__scenario.formulation.problem.database
+            name_to_history = {}
+            for name in sorted(coupling_names):
+                history = database.get_function_history(name)
+                name_to_history[name] = history.reshape(len(history), -1)
+
+            dataset = Dataset.from_array(
+                hstack(list(name_to_history.values())),
+                list(name_to_history),
+                {name: history.shape[1] for name, history in name_to_history.items()},
+            )
+            with errstate(divide="ignore", invalid="ignore"):
+                output_names_to_measures = _disp_meas_to_function[dispersion_measure](
+                    EmpiricalStatistics(dataset)
+                )
+
+            # The absolute measures are scaled by the largest finite one,
+            # so that the most dispersed coupling is drawn with the maximum thickness;
+            # an infinite measure is also drawn with the maximum thickness
+            # and an undefined one with zero thickness.
+            output_names_to_measures = {
+                name: nan_to_num(absolute(measure), nan=0.0, posinf=inf)
+                for name, measure in output_names_to_measures.items()
+            }
+            largest_finite_measure = max(
+                (
+                    measure[isfinite(measure)].max(initial=0.0)
+                    for measure in output_names_to_measures.values()
+                ),
+                default=0.0,
+            )
+            if largest_finite_measure == 0.0:
+                largest_finite_measure = 1.0
+
+            output_names_to_measures = {
+                name: nan_to_num(measure / largest_finite_measure, posinf=1.0)
+                for name, measure in output_names_to_measures.items()
+            }
+
+        for head_disc, tail_disc, names in edges:
+            for coupling_name in sorted(names):
+                disp_meas = output_names_to_measures[coupling_name]
                 coupling_size = disp_meas.size
                 for i in range(coupling_size):
                     graph_view.edge(
                         head_disc.name,
                         tail_disc.name,
                         label=repr_variable(coupling_name, i, coupling_size),
-                        penwidth=str(round(abs(disp_meas[i] * maximum_thickness), 2)),
-                    )
-
-        for discipline in dependency_graph.nodes:
-            coupling_names = set(discipline.io.input_grammar.names).intersection(
-                discipline.io.output_grammar.names
-            )
-            discipline_name = discipline.name
-            variable_names = set(coupling_names).intersection(set(all_output_names))
-            for coupling_name in variable_names:
-                disp_meas = atleast_1d(output_names_to_measures[coupling_name])
-                coupling_size = disp_meas.size
-                for i in range(coupling_size):
-                    graph_view.edge(
-                        discipline_name,
-                        discipline_name,
-                        label=repr_variable(coupling_name, i, coupling_size),
-                        penwidth=str(round(abs(disp_meas[i] * maximum_thickness), 2)),
+                        penwidth=str(round(disp_meas[i] * maximum_thickness, 2)),
                     )
 
         if save:
@@ -200,9 +255,16 @@ class UncertainCouplingGraph:
 
 
 _disp_meas_to_function: Final[
-    dict[UncertainCouplingGraph.DispersionMeasure, Callable]
+    dict[
+        UncertainCouplingGraph.DispersionMeasure,
+        Callable[[EmpiricalStatistics], dict[str, RealArray]],
+    ]
 ] = {
-    UncertainCouplingGraph.DispersionMeasure.CV: lambda x: x.std(0) / x.mean(),
-    UncertainCouplingGraph.DispersionMeasure.QCD: _compute_qcd,
+    UncertainCouplingGraph.DispersionMeasure.CV: (
+        EmpiricalStatistics.compute_variation_coefficient
+    ),
+    UncertainCouplingGraph.DispersionMeasure.QCD: (
+        EmpiricalStatistics.compute_quartile_coefficient_of_dispersion
+    ),
 }
-"""The functions computing the dispersion measures from samples."""
+"""The functions computing the dispersion measures from empirical statistics."""
