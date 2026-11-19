@@ -34,6 +34,11 @@ while the edges represent the coupling variables.
 
 The thickness of an edge is proportional
 to the absolute value of the dispersion of the corresponding coupling variable.
+This thickness is relative to the most dispersed coupling variable drawn,
+whose edge has the maximum thickness.
+Consequently,
+a graph restricted to some coupling variables
+is not comparable with the graph of all the coupling variables.
 
 A node connected only by ultra-thin edges
 will therefore be judged to be very insensitive
