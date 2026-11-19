@@ -8318,6 +8318,18 @@ and this project adheres to
   raises a <code>NotImplementedError</code> naming the statistic, the output and the formulation;
   a U-scenario whose driver requires this Jacobian
   raises it before executing the driver, so before sampling the disciplines.</li>
+<li>BREAKING CHANGE:
+  <a class="autorefs autorefs-internal" title="            visualize" href="../reference/gemseo_umdo/visualization/uncertain_coupling_graph/#gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.visualize">UncertainCouplingGraph.visualize()</a>
+  raises a <code>ValueError</code> naming the variables of interest
+  that were not defined at instantiation;
+  previously, such a variable was ignored if it was not a coupling variable
+  and raised a <code>KeyError</code> otherwise.</li>
+<li><a class="autorefs autorefs-internal" title="            visualize" href="../reference/gemseo_umdo/visualization/uncertain_coupling_graph/#gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.visualize">UncertainCouplingGraph.visualize()</a>
+  scales the thickness of the edges by the largest finite absolute dispersion,
+  so that the most dispersed coupling is drawn with <code>maximum_thickness</code>;
+  previously, the thickness was the dispersion times <code>maximum_thickness</code>,
+  which could exceed <code>maximum_thickness</code>
+  as a dispersion measure can be greater than 1.</li>
 </ul>
 <h3 id="removed">Removed<a class="headerlink" href="#removed" title="Permanent link">&para;</a></h3>
 <ul>
@@ -8341,6 +8353,11 @@ and this project adheres to
 </ul>
 <h3 id="fixed">Fixed<a class="headerlink" href="#fixed" title="Permanent link">&para;</a></h3>
 <ul>
+<li><a class="autorefs autorefs-internal" title="            UncertainCouplingGraph" href="../reference/gemseo_umdo/visualization/uncertain_coupling_graph/#gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph">UncertainCouplingGraph</a>
+  accepts a single-use iterable of variable names, e.g. a generator, at instantiation;
+  previously, this iterable was exhausted at instantiation
+  and <a class="autorefs autorefs-internal" title="            visualize" href="../reference/gemseo_umdo/visualization/uncertain_coupling_graph/#gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.visualize">visualize()</a>
+  drew no edge.</li>
 <li>The sampling-based U-MDO formulations sample the disciplines once per design point
   to estimate the objective and the constraints,
   instead of 1 + number of constraints times
@@ -8484,6 +8501,19 @@ and this project adheres to
   previously, a sampling left <code>eval_jac</code> and <code>evaluate_observable_jacobian</code>
   set to <code>True</code> in these settings when it estimated the gradients
   and a failed sampling left its callbacks in them.</li>
+<li>The coefficient of variation used as dispersion measure by
+  <a class="autorefs autorefs-internal" title="            UncertainCouplingGraph" href="../reference/gemseo_umdo/visualization/uncertain_coupling_graph/#gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph">UncertainCouplingGraph</a>
+  is computed component-wise,
+  i.e. the standard deviation of each component of a coupling variable
+  is normalized by the mean of this component;
+  previously, it was normalized by the mean of all the components,
+  which changed the thickness of the edges of a vector coupling variable.</li>
+<li><a class="autorefs autorefs-internal" title="            visualize" href="../reference/gemseo_umdo/visualization/uncertain_coupling_graph/#gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.visualize">UncertainCouplingGraph.visualize()</a>
+  draws an edge of maximum thickness for an infinite dispersion,
+  e.g. the coefficient of variation of a non-constant component whose mean is zero,
+  and an edge of zero thickness for an undefined dispersion,
+  e.g. the coefficient of variation of a component equal to zero;
+  previously, the thickness of this edge was <code>inf</code> or <code>nan</code>.</li>
 </ul>
 <h2 id="version-430-october-2025">Version 4.3.0 (October 2025)<a class="headerlink" href="#version-430-october-2025" title="Permanent link">&para;</a></h2>
 <h3 id="added_1">Added<a class="headerlink" href="#added_1" title="Permanent link">&para;</a></h3>
