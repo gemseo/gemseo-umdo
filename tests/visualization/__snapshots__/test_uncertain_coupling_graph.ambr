@@ -1,4 +1,305 @@
 # serializer version: 1
+# name: test_draw[default]
+  '''
+  digraph {
+  	node [fillcolor=white style=filled]
+  	d0 [label=SobieskiAerodynamics]
+  	d1 [label=SobieskiStructure]
+  	d2 [label=SobieskiPropulsion]
+  	d3 [label=SobieskiMission]
+  	d0 -> d1 [label=y_21 labeltooltip="Global name, Name in discipline 'SobieskiAerodynamics', Name in discipline 'SobieskiStructure'
+  
+  y_21, y_21, y_21" penwidth=9.82]
+  	d0 -> d2 [label=y_23 labeltooltip="Global name, Name in discipline 'SobieskiAerodynamics', Name in discipline 'SobieskiPropulsion'
+  
+  y_23, y_23, y_23" penwidth=25.2]
+  	d0 -> d3 [label=y_24 labeltooltip="Global name, Name in discipline 'SobieskiAerodynamics', Name in discipline 'SobieskiMission'
+  
+  y_24, y_24, y_24" penwidth=16.62]
+  	d1 -> d0 [label="y_12[0]" labeltooltip="Global name, Name in discipline 'SobieskiStructure', Name in discipline 'SobieskiAerodynamics'
+  
+  y_12, y_12, y_12" penwidth=9.82]
+  	d1 -> d0 [label="y_12[1]" labeltooltip="Global name, Name in discipline 'SobieskiStructure', Name in discipline 'SobieskiAerodynamics'
+  
+  y_12, y_12, y_12" penwidth=1.53]
+  	d1 -> d3 [label="y_14[0]" labeltooltip="Global name, Name in discipline 'SobieskiStructure', Name in discipline 'SobieskiMission'
+  
+  y_14, y_14, y_14" penwidth=9.82]
+  	d1 -> d3 [label="y_14[1]" labeltooltip="Global name, Name in discipline 'SobieskiStructure', Name in discipline 'SobieskiMission'
+  
+  y_14, y_14, y_14" penwidth=5.56]
+  	d2 -> d0 [label=y_32 labeltooltip="Global name, Name in discipline 'SobieskiPropulsion', Name in discipline 'SobieskiAerodynamics'
+  
+  y_32, y_32, y_32" penwidth=28.58]
+  	d2 -> d1 [label=y_31 labeltooltip="Global name, Name in discipline 'SobieskiPropulsion', Name in discipline 'SobieskiStructure'
+  
+  y_31, y_31, y_31" penwidth=30.0]
+  	d2 -> d3 [label=y_34 labeltooltip="Global name, Name in discipline 'SobieskiPropulsion', Name in discipline 'SobieskiMission'
+  
+  y_34, y_34, y_34" penwidth=6.49]
+  }
+  
+  '''
+# ---
+# name: test_draw[dispersion_measure]
+  '''
+  digraph {
+  	node [fillcolor=white style=filled]
+  	d0 [label=SobieskiAerodynamics]
+  	d1 [label=SobieskiStructure]
+  	d2 [label=SobieskiPropulsion]
+  	d3 [label=SobieskiMission]
+  	d0 -> d1 [label=y_21 labeltooltip="Global name, Name in discipline 'SobieskiAerodynamics', Name in discipline 'SobieskiStructure'
+  
+  y_21, y_21, y_21" penwidth=11.49]
+  	d0 -> d2 [label=y_23 labeltooltip="Global name, Name in discipline 'SobieskiAerodynamics', Name in discipline 'SobieskiPropulsion'
+  
+  y_23, y_23, y_23" penwidth=28.65]
+  	d0 -> d3 [label=y_24 labeltooltip="Global name, Name in discipline 'SobieskiAerodynamics', Name in discipline 'SobieskiMission'
+  
+  y_24, y_24, y_24" penwidth=23.03]
+  	d1 -> d0 [label="y_12[0]" labeltooltip="Global name, Name in discipline 'SobieskiStructure', Name in discipline 'SobieskiAerodynamics'
+  
+  y_12, y_12, y_12" penwidth=11.49]
+  	d1 -> d0 [label="y_12[1]" labeltooltip="Global name, Name in discipline 'SobieskiStructure', Name in discipline 'SobieskiAerodynamics'
+  
+  y_12, y_12, y_12" penwidth=2.06]
+  	d1 -> d3 [label="y_14[0]" labeltooltip="Global name, Name in discipline 'SobieskiStructure', Name in discipline 'SobieskiMission'
+  
+  y_14, y_14, y_14" penwidth=11.49]
+  	d1 -> d3 [label="y_14[1]" labeltooltip="Global name, Name in discipline 'SobieskiStructure', Name in discipline 'SobieskiMission'
+  
+  y_14, y_14, y_14" penwidth=12.04]
+  	d2 -> d0 [label=y_32 labeltooltip="Global name, Name in discipline 'SobieskiPropulsion', Name in discipline 'SobieskiAerodynamics'
+  
+  y_32, y_32, y_32" penwidth=28.62]
+  	d2 -> d1 [label=y_31 labeltooltip="Global name, Name in discipline 'SobieskiPropulsion', Name in discipline 'SobieskiStructure'
+  
+  y_31, y_31, y_31" penwidth=30.0]
+  	d2 -> d3 [label=y_34 labeltooltip="Global name, Name in discipline 'SobieskiPropulsion', Name in discipline 'SobieskiMission'
+  
+  y_34, y_34, y_34" penwidth=13.26]
+  }
+  
+  '''
+# ---
+# name: test_draw[filter_names]
+  '''
+  digraph {
+  	node [fillcolor=white style=filled]
+  	d0 [label=SobieskiAerodynamics]
+  	d1 [label=SobieskiStructure]
+  	d2 [label=SobieskiPropulsion]
+  	d3 [label=SobieskiMission]
+  	d0 -> d1 [label=y_21 labeltooltip="Global name, Name in discipline 'SobieskiAerodynamics', Name in discipline 'SobieskiStructure'
+  
+  y_21, y_21, y_21" penwidth=30.0]
+  }
+  
+  '''
+# ---
+# name: test_draw[maximum_thickness]
+  '''
+  digraph {
+  	node [fillcolor=white style=filled]
+  	d0 [label=SobieskiAerodynamics]
+  	d1 [label=SobieskiStructure]
+  	d2 [label=SobieskiPropulsion]
+  	d3 [label=SobieskiMission]
+  	d0 -> d1 [label=y_21 labeltooltip="Global name, Name in discipline 'SobieskiAerodynamics', Name in discipline 'SobieskiStructure'
+  
+  y_21, y_21, y_21" penwidth=3.27]
+  	d0 -> d2 [label=y_23 labeltooltip="Global name, Name in discipline 'SobieskiAerodynamics', Name in discipline 'SobieskiPropulsion'
+  
+  y_23, y_23, y_23" penwidth=8.4]
+  	d0 -> d3 [label=y_24 labeltooltip="Global name, Name in discipline 'SobieskiAerodynamics', Name in discipline 'SobieskiMission'
+  
+  y_24, y_24, y_24" penwidth=5.54]
+  	d1 -> d0 [label="y_12[0]" labeltooltip="Global name, Name in discipline 'SobieskiStructure', Name in discipline 'SobieskiAerodynamics'
+  
+  y_12, y_12, y_12" penwidth=3.27]
+  	d1 -> d0 [label="y_12[1]" labeltooltip="Global name, Name in discipline 'SobieskiStructure', Name in discipline 'SobieskiAerodynamics'
+  
+  y_12, y_12, y_12" penwidth=0.51]
+  	d1 -> d3 [label="y_14[0]" labeltooltip="Global name, Name in discipline 'SobieskiStructure', Name in discipline 'SobieskiMission'
+  
+  y_14, y_14, y_14" penwidth=3.27]
+  	d1 -> d3 [label="y_14[1]" labeltooltip="Global name, Name in discipline 'SobieskiStructure', Name in discipline 'SobieskiMission'
+  
+  y_14, y_14, y_14" penwidth=1.85]
+  	d2 -> d0 [label=y_32 labeltooltip="Global name, Name in discipline 'SobieskiPropulsion', Name in discipline 'SobieskiAerodynamics'
+  
+  y_32, y_32, y_32" penwidth=9.53]
+  	d2 -> d1 [label=y_31 labeltooltip="Global name, Name in discipline 'SobieskiPropulsion', Name in discipline 'SobieskiStructure'
+  
+  y_31, y_31, y_31" penwidth=10.0]
+  	d2 -> d3 [label=y_34 labeltooltip="Global name, Name in discipline 'SobieskiPropulsion', Name in discipline 'SobieskiMission'
+  
+  y_34, y_34, y_34" penwidth=2.16]
+  }
+  
+  '''
+# ---
+# name: test_no_positive_finite_dispersion[CV]
+  '''
+  digraph {
+  	node [fillcolor=white style=filled]
+  	d0 [label=D1]
+  	d1 [label=D2]
+  	d2 [label=D3]
+  	d0 -> d2 [label=y labeltooltip="Global name, Name in discipline 'D1', Name in discipline 'D3'
+  
+  y, y, y" penwidth=10.0]
+  	d1 -> d2 [label=w labeltooltip="Global name, Name in discipline 'D2', Name in discipline 'D3'
+  
+  w, w, w" penwidth=0.0]
+  }
+  
+  '''
+# ---
+# name: test_no_positive_finite_dispersion[QCD]
+  '''
+  digraph {
+  	node [fillcolor=white style=filled]
+  	d0 [label=D1]
+  	d1 [label=D2]
+  	d2 [label=D3]
+  	d0 -> d2 [label=y labeltooltip="Global name, Name in discipline 'D1', Name in discipline 'D3'
+  
+  y, y, y" penwidth=10.0]
+  	d1 -> d2 [label=w labeltooltip="Global name, Name in discipline 'D2', Name in discipline 'D3'
+  
+  w, w, w" penwidth=0.0]
+  }
+  
+  '''
+# ---
+# name: test_non_finite_dispersion[CV]
+  '''
+  digraph {
+  	node [fillcolor=white style=filled]
+  	d0 [label=D1]
+  	d1 [label=D2]
+  	d2 [label=D3]
+  	d0 -> d2 [label=v labeltooltip="Global name, Name in discipline 'D1', Name in discipline 'D3'
+  
+  v, v, v" penwidth=1.88]
+  	d0 -> d2 [label=x labeltooltip="Global name, Name in discipline 'D1', Name in discipline 'D3'
+  
+  x, x, x" penwidth=30.0]
+  	d0 -> d2 [label=y labeltooltip="Global name, Name in discipline 'D1', Name in discipline 'D3'
+  
+  y, y, y" penwidth=30.0]
+  	d1 -> d2 [label=w labeltooltip="Global name, Name in discipline 'D2', Name in discipline 'D3'
+  
+  w, w, w" penwidth=0.0]
+  }
+  
+  '''
+# ---
+# name: test_non_finite_dispersion[QCD]
+  '''
+  digraph {
+  	node [fillcolor=white style=filled]
+  	d0 [label=D1]
+  	d1 [label=D2]
+  	d2 [label=D3]
+  	d0 -> d2 [label=v labeltooltip="Global name, Name in discipline 'D1', Name in discipline 'D3'
+  
+  v, v, v" penwidth=1.88]
+  	d0 -> d2 [label=x labeltooltip="Global name, Name in discipline 'D1', Name in discipline 'D3'
+  
+  x, x, x" penwidth=30.0]
+  	d0 -> d2 [label=y labeltooltip="Global name, Name in discipline 'D1', Name in discipline 'D3'
+  
+  y, y, y" penwidth=30.0]
+  	d1 -> d2 [label=w labeltooltip="Global name, Name in discipline 'D2', Name in discipline 'D3'
+  
+  w, w, w" penwidth=0.0]
+  }
+  
+  '''
+# ---
+# name: test_output_names[generator]
+  '''
+  digraph {
+  	node [fillcolor=white style=filled]
+  	d0 [label=SobieskiAerodynamics]
+  	d1 [label=SobieskiStructure]
+  	d2 [label=SobieskiPropulsion]
+  	d3 [label=SobieskiMission]
+  	d0 -> d1 [label=y_21 labeltooltip="Global name, Name in discipline 'SobieskiAerodynamics', Name in discipline 'SobieskiStructure'
+  
+  y_21, y_21, y_21" penwidth=30.0]
+  }
+  
+  '''
+# ---
+# name: test_output_names[list]
+  '''
+  digraph {
+  	node [fillcolor=white style=filled]
+  	d0 [label=SobieskiAerodynamics]
+  	d1 [label=SobieskiStructure]
+  	d2 [label=SobieskiPropulsion]
+  	d3 [label=SobieskiMission]
+  	d0 -> d1 [label=y_21 labeltooltip="Global name, Name in discipline 'SobieskiAerodynamics', Name in discipline 'SobieskiStructure'
+  
+  y_21, y_21, y_21" penwidth=30.0]
+  }
+  
+  '''
+# ---
+# name: test_repeated_sampling
+  '''
+  digraph {
+  	node [fillcolor=white style=filled]
+  	d0 [label=SobieskiAerodynamics]
+  	d1 [label=SobieskiStructure]
+  	d2 [label=SobieskiPropulsion]
+  	d3 [label=SobieskiMission]
+  	d0 -> d1 [label=y_21 labeltooltip="Global name, Name in discipline 'SobieskiAerodynamics', Name in discipline 'SobieskiStructure'
+  
+  y_21, y_21, y_21" penwidth=30.0]
+  }
+  
+  '''
+# ---
+# name: test_self_coupled
+  '''
+  digraph {
+  	node [fillcolor=white style=filled]
+  	d0 [label=D1]
+  	d1 [label=D2]
+  	d0 -> d1 [label=y labeltooltip="Global name, Name in discipline 'D1', Name in discipline 'D2'
+  
+  y, y, y" penwidth=0.1]
+  	d0 -> d0 [label=x labeltooltip="Global name, Output name in discipline 'D1', Input name in discipline 'D1'
+  
+  x, x, x" penwidth=0.1]
+  }
+  
+  '''
+# ---
+# name: test_several_couplings_per_edge
+  '''
+  digraph {
+  	node [fillcolor=white style=filled]
+  	d0 [label=D1]
+  	d1 [label=D2]
+  	d0 -> d1 [label=a labeltooltip="Global name, Name in discipline 'D1', Name in discipline 'D2'
+  
+  a, a, a" penwidth=30.0]
+  	d0 -> d1 [label=b labeltooltip="Global name, Name in discipline 'D1', Name in discipline 'D2'
+  
+  b, b, b" penwidth=30.0]
+  	d0 -> d1 [label=c labeltooltip="Global name, Name in discipline 'D1', Name in discipline 'D2'
+  
+  c, c, c" penwidth=30.0]
+  }
+  
+  '''
+# ---
 # name: test_unknown_variable_names
   "The variables of interest must be among those defined at instantiation; got unknown ones: 'y_12'."
 # ---

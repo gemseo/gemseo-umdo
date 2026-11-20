@@ -1,0 +1,112 @@
+# serializer version: 1
+# name: test_draw[default]
+  '''
+  digraph {
+  	node [fillcolor=white style=filled]
+  	edge [dir=none]
+  	X1 [label="X1
+  (56, 31)" penwidth=5.575888552099592]
+  	X2 [label="X2
+  (44, 44)" penwidth=4.424111447900409]
+  	X3 [label="X3
+  (24, 0)" penwidth=2.436836640621477]
+  	X1 -> X3 [penwidth=2.436836640621477]
+  }
+  
+  '''
+# ---
+# name: test_draw[maximum_thickness]
+  '''
+  digraph {
+  	node [fillcolor=white style=filled]
+  	edge [dir=none]
+  	X1 [label="X1
+  (56, 31)" penwidth=16.727665656298775]
+  	X2 [label="X2
+  (44, 44)" penwidth=13.272334343701226]
+  	X3 [label="X3
+  (24, 0)" penwidth=7.310509921864432]
+  	X1 -> X3 [penwidth=7.310509921864432]
+  }
+  
+  '''
+# ---
+# name: test_draw[threshold]
+  '''
+  digraph {
+  	node [fillcolor=white style=filled]
+  	edge [dir=none]
+  	X1 [label="X1
+  (56, 31)" penwidth=5.575888552099592]
+  	X2 [label="X2
+  (44, 44)" penwidth=4.424111447900409]
+  	X3 [label="X3
+  (24, 0)" penwidth=2.436836640621477]
+  }
+  
+  '''
+# ---
+# name: test_from_analysis
+  '''
+  digraph {
+  	node [fillcolor=white style=filled]
+  	edge [dir=none]
+  	x1 [label="x1
+  (63, 0)" penwidth=6.347010046398605]
+  	x2 [label="x2
+  (49, 0)" penwidth=4.894079459907271]
+  	x3 [label="x3
+  (38, 0)" penwidth=3.8132806189589257]
+  	x1 -> x2 [penwidth=7.968419990775672]
+  	x1 -> x3 [penwidth=14.550817585578175]
+  	x2 -> x3 [penwidth=9.76753917681917]
+  }
+  
+  '''
+# ---
+# name: test_from_pce[y]
+  '''
+  digraph {
+  	node [fillcolor=white style=filled]
+  	edge [dir=none]
+  	x1 [label="x1
+  (89, 77)" penwidth=8.94]
+  	x2 [label="x2
+  (10, 9)" penwidth=0.99]
+  	x3 [label="x3
+  (14, 1)" penwidth=1.45]
+  	x1 -> x3 [penwidth=1.26]
+  }
+  
+  '''
+# ---
+# name: test_from_pce[y_copy]
+  '''
+  digraph {
+  	node [fillcolor=white style=filled]
+  	edge [dir=none]
+  	x1 [label="x1
+  (89, 77)" penwidth=8.94]
+  	x2 [label="x2
+  (10, 9)" penwidth=0.99]
+  	x3 [label="x3
+  (14, 1)" penwidth=1.45]
+  	x1 -> x3 [penwidth=1.26]
+  }
+  
+  '''
+# ---
+# name: test_from_pce_error
+  "The name 'z' is not an output name."
+# ---
+# name: test_html_like_name
+  '''
+  digraph {
+  	node [fillcolor=white style=filled]
+  	edge [dir=none]
+  	"<A>" [label="<A>
+  (60, 50)" penwidth=6.0]
+  }
+  
+  '''
+# ---

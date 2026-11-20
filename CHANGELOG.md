@@ -99,6 +99,41 @@ and this project adheres to
 
 ### Changed
 
+- BREAKING CHANGE:
+  [SobolGraph][gemseo_umdo.visualization.sobol_graph.SobolGraph]
+  is no longer a graph but holds the Sobol' indices,
+  as GEMSEO removed `GraphView`;
+  its new method
+  [draw()][gemseo_umdo.visualization.sobol_graph.SobolGraph.draw]
+  returns the graph as a
+  [graphviz.Digraph](https://graphviz.readthedocs.io/en/stable/api.html#graphviz.Digraph),
+  displayed in a Jupyter notebook
+  and saved with
+  [save_coupling_graph()][gemseo.post.graph.save_coupling_graph]
+  or its `render()` method,
+  e.g. `save_coupling_graph(SobolGraph.from_analysis(analysis, "y").draw(), "graph.pdf")`.
+  The arguments `threshold` and `maximum_thickness`
+  moved from the constructor to
+  [draw()][gemseo_umdo.visualization.sobol_graph.SobolGraph.draw]
+  and the attribute `threshold` was removed.
+  The nodes are named after the variables
+  instead of their labels.
+- BREAKING CHANGE:
+  `UncertainCouplingGraph.visualize()` was replaced by
+  [UncertainCouplingGraph.draw()][gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.draw],
+  which returns a
+  [graphviz.Digraph](https://graphviz.readthedocs.io/en/stable/api.html#graphviz.Digraph)
+  drawn by [draw_coupling_graph()][gemseo.post.graph.draw_coupling_graph]
+  instead of a `GraphView`,
+  and neither saves nor shows it:
+  the arguments `show`, `save`, `file_path` and `clean_up` were removed;
+  save the graph with
+  [save_coupling_graph()][gemseo.post.graph.save_coupling_graph]
+  or its `render()` method,
+  e.g. `save_coupling_graph(graph.draw(), "graph.pdf")`.
+  The nodes are named `"d<i>"` for the discipline at position `i`,
+  as described in [draw_coupling_graph()][gemseo.post.graph.draw_coupling_graph],
+  and the edges show the tooltips of the coupling variables.
 - [AdvancedBeamRandomSpace][gemseo_umdo.problem.beam_model.advanced_random_space.AdvancedBeamRandomSpace]
   raises a `ValueError`
   when a name in `nominal_values` or in the dispersions is not an uncertain variable,
@@ -314,12 +349,12 @@ and this project adheres to
   a U-scenario whose driver requires this Jacobian
   raises it before executing the driver, so before sampling the disciplines.
 - BREAKING CHANGE:
-  [UncertainCouplingGraph.visualize()][gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.visualize]
+  [UncertainCouplingGraph.draw()][gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.draw]
   raises a `ValueError` naming the variables of interest
   that were not defined at instantiation;
   previously, such a variable was ignored if it was not a coupling variable
   and raised a `KeyError` otherwise.
-- [UncertainCouplingGraph.visualize()][gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.visualize]
+- [UncertainCouplingGraph.draw()][gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.draw]
   scales the thickness of the edges by the largest finite absolute dispersion,
   so that the most dispersed coupling is drawn with `maximum_thickness`;
   previously, the thickness was the dispersion times `maximum_thickness`,
@@ -346,7 +381,7 @@ and this project adheres to
 - [UncertainCouplingGraph][gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph]
   accepts a single-use iterable of variable names, e.g. a generator, at instantiation;
   previously, this iterable was exhausted at instantiation
-  and [visualize()][gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.visualize]
+  and [draw()][gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.draw]
   drew no edge.
 - The sampling-based U-MDO formulations sample the disciplines once per design point
   to estimate the objective and the constraints,
@@ -493,7 +528,7 @@ and this project adheres to
   is normalized by the mean of this component;
   previously, it was normalized by the mean of all the components,
   which changed the thickness of the edges of a vector coupling variable.
-- [UncertainCouplingGraph.visualize()][gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.visualize]
+- [UncertainCouplingGraph.draw()][gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.draw]
   draws an edge of maximum thickness for an infinite dispersion,
   e.g. the coefficient of variation of a non-constant component whose mean is zero,
   and an edge of zero thickness for an undefined dispersion,
