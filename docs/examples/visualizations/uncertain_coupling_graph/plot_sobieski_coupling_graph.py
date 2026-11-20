@@ -71,11 +71,13 @@ uncertain_coupling_graph.sample(OT_OPT_LHS_Settings(n_samples=100))
 
 # %%
 # Lastly,
-# we visualize it:
-uncertain_coupling_graph.visualize(save=False, show=True)
+# we draw it:
+uncertain_coupling_graph.draw()
 
 # %%
-# In this example designed for Sphinx Gallery and Jupyter Notebook,
-# we do not save the graph on the disk (`save=False`)
-# or display it with a dedicated program (`save=True`)
-# but display it in the web browser.
+# The graph is a
+# [graphviz.Digraph](https://graphviz.readthedocs.io/en/stable/api.html#graphviz.Digraph)
+# displayed in a web page or a Jupyter notebook.
+# Use [save_graph()][gemseo.post.graph.save_graph]
+# to save it on the disk,
+# e.g. `save_graph(uncertain_coupling_graph.draw(), "graph.pdf")`.

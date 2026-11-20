@@ -82,16 +82,30 @@ The [SobolGraph][gemseo_umdo.visualization.sobol_graph.SobolGraph]
 can be built from three dictionaries:
 
 - the first-order indices defined as `{name: sobol_index}`,
-- the second-order indices defined as `{(name, other_name): sobol_index}`,
-- the total-order indices defined as `{name: sobol_index}`.
+- the total-order indices defined as `{name: sobol_index}`,
+- the second-order indices defined as `{(name, other_name): sobol_index}`.
 
 Then,
-this graph can be both displayed in a window and saved on the disk:
+its method
+[draw()][gemseo_umdo.visualization.sobol_graph.SobolGraph.draw]
+draws the graph as a
+[graphviz.Digraph](https://graphviz.readthedocs.io/en/stable/api.html#graphviz.Digraph),
+displayed in a Jupyter notebook
+and saved on the disk with
+[save_graph()][gemseo.post.graph.save_graph],
+the extension of the file setting the format:
 
 ``` py
-sobol_graph = SobolGraph(first_sobol, second_sobol, total_sobol)
-sobol_graph.visualize()
+from gemseo.post.graph import save_graph
+
+sobol_graph = SobolGraph(first_sobol, total_sobol, second_sobol)
+digraph = sobol_graph.draw()
+save_graph(digraph, "sobol_graph.png")
 ```
+
+The `render()` method of the graph can also save it
+and display it in a window,
+e.g. `digraph.render(outfile="sobol_graph.png", view=True)`.
 
 ![Sobol' graph](../../images/sobol_sobol_graph.png)
 
@@ -115,13 +129,13 @@ can be generated from this analysis:
 
 ``` py
 sobol_graph = SobolGraph.from_analysis(sobol_analysis, output_name)
-sobol_graph.visualize()
+digraph = sobol_graph.draw()
 ```
 
 ### Options
 
-At instantiation,
-the float argument `threshold` allows to set the sensitivity threshold
+The float argument `threshold` of
+[draw()][gemseo_umdo.visualization.sobol_graph.SobolGraph.draw] allows to set the sensitivity threshold
 above which a second-order index is declared as *significant*
 and the corresponding edge plotted.
 
