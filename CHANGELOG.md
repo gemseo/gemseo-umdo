@@ -496,6 +496,10 @@ and this project adheres to
     - [Sampling][gemseo_umdo.formulation.sampling.Sampling]
       no longer sets `estimate_statistics_iteratively` to `False`
       in its settings when `samples_directory_path` is defined;
+    - [SequentialSampling][gemseo_umdo.formulation.sequential_sampling.SequentialSampling]
+      no longer changes the `n_samples` of the settings of its DOE algorithm;
+      previously, it set it to `initial_n_samples`
+      and then increased it during the optimization;
     - [Surrogate][gemseo_umdo.formulation.surrogate.Surrogate]
       and [PCE][gemseo_umdo.formulation.pce.PCE]
       no longer change the `eval_jac` and `evaluate_observable_jacobian`

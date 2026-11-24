@@ -56,6 +56,7 @@ from gemseo_umdo.formulation.sampling_settings import Sampling_Settings
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
+    from typing import Any
 
     from gemseo.core.problem.evaluation import EvaluationProblem
     from gemseo.discipline import Discipline
@@ -152,7 +153,10 @@ class Sampling(BaseUMDOFormulation):
         formulation = self.__class__.__name__
         self.name = f"{formulation}[{mdo_formulation}; {algo_name}"
         if "n_samples" in type(doe_algo_settings).model_fields:
-            self.name += f"({doe_algo_settings.n_samples})]"
+            n_samples = self._get_doe_algo_settings_update().get(
+                "n_samples", doe_algo_settings.n_samples
+            )
+            self.name += f"({n_samples})]"
 
     @property
     def doe_algo(self) -> BaseDOELibrary:
@@ -188,6 +192,18 @@ class Sampling(BaseUMDOFormulation):
         self.input_data_to_output_data.clear()
         self._iterative_estimations.append(function.iterative_estimation)
 
+    def _get_doe_algo_settings_update(self) -> dict[str, Any]:
+        """Return the fields to update in a copy of the DOE settings for a sampling.
+
+        The settings of the user are never changed:
+        a formulation whose DOE settings vary during the optimization
+        overrides this method instead.
+
+        Returns:
+            The names of the fields to update and their values.
+        """
+        return {}
+
     def _post_add_mdo_observable(self) -> None:
         # The cached data have been computed without this MDO observable.
         self.input_data_to_output_data.clear()
@@ -219,6 +235,7 @@ class Sampling(BaseUMDOFormulation):
         # A copy per sampling leaves the settings of the user unchanged.
         settings = doe_algo_settings.model_copy(
             update={
+                **self._get_doe_algo_settings_update(),
                 "callbacks": [
                     *doe_algo_settings.callbacks,
                     *self.callbacks,
