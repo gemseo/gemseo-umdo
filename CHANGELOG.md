@@ -485,7 +485,13 @@ and this project adheres to
   even if the caller modifies the array of this design point in place
   after the evaluation;
   previously, they sampled the disciplines again.
-- The U-MDO formulations no longer change the settings passed by the user:
+- The U-MDO formulations and their settings
+  no longer change the settings passed by the user:
+    - [Sampling_Settings][gemseo_umdo.formulation.sampling_settings.Sampling_Settings],
+      [Surrogate_Settings][gemseo_umdo.formulation.surrogate_settings.Surrogate_Settings]
+      and their subclasses
+      set the `n_samples` and the default `seed` of a copy of `doe_algo_settings`;
+      previously, they changed the DOE settings passed by the user;
     - [Sampling][gemseo_umdo.formulation.sampling.Sampling]
       no longer changes the `callbacks`, `eval_jac` and `evaluate_observable_jacobian`
       of the settings of its DOE algorithm,

@@ -55,13 +55,26 @@ the field `doe_algo_settings.n_samples` is ignored.
     def __validate_seed(self) -> Self:
         """Validate the seed."""
         doe_algo_settings = self.doe_algo_settings
-        if self.n_samples is not None:
-            doe_algo_settings.n_samples = self.n_samples
-
-        if (
+        set_n_samples = self.n_samples is not None and (
+            getattr(doe_algo_settings, "n_samples", None) != self.n_samples
+        )
+        set_seed = (
             "seed" in type(doe_algo_settings).model_fields
             and doe_algo_settings.seed is None
-        ):
+        )
+        if not (set_n_samples or set_seed):
+            return self
+
+        # The fields are set on a copy to leave the settings of the user unchanged;
+        # the assignments validate the values.
+        doe_algo_settings = doe_algo_settings.model_copy()
+        if set_n_samples:
+            doe_algo_settings.n_samples = self.n_samples
+
+        if set_seed:
             doe_algo_settings.seed = seed
 
+        # This assignment validates the model again,
+        # which then returns early as the copy needs no change.
+        self.doe_algo_settings = doe_algo_settings
         return self
