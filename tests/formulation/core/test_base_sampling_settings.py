@@ -33,7 +33,7 @@ from gemseo_umdo.formulation.sampling_settings import Sampling_Settings
         (None, 7, seed, 7),
         (2, None, 2, 3),
     ],
-    ids=["seed", "n_samples", "seed_and_n_samples", "nothing"],
+    ids=["no_seed", "seed_and_n_samples", "n_samples", "seed"],
 )
 def test_doe_algo_settings(doe_seed, n_samples, expected_seed, expected_n_samples):
     """Check the DOE settings set from the settings without changing the user's."""

@@ -42,10 +42,10 @@ logger = logging.getLogger(__name__)
 
 SurrogateT = TypeVar("SurrogateT", bound="Surrogate")
 
-SettingsT = TypeVar("SettingsT", bound=BaseModel)
+_SettingsT = TypeVar("_SettingsT", bound=BaseModel)
 
 
-def copy_settings(settings: SettingsT, **update: Any) -> SettingsT:
+def copy_settings(settings: _SettingsT, **update: Any) -> _SettingsT:
     """Copy settings and their nested settings.
 
     A regressor can change its settings in place,
