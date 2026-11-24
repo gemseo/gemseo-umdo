@@ -375,16 +375,25 @@ def test_estimate_margin(statistic_class):
 
 
 @pytest.mark.parametrize(
-    ("greater", "result"), [(False, array([1.0, 0.5])), (True, array([0.0, 0.5]))]
+    ("threshold", "greater", "result"),
+    [
+        pytest.param(1.5, False, array([1.0, 0.5]), id="lower"),
+        pytest.param(1.5, True, array([0.0, 0.5]), id="greater"),
+        pytest.param(1.0, False, array([1.0, 0.5]), id="lower-or-equal"),
+        pytest.param(1.0, True, array([0.5, 0.5]), id="greater-or-equal"),
+    ],
 )
 @pytest.mark.parametrize("statistic_class", [Probability, IterativeProbability])
-def test_estimate_probability(greater, result, statistic_class):
-    """Check the estimation of the probability."""
+def test_estimate_probability(threshold, greater, result, statistic_class):
+    """Check the estimation of the probability.
+
+    The samples equal to the threshold are counted.
+    """
     assert_equal(
         estimate(
             statistic_class,
             array([[0.0, 0.0], [1.0, 2.0]]),
-            Probability_Settings(threshold=1.5, greater=greater),
+            Probability_Settings(threshold=threshold, greater=greater),
         ),
         result,
     )

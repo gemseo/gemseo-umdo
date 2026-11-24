@@ -20,8 +20,10 @@ from typing import TYPE_CHECKING
 from typing import ClassVar
 
 from numpy import array
+from openturns import GreaterOrEqual
+from openturns import IterativeThresholdExceedance
+from openturns import LessOrEqual
 
-from gemseo_umdo._util.compatibility.openturns import IterativeThresholdExceedance
 from gemseo_umdo.formulation._estimator.iterative_sampling.base import (
     BaseIterativeSamplingEstimator,
 )
@@ -39,11 +41,15 @@ class Probability(BaseIterativeSamplingEstimator[Probability_Settings]):
     _estimator: IterativeThresholdExceedance | None
 
     def _get_estimation(self) -> RealArray:
-        result = array(
+        return array(
             self._estimator.getThresholdExceedance()
             / self._estimator.getIterationNumber()
         )
-        return result if self._settings.greater else 1 - result
 
     def _create_estimator(self, size: int) -> None:
-        self._estimator = IterativeThresholdExceedance(size, self._settings.threshold)
+        settings = self._settings
+        self._estimator = IterativeThresholdExceedance(
+            size,
+            GreaterOrEqual() if settings.greater else LessOrEqual(),
+            settings.threshold,
+        )

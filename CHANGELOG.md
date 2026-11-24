@@ -343,6 +343,12 @@ and this project adheres to
 
 ### Fixed
 
+- [Sampling][gemseo_umdo.formulation.sampling.Sampling]
+  with `estimate_statistics_iteratively=True` (default)
+  counts the samples equal to the threshold
+  when estimating a probability with `greater=True`,
+  as with `estimate_statistics_iteratively=False`,
+  i.e. it estimates `P[f >= t]` instead of `P[f > t]`.
 - [UncertainCouplingGraph][gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph]
   accepts a single-use iterable of variable names, e.g. a generator, at instantiation;
   previously, this iterable was exhausted at instantiation

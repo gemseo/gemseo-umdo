@@ -169,7 +169,7 @@ the design point changes.
 | `monte_carlo_sampler.py` | `MonteCarloSampler` |
 | `visualization/` | `SobolGraph`, `UncertainCouplingGraph` |
 | `problem/` | `UOptAsUMDOScenario` (a single-discipline problem rewritten as a U-MDO scenario), and the beam, heat equation, spring-mass and truss models used by the docs and tests |
-| `_util/compatibility/` | Shims across numpy and openturns versions |
+| `_util/compatibility/` | Shims across numpy versions |
 
 ## Changelog and Docs
 
