@@ -8353,6 +8353,12 @@ and this project adheres to
 </ul>
 <h3 id="fixed">Fixed<a class="headerlink" href="#fixed" title="Permanent link">&para;</a></h3>
 <ul>
+<li><a class="autorefs autorefs-internal" title="            Sampling" href="../reference/gemseo_umdo/formulation/sampling/#gemseo_umdo.formulation.sampling.Sampling">Sampling</a>
+  with <code>estimate_statistics_iteratively=True</code> (default)
+  counts the samples equal to the threshold
+  when estimating a probability with <code>greater=True</code>,
+  as with <code>estimate_statistics_iteratively=False</code>,
+  i.e. it estimates <code>P[f &gt;= t]</code> instead of <code>P[f &gt; t]</code>.</li>
 <li><a class="autorefs autorefs-internal" title="            UncertainCouplingGraph" href="../reference/gemseo_umdo/visualization/uncertain_coupling_graph/#gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph">UncertainCouplingGraph</a>
   accepts a single-use iterable of variable names, e.g. a generator, at instantiation;
   previously, this iterable was exhausted at instantiation
