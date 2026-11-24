@@ -87,19 +87,17 @@ def test_scenario(
 
     A constraint must not increase the number of samples.
     """
-    doe_algo_settings = OT_OPT_LHS_Settings(n_samples=7)
     scenario = UMDOScenario(
         [discipline],
         design_space,
         uncertain_space,
         statistic_estimation_settings=SequentialSampling_Settings(
-            doe_algo_settings=doe_algo_settings,
+            doe_algo_settings=OT_OPT_LHS_Settings(n_samples=7),
             initial_n_samples=3,
             n_samples_increment=n_samples_increment,
             estimate_statistics_iteratively=estimate_statistics_iteratively,
         ),
     )
-    assert doe_algo_settings.n_samples == 7
     scenario.add_objective("y", "Mean")
     if add_constraint:
         scenario.add_constraint("y", "Margin")

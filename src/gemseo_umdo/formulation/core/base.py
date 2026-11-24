@@ -65,6 +65,15 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
     A U-MDO formulation rewrites a multidisciplinary optimization problem under
     uncertainty, a.k.a. U-MDO problem, as a standard optimization problem without
     uncertainty.
+
+    The U-MDO formulation stores the settings passed at instantiation,
+    including their nested settings, e.g. the DOE settings,
+    and never changes them,
+    so that they can be reused, e.g. to create another U-MDO formulation.
+    A value that differs from these settings,
+    e.g. a number of samples that varies during the optimization,
+    is applied to a copy made when it is used,
+    e.g. with `model_copy(update=...)`.
     """
 
     _use_auxiliary_mdo_formulation: ClassVar[bool] = False

@@ -195,9 +195,8 @@ class Sampling(BaseUMDOFormulation):
     def _get_doe_algo_settings_update(self) -> dict[str, Any]:
         """Return the fields to update in a copy of the DOE settings for a sampling.
 
-        The settings of the user are never changed:
-        a formulation whose DOE settings vary during the optimization
-        overrides this method instead.
+        A formulation whose DOE settings vary during the optimization
+        overrides this method.
 
         Returns:
             The names of the fields to update and their values.

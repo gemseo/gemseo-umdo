@@ -107,7 +107,6 @@ class StatisticFunctionForPCE(StatisticFunctionForSurrogate[PCET]):
 
         samples = pce_formulation.compute_samples(problem, compute_jacobian)
 
-        # A copy per training leaves the settings of the user unchanged.
         regressor_settings = regressor_settings.model_copy(
             update={
                 "use_special_jacobian_data": estimate_jacobian

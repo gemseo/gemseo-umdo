@@ -195,7 +195,6 @@ class Surrogate(BaseUMDOFormulation):
             problem: The problem.
             compute_jacobian: Whether to compute the Jacobian of the objective.
         """
-        # A copy per sampling leaves the settings of the user unchanged.
         doe_algo_settings = self._settings.doe_algo_settings.model_copy(
             update={
                 "eval_jac": compute_jacobian,

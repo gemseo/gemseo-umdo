@@ -157,6 +157,15 @@ setting is `True`. `_register_statistic_function`, called at the end of
 `create_objective`, `create_constraint`, `add_constraint` and `add_observable`, makes
 the function take part in the sampling.
 
+A formulation never writes into its `_settings`, which is the object of the user
+(`create_model` does not copy it), nor into their nested settings: a value that
+differs from them is applied to a copy made at the point of use
+(`model_copy(update=...)`), e.g. `Sampling` copies the DOE settings at each sampling
+with the fields of `_get_doe_algo_settings_update`, which `SequentialSampling`
+overrides with its current number of samples.
+`tests/formulation/core/test_base.py::test_settings_of_the_user_unchanged` checks it
+for every formulation.
+
 Samples or statistics computed at a design point are cached in
 `input_data_to_output_data`, which a listener on the optimization problem clears when
 the design point changes.

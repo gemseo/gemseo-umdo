@@ -36,10 +36,13 @@ from numpy import array
 from numpy import array_equal
 from numpy.testing import assert_almost_equal
 from numpy.testing import assert_equal
+from pydantic import BaseModel
 
 from gemseo_umdo.formulation._estimator.sampling.factory import SamplingEstimatorFactory
+from gemseo_umdo.formulation.control_variate_settings import ControlVariate_Settings
 from gemseo_umdo.formulation.core.base import BaseUMDOFormulation
 from gemseo_umdo.formulation.sampling_settings import Sampling_Settings
+from gemseo_umdo.formulation.surrogate_settings import Surrogate_Settings
 from gemseo_umdo.formulation.taylor_polynomial_settings import TaylorPolynomial_Settings
 from gemseo_umdo.scenario.mdo import UMDOScenario
 from gemseo_umdo.statistic.settings.margin import Margin_Settings
@@ -532,3 +535,44 @@ def test_user_statistic(
         problem.database.last_item[objective_name],
         scale * reference_problem.database.last_item["E[f]"],
     )
+
+
+def test_settings_of_the_user_unchanged(
+    disciplines, design_space, uncertain_space, statistic_estimation_settings
+):
+    """Check that a U-MDO formulation reads the settings of the user without change.
+
+    The statistics are estimated at two design points,
+    so that the sequential sampling varies its number of samples,
+    with their Jacobians when the formulation can estimate them.
+    """
+    settings = statistic_estimation_settings
+    # The nested settings are copied deeply
+    # while the other fields are shared,
+    # as a callable such as n_samples_increment has no equality operator.
+    expected_settings = settings.model_copy(
+        update={
+            name: value.model_copy(deep=True)
+            for name, value in settings
+            if isinstance(value, BaseModel)
+        }
+    )
+    # ControlVariate and Surrogate cannot estimate the Jacobians.
+    eval_jac = type(settings) not in {ControlVariate_Settings, Surrogate_Settings}
+    scenario = UMDOScenario(
+        disciplines,
+        design_space,
+        uncertain_space,
+        statistic_estimation_settings=settings,
+        formulation_settings=MDF_Settings(),
+    )
+    scenario.add_objective("f", "Mean")
+    scenario.add_constraint("c", "Margin")
+    scenario.execute(
+        CustomDOE_Settings(
+            samples=array([[0.0, 0.0, 0.0], [1.0, 1.0, 1.0]]),
+            eval_jac=eval_jac,
+        )
+    )
+    assert scenario.formulation._settings is settings
+    assert settings == expected_settings
