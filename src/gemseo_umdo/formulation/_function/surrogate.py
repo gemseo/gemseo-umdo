@@ -25,9 +25,9 @@ from typing import Any
 from typing import TypeVar
 
 from gemseo.machine_learning.regression.model.factory import RegressorFactory
-from pydantic import BaseModel
 
 from gemseo_umdo.formulation._function.base import BaseStatisticFunction
+from gemseo_umdo.formulation._function.base import copy_settings
 
 if TYPE_CHECKING:
     from gemseo.core.problem.database import DatabaseKeyType
@@ -41,37 +41,6 @@ if TYPE_CHECKING:
 logger = logging.getLogger(__name__)
 
 SurrogateT = TypeVar("SurrogateT", bound="Surrogate")
-
-_SettingsT = TypeVar("_SettingsT", bound=BaseModel)
-
-
-def copy_settings(settings: _SettingsT, **update: Any) -> _SettingsT:
-    """Copy settings and their nested settings.
-
-    A regressor can change its settings in place,
-    e.g. the settings of the linear model fitter of a functional chaos expansion.
-    A deep copy would also copy the other values,
-    e.g. a discipline or an OpenTURNS object,
-    which can be costly or impossible.
-
-    Args:
-        settings: The settings.
-        **update: The fields to update in the copy.
-
-    Returns:
-        A copy of the settings
-        whose nested settings are copied in the same way.
-    """
-    return settings.model_copy(
-        update={
-            **{
-                name: copy_settings(value)
-                for name, value in settings
-                if isinstance(value, BaseModel)
-            },
-            **update,
-        }
-    )
 
 
 class StatisticFunctionForSurrogate(BaseStatisticFunction[SurrogateT]):

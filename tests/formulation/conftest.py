@@ -113,14 +113,16 @@ def statistic_estimation_settings_for_dirac(request):
     return request.param
 
 
-@pytest.fixture(
-    params=[
-        *_settings,
-        ControlVariate_Settings(n_samples=10),
-        PCE_Settings(n_samples=20),
-        Surrogate_Settings(n_samples=20),
-    ],
+all_settings: Final[tuple[BaseUMDOFormulationSettings, ...]] = (
+    *_settings,
+    ControlVariate_Settings(n_samples=10),
+    PCE_Settings(n_samples=20),
+    Surrogate_Settings(n_samples=20),
 )
+"""The settings of the U-MDO formulations, one or more per formulation."""
+
+
+@pytest.fixture(params=all_settings)
 def statistic_estimation_settings(request):
     """Statistic estimation settings."""
     return request.param

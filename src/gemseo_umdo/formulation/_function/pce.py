@@ -32,8 +32,8 @@ from numpy import vstack
 from scipy.linalg import solve
 
 from gemseo_umdo.formulation._estimator.pce.base import BasePCEEstimator
+from gemseo_umdo.formulation._function.base import copy_settings
 from gemseo_umdo.formulation._function.surrogate import StatisticFunctionForSurrogate
-from gemseo_umdo.formulation._function.surrogate import copy_settings
 
 if TYPE_CHECKING:
     from collections.abc import MutableMapping

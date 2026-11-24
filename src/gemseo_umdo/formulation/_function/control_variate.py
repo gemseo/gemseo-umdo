@@ -34,7 +34,7 @@ from numpy import newaxis
 from numpy.linalg import multi_dot
 
 from gemseo_umdo.formulation._function.base import BaseStatisticFunction
-from gemseo_umdo.formulation._function.surrogate import copy_settings
+from gemseo_umdo.formulation._function.base import copy_settings
 
 if TYPE_CHECKING:
     from gemseo.core.function.array_function import ArrayFunction

@@ -34,6 +34,7 @@ from gemseo.mda import MDAGaussSeidel_Settings
 from gemseo.optimization import OptimizationProblem
 from gemseo.space import RandomSpace
 from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
+from gemseo.uncertainty.distribution import SPNormalDistribution_Settings
 from gemseo.util.testing.helper import assert_exception
 from numpy import array
 from numpy import array_equal
@@ -50,6 +51,7 @@ from gemseo_umdo.formulation.taylor_polynomial_settings import TaylorPolynomial_
 from gemseo_umdo.scenario.mdo import UMDOScenario
 from gemseo_umdo.statistic.settings.margin import Margin_Settings
 from gemseo_umdo.statistic.settings.quantile import Quantile_Settings
+from tests.formulation.conftest import all_settings
 
 if TYPE_CHECKING:
     from collections.abc import Mapping
@@ -539,24 +541,53 @@ def test_user_statistic(
     )
 
 
-def _check_settings_of_the_user_unchanged(
-    disciplines: Sequence[AnalyticDiscipline],
-    design_space: DesignSpace,
-    uncertain_space: RandomSpace,
-    settings: BaseUMDOFormulationSettings,
-) -> None:
+@pytest.mark.parametrize(
+    ("settings", "distribution_settings_class"),
+    [
+        *(
+            pytest.param(settings, SPNormalDistribution_Settings, id=f"common{i}")
+            for i, settings in enumerate(all_settings)
+        ),
+        pytest.param(
+            Sampling_Settings(n_samples=10, samples_directory_path="samples"),
+            SPNormalDistribution_Settings,
+            id="samples_directory_path",
+        ),
+        # A functional chaos expansion requires OpenTURNS distributions.
+        pytest.param(
+            PCE_Settings(n_samples=20, regressor_settings=FCERegressor_Settings()),
+            OTNormalDistribution_Settings,
+            id="PCE_FCE",
+        ),
+        pytest.param(
+            ControlVariate_Settings(
+                n_samples=10, regressor_settings=FCERegressor_Settings()
+            ),
+            OTNormalDistribution_Settings,
+            id="ControlVariate_FCE",
+        ),
+        pytest.param(
+            Surrogate_Settings(
+                n_samples=20, regressor_settings=FCERegressor_Settings()
+            ),
+            OTNormalDistribution_Settings,
+            id="Surrogate_FCE",
+        ),
+    ],
+)
+def test_settings_of_the_user_unchanged(
+    disciplines, design_space, settings, distribution_settings_class, tmp_wd
+):
     """Check that a U-MDO formulation reads the settings of the user without change.
 
     The statistics are estimated at two design points,
     so that the sequential sampling varies its number of samples,
     with their Jacobians when the formulation can estimate them.
-
-    Args:
-        disciplines: The disciplines.
-        design_space: The design space.
-        uncertain_space: The uncertain space.
-        settings: The settings of the U-MDO formulation.
     """
+    uncertain_space = RandomSpace()
+    for name, mu in (("u", 1.0), ("u1", 2.0), ("u2", 3.0)):
+        uncertain_space.add_variable(name, distribution_settings_class(mu=mu))
+
     # The fields are copied deeply,
     # except n_samples_increment which is shared
     # as a callable has no equality operator.
@@ -586,42 +617,3 @@ def _check_settings_of_the_user_unchanged(
     )
     assert scenario.formulation._settings is settings
     assert settings == expected_settings
-
-
-def test_settings_of_the_user_unchanged(
-    disciplines, design_space, uncertain_space, statistic_estimation_settings
-):
-    """Check that a U-MDO formulation reads the settings of the user without change."""
-    _check_settings_of_the_user_unchanged(
-        disciplines, design_space, uncertain_space, statistic_estimation_settings
-    )
-
-
-@pytest.mark.parametrize(
-    "settings",
-    [
-        Sampling_Settings(n_samples=10, samples_directory_path="samples"),
-        PCE_Settings(n_samples=20, regressor_settings=FCERegressor_Settings()),
-        ControlVariate_Settings(
-            n_samples=10, regressor_settings=FCERegressor_Settings()
-        ),
-        Surrogate_Settings(n_samples=20, regressor_settings=FCERegressor_Settings()),
-    ],
-    ids=["samples_directory_path", "PCE_FCE", "ControlVariate_FCE", "Surrogate_FCE"],
-)
-def test_specific_settings_of_the_user_unchanged(
-    disciplines, design_space, settings, tmp_wd
-):
-    """Check that a U-MDO formulation reads specific settings of the user unchanged.
-
-    These settings save the samples
-    or use a functional chaos expansion,
-    which requires OpenTURNS distributions.
-    """
-    uncertain_space = RandomSpace()
-    uncertain_space.add_variable("u", OTNormalDistribution_Settings(mu=1.0))
-    uncertain_space.add_variable("u1", OTNormalDistribution_Settings(mu=2.0))
-    uncertain_space.add_variable("u2", OTNormalDistribution_Settings(mu=3.0))
-    _check_settings_of_the_user_unchanged(
-        disciplines, design_space, uncertain_space, settings
-    )

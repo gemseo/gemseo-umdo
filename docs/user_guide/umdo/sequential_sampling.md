@@ -84,6 +84,11 @@ In particular,
 `n_samples_increment` can be either the increment of the sampling size
 or a function computing this increment from the current sampling size.
 
+The sampling size never exceeds the maximum sampling size,
+namely `n_samples` if not `None`,
+otherwise the `n_samples` of the DOE settings.
+`initial_n_samples` must be less than or equal to this maximum sampling size.
+
 ## Statistics
 
 This U-MDO formulation has been implemented
