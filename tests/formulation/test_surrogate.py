@@ -170,6 +170,25 @@ def test_probability(observables, output_samples):
     assert_equal(observables[2].evaluate(_x), prob)
 
 
+def test_compute_samples_leaves_doe_settings_unchanged(ishigami_problem):
+    """Check that a sampling with Jacobians leaves the DOE settings unchanged."""
+    doe_settings = OT_HALTON_Settings(n_samples=20)
+    formulation = Surrogate(
+        OptimizationProblem(DesignSpace()),
+        [IshigamiDiscipline()],
+        Surrogate_Settings(regressor_n_samples=10, doe_algo_settings=doe_settings),
+        uncertain_space=ishigami_problem.input_space,
+        mdo_formulation_settings=DisciplinaryOpt_Settings(),
+    )
+    formulation.problem.objective = formulation.create_objective("y", "Mean")
+    dataset = formulation.compute_samples(
+        formulation.mdo_formulation.problem, compute_jacobian=True
+    )
+    assert dataset.gradient_group in dataset.group_names
+    assert not doe_settings.eval_jac
+    assert not doe_settings.evaluate_observable_jacobian
+
+
 @pytest.mark.parametrize(
     ("statistic_estimation_parameters", "y_opt"),
     [

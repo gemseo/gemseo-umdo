@@ -485,13 +485,20 @@ and this project adheres to
   even if the caller modifies the array of this design point in place
   after the evaluation;
   previously, they sampled the disciplines again.
-- [Sampling][gemseo_umdo.formulation.sampling.Sampling]
-  no longer changes the `callbacks`, `eval_jac` and `evaluate_observable_jacobian`
-  of the settings of its DOE algorithm,
-  even when a sampling fails;
-  previously, a sampling left `eval_jac` and `evaluate_observable_jacobian`
-  set to `True` in these settings when it estimated the gradients
-  and a failed sampling left its callbacks in them.
+- The U-MDO formulations no longer change the settings passed by the user:
+    - [Sampling][gemseo_umdo.formulation.sampling.Sampling]
+      no longer changes the `callbacks`, `eval_jac` and `evaluate_observable_jacobian`
+      of the settings of its DOE algorithm,
+      even when a sampling fails;
+      previously, a sampling left `eval_jac` and `evaluate_observable_jacobian`
+      set to `True` in these settings when it estimated the gradients
+      and a failed sampling left its callbacks in them;
+    - [Surrogate][gemseo_umdo.formulation.surrogate.Surrogate]
+      and [PCE][gemseo_umdo.formulation.pce.PCE]
+      no longer change the `eval_jac` and `evaluate_observable_jacobian`
+      of the settings of their DOE algorithm;
+      previously, a sampling left them set to `True` in these settings
+      when it computed the Jacobians.
 - The coefficient of variation used as dispersion measure by
   [UncertainCouplingGraph][gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph]
   is computed component-wise,
