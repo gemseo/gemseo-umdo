@@ -19,6 +19,9 @@
 # name: test_initial_n_samples_one_variance[standard]
   'The statistic V[y] cannot be estimated, as it requires at least 2 samples of y, while the number of samples of y is 1, e.g. because the DOE algorithm generated too few samples of the uncertain variables or because its evaluation failed at some of these samples.'
 # ---
-# name: test_non_positive_n_samples
-  'The sampling size must be positive; got 0 after 2 from the function n_samples_increment.'
+# name: test_invalid_n_samples[non_integer]
+  'The sampling size must be a positive integer; got 2.5 after 2 from the function n_samples_increment.'
+# ---
+# name: test_invalid_n_samples[non_positive]
+  'The sampling size must be a positive integer; got 0 after 2 from the function n_samples_increment.'
 # ---

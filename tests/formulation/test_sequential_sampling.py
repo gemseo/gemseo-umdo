@@ -211,18 +211,79 @@ def test_initial_n_samples_greater_than_n_samples(settings, snapshot):
         SequentialSampling_Settings(initial_n_samples=4, **settings)
 
 
-def test_non_positive_n_samples(discipline, design_space, uncertain_space, snapshot):
-    """Check the error when n_samples_increment makes the sampling size non-positive."""
-    formulation = SequentialSampling(
+def _half(n_samples: int) -> float:
+    """Return a non-integer increment of the sampling size.
+
+    Args:
+        n_samples: The current number of samples.
+
+    Returns:
+        The increment of the sampling size.
+    """
+    return 0.5
+
+
+def _one_as_float(n_samples: int) -> float:
+    """Return an integral float increment of the sampling size.
+
+    Args:
+        n_samples: The current number of samples.
+
+    Returns:
+        The increment of the sampling size.
+    """
+    return 1.0
+
+
+def _create_sequential_sampling(
+    n_samples_increment, discipline, design_space, uncertain_space
+) -> SequentialSampling:
+    """Create a sequential sampling starting with 2 samples and ending with 4.
+
+    Args:
+        n_samples_increment: The function computing the increment.
+        discipline: The discipline.
+        design_space: The design space.
+        uncertain_space: The uncertain space.
+
+    Returns:
+        The sequential sampling.
+    """
+    return SequentialSampling(
         OptimizationProblem(design_space),
         [discipline],
         SequentialSampling_Settings(
-            doe_algo_settings=OT_MONTE_CARLO_Settings(n_samples=3),
-            n_samples_increment=operator.neg,
+            doe_algo_settings=OT_MONTE_CARLO_Settings(n_samples=4),
+            n_samples_increment=n_samples_increment,
         ),
         uncertain_space=uncertain_space,
+    )
+
+
+@pytest.mark.parametrize(
+    "n_samples_increment", [operator.neg, _half], ids=["non_positive", "non_integer"]
+)
+def test_invalid_n_samples(
+    n_samples_increment, discipline, design_space, uncertain_space, snapshot
+):
+    """Check the error when n_samples_increment makes the sampling size invalid."""
+    formulation = _create_sequential_sampling(
+        n_samples_increment, discipline, design_space, uncertain_space
     )
     function = formulation.create_objective("y", "Mean")
     function.evaluate(array([0.5]))
     with assert_exception(ValueError, snapshot):
         function.evaluate(array([0.0]))
+
+
+def test_integral_float_n_samples(discipline, design_space, uncertain_space):
+    """Check that an integral float sampling size is used as an integer."""
+    formulation = _create_sequential_sampling(
+        _one_as_float, discipline, design_space, uncertain_space
+    )
+    function = formulation.create_objective("y", "Mean")
+    function.evaluate(array([0.5]))
+    function.evaluate(array([0.0]))
+    n_samples = formulation._get_doe_algo_settings_update()["n_samples"]
+    assert n_samples == 3
+    assert isinstance(n_samples, int)

@@ -531,7 +531,8 @@ and this project adheres to
   started with more samples than this maximum.
 - [SequentialSampling][gemseo_umdo.formulation.sequential_sampling.SequentialSampling]
   raises a `ValueError` with an explicit message
-  when `n_samples_increment` makes the sampling size non-positive.
+  when `n_samples_increment` makes the sampling size non-positive or non-integer;
+  an integral float, e.g. `3.0`, is used as an integer.
 - The coefficient of variation used as dispersion measure by
   [UncertainCouplingGraph][gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph]
   is computed component-wise,

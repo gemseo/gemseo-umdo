@@ -40,9 +40,13 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 from typing import ClassVar
+from typing import Final
 
 from gemseo.util.hashable_ndarray import HashableNdarray
 from gemseo.util.pydantic import create_model
+from pydantic import PositiveInt
+from pydantic import TypeAdapter
+from pydantic import ValidationError
 
 from gemseo_umdo.formulation.sampling import Sampling
 from gemseo_umdo.formulation.sequential_sampling_settings import (
@@ -59,6 +63,9 @@ if TYPE_CHECKING:
     from gemseo.optimization import OptimizationProblem
     from gemseo.space import RandomSpace
     from gemseo.util.typing import RealArray
+
+_POSITIVE_INT_ADAPTER: Final[TypeAdapter[int]] = TypeAdapter(PositiveInt)
+"""The validator of a positive integer, accepting an integral float."""
 
 
 class SequentialSampling(Sampling):
@@ -120,7 +127,7 @@ class SequentialSampling(Sampling):
     ) -> None:
         """
         Raises:
-            ValueError: When the next sampling size is not positive.
+            ValueError: When the next sampling size is not a positive integer.
         """  # noqa: D205 D212 D415
         # The input point is copied
         # so that a change of the input array during or after this call
@@ -133,15 +140,15 @@ class SequentialSampling(Sampling):
                 self._settings.doe_algo_settings.n_samples,
                 n_samples + self._settings.n_samples_increment(n_samples),
             )
-            if next_n_samples < 1:
+            try:
+                self.__n_samples = _POSITIVE_INT_ADAPTER.validate_python(next_n_samples)
+            except ValidationError:
                 msg = (
-                    f"The sampling size must be positive; "
+                    f"The sampling size must be a positive integer; "
                     f"got {next_n_samples} after {n_samples} "
                     "from the function n_samples_increment."
                 )
-                raise ValueError(msg)
-
-            self.__n_samples = next_n_samples
+                raise ValueError(msg) from None
 
         self.__last_input_point = input_point
         super().compute_samples(problem, input_data, compute_jacobian=compute_jacobian)
