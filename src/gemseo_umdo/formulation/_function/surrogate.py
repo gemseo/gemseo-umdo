@@ -25,6 +25,7 @@ from typing import Any
 from typing import TypeVar
 
 from gemseo.machine_learning.regression.model.factory import RegressorFactory
+from pydantic import BaseModel
 
 from gemseo_umdo.formulation._function.base import BaseStatisticFunction
 
@@ -40,6 +41,37 @@ if TYPE_CHECKING:
 logger = logging.getLogger(__name__)
 
 SurrogateT = TypeVar("SurrogateT", bound="Surrogate")
+
+SettingsT = TypeVar("SettingsT", bound=BaseModel)
+
+
+def copy_settings(settings: SettingsT, **update: Any) -> SettingsT:
+    """Copy settings and their nested settings.
+
+    A regressor can change its settings in place,
+    e.g. the settings of the linear model fitter of a functional chaos expansion.
+    A deep copy would also copy the other values,
+    e.g. a discipline or an OpenTURNS object,
+    which can be costly or impossible.
+
+    Args:
+        settings: The settings.
+        **update: The fields to update in the copy.
+
+    Returns:
+        A copy of the settings
+        whose nested settings are copied in the same way.
+    """
+    return settings.model_copy(
+        update={
+            **{
+                name: copy_settings(value)
+                for name, value in settings
+                if isinstance(value, BaseModel)
+            },
+            **update,
+        }
+    )
 
 
 class StatisticFunctionForSurrogate(BaseStatisticFunction[SurrogateT]):
@@ -72,7 +104,10 @@ class StatisticFunctionForSurrogate(BaseStatisticFunction[SurrogateT]):
         umdo_formulation = self._umdo_formulation
         problem = umdo_formulation.mdo_formulation.problem
         samples = umdo_formulation.compute_samples(problem)
-        regressor_settings = umdo_formulation._settings.regressor_settings
+        # A copy per training leaves the settings of the user unchanged.
+        regressor_settings = copy_settings(
+            umdo_formulation._settings.regressor_settings
+        )
         regressor = RegressorFactory().create(
             regressor_settings.__class__.__name__.rsplit("_Settings", 1)[0],
             samples,

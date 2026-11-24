@@ -34,6 +34,7 @@ from numpy import newaxis
 from numpy.linalg import multi_dot
 
 from gemseo_umdo.formulation._function.base import BaseStatisticFunction
+from gemseo_umdo.formulation._function.surrogate import copy_settings
 
 if TYPE_CHECKING:
     from gemseo.core.function.array_function import ArrayFunction
@@ -110,7 +111,8 @@ class StatisticFunctionForControlVariate(BaseStatisticFunction[ControlVariateT])
             compute_samples(problem, settings.regressor_doe_algo_settings)
             samples = problem.to_dataset(export_gradients=True)
             problem.reset()
-            regressor_settings = settings.regressor_settings
+            # A copy per training leaves the settings of the user unchanged.
+            regressor_settings = copy_settings(settings.regressor_settings)
             regressor = RegressorFactory().create(
                 regressor_settings.__class__.__name__.rsplit("_Settings", 1)[0],
                 samples,

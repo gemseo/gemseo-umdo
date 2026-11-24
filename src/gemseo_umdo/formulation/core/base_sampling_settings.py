@@ -54,27 +54,23 @@ the field `doe_algo_settings.n_samples` is ignored.
     @model_validator(mode="after")
     def __validate_seed(self) -> Self:
         """Validate the seed."""
-        doe_algo_settings = self.doe_algo_settings
-        set_n_samples = self.n_samples is not None and (
+        # The settings always store a copy of the DOE settings
+        # so that they never share the DOE settings of the user,
+        # whose fields are left unchanged.
+        doe_algo_settings = self.doe_algo_settings.model_copy()
+        # The assignments to the copy validate the values.
+        if self.n_samples is not None and (
             getattr(doe_algo_settings, "n_samples", None) != self.n_samples
-        )
-        set_seed = (
-            "seed" in type(doe_algo_settings).model_fields
-            and doe_algo_settings.seed is None
-        )
-        if not (set_n_samples or set_seed):
-            return self
-
-        # The fields are set on a copy to leave the settings of the user unchanged;
-        # the assignments validate the values.
-        doe_algo_settings = doe_algo_settings.model_copy()
-        if set_n_samples:
+        ):
             doe_algo_settings.n_samples = self.n_samples
 
-        if set_seed:
+        if (
+            "seed" in type(doe_algo_settings).model_fields
+            and doe_algo_settings.seed is None
+        ):
             doe_algo_settings.seed = seed
 
-        # This assignment validates the model again,
-        # which then returns early as the copy needs no change.
-        self.doe_algo_settings = doe_algo_settings
+        # The copy is stored without validating the model again
+        # and without marking the field as set by the user.
+        self.__dict__["doe_algo_settings"] = doe_algo_settings
         return self

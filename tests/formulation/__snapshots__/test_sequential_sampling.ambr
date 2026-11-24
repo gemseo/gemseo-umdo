@@ -1,7 +1,24 @@
 # serializer version: 1
+# name: test_initial_n_samples_greater_than_n_samples[doe_algo_settings]
+  '''
+  1 validation error for SequentialSampling_Settings
+    Value error, The initial sampling size (4) must be less than or equal to the maximum sampling size (3). [type=value_error, input_value={'initial_n_samples': 4, ...n_samples=3, seed=None)}, input_type=dict]
+      For further information visit https://errors.pydantic.dev/X.Y/v/value_error
+  '''
+# ---
+# name: test_initial_n_samples_greater_than_n_samples[n_samples]
+  '''
+  1 validation error for SequentialSampling_Settings
+    Value error, The initial sampling size (4) must be less than or equal to the maximum sampling size (3). [type=value_error, input_value={'initial_n_samples': 4, 'n_samples': 3}, input_type=dict]
+      For further information visit https://errors.pydantic.dev/X.Y/v/value_error
+  '''
+# ---
 # name: test_initial_n_samples_one_variance[iterative]
   'The statistic V[y] cannot be estimated, as it requires at least 2 samples of y, while the number of samples of y is 1, e.g. because the DOE algorithm generated too few samples of the uncertain variables or because its evaluation failed at some of these samples.'
 # ---
 # name: test_initial_n_samples_one_variance[standard]
   'The statistic V[y] cannot be estimated, as it requires at least 2 samples of y, while the number of samples of y is 1, e.g. because the DOE algorithm generated too few samples of the uncertain variables or because its evaluation failed at some of these samples.'
+# ---
+# name: test_non_positive_n_samples
+  'The sampling size must be positive; got 0 after 2 from the function n_samples_increment.'
 # ---

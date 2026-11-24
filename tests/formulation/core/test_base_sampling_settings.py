@@ -41,10 +41,26 @@ def test_doe_algo_settings(doe_seed, n_samples, expected_seed, expected_n_sample
     settings = Sampling_Settings(
         doe_algo_settings=doe_algo_settings, n_samples=n_samples
     )
+    assert settings.doe_algo_settings is not doe_algo_settings
     assert settings.doe_algo_settings.seed == expected_seed
     assert settings.doe_algo_settings.n_samples == expected_n_samples
     assert doe_algo_settings.seed == doe_seed
     assert doe_algo_settings.n_samples == 3
+
+
+def test_assigned_doe_algo_settings():
+    """Check that assigned DOE settings are copied before setting their fields."""
+    settings = Sampling_Settings(n_samples=7)
+    doe_algo_settings = OT_OPT_LHS_Settings(n_samples=3, seed=2)
+    settings.doe_algo_settings = doe_algo_settings
+    assert settings.doe_algo_settings is not doe_algo_settings
+    assert settings.doe_algo_settings.n_samples == 7
+    assert doe_algo_settings.n_samples == 3
+
+
+def test_doe_algo_settings_not_set_by_the_user():
+    """Check that the DOE settings are not set by the user when using the default."""
+    assert Sampling_Settings(n_samples=4).model_fields_set == {"n_samples"}
 
 
 def test_n_samples_without_doe_n_samples(snapshot):

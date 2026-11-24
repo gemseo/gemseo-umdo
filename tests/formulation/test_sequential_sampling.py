@@ -15,6 +15,7 @@
 from __future__ import annotations
 
 import logging
+import operator
 
 import pytest
 from gemseo.discipline import AnalyticDiscipline
@@ -28,6 +29,7 @@ from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 from gemseo.util.testing.helper import assert_exception
 from numpy import array
 from numpy.testing import assert_almost_equal
+from pydantic import ValidationError
 
 from gemseo_umdo.formulation._function import sampling as sampling_function_module
 from gemseo_umdo.formulation.sequential_sampling import SequentialSampling
@@ -193,3 +195,34 @@ def test_initial_n_samples_one_variance(formulation_with_one_initial_sample, sna
     function = formulation_with_one_initial_sample.create_objective("y", "Variance")
     with assert_exception(ValueError, snapshot):
         function.evaluate(array([0.5]))
+
+
+@pytest.mark.parametrize(
+    "settings",
+    [
+        {"n_samples": 3},
+        {"doe_algo_settings": OT_MONTE_CARLO_Settings(n_samples=3)},
+    ],
+    ids=["n_samples", "doe_algo_settings"],
+)
+def test_initial_n_samples_greater_than_n_samples(settings, snapshot):
+    """Check the error when the initial sampling size exceeds the maximum one."""
+    with assert_exception(ValidationError, snapshot):
+        SequentialSampling_Settings(initial_n_samples=4, **settings)
+
+
+def test_non_positive_n_samples(discipline, design_space, uncertain_space, snapshot):
+    """Check the error when n_samples_increment makes the sampling size non-positive."""
+    formulation = SequentialSampling(
+        OptimizationProblem(design_space),
+        [discipline],
+        SequentialSampling_Settings(
+            doe_algo_settings=OT_MONTE_CARLO_Settings(n_samples=3),
+            n_samples_increment=operator.neg,
+        ),
+        uncertain_space=uncertain_space,
+    )
+    function = formulation.create_objective("y", "Mean")
+    function.evaluate(array([0.5]))
+    with assert_exception(ValueError, snapshot):
+        function.evaluate(array([0.0]))

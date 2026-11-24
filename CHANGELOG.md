@@ -490,7 +490,8 @@ and this project adheres to
     - [Sampling_Settings][gemseo_umdo.formulation.sampling_settings.Sampling_Settings],
       [Surrogate_Settings][gemseo_umdo.formulation.surrogate_settings.Surrogate_Settings]
       and their subclasses
-      set the `n_samples` and the default `seed` of a copy of `doe_algo_settings`;
+      always store a copy of `doe_algo_settings`
+      and set the `n_samples` and the default `seed` of this copy;
       previously, they changed the DOE settings passed by the user;
     - [Sampling][gemseo_umdo.formulation.sampling.Sampling]
       no longer changes the `callbacks`, `eval_jac` and `evaluate_observable_jacobian`
@@ -515,7 +516,22 @@ and this project adheres to
     - [PCE][gemseo_umdo.formulation.pce.PCE]
       no longer changes the `use_special_jacobian_data`
       of the settings of its regressor;
-      previously, a training of the regressor set it to the value of this training.
+      previously, a training of the regressor set it to the value of this training;
+    - [PCE][gemseo_umdo.formulation.pce.PCE],
+      [Surrogate][gemseo_umdo.formulation.surrogate.Surrogate]
+      and [ControlVariate][gemseo_umdo.formulation.control_variate.ControlVariate]
+      train their regressor from a copy of its settings and of their nested settings;
+      previously, a training could change them,
+      e.g. an `FCERegressor` set the `fit_intercept` of its `linear_model_fitter_settings` to `False`.
+- [SequentialSampling_Settings][gemseo_umdo.formulation.sequential_sampling_settings.SequentialSampling_Settings]
+  raises a `ValidationError`
+  when `initial_n_samples` is greater than the number of samples of the DOE settings;
+  previously,
+  [SequentialSampling][gemseo_umdo.formulation.sequential_sampling.SequentialSampling]
+  started with more samples than this maximum.
+- [SequentialSampling][gemseo_umdo.formulation.sequential_sampling.SequentialSampling]
+  raises a `ValueError` with an explicit message
+  when `n_samples_increment` makes the sampling size non-positive.
 - The coefficient of variation used as dispersion measure by
   [UncertainCouplingGraph][gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph]
   is computed component-wise,

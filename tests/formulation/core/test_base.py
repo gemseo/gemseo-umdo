@@ -15,6 +15,7 @@
 from __future__ import annotations
 
 import sys
+from copy import deepcopy
 from importlib import import_module
 from textwrap import dedent
 from typing import TYPE_CHECKING
@@ -27,20 +28,22 @@ import pytest
 from gemseo.core.function.array_function import ArrayFunction
 from gemseo.doe import CustomDOE_Settings
 from gemseo.formulation import MDF_Settings
+from gemseo.machine_learning import FCERegressor_Settings
 from gemseo.mda import MDAChain_Settings
 from gemseo.mda import MDAGaussSeidel_Settings
 from gemseo.optimization import OptimizationProblem
+from gemseo.space import RandomSpace
 from gemseo.uncertainty.distribution import OTNormalDistribution_Settings
 from gemseo.util.testing.helper import assert_exception
 from numpy import array
 from numpy import array_equal
 from numpy.testing import assert_almost_equal
 from numpy.testing import assert_equal
-from pydantic import BaseModel
 
 from gemseo_umdo.formulation._estimator.sampling.factory import SamplingEstimatorFactory
 from gemseo_umdo.formulation.control_variate_settings import ControlVariate_Settings
 from gemseo_umdo.formulation.core.base import BaseUMDOFormulation
+from gemseo_umdo.formulation.pce_settings import PCE_Settings
 from gemseo_umdo.formulation.sampling_settings import Sampling_Settings
 from gemseo_umdo.formulation.surrogate_settings import Surrogate_Settings
 from gemseo_umdo.formulation.taylor_polynomial_settings import TaylorPolynomial_Settings
@@ -55,7 +58,6 @@ if TYPE_CHECKING:
 
     from gemseo.discipline import AnalyticDiscipline
     from gemseo.space import DesignSpace
-    from gemseo.space import RandomSpace
 
     from gemseo_umdo.formulation.core.base_settings import BaseUMDOFormulationSettings
     from gemseo_umdo.statistic.settings.core.base import BaseStatisticSettings
@@ -537,24 +539,32 @@ def test_user_statistic(
     )
 
 
-def test_settings_of_the_user_unchanged(
-    disciplines, design_space, uncertain_space, statistic_estimation_settings
-):
+def _check_settings_of_the_user_unchanged(
+    disciplines: Sequence[AnalyticDiscipline],
+    design_space: DesignSpace,
+    uncertain_space: RandomSpace,
+    settings: BaseUMDOFormulationSettings,
+) -> None:
     """Check that a U-MDO formulation reads the settings of the user without change.
 
     The statistics are estimated at two design points,
     so that the sequential sampling varies its number of samples,
     with their Jacobians when the formulation can estimate them.
+
+    Args:
+        disciplines: The disciplines.
+        design_space: The design space.
+        uncertain_space: The uncertain space.
+        settings: The settings of the U-MDO formulation.
     """
-    settings = statistic_estimation_settings
-    # The nested settings are copied deeply
-    # while the other fields are shared,
-    # as a callable such as n_samples_increment has no equality operator.
+    # The fields are copied deeply,
+    # except n_samples_increment which is shared
+    # as a callable has no equality operator.
     expected_settings = settings.model_copy(
         update={
-            name: value.model_copy(deep=True)
+            name: deepcopy(value)
             for name, value in settings
-            if isinstance(value, BaseModel)
+            if name != "n_samples_increment"
         }
     )
     # ControlVariate and Surrogate cannot estimate the Jacobians.
@@ -576,3 +586,42 @@ def test_settings_of_the_user_unchanged(
     )
     assert scenario.formulation._settings is settings
     assert settings == expected_settings
+
+
+def test_settings_of_the_user_unchanged(
+    disciplines, design_space, uncertain_space, statistic_estimation_settings
+):
+    """Check that a U-MDO formulation reads the settings of the user without change."""
+    _check_settings_of_the_user_unchanged(
+        disciplines, design_space, uncertain_space, statistic_estimation_settings
+    )
+
+
+@pytest.mark.parametrize(
+    "settings",
+    [
+        Sampling_Settings(n_samples=10, samples_directory_path="samples"),
+        PCE_Settings(n_samples=20, regressor_settings=FCERegressor_Settings()),
+        ControlVariate_Settings(
+            n_samples=10, regressor_settings=FCERegressor_Settings()
+        ),
+        Surrogate_Settings(n_samples=20, regressor_settings=FCERegressor_Settings()),
+    ],
+    ids=["samples_directory_path", "PCE_FCE", "ControlVariate_FCE", "Surrogate_FCE"],
+)
+def test_specific_settings_of_the_user_unchanged(
+    disciplines, design_space, settings, tmp_wd
+):
+    """Check that a U-MDO formulation reads specific settings of the user unchanged.
+
+    These settings save the samples
+    or use a functional chaos expansion,
+    which requires OpenTURNS distributions.
+    """
+    uncertain_space = RandomSpace()
+    uncertain_space.add_variable("u", OTNormalDistribution_Settings(mu=1.0))
+    uncertain_space.add_variable("u1", OTNormalDistribution_Settings(mu=2.0))
+    uncertain_space.add_variable("u2", OTNormalDistribution_Settings(mu=3.0))
+    _check_settings_of_the_user_unchanged(
+        disciplines, design_space, uncertain_space, settings
+    )

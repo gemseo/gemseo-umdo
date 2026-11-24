@@ -33,6 +33,7 @@ from scipy.linalg import solve
 
 from gemseo_umdo.formulation._estimator.pce.base import BasePCEEstimator
 from gemseo_umdo.formulation._function.surrogate import StatisticFunctionForSurrogate
+from gemseo_umdo.formulation._function.surrogate import copy_settings
 
 if TYPE_CHECKING:
     from collections.abc import MutableMapping
@@ -107,11 +108,11 @@ class StatisticFunctionForPCE(StatisticFunctionForSurrogate[PCET]):
 
         samples = pce_formulation.compute_samples(problem, compute_jacobian)
 
-        regressor_settings = regressor_settings.model_copy(
-            update={
-                "use_special_jacobian_data": estimate_jacobian
-                and not settings.approximate_statistics_jacobians
-            }
+        # A copy per training leaves the settings of the user unchanged.
+        regressor_settings = copy_settings(
+            regressor_settings,
+            use_special_jacobian_data=estimate_jacobian
+            and not settings.approximate_statistics_jacobians,
         )
         fce = RegressorFactory().create(
             regressor_settings.target_class_name,

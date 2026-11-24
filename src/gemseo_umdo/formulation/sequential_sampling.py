@@ -112,12 +112,16 @@ class SequentialSampling(Sampling):
             mdo_formulation_settings=mdo_formulation_settings,
         )
 
-    def compute_samples(  # noqa: D102
+    def compute_samples(
         self,
         problem: EvaluationProblem,
         input_data: RealArray,
         compute_jacobian: bool = False,
     ) -> None:
+        """
+        Raises:
+            ValueError: When the next sampling size is not positive.
+        """  # noqa: D205 D212 D415
         # The input point is copied
         # so that a change of the input array during or after this call
         # does not change the key.
@@ -125,10 +129,19 @@ class SequentialSampling(Sampling):
         last_input_point = self.__last_input_point
         if last_input_point is not None and input_point != last_input_point:
             n_samples = self.__n_samples
-            self.__n_samples = min(
+            next_n_samples = min(
                 self._settings.doe_algo_settings.n_samples,
                 n_samples + self._settings.n_samples_increment(n_samples),
             )
+            if next_n_samples < 1:
+                msg = (
+                    f"The sampling size must be positive; "
+                    f"got {next_n_samples} after {n_samples} "
+                    "from the function n_samples_increment."
+                )
+                raise ValueError(msg)
+
+            self.__n_samples = next_n_samples
 
         self.__last_input_point = input_point
         super().compute_samples(problem, input_data, compute_jacobian=compute_jacobian)

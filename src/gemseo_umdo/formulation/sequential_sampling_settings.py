@@ -61,6 +61,25 @@ In the first case, the increment will be replaced by such a function."""
     )
 
     @model_validator(mode="after")
+    def __check_initial_n_samples(self) -> Self:
+        """Check that the initial sampling size is at most the maximum one.
+
+        Raises:
+            ValueError: When the initial sampling size is greater than
+                the number of samples of the DOE settings.
+        """
+        n_samples = self.doe_algo_settings.n_samples
+        if self.initial_n_samples > n_samples:
+            msg = (
+                f"The initial sampling size ({self.initial_n_samples}) "
+                f"must be less than or equal to "
+                f"the maximum sampling size ({n_samples})."
+            )
+            raise ValueError(msg)
+
+        return self
+
+    @model_validator(mode="after")
     def __make_n_samples_increment_callable(self) -> Self:
         """Make n_samples_increment callable."""
         if isinstance(self.n_samples_increment, int):
