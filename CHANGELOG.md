@@ -498,7 +498,11 @@ and this project adheres to
       no longer change the `eval_jac` and `evaluate_observable_jacobian`
       of the settings of their DOE algorithm;
       previously, a sampling left them set to `True` in these settings
-      when it computed the Jacobians.
+      when it computed the Jacobians;
+    - [PCE][gemseo_umdo.formulation.pce.PCE]
+      no longer changes the `use_special_jacobian_data`
+      of the settings of its regressor;
+      previously, a training of the regressor set it to the value of this training.
 - The coefficient of variation used as dispersion measure by
   [UncertainCouplingGraph][gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph]
   is computed component-wise,

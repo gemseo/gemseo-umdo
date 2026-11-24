@@ -426,6 +426,7 @@ def test_scenario(
     jac_opt,
 ):
     """Check the PCE-based U-MDO formulation in a scenario with a toy case."""
+    use_special_jacobian_data = regressor_settings.use_special_jacobian_data
     discipline, design_space, uncertain_space = quadratic_problem
     if input_dimension == 2:
         design_space.add_variable("z", lower_bound=-1, upper_bound=1.0, value=0.5)
@@ -452,6 +453,7 @@ def test_scenario(
     get = scenario.formulation.problem.database.get_gradient_history
     jac = get("E[y]")
     assert_almost_equal(jac, jac_opt)
+    assert regressor_settings.use_special_jacobian_data == use_special_jacobian_data
 
 
 @pytest.mark.parametrize(

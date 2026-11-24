@@ -107,11 +107,13 @@ class StatisticFunctionForPCE(StatisticFunctionForSurrogate[PCET]):
 
         samples = pce_formulation.compute_samples(problem, compute_jacobian)
 
-        if estimate_jacobian and not settings.approximate_statistics_jacobians:
-            regressor_settings.use_special_jacobian_data = True
-        else:
-            regressor_settings.use_special_jacobian_data = False
-
+        # A copy per training leaves the settings of the user unchanged.
+        regressor_settings = regressor_settings.model_copy(
+            update={
+                "use_special_jacobian_data": estimate_jacobian
+                and not settings.approximate_statistics_jacobians
+            }
+        )
         fce = RegressorFactory().create(
             regressor_settings.target_class_name,
             samples,
