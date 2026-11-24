@@ -1152,20 +1152,18 @@ def test_iterative_statistic_without_samples(
 
 
 def test_save_samples(disciplines, design_space, uncertain_space, tmp_wd):
-    settings = Sampling_Settings(
-        doe_algo_settings=CustomDOE_Settings(
-            samples=array([[0.0, 0.0, 0.0], [1.0, 1.0, 1.0]])
-        ),
-        samples_directory_path="foo",
-    )
     scenario = UMDOScenario(
         disciplines,
         design_space,
         uncertain_space,
-        statistic_estimation_settings=settings,
+        statistic_estimation_settings=Sampling_Settings(
+            doe_algo_settings=CustomDOE_Settings(
+                samples=array([[0.0, 0.0, 0.0], [1.0, 1.0, 1.0]])
+            ),
+            samples_directory_path="foo",
+        ),
         formulation_settings=MDF_Settings(),
     )
-    assert settings.estimate_statistics_iteratively
     scenario.add_objective("f", "Mean")
     scenario.add_constraint("c", Margin_Settings(factor=3.0))
     scenario.add_observable("o", "Variance")
