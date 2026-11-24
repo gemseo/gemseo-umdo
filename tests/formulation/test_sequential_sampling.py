@@ -211,6 +211,26 @@ def test_initial_n_samples_greater_than_n_samples(settings, snapshot):
         SequentialSampling_Settings(initial_n_samples=4, **settings)
 
 
+@pytest.mark.parametrize(
+    ("name", "value"),
+    [("n_samples", 3), ("initial_n_samples", 11)],
+    ids=["n_samples", "initial_n_samples"],
+)
+def test_rejected_assignment_leaves_settings_unchanged(name, value):
+    """Check that an assignment rejected by the sampling size check changes nothing."""
+    settings = SequentialSampling_Settings(initial_n_samples=5, n_samples=10)
+    fields_set = settings.model_fields_set.copy()
+    with pytest.raises(ValidationError):
+        setattr(settings, name, value)
+
+    assert (
+        settings.initial_n_samples,
+        settings.n_samples,
+        settings.doe_algo_settings.n_samples,
+        settings.model_fields_set,
+    ) == (5, 10, 10, fields_set)
+
+
 def _half(n_samples: int) -> float:
     """Return a non-integer increment of the sampling size.
 
@@ -274,6 +294,19 @@ def test_invalid_n_samples(
     function.evaluate(array([0.5]))
     with assert_exception(ValueError, snapshot):
         function.evaluate(array([0.0]))
+
+
+def test_invalid_n_samples_cause(discipline, design_space, uncertain_space):
+    """Check that the error of an invalid sampling size is chained to its cause."""
+    formulation = _create_sequential_sampling(
+        _half, discipline, design_space, uncertain_space
+    )
+    function = formulation.create_objective("y", "Mean")
+    function.evaluate(array([0.5]))
+    with pytest.raises(ValueError) as exc_info:  # noqa: PT011
+        function.evaluate(array([0.0]))
+
+    assert isinstance(exc_info.value.__cause__, ValidationError)
 
 
 def test_integral_float_n_samples(discipline, design_space, uncertain_space):

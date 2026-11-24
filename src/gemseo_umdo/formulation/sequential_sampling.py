@@ -64,7 +64,7 @@ if TYPE_CHECKING:
     from gemseo.space import RandomSpace
     from gemseo.util.typing import RealArray
 
-_POSITIVE_INT_ADAPTER: Final[TypeAdapter[int]] = TypeAdapter(PositiveInt)
+_positive_int_adapter: Final[TypeAdapter[int]] = TypeAdapter(PositiveInt)
 """The validator of a positive integer, accepting an integral float."""
 
 
@@ -141,14 +141,14 @@ class SequentialSampling(Sampling):
                 n_samples + self._settings.n_samples_increment(n_samples),
             )
             try:
-                self.__n_samples = _POSITIVE_INT_ADAPTER.validate_python(next_n_samples)
-            except ValidationError:
+                self.__n_samples = _positive_int_adapter.validate_python(next_n_samples)
+            except ValidationError as err:
                 msg = (
                     f"The sampling size must be a positive integer; "
                     f"got {next_n_samples} after {n_samples} "
                     "from the function n_samples_increment."
                 )
-                raise ValueError(msg) from None
+                raise ValueError(msg) from err
 
         self.__last_input_point = input_point
         super().compute_samples(problem, input_data, compute_jacobian=compute_jacobian)
