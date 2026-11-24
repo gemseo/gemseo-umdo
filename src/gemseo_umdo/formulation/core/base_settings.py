@@ -16,8 +16,23 @@
 
 from __future__ import annotations
 
+from typing import Any
+
 from gemseo.formulation.core.base_settings import BaseFormulationSettings
 
 
 class BaseUMDOFormulationSettings(BaseFormulationSettings):
     """The base class for the settings of U-MDO formulations."""
+
+    def __setattr__(self, name: str, value: Any) -> None:
+        # An assignment changes the settings in place
+        # before the model validators check them
+        # and pydantic does not undo it when one of them raises an error,
+        # so their state is saved to restore it in that case.
+        state = (self.__dict__.copy(), self.__pydantic_fields_set__.copy())
+        try:
+            super().__setattr__(name, value)
+        except Exception:
+            object.__setattr__(self, "__dict__", state[0])
+            object.__setattr__(self, "__pydantic_fields_set__", state[1])
+            raise

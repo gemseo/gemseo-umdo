@@ -81,12 +81,19 @@ class SequentialSampling(Sampling):
         SequentialSampling_Settings
     )
 
+    __final_n_samples: int
+    """The maximum number of samples.
+
+    It is the `n_samples` of the DOE settings at instantiation,
+    so that a later change of these settings has no effect.
+    """
+
     __n_samples: int
     """The number of samples of the next sampling.
 
     It starts at `initial_n_samples`
-    and increases up to the `n_samples` of the DOE settings,
-    which are left unchanged.
+    and increases up to the maximum number of samples;
+    the DOE settings are left unchanged.
     """
 
     __last_input_point: HashableNdarray | None
@@ -109,6 +116,7 @@ class SequentialSampling(Sampling):
         mdo_formulation_settings: BaseFormulationSettings | None = None,
     ) -> None:
         settings = create_model(self.settings_class, settings_model=settings)
+        self.__final_n_samples = settings.doe_algo_settings.n_samples
         self.__n_samples = settings.initial_n_samples
         self.__last_input_point = None
         super().__init__(
@@ -137,7 +145,7 @@ class SequentialSampling(Sampling):
         if last_input_point is not None and input_point != last_input_point:
             n_samples = self.__n_samples
             next_n_samples = min(
-                self._settings.doe_algo_settings.n_samples,
+                self.__final_n_samples,
                 n_samples + self._settings.n_samples_increment(n_samples),
             )
             try:

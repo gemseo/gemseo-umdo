@@ -31,10 +31,7 @@ from pydantic import model_validator
 from gemseo_umdo.formulation.sampling_settings import Sampling_Settings
 
 if TYPE_CHECKING:
-    from typing import Any
     from typing import Self
-
-    from pydantic import ModelWrapValidatorHandler
 
 
 class SequentialSampling_Settings(Sampling_Settings):  # noqa: N801
@@ -48,6 +45,9 @@ class SequentialSampling_Settings(Sampling_Settings):  # noqa: N801
     initial_n_samples: PositiveInt = Field(
         default=2,
         description="""The initial sampling size.
+
+It must be less than or equal to the maximum sampling size,
+i.e. `n_samples` if not `None`, otherwise `doe_algo_settings.n_samples`.
 
 The estimation of a variance, a standard deviation
 or a margin
@@ -63,17 +63,9 @@ In the first case, the increment will be replaced by such a function."""
         ),
     )
 
-    @model_validator(mode="wrap")
-    @classmethod
-    def __check_initial_n_samples(
-        cls, data: Any, handler: ModelWrapValidatorHandler[Self]
-    ) -> Self:
+    @model_validator(mode="after")
+    def __check_initial_n_samples(self) -> Self:
         """Check that the initial sampling size is at most the maximum one.
-
-        Args:
-            data: The data to validate,
-                or the settings themselves in the case of an assignment.
-            handler: The validator of the data.
 
         Returns:
             The validated settings.
@@ -82,28 +74,16 @@ In the first case, the increment will be replaced by such a function."""
             ValueError: When the initial sampling size is greater than
                 the number of samples of the DOE settings.
         """
-        # An assignment changes the settings in place before this check,
-        # so their state is saved to restore it when the check fails.
-        state = (
-            (data.__dict__.copy(), data.__pydantic_fields_set__.copy())
-            if isinstance(data, cls)
-            else None
-        )
-        settings = handler(data)
-        n_samples = settings.doe_algo_settings.n_samples
-        if settings.initial_n_samples > n_samples:
-            if state is not None:
-                object.__setattr__(settings, "__dict__", state[0])
-                object.__setattr__(settings, "__pydantic_fields_set__", state[1])
-
+        n_samples = self.doe_algo_settings.n_samples
+        if self.initial_n_samples > n_samples:
             msg = (
-                f"The initial sampling size ({settings.initial_n_samples}) "
+                f"The initial sampling size ({self.initial_n_samples}) "
                 f"must be less than or equal to "
                 f"the maximum sampling size ({n_samples})."
             )
             raise ValueError(msg)
 
-        return settings
+        return self
 
     @model_validator(mode="after")
     def __make_n_samples_increment_callable(self) -> Self:

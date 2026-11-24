@@ -529,6 +529,16 @@ and this project adheres to
   previously,
   [SequentialSampling][gemseo_umdo.formulation.sequential_sampling.SequentialSampling]
   started with more samples than this maximum.
+- The settings of the U-MDO formulations are left unchanged
+  when an assignment to one of their fields is rejected,
+  e.g. a `n_samples` that the DOE settings cannot use,
+  `regressor_doe_algo_settings` with the same seed as `doe_algo_settings`
+  or an `initial_n_samples` greater than the maximum sampling size;
+  previously, the field kept the rejected value.
+- [SequentialSampling][gemseo_umdo.formulation.sequential_sampling.SequentialSampling]
+  reads its maximum sampling size from its settings at instantiation;
+  previously, a later change of the `n_samples` of the DOE settings
+  could make the sampling size decrease below `initial_n_samples`.
 - [SequentialSampling][gemseo_umdo.formulation.sequential_sampling.SequentialSampling]
   raises a `ValueError` with an explicit message
   when `n_samples_increment` makes the sampling size non-positive or non-integer;
