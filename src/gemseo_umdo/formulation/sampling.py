@@ -126,11 +126,13 @@ class Sampling(BaseUMDOFormulation):
         if settings.samples_directory_path:
             self.__samples_directory_path = Path(settings.samples_directory_path)
             self.__samples_directory_path.mkdir()
-            settings.estimate_statistics_iteratively = False
         else:
             self.__samples_directory_path = ""
 
-        self._estimate_statistics_iteratively = settings.estimate_statistics_iteratively
+        self._estimate_statistics_iteratively = (
+            settings.estimate_statistics_iteratively
+            and not self.__samples_directory_path
+        )
         self._statistic_factory = (
             IterativeSamplingEstimatorFactory()
             if self._estimate_statistics_iteratively

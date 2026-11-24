@@ -493,6 +493,9 @@ and this project adheres to
       previously, a sampling left `eval_jac` and `evaluate_observable_jacobian`
       set to `True` in these settings when it estimated the gradients
       and a failed sampling left its callbacks in them;
+    - [Sampling][gemseo_umdo.formulation.sampling.Sampling]
+      no longer sets `estimate_statistics_iteratively` to `False`
+      in its settings when `samples_directory_path` is defined;
     - [Surrogate][gemseo_umdo.formulation.surrogate.Surrogate]
       and [PCE][gemseo_umdo.formulation.pce.PCE]
       no longer change the `eval_jac` and `evaluate_observable_jacobian`
