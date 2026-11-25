@@ -104,7 +104,8 @@ class SobolGraph:
 
         Returns:
             The Sobol' graph,
-            whose nodes are named after the variables.
+            whose nodes are named `v<i>`, `i` being the position of the variable,
+            and labeled after the variables.
         """
         digraph = Digraph(
             node_attr={"style": "filled", "fillcolor": "white"},
@@ -112,10 +113,16 @@ class SobolGraph:
         )
 
         # Add the nodes representing both first- and total-order indices.
-        for name, total_order_index in self.__total_order_indices.items():
+        # The nodes are not named after the variables,
+        # as graphviz reads a colon in a node name of an edge as a port separator.
+        names_to_node_names = {}
+        for i, (name, total_order_index) in enumerate(
+            self.__total_order_indices.items()
+        ):
             first_order_index = self.__first_order_indices[name]
+            node_name = names_to_node_names[name] = f"v{i}"
             digraph.node(
-                nohtml(name),
+                node_name,
                 label=nohtml(
                     f"{name}\n"
                     f"({round(total_order_index * 100)}, "
@@ -128,8 +135,8 @@ class SobolGraph:
         for (name, other_name), index in self.__second_order_indices.items():
             if index >= threshold:
                 digraph.edge(
-                    nohtml(name),
-                    nohtml(other_name),
+                    names_to_node_names[name],
+                    names_to_node_names[other_name],
                     penwidth=str(index * maximum_thickness),
                 )
 

@@ -111,7 +111,10 @@ def test_from_pce(pce, output_name, snapshot):
     assert SobolGraph.from_pce(pce, output_name).draw().source == snapshot
 
 
-def test_html_like_name(snapshot):
-    """Check that a name between angle brackets is not an HTML-like label."""
-    digraph = SobolGraph({"<A>": 0.5}, {"<A>": 0.6}, {}).draw()
+@pytest.mark.parametrize("name", ["<A>", "ns:A"], ids=["html_like", "colon"])
+def test_draw_special_name(name, snapshot):
+    """Check that a name is neither an HTML-like label nor a node with a port."""
+    digraph = SobolGraph(
+        {name: 0.5, "B": 0.5}, {name: 0.6, "B": 0.6}, {(name, "B"): 0.3}
+    ).draw()
     assert digraph.source == snapshot

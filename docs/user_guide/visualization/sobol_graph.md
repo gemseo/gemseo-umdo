@@ -134,8 +134,9 @@ digraph = sobol_graph.draw()
 
 ### Options
 
-The float argument `threshold` of
-[draw()][gemseo_umdo.visualization.sobol_graph.SobolGraph.draw] allows to set the sensitivity threshold
+The float argument `threshold`
+of [draw()][gemseo_umdo.visualization.sobol_graph.SobolGraph.draw]
+allows to set the sensitivity threshold
 above which a second-order index is declared as *significant*
 and the corresponding edge plotted.
 

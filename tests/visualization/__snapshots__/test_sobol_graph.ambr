@@ -4,13 +4,13 @@
   digraph {
   	node [fillcolor=white style=filled]
   	edge [dir=none]
-  	X1 [label="X1
+  	v0 [label="X1
   (56, 31)" penwidth=5.575888552099592]
-  	X2 [label="X2
+  	v1 [label="X2
   (44, 44)" penwidth=4.424111447900409]
-  	X3 [label="X3
+  	v2 [label="X3
   (24, 0)" penwidth=2.436836640621477]
-  	X1 -> X3 [penwidth=2.436836640621477]
+  	v0 -> v2 [penwidth=2.436836640621477]
   }
   
   '''
@@ -20,13 +20,13 @@
   digraph {
   	node [fillcolor=white style=filled]
   	edge [dir=none]
-  	X1 [label="X1
+  	v0 [label="X1
   (56, 31)" penwidth=16.727665656298775]
-  	X2 [label="X2
+  	v1 [label="X2
   (44, 44)" penwidth=13.272334343701226]
-  	X3 [label="X3
+  	v2 [label="X3
   (24, 0)" penwidth=7.310509921864432]
-  	X1 -> X3 [penwidth=7.310509921864432]
+  	v0 -> v2 [penwidth=7.310509921864432]
   }
   
   '''
@@ -36,12 +36,40 @@
   digraph {
   	node [fillcolor=white style=filled]
   	edge [dir=none]
-  	X1 [label="X1
+  	v0 [label="X1
   (56, 31)" penwidth=5.575888552099592]
-  	X2 [label="X2
+  	v1 [label="X2
   (44, 44)" penwidth=4.424111447900409]
-  	X3 [label="X3
+  	v2 [label="X3
   (24, 0)" penwidth=2.436836640621477]
+  }
+  
+  '''
+# ---
+# name: test_draw_special_name[colon]
+  '''
+  digraph {
+  	node [fillcolor=white style=filled]
+  	edge [dir=none]
+  	v0 [label="ns:A
+  (60, 50)" penwidth=6.0]
+  	v1 [label="B
+  (60, 50)" penwidth=6.0]
+  	v0 -> v1 [penwidth=3.0]
+  }
+  
+  '''
+# ---
+# name: test_draw_special_name[html_like]
+  '''
+  digraph {
+  	node [fillcolor=white style=filled]
+  	edge [dir=none]
+  	v0 [label="<A>
+  (60, 50)" penwidth=6.0]
+  	v1 [label="B
+  (60, 50)" penwidth=6.0]
+  	v0 -> v1 [penwidth=3.0]
   }
   
   '''
@@ -51,15 +79,15 @@
   digraph {
   	node [fillcolor=white style=filled]
   	edge [dir=none]
-  	x1 [label="x1
+  	v0 [label="x1
   (63, 0)" penwidth=6.347010046398605]
-  	x2 [label="x2
+  	v1 [label="x2
   (49, 0)" penwidth=4.894079459907271]
-  	x3 [label="x3
+  	v2 [label="x3
   (38, 0)" penwidth=3.8132806189589257]
-  	x1 -> x2 [penwidth=7.968419990775672]
-  	x1 -> x3 [penwidth=14.550817585578175]
-  	x2 -> x3 [penwidth=9.76753917681917]
+  	v0 -> v1 [penwidth=7.968419990775672]
+  	v0 -> v2 [penwidth=14.550817585578175]
+  	v1 -> v2 [penwidth=9.76753917681917]
   }
   
   '''
@@ -69,13 +97,13 @@
   digraph {
   	node [fillcolor=white style=filled]
   	edge [dir=none]
-  	x1 [label="x1
+  	v0 [label="x1
   (89, 77)" penwidth=8.94]
-  	x2 [label="x2
+  	v1 [label="x2
   (10, 9)" penwidth=0.99]
-  	x3 [label="x3
+  	v2 [label="x3
   (14, 1)" penwidth=1.45]
-  	x1 -> x3 [penwidth=1.26]
+  	v0 -> v2 [penwidth=1.26]
   }
   
   '''
@@ -85,28 +113,17 @@
   digraph {
   	node [fillcolor=white style=filled]
   	edge [dir=none]
-  	x1 [label="x1
+  	v0 [label="x1
   (89, 77)" penwidth=8.94]
-  	x2 [label="x2
+  	v1 [label="x2
   (10, 9)" penwidth=0.99]
-  	x3 [label="x3
+  	v2 [label="x3
   (14, 1)" penwidth=1.45]
-  	x1 -> x3 [penwidth=1.26]
+  	v0 -> v2 [penwidth=1.26]
   }
   
   '''
 # ---
 # name: test_from_pce_error
   "The name 'z' is not an output name."
-# ---
-# name: test_html_like_name
-  '''
-  digraph {
-  	node [fillcolor=white style=filled]
-  	edge [dir=none]
-  	"<A>" [label="<A>
-  (60, 50)" penwidth=6.0]
-  }
-  
-  '''
 # ---

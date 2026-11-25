@@ -116,7 +116,7 @@ and this project adheres to
   moved from the constructor to
   [draw()][gemseo_umdo.visualization.sobol_graph.SobolGraph.draw]
   and the attribute `threshold` was removed.
-  The nodes are named after the variables
+  The nodes are named `"v<i>"` for the variable at position `i`
   instead of their labels.
 - BREAKING CHANGE:
   `UncertainCouplingGraph.visualize()` was replaced by
