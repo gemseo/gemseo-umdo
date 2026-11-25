@@ -225,7 +225,7 @@ class SobolGraph:
             output_component: The component of the output.
 
         Returns:
-            The Sobol' graph associated with this Sobol' analysis.
+            The Sobol' graph associated with this PCE regressor.
 
         Raises:
             ValueError: When the name is not an output name
