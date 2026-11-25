@@ -388,6 +388,10 @@ and this project adheres to
   when `output_component` is not a component of the output;
   previously, they used the Sobol' indices of another output component
   or raised an `IndexError`.
+- [SobolGraph.from_analysis()][gemseo_umdo.visualization.sobol_graph.SobolGraph.from_analysis]
+  raises a `ValueError`
+  when `output_name` is not an output name;
+  previously, it raised a `KeyError`.
 - [Sampling][gemseo_umdo.formulation.sampling.Sampling]
   with `estimate_statistics_iteratively=True` (default)
   counts the samples equal to the threshold

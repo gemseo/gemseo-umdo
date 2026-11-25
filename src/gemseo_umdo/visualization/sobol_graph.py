@@ -25,6 +25,7 @@ from numpy import atleast_1d
 from numpy import atleast_2d
 
 if TYPE_CHECKING:
+    from collections.abc import Iterable
     from collections.abc import Mapping
 
     from gemseo.machine_learning.regression.model import PCERegressor
@@ -192,6 +193,21 @@ class SobolGraph:
         return new_indices
 
     @staticmethod
+    def __check_output_name(output_name: str, output_names: Iterable[str]) -> None:
+        """Check that a name is an output name.
+
+        Args:
+            output_name: The name to check.
+            output_names: The output names.
+
+        Raises:
+            ValueError: When the name is not an output name.
+        """
+        if output_name not in output_names:
+            msg = f"The name {output_name!r} is not an output name."
+            raise ValueError(msg)
+
+    @staticmethod
     def __check_output_component(
         output_name: str, output_component: int, size: int
     ) -> None:
@@ -227,12 +243,13 @@ class SobolGraph:
             The Sobol' graph associated with this Sobol' analysis.
 
         Raises:
-            ValueError: When the component is out of the range of the output.
+            ValueError: When the name is not an output name
+                or when the component is out of the range of the output.
         """
+        first_order_indices = analysis.indices.first
+        cls.__check_output_name(output_name, first_order_indices)
         cls.__check_output_component(
-            output_name,
-            output_component,
-            len(analysis.indices.first[output_name]),
+            output_name, output_component, len(first_order_indices[output_name])
         )
         return cls(
             cls.__preprocess(analysis.indices.first[output_name][output_component]),
@@ -260,10 +277,7 @@ class SobolGraph:
             ValueError: When the name is not an output name
                 or when the component is out of the range of the output.
         """
-        if output_name not in pce_regressor.output_names:
-            msg = f"The name {output_name!r} is not an output name."
-            raise ValueError(msg)
-
+        cls.__check_output_name(output_name, pce_regressor.output_names)
         sizes = pce_regressor.sizes
         cls.__check_output_component(output_name, output_component, sizes[output_name])
         index = 0

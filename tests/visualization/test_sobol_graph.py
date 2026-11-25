@@ -123,22 +123,23 @@ def test_from_analysis(sobol_analysis, snapshot):
     assert SobolGraph.from_analysis(sobol_analysis, "y").draw().source == snapshot
 
 
-@pytest.mark.parametrize(
-    "output_component",
-    [1, -1],
-    ids=["output_component_too_large", "output_component_negative"],
-)
-def test_from_analysis_error(sobol_analysis, output_component, snapshot):
-    """Check the error raised by from_analysis with a wrong output component."""
-    with assert_exception(ValueError, snapshot):
-        SobolGraph.from_analysis(sobol_analysis, "y", output_component=output_component)
-
-
-@pytest.mark.parametrize(
+_parametrize_errors = pytest.mark.parametrize(
     ("output_name", "output_component"),
     [("z", 0), ("y", 1), ("y", -1)],
     ids=["output_name", "output_component_too_large", "output_component_negative"],
 )
+
+
+@_parametrize_errors
+def test_from_analysis_error(sobol_analysis, output_name, output_component, snapshot):
+    """Check the error raised by from_analysis with a wrong output name or component."""
+    with assert_exception(ValueError, snapshot):
+        SobolGraph.from_analysis(
+            sobol_analysis, output_name, output_component=output_component
+        )
+
+
+@_parametrize_errors
 def test_from_pce_error(pce, output_name, output_component, snapshot):
     """Check the error raised by from_pce with a wrong output name or component."""
     with assert_exception(ValueError, snapshot):
