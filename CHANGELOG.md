@@ -382,10 +382,12 @@ and this project adheres to
   uses the Sobol' indices of the requested output
   when an output placed before it has another size;
   previously, it used those of another output component.
-- [SobolGraph.from_pce()][gemseo_umdo.visualization.sobol_graph.SobolGraph.from_pce]
-  raises a `ValueError`
+- [SobolGraph.from_analysis()][gemseo_umdo.visualization.sobol_graph.SobolGraph.from_analysis]
+  and [SobolGraph.from_pce()][gemseo_umdo.visualization.sobol_graph.SobolGraph.from_pce]
+  raise a `ValueError`
   when `output_component` is not a component of the output;
-  previously, it used the Sobol' indices of another output component.
+  previously, they used the Sobol' indices of another output component
+  or raised an `IndexError`.
 - [Sampling][gemseo_umdo.formulation.sampling.Sampling]
   with `estimate_statistics_iteratively=True` (default)
   counts the samples equal to the threshold

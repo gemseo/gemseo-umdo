@@ -191,6 +191,27 @@ class SobolGraph:
 
         return new_indices
 
+    @staticmethod
+    def __check_output_component(
+        output_name: str, output_component: int, size: int
+    ) -> None:
+        """Check that a component is in the range of an output.
+
+        Args:
+            output_name: The name of the output.
+            output_component: The component of the output.
+            size: The size of the output.
+
+        Raises:
+            ValueError: When the component is out of the range of the output.
+        """
+        if not 0 <= output_component < size:
+            msg = (
+                f"The component {output_component} of the output {output_name!r} "
+                f"is not in the range [0, {size - 1}]."
+            )
+            raise ValueError(msg)
+
     @classmethod
     def from_analysis(
         cls, analysis: SobolAnalysis, output_name: str, output_component: int = 0
@@ -204,7 +225,15 @@ class SobolGraph:
 
         Returns:
             The Sobol' graph associated with this Sobol' analysis.
+
+        Raises:
+            ValueError: When the component is out of the range of the output.
         """
+        cls.__check_output_component(
+            output_name,
+            output_component,
+            len(analysis.indices.first[output_name]),
+        )
         return cls(
             cls.__preprocess(analysis.indices.first[output_name][output_component]),
             cls.__preprocess(analysis.indices.total[output_name][output_component]),
@@ -236,14 +265,7 @@ class SobolGraph:
             raise ValueError(msg)
 
         sizes = pce_regressor.sizes
-        size = sizes[output_name]
-        if not 0 <= output_component < size:
-            msg = (
-                f"The component {output_component} of the output {output_name!r} "
-                f"is not in the range [0, {size - 1}]."
-            )
-            raise ValueError(msg)
-
+        cls.__check_output_component(output_name, output_component, sizes[output_name])
         index = 0
         for name in pce_regressor.output_names:  # pragma: no branch
             if name == output_name:

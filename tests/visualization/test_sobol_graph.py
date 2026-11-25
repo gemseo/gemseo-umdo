@@ -124,6 +124,17 @@ def test_from_analysis(sobol_analysis, snapshot):
 
 
 @pytest.mark.parametrize(
+    "output_component",
+    [1, -1],
+    ids=["output_component_too_large", "output_component_negative"],
+)
+def test_from_analysis_error(sobol_analysis, output_component, snapshot):
+    """Check the error raised by from_analysis with a wrong output component."""
+    with assert_exception(ValueError, snapshot):
+        SobolGraph.from_analysis(sobol_analysis, "y", output_component=output_component)
+
+
+@pytest.mark.parametrize(
     ("output_name", "output_component"),
     [("z", 0), ("y", 1), ("y", -1)],
     ids=["output_name", "output_component_too_large", "output_component_negative"],
