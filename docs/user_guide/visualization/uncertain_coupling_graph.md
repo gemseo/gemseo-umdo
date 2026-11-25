@@ -102,11 +102,25 @@ graph.sample(OT_OPT_LHS_Settings(n_samples=100))
     In the previous example, we used 100 samples.
 
 Lastly,
-this graph can be both displayed in a window and saved on the disk:
+the method
+[draw()][gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.draw]
+draws the graph as a
+[graphviz.Digraph](https://graphviz.readthedocs.io/en/stable/api.html#graphviz.Digraph),
+displayed in a Jupyter notebook
+and saved on the disk with
+[save_graph()][gemseo.post.graph.save_graph],
+the extension of the file setting the format:
 
 ``` py
-graph.visualize()
+from gemseo.post.graph import save_graph
+
+digraph = graph.draw()
+save_graph(digraph, "uncertain_coupling_graph.png")
 ```
+
+The `render()` method of the graph can also save it
+and display it in a window,
+e.g. `digraph.render(outfile="uncertain_coupling_graph.png", view=True)`.
 
 ![Uncertain coupling graph](../../images/uncertain_coupling_graph.png)
 
@@ -126,7 +140,7 @@ e.g. `OT_MONTE_CARLO_Settings(n_samples=100)`,
 to the method
 [sample()][gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.sample].
 
-At the visualization stage,
+At the drawing stage,
 the string argument `dispersion_measure`
 allows to change the dispersion measure (QCD by default).
 

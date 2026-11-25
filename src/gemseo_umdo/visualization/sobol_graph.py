@@ -18,8 +18,9 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from gemseo.post.graph_view import GraphView
 from gemseo.util.string import repr_variable
+from graphviz import Digraph
+from graphviz import nohtml
 from numpy import atleast_1d
 from numpy import atleast_2d
 
@@ -31,65 +32,115 @@ if TYPE_CHECKING:
     from gemseo.util.typing import RealArray
 
 
-class SobolGraph(GraphView):
+class SobolGraph:
     """A network of uncertain variables representing their Sobol' indices.
 
     A node represents an uncertain variable whose name is written inside, followed by
-    its first-order and total-order Sobol' indices.
+    its total-order and first-order Sobol' indices in percent.
 
     The thickness of a node is proportional to the total-order Sobol' index of the
     variable while the thickness of an edge is proportional to the second-order Sobol'
     index of the corresponding pair of variables.
+
+    To be used as:
+
+    1. Instantiate a [SobolGraph][gemseo_umdo.visualization.sobol_graph.SobolGraph]
+       from Sobol' indices,
+       or from a Sobol' analysis with
+       [from_analysis()][gemseo_umdo.visualization.sobol_graph.SobolGraph.from_analysis]
+       or a PCE with
+       [from_pce()][gemseo_umdo.visualization.sobol_graph.SobolGraph.from_pce].
+    2. Draw the graph with
+       [draw()][gemseo_umdo.visualization.sobol_graph.SobolGraph.draw],
+       which returns a
+       [graphviz.Digraph](https://graphviz.readthedocs.io/en/stable/api.html#graphviz.Digraph),
+       displayed in a Jupyter notebook
+       and saved to a file with
+       [save_graph()][gemseo.post.graph.save_graph],
+       e.g. `save_graph(sobol_graph.draw(), "sobol_graph.pdf")`,
+       or with its `render()` method.
     """
 
-    threshold: float
-    """The threshold above which an edge is significant."""
+    __first_order_indices: Mapping[str, float]
+    """The first-order Sobol' indices of the scalar inputs."""
+
+    __second_order_indices: Mapping[tuple[str, str], float]
+    """The second-order Sobol' indices of the scalar inputs."""
+
+    __total_order_indices: Mapping[str, float]
+    """The total-order Sobol' indices of the scalar inputs."""
 
     def __init__(
         self,
         first_order_indices: Mapping[str, float],
         total_order_indices: Mapping[str, float],
         second_order_indices: Mapping[tuple[str, str], float],
-        threshold: float = 0.1,
-        maximum_thickness: float = 10.0,
     ) -> None:
         """
         Args:
             first_order_indices: The first-order Sobol' indices of the scalar inputs,
                 shaped as `{name: index}`.
-            second_order_indices:  The second-order Sobol' indices of the scalar inputs,
-                shaped as `{(name, other_name): index}`.
             total_order_indices: The total-order Sobol' indices of the scalar inputs,
                 shaped as `{name: index}`.
+            second_order_indices:  The second-order Sobol' indices of the scalar inputs,
+                shaped as `{(name, other_name): index}`.
+        """  # noqa: D205 D212 D415
+        self.__first_order_indices = first_order_indices
+        self.__second_order_indices = second_order_indices
+        self.__total_order_indices = total_order_indices
+
+    def draw(self, threshold: float = 0.1, maximum_thickness: float = 10.0) -> Digraph:
+        """Draw the Sobol' graph.
+
+        The graph is neither saved nor shown;
+        use [save_graph()][gemseo.post.graph.save_graph]
+        or its `render()` method to save it.
+
+        Args:
             threshold: The sensitivity threshold
                 above which a second-order index is significant
-                and the corresponding edge plotted.
+                and the corresponding edge drawn.
             maximum_thickness: The maximum thickness of a line.
-        """  # noqa: D205 D212 D415
-        super().__init__(False)
-        variables_to_nodes = {}
+
+        Returns:
+            The Sobol' graph,
+            whose nodes are named `v<i>`, `i` being the position of the variable,
+            and labeled after the variables.
+        """
+        digraph = Digraph(
+            node_attr={"style": "filled", "fillcolor": "white"},
+            edge_attr={"dir": "none"},
+        )
 
         # Add the nodes representing both first- and total-order indices.
-        for name, total_order_index in total_order_indices.items():
-            first_order_index = first_order_indices[name]
-            node_name = (
-                f"{name}\n"
-                f"({round(total_order_index * 100)}, {round(first_order_index * 100)})"
-            )
-            variables_to_nodes[name] = node_name
-            self.node(
+        # The nodes are not named after the variables,
+        # as graphviz reads a colon in a node name of an edge as a port separator.
+        names_to_node_names = {}
+        for i, (name, total_order_index) in enumerate(
+            self.__total_order_indices.items()
+        ):
+            first_order_index = self.__first_order_indices[name]
+            node_name = names_to_node_names[name] = f"v{i}"
+            digraph.node(
                 node_name,
+                label=nohtml(
+                    f"{name}\n"
+                    f"({round(total_order_index * 100)}, "
+                    f"{round(first_order_index * 100)})"
+                ),
                 penwidth=str(total_order_index * maximum_thickness),
             )
 
         # Add the edges representing the second-order indices.
-        for (name, other_name), index in second_order_indices.items():
+        for (name, other_name), index in self.__second_order_indices.items():
             if index >= threshold:
-                self.edge(
-                    variables_to_nodes[name],
-                    variables_to_nodes[other_name],
+                digraph.edge(
+                    names_to_node_names[name],
+                    names_to_node_names[other_name],
                     penwidth=str(index * maximum_thickness),
                 )
+
+        return digraph
 
     @staticmethod
     def __preprocess(indices: dict[str, RealArray]) -> dict[str, float]:

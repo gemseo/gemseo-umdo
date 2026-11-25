@@ -50,4 +50,4 @@ sobol_analysis.compute_indices()
 # Lastly,
 # we draw the Sobol' graph :
 sobol_graph = SobolGraph.from_analysis(sobol_analysis, output_name="obj")
-sobol_graph
+sobol_graph.draw()

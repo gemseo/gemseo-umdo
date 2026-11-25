@@ -67,7 +67,7 @@ sobol_graph = SobolGraph(
         ("X2", "X3"): sobol_23,
     },
 )
-sobol_graph
+sobol_graph.draw()
 
 # %%
 # We can see that
@@ -76,10 +76,14 @@ sobol_graph
 # while an edge represents a second-order index.
 #
 # !!! note
-#     A [SobolGraph][gemseo_umdo.visualization.sobol_graph.SobolGraph]
-#     can easily be displayed in an HTML page or in a Jupyter notebook.
-#     You can also use its `visualize` method
-#     to save it on the disk or display it with a dedicated program.
+#     The method [draw()][gemseo_umdo.visualization.sobol_graph.SobolGraph.draw]
+#     returns a
+#     [graphviz.Digraph](https://graphviz.readthedocs.io/en/stable/api.html#graphviz.Digraph)
+#     displayed in an HTML page or in a Jupyter notebook.
+#     Use [save_graph()][gemseo.post.graph.save_graph]
+#     to save it on the disk,
+#     e.g. `save_graph(sobol_graph.draw(), "sobol_graph.pdf")`,
+#     or its `render()` method to display it with a dedicated program.
 #
 # ## Indices estimated by sampling
 #
@@ -95,7 +99,7 @@ sobol_analysis.compute_indices()
 # %%
 # Then, we plot the Sobol' graph:
 sobol_graph = SobolGraph.from_analysis(sobol_analysis, "y")
-sobol_graph
+sobol_graph.draw()
 # %%
 # and find a figure similar to the previous one.
 #
@@ -128,7 +132,7 @@ pce.learn()
 # ### Create the graph
 # Lastly, we plot the Sobol' graph:
 sobol_graph = SobolGraph.from_pce(pce, "y")
-sobol_graph
+sobol_graph.draw()
 
 # %%
 # We find a figure similar to the previous ones.
