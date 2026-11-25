@@ -6903,10 +6903,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.sample" class="md-nav__link">
+  <a href="#gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.draw" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
-        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;sample
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;draw
       </span>
     </span>
   </a>
@@ -6914,10 +6914,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.visualize" class="md-nav__link">
+  <a href="#gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.sample" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
-        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;visualize
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;sample
       </span>
     </span>
   </a>
@@ -7155,10 +7155,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.sample" class="md-nav__link">
+  <a href="#gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.draw" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
-        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;sample
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;draw
       </span>
     </span>
   </a>
@@ -7166,10 +7166,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.visualize" class="md-nav__link">
+  <a href="#gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.sample" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
-        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;visualize
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;sample
       </span>
     </span>
   </a>
@@ -7274,8 +7274,15 @@ or the quartile coefficient of dispersion (QCD).</p>
    <a class="autorefs autorefs-internal" title="            UncertainCouplingGraph" href="./#gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph">UncertainCouplingGraph</a>.</li>
 <li>Sample the multidisciplinary system, using
    <a class="autorefs autorefs-internal" title="            sample" href="./#gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.sample">sample()</a>.</li>
-<li>Generate the coupling graph for a given dispersion measure, using
-   <a class="autorefs autorefs-internal" title="            visualize" href="./#gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.visualize">visualize()</a>.</li>
+<li>Draw the coupling graph for a given dispersion measure, using
+   <a class="autorefs autorefs-internal" title="            draw" href="./#gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.draw">draw()</a>,
+   which returns a
+   <a href="https://graphviz.readthedocs.io/en/stable/api.html#graphviz.Digraph">graphviz.Digraph</a>,
+   displayed in a Jupyter notebook
+   and saved to a file with
+   <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/post/graph/#gemseo.post.graph.save_graph">save_graph()</a>,
+   e.g. <code>save_graph(graph.draw(), "graph.pdf")</code>,
+   or with its <code>render()</code> method.</li>
 </ol>
 <p>If you want to change the dispersion measure or filter the variables,
 repeat Step 3 with another dispersion measure or a list of variable names.</p>
@@ -7357,15 +7364,7 @@ If <code>None</code>, use all the coupling variables.</p>
 
                   <details class="mkdocstrings-source">
                     <summary>Source code in <code>src/gemseo_umdo/visualization/uncertain_coupling_graph.py</code></summary>
-                    <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 83</span>
-<span class="normal"> 84</span>
-<span class="normal"> 85</span>
-<span class="normal"> 86</span>
-<span class="normal"> 87</span>
-<span class="normal"> 88</span>
-<span class="normal"> 89</span>
-<span class="normal"> 90</span>
-<span class="normal"> 91</span>
+                    <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 91</span>
 <span class="normal"> 92</span>
 <span class="normal"> 93</span>
 <span class="normal"> 94</span>
@@ -7377,7 +7376,15 @@ If <code>None</code>, use all the coupling variables.</p>
 <span class="normal">100</span>
 <span class="normal">101</span>
 <span class="normal">102</span>
-<span class="normal">103</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">disciplines</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Discipline</span><span class="p">],</span>
     <span class="n">uncertain_space</span><span class="p">:</span> <span class="n">BaseVariableSpace</span><span class="p">,</span>
@@ -7465,93 +7472,24 @@ If <code>None</code>, use all the coupling variables.</p>
 <div class="doc doc-object doc-function">
 
 
-<h5 id="gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.sample" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">sample</span>
+<h5 id="gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.draw" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">draw</span>
 
 
-<a href="#gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.sample" class="headerlink" title="Permanent link">&para;</a></h5>
-<div class="doc-signature highlight"><pre><span></span><code><span class="nf">sample</span><span class="p">(</span><span class="n">algorithm_settings</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.doe.core.base_doe_settings.BaseDOESettings" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/doe/core/base_doe_settings/#gemseo.doe.core.base_doe_settings.BaseDOESettings">BaseDOESettings</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
-</code></pre></div>
-
-    <div class="doc doc-contents ">
-
-        <p>Sample the multidisciplinary system.</p>
-
-
-<table>
-      <thead>
-        <tr>
-          <th><span class="doc-section-title">PARAMETER</span></th>
-          <th><span>DESCRIPTION</span></th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                <code>algorithm_settings</code>
-            </td>
-            <td class="doc-param-details">
-              <div class="doc-md-description">
-                <p>The settings of the DOE algorithm,
-e.g. <code>OT_OPT_LHS_Settings(n_samples=100)</code>.</p>
-              </div>
-              <p>
-                  <span class="doc-param-annotation">
-                    <b>TYPE:</b>
-                      <code><a class="autorefs autorefs-external" title="gemseo.doe.core.base_doe_settings.BaseDOESettings" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/doe/core/base_doe_settings/#gemseo.doe.core.base_doe_settings.BaseDOESettings">BaseDOESettings</a></code>
-                  </span>
-              </p>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-            <details class="mkdocstrings-source">
-              <summary>Source code in <code>src/gemseo_umdo/visualization/uncertain_coupling_graph.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">105</span>
-<span class="normal">106</span>
-<span class="normal">107</span>
-<span class="normal">108</span>
-<span class="normal">109</span>
-<span class="normal">110</span>
-<span class="normal">111</span>
-<span class="normal">112</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">algorithm_settings</span><span class="p">:</span> <span class="n">BaseDOESettings</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Sample the multidisciplinary system.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        algorithm_settings: The settings of the DOE algorithm,</span>
-<span class="sd">            e.g. `OT_OPT_LHS_Settings(n_samples=100)`.</span>
-<span class="sd">    """</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">__scenario</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">algorithm_settings</span><span class="p">)</span>
-</code></pre></div></td></tr></table></div>
-            </details>
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-function">
-
-
-<h5 id="gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.visualize" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">visualize</span>
-
-
-<a href="#gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.visualize" class="headerlink" title="Permanent link">&para;</a></h5>
-<div class="doc-signature highlight"><pre><span></span><code><span class="nf">visualize</span><span class="p">(</span>
+<a href="#gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.draw" class="headerlink" title="Permanent link">&para;</a></h5>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">draw</span><span class="p">(</span>
     <span class="n">maximum_thickness</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/functions.html#int">int</a></span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span>
     <span class="n">dispersion_measure</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="            DispersionMeasure (gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.DispersionMeasure)" href="./#gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.DispersionMeasure">DispersionMeasure</a></span> <span class="o">=</span> <span class="n"><span title="gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.DispersionMeasure.QCD">QCD</span></span><span class="p">,</span>
     <span class="n">variable_names</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="collections.abc.Iterable" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable">Iterable</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a></span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">show</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/functions.html#bool">bool</a></span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-    <span class="n">save</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/functions.html#bool">bool</a></span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-    <span class="n">file_path</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a></span> <span class="o">|</span> <span class="n"><a class="autorefs autorefs-external" title="pathlib.Path" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path">Path</a></span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
-    <span class="n">clean_up</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/functions.html#bool">bool</a></span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="gemseo.post.graph_view.GraphView">GraphView</span></span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="graphviz.Digraph">Digraph</span></span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
 
-        <p>Generate the uncertain coupling graph.</p>
+        <p>Draw the uncertain coupling graph.</p>
+<p>The graph is neither saved nor shown;
+use <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/post/graph/#gemseo.post.graph.save_graph">save_graph()</a>
+or its <code>render()</code> method to save it.</p>
 
 
 <table>
@@ -7626,88 +7564,6 @@ use all the coupling variables of interest defined at instantiation.</p>
               </p>
             </td>
           </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>show</code>
-            </td>
-            <td class="doc-param-details">
-              <div class="doc-md-description">
-                <p>Whether to display the graph
-with the default application associated to the file extension.</p>
-              </div>
-              <p>
-                  <span class="doc-param-annotation">
-                    <b>TYPE:</b>
-                      <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/functions.html#bool">bool</a></code>
-                  </span>
-                  <span class="doc-param-default">
-                    <b>DEFAULT:</b>
-                      <code>True</code>
-                  </span>
-              </p>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>save</code>
-            </td>
-            <td class="doc-param-details">
-              <div class="doc-md-description">
-                <p>Whether to save the graph on the disk.</p>
-              </div>
-              <p>
-                  <span class="doc-param-annotation">
-                    <b>TYPE:</b>
-                      <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/functions.html#bool">bool</a></code>
-                  </span>
-                  <span class="doc-param-default">
-                    <b>DEFAULT:</b>
-                      <code>True</code>
-                  </span>
-              </p>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>file_path</code>
-            </td>
-            <td class="doc-param-details">
-              <div class="doc-md-description">
-                <p>The file path with extension to save the graph.
-If <code>""</code>, use the class name with PNG format.</p>
-              </div>
-              <p>
-                  <span class="doc-param-annotation">
-                    <b>TYPE:</b>
-                      <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a> | <a class="autorefs autorefs-external" title="pathlib.Path" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path">Path</a></code>
-                  </span>
-                  <span class="doc-param-default">
-                    <b>DEFAULT:</b>
-                      <code>&#39;&#39;</code>
-                  </span>
-              </p>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>clean_up</code>
-            </td>
-            <td class="doc-param-details">
-              <div class="doc-md-description">
-                <p>Whether to remove the source files.</p>
-              </div>
-              <p>
-                  <span class="doc-param-annotation">
-                    <b>TYPE:</b>
-                      <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/functions.html#bool">bool</a></code>
-                  </span>
-                  <span class="doc-param-default">
-                    <b>DEFAULT:</b>
-                      <code>True</code>
-                  </span>
-              </p>
-            </td>
-          </tr>
       </tbody>
     </table>
 
@@ -7723,12 +7579,14 @@ If <code>""</code>, use the class name with PNG format.</p>
           <tr class="doc-section-item">
             <td>
                 <span class="doc-returns-annotation">
-                    <code><span title="gemseo.post.graph_view.GraphView">GraphView</span></code>
+                    <code><span title="graphviz.Digraph">Digraph</span></code>
                 </span>
             </td>
             <td class="doc-returns-details">
               <div class="doc-md-description">
-                <p>The view of the uncertain coupling graph.</p>
+                <p>The uncertain coupling graph,
+whose nodes are named as described in
+<a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/post/graph/#gemseo.post.graph.draw_coupling_graph">draw_coupling_graph()</a>.</p>
               </div>
             </td>
           </tr>
@@ -7777,15 +7635,7 @@ is drawn with zero thickness.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/gemseo_umdo/visualization/uncertain_coupling_graph.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">114</span>
-<span class="normal">115</span>
-<span class="normal">116</span>
-<span class="normal">117</span>
-<span class="normal">118</span>
-<span class="normal">119</span>
-<span class="normal">120</span>
-<span class="normal">121</span>
-<span class="normal">122</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">122</span>
 <span class="normal">123</span>
 <span class="normal">124</span>
 <span class="normal">125</span>
@@ -7917,17 +7767,31 @@ is drawn with zero thickness.</p>
 <span class="normal">251</span>
 <span class="normal">252</span>
 <span class="normal">253</span>
-<span class="normal">254</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">visualize</span><span class="p">(</span>
+<span class="normal">254</span>
+<span class="normal">255</span>
+<span class="normal">256</span>
+<span class="normal">257</span>
+<span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span>
+<span class="normal">263</span>
+<span class="normal">264</span>
+<span class="normal">265</span>
+<span class="normal">266</span>
+<span class="normal">267</span>
+<span class="normal">268</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">draw</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">maximum_thickness</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span>
     <span class="n">dispersion_measure</span><span class="p">:</span> <span class="n">DispersionMeasure</span> <span class="o">=</span> <span class="n">DispersionMeasure</span><span class="o">.</span><span class="n">QCD</span><span class="p">,</span>
     <span class="n">variable_names</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">show</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-    <span class="n">save</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-    <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
-    <span class="n">clean_up</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GraphView</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Generate the uncertain coupling graph.</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Digraph</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Draw the uncertain coupling graph.</span>
+
+<span class="sd">    The graph is neither saved nor shown;</span>
+<span class="sd">    use [save_graph()][gemseo.post.graph.save_graph]</span>
+<span class="sd">    or its `render()` method to save it.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        maximum_thickness: The maximum thickness of a line,</span>
@@ -7937,15 +7801,11 @@ is drawn with zero thickness.</p>
 <span class="sd">            among those defined at instantiation.</span>
 <span class="sd">            If `None`,</span>
 <span class="sd">            use all the coupling variables of interest defined at instantiation.</span>
-<span class="sd">        show: Whether to display the graph</span>
-<span class="sd">            with the default application associated to the file extension.</span>
-<span class="sd">        save: Whether to save the graph on the disk.</span>
-<span class="sd">        file_path: The file path with extension to save the graph.</span>
-<span class="sd">            If `""`, use the class name with PNG format.</span>
-<span class="sd">        clean_up: Whether to remove the source files.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        The view of the uncertain coupling graph.</span>
+<span class="sd">        The uncertain coupling graph,</span>
+<span class="sd">        whose nodes are named as described in</span>
+<span class="sd">        [draw_coupling_graph()][gemseo.post.graph.draw_coupling_graph].</span>
 
 <span class="sd">    Raises:</span>
 <span class="sd">        ValueError: When a variable of interest</span>
@@ -7975,11 +7835,11 @@ is drawn with zero thickness.</p>
         <span class="p">)</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 
-    <span class="n">dependency_graph</span> <span class="o">=</span> <span class="n">DependencyGraph</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__scenario</span><span class="o">.</span><span class="n">disciplines</span><span class="p">)</span><span class="o">.</span><span class="n">graph</span>
+    <span class="n">dependency_graph</span> <span class="o">=</span> <span class="n">DependencyGraph</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__scenario</span><span class="o">.</span><span class="n">disciplines</span><span class="p">)</span>
     <span class="n">edges</span> <span class="o">=</span> <span class="p">[</span>
         <span class="p">(</span><span class="n">head_disc</span><span class="p">,</span> <span class="n">tail_disc</span><span class="p">,</span> <span class="n">variable_names</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">coupling_names</span><span class="p">))</span>
-        <span class="k">for</span> <span class="n">head_disc</span><span class="p">,</span> <span class="n">tail_disc</span><span class="p">,</span> <span class="n">coupling_names</span> <span class="ow">in</span> <span class="n">dependency_graph</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span>
-            <span class="n">data</span><span class="o">=</span><span class="s2">"io"</span>
+        <span class="k">for</span> <span class="n">head_disc</span><span class="p">,</span> <span class="n">tail_disc</span><span class="p">,</span> <span class="n">coupling_names</span> <span class="ow">in</span> <span class="n">dependency_graph</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">dependency_graph</span><span class="o">.</span><span class="n">io</span>
         <span class="p">)</span>
     <span class="p">]</span>
     <span class="n">edges</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
@@ -7990,12 +7850,8 @@ is drawn with zero thickness.</p>
                 <span class="n">discipline</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">input_grammar</span><span class="o">.</span><span class="n">names</span>
             <span class="p">)</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">discipline</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">output_grammar</span><span class="o">.</span><span class="n">names</span><span class="p">),</span>
         <span class="p">)</span>
-        <span class="k">for</span> <span class="n">discipline</span> <span class="ow">in</span> <span class="n">dependency_graph</span><span class="o">.</span><span class="n">nodes</span>
+        <span class="k">for</span> <span class="n">discipline</span> <span class="ow">in</span> <span class="n">dependency_graph</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">nodes</span>
     <span class="p">)</span>
-    <span class="n">graph_view</span> <span class="o">=</span> <span class="n">GraphView</span><span class="p">()</span>
-    <span class="k">for</span> <span class="n">discipline</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__scenario</span><span class="o">.</span><span class="n">disciplines</span><span class="p">:</span>
-        <span class="n">graph_view</span><span class="o">.</span><span class="n">node</span><span class="p">(</span><span class="n">discipline</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-
     <span class="n">coupling_names</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">names</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">names</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">))</span>
     <span class="n">output_names_to_measures</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="c1"># Skip an empty selection, for which there is no history to stack.</span>
@@ -8042,22 +7898,104 @@ is drawn with zero thickness.</p>
             <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">measure</span> <span class="ow">in</span> <span class="n">output_names_to_measures</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
         <span class="p">}</span>
 
-    <span class="k">for</span> <span class="n">head_disc</span><span class="p">,</span> <span class="n">tail_disc</span><span class="p">,</span> <span class="n">names</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">coupling_name</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">names</span><span class="p">):</span>
-            <span class="n">disp_meas</span> <span class="o">=</span> <span class="n">output_names_to_measures</span><span class="p">[</span><span class="n">coupling_name</span><span class="p">]</span>
-            <span class="n">coupling_size</span> <span class="o">=</span> <span class="n">disp_meas</span><span class="o">.</span><span class="n">size</span>
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">coupling_size</span><span class="p">):</span>
-                <span class="n">graph_view</span><span class="o">.</span><span class="n">edge</span><span class="p">(</span>
-                    <span class="n">head_disc</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-                    <span class="n">tail_disc</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-                    <span class="n">label</span><span class="o">=</span><span class="n">repr_variable</span><span class="p">(</span><span class="n">coupling_name</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">coupling_size</span><span class="p">),</span>
-                    <span class="n">penwidth</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">disp_meas</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">maximum_thickness</span><span class="p">,</span> <span class="mi">2</span><span class="p">)),</span>
-                <span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_edges</span><span class="p">(</span>
+        <span class="n">tail</span><span class="p">:</span> <span class="n">BaseDiscipline</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">head</span><span class="p">:</span> <span class="n">BaseDiscipline</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">"""Return the attributes of the edges of a coupling variable.</span>
 
-    <span class="k">if</span> <span class="n">save</span><span class="p">:</span>
-        <span class="n">graph_view</span><span class="o">.</span><span class="n">visualize</span><span class="p">(</span><span class="n">show</span><span class="o">=</span><span class="n">show</span><span class="p">,</span> <span class="n">file_path</span><span class="o">=</span><span class="n">file_path</span><span class="p">,</span> <span class="n">clean_up</span><span class="o">=</span><span class="n">clean_up</span><span class="p">)</span>
+<span class="sd">        Args:</span>
+<span class="sd">            tail: The tail discipline of the edges.</span>
+<span class="sd">            head: The head discipline of the edges,</span>
+<span class="sd">                `None` for the outputs of a leaf discipline.</span>
+<span class="sd">            name: The name of the coupling variable.</span>
 
-    <span class="k">return</span> <span class="n">graph_view</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            The attributes of the edges, one edge per component,</span>
+<span class="sd">            none for an output of a leaf discipline</span>
+<span class="sd">            or a variable that is not of interest.</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="n">head</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">output_names_to_measures</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[]</span>
+
+        <span class="n">measure</span> <span class="o">=</span> <span class="n">output_names_to_measures</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="n">measure</span><span class="o">.</span><span class="n">size</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">"label"</span><span class="p">:</span> <span class="n">repr_variable</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">size</span><span class="p">),</span>
+                <span class="s2">"penwidth"</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">measure</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">maximum_thickness</span><span class="p">,</span> <span class="mi">2</span><span class="p">)),</span>
+            <span class="p">}</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+        <span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">draw_coupling_graph</span><span class="p">(</span><span class="n">dependency_graph</span><span class="p">,</span> <span class="n">get_edges</span><span class="o">=</span><span class="n">get_edges</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.sample" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">sample</span>
+
+
+<a href="#gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.sample" class="headerlink" title="Permanent link">&para;</a></h5>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">sample</span><span class="p">(</span><span class="n">algorithm_settings</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.doe.core.base_doe_settings.BaseDOESettings" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/doe/core/base_doe_settings/#gemseo.doe.core.base_doe_settings.BaseDOESettings">BaseDOESettings</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Sample the multidisciplinary system.</p>
+
+
+<table>
+      <thead>
+        <tr>
+          <th><span class="doc-section-title">PARAMETER</span></th>
+          <th><span>DESCRIPTION</span></th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>algorithm_settings</code>
+            </td>
+            <td class="doc-param-details">
+              <div class="doc-md-description">
+                <p>The settings of the DOE algorithm,
+e.g. <code>OT_OPT_LHS_Settings(n_samples=100)</code>.</p>
+              </div>
+              <p>
+                  <span class="doc-param-annotation">
+                    <b>TYPE:</b>
+                      <code><a class="autorefs autorefs-external" title="gemseo.doe.core.base_doe_settings.BaseDOESettings" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/doe/core/base_doe_settings/#gemseo.doe.core.base_doe_settings.BaseDOESettings">BaseDOESettings</a></code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/gemseo_umdo/visualization/uncertain_coupling_graph.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">algorithm_settings</span><span class="p">:</span> <span class="n">BaseDOESettings</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Sample the multidisciplinary system.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        algorithm_settings: The settings of the DOE algorithm,</span>
+<span class="sd">            e.g. `OT_OPT_LHS_Settings(n_samples=100)`.</span>
+<span class="sd">    """</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__scenario</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">algorithm_settings</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>

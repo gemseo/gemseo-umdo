@@ -8074,6 +8074,41 @@ and this project adheres to
 </ul>
 <h3 id="changed">Changed<a class="headerlink" href="#changed" title="Permanent link">&para;</a></h3>
 <ul>
+<li>BREAKING CHANGE:
+  <a class="autorefs autorefs-internal" title="            SobolGraph" href="../reference/gemseo_umdo/visualization/sobol_graph/#gemseo_umdo.visualization.sobol_graph.SobolGraph">SobolGraph</a>
+  is no longer a graph but holds the Sobol' indices,
+  as GEMSEO removed <code>GraphView</code>;
+  its new method
+  <a class="autorefs autorefs-internal" title="            draw" href="../reference/gemseo_umdo/visualization/sobol_graph/#gemseo_umdo.visualization.sobol_graph.SobolGraph.draw">draw()</a>
+  returns the graph as a
+  <a href="https://graphviz.readthedocs.io/en/stable/api.html#graphviz.Digraph">graphviz.Digraph</a>,
+  displayed in a Jupyter notebook
+  and saved with
+  <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/post/graph/#gemseo.post.graph.save_graph">save_graph()</a>
+  or its <code>render()</code> method,
+  e.g. <code>save_graph(SobolGraph.from_analysis(analysis, "y").draw(), "graph.pdf")</code>.
+  The arguments <code>threshold</code> and <code>maximum_thickness</code>
+  moved from the constructor to
+  <a class="autorefs autorefs-internal" title="            draw" href="../reference/gemseo_umdo/visualization/sobol_graph/#gemseo_umdo.visualization.sobol_graph.SobolGraph.draw">draw()</a>
+  and the attribute <code>threshold</code> was removed.
+  The nodes are named <code>"v&lt;i&gt;"</code> for the variable at position <code>i</code>
+  instead of their labels.</li>
+<li>BREAKING CHANGE:
+  <code>UncertainCouplingGraph.visualize()</code> was replaced by
+  <a class="autorefs autorefs-internal" title="            draw" href="../reference/gemseo_umdo/visualization/uncertain_coupling_graph/#gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.draw">UncertainCouplingGraph.draw()</a>,
+  which returns a
+  <a href="https://graphviz.readthedocs.io/en/stable/api.html#graphviz.Digraph">graphviz.Digraph</a>
+  drawn by <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/post/graph/#gemseo.post.graph.draw_coupling_graph">draw_coupling_graph()</a>
+  instead of a <code>GraphView</code>,
+  and neither saves nor shows it:
+  the arguments <code>show</code>, <code>save</code>, <code>file_path</code> and <code>clean_up</code> were removed;
+  save the graph with
+  <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/post/graph/#gemseo.post.graph.save_graph">save_graph()</a>
+  or its <code>render()</code> method,
+  e.g. <code>save_graph(graph.draw(), "graph.pdf")</code>.
+  The nodes are named <code>"d&lt;i&gt;"</code> for the discipline at position <code>i</code>,
+  as described in <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/post/graph/#gemseo.post.graph.draw_coupling_graph">draw_coupling_graph()</a>,
+  and the edges show the tooltips of the coupling variables.</li>
 <li><a class="autorefs autorefs-internal" title="            AdvancedBeamRandomSpace" href="../reference/gemseo_umdo/problem/beam_model/advanced_random_space/#gemseo_umdo.problem.beam_model.advanced_random_space.AdvancedBeamRandomSpace">AdvancedBeamRandomSpace</a>
   raises a <code>ValueError</code>
   when a name in <code>nominal_values</code> or in the dispersions is not an uncertain variable,
@@ -8319,12 +8354,12 @@ and this project adheres to
   a U-scenario whose driver requires this Jacobian
   raises it before executing the driver, so before sampling the disciplines.</li>
 <li>BREAKING CHANGE:
-  <a class="autorefs autorefs-internal" title="            visualize" href="../reference/gemseo_umdo/visualization/uncertain_coupling_graph/#gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.visualize">UncertainCouplingGraph.visualize()</a>
+  <a class="autorefs autorefs-internal" title="            draw" href="../reference/gemseo_umdo/visualization/uncertain_coupling_graph/#gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.draw">UncertainCouplingGraph.draw()</a>
   raises a <code>ValueError</code> naming the variables of interest
   that were not defined at instantiation;
   previously, such a variable was ignored if it was not a coupling variable
   and raised a <code>KeyError</code> otherwise.</li>
-<li><a class="autorefs autorefs-internal" title="            visualize" href="../reference/gemseo_umdo/visualization/uncertain_coupling_graph/#gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.visualize">UncertainCouplingGraph.visualize()</a>
+<li><a class="autorefs autorefs-internal" title="            draw" href="../reference/gemseo_umdo/visualization/uncertain_coupling_graph/#gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.draw">UncertainCouplingGraph.draw()</a>
   scales the thickness of the edges by the largest finite absolute dispersion,
   so that the most dispersed coupling is drawn with <code>maximum_thickness</code>;
   previously, the thickness was the dispersion times <code>maximum_thickness</code>,
@@ -8362,7 +8397,7 @@ and this project adheres to
 <li><a class="autorefs autorefs-internal" title="            UncertainCouplingGraph" href="../reference/gemseo_umdo/visualization/uncertain_coupling_graph/#gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph">UncertainCouplingGraph</a>
   accepts a single-use iterable of variable names, e.g. a generator, at instantiation;
   previously, this iterable was exhausted at instantiation
-  and <a class="autorefs autorefs-internal" title="            visualize" href="../reference/gemseo_umdo/visualization/uncertain_coupling_graph/#gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.visualize">visualize()</a>
+  and <a class="autorefs autorefs-internal" title="            draw" href="../reference/gemseo_umdo/visualization/uncertain_coupling_graph/#gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.draw">draw()</a>
   drew no edge.</li>
 <li>The sampling-based U-MDO formulations sample the disciplines once per design point
   to estimate the objective and the constraints,
@@ -8514,7 +8549,7 @@ and this project adheres to
   is normalized by the mean of this component;
   previously, it was normalized by the mean of all the components,
   which changed the thickness of the edges of a vector coupling variable.</li>
-<li><a class="autorefs autorefs-internal" title="            visualize" href="../reference/gemseo_umdo/visualization/uncertain_coupling_graph/#gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.visualize">UncertainCouplingGraph.visualize()</a>
+<li><a class="autorefs autorefs-internal" title="            draw" href="../reference/gemseo_umdo/visualization/uncertain_coupling_graph/#gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.draw">UncertainCouplingGraph.draw()</a>
   draws an edge of maximum thickness for an infinite dispersion,
   e.g. the coefficient of variation of a non-constant component whose mean is zero,
   and an edge of zero thickness for an undefined dispersion,

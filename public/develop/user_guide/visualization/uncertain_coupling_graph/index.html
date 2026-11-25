@@ -7222,9 +7222,22 @@ using an <a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/de
 In the previous example, we used 100 samples.</p>
 </div>
 <p>Lastly,
-this graph can be both displayed in a window and saved on the disk:</p>
-<div class="highlight"><pre><span></span><code><span class="n">graph</span><span class="o">.</span><span class="n">visualize</span><span class="p">()</span>
+the method
+<a class="autorefs autorefs-internal" title="            draw" href="../../../reference/gemseo_umdo/visualization/uncertain_coupling_graph/#gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.draw">draw()</a>
+draws the graph as a
+<a href="https://graphviz.readthedocs.io/en/stable/api.html#graphviz.Digraph">graphviz.Digraph</a>,
+displayed in a Jupyter notebook
+and saved on the disk with
+<a class="autorefs autorefs-external" href="https://gemseo.gitlab.io/dev/gemseo/develop/reference/gemseo/post/graph/#gemseo.post.graph.save_graph">save_graph()</a>,
+the extension of the file setting the format:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.post.graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">save_graph</span>
+
+<span class="n">digraph</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+<span class="n">save_graph</span><span class="p">(</span><span class="n">digraph</span><span class="p">,</span> <span class="s2">"uncertain_coupling_graph.png"</span><span class="p">)</span>
 </code></pre></div>
+<p>The <code>render()</code> method of the graph can also save it
+and display it in a window,
+e.g. <code>digraph.render(outfile="uncertain_coupling_graph.png", view=True)</code>.</p>
 <p><img alt="Uncertain coupling graph" src="../../../images/uncertain_coupling_graph.png" /></p>
 <p><em>Uncertainty coupling graph from the Sobieski's SSBJ problem.</em></p>
 <div class="admonition note">
@@ -7240,7 +7253,7 @@ by passing other DOE settings,
 e.g. <code>OT_MONTE_CARLO_Settings(n_samples=100)</code>,
 to the method
 <a class="autorefs autorefs-internal" title="            sample" href="../../../reference/gemseo_umdo/visualization/uncertain_coupling_graph/#gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.sample">sample()</a>.</p>
-<p>At the visualization stage,
+<p>At the drawing stage,
 the string argument <code>dispersion_measure</code>
 allows to change the dispersion measure (QCD by default).</p>
 <p>It is also possible to filter some coupling variables

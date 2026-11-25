@@ -8237,7 +8237,7 @@ we draw the Sobol' graph:</p>
 <!-- GENERATED FROM PYTHON SOURCE LINES 73-75 -->
 
 <div class="highlight"><pre><span></span><code><span class="n">sobol_graph</span> <span class="o">=</span> <span class="n">SobolGraph</span><span class="o">.</span><span class="n">from_analysis</span><span class="p">(</span><span class="n">sobol_analysis</span><span class="p">,</span> <span class="n">output_name</span><span class="o">=</span><span class="s2">"y_4"</span><span class="p">)</span>
-<span class="n">sobol_graph</span>
+<span class="n">sobol_graph</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
 </code></pre></div>
 <div class="output_subarea output_html rendered_html output_result">
     <?xml version="1.0" encoding="UTF-8" standalone="no"?>
@@ -8250,130 +8250,94 @@ we draw the Sobol' graph:</p>
      viewBox="0.00 0.00 823.00 147.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 143.24)">
     <polygon fill="white" stroke="none" points="-4,4 -4,-143.24 819.22,-143.24 819.22,4 -4,4"/>
-    <!-- x_1[0]
-    (0, 13) -->
+    <!-- v0 -->
     <g id="node1" class="node">
-    <title>x_1[0]
-    (0, 13)</title>
+    <title>v0</title>
     <ellipse fill="white" stroke="black" stroke-width="0" cx="37.3" cy="-113.43" rx="37.3" ry="25.81"/>
     <text xml:space="preserve" text-anchor="middle" x="37.3" y="-114.38" font-family="Times,serif" font-size="14.00">x_1[0]</text>
     <text xml:space="preserve" text-anchor="middle" x="37.3" y="-100.13" font-family="Times,serif" font-size="14.00">(0, 13)</text>
     </g>
-    <!-- x_1[1]
-    (0, 13) -->
+    <!-- v1 -->
     <g id="node2" class="node">
-    <title>x_1[1]
-    (0, 13)</title>
+    <title>v1</title>
     <ellipse fill="white" stroke="black" stroke-width="0.01" cx="130.3" cy="-113.43" rx="37.3" ry="25.81"/>
     <text xml:space="preserve" text-anchor="middle" x="130.3" y="-114.38" font-family="Times,serif" font-size="14.00">x_1[1]</text>
     <text xml:space="preserve" text-anchor="middle" x="130.3" y="-100.13" font-family="Times,serif" font-size="14.00">(0, 13)</text>
     </g>
-    <!-- x_2
-    (0, 13) -->
+    <!-- v2 -->
     <g id="node3" class="node">
-    <title>x_2
-    (0, 13)</title>
+    <title>v2</title>
     <ellipse fill="white" stroke="black" stroke-width="0" cx="223.3" cy="-113.43" rx="37.3" ry="25.81"/>
     <text xml:space="preserve" text-anchor="middle" x="223.3" y="-114.38" font-family="Times,serif" font-size="14.00">x_2</text>
     <text xml:space="preserve" text-anchor="middle" x="223.3" y="-100.13" font-family="Times,serif" font-size="14.00">(0, 13)</text>
     </g>
-    <!-- x_3
-    (1, 12) -->
+    <!-- v3 -->
     <g id="node4" class="node">
-    <title>x_3
-    (1, 12)</title>
+    <title>v3</title>
     <ellipse fill="white" stroke="black" stroke-width="0.08" cx="316.3" cy="-113.43" rx="37.3" ry="25.81"/>
     <text xml:space="preserve" text-anchor="middle" x="316.3" y="-114.38" font-family="Times,serif" font-size="14.00">x_3</text>
     <text xml:space="preserve" text-anchor="middle" x="316.3" y="-100.13" font-family="Times,serif" font-size="14.00">(1, 12)</text>
     </g>
-    <!-- x_shared[0]
-    (3, 8) -->
+    <!-- v4 -->
     <g id="node5" class="node">
-    <title>x_shared[0]
-    (3, 8)</title>
+    <title>v4</title>
     <ellipse fill="white" stroke="black" stroke-width="0.34" cx="428.3" cy="-113.43" rx="56.92" ry="25.81"/>
     <text xml:space="preserve" text-anchor="middle" x="428.3" y="-114.38" font-family="Times,serif" font-size="14.00">x_shared[0]</text>
     <text xml:space="preserve" text-anchor="middle" x="428.3" y="-100.13" font-family="Times,serif" font-size="14.00">(3, 8)</text>
     </g>
-    <!-- x_shared[1]
-    (73, 28) -->
+    <!-- v5 -->
     <g id="node6" class="node">
-    <title>x_shared[1]
-    (73, 28)</title>
+    <title>v5</title>
     <ellipse fill="white" stroke="black" stroke-width="7.25" cx="560.3" cy="-113.43" rx="56.92" ry="25.81"/>
     <text xml:space="preserve" text-anchor="middle" x="560.3" y="-114.38" font-family="Times,serif" font-size="14.00">x_shared[1]</text>
     <text xml:space="preserve" text-anchor="middle" x="560.3" y="-100.13" font-family="Times,serif" font-size="14.00">(73, 28)</text>
     </g>
-    <!-- x_shared[2]
-    (11, 37) -->
+    <!-- v6 -->
     <g id="node7" class="node">
-    <title>x_shared[2]
-    (11, 37)</title>
+    <title>v6</title>
     <ellipse fill="white" stroke="black" stroke-width="1.12" cx="362.3" cy="-25.81" rx="56.92" ry="25.81"/>
     <text xml:space="preserve" text-anchor="middle" x="362.3" y="-26.76" font-family="Times,serif" font-size="14.00">x_shared[2]</text>
     <text xml:space="preserve" text-anchor="middle" x="362.3" y="-12.51" font-family="Times,serif" font-size="14.00">(11, 37)</text>
     </g>
-    <!-- x_shared[1]
-    (73, 28)&#45;&gt;x_shared[2]
-    (11, 37) -->
+    <!-- v5&#45;&gt;v6 -->
     <g id="edge1" class="edge">
-    <title>x_shared[1]
-    (73, 28)&#45;&gt;x_shared[2]
-    (11, 37)</title>
+    <title>v5&#45;&gt;v6</title>
     <path fill="none" stroke="black" stroke-width="3.21" d="M516.36,-93.43C482.41,-78.75 435.79,-58.59 402.75,-44.3"/>
     </g>
-    <!-- x_shared[3]
-    (5, 17) -->
+    <!-- v7 -->
     <g id="node8" class="node">
-    <title>x_shared[3]
-    (5, 17)</title>
+    <title>v7</title>
     <ellipse fill="white" stroke="black" stroke-width="0.47" cx="494.3" cy="-25.81" rx="56.92" ry="25.81"/>
     <text xml:space="preserve" text-anchor="middle" x="494.3" y="-26.76" font-family="Times,serif" font-size="14.00">x_shared[3]</text>
     <text xml:space="preserve" text-anchor="middle" x="494.3" y="-12.51" font-family="Times,serif" font-size="14.00">(5, 17)</text>
     </g>
-    <!-- x_shared[1]
-    (73, 28)&#45;&gt;x_shared[3]
-    (5, 17) -->
+    <!-- v5&#45;&gt;v7 -->
     <g id="edge2" class="edge">
-    <title>x_shared[1]
-    (73, 28)&#45;&gt;x_shared[3]
-    (5, 17)</title>
+    <title>v5&#45;&gt;v7</title>
     <path fill="none" stroke="black" stroke-width="2.93" d="M539.78,-85.81C531,-74.42 520.84,-61.24 512.35,-50.23"/>
     </g>
-    <!-- x_shared[4]
-    (0, 20) -->
+    <!-- v8 -->
     <g id="node9" class="node">
-    <title>x_shared[4]
-    (0, 20)</title>
+    <title>v8</title>
     <ellipse fill="white" stroke="black" stroke-width="0" cx="626.3" cy="-25.81" rx="56.92" ry="25.81"/>
     <text xml:space="preserve" text-anchor="middle" x="626.3" y="-26.76" font-family="Times,serif" font-size="14.00">x_shared[4]</text>
     <text xml:space="preserve" text-anchor="middle" x="626.3" y="-12.51" font-family="Times,serif" font-size="14.00">(0, 20)</text>
     </g>
-    <!-- x_shared[1]
-    (73, 28)&#45;&gt;x_shared[4]
-    (0, 20) -->
+    <!-- v5&#45;&gt;v8 -->
     <g id="edge3" class="edge">
-    <title>x_shared[1]
-    (73, 28)&#45;&gt;x_shared[4]
-    (0, 20)</title>
+    <title>v5&#45;&gt;v8</title>
     <path fill="none" stroke="black" stroke-width="4.19" d="M580.82,-85.81C589.6,-74.42 599.76,-61.24 608.25,-50.23"/>
     </g>
-    <!-- x_shared[5]
-    (5, 17) -->
+    <!-- v9 -->
     <g id="node10" class="node">
-    <title>x_shared[5]
-    (5, 17)</title>
+    <title>v9</title>
     <ellipse fill="white" stroke="black" stroke-width="0.49" cx="758.3" cy="-25.81" rx="56.92" ry="25.81"/>
     <text xml:space="preserve" text-anchor="middle" x="758.3" y="-26.76" font-family="Times,serif" font-size="14.00">x_shared[5]</text>
     <text xml:space="preserve" text-anchor="middle" x="758.3" y="-12.51" font-family="Times,serif" font-size="14.00">(5, 17)</text>
     </g>
-    <!-- x_shared[1]
-    (73, 28)&#45;&gt;x_shared[5]
-    (5, 17) -->
+    <!-- v5&#45;&gt;v9 -->
     <g id="edge4" class="edge">
-    <title>x_shared[1]
-    (73, 28)&#45;&gt;x_shared[5]
-    (5, 17)</title>
+    <title>v5&#45;&gt;v9</title>
     <path fill="none" stroke="black" stroke-width="2.83" d="M604.24,-93.43C638.31,-78.7 685.13,-58.45 718.18,-44.16"/>
     </g>
     </g>
@@ -8381,7 +8345,7 @@ we draw the Sobol' graph:</p>
 
 </div>
 
-<p><strong>Total running time of the script:</strong> ( 0 minutes  0.820 seconds)</p>
+<p><strong>Total running time of the script:</strong> ( 0 minutes  0.872 seconds)</p>
 <div id="download_links"></div>
 
 <p><a class="md-button center" href=".././plot_sobieski_sobol_graph.py"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2026 Fonticons, Inc.--><path fill="currentColor" d="M256 32c0-17.7-14.3-32-32-32s-32 14.3-32 32v210.7l-41.4-41.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l96 96c12.5 12.5 32.8 12.5 45.3 0l96-96c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 242.7zM64 320c-35.3 0-64 28.7-64 64v32c0 35.3 28.7 64 64 64h320c35.3 0 64-28.7 64-64v-32c0-35.3-28.7-64-64-64h-46.9l-56.6 56.6c-31.2 31.2-81.9 31.2-113.1 0L110.9 320zm304 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48"/></svg></span> Download Python source code: plot_sobieski_sobol_graph.py</a></p>
