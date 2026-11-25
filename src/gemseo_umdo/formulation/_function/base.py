@@ -32,7 +32,6 @@ from gemseo.core.function.array_function import ArrayFunction
 from gemseo.core.problem.database import Database
 from gemseo.util.hashable_ndarray import HashableNdarray
 from gemseo.util.metaclass import ABCGoogleDocstringInheritanceMeta
-from pydantic import BaseModel
 
 if TYPE_CHECKING:
     from gemseo.doe import EvaluationProblem
@@ -47,37 +46,6 @@ UMDOFormulationT = TypeVar("UMDOFormulationT", bound="BaseUMDOFormulation")
 _with_jacobian_name: Final[str] = "__with_jacobian__"
 """The name of the flag of the cached data telling whether they also allow
 to estimate the Jacobians of the statistics."""
-
-_SettingsT = TypeVar("_SettingsT", bound=BaseModel)
-
-
-def copy_settings(settings: _SettingsT, **update: Any) -> _SettingsT:
-    """Copy settings and their nested settings.
-
-    A regressor can change its settings in place,
-    e.g. the settings of the linear model fitter of a functional chaos expansion.
-    A deep copy would also copy the other values,
-    e.g. a discipline or an OpenTURNS object,
-    which can be costly or impossible.
-
-    Args:
-        settings: The settings.
-        **update: The fields to update in the copy.
-
-    Returns:
-        A copy of the settings
-        whose nested settings are copied in the same way.
-    """
-    return settings.model_copy(
-        update={
-            **{
-                name: copy_settings(value)
-                for name, value in settings
-                if isinstance(value, BaseModel)
-            },
-            **update,
-        }
-    )
 
 
 class BaseStatisticFunction(

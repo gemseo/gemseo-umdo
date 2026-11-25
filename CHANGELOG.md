@@ -507,6 +507,8 @@ and this project adheres to
       no longer changes the `n_samples` of the settings of its DOE algorithm;
       previously, it set it to `initial_n_samples`
       and then increased it during the optimization;
+      its name now shows this maximum number of samples
+      instead of `initial_n_samples`;
     - [Surrogate][gemseo_umdo.formulation.surrogate.Surrogate]
       and [PCE][gemseo_umdo.formulation.pce.PCE]
       no longer change the `eval_jac` and `evaluate_observable_jacobian`
@@ -520,7 +522,7 @@ and this project adheres to
     - [PCE][gemseo_umdo.formulation.pce.PCE],
       [Surrogate][gemseo_umdo.formulation.surrogate.Surrogate]
       and [ControlVariate][gemseo_umdo.formulation.control_variate.ControlVariate]
-      train their regressor from a copy of its settings and of their nested settings;
+      no longer change the settings of their regressor and their nested settings;
       previously, a training could change them,
       e.g. an `FCERegressor` set the `fit_intercept` of its `linear_model_fitter_settings` to `False`.
 - [SequentialSampling_Settings][gemseo_umdo.formulation.sequential_sampling_settings.SequentialSampling_Settings]

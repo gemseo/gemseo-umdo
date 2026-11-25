@@ -55,7 +55,6 @@ from gemseo_umdo.formulation.sequential_sampling_settings import (
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
-    from typing import Any
 
     from gemseo.core.problem.evaluation import EvaluationProblem
     from gemseo.discipline import Discipline
@@ -88,14 +87,6 @@ class SequentialSampling(Sampling):
     so that a later change of these settings has no effect.
     """
 
-    __n_samples: int
-    """The number of samples of the next sampling.
-
-    It starts at `initial_n_samples`
-    and increases up to the maximum number of samples;
-    the DOE settings are left unchanged.
-    """
-
     __last_input_point: HashableNdarray | None
     """The last sampled input point, if any.
 
@@ -117,7 +108,6 @@ class SequentialSampling(Sampling):
     ) -> None:
         settings = create_model(self.settings_class, settings_model=settings)
         self.__final_n_samples = settings.doe_algo_settings.n_samples
-        self.__n_samples = settings.initial_n_samples
         self.__last_input_point = None
         super().__init__(
             problem,
@@ -126,6 +116,9 @@ class SequentialSampling(Sampling):
             uncertain_space=uncertain_space,
             mdo_formulation_settings=mdo_formulation_settings,
         )
+        # The number of samples starts at initial_n_samples
+        # and increases up to the maximum number of samples.
+        self._settings.doe_algo_settings.n_samples = settings.initial_n_samples
 
     def compute_samples(
         self,
@@ -143,13 +136,16 @@ class SequentialSampling(Sampling):
         input_point = HashableNdarray(input_data, copy=True)
         last_input_point = self.__last_input_point
         if last_input_point is not None and input_point != last_input_point:
-            n_samples = self.__n_samples
+            doe_algo_settings = self._settings.doe_algo_settings
+            n_samples = doe_algo_settings.n_samples
             next_n_samples = min(
                 self.__final_n_samples,
                 n_samples + self._settings.n_samples_increment(n_samples),
             )
             try:
-                self.__n_samples = _positive_int_adapter.validate_python(next_n_samples)
+                doe_algo_settings.n_samples = _positive_int_adapter.validate_python(
+                    next_n_samples
+                )
             except ValidationError as err:
                 msg = (
                     f"The sampling size must be a positive integer; "
@@ -160,6 +156,3 @@ class SequentialSampling(Sampling):
 
         self.__last_input_point = input_point
         super().compute_samples(problem, input_data, compute_jacobian=compute_jacobian)
-
-    def _get_doe_algo_settings_update(self) -> dict[str, Any]:  # noqa: D102
-        return {"n_samples": self.__n_samples}

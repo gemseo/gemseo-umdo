@@ -20,6 +20,7 @@ from typing import TYPE_CHECKING
 from typing import Any
 from typing import ClassVar
 from typing import Final
+from typing import TypeVar
 from weakref import WeakKeyDictionary
 
 from gemseo.core.function.array_function import ArrayFunction
@@ -33,6 +34,7 @@ from gemseo.util.data_conversion import split_array_to_dict_of_arrays
 from gemseo.util.hashable_ndarray import HashableNdarray
 from gemseo.util.string import convert_strings_to_iterable
 from gemseo.util.string import pretty_repr
+from pydantic import BaseModel
 
 from gemseo_umdo.formulation._function.base import BaseStatisticFunction
 from gemseo_umdo.statistic.settings.core.factory import StatisticSettingsFactory
@@ -53,10 +55,35 @@ if TYPE_CHECKING:
     from gemseo_umdo.formulation.core.base_settings import BaseUMDOFormulationSettings
     from gemseo_umdo.statistic.settings.core.base import BaseStatisticSettings
 
+_SettingsT = TypeVar("_SettingsT", bound=BaseModel)
+
 _functions_attribute_name: Final[str] = (
     "_BaseUMDOFormulation__objective_and_constraint_functions"
 )
 """The name of the attribute weakly referencing the objectives and constraints."""
+
+
+def _copy_settings(settings: _SettingsT) -> _SettingsT:
+    """Copy settings and their nested settings.
+
+    A deep copy would also copy the other values,
+    e.g. a discipline or an OpenTURNS object,
+    which can be costly or impossible.
+
+    Args:
+        settings: The settings.
+
+    Returns:
+        A copy of the settings
+        whose nested settings are copied in the same way.
+    """
+    return settings.model_copy(
+        update={
+            name: _copy_settings(value)
+            for name, value in settings
+            if isinstance(value, BaseModel)
+        }
+    )
 
 
 class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignSpace]):
@@ -66,14 +93,16 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
     uncertainty, a.k.a. U-MDO problem, as a standard optimization problem without
     uncertainty.
 
-    The U-MDO formulation stores the settings passed at instantiation,
+    The U-MDO formulation stores a copy of the settings passed at instantiation,
     including their nested settings, e.g. the DOE settings,
-    and never changes them,
-    so that they can be reused, e.g. to create another U-MDO formulation.
-    A value that differs from these settings,
+    and can change this copy,
     e.g. a number of samples that varies during the optimization,
-    is applied to a copy made when it is used,
-    e.g. with `model_copy(update=...)`.
+    so that the settings of the user are left unchanged
+    and can be reused, e.g. to create another U-MDO formulation.
+    The values that are neither settings nor nested settings,
+    e.g. a list of callbacks,
+    are shared with the user
+    and must be replaced rather than changed in place.
     """
 
     _use_auxiliary_mdo_formulation: ClassVar[bool] = False
@@ -221,6 +250,10 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
             self._auxiliary_mdo_formulation = None
 
         super().__init__(problem, disciplines, settings=settings)
+        # A regressor or a U-MDO formulation can change its settings in place,
+        # e.g. the settings of the linear model fitter of a functional chaos expansion,
+        # so the U-MDO formulation uses a copy of the settings of the user.
+        self._settings = _copy_settings(self._settings)
         self.name = (
             f"{self.__class__.__name__}[{self._mdo_formulation.__class__.__name__}]"
         )

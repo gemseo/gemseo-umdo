@@ -195,12 +195,9 @@ class Surrogate(BaseUMDOFormulation):
             problem: The problem.
             compute_jacobian: Whether to compute the Jacobian of the objective.
         """
-        doe_algo_settings = self._settings.doe_algo_settings.model_copy(
-            update={
-                "eval_jac": compute_jacobian,
-                "evaluate_observable_jacobian": compute_jacobian,
-            }
-        )
+        doe_algo_settings = self._settings.doe_algo_settings
+        doe_algo_settings.eval_jac = compute_jacobian
+        doe_algo_settings.evaluate_observable_jacobian = compute_jacobian
         with LoggingContext(logging.getLogger("gemseo")):
             self.__doe_algo.execute(problem, settings=doe_algo_settings)
 

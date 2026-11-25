@@ -615,5 +615,5 @@ def test_settings_of_the_user_unchanged(
             eval_jac=eval_jac,
         )
     )
-    assert scenario.formulation._settings is settings
+    assert scenario.formulation._settings is not settings
     assert settings == expected_settings

@@ -27,7 +27,6 @@ from typing import TypeVar
 from gemseo.machine_learning.regression.model.factory import RegressorFactory
 
 from gemseo_umdo.formulation._function.base import BaseStatisticFunction
-from gemseo_umdo.formulation._function.base import copy_settings
 
 if TYPE_CHECKING:
     from gemseo.core.problem.database import DatabaseKeyType
@@ -73,10 +72,7 @@ class StatisticFunctionForSurrogate(BaseStatisticFunction[SurrogateT]):
         umdo_formulation = self._umdo_formulation
         problem = umdo_formulation.mdo_formulation.problem
         samples = umdo_formulation.compute_samples(problem)
-        # A copy per training leaves the settings of the user unchanged.
-        regressor_settings = copy_settings(
-            umdo_formulation._settings.regressor_settings
-        )
+        regressor_settings = umdo_formulation._settings.regressor_settings
         regressor = RegressorFactory().create(
             regressor_settings.__class__.__name__.rsplit("_Settings", 1)[0],
             samples,
