@@ -22,7 +22,7 @@ from typing import Final
 
 from gemseo.core.dependency_graph import DependencyGraph
 from gemseo.dataset.dataset import Dataset
-from gemseo.post.graph_view import GraphView
+from gemseo.post.graph import draw_coupling_graph
 from gemseo.scenario import EvaluationScenario
 from gemseo.uncertainty.statistic.empirical import EmpiricalStatistics
 from gemseo.util.discipline import get_all_outputs
@@ -39,12 +39,13 @@ if TYPE_CHECKING:
     from collections.abc import Callable
     from collections.abc import Iterable
     from collections.abc import Sequence
-    from pathlib import Path
 
+    from gemseo.core.discipline.base_discipline import BaseDiscipline
     from gemseo.discipline import Discipline
     from gemseo.doe.core.base_doe_settings import BaseDOESettings
     from gemseo.space.base import BaseVariableSpace
     from gemseo.util.typing import RealArray
+    from graphviz import Digraph
 
 
 class UncertainCouplingGraph:
@@ -64,8 +65,15 @@ class UncertainCouplingGraph:
        [UncertainCouplingGraph][gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph].
     2. Sample the multidisciplinary system, using
        [sample()][gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.sample].
-    3. Generate the coupling graph for a given dispersion measure, using
-       [visualize()][gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.visualize].
+    3. Draw the coupling graph for a given dispersion measure, using
+       [draw()][gemseo_umdo.visualization.uncertain_coupling_graph.UncertainCouplingGraph.draw],
+       which returns a
+       [graphviz.Digraph](https://graphviz.readthedocs.io/en/stable/api.html#graphviz.Digraph),
+       displayed in a Jupyter notebook
+       and saved to a file with
+       [save_graph()][gemseo.post.graph.save_graph],
+       e.g. `save_graph(graph.draw(), "graph.pdf")`,
+       or with its `render()` method.
 
     If you want to change the dispersion measure or filter the variables,
     repeat Step 3 with another dispersion measure or a list of variable names.
@@ -111,17 +119,17 @@ class UncertainCouplingGraph:
         """
         self.__scenario.execute(algorithm_settings)
 
-    def visualize(
+    def draw(
         self,
         maximum_thickness: int = 30,
         dispersion_measure: DispersionMeasure = DispersionMeasure.QCD,
         variable_names: Iterable[str] | None = None,
-        show: bool = True,
-        save: bool = True,
-        file_path: str | Path = "",
-        clean_up: bool = True,
-    ) -> GraphView:
-        """Generate the uncertain coupling graph.
+    ) -> Digraph:
+        """Draw the uncertain coupling graph.
+
+        The graph is neither saved nor shown;
+        use [save_graph()][gemseo.post.graph.save_graph]
+        or its `render()` method to save it.
 
         Args:
             maximum_thickness: The maximum thickness of a line,
@@ -131,15 +139,11 @@ class UncertainCouplingGraph:
                 among those defined at instantiation.
                 If `None`,
                 use all the coupling variables of interest defined at instantiation.
-            show: Whether to display the graph
-                with the default application associated to the file extension.
-            save: Whether to save the graph on the disk.
-            file_path: The file path with extension to save the graph.
-                If `""`, use the class name with PNG format.
-            clean_up: Whether to remove the source files.
 
         Returns:
-            The view of the uncertain coupling graph.
+            The uncertain coupling graph,
+            whose nodes are named as described in
+            [draw_coupling_graph()][gemseo.post.graph.draw_coupling_graph].
 
         Raises:
             ValueError: When a variable of interest
@@ -169,11 +173,11 @@ class UncertainCouplingGraph:
             )
             raise ValueError(msg)
 
-        dependency_graph = DependencyGraph(self.__scenario.disciplines).graph
+        dependency_graph = DependencyGraph(self.__scenario.disciplines)
         edges = [
             (head_disc, tail_disc, variable_names.intersection(coupling_names))
-            for head_disc, tail_disc, coupling_names in dependency_graph.edges(
-                data="io"
+            for head_disc, tail_disc, coupling_names in dependency_graph.graph.edges(
+                data=dependency_graph.io
             )
         ]
         edges.extend(
@@ -184,12 +188,8 @@ class UncertainCouplingGraph:
                     discipline.io.input_grammar.names
                 ).intersection(discipline.io.output_grammar.names),
             )
-            for discipline in dependency_graph.nodes
+            for discipline in dependency_graph.graph.nodes
         )
-        graph_view = GraphView()
-        for discipline in self.__scenario.disciplines:
-            graph_view.node(discipline.name)
-
         coupling_names = set().union(*(names for _, _, names in edges))
         output_names_to_measures = {}
         # Skip an empty selection, for which there is no history to stack.
@@ -236,22 +236,36 @@ class UncertainCouplingGraph:
                 for name, measure in output_names_to_measures.items()
             }
 
-        for head_disc, tail_disc, names in edges:
-            for coupling_name in sorted(names):
-                disp_meas = output_names_to_measures[coupling_name]
-                coupling_size = disp_meas.size
-                for i in range(coupling_size):
-                    graph_view.edge(
-                        head_disc.name,
-                        tail_disc.name,
-                        label=repr_variable(coupling_name, i, coupling_size),
-                        penwidth=str(round(disp_meas[i] * maximum_thickness, 2)),
-                    )
+        def get_edges(
+            tail: BaseDiscipline | None, head: BaseDiscipline | None, name: str
+        ) -> list[dict[str, str]]:
+            """Return the attributes of the edges of a coupling variable.
 
-        if save:
-            graph_view.visualize(show=show, file_path=file_path, clean_up=clean_up)
+            Args:
+                tail: The tail discipline of the edges.
+                head: The head discipline of the edges,
+                    `None` for the outputs of a leaf discipline.
+                name: The name of the coupling variable.
 
-        return graph_view
+            Returns:
+                The attributes of the edges, one edge per component,
+                none for an output of a leaf discipline
+                or a variable that is not of interest.
+            """
+            if head is None or name not in output_names_to_measures:
+                return []
+
+            measure = output_names_to_measures[name]
+            size = measure.size
+            return [
+                {
+                    "label": repr_variable(name, i, size),
+                    "penwidth": str(round(measure[i] * maximum_thickness, 2)),
+                }
+                for i in range(size)
+            ]
+
+        return draw_coupling_graph(dependency_graph, get_edges=get_edges)
 
 
 _disp_meas_to_function: Final[

@@ -14,12 +14,6 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 from __future__ import annotations
 
-import re
-import sys
-import warnings
-from importlib import import_module
-from pathlib import Path
-
 import pytest
 from gemseo import sample_disciplines
 from gemseo.discipline import AnalyticDiscipline
@@ -36,6 +30,8 @@ from gemseo.problem.uncertainty.ishigami.statistics import total_sobol_1
 from gemseo.problem.uncertainty.ishigami.statistics import total_sobol_2
 from gemseo.problem.uncertainty.ishigami.statistics import total_sobol_3
 from gemseo.uncertainty.sensitivity import SobolAnalysis
+from gemseo.util.testing.helper import assert_exception
+from graphviz import Digraph
 
 from gemseo_umdo.visualization.sobol_graph import SobolGraph
 
@@ -79,103 +75,46 @@ def pce() -> PCERegressor:
     return pce_regressor
 
 
-def check_dot_file(file_name: str) -> None:
-    """Check that the content of a file.
-
-    Compare the file located in the current wording directory
-    with the file located in the directory of the current module.
-
-    Args:
-        file_name: The name of the file.
-    """
-    file_path = Path(file_name)
-    file_path = file_path.with_suffix(".dot")
-    assert (
-        file_path.read_text().strip()
-        == (Path(__file__).parent / "sobol_graph" / file_path).read_text().strip()
-    )
-
-
-def test_default(
-    first_order_indices, total_order_indices, second_order_indices, tmp_wd
+@pytest.mark.parametrize(
+    "kwargs",
+    [{}, {"maximum_thickness": 30}, {"threshold": 0.5}],
+    ids=["default", "maximum_thickness", "threshold"],
+)
+def test_draw(
+    first_order_indices, total_order_indices, second_order_indices, kwargs, snapshot
 ):
-    """Check the image computed with the default configuration."""
-    file_name = "default.png"
-    SobolGraph(
-        first_order_indices,
-        total_order_indices,
-        second_order_indices,
-    ).visualize(show=False, clean_up=False, file_path=file_name)
-    check_dot_file(file_name)
+    """Check the graph drawn by draw()."""
+    digraph = SobolGraph(
+        first_order_indices, total_order_indices, second_order_indices
+    ).draw(**kwargs)
+    assert isinstance(digraph, Digraph)
+    assert digraph.source == snapshot
 
 
-def test_maximum_thickness(
-    first_order_indices, total_order_indices, second_order_indices, tmp_wd
-):
-    """Check the image computed with a custom maximum thickness."""
-    file_name = "maximum_thickness.png"
-    SobolGraph(
-        first_order_indices,
-        total_order_indices,
-        second_order_indices,
-        maximum_thickness=30,
-    ).visualize(show=False, clean_up=False, file_path=file_name)
-    check_dot_file(file_name)
-
-
-def test_threshold(
-    first_order_indices, total_order_indices, second_order_indices, tmp_wd
-):
-    """Check the image computed with a custom threshold."""
-    file_name = "threshold.png"
-    SobolGraph(
-        first_order_indices,
-        total_order_indices,
-        second_order_indices,
-        threshold=0.5,
-    ).visualize(show=False, clean_up=False, file_path=file_name)
-    check_dot_file(file_name)
-
-
-def test_from_analysis(tmp_wd):
-    """Check the image computed from a Sobol' analysis."""
+def test_from_analysis(snapshot):
+    """Check the graph drawn from a Sobol' analysis."""
     analysis = SobolAnalysis()
     analysis.compute_samples([IshigamiDiscipline()], IshigamiSpace(), 100)
     analysis.compute_indices()
-    file_name = "from_analysis.png"
-    SobolGraph.from_analysis(analysis, "y").visualize(
-        show=False, clean_up=False, file_path=file_name
-    )
-    check_dot_file(file_name)
+    assert SobolGraph.from_analysis(analysis, "y").draw().source == snapshot
 
 
-def test_from_pce_error(pce):
+def test_from_pce_error(pce, snapshot):
     """Check the error raised by from_pce when an output name does not exist."""
-    with pytest.raises(
-        ValueError, match=re.escape("The name 'z' is not an output name.")
-    ):
+    with assert_exception(ValueError, snapshot):
         SobolGraph.from_pce(pce, "z")
 
 
 @pytest.mark.parametrize("output_name", ["y", "y_copy"])
-def test_from_pce(tmp_wd, pce, output_name):
-    """Check the image computed from a PCE."""
-    file_name = "from_pce.png"
-    SobolGraph.from_pce(pce, output_name).visualize(
-        show=False, clean_up=False, file_path=file_name
-    )
-    check_dot_file(file_name)
+def test_from_pce(pce, output_name, snapshot):
+    """Check the graph drawn from a PCE."""
+    assert SobolGraph.from_pce(pce, output_name).draw().source == snapshot
 
 
-def test_no_deprecated_graph_view_import(monkeypatch):
-    """Check that importing the module does not use `gemseo.post._graph_view`."""
-    module_name = "gemseo_umdo.visualization.sobol_graph"
-    monkeypatch.delitem(sys.modules, "gemseo.post._graph_view", raising=False)
-    monkeypatch.delitem(sys.modules, module_name, raising=False)
-    package_name, attribute_name = module_name.rsplit(".", 1)
-    monkeypatch.delattr(import_module(package_name), attribute_name, raising=False)
-    with warnings.catch_warnings(record=True) as records:
-        warnings.simplefilter("always")
-        import_module(module_name)
-
-    assert not [r for r in records if "_graph_view" in str(r.message)]
+@pytest.mark.parametrize("name", ["<A>", "ns:A"], ids=["html_like", "colon"])
+def test_draw_special_name(name, snapshot):
+    """Check that a name is neither an HTML-like label nor a node with a port."""
+    digraph = SobolGraph(
+        {name: 0.5, "B": 0.5}, {name: 0.6, "B": 0.6}, {(name, "B"): 0.3}
+    ).draw()
+    assert digraph.source == snapshot
