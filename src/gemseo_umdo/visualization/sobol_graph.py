@@ -23,6 +23,7 @@ from graphviz import Digraph
 from graphviz import nohtml
 from numpy import atleast_1d
 from numpy import atleast_2d
+from numpy import integer
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -211,7 +212,7 @@ class SobolGraph:
     def __check_output_component(
         output_name: str, output_component: int, size: int
     ) -> None:
-        """Check that a component is in the range of an output.
+        """Check that a component is an integer in the range of an output.
 
         Args:
             output_name: The name of the output.
@@ -219,8 +220,18 @@ class SobolGraph:
             size: The size of the output.
 
         Raises:
+            TypeError: When the component is not an integer.
             ValueError: When the component is out of the range of the output.
         """
+        if isinstance(output_component, bool) or not isinstance(
+            output_component, int | integer
+        ):
+            msg = (
+                f"The component {output_component} of the output {output_name!r} "
+                "is not an integer."
+            )
+            raise TypeError(msg)
+
         if not 0 <= output_component < size:
             msg = (
                 f"The component {output_component} of the output {output_name!r} "
@@ -243,6 +254,7 @@ class SobolGraph:
             The Sobol' graph associated with this Sobol' analysis.
 
         Raises:
+            TypeError: When the component is not an integer.
             ValueError: When the name is not an output name
                 or when the component is out of the range of the output.
         """
@@ -274,6 +286,7 @@ class SobolGraph:
             The Sobol' graph associated with this PCE regressor.
 
         Raises:
+            TypeError: When the component is not an integer.
             ValueError: When the name is not an output name
                 or when the component is out of the range of the output.
         """

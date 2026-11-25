@@ -124,25 +124,37 @@ def test_from_analysis(sobol_analysis, snapshot):
 
 
 _parametrize_errors = pytest.mark.parametrize(
-    ("output_name", "output_component"),
-    [("z", 0), ("y", 1), ("y", -1)],
-    ids=["output_name", "output_component_too_large", "output_component_negative"],
+    ("output_name", "output_component", "exception"),
+    [
+        ("z", 0, ValueError),
+        ("y", 1, ValueError),
+        ("y", -1, ValueError),
+        ("y", 0.0, TypeError),
+    ],
+    ids=[
+        "output_name",
+        "output_component_too_large",
+        "output_component_negative",
+        "output_component_not_integer",
+    ],
 )
 
 
 @_parametrize_errors
-def test_from_analysis_error(sobol_analysis, output_name, output_component, snapshot):
+def test_from_analysis_error(
+    sobol_analysis, output_name, output_component, exception, snapshot
+):
     """Check the error raised by from_analysis with a wrong output name or component."""
-    with assert_exception(ValueError, snapshot):
+    with assert_exception(exception, snapshot):
         SobolGraph.from_analysis(
             sobol_analysis, output_name, output_component=output_component
         )
 
 
 @_parametrize_errors
-def test_from_pce_error(pce, output_name, output_component, snapshot):
+def test_from_pce_error(pce, output_name, output_component, exception, snapshot):
     """Check the error raised by from_pce with a wrong output name or component."""
-    with assert_exception(ValueError, snapshot):
+    with assert_exception(exception, snapshot):
         SobolGraph.from_pce(pce, output_name, output_component=output_component)
 
 

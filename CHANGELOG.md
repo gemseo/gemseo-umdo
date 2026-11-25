@@ -385,7 +385,8 @@ and this project adheres to
 - [SobolGraph.from_analysis()][gemseo_umdo.visualization.sobol_graph.SobolGraph.from_analysis]
   and [SobolGraph.from_pce()][gemseo_umdo.visualization.sobol_graph.SobolGraph.from_pce]
   raise a `ValueError`
-  when `output_component` is not a component of the output;
+  when `output_component` is not a component of the output
+  and a `TypeError` when it is not an integer;
   previously, they used the Sobol' indices of another output component
   or raised an `IndexError`.
 - [SobolGraph.from_analysis()][gemseo_umdo.visualization.sobol_graph.SobolGraph.from_analysis]
