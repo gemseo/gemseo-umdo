@@ -241,7 +241,7 @@ class SobolGraph:
                 index += output_component
                 break
 
-            index += sizes[output_name]
+            index += sizes[name]
 
         return cls(
             cls.__preprocess({

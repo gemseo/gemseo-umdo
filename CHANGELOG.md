@@ -378,6 +378,10 @@ and this project adheres to
 
 ### Fixed
 
+- [SobolGraph.from_pce()][gemseo_umdo.visualization.sobol_graph.SobolGraph.from_pce]
+  uses the Sobol' indices of the requested output
+  when an output placed before it has another size;
+  previously, it used those of another output component.
 - [Sampling][gemseo_umdo.formulation.sampling.Sampling]
   with `estimate_statistics_iteratively=True` (default)
   counts the samples equal to the threshold

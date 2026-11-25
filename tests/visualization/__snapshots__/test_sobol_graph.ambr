@@ -92,6 +92,21 @@
   
   '''
 # ---
+# name: test_from_pce[after_output_of_another_size]
+  '''
+  digraph {
+  	node [fillcolor=white style=filled]
+  	edge [dir=none]
+  	v0 [label="x1
+  (0, 0)" penwidth=0.0]
+  	v1 [label="x2
+  (0, 0)" penwidth=0.0]
+  	v2 [label="x3
+  (100, 100)" penwidth=10.0]
+  }
+  
+  '''
+# ---
 # name: test_from_pce[y]
   '''
   digraph {

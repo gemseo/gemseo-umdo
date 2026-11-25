@@ -15,7 +15,9 @@
 from __future__ import annotations
 
 import pytest
+from gemseo import compute_doe
 from gemseo import sample_disciplines
+from gemseo.dataset.io_dataset import IODataset
 from gemseo.discipline import AnalyticDiscipline
 from gemseo.machine_learning.regression.model import PCERegressor
 from gemseo.problem.uncertainty.ishigami import IshigamiDiscipline
@@ -75,6 +77,22 @@ def pce() -> PCERegressor:
     return pce_regressor
 
 
+@pytest.fixture(scope="module")
+def pce_with_vector_output() -> PCERegressor:
+    """A PCE whose output y = x3 comes after an output a = [x1, x2] of size 2."""
+    space = IshigamiSpace(
+        uniform_distribution_name=IshigamiSpace.UniformDistribution.OPENTURNS
+    )
+    input_samples = compute_doe(space, algo_name="OT_OPT_LHS", n_samples=20)
+    dataset = IODataset()
+    dataset.add_input_group(input_samples, ["x1", "x2", "x3"])
+    dataset.add_output_group(input_samples, ["a", "y"], {"a": 2, "y": 1})
+    dataset.misc["input_space"] = space
+    pce_regressor = PCERegressor(dataset)
+    pce_regressor.learn()
+    return pce_regressor
+
+
 @pytest.mark.parametrize(
     "kwargs",
     [{}, {"maximum_thickness": 30}, {"threshold": 0.5}],
@@ -105,9 +123,14 @@ def test_from_pce_error(pce, snapshot):
         SobolGraph.from_pce(pce, "z")
 
 
-@pytest.mark.parametrize("output_name", ["y", "y_copy"])
-def test_from_pce(pce, output_name, snapshot):
+@pytest.mark.parametrize(
+    ("pce_name", "output_name"),
+    [("pce", "y"), ("pce", "y_copy"), ("pce_with_vector_output", "y")],
+    ids=["y", "y_copy", "after_output_of_another_size"],
+)
+def test_from_pce(request, pce_name, output_name, snapshot):
     """Check the graph drawn from a PCE."""
+    pce = request.getfixturevalue(pce_name)
     assert SobolGraph.from_pce(pce, output_name).draw().source == snapshot
 
 
