@@ -109,12 +109,18 @@ def test_draw(
     assert digraph.source == snapshot
 
 
-def test_from_analysis(snapshot):
-    """Check the graph drawn from a Sobol' analysis."""
+@pytest.fixture(scope="module")
+def sobol_analysis() -> SobolAnalysis:
+    """A Sobol' analysis of the Ishigami function."""
     analysis = SobolAnalysis()
     analysis.compute_samples([IshigamiDiscipline()], IshigamiSpace(), 100)
     analysis.compute_indices()
-    assert SobolGraph.from_analysis(analysis, "y").draw().source == snapshot
+    return analysis
+
+
+def test_from_analysis(sobol_analysis, snapshot):
+    """Check the graph drawn from a Sobol' analysis."""
+    assert SobolGraph.from_analysis(sobol_analysis, "y").draw().source == snapshot
 
 
 @pytest.mark.parametrize(
