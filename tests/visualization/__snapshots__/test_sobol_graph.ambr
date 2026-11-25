@@ -139,6 +139,12 @@
   
   '''
 # ---
-# name: test_from_pce_error
+# name: test_from_pce_error[output_component_negative]
+  "The component -1 of the output 'y' is not in the range [0, 0]."
+# ---
+# name: test_from_pce_error[output_component_too_large]
+  "The component 1 of the output 'y' is not in the range [0, 0]."
+# ---
+# name: test_from_pce_error[output_name]
   "The name 'z' is not an output name."
 # ---

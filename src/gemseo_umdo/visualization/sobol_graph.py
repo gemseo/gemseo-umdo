@@ -228,13 +228,22 @@ class SobolGraph:
             The Sobol' graph associated with this Sobol' analysis.
 
         Raises:
-            ValueError: When the name is not an output name.
+            ValueError: When the name is not an output name
+                or when the component is out of the range of the output.
         """
         if output_name not in pce_regressor.output_names:
             msg = f"The name {output_name!r} is not an output name."
             raise ValueError(msg)
 
         sizes = pce_regressor.sizes
+        size = sizes[output_name]
+        if not 0 <= output_component < size:
+            msg = (
+                f"The component {output_component} of the output {output_name!r} "
+                f"is not in the range [0, {size - 1}]."
+            )
+            raise ValueError(msg)
+
         index = 0
         for name in pce_regressor.output_names:  # pragma: no branch
             if name == output_name:

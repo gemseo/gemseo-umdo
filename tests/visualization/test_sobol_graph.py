@@ -117,10 +117,15 @@ def test_from_analysis(snapshot):
     assert SobolGraph.from_analysis(analysis, "y").draw().source == snapshot
 
 
-def test_from_pce_error(pce, snapshot):
-    """Check the error raised by from_pce when an output name does not exist."""
+@pytest.mark.parametrize(
+    ("output_name", "output_component"),
+    [("z", 0), ("y", 1), ("y", -1)],
+    ids=["output_name", "output_component_too_large", "output_component_negative"],
+)
+def test_from_pce_error(pce, output_name, output_component, snapshot):
+    """Check the error raised by from_pce with a wrong output name or component."""
     with assert_exception(ValueError, snapshot):
-        SobolGraph.from_pce(pce, "z")
+        SobolGraph.from_pce(pce, output_name, output_component=output_component)
 
 
 @pytest.mark.parametrize(
