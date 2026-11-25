@@ -250,9 +250,7 @@ class BaseUMDOFormulation(BaseFormulation["BaseUMDOFormulationSettings", DesignS
             self._auxiliary_mdo_formulation = None
 
         super().__init__(problem, disciplines, settings=settings)
-        # A regressor or a U-MDO formulation can change its settings in place,
-        # e.g. the settings of the linear model fitter of a functional chaos expansion,
-        # so the U-MDO formulation uses a copy of the settings of the user.
+        # The formulation and its regressors write into this copy.
         self._settings = _copy_settings(self._settings)
         self.name = (
             f"{self.__class__.__name__}[{self._mdo_formulation.__class__.__name__}]"

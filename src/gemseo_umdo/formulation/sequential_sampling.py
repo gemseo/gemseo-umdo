@@ -43,7 +43,6 @@ from typing import ClassVar
 from typing import Final
 
 from gemseo.util.hashable_ndarray import HashableNdarray
-from gemseo.util.pydantic import create_model
 from pydantic import PositiveInt
 from pydantic import TypeAdapter
 from pydantic import ValidationError
@@ -83,8 +82,8 @@ class SequentialSampling(Sampling):
     __final_n_samples: int
     """The maximum number of samples.
 
-    It is the `n_samples` of the DOE settings at instantiation,
-    so that a later change of these settings has no effect.
+    It is the `n_samples` of the DOE settings passed at instantiation,
+    as the copy of these settings stores the current number of samples.
     """
 
     __last_input_point: HashableNdarray | None
@@ -106,8 +105,6 @@ class SequentialSampling(Sampling):
         uncertain_space: RandomSpace,
         mdo_formulation_settings: BaseFormulationSettings | None = None,
     ) -> None:
-        settings = create_model(self.settings_class, settings_model=settings)
-        self.__final_n_samples = settings.doe_algo_settings.n_samples
         self.__last_input_point = None
         super().__init__(
             problem,
@@ -118,7 +115,9 @@ class SequentialSampling(Sampling):
         )
         # The number of samples starts at initial_n_samples
         # and increases up to the maximum number of samples.
-        self._settings.doe_algo_settings.n_samples = settings.initial_n_samples
+        doe_algo_settings = self._settings.doe_algo_settings
+        self.__final_n_samples = doe_algo_settings.n_samples
+        doe_algo_settings.n_samples = self._settings.initial_n_samples
 
     def compute_samples(
         self,

@@ -554,24 +554,21 @@ def test_user_statistic(
             id="samples_directory_path",
         ),
         # A functional chaos expansion requires OpenTURNS distributions.
-        pytest.param(
-            PCE_Settings(n_samples=20, regressor_settings=FCERegressor_Settings()),
-            OTNormalDistribution_Settings,
-            id="PCE_FCE",
-        ),
-        pytest.param(
-            ControlVariate_Settings(
-                n_samples=10, regressor_settings=FCERegressor_Settings()
-            ),
-            OTNormalDistribution_Settings,
-            id="ControlVariate_FCE",
-        ),
-        pytest.param(
-            Surrogate_Settings(
-                n_samples=20, regressor_settings=FCERegressor_Settings()
-            ),
-            OTNormalDistribution_Settings,
-            id="Surrogate_FCE",
+        *(
+            pytest.param(
+                settings,
+                OTNormalDistribution_Settings,
+                id=f"{settings.target_class_name}_FCE",
+            )
+            for settings in (
+                PCE_Settings(n_samples=20, regressor_settings=FCERegressor_Settings()),
+                ControlVariate_Settings(
+                    n_samples=10, regressor_settings=FCERegressor_Settings()
+                ),
+                Surrogate_Settings(
+                    n_samples=20, regressor_settings=FCERegressor_Settings()
+                ),
+            )
         ),
     ],
 )
